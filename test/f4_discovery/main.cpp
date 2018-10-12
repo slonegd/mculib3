@@ -10,7 +10,7 @@ extern "C" void init_clock ()
 {
    // FLASH::set (FLASH::Latency::_5);
 
-   mcu::RCC::make()
+   mcu::RCC::make_reference()
       .on_HSE()
       .wait_HSE_ready()
       .set      (mcu::RCC::AHBprescaler::AHBnotdiv)
@@ -29,7 +29,7 @@ extern "C" void init_clock ()
 
 int main()
 {
-   mcu::RCC::make().clock_enable<Periph::GPIOA>();
+   mcu::RCC::make_reference().clock_enable<Periph::GPIOA>();
    
    while(1) {
       

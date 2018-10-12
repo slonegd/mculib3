@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rcc_f0_bits.h"
+#include "f0_bits_rcc.h"
 
 namespace mcu {
 
@@ -29,7 +29,7 @@ public:
    using PLLsource     = RCC_bits::CFGR::PLLsource;
    using PLLmultiplier = RCC_bits::CFGR::PLLmultiplier;
 
-   static auto& make() { return *reinterpret_cast<RCC*>(RCC_BASE); }
+   static auto& make_reference() { return *reinterpret_cast<RCC*>(RCC_BASE); }
 
    RCC& set (AHBprescaler  v) { CFGR.HPRE   = v; return *this; }
    RCC& set (APBprescaler  v) { CFGR.PPRE   = v; return *this; }

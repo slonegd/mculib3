@@ -2,13 +2,14 @@
 #define F_OSC   8000000UL
 #define F_CPU   48000000UL
 #include "rcc.h"
+#include "pin.h"
 
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock ()
 {
    // FLASH::set (FLASH::Latency::_1);
 
-   mcu::RCC::make()
+   mcu::RCC::make_reference()
       .set (mcu::RCC:: AHBprescaler::AHBnotdiv)
       .set (mcu::RCC:: APBprescaler::APBnotdiv)
       .set (mcu::RCC::  SystemClock::CS_PLL)
@@ -21,7 +22,9 @@ extern "C" void init_clock ()
 
 int main()
 {
-   mcu::RCC::make().clock_enable<Periph::GPIOA>();
+   mcu::RCC::make_reference().clock_enable<Periph::GPIOA>();
+
+   auto pa1 = mcu::Pin::make<Periph::GPIOA, 0, PinMode::Output>();
 
    while(1) {
       
