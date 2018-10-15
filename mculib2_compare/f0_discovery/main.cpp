@@ -3,6 +3,7 @@
 #define F_CPU   48000000UL
 #include "RCC.h"
 #include "pin.h"
+#include "timers.h"
 
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock (void)
@@ -23,9 +24,12 @@ extern "C" void init_clock (void)
 int main()
 {
    CONFIGURE_PIN(PC8, Output);
-   PC8::set();
+   Timer timer {200};
 
    while(1) {
+
+      if (timer.event())
+         PC8::toggle();
       
    } // while(1) {
 

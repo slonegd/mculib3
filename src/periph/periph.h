@@ -28,6 +28,7 @@
 #undef GPIOG
 #undef GPIOH
 #undef GPIOI
+#undef SysTick
 
 namespace mcu {
 
@@ -35,8 +36,9 @@ enum class Periph {
     RCC,
     GPIOA, GPIOB, GPIOC, GPIOD, GPIOF,
 #if defined(STM32F4)
-    GPIOE, GPIOG, GPIOH, GPIOI
+    GPIOE, GPIOG, GPIOH, GPIOI,
 #endif
+    SysTick
 };
 
 }

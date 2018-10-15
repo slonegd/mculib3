@@ -42,6 +42,18 @@ public:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 template<Periph p, class RCC> GPIO& GPIO::make_reference()
 {
    RCC::make_reference().template clock_enable<p>();
