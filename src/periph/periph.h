@@ -29,6 +29,7 @@
 #undef GPIOH
 #undef GPIOI
 
+namespace mcu {
 
 enum class Periph {
     RCC,
@@ -37,6 +38,8 @@ enum class Periph {
     GPIOE, GPIOG, GPIOH, GPIOI
 #endif
 };
+
+}
 
 
 

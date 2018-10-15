@@ -6,22 +6,22 @@ namespace mcu::GPIO_bits {
 
 struct MODER {
    enum Mode { Input = 0b00, Output, Alternate, Analog };
-   Mode MODER0  :2;
-   Mode MODER1  :2;
-   Mode MODER2  :2;
-   Mode MODER3  :2;
-   Mode MODER4  :2;
-   Mode MODER5  :2;
-   Mode MODER6  :2;
-   Mode MODER7  :2;
-   Mode MODER8  :2;
-   Mode MODER9  :2;
-   Mode MODER10 :2;
-   Mode MODER11 :2;
-   Mode MODER12 :2;
-   Mode MODER13 :2;
-   Mode MODER14 :2;
-   Mode MODER15 :2;
+   Mode MODE0  :2;
+   Mode MODE1  :2;
+   Mode MODE2  :2;
+   Mode MODE3  :2;
+   Mode MODE4  :2;
+   Mode MODE5  :2;
+   Mode MODE6  :2;
+   Mode MODE7  :2;
+   Mode MODE8  :2;
+   Mode MODE9  :2;
+   Mode MODE10 :2;
+   Mode MODE11 :2;
+   Mode MODE12 :2;
+   Mode MODE13 :2;
+   Mode MODE14 :2;
+   Mode MODE15 :2;
 }__attribute__((packed));
 
 struct OTYPER {
@@ -120,22 +120,22 @@ struct AFR {
       _8, _9, _10, _11, _12, _13, _14, _15
    #endif
    };
-   AF AFR0  : 4;
-   AF AFR1  : 4;
-   AF AFR2  : 4;
-   AF AFR3  : 4;
-   AF AFR4  : 4;
-   AF AFR5  : 4;
-   AF AFR6  : 4;
-   AF AFR7  : 4;
-   AF AFR8  : 4;
-   AF AFR9  : 4;
-   AF AFR10 : 4;
-   AF AFR11 : 4;
-   AF AFR12 : 4;
-   AF AFR13 : 4;
-   AF AFR14 : 4;
-   AF AFR15 : 4;
+   AF AF0  : 4;
+   AF AF1  : 4;
+   AF AF2  : 4;
+   AF AF3  : 4;
+   AF AF4  : 4;
+   AF AF5  : 4;
+   AF AF6  : 4;
+   AF AF7  : 4;
+   AF AF8  : 4;
+   AF AF9  : 4;
+   AF AF10 : 4;
+   AF AF11 : 4;
+   AF AF12 : 4;
+   AF AF13 : 4;
+   AF AF14 : 4;
+   AF AF15 : 4;
 }__attribute__((packed));
 
 } // namespace mcu::GPIO {

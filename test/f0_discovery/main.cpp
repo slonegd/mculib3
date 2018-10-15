@@ -4,6 +4,15 @@
 #include "rcc.h"
 #include "pin.h"
 
+// аналогичный файл есть в каталоге mculib2
+// библиотека | размер пустой | размер
+// mculib2    | 448           | 796
+// mculib3    | 448           | 584
+// не знаю почему, но компилятор не заинлайнил
+// функции RCC для случая с mculib2
+// + иницализаия порта в mculib3 не полная, как в mculib2,
+// а только необходимая
+
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock ()
 {
@@ -22,9 +31,8 @@ extern "C" void init_clock ()
 
 int main()
 {
-   mcu::RCC::make_reference().clock_enable<Periph::GPIOA>();
-
-   auto pa1 = mcu::Pin::make<Periph::GPIOA, 0, PinMode::Output>();
+   auto pc8 = mcu::Pin::make<mcu::PC8, mcu::PinMode::Output>();
+   pc8 = true;
 
    while(1) {
       
