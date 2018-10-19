@@ -29,6 +29,11 @@
 #undef GPIOH
 #undef GPIOI
 #undef SysTick
+#undef TIM1
+#undef TIM3
+#undef TIM14
+#undef TIM16
+#undef TIM17
 
 namespace mcu {
 
@@ -38,7 +43,8 @@ enum class Periph {
 #if defined(STM32F4)
     GPIOE, GPIOG, GPIOH, GPIOI,
 #endif
-    SysTick
+    SysTick,
+    TIM1, TIM3, TIM14, TIM16, TIM17
 };
 
 }

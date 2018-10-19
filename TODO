@@ -6,3 +6,7 @@ f0_f4_test_systick
 test_list
 test_subscriber
 test_timer
+test_pwm
+f4_tim
+f0_test_tim
+f4_test_tim

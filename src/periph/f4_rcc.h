@@ -44,8 +44,6 @@ public:
    using PLLPdiv      = RCC_bits::PLLCFGR::PLLPdiv;
    using PLLsource    = RCC_bits::PLLCFGR::PLLsource;
 
-   static auto& make_reference() { return *reinterpret_cast<RCC*>(RCC_BASE); }
-
    RCC& set       (AHBprescaler v) { CFGR.HPRE      = v; return *this; }
    RCC& set_APB1  (APBprescaler v) { CFGR.PPRE1     = v; return *this; }
    RCC& set_APB2  (APBprescaler v) { CFGR.PPRE2     = v; return *this; }
@@ -78,5 +76,7 @@ public:
       else if constexpr (p == Periph::GPIOI) AHB1ENR.GPIOIEN = true;
    }
 };
+
+template<Periph p> std::enable_if_t<p == Periph::RCC, RCC&> make_reference() { return *reinterpret_cast<RCC*>(RCC_BASE); }
 
 } // namespace mcu {
