@@ -7,12 +7,26 @@ INCLUDES_F0  =
 INCLUDES_F0 += -I../STM32F0_files
 INCLUDES_F0 += -I../STM32F0_files/CMSIS
 
-CPP_FLAGS = $(INCLUDES) $(INCLUDES_F0) -std=c++17 -DTEST -g -Wno-register
+INCLUDES_F4  =
+INCLUDES_F4 += -I../STM32F4_files
+INCLUDES_F4 += -I../STM32F4_files/CMSIS
+
+CPP_FLAGS = $(INCLUDES) -std=c++17 -DTEST -g -Wno-register
+CPP_FLAGS_F4 += $(CPP_FLAGS) $(INCLUDES_F4)
+CPP_FLAGS_F0 += $(CPP_FLAGS) $(INCLUDES_F0)
+
 BUILD_DIR = build
 
 all: $(BUILD_DIR)
-	g++-7 f0_test_rcc.cpp $(CPP_FLAGS) -o ./$(BUILD_DIR)/f0_test_rcc -pthread
+	g++-7 f0_test_rcc.cpp $(CPP_FLAGS_F0) -o ./$(BUILD_DIR)/f0_test_rcc -pthread
+	g++-7 f4_test_usart.cpp $(CPP_FLAGS_F4) -o ./$(BUILD_DIR)/f4_test_usart
+
 	./$(BUILD_DIR)/f0_test_rcc
+	./$(BUILD_DIR)/f4_test_usart
 
 $(BUILD_DIR):
 	mkdir $@
+
+current: $(BUILD_DIR)
+	g++-7 f4_test_usart.cpp $(CPP_FLAGS_F4) -o ./$(BUILD_DIR)/f4_test_usart
+	./$(BUILD_DIR)/f4_test_usart

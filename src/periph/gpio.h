@@ -8,7 +8,7 @@
 
 namespace mcu {
 
-enum class PinMode { Input, Output, Alternate_1 };
+enum class PinMode { Input, Output, Alternate_1, Alternate_7, Alternate_8 };
 
 class GPIO {
    __IO GPIO_bits::MODER   MODER;   // mode register,                offset: 0x00
@@ -26,10 +26,10 @@ public:
 
    template<Periph, class RCC = RCC> static GPIO& make_reference();
 
-   void set    (size_t n) { BSRR |= (1 << n);              }
-   void clear  (size_t n) { BSRR |= (1 << (n + 16));       }
-   bool is_set (size_t n) { return IDR.reg & (1 << n);     }
-   void toggle (size_t n) { is_set(n) ? clear(n) : set(n); }
+   void set      (size_t n) { BSRR |= (1 << n);              }
+   void clear    (size_t n) { BSRR |= (1 << (n + 16));       }
+   bool is_set   (size_t n) { return IDR.reg & (1 << n);     }
+   void toggle   (size_t n) { is_set(n) ? clear(n) : set(n); }
 
    template<size_t> GPIO& set (Mode);
    template<size_t> GPIO& set (AF);
@@ -121,6 +121,12 @@ template<size_t n, PinMode v> void GPIO::init()
    } else if (v == PinMode::Alternate_1) {
       set<n> (Mode::Output);
       set<n>   (AF::_1);
+   } else if (v == PinMode::Alternate_7) {
+      set<n> (Mode::Alternate);
+      set<n>   (AF::_7);
+   } else if (v == PinMode::Alternate_8) {
+      set<n> (Mode::Alternate);
+      set<n>   (AF::_8);
    }
 }
 

@@ -28,6 +28,12 @@
 #undef GPIOG
 #undef GPIOH
 #undef GPIOI
+#undef USART1
+#undef USART2
+#undef USART3
+#undef UART4
+#undef UART5
+#undef USART6
 #undef SysTick
 
 namespace mcu {
@@ -35,8 +41,10 @@ namespace mcu {
 enum class Periph {
     RCC,
     GPIOA, GPIOB, GPIOC, GPIOD, GPIOF,
+    USART1,
 #if defined(STM32F4)
     GPIOE, GPIOG, GPIOH, GPIOI,
+    USART2, USART3, USART4, USART5, USART6,
 #endif
     SysTick
 };
@@ -59,5 +67,5 @@ enum class Periph {
 #if defined(TEST)
     #define IF_TEST_WAIT_MS(ms) std::this_thread::sleep_for(std::chrono::milliseconds(ms))
 #else
-    #define SLIF_TEST_WAIT_MSEEP(ms)
+    #define IF_TEST_WAIT_MSEEP(ms)
 #endif
