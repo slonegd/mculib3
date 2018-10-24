@@ -14,8 +14,6 @@ class SysTick {
    __IO uint32_t               VAL;   // Offset: 0x008 (R/W)  SysTick Current Value Register
    __IO SysTick_bits::CALIB    CALIB; // Offset: 0x00C (R/ )  SysTick Calibration Register
 public:
-   static SysTick& make_reference() { return *reinterpret_cast<SysTick*>(SysTick_BASE); }
-
    using Clock = SysTick_bits::CTRL::Clock;
    
    void load (uint32_t v)   { LOAD = v; }
@@ -41,6 +39,7 @@ public:
    }
 };
 
+template<Periph p> std::enable_if_t<p == Periph::SysTick, SysTick&> make_reference() { return *reinterpret_cast<SysTick*>(SysTick_BASE); }
 
 
 } // namespace mcu {

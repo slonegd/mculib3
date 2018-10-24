@@ -8,7 +8,7 @@
 struct TickUpdater : Publisher
 {
 #if not defined(TEST) 
-   TickUpdater() { mcu::SysTick::make_reference().initInterrupt<1>(); }
+   TickUpdater() { mcu::make_reference<mcu::Periph::SysTick>().initInterrupt<1>(); }
 #endif
 } tickUpdater;
 

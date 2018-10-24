@@ -35,6 +35,11 @@
 #undef UART5
 #undef USART6
 #undef SysTick
+#undef TIM1
+#undef TIM3
+#undef TIM14
+#undef TIM16
+#undef TIM17
 
 namespace mcu {
 
@@ -46,7 +51,8 @@ enum class Periph {
     GPIOE, GPIOG, GPIOH, GPIOI,
     USART2, USART3, USART4, USART5, USART6,
 #endif
-    SysTick
+    SysTick,
+    TIM1, TIM3, TIM14, TIM16, TIM17
 };
 
 }

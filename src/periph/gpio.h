@@ -8,7 +8,9 @@
 
 namespace mcu {
 
-enum class PinMode { Input, Output, Alternate_1, Alternate_7, Alternate_8 };
+enum class PinMode { Input, Output, Alternate_1, Alternate_2, Alternate_3,
+   Alternate_4, Alternate_5, Alternate_7, Alternate_8
+};
 
 class GPIO {
    __IO GPIO_bits::MODER   MODER;   // mode register,                offset: 0x00
@@ -24,7 +26,7 @@ public:
    using Mode = GPIO_bits::MODER::Mode;
    using AF   = GPIO_bits::  AFR::AF;
 
-   template<Periph, class RCC = RCC> static GPIO& make_reference();
+   template<Periph p> GPIO& clock_enable() { make_reference<Periph::RCC>().clock_enable<p>(); return *this; }
 
    void set      (size_t n) { BSRR |= (1 << n);              }
    void clear    (size_t n) { BSRR |= (1 << (n + 16));       }
@@ -54,21 +56,18 @@ public:
 
 
 
-template<Periph p, class RCC> GPIO& GPIO::make_reference()
-{
-   RCC::make_reference().template clock_enable<p>();
-   if      constexpr (p == Periph::GPIOA) return *reinterpret_cast<GPIO*>(GPIOA_BASE);
-   else if constexpr (p == Periph::GPIOB) return *reinterpret_cast<GPIO*>(GPIOB_BASE);
-   else if constexpr (p == Periph::GPIOC) return *reinterpret_cast<GPIO*>(GPIOC_BASE);
-   else if constexpr (p == Periph::GPIOD) return *reinterpret_cast<GPIO*>(GPIOD_BASE);
-   else if constexpr (p == Periph::GPIOF) return *reinterpret_cast<GPIO*>(GPIOF_BASE);
+template<Periph p> std::enable_if_t<p == Periph::GPIOA, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOA_BASE); }
+template<Periph p> std::enable_if_t<p == Periph::GPIOB, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOB_BASE); }
+template<Periph p> std::enable_if_t<p == Periph::GPIOC, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOC_BASE); }
+template<Periph p> std::enable_if_t<p == Periph::GPIOD, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOD_BASE); }
+template<Periph p> std::enable_if_t<p == Periph::GPIOF, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOF_BASE); }
 #if defined(STM32F4)
-   else if constexpr (p == Periph::GPIOE) return *reinterpret_cast<GPIO*>(GPIOE_BASE);
-   else if constexpr (p == Periph::GPIOG) return *reinterpret_cast<GPIO*>(GPIOG_BASE);
-   else if constexpr (p == Periph::GPIOH) return *reinterpret_cast<GPIO*>(GPIOH_BASE);
-   else if constexpr (p == Periph::GPIOI) return *reinterpret_cast<GPIO*>(GPIOI_BASE);
+template<Periph p> std::enable_if_t<p == Periph::GPIOE, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOE_BASE); }
+template<Periph p> std::enable_if_t<p == Periph::GPIOG, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOG_BASE); }
+template<Periph p> std::enable_if_t<p == Periph::GPIOH, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOH_BASE); }
+template<Periph p> std::enable_if_t<p == Periph::GPIOI, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOI_BASE); }
 #endif
-}
+
 
 template<size_t n> GPIO& GPIO::set (Mode v)
 {
@@ -112,19 +111,36 @@ template<size_t n> GPIO& GPIO::set (AF v)
 
 template<size_t n, PinMode v> void GPIO::init()
 {
-   if (v == PinMode::Input) {
+   if constexpr (v == PinMode::Input) {
       set<n> (Mode::Input);
 
-   } else if (v == PinMode::Output) {
+   } else if constexpr (v == PinMode::Output) {
       set<n> (Mode::Output);
 
-   } else if (v == PinMode::Alternate_1) {
-      set<n> (Mode::Output);
+   } else if constexpr (v == PinMode::Alternate_0) {
+      set<n> (Mode::Alternate);
+      set<n>   (AF::_0);
+
+   } else if constexpr (v == PinMode::Alternate_1) {
+      set<n> (Mode::Alternate);
       set<n>   (AF::_1);
-   } else if (v == PinMode::Alternate_7) {
+
+   } else if constexpr (v == PinMode::Alternate_2) {
+      set<n> (Mode::Alternate);
+      set<n>   (AF::_2);
+
+   } else if constexpr (v == PinMode::Alternate_4) {
+      set<n> (Mode::Alternate);
+      set<n>   (AF::_4);
+
+   } else if constexpr (v == PinMode::Alternate_5) {
+      set<n> (Mode::Alternate);
+      set<n>   (AF::_5);
+
+   } else if constexpr (v == PinMode::Alternate_7) {
       set<n> (Mode::Alternate);
       set<n>   (AF::_7);
-   } else if (v == PinMode::Alternate_8) {
+   } else if constexpr (v == PinMode::Alternate_8) {
       set<n> (Mode::Alternate);
       set<n>   (AF::_8);
    }

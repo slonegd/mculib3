@@ -29,8 +29,6 @@ public:
    using PLLsource     = RCC_bits::CFGR::PLLsource;
    using PLLmultiplier = RCC_bits::CFGR::PLLmultiplier;
 
-   static auto& make_reference() { return *reinterpret_cast<RCC*>(RCC_BASE); }
-
    RCC& set (AHBprescaler  v) { CFGR.HPRE   = v; return *this; }
    RCC& set (APBprescaler  v) { CFGR.PPRE   = v; return *this; }
    RCC& set (SystemClock   v) { CFGR.SW     = v; return *this; }
@@ -42,13 +40,20 @@ public:
 
    template<Periph p> void clock_enable()
    {
-      if      constexpr (p == Periph::GPIOA) AHBENR.IOPAEN = true;
-      else if constexpr (p == Periph::GPIOB) AHBENR.IOPBEN = true;
-      else if constexpr (p == Periph::GPIOC) AHBENR.IOPCEN = true;
-      else if constexpr (p == Periph::GPIOD) AHBENR.IOPDEN = true;
-      else if constexpr (p == Periph::GPIOF) AHBENR.IOPFEN = true;
+      if      constexpr (p == Periph::GPIOA) AHBENR .IOPAEN  = true;
+      else if constexpr (p == Periph::GPIOB) AHBENR .IOPBEN  = true;
+      else if constexpr (p == Periph::GPIOC) AHBENR .IOPCEN  = true;
+      else if constexpr (p == Periph::GPIOD) AHBENR .IOPDEN  = true;
+      else if constexpr (p == Periph::GPIOF) AHBENR .IOPFEN  = true;
+      else if constexpr (p == Periph::TIM1)  APB2ENR.TIM1EN  = true;
+      else if constexpr (p == Periph::TIM3)  APB1ENR.TIM3EN  = true;
+      else if constexpr (p == Periph::TIM14) APB1ENR.TIM14EN = true;
+      else if constexpr (p == Periph::TIM16) APB2ENR.TIM16EN = true;
+      else if constexpr (p == Periph::TIM17) APB2ENR.TIM17EN = true;
    }
-
 };
+
+
+template<Periph p> std::enable_if_t<p == Periph::RCC, RCC&> make_reference() { return *reinterpret_cast<RCC*>(RCC_BASE); }
 
 } // namespace mcu {

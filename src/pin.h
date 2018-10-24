@@ -13,8 +13,9 @@ public:
 
    template<Periph p, int n, PinMode mode> static auto make()
    {
-      Pin pin { mcu::GPIO::make_reference<p>(), n };
-      pin.port.init<n,mode>();
+      Pin pin { mcu::make_reference<p>(), n };
+      pin.port.template clock_enable<p>()
+              .template init<n,mode>();
       return pin;
    }
 

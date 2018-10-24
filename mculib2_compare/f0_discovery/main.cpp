@@ -4,6 +4,7 @@
 #include "RCC.h"
 #include "pin.h"
 #include "timers.h"
+#include "pwm.h"
 
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock (void)
@@ -25,6 +26,10 @@ int main()
 {
    CONFIGURE_PIN(PC8, Output);
    Timer timer {200};
+   PWM<TIM1,PA8> pwm;
+   pwm.fillRatio = 500_from1000;
+   pwm.freq = 20_kHz;
+   pwm.outEnable();
 
    while(1) {
 

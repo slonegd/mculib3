@@ -13,7 +13,7 @@ struct CTRL {
    uint32_t res1      :13; // bit 15-3: reserved 
    bool     COUNTFLAG :1;  // bit 16: Indicates whether the counter has counted to 0 since the last read of this register
    uint32_t res2      :15; // bit 17-31: reserved
-};
+}__attribute__((packed));
 
 
 struct CALIB {
@@ -22,7 +22,7 @@ struct CALIB {
    uint32_t res1  :6;  // bit 29-24: reserved 
    bool     SKEW  :1;  // bit 30 Indicates whether the 10ms calibration value is exact
    bool     NOREF :1;  // bit 31 Indicates whether the IMPLEMENTATION DEFINED reference clock is provided
-};
+}__attribute__((packed));
 
 } // namespace mcu::SysTick_bits {
 
