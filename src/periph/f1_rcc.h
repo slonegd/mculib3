@@ -5,31 +5,33 @@
 namespace mcu {
 
 class RCC {
-   __IO RCC_bits::CR      CR;       // RCC clock control register,                                  offset: 0x00
-   __IO RCC_bits::CFGR    CFGR;     // RCC clock configuration register,                            offset: 0x04
-   __IO uint32_t          CIR;      // RCC clock interrupt register,                                offset: 0x08
-   __IO uint32_t          APB2RSTR; // RCC APB2 peripheral reset register,                          offset: 0x0C
-   __IO uint32_t          APB1RSTR; // RCC APB1 peripheral reset register,                          offset: 0x10
-   __IO RCC_bits::AHBENR  AHBENR;   // RCC AHB peripheral clock register,                           offset: 0x14
-   __IO RCC_bits::APB2ENR APB2ENR;  // RCC APB2 peripheral clock enable register,                   offset: 0x18
-   __IO RCC_bits::APB1ENR APB1ENR;  // RCC APB1 peripheral clock enable register,                   offset: 0x1C
-   __IO uint32_t          BDCR;     // RCC Backup domain control register,                          offset: 0x20
-   __IO uint32_t          CSR;      // RCC clock control & status register,                         offset: 0x24
+   __IO RCC_bits::CR      CR;       // RCC clock control register,                offset: 0x00
+   __IO RCC_bits::CFGR    CFGR;     // RCC clock configuration register,          offset: 0x04
+   __IO uint32_t          CIR;      // RCC clock interrupt register,              offset: 0x08
+   __IO uint32_t          APB2RSTR; // RCC APB2 peripheral reset register,        offset: 0x0C
+   __IO uint32_t          APB1RSTR; // RCC APB1 peripheral reset register,        offset: 0x10
+   __IO RCC_bits::AHBENR  AHBENR;   // RCC AHB peripheral clock register,         offset: 0x14
+   __IO RCC_bits::APB2ENR APB2ENR;  // RCC APB2 peripheral clock enable register, offset: 0x18
+   __IO RCC_bits::APB1ENR APB1ENR;  // RCC APB1 peripheral clock enable register, offset: 0x1C
+   __IO uint32_t          BDCR;     // RCC Backup domain control register,        offset: 0x20
+   __IO uint32_t          CSR;      // RCC clock control & status register,       offset: 0x24
 
 public:
-   using CMSIS_type   = RCC_TypeDef;
-   using AHBprescaler = RCC_bits::CFGR::AHBprescaler;
-   using APBprescaler = RCC_bits::CFGR::APBprescaler;
-   using ADCprescaler = RCC_bits::CFGR::ADCprescaler;
-   using SystemClock  = RCC_bits::CFGR::SystemClock;
-   using PLLmulti     = RCC_bits::CFGR::PLLmulti;
+   using CMSIS_type    = RCC_TypeDef;
+   using AHBprescaler  = RCC_bits::CFGR::AHBprescaler;
+   using APBprescaler  = RCC_bits::CFGR::APBprescaler;
+   using ADCprescaler  = RCC_bits::CFGR::ADCprescaler;
+   using SystemClock   = RCC_bits::CFGR::SystemClock;
+   using PLLsource     = RCC_bits::CFGR::PLLsource;
+   using PLLmultiplier = RCC_bits::CFGR::PLLmultiplier;
 
-   RCC& set       (AHBprescaler v) { CFGR.HPRE   = v; return *this; }
-   RCC& set_APB1  (APBprescaler v) { CFGR.PPRE1  = v; return *this; }
-   RCC& set_APB2  (APBprescaler v) { CFGR.PPRE2  = v; return *this; }
-   RCC& set       (ADCprescaler v) { CFGR.ADCPRE = v; return *this; }
-   RCC& set       (SystemClock  v) { CFGR.SW     = v; return *this; }
-   RCC& set       (PLLmulti     v) { CFGR.PLLMUL = v; return *this; }
+   RCC& set       (AHBprescaler  v) { CFGR.HPRE   = v; return *this; }
+   RCC& set_APB1  (APBprescaler  v) { CFGR.PPRE1  = v; return *this; }
+   RCC& set_APB2  (APBprescaler  v) { CFGR.PPRE2  = v; return *this; }
+   RCC& set       (ADCprescaler  v) { CFGR.ADCPRE = v; return *this; }
+   RCC& set       (SystemClock   v) { CFGR.SW     = v; return *this; }
+   RCC& set       (PLLsource     v) { CFGR.PLLSRC = v; return *this; }
+   RCC& set       (PLLmultiplier v) { CFGR.PLLMUL = v; return *this; }
 
    RCC& on_HSE        () { CR.HSEON = true;         return *this; }
    RCC& wait_HSE_ready() { while (not CR.HSERDY) {} return *this; }
@@ -59,8 +61,6 @@ public:
       else if constexpr (p == Periph::USART1) APB2ENR.USART1EN = true;
       else if constexpr (p == Periph::USART2) APB1ENR.USART2EN = true;
       else if constexpr (p == Periph::USART3) APB1ENR.USART3EN = true;
-      else if constexpr (p == Periph::USART4) APB1ENR.UART4EN  = true;
-      else if constexpr (p == Periph::USART5) APB1ENR.UART5EN  = true;
    }
 };
 

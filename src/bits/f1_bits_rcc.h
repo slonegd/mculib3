@@ -26,23 +26,24 @@ struct CR {
 
 struct CFGR {
    enum AHBprescaler { AHBnotdiv = 0, AHBdiv2 = 0b1000, AHBdiv4, AHBdiv8, AHBdiv16, AHBdiv64, AHBdiv128, AHBdiv256, AHBdiv512 };
-   enum PLLmulti     { PLLmulti4 = 0b0010, PLLmulti5, PLLmulti6, PLLmulti7, PLLmulti8, PLLmulti9, PLLmulti6_5 = 0b1101 };
+   enum PLLmultiplier{ _2 = 0b0000, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16 };
    enum APBprescaler { APBnotdiv = 0, APBdiv2 = 0b100, APBdiv4, APBdiv8, APBdiv16 };
    enum ADCprescaler { ADCdiv2 = 0b0, ADCdiv4, ADCdiv6, ADCdiv8 };
    enum SystemClock  { CS_HSI = 0, CS_HSE, CS_PLL };
-   SystemClock  SW      :2;  // Bits 1:0 SW: System clock switch
-   SystemClock  SWS     :2;  // Bits 3:2 SWS: System clock switch status
-   AHBprescaler HPRE    :4;  // Bits 7:4 HPRE[3:0]: AHB prescaler
-   APBprescaler PPRE1   :3;  // Bits 10:8 PPRE1[2:0]: APB Low-speed prescaler (APB1)
-   APBprescaler PPRE2   :3;  // Bits 13:11 PPRE2[2:0]: APB high-speed prescaler (APB2)
-   ADCprescaler ADCPRE  :2;  // Bits 15:14 ADCPRE[1:0]: ADC prescaler
-   bool         PLLSRC  :1;  // Bit 16 PLLSRC: PLL entry clock source
-   bool         PLLXTPRE:1;  // Bit 17 PLLXTPRE: LSB of division factor PREDIV1
-   PLLmulti     PLLMUL  :4;  // Bits 21:18 PLLMUL[3:0]: PLL multiplication factor
-   bool         OTGFSPRE:1;  // Bit 22 OTGFSPRE: USB OTG FS prescaler
-   uint32_t     res1    :1;  // Bits 23 Reserved, must be kept at reset value.
-   uint32_t     MCO     :4;  // Bits 27:24 MCO[3:0]: Microcontroller clock output
-   uint32_t     res2    :4;  // Bits 31:28 Reserved, must be kept at reset value.
+   enum PLLsource { HSIdiv2 = 0b0, HSE };
+   SystemClock   SW      :2;  // Bits 1:0 SW: System clock switch
+   SystemClock   SWS     :2;  // Bits 3:2 SWS: System clock switch status
+   AHBprescaler  HPRE    :4;  // Bits 7:4 HPRE[3:0]: AHB prescaler
+   APBprescaler  PPRE1   :3;  // Bits 10:8 PPRE1[2:0]: APB Low-speed prescaler (APB1)
+   APBprescaler  PPRE2   :3;  // Bits 13:11 PPRE2[2:0]: APB high-speed prescaler (APB2)
+   ADCprescaler  ADCPRE  :2;  // Bits 15:14 ADCPRE[1:0]: ADC prescaler
+   PLLsource     PLLSRC  :1;  // Bit 16 PLLSRC: PLL entry clock source
+   bool          PLLXTPRE:1;  // Bit 17 PLLXTPRE: LSB of division factor PREDIV1
+   PLLmultiplier PLLMUL  :4;  // Bits 21:18 PLLMUL[3:0]: PLL multiplication factor
+   bool          OTGFSPRE:1;  // Bit 22 OTGFSPRE: USB OTG FS prescaler
+   uint32_t      res1    :1;  // Bits 23 Reserved, must be kept at reset value.
+   uint32_t      MCO     :4;  // Bits 27:24 MCO[3:0]: Microcontroller clock output
+   uint32_t      res2    :4;  // Bits 31:28 Reserved, must be kept at reset value.
 }__attribute__((packed));
 
 struct AHBENR {

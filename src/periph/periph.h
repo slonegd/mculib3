@@ -2,7 +2,7 @@
 
 #if defined(STM32F030x6)
    #define STM32F0
-#elif defined(STM32F103xb)
+#elif defined(STM32F103xB)
    #define STM32F1
 #elif defined(STM32F405xx)
    #define STM32F4
@@ -13,7 +13,7 @@
 #if defined(STM32F0)
    #include "stm32f0xx.h"
 #elif defined(STM32F1)
-   #include "stm32f103xb.h"
+   #include "stm32f1xx.h"
 #elif defined(STM32F4)
    #include "stm32f4xx.h"
 #endif
@@ -53,13 +53,16 @@ enum class Periph {
     GPIOA, GPIOB, GPIOC, GPIOD, GPIOF,
 #endif
 #if defined(STM32F1)
-    GPIOA, GPIOB, GPIOC, GPIOD, GPIOF, GPIOE,
+    GPIOA, GPIOB, GPIOC, GPIOD, GPIOE,
 #endif
 #if defined(STM32F4)
     GPIOA, GPIOB, GPIOC, GPIOD, GPIOF, GPIOE, GPIOG, GPIOH, GPIOI,
 #endif
 #if defined(STM32F0)
     USART1,
+#endif
+#if defined(STM32F1)
+    USART1, USART2, USART3,
 #endif
 #if defined(STM32F4)
     USART1, USART2, USART3, USART4, USART5, USART6,
