@@ -2,6 +2,8 @@
 
 #if defined(STM32F030x6)
    #define STM32F0
+#elif defined(STM32F103xb)
+   #define STM32F1
 #elif defined(STM32F405xx)
    #define STM32F4
 #else
@@ -10,6 +12,8 @@
 
 #if defined(STM32F0)
    #include "stm32f0xx.h"
+#elif defined(STM32F1)
+   #include "stm32f103xb.h"
 #elif defined(STM32F4)
    #include "stm32f4xx.h"
 #endif
@@ -45,14 +49,27 @@ namespace mcu {
 
 enum class Periph {
     RCC,
+#if defined(STM32F0)
     GPIOA, GPIOB, GPIOC, GPIOD, GPIOF,
-    USART1,
+#endif
+#if defined(STM32F1)
+    GPIOA, GPIOB, GPIOC, GPIOD, GPIOF, GPIOE,
+#endif
 #if defined(STM32F4)
-    GPIOE, GPIOG, GPIOH, GPIOI,
-    USART2, USART3, USART4, USART5, USART6,
+    GPIOA, GPIOB, GPIOC, GPIOD, GPIOF, GPIOE, GPIOG, GPIOH, GPIOI,
+#endif
+#if defined(STM32F0)
+    USART1,
+#endif
+#if defined(STM32F4)
+    USART1, USART2, USART3, USART4, USART5, USART6,
 #endif
     SysTick,
-    TIM1, TIM3, TIM14, TIM16, TIM17
+    TIM1, TIM3, TIM14, TIM16, TIM17,
+
+#if defined(TEST)
+    TEST_RCC
+#endif
 };
 
 }

@@ -29,6 +29,8 @@ public:
    __IO USART_bits::CR2 CR2;  // USART Control register 2,                offset: 0x10
    __IO USART_bits::CR3 CR3;  // USART Control register 3,                offset: 0x14
    __IO uint32_t        GTPR; // USART Guard time and prescaler register, offset: 0x18
+   // this thing for test
+   auto read_SR() { return *reinterpret_cast<__IO uint32_t*>(&SR); }
 };
 
 template<class R = USART_default>
@@ -52,9 +54,8 @@ public:
    USART_& send_byte (uint8_t  v)         {this->DR = v;        return *this;}
    USART_& set (Baudrate v, size_t clock) {this->BRR = clock/v; return *this;}
 
-   
-   template <Periph p, class RCC = RCC>
-   USART_& clock_enable  (){RCC::make_reference().template clock_enable<p>(); return *this;}
+   template <Periph p, Periph v = Periph::RCC>
+   USART_& clock_enable  (){make_reference<v>().template clock_enable<p>(); return *this;}
    USART_& enable        (){this->CR1.UE   = true;  return *this;}
    USART_& disable       (){this->CR1.UE   = false; return *this;}
    USART_& rx_enable     (){this->CR1.RE   = true;  return *this;}
@@ -74,7 +75,11 @@ public:
    USART_& disable_tx_complete_interrupt (){this->CR1.TCIE   = false; return *this;}
    bool   is_tx_complete                 (){return this->SR.TC;}
    bool   is_tx_complete_interrupt_enable(){return this->CR1.TCIE;}
-   USART_& clear_interrupt_flags         (){this->SR.read(); uint32_t t = this->DR; return *this;}
+   USART_& clear_interrupt_flags         (){
+      [[maybe_unused]] uint32_t t1 = this->read_SR();
+      [[maybe_unused]] uint32_t t2 = this->DR;
+      return *this;
+   }
 
    size_t receive_data_adr () {return reinterpret_cast<size_t>(&this->DR);}
    size_t transmit_data_adr() {return reinterpret_cast<size_t>(&this->DR);}
@@ -83,7 +88,7 @@ public:
    static constexpr IRQn_Type IRQn(Periph);
    static constexpr PinMode pin_mode(Periph);
    
-   template <Periph p, class RCC = RCC> static size_t clock ();
+   template <Periph p, Periph v = Periph::RCC> static size_t clock ();
    template<class RXpin,  Periph> static constexpr bool is_rx_support();
    template<class TXpin,  Periph> static constexpr bool is_tx_support();
    template<class RTSpin, Periph> static constexpr bool is_rts_support();
@@ -96,16 +101,12 @@ using USART = USART_<>;
 
 
 
-template <Periph p>
-auto& make_reference()
-{
-   if      constexpr (p == Periph::USART1) return *reinterpret_cast<USART*>(USART1_BASE); 
-   else if constexpr (p == Periph::USART2) return *reinterpret_cast<USART*>(USART2_BASE);
-   else if constexpr (p == Periph::USART3) return *reinterpret_cast<USART*>(USART3_BASE);
-   else if constexpr (p == Periph::USART4) return *reinterpret_cast<USART*>(UART4_BASE );
-   else if constexpr (p == Periph::USART5) return *reinterpret_cast<USART*>(UART5_BASE );
-   else if constexpr (p == Periph::USART6) return *reinterpret_cast<USART*>(USART6_BASE);
-}
+template <Periph p> std::enable_if_t<p == Periph::USART1, USART&> make_reference() {return *reinterpret_cast<USART*>(USART1_BASE);}
+template <Periph p> std::enable_if_t<p == Periph::USART2, USART&> make_reference() {return *reinterpret_cast<USART*>(USART2_BASE);}
+template <Periph p> std::enable_if_t<p == Periph::USART3, USART&> make_reference() {return *reinterpret_cast<USART*>(USART3_BASE);}
+template <Periph p> std::enable_if_t<p == Periph::USART4, USART&> make_reference() {return *reinterpret_cast<USART*>(UART4_BASE );}
+template <Periph p> std::enable_if_t<p == Periph::USART5, USART&> make_reference() {return *reinterpret_cast<USART*>(UART5_BASE );}
+template <Periph p> std::enable_if_t<p == Periph::USART6, USART&> make_reference() {return *reinterpret_cast<USART*>(USART6_BASE);}
 
 
 
@@ -135,15 +136,15 @@ auto& make_reference()
 
 
 template <class R>
-template <Periph p, class RCC>
+template <Periph p, Periph v>
 size_t USART_<R>::clock()
 {
-   if      constexpr (p == Periph::USART1) return RCC::make_reference().get_APB2_clock();
-   else if constexpr (p == Periph::USART2) return RCC::make_reference().get_APB1_clock();
-   else if constexpr (p == Periph::USART3) return RCC::make_reference().get_APB1_clock();
-   else if constexpr (p == Periph::USART4) return RCC::make_reference().get_APB1_clock();
-   else if constexpr (p == Periph::USART5) return RCC::make_reference().get_APB1_clock();
-   else if constexpr (p == Periph::USART6) return RCC::make_reference().get_APB2_clock(); 
+   if      constexpr (p == Periph::USART1) return make_reference<v>().get_APB2_clock();
+   else if constexpr (p == Periph::USART2) return make_reference<v>().get_APB1_clock();
+   else if constexpr (p == Periph::USART3) return make_reference<v>().get_APB1_clock();
+   else if constexpr (p == Periph::USART4) return make_reference<v>().get_APB1_clock();
+   else if constexpr (p == Periph::USART5) return make_reference<v>().get_APB1_clock();
+   else if constexpr (p == Periph::USART6) return make_reference<v>().get_APB2_clock(); 
 }
 
 template <class R>

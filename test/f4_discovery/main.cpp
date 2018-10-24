@@ -15,7 +15,7 @@ extern "C" void init_clock ()
 {
    // FLASH::set (FLASH::Latency::_5);
 
-   mcu::RCC::make_reference()
+   mcu::make_reference<mcu::Periph::RCC>()
       .on_HSE()
       .wait_HSE_ready()
       .set      (mcu::RCC::AHBprescaler::AHBnotdiv)
@@ -38,47 +38,47 @@ int main()
    // mcu::RCC::make_reference().clock_enable<mcu::Periph::GPIOA>();
 //    mcu::Buttons <2> buttons (pins);
    // auto buttons = mcu::Buttons::make<mcu::PA1, mcu::PA2>();
-   // mcu::make_reference<mcu::Periph::USART6>()
-   //    .set(mcu::USART::Parity::odd);
-   //    .set(mcu::USART::WakeMethod::address)
-   //    .set(mcu::USART::DataBits::_9)
-   //    .set(mcu::USART::OverSample::by16)
-   //    .set(mcu::USART::BreakDetection::_11bit)
-   //    .set(mcu::USART::StopBits::_1_5)
-   //    .send_byte(12)
-   //    .enable()
-   //    .disable()
-   //    .rx_enable()
-   //    .rx_disable()
-   //    .tx_enable()
-   //    .tx_disable()
-   //    .rts_enable()
-   //    .DMA_tx_enable()
-   //    .DMA_rx_enable()
-   //    .parity_enable()
-   //    .enableIDLEinterrupt()
-   //    .enable_tx_complete_interrupt()
-   //    .disable_tx_complete_interrupt()
-   //    .clear_interrupt_flags()
-   //    .set (mcu::Baudrate::BR9600, 1000);
+   mcu::make_reference<mcu::Periph::USART6>()
+      .set(mcu::USART::Parity::odd)
+      .set(mcu::USART::WakeMethod::address)
+      .set(mcu::USART::DataBits::_9)
+      .set(mcu::USART::OverSample::by16)
+      .set(mcu::USART::BreakDetection::_11bit)
+      .set(mcu::USART::StopBits::_1_5)
+      .send_byte(12)
+      .enable()
+      .disable()
+      .rx_enable()
+      .rx_disable()
+      .tx_enable()
+      .tx_disable()
+      .rts_enable()
+      .DMA_tx_enable()
+      .DMA_rx_enable()
+      .parity_enable()
+      .enable_IDLE_interrupt()
+      .enable_tx_complete_interrupt()
+      .disable_tx_complete_interrupt()
+      .clear_interrupt_flags()
+      .set (mcu::Baudrate::BR9600, 1000);
 
 
-   // mcu::USART usart;
+   mcu::USART usart;
 
-   // usart.is_IDLE_interrupt();
-   // usart.is_tx_complete();
+   usart.is_IDLE_interrupt();
+   usart.is_tx_complete();
 
    
-   // usart.clock_enable<mcu::Periph::USART1>();
-   // usart.DMA_channel(mcu::Periph::USART3);
-   // usart.IRQn(mcu::Periph::USART2);
-   // usart.pin_mode(mcu::Periph::USART4);
-   // usart.receive_data_adr();
-   // usart.transmit_data_adr();
-   // usart.is_rx_support<mcu::PA1, mcu::Periph::USART1>();
-   // usart.is_tx_support<mcu::PC2, mcu::Periph::USART3>();
-   // usart.is_rts_support<mcu::PG8, mcu::Periph::USART6>();
-   // usart.clock<mcu::Periph::USART1>();
+   usart.clock_enable<mcu::Periph::USART1>();
+   usart.DMA_channel(mcu::Periph::USART3);
+   usart.IRQn(mcu::Periph::USART2);
+   usart.pin_mode(mcu::Periph::USART4);
+   usart.receive_data_adr();
+   usart.transmit_data_adr();
+   usart.is_rx_support<mcu::PA1, mcu::Periph::USART1>();
+   usart.is_tx_support<mcu::PC2, mcu::Periph::USART3>();
+   usart.is_rts_support<mcu::PG8, mcu::Periph::USART6>();
+   usart.clock<mcu::Periph::USART1>();
 
 //    auto usart_ = mcu::UART::make<mcu::Periph::USART1, mcu::PA10, mcu::PA9, mcu::PA12>();
 

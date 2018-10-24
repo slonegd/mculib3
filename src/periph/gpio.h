@@ -8,7 +8,7 @@
 
 namespace mcu {
 
-enum class PinMode { Input, Output, Alternate_1, Alternate_2, Alternate_3,
+enum class PinMode { Input, Output, Alternate_0, Alternate_1, Alternate_2, Alternate_3,
    Alternate_4, Alternate_5, Alternate_7, Alternate_8
 };
 

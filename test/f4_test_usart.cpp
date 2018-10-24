@@ -1,9 +1,24 @@
 #define STM32F405xx
 #define F_CPU   168000000UL
-
-#include "usart.h"
 #include <iostream>
 #include <type_traits>
+#include "periph.h"
+
+struct MockRCC {
+   bool good {false};
+   bool APB1 {false};
+   bool APB2 {false};
+  //  static MockRCC& make_reference(){return *reinterpret_cast<MockRCC*>(make());}
+   template <mcu::Periph p> void clock_enable(){good = true;}
+   size_t get_APB1_clock () { return APB1 = true; }
+   size_t get_APB2_clock () { return APB2 = true; }
+   void reset_APB(){APB1 = false; APB2 = false;}
+}mockRcc;
+namespace mcu {
+template <mcu::Periph p> std::enable_if_t<p == mcu::Periph::TEST_RCC, MockRCC&> make_reference() {return mockRcc;}
+}
+
+#include "usart.h"
 
 mcu::USART usart;
 auto& CMSIS = *reinterpret_cast<mcu::USART::CMSIS_type*>(&usart);
@@ -16,24 +31,22 @@ bool clear_interrupt_flags()
       __IO uint32_t DR;
    public:
 
-      operator __IO uint32_t&() { DR_read = true; return DR; }
+      operator uint32_t() { DR_read = true; return DR; }
       uint32_t operator=(uint32_t v) { DR = v; return DR; }
    };
 
-   struct uint32_test2 : public mcu::USART_bits::SR {
-      uint32_t read() { SR_read = true; DR_read = false; return *reinterpret_cast<uint32_t*>(this); }
-   };
 
    class USART_test
    {
    public:
-           uint32_test2         SR;   // USART Status register,                   offset: 0x00
+      __IO mcu::USART_bits::SR  SR;   // USART Status register,                   offset: 0x00
            uint32_test1         DR;   // USART Data register,                     offset: 0x04
       __IO uint32_t             BRR;  // USART Baud rate register,                offset: 0x08
       __IO mcu::USART_bits::CR1 CR1;  // USART Control register 1,                offset: 0x0C
       __IO mcu::USART_bits::CR2 CR2;  // USART Control register 2,                offset: 0x10
       __IO mcu::USART_bits::CR3 CR3;  // USART Control register 3,                offset: 0x14
       __IO uint32_t             GTPR; // USART Guard time and prescaler register, offset: 0x18
+      uint32_t read_SR() { SR_read = true; DR_read = false; return *reinterpret_cast<uint32_t*>(this); }
    };
 
    mcu::USART_<USART_test> usart;
@@ -45,7 +58,7 @@ bool clear_interrupt_flags()
    return good;
 }
 
-bool make_reference()
+bool make_reference_()
 {
    bool good {true};
    auto& usart1 {mcu::make_reference<mcu::Periph::USART1>()};
@@ -170,29 +183,11 @@ bool baudrate()
    return good;
 }
 
-                  size_t make();
-
-                  struct MockRCC {
-                     bool good {false};
-                     bool APB1 {false};
-                     bool APB2 {false};
-                     static MockRCC& make_reference(){return *reinterpret_cast<MockRCC*>(make());}
-                     template <mcu::Periph p> void clock_enable(){good = true;}
-                     size_t get_APB1_clock () { return APB1 = true; }
-                     size_t get_APB2_clock () { return APB2 = true; }
-                     void reset_APB(){APB1 = false; APB2 = false;}
-                  }mockRcc;
-
-                  size_t make ()
-                  {
-                     return reinterpret_cast<size_t>(&mockRcc);
-                  }
-
 bool clock_enable()
 {
    bool good {true};
-   usart.clock_enable<mcu::Periph::USART1, MockRCC>();
-   good &= MockRCC::make_reference().good;
+   usart.clock_enable<mcu::Periph::USART1, mcu::Periph::TEST_RCC>();
+   good &= mockRcc.good;
    return good;
 }
 
@@ -408,35 +403,35 @@ bool IRQn()
 bool number_clock()
 {
    bool good {true};
-   usart.clock<mcu::Periph::USART1, MockRCC>();
-   good &=     MockRCC::make_reference().APB2;
-   good &= not MockRCC::make_reference().APB1;
-   MockRCC::make_reference().reset_APB();
+   usart.clock<mcu::Periph::USART1, mcu::Periph::TEST_RCC>();
+   good &=     mockRcc.APB2;
+   good &= not mockRcc.APB1;
+   mockRcc.reset_APB();
 
-   usart.clock<mcu::Periph::USART2, MockRCC>();
-   good &=     MockRCC::make_reference().APB1;
-   good &= not MockRCC::make_reference().APB2;
-   MockRCC::make_reference().reset_APB();
+   usart.clock<mcu::Periph::USART2, mcu::Periph::TEST_RCC>();
+   good &=     mockRcc.APB1;
+   good &= not mockRcc.APB2;
+   mockRcc.reset_APB();
 
-   usart.clock<mcu::Periph::USART3, MockRCC>();
-   good &=     MockRCC::make_reference().APB1;
-   good &= not MockRCC::make_reference().APB2;
-   MockRCC::make_reference().reset_APB();
+   usart.clock<mcu::Periph::USART3, mcu::Periph::TEST_RCC>();
+   good &=     mockRcc.APB1;
+   good &= not mockRcc.APB2;
+   mockRcc.reset_APB();
 
-   usart.clock<mcu::Periph::USART4, MockRCC>();
-   good &=     MockRCC::make_reference().APB1;
-   good &= not MockRCC::make_reference().APB2;
-   MockRCC::make_reference().reset_APB();
+   usart.clock<mcu::Periph::USART4, mcu::Periph::TEST_RCC>();
+   good &=     mockRcc.APB1;
+   good &= not mockRcc.APB2;
+   mockRcc.reset_APB();
 
-   usart.clock<mcu::Periph::USART5, MockRCC>();
-   good &=     MockRCC::make_reference().APB1;
-   good &= not MockRCC::make_reference().APB2;
-   MockRCC::make_reference().reset_APB();
+   usart.clock<mcu::Periph::USART5, mcu::Periph::TEST_RCC>();
+   good &=     mockRcc.APB1;
+   good &= not mockRcc.APB2;
+   mockRcc.reset_APB();
 
-   usart.clock<mcu::Periph::USART6, MockRCC>();
-   good &=     MockRCC::make_reference().APB2;
-   good &= not MockRCC::make_reference().APB1;
-   MockRCC::make_reference().reset_APB();
+   usart.clock<mcu::Periph::USART6, mcu::Periph::TEST_RCC>();
+   good &=     mockRcc.APB2;
+   good &= not mockRcc.APB1;
+   mockRcc.reset_APB();
    return good;
 }
 
@@ -526,7 +521,7 @@ int main()
       std::cout << s << (f() ? "\033[32mпрошёл\033[0m" : "\033[31mпровален\033[0m") << std::endl;
    };
 
-   test ("USART::make_reference           ", make_reference);
+   test ("USART::make_reference           ", make_reference_);
    test ("USART::parity                   ", parity);
    test ("USART::wake_method              ", wake_method);
    test ("USART::data_bits                ", data_bits);

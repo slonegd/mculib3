@@ -16,7 +16,6 @@ struct SR {
    bool     LBD  :1; // Bit 8 LBD: LIN break detection flag
    bool     CTS  :1; // Bit 9 CTS: CTS flag
    uint32_t res1 :22; // Bits 31:10 Reserved, must be kept at reset value
-   uint32_t read() { return *reinterpret_cast<uint32_t*>(this); }
 }__attribute__((packed));
 
 struct CR1 {
