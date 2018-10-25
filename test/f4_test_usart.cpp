@@ -1,4 +1,5 @@
 #define STM32F405xx
+#define TEST
 #define F_CPU   168000000UL
 #include <iostream>
 #include <type_traits>

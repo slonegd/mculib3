@@ -14,16 +14,18 @@ class GPIO {
   __IO uint32_t      BRR;  // Port bit reset register          offset: 0x14
   __IO uint32_t      LCKR; // Port configuration lock register offset: 0x18
 
-   using Mode = GPIO_bits::CR::Mode;
+public:
+   using CMSIS_type = GPIO_TypeDef;
+   using Pin_mode   = GPIO_bits::CR::Pin_mode;
 
-   template<Periph p> GPIO& clock_enable() { make_reference<Periph::RCC>().clock_enable<p>(); return *this; }
+   template<Periph p, Periph v = Periph::RCC> GPIO& clock_enable() { make_reference<v>().template clock_enable<p>(); return *this; }
 
    void set      (size_t n) { BSRR |= (1 << n);              }
    void clear    (size_t n) { BSRR |= (1 << (n + 16));       }
    bool is_set   (size_t n) { return IDR.reg & (1 << n);     }
    void toggle   (size_t n) { is_set(n) ? clear(n) : set(n); }
 
-   template<size_t> GPIO& set (Mode);
+   template<size_t> GPIO& set (Pin_mode);
 };
 
 
@@ -52,7 +54,7 @@ template<Periph p> std::enable_if_t<p == Periph::GPIOC, GPIO&> make_reference() 
 template<Periph p> std::enable_if_t<p == Periph::GPIOD, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOD_BASE); }
 template<Periph p> std::enable_if_t<p == Periph::GPIOE, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOE_BASE); }
 
-template<size_t n> GPIO& GPIO::set (Mode v) 
+template<size_t n> GPIO& GPIO::set (Pin_mode v) 
 {
    if      constexpr (n == 0)  { CR.CNF_MODE0  = v; return *this; }
    else if constexpr (n == 1)  { CR.CNF_MODE1  = v; return *this; }
@@ -65,7 +67,7 @@ template<size_t n> GPIO& GPIO::set (Mode v)
    else if constexpr (n == 8)  { CR.CNF_MODE8  = v; return *this; }
    else if constexpr (n == 9)  { CR.CNF_MODE9  = v; return *this; }
    else if constexpr (n == 10) { CR.CNF_MODE10 = v; return *this; }
-   else if constexpr (n == 11) { CR.CNF_MODE10 = v; return *this; }
+   else if constexpr (n == 11) { CR.CNF_MODE11 = v; return *this; }
    else if constexpr (n == 12) { CR.CNF_MODE12 = v; return *this; }
    else if constexpr (n == 13) { CR.CNF_MODE13 = v; return *this; }
    else if constexpr (n == 14) { CR.CNF_MODE14 = v; return *this; }
