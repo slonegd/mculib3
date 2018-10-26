@@ -1,3 +1,5 @@
+v3.010 f1_afio, f1_test_afio
+
 v3.009 f1_test_gpio
 
 v3.008 f1_test_rcc, f1_bits_gpio, f1_gpio, f1_bits_afio

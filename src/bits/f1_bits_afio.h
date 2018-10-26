@@ -4,9 +4,9 @@
 
 namespace mcu::AFIO_bits {
 
+enum Port{ PA = 0b000, PB, PC, PD, PE};
 struct EVCR {
    enum Pin {_0 = 0b0000, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15 };
-   enum Port{ PA = 0b000, PB, PC, PD, PE};
    Pin PIN      :4;  // Bits 3:0 PIN[3:0]: Pin selection
    Port PORT    :3;  // Bits 6:4 PORT[2:0]: Port selection
    bool EVOE    :1;  // Bit 7 EVOE: Event output enable
@@ -36,7 +36,6 @@ struct MAPR {
 }__attribute__((packed));
 
 struct EXTICR {
-   enum Port{ PA = 0b0000, PB, PC, PD, PE};
    Port     EXTI0  :4;  // Bits 15:0 EXTIx[3:0]: EXTI x configuration (x= 0 to 3)
    Port     EXTI1  :4;
    Port     EXTI2  :4;
@@ -56,7 +55,7 @@ struct EXTICR {
    Port     EXTI13 :4;
    Port     EXTI14 :4;
    Port     EXTI15 :4;
-   uint32_t res3   :16; // // Bits 31:16 Reserved
+   uint32_t res4   :16; // // Bits 31:16 Reserved
 }__attribute__((packed));
 
 struct MAPR2 {

@@ -20,10 +20,10 @@ public:
 
    template<Periph p, Periph v = Periph::RCC> GPIO& clock_enable() { make_reference<v>().template clock_enable<p>(); return *this; }
 
-   void set      (size_t n) { BSRR |= (1 << n);              }
-   void clear    (size_t n) { BSRR |= (1 << (n + 16));       }
-   bool is_set   (size_t n) { return IDR.reg & (1 << n);     }
-   void toggle   (size_t n) { is_set(n) ? clear(n) : set(n); }
+   void set     (size_t n) { BSRR |= (1 << n);              }
+   void clear   (size_t n) { BSRR |= (1 << (n + 16));       }
+   bool is_set  (size_t n) { return IDR.reg & (1 << n);     }
+   void toggle  (size_t n) { is_set(n) ? clear(n) : set(n); }
 
    template<size_t> GPIO& set (Pin_mode);
 };

@@ -8,7 +8,7 @@
        "name": "test",
        "type": "cppdbg",
        "request": "launch",
-       "program": "${workspaceFolder}/test/build/f1_test_gpio",
+       "program": "${workspaceFolder}/test/build/f1_test_afio",
        "args": [],
        "stopAtEntry": false,
        "cwd": "${workspaceFolder}",

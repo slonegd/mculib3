@@ -53,7 +53,7 @@ enum class Periph {
     GPIOA, GPIOB, GPIOC, GPIOD, GPIOF,
 #endif
 #if defined(STM32F1)
-    GPIOA, GPIOB, GPIOC, GPIOD, GPIOE,
+    GPIOA, GPIOB, GPIOC, GPIOD, GPIOE, AFIO_,
 #endif
 #if defined(STM32F4)
     GPIOA, GPIOB, GPIOC, GPIOD, GPIOF, GPIOE, GPIOG, GPIOH, GPIOI,

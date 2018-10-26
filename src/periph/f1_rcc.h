@@ -57,6 +57,7 @@ public:
       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
       else if constexpr (p == Periph::GPIOD) APB2ENR.IOPDEN = true;
       else if constexpr (p == Periph::GPIOE) APB2ENR.IOPEEN = true;
+      else if constexpr (p == Periph::AFIO_) APB2ENR.AFIOEN = true;
 
       else if constexpr (p == Periph::USART1) APB2ENR.USART1EN = true;
       else if constexpr (p == Periph::USART2) APB1ENR.USART2EN = true;
