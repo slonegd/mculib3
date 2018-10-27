@@ -34,6 +34,7 @@
 #undef TIM14
 #undef TIM16
 #undef TIM17
+#undef FLASH
 
 namespace mcu {
 
@@ -44,7 +45,8 @@ enum class Periph {
     GPIOE, GPIOG, GPIOH, GPIOI,
 #endif
     SysTick,
-    TIM1, TIM3, TIM14, TIM16, TIM17
+    TIM1, TIM3, TIM14, TIM16, TIM17,
+    FLASH
 };
 
 }

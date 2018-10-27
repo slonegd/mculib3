@@ -10,3 +10,8 @@ test_pwm
 f4_tim
 f0_test_tim
 f4_test_tim
+f4_flash finish
+f0_flash
+f4_test_flash
+f0_test_flash
+flash finish
