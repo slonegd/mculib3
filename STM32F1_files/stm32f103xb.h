@@ -11,7 +11,7 @@
   *          This file contains:
   *           - Data structures and the address mapping for all peripherals
   *           - Peripheral's registers declarations and bits definition
-  *           - Macros to access peripheral’s registers hardware
+  *           - Macros to access peripheralï¿½s registers hardware
   *  
   ******************************************************************************
   * @attention
@@ -148,7 +148,7 @@ typedef enum
   */
 
 #include "core_cm3.h"
-#include "system_stm32f1xx.h"
+// #include "system_stm32f1xx.h"
 #include <stdint.h>
 
 /** @addtogroup Peripheral_registers_structures

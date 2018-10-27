@@ -50,6 +50,16 @@ public:
    RCC& set       (SystemClock  v) { CFGR.SW        = v; return *this; }
    RCC& set       (PLLPdiv      v) { PLLCFGR.PLLP   = v; return *this; }
    RCC& set       (PLLsource    v) { PLLCFGR.PLLSRC = v; return *this; }
+
+   size_t get_APB_clock (APBprescaler v)
+   {return v == APBprescaler::APBnotdiv ? F_CPU     :
+           v == APBprescaler::APBdiv2   ? F_CPU / 2 :
+           v == APBprescaler::APBdiv4   ? F_CPU / 4 :
+           v == APBprescaler::APBdiv8   ? F_CPU / 8 :
+                                          F_CPU / 16;}
+
+   size_t get_APB1_clock(){return get_APB_clock (CFGR.PPRE1);}
+   size_t get_APB2_clock(){return get_APB_clock (CFGR.PPRE2);}
    
    template<int v> RCC& set_PLLM() { static_assert (v >= 2  and v <= 63);
                                      PLLCFGR.PLLM   = v; return *this; }
@@ -74,6 +84,13 @@ public:
       else if constexpr (p == Periph::GPIOG) AHB1ENR.GPIOGEN = true;
       else if constexpr (p == Periph::GPIOH) AHB1ENR.GPIOHEN = true;
       else if constexpr (p == Periph::GPIOI) AHB1ENR.GPIOIEN = true;
+
+      else if constexpr (p == Periph::USART1) APB2ENR.USART1EN = true;
+      else if constexpr (p == Periph::USART2) APB1ENR.USART2EN = true;
+      else if constexpr (p == Periph::USART3) APB1ENR.USART3EN = true;
+      else if constexpr (p == Periph::USART4) APB1ENR.UART4EN  = true;
+      else if constexpr (p == Periph::USART5) APB1ENR.UART5EN  = true;
+      else if constexpr (p == Periph::USART6) APB2ENR.USART6EN = true;
    }
 };
 

@@ -8,8 +8,8 @@
 
 namespace mcu {
 
-enum class PinMode { Input, Output,
-   Alternate_0, Alternate_1, Alternate_2, Alternate_3, Alternate_4, Alternate_5
+enum class PinMode { Input, Output, Alternate_0, Alternate_1, Alternate_2, Alternate_3,
+   Alternate_4, Alternate_5, Alternate_7, Alternate_8
 };
 
 class GPIO {
@@ -28,10 +28,10 @@ public:
 
    template<Periph p> GPIO& clock_enable() { make_reference<Periph::RCC>().clock_enable<p>(); return *this; }
 
-   void set    (size_t n) { BSRR |= (1 << n);              }
-   void clear  (size_t n) { BSRR |= (1 << (n + 16));       }
-   bool is_set (size_t n) { return IDR.reg & (1 << n);     }
-   void toggle (size_t n) { is_set(n) ? clear(n) : set(n); }
+   void set      (size_t n) { BSRR |= (1 << n);              }
+   void clear    (size_t n) { BSRR |= (1 << (n + 16));       }
+   bool is_set   (size_t n) { return IDR.reg & (1 << n);     }
+   void toggle   (size_t n) { is_set(n) ? clear(n) : set(n); }
 
    template<size_t> GPIO& set (Mode);
    template<size_t> GPIO& set (AF);
@@ -136,6 +136,13 @@ template<size_t n, PinMode v> void GPIO::init()
    } else if constexpr (v == PinMode::Alternate_5) {
       set<n> (Mode::Alternate);
       set<n>   (AF::_5);
+
+   } else if constexpr (v == PinMode::Alternate_7) {
+      set<n> (Mode::Alternate);
+      set<n>   (AF::_7);
+   } else if constexpr (v == PinMode::Alternate_8) {
+      set<n> (Mode::Alternate);
+      set<n>   (AF::_8);
    }
 }
 
