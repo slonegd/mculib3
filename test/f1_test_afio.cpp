@@ -71,8 +71,8 @@ int main()
       std::cout << s << (f() ? "\033[32mпрошёл\033[0m" : "\033[31mпровален\033[0m") << std::endl;
    };
 
-   test ("RCC::make            ", make);
-   test ("RCC::clock_enable    ", clock_enable);
-   test ("RCC::remap           ", remap);
+   test ("AFIO::make            ", make);
+   test ("AFIO::clock_enable    ", clock_enable);
+   test ("AFIO::remap           ", remap);
 }
 

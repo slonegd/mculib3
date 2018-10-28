@@ -70,7 +70,7 @@ enum class Periph {
 #endif
     SysTick,
     TIM1, TIM3, TIM14, TIM16, TIM17,
-    FLASH
+    FLASH,
 
 #if defined(TEST)
     TEST_RCC
