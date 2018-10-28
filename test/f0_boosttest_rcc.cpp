@@ -1,13 +1,12 @@
+#define BOOST_TEST_MODULE f0_rcc
+#include <boost/test/unit_test.hpp>
+
 #define STM32F030x6
 
 #include "rcc.h"
 #include <iostream>
 #include <type_traits>
 #include <thread>
-
-
-#define BOOST_TEST_MODULE f0_rcc
-#include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 
