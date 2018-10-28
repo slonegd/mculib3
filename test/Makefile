@@ -38,7 +38,15 @@ all: $(BUILD_DIR)
 	./$(BUILD_DIR)/f4_test_flash
 
 $(BUILD_DIR):
-	mkdir $@
+	mkdir $(BUILD_DIR)
+
+cmake: clean
+	cmake -H. -Bcmake
+	cmake --build cmake
+	cmake --build cmake --target test
+
+clean:
+	-rm -fR .dep $(BUILD_DIR)
 
 current: $(BUILD_DIR)
 	g++-7 f1_test_afio.cpp  $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_afio
