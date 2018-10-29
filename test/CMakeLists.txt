@@ -28,7 +28,7 @@ project(mcu_test)
 
 enable_testing()
 
-find_package (Boost COMPONENTS unit_test_framework REQUIRED system REQUIRED)
+find_package (Boost COMPONENTS unit_test_framework REQUIRED)
 find_package (Threads)
 
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY build)
