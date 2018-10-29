@@ -15,12 +15,12 @@ struct CR1 {
    uint32_t     CMS  :2;  // Bits 6:5 CMS: Center-aligned mode selection
    bool         ARPE :1;  // Bit  7 ARPE: Auto-reload preload enable
    uint32_t     CKD  :2;  // Bits 9:8 CKD: Clock division
-   uint32_t     res  :6;  // Bits 15:10 Reserved, must be kept at reset value.
+   uint32_t          :6;  // Bits 15:10 Reserved, must be kept at reset value.
 }__attribute__((packed));
 
 struct CR2 {
    uint32_t CCPC  :1;  // Bit  0  CCPC: Capture/compare preloaded control
-   uint32_t res1  :1;  // Bit  1  Reserved, must be kept at reset value.
+   uint32_t       :1;  // Bit  1  Reserved, must be kept at reset value.
    uint32_t CCUS  :1;  // Bit  2  CCUS: Capture/compare control update selection
    uint32_t CCDS  :1;  // Bit  3  CCDS: Capture/compare DMA selection
    uint32_t MMS   :3;  // Bits 6:4 MMS[2:0]: Master mode selection
@@ -32,7 +32,7 @@ struct CR2 {
    uint32_t OIS3  :1;  // Bit  12 OIS3: Output Idle state 3 (OC3 output)
    uint32_t OIS3N :1;  // Bit  13 OIS3N: Output Idle state 3 (OC3N output)
    uint32_t OIS4  :1;  // Bit  14 OIS4: Output Idle state 4 (OC4 output)
-   uint32_t res2  :17; // Bits 31:15 Reserved, must be kept at reset value.
+   uint32_t       :17; // Bits 31:15 Reserved, must be kept at reset value.
 }__attribute__((packed));
 
 struct SMCR {
@@ -47,7 +47,7 @@ struct SMCR {
    uint32_t           ETPS :2; // Bits 13:12 ETPS[1:0]: External trigger prescaler
    uint32_t           ECE  :1; // Bit 14 ECE: External clock enable
    ExtTriggerPolarity ETP  :1; // Bit 15 ETP: External trigger polarity
-   uint32_t           res1 :16;
+   uint32_t                :16;
 }__attribute__((packed));
 
 struct DIER {
@@ -66,7 +66,7 @@ struct DIER {
    bool     CC4DE :1;  // Bit 12 CC1DE: Capture/Compare 4 DMA request enable
    bool     COMDE :1;  // Bit 13 COMDE: COM DMA request enable
    bool     TDE   :1;  // Bit 14 TDE: Trigger DMA request enable
-   uint32_t res   :17; // Bit 15 Reserved, must be kept at reset value.
+   uint32_t       :17; // Bit 15 Reserved, must be kept at reset value.
 }__attribute__((packed));
 
 enum SelectionCompareMode { Output = 0b00, Input, InputALT, InputTRC }; 
@@ -84,7 +84,7 @@ struct Output_t {
    bool                 OC2PE    :1;
    CompareMode          OC2M     :3;
    bool                 OC2CE    :1;
-   uint32_t             res1     :16;
+   uint32_t                      :16;
    SelectionCompareMode CC3S     :2;
    bool                 OC3FE    :1;
    bool                 OC3PE    :1;  
@@ -95,7 +95,7 @@ struct Output_t {
    bool                 OC4PE    :1;
    CompareMode          OC4M     :3;
    bool                 OC4CE    :1;
-   uint32_t             res2     :16;
+   uint32_t                      :16;
 }__attribute__((packed));
 
 struct Input_t { 
@@ -105,14 +105,14 @@ struct Input_t {
    SelectionCompareMode CC2S     :2; // Bits 9:8 CC2S: Capture/Compare 2 selection
    uint32_t             IC2PSC   :2; // Bits 11:10 IC2PSC[1:0]: Input capture 2 prescaler
    uint32_t             IC2F     :4; // Bits 15:12 IC2F: Input capture 2 filter
-   uint32_t             res1     :16;
+   uint32_t                      :16;
    SelectionCompareMode CC3S     :2;
    uint32_t             IC3PSC   :2;
    uint32_t             IC3F     :4;
    SelectionCompareMode CC4S     :2;
    uint32_t             IC4PSC   :2;
    uint32_t             IC4F     :4; 
-   uint32_t             res2     :16;
+   uint32_t                      :16;
 
 }__attribute__((packed));
 
@@ -143,7 +143,7 @@ struct CCER {
    uint32_t CC4P  :1; // Bit 13 CC4P:  Capture/Compare 4 output polarity
    bool     CC4NE :1;
    uint32_t CC4NP :1;
-   uint32_t res   :16;
+   uint32_t       :16;
 }__attribute__((packed));
 
 struct BDTR {
@@ -154,15 +154,15 @@ struct BDTR {
    bool     BKE  :1; // Bit 12 BKE: Break enable
    uint32_t BKP  :1; // Bit 13 BKP: Break polarity
    uint32_t AOE  :1; // Bit 14 AOE: Automatic output enable
-   bool     MOE  :1; // Bit 15 MOE: Main output enableuint32_t res1 :16;
-   uint32_t res  :16;
+   bool     MOE  :1; // Bit 15 MOE: Main output enableuint32_t      :16;
+   uint32_t      :16;
 }__attribute__((packed));
 
 struct DCR {
    uint32_t DBA  :5;  // Bits 4:0 DBA[4:0]: DMA base address
-   uint32_t res1 :3;  // Bits 7:5 Reserved, must be kept at reset value.
+   uint32_t      :3;  // Bits 7:5 Reserved, must be kept at reset value.
    uint32_t DBL  :5;  // Bits 12:8 DBL[4:0]: DMA burst length
-   uint32_t res2 :19; // Bits 31:13 Reserved, must be kept at reset value.
+   uint32_t      :19; // Bits 31:13 Reserved, must be kept at reset value.
 }__attribute__((packed));
 
 } // namespace mcu::RCC_bits {

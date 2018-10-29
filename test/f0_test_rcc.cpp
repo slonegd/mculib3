@@ -9,9 +9,9 @@
 mcu::RCC rcc;
 auto& CMSIS = *reinterpret_cast<mcu::RCC::CMSIS_type*>(&rcc);
 
-bool make()
+bool make_reference()
 {
-   auto& rcc {mcu::RCC::make()};
+   auto& rcc {mcu::make_reference<mcu::Periph::RCC>()};
    return reinterpret_cast<size_t>(&rcc) == RCC_BASE 
       and std::is_same_v<std::remove_reference_t<decltype(rcc)>, mcu::RCC>;
 }
@@ -200,19 +200,19 @@ bool clock_enable()
    CMSIS.AHBENR = 0;
    bool good {true};
 
-   rcc.clock_enable<Periph::GPIOA>();
+   rcc.clock_enable<mcu::Periph::GPIOA>();
    good &= bool(CMSIS.AHBENR & RCC_AHBENR_GPIOAEN_Msk);
 
-   rcc.clock_enable<Periph::GPIOB>();
+   rcc.clock_enable<mcu::Periph::GPIOB>();
    good &= bool(CMSIS.AHBENR & RCC_AHBENR_GPIOBEN_Msk);
 
-   rcc.clock_enable<Periph::GPIOC>();
+   rcc.clock_enable<mcu::Periph::GPIOC>();
    good &= bool(CMSIS.AHBENR & RCC_AHBENR_GPIOCEN_Msk);
 
-   rcc.clock_enable<Periph::GPIOD>();
+   rcc.clock_enable<mcu::Periph::GPIOD>();
    good &= bool(CMSIS.AHBENR & RCC_AHBENR_GPIODEN_Msk);
 
-   rcc.clock_enable<Periph::GPIOF>();
+   rcc.clock_enable<mcu::Periph::GPIOF>();
    good &= bool(CMSIS.AHBENR & RCC_AHBENR_GPIOFEN_Msk);
 
    return good;
@@ -227,7 +227,7 @@ int main()
       std::cout << s << (f() ? "\033[32mпрошёл\033[0m" : "\033[31mпровален\033[0m") << std::endl;
    };
 
-   test ("RCC::make                  ", make);
+   test ("RCC::make_reference        ", make_reference);
    test ("RCC::set_AHBprescaler      ", set_AHBprescaler);
    test ("RCC::set_APBprescaler      ", set_APBprescaler);
    test ("RCC::set_SystemClock       ", set_SystemClock);

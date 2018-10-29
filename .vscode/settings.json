@@ -36,6 +36,14 @@
       "thread": "cpp",
       "cinttypes": "cpp",
       "typeindex": "cpp",
-      "typeinfo": "cpp"
+      "typeinfo": "cpp",
+      "deque": "cpp",
+      "unordered_map": "cpp",
+      "vector": "cpp",
+      "fstream": "cpp",
+      "optional": "cpp",
+      "sstream": "cpp",
+      "string_view": "cpp",
+      "list": "cpp"
    }
 }

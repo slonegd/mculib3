@@ -45,6 +45,7 @@
 #undef TIM14
 #undef TIM16
 #undef TIM17
+#undef FLASH
 
 namespace mcu {
 
@@ -70,6 +71,7 @@ enum class Periph {
 #endif
     SysTick,
     TIM1, TIM3, TIM14, TIM16, TIM17,
+    FLASH,
 
 #if defined(TEST)
     TEST_RCC, TEST_AFIO
@@ -94,5 +96,5 @@ enum class Periph {
 #if defined(TEST)
     #define IF_TEST_WAIT_MS(ms) std::this_thread::sleep_for(std::chrono::milliseconds(ms))
 #else
-    #define IF_TEST_WAIT_MSEEP(ms)
+    #define IF_TEST_WAIT_MS(ms)
 #endif

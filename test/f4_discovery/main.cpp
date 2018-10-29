@@ -8,12 +8,15 @@
 #include "pin.h"
 // #include "buttons.h"
 #include "uart.h"
+#include "flash.h"
+#include "literals.h"
 
 
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock ()
 {
-   // FLASH::set (FLASH::Latency::_5);
+   mcu::make_reference<mcu::Periph::FLASH>()
+      .set (mcu::FLASH::Latency::_5);
 
    mcu::make_reference<mcu::Periph::RCC>()
       .on_HSE()
@@ -82,9 +85,20 @@ int main()
 
 //    auto usart_ = mcu::UART::make<mcu::Periph::USART1, mcu::PA10, mcu::PA9, mcu::PA12>();
 
+   struct Data {
+      size_t d1 {1};
+      size_t d2 {2};
+   };
+
+   mcu::Flash_impl<Data, mcu::FLASH::Sector::_11> flash;
+   Timer timer {1_s};
    
    while(1) {
       
+      timer.event ([&](){
+         flash.d1++;
+      });
+
    } // while(1) {
 
 }

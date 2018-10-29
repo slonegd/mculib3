@@ -82,5 +82,8 @@ int main()
    test ("RCC::clock_enable    ", clock_enable);
    test ("RCC::remap           ", remap);
    test ("RCC::evet_enable     ", evet_enable);
+   test ("AFIO::make           ", make);
+   test ("AFIO::clock_enable   ", clock_enable);
+   test ("AFIO::remap          ", remap);
 }
 

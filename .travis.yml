@@ -1,0 +1,33 @@
+language: cpp
+compiler: gcc
+dist: trusty
+
+before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+install:
+  - sudo apt-get install -qq g++-7
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
+before_script:
+  - sudo apt-get install libboost-test-dev -y
+  # - sudo apt-get install libboost-system-dev -y
+  # - sudo apt-get install doxygen graphviz
+script:
+  - cd test
+  - cmake -H. -Bcmake
+  - cmake --build cmake
+  - cmake --build cmake --target test
+  # - cmake --build cmake --target package
+  # - doxygen Doxyfile
+deploy:
+  # - provider: pages
+  #   skip-cleanup: true
+  #   github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
+  #   keep-history: true
+  #   local-dir: html
+  #   on:
+  #     branch: master
+  # - provider: script
+  #   skip_cleanup: true
+  #   script:
+  #   - curl -T ./cmake/join_server-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -uslonegd:$BINTRAY_API_KEY "https://api.bintray.com/content/slonegd/otus01/join_server/0.0.$TRAVIS_BUILD_NUMBER/join_server-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"

@@ -1,4 +1,5 @@
 test/build/
+test/cmake/
 test/f0_discovery/build/
 test/f4_discovery/build/
 mculib2_compare/f0_discovery/build/

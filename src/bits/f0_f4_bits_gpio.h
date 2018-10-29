@@ -42,7 +42,7 @@ struct OTYPER {
    OutType OT13 :1;
    OutType OT14 :1;
    OutType OT15 :1;
-   uint32_t res1 :16;
+   uint32_t     :16;
 }__attribute__((packed));
 
 struct OSPEEDR {
@@ -109,7 +109,7 @@ struct DR  { // для IDR ODR
          bool _13 :1;
          bool _14 :1;
          bool _15 :1;
-         uint32_t res1 :16;
+         uint32_t :16;
       } bits;
    };
 }__attribute__((packed));
