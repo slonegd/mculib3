@@ -1,3 +1,5 @@
+v3.016 f1_usart, f1_test_usart
+
 v3.015 f1_bits_usart, f1_bits_dma
 
 v3.014 f0_rcc for boost test and travis

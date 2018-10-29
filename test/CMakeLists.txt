@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.12)
 project(mcu_test)
 
 # find_package (Threads)
@@ -63,7 +63,7 @@ function(test_F0 name)
       COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
    )
    add_test(${name} build/${name})
-endfunction(test)
+endfunction(test_F0)
 
 
 

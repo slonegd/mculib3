@@ -346,12 +346,12 @@ bool transmit_data_adr()
 bool DMA_channel()
 {
    bool good {true};
-   // good &= bool (mcu::Channel::_4 == usart.DMA_channel(mcu::Periph::USART1))
-   //     and not  (mcu::Channel::_5 == usart.DMA_channel(mcu::Periph::USART1))
-   //     and bool (mcu::Channel::_4 == usart.DMA_channel(mcu::Periph::USART2))
-   //     and not  (mcu::Channel::_5 == usart.DMA_channel(mcu::Periph::USART2))
-   //     and bool (mcu::Channel::_4 == usart.DMA_channel(mcu::Periph::USART3))
-   //     and not  (mcu::Channel::_5 == usart.DMA_channel(mcu::Periph::USART3));
+   good &= bool  (mcu::Channel::_4 == usart.DMA_channel(mcu::PinMode::USART1_TX))
+        and bool (mcu::Channel::_5 == usart.DMA_channel(mcu::PinMode::USART1_RX))
+        and bool (mcu::Channel::_7 == usart.DMA_channel(mcu::PinMode::USART2_TX))
+        and bool (mcu::Channel::_6 == usart.DMA_channel(mcu::PinMode::USART2_RX))
+        and bool (mcu::Channel::_2 == usart.DMA_channel(mcu::PinMode::USART3_TX))
+        and bool (mcu::Channel::_3 == usart.DMA_channel(mcu::PinMode::USART3_RX));
    return good;
 }
 

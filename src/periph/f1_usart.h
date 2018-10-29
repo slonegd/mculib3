@@ -84,7 +84,6 @@ public:
 
    static constexpr Channel DMA_channel(PinMode);
    static constexpr IRQn_Type IRQn(Periph);
-//    static constexpr PinMode pin_mode(Periph);
    
    template <Periph p, Periph v = Periph::RCC> static size_t clock ();
 };
@@ -148,15 +147,4 @@ constexpr IRQn_Type USART_<R>::IRQn(Periph p)
           NonMaskableInt_IRQn;
 }
 
-// template <class R>
-// constexpr PinMode USART_<R>::pin_support(Periph p)
-// {
-//    return p == Periph::USART1 ? PinMode::Alternate_7 :
-//           p == Periph::USART2 ? PinMode::Alternate_7 :
-//           p == Periph::USART3 ? PinMode::Alternate_7 :
-//           p == Periph::USART4 ? PinMode::Alternate_8 :
-//           p == Periph::USART5 ? PinMode::Alternate_8 :
-//           p == Periph::USART6 ? PinMode::Alternate_8 :
-//           PinMode::Input;
-// }
 } //namespace mcu

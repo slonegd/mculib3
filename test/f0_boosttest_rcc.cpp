@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE (set_AHBprescaler)
 {
    CMSIS.CFGR = 0;
    rcc.set (mcu::RCC::AHBprescaler::AHBdiv512);
-   BOOST_CHECK_EQUAL (bool(CMSIS.CFGR & RCC_CFGR_HPRE_0), true);
+   BOOST_CHECK_EQUAL (bool(CMSIS.CFGR & RCC_CFGR_HPRE_0), false);
    BOOST_CHECK_EQUAL (bool(CMSIS.CFGR & RCC_CFGR_HPRE_1), true);
    BOOST_CHECK_EQUAL (bool(CMSIS.CFGR & RCC_CFGR_HPRE_2), true);
    BOOST_CHECK_EQUAL (bool(CMSIS.CFGR & RCC_CFGR_HPRE_3), true);
