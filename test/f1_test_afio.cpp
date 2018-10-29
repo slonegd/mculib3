@@ -14,21 +14,21 @@ template <Periph p> std::enable_if_t<p == Periph::TEST_RCC, MockRCC&> make_refer
 
 #include "f1_afio.h"
 
-mcu::AFIO_ afio;
-auto& CMSIS = *reinterpret_cast<mcu::AFIO_::CMSIS_type*>(&afio);
+mcu::AFIO afio;
+auto& CMSIS = *reinterpret_cast<mcu::AFIO::CMSIS_type*>(&afio);
 
 bool make()
 {
    bool good {true};
-   auto& afio {mcu::make_reference<mcu::Periph::AFIO_>()};
+   auto& afio {mcu::make_reference<mcu::Periph::AFIO>()};
    return reinterpret_cast<size_t>(&afio) == AFIO_BASE 
-      and std::is_same_v<std::remove_reference_t<decltype(afio)>, mcu::AFIO_>;
+      and std::is_same_v<std::remove_reference_t<decltype(afio)>, mcu::AFIO>;
 }
 
 bool clock_enable()
 {
    bool good {true};
-   afio.clock_enable<mcu::Periph::AFIO_, mcu::Periph::TEST_RCC>();
+   afio.clock_enable<mcu::Periph::AFIO, mcu::Periph::TEST_RCC>();
    good &= mockRcc.good;
    return good;
 }
@@ -62,6 +62,13 @@ bool remap()
    return good;
 }
 
+bool evet_enable()
+{
+   CMSIS.EVCR = 0;
+   afio.event_enable();
+   return bool (CMSIS.EVCR & AFIO_EVCR_EVOE_Msk);
+}
+
 int main()
 {
    std::cout << '\n'
@@ -74,5 +81,6 @@ int main()
    test ("RCC::make            ", make);
    test ("RCC::clock_enable    ", clock_enable);
    test ("RCC::remap           ", remap);
+   test ("RCC::evet_enable     ", evet_enable);
 }
 

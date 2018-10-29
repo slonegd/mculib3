@@ -32,6 +32,7 @@
 #undef GPIOG
 #undef GPIOH
 #undef GPIOI
+#undef AFIO
 #undef USART1
 #undef USART2
 #undef USART3
@@ -53,7 +54,7 @@ enum class Periph {
     GPIOA, GPIOB, GPIOC, GPIOD, GPIOF,
 #endif
 #if defined(STM32F1)
-    GPIOA, GPIOB, GPIOC, GPIOD, GPIOE, AFIO_,
+    GPIOA, GPIOB, GPIOC, GPIOD, GPIOE, AFIO,
 #endif
 #if defined(STM32F4)
     GPIOA, GPIOB, GPIOC, GPIOD, GPIOF, GPIOE, GPIOG, GPIOH, GPIOI,
@@ -71,7 +72,7 @@ enum class Periph {
     TIM1, TIM3, TIM14, TIM16, TIM17,
 
 #if defined(TEST)
-    TEST_RCC
+    TEST_RCC, TEST_AFIO
 #endif
 };
 

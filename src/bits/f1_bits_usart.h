@@ -7,7 +7,7 @@ namespace mcu::USART_bits {
 struct SR {
    bool     PE   :1; // Bit 0 PE: Parity error
    bool     FE   :1; // Bit 1 FE: Framing error
-   bool     NF   :1; // Bit 2 NF: Noise detected flag
+   bool     NE   :1; // Bit 2 NE: Noise detected flag
    bool     ORE  :1; // Bit 3 ORE: Overrun error
    bool     IDLE :1; // Bit 4 IDLE: IDLE line detected
    bool     RXNE :1; // Bit 5 RXNE: Read data register not empty
@@ -22,24 +22,21 @@ struct CR1 {
    enum Parity     { even = 0b0, odd     };
    enum WakeMethod { idle = 0b0, address };
    enum DataBits   { _8   = 0b0, _9      };
-   enum OverSample { by8  = 0b0, by16    };
-   bool       SBK    :1; // Bit 0 SBK: Send break
-   bool       RWU    :1; // Bit 1 RWU: Receiver wakeup
-   bool       RE     :1; // Bit 2 RE: Receiver enable
-   bool       TE     :1; // Bit 3 TE: Transmitter enable
-   bool       IDLEIE :1; // Bit 4 IDLEIE: IDLE interrupt enable
-   bool       RXNEIE :1; // Bit 5 RXNEIE: RXNE interrupt enable
-   bool       TCIE   :1; // Bit 6 TCIE: Transmission complete interrupt enable
-   bool       TXEIE  :1; // Bit 7 TXEIE: TXE interrupt enable
-   bool       PEIE   :1; // Bit 8 PEIE: PE interrupt enable
-   Parity     PS     :1; // Bit 9 PS: Parity selection
-   bool       PCE    :1; // Bit 10 PCE: Parity control enable
-   WakeMethod WAKE   :1; // Bit 11 WAKE: Wakeup method
-   DataBits   M      :1; // Bit 12 M: Word length
-   bool       UE     :1; // Bit 13 UE: USART enable
-   uint32_t   res1   :1; // Bit 14 Reserved, must be kept at reset value
-   OverSample OVER8  :1; // Bit 15 OVER8: Oversampling mode
-   uint32_t   res2   :16; // Bits 31:16 Reserved, must be kept at reset value
+   bool       SBK    :1;  // Bit 0 SBK: Send break
+   bool       RWU    :1;  // Bit 1 RWU: Receiver wakeup
+   bool       RE     :1;  // Bit 2 RE: Receiver enable
+   bool       TE     :1;  // Bit 3 TE: Transmitter enable
+   bool       IDLEIE :1;  // Bit 4 IDLEIE: IDLE interrupt enable
+   bool       RXNEIE :1;  // Bit 5 RXNEIE: RXNE interrupt enable
+   bool       TCIE   :1;  // Bit 6 TCIE: Transmission complete interrupt enable
+   bool       TXEIE  :1;  // Bit 7 TXEIE: TXE interrupt enable
+   bool       PEIE   :1;  // Bit 8 PEIE: PE interrupt enable
+   Parity     PS     :1;  // Bit 9 PS: Parity selection
+   bool       PCE    :1;  // Bit 10 PCE: Parity control enable
+   WakeMethod WAKE   :1;  // Bit 11 WAKE: Wakeup method
+   DataBits   M      :1;  // Bit 12 M: Word length
+   bool       UE     :1;  // Bit 13 UE: USART enable
+   uint32_t   res1   :18; // Bits 31:14 Reserved, must be kept at reset value
 }__attribute__((packed));
 
 struct CR2 {
@@ -73,6 +70,4 @@ struct CR3 {
    bool     CTSIE  :1;  // Bit 10 CTSIE: CTS interrupt enable
    uint32_t res1   :21; // Bits 31:11 Reserved, must be kept at reset value
 }__attribute__((packed));
-
-
-} // namespace mcu::USART_bits
+} //namespace mcu::USART_bits

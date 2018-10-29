@@ -3,6 +3,8 @@
 #include <iostream>
 #include <type_traits>
 #include "rcc.h"
+#include "f1_afio.h"
+
 
 struct MockRCC {
    bool good {false};
@@ -12,7 +14,18 @@ namespace mcu {
 template <Periph p> std::enable_if_t<p == Periph::TEST_RCC, MockRCC&> make_reference() {return mockRcc;}
 }
 
-#include "f1_gpio.h"
+struct MockAFIO {
+   bool clock {false};
+   bool remap_ {false};
+   template <mcu::Periph p, mcu::Periph v> void clock_enable(){clock = true;}
+   template <mcu::Periph p> void remap(){remap_ = true;}
+   template <mcu::Periph p, mcu::AFIO::Remap> void remap(){remap_ = true;}
+}mockAFIO;
+namespace mcu {
+template <Periph p> std::enable_if_t<p == Periph::TEST_AFIO, MockAFIO&> make_reference() {return mockAFIO;}
+}
+
+#include "gpio.h"
 
 mcu::GPIO gpio;
 auto& CMSIS = *reinterpret_cast<mcu::GPIO::CMSIS_type*>(&gpio);
@@ -199,107 +212,266 @@ bool toggle()
 bool set_mode()
 {
    bool good {true};
-   gpio.set<0> (mcu::GPIO::Pin_mode::In_analog);
+   gpio.set<0> (mcu::GPIO::Mode::In_analog);
    good &= not (CMSIS.CRL & GPIO_CRL_MODE0_0)
        and not (CMSIS.CRL & GPIO_CRL_MODE0_1)
        and not (CMSIS.CRL & GPIO_CRL_CNF0_0)
        and not (CMSIS.CRL & GPIO_CRL_CNF0_1);
 
-   gpio.set<1> (mcu::GPIO::Pin_mode::In_floating);
+   gpio.set<1> (mcu::GPIO::Mode::In_floating);
    good &= not (CMSIS.CRL & GPIO_CRL_MODE1_0)
        and not (CMSIS.CRL & GPIO_CRL_MODE1_1)
        and bool(CMSIS.CRL & GPIO_CRL_CNF1_0)
        and not (CMSIS.CRL & GPIO_CRL_CNF1_1);
 
-   gpio.set<2> (mcu::GPIO::Pin_mode::In_pull);
+   gpio.set<2> (mcu::GPIO::Mode::In_pull);
    good &= not (CMSIS.CRL & GPIO_CRL_MODE2_0)
        and not (CMSIS.CRL & GPIO_CRL_MODE2_1)
        and not (CMSIS.CRL & GPIO_CRL_CNF2_0)
        and bool(CMSIS.CRL & GPIO_CRL_CNF2_1);
 
-   gpio.set<3> (mcu::GPIO::Pin_mode::Out10MHz_push_pull);
+   gpio.set<3> (mcu::GPIO::Mode::Out10MHz_push_pull);
    good &= bool(CMSIS.CRL & GPIO_CRL_MODE3_0)
        and not (CMSIS.CRL & GPIO_CRL_MODE3_1)
        and not (CMSIS.CRL & GPIO_CRL_CNF3_0)
        and not (CMSIS.CRL & GPIO_CRL_CNF3_1);
 
-   gpio.set<4> (mcu::GPIO::Pin_mode::Out10MHz_open_drain);
+   gpio.set<4> (mcu::GPIO::Mode::Out10MHz_open_drain);
    good &= bool(CMSIS.CRL & GPIO_CRL_MODE4_0)
        and not (CMSIS.CRL & GPIO_CRL_MODE4_1)
        and bool(CMSIS.CRL & GPIO_CRL_CNF4_0)
        and not (CMSIS.CRL & GPIO_CRL_CNF4_1);
 
-   gpio.set<5> (mcu::GPIO::Pin_mode::Out10MHz_push_pull_alt);
+   gpio.set<5> (mcu::GPIO::Mode::Out10MHz_push_pull_alt);
    good &= bool(CMSIS.CRL & GPIO_CRL_MODE5_0)
        and not (CMSIS.CRL & GPIO_CRL_MODE5_1)
        and not (CMSIS.CRL & GPIO_CRL_CNF5_0)
        and bool(CMSIS.CRL & GPIO_CRL_CNF5_1);
 
-   gpio.set<6> (mcu::GPIO::Pin_mode::Out10MHz_open_drain_alt);
+   gpio.set<6> (mcu::GPIO::Mode::Out10MHz_open_drain_alt);
    good &= bool(CMSIS.CRL & GPIO_CRL_MODE6_0)
        and not (CMSIS.CRL & GPIO_CRL_MODE6_1)
        and bool(CMSIS.CRL & GPIO_CRL_CNF6_0)
        and bool(CMSIS.CRL & GPIO_CRL_CNF6_1);
 
-   gpio.set<7> (mcu::GPIO::Pin_mode::Out2MHz_push_pull);
+   gpio.set<7> (mcu::GPIO::Mode::Out2MHz_push_pull);
    good &= not (CMSIS.CRL & GPIO_CRL_MODE7_0)
        and bool(CMSIS.CRL & GPIO_CRL_MODE7_1)
        and not (CMSIS.CRL & GPIO_CRL_CNF7_0)
        and not (CMSIS.CRL & GPIO_CRL_CNF7_1);
 
-   gpio.set<8> (mcu::GPIO::Pin_mode::Out2MHz_open_drain);
+   gpio.set<8> (mcu::GPIO::Mode::Out2MHz_open_drain);
    good &= not (CMSIS.CRH & GPIO_CRH_MODE8_0)
        and bool(CMSIS.CRH & GPIO_CRH_MODE8_1)
        and bool(CMSIS.CRH & GPIO_CRH_CNF8_0)
        and not (CMSIS.CRH & GPIO_CRH_CNF8_1);
 
-   gpio.set<9> (mcu::GPIO::Pin_mode::Out2MHz_push_pull_alt);
+   gpio.set<9> (mcu::GPIO::Mode::Out2MHz_push_pull_alt);
    good &= not (CMSIS.CRH & GPIO_CRH_MODE9_0)
        and bool(CMSIS.CRH & GPIO_CRH_MODE9_1)
        and not (CMSIS.CRH & GPIO_CRH_CNF9_0)
        and bool(CMSIS.CRH & GPIO_CRH_CNF9_1);
 
-   gpio.set<10> (mcu::GPIO::Pin_mode::Out2MHz_open_drain_alt);
+   gpio.set<10> (mcu::GPIO::Mode::Out2MHz_open_drain_alt);
    good &= not (CMSIS.CRH & GPIO_CRH_MODE10_0)
        and bool(CMSIS.CRH & GPIO_CRH_MODE10_1)
        and bool(CMSIS.CRH & GPIO_CRH_CNF10_0)
        and bool(CMSIS.CRH & GPIO_CRH_CNF10_1);
 
-   gpio.set<11> (mcu::GPIO::Pin_mode::Out50MHz_push_pull);
+   gpio.set<11> (mcu::GPIO::Mode::Out50MHz_push_pull);
    good &= bool(CMSIS.CRH & GPIO_CRH_MODE11_0)
        and bool(CMSIS.CRH & GPIO_CRH_MODE11_1)
        and not (CMSIS.CRH & GPIO_CRH_CNF11_0)
        and not (CMSIS.CRH & GPIO_CRH_CNF11_1);
 
-   gpio.set<11> (mcu::GPIO::Pin_mode::Out50MHz_push_pull_alt);
+   gpio.set<11> (mcu::GPIO::Mode::Out50MHz_push_pull_alt);
    good &= bool(CMSIS.CRH & GPIO_CRH_MODE11_0)
        and bool(CMSIS.CRH & GPIO_CRH_MODE11_1)
        and not(CMSIS.CRH & GPIO_CRH_CNF11_0)
        and bool(CMSIS.CRH & GPIO_CRH_CNF11_1);
 
-   gpio.set<12> (mcu::GPIO::Pin_mode::Out50MHz_open_drain);
+   gpio.set<12> (mcu::GPIO::Mode::Out50MHz_open_drain);
    good &= bool(CMSIS.CRH & GPIO_CRH_MODE12_0)
        and bool(CMSIS.CRH & GPIO_CRH_MODE12_1)
        and bool(CMSIS.CRH & GPIO_CRH_CNF12_0)
        and not (CMSIS.CRH & GPIO_CRH_CNF12_1);
 
-   gpio.set<13> (mcu::GPIO::Pin_mode::Out50MHz_push_pull_alt);
+   gpio.set<13> (mcu::GPIO::Mode::Out50MHz_push_pull_alt);
    good &= bool(CMSIS.CRH & GPIO_CRH_MODE13_0)
        and bool(CMSIS.CRH & GPIO_CRH_MODE13_1)
        and not (CMSIS.CRH & GPIO_CRH_CNF13_0)
        and bool(CMSIS.CRH & GPIO_CRH_CNF13_1);
 
-   gpio.set<14> (mcu::GPIO::Pin_mode::Out50MHz_open_drain_alt);
+   gpio.set<14> (mcu::GPIO::Mode::Out50MHz_open_drain_alt);
    good &= bool(CMSIS.CRH & GPIO_CRH_MODE14_0)
        and bool(CMSIS.CRH & GPIO_CRH_MODE14_1)
        and bool(CMSIS.CRH & GPIO_CRH_CNF14_0)
        and bool(CMSIS.CRH & GPIO_CRH_CNF14_1);
 
-   gpio.set<15> (mcu::GPIO::Pin_mode::Out50MHz_push_pull);
+   gpio.set<15> (mcu::GPIO::Mode::Out50MHz_push_pull);
    good &= bool(CMSIS.CRH & GPIO_CRH_MODE15_0)
        and bool(CMSIS.CRH & GPIO_CRH_MODE15_1)
        and not (CMSIS.CRH & GPIO_CRH_CNF15_0)
        and not (CMSIS.CRH & GPIO_CRH_CNF15_1);
+
+   return good;
+}
+
+bool init()
+{
+   bool good {true};
+   CMSIS.CRH = 0;
+   gpio.init<mcu::PA12, mcu::PinMode::Input, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= not  (CMSIS.CRH & GPIO_CRH_MODE12_0)
+       and not  (CMSIS.CRH & GPIO_CRH_MODE12_1)
+       and bool (CMSIS.CRH & GPIO_CRH_CNF12_0)
+       and not  (CMSIS.CRH & GPIO_CRH_CNF12_1);
+
+   CMSIS.CRL = 0;
+   gpio.init<mcu::PC2, mcu::PinMode::Output, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= not  (CMSIS.CRL & GPIO_CRL_MODE2_0)
+       and bool (CMSIS.CRL & GPIO_CRL_MODE2_1)
+       and not  (CMSIS.CRL & GPIO_CRL_CNF2_0)
+       and not  (CMSIS.CRL & GPIO_CRL_CNF2_1);
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PA9, mcu::PinMode::USART1_TX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockRcc.good;
+   good &= not  (CMSIS.CRH & GPIO_CRH_MODE9_0)
+       and bool (CMSIS.CRH & GPIO_CRH_MODE9_1)
+       and not  (CMSIS.CRH & GPIO_CRH_CNF9_0)
+       and bool (CMSIS.CRH & GPIO_CRH_CNF9_1);
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PB6, mcu::PinMode::USART1_TX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= mockAFIO.remap_;
+   good &= not  (CMSIS.CRL & GPIO_CRL_MODE6_0)
+       and bool (CMSIS.CRL & GPIO_CRL_MODE6_1)
+       and not  (CMSIS.CRL & GPIO_CRL_CNF6_0)
+       and bool (CMSIS.CRL & GPIO_CRL_CNF6_1);
+
+   // gpio.init<mcu::PB2, mcu::PinMode::USART1_TX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   // compilation error:static assertion failed: USART1_TX возможно только с PA9 или PB6
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PA10, mcu::PinMode::USART1_RX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= not  (CMSIS.CRH & GPIO_CRH_MODE10_0)
+       and bool (CMSIS.CRH & GPIO_CRH_MODE10_1)
+       and not  (CMSIS.CRH & GPIO_CRH_CNF10_0)
+       and bool (CMSIS.CRH & GPIO_CRH_CNF10_1);
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PB7, mcu::PinMode::USART1_RX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= mockAFIO.remap_;
+   good &= not  (CMSIS.CRL & GPIO_CRL_MODE7_0)
+       and bool (CMSIS.CRL & GPIO_CRL_MODE7_1)
+       and not  (CMSIS.CRL & GPIO_CRL_CNF7_0)
+       and bool (CMSIS.CRL & GPIO_CRL_CNF7_1);
+   
+   // gpio.init<mcu::PB2, mcu::PinMode::USART1_RX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   // compilation error:static assertion failed: USART1_RX возможно только с PA10 и PB7
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PA2, mcu::PinMode::USART2_TX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= not  (CMSIS.CRL & GPIO_CRL_MODE2_0)
+       and bool (CMSIS.CRL & GPIO_CRL_MODE2_1)
+       and not  (CMSIS.CRL & GPIO_CRL_CNF2_0)
+       and bool (CMSIS.CRL & GPIO_CRL_CNF2_1);
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PD5, mcu::PinMode::USART2_TX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= mockAFIO.remap_;
+   good &= not  (CMSIS.CRL & GPIO_CRL_MODE5_0)
+       and bool (CMSIS.CRL & GPIO_CRL_MODE5_1)
+       and not  (CMSIS.CRL & GPIO_CRL_CNF5_0)
+       and bool (CMSIS.CRL & GPIO_CRL_CNF5_1);
+
+   // gpio.init<mcu::PB2, mcu::PinMode::USART2_TX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   // compilation error:static assertion failed: USART1_RX возможно только с PA2 или PD5
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PA3, mcu::PinMode::USART2_RX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= not  (CMSIS.CRL & GPIO_CRL_MODE3_0)
+       and bool (CMSIS.CRL & GPIO_CRL_MODE3_1)
+       and not  (CMSIS.CRL & GPIO_CRL_CNF3_0)
+       and bool (CMSIS.CRL & GPIO_CRL_CNF3_1);
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PD6, mcu::PinMode::USART2_RX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= mockAFIO.remap_;
+   good &= not  (CMSIS.CRL & GPIO_CRL_MODE6_0)
+       and bool (CMSIS.CRL & GPIO_CRL_MODE6_1)
+       and not  (CMSIS.CRL & GPIO_CRL_CNF6_0)
+       and bool (CMSIS.CRL & GPIO_CRL_CNF6_1);
+
+   // gpio.init<mcu::PC2, mcu::PinMode::USART2_RX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   // compilation error:static assertion failed: USART1_RX возможно только с PA3 иди PD6
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PB10, mcu::PinMode::USART3_TX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= not  (CMSIS.CRH & GPIO_CRH_MODE10_0)
+       and bool (CMSIS.CRH & GPIO_CRH_MODE10_1)
+       and not  (CMSIS.CRH & GPIO_CRH_CNF10_0)
+       and bool (CMSIS.CRH & GPIO_CRH_CNF10_1);
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PC10, mcu::PinMode::USART3_TX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= mockAFIO.remap_;
+   good &= not  (CMSIS.CRH & GPIO_CRH_MODE10_0)
+       and bool (CMSIS.CRH & GPIO_CRH_MODE10_1)
+       and not  (CMSIS.CRH & GPIO_CRH_CNF10_0)
+       and bool (CMSIS.CRH & GPIO_CRH_CNF10_1);
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PD8, mcu::PinMode::USART3_TX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= mockAFIO.remap_;
+   good &= not  (CMSIS.CRH & GPIO_CRH_MODE8_0)
+       and bool (CMSIS.CRH & GPIO_CRH_MODE8_1)
+       and not  (CMSIS.CRH & GPIO_CRH_CNF8_0)
+       and bool (CMSIS.CRH & GPIO_CRH_CNF8_1);
+
+   // gpio.init<mcu::PC2, mcu::PinMode::USART3_TX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   // compilation error:static assertion failed: USART1_RX возможно только с PB10, PC10 или PD8
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PB11, mcu::PinMode::USART3_RX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= not  (CMSIS.CRH & GPIO_CRH_MODE11_0)
+       and bool (CMSIS.CRH & GPIO_CRH_MODE11_1)
+       and not  (CMSIS.CRH & GPIO_CRH_CNF11_0)
+       and bool (CMSIS.CRH & GPIO_CRH_CNF11_1);
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PC11, mcu::PinMode::USART3_RX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= mockAFIO.remap_;
+   good &= not  (CMSIS.CRH & GPIO_CRH_MODE11_0)
+       and bool (CMSIS.CRH & GPIO_CRH_MODE11_1)
+       and not  (CMSIS.CRH & GPIO_CRH_CNF11_0)
+       and bool (CMSIS.CRH & GPIO_CRH_CNF11_1);
+
+   CMSIS.CRL = CMSIS.CRH = 0;
+   gpio.init<mcu::PD9, mcu::PinMode::USART3_RX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   good &= mockAFIO.clock;
+   good &= mockAFIO.remap_;
+   good &= not  (CMSIS.CRH & GPIO_CRH_MODE9_0)
+       and bool (CMSIS.CRH & GPIO_CRH_MODE9_1)
+       and not  (CMSIS.CRH & GPIO_CRH_CNF9_0)
+       and bool (CMSIS.CRH & GPIO_CRH_CNF9_1);
+
+   // gpio.init<mcu::PA10, mcu::PinMode::USART3_RX, mcu::Periph::TEST_RCC, mcu::Periph::TEST_AFIO>();
+   // compilation error:static assertion failed: USART1_RX возможно только с PB11, PC11 или PD9
+
 
    return good;
 }
@@ -322,4 +494,5 @@ int main()
    test ("RCC::is_set          ", is_set);
    test ("RCC::toggle          ", toggle);
    test ("RCC::set_mode        ", set_mode);
+   test ("RCC::init            ", init);
 }

@@ -1,11 +1,10 @@
 #pragma once
 
-#include "periph.h"
 #include "f1_bits_afio.h"
 
 namespace mcu {
 
-class AFIO_ {
+class AFIO {
    __IO AFIO_bits::EVCR   EVCR;      // Event control register                         offset: 0x00
    __IO AFIO_bits::MAPR   MAPR;      // AF remap and debug I/O configuration register  offset: 0x04
    __IO AFIO_bits::EXTICR EXTICR;    // External interrupt configuration register      offset: 0x08
@@ -18,15 +17,15 @@ public:
    using Pin        = AFIO_bits::EVCR::Pin;
    using Remap      = AFIO_bits::MAPR::Remap;
 
-   template<Periph p, Periph v = Periph::RCC> AFIO_& clock_enable() { make_reference<v>().template clock_enable<p>(); return *this; }
+   template<Periph p, Periph v = Periph::RCC> void clock_enable() { make_reference<v>().template clock_enable<p>(); }
 
-   AFIO_& event_enable() {EVCR.EVOE = true;}
+   AFIO& event_enable() {EVCR.EVOE = true;}
 
-   template<Periph> AFIO_& remap();
-   template<Periph, Remap> AFIO_& remap();
+   template<Periph> AFIO& remap();
+   template<Periph, Remap> AFIO& remap();
 };
 
-template<Periph p> std::enable_if_t<p == Periph::AFIO_, AFIO_&> make_reference() { return *reinterpret_cast<AFIO_*>(AFIO_BASE); }
+template<Periph p> std::enable_if_t<p == Periph::AFIO, AFIO&> make_reference() { return *reinterpret_cast<AFIO*>(AFIO_BASE); }
 
 
 
@@ -42,13 +41,13 @@ template<Periph p> std::enable_if_t<p == Periph::AFIO_, AFIO_&> make_reference()
 
 
 
-template<Periph p> AFIO_& AFIO_::remap()
+template<Periph p> AFIO& AFIO::remap()
 {
    if      constexpr (p == Periph::USART1) MAPR.USART1_REMAP = true;
    else if constexpr (p == Periph::USART2) MAPR.USART2_REMAP = true;
 }
 
-template<Periph p, AFIO_::Remap r> AFIO_& AFIO_::remap()
+template<Periph p, AFIO::Remap r> AFIO& AFIO::remap()
 {
    if      constexpr (p == Periph::USART3) MAPR.USART3_REMAP = r;
 }

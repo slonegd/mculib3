@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "gpio.h"
+#include "periph.h"
 
 namespace mcu {
 
@@ -80,6 +80,8 @@ using PD13 = Pin_<Periph::GPIOD, 13>;
 using PD14 = Pin_<Periph::GPIOD, 14>;
 using PD15 = Pin_<Periph::GPIOD, 15>;
 
+#if defined (STM32F0)
+
 using PF0  = Pin_<Periph::GPIOF,  0>;
 using PF1  = Pin_<Periph::GPIOF,  1>;
 using PF2  = Pin_<Periph::GPIOF,  2>;
@@ -97,7 +99,47 @@ using PF13 = Pin_<Periph::GPIOF, 13>;
 using PF14 = Pin_<Periph::GPIOF, 14>;
 using PF15 = Pin_<Periph::GPIOF, 15>;
 
+#endif
+
+#if defined (STM32F1)
+
+using PE0  = Pin_<Periph::GPIOE,  0>;
+using PE1  = Pin_<Periph::GPIOE,  1>;
+using PE2  = Pin_<Periph::GPIOE,  2>;
+using PE3  = Pin_<Periph::GPIOE,  3>;
+using PE4  = Pin_<Periph::GPIOE,  4>;
+using PE5  = Pin_<Periph::GPIOE,  5>;
+using PE6  = Pin_<Periph::GPIOE,  6>;
+using PE7  = Pin_<Periph::GPIOE,  7>;
+using PE8  = Pin_<Periph::GPIOE,  8>;
+using PE9  = Pin_<Periph::GPIOE,  9>;
+using PE10 = Pin_<Periph::GPIOE, 10>;
+using PE11 = Pin_<Periph::GPIOE, 11>;
+using PE12 = Pin_<Periph::GPIOE, 12>;
+using PE13 = Pin_<Periph::GPIOE, 13>;
+using PE14 = Pin_<Periph::GPIOE, 14>;
+using PE15 = Pin_<Periph::GPIOE, 15>;
+
+#endif
+
 #if defined (STM32F4)
+
+using PF0  = Pin_<Periph::GPIOF,  0>;
+using PF1  = Pin_<Periph::GPIOF,  1>;
+using PF2  = Pin_<Periph::GPIOF,  2>;
+using PF3  = Pin_<Periph::GPIOF,  3>;
+using PF4  = Pin_<Periph::GPIOF,  4>;
+using PF5  = Pin_<Periph::GPIOF,  5>;
+using PF6  = Pin_<Periph::GPIOF,  6>;
+using PF7  = Pin_<Periph::GPIOF,  7>;
+using PF8  = Pin_<Periph::GPIOF,  8>;
+using PF9  = Pin_<Periph::GPIOF,  9>;
+using PF10 = Pin_<Periph::GPIOF, 10>;
+using PF11 = Pin_<Periph::GPIOF, 11>;
+using PF12 = Pin_<Periph::GPIOF, 12>;
+using PF13 = Pin_<Periph::GPIOF, 13>;
+using PF14 = Pin_<Periph::GPIOF, 14>;
+using PF15 = Pin_<Periph::GPIOF, 15>;
 
 using PE0  = Pin_<Periph::GPIOE,  0>;
 using PE1  = Pin_<Periph::GPIOE,  1>;

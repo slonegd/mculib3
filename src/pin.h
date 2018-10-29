@@ -11,18 +11,12 @@ class Pin {
 public:
    Pin (GPIO& port, int n) : port{port}, n{n} {}
 
-   template<Periph p, int n, PinMode mode> static auto make()
-   {
-      Pin pin { mcu::make_reference<p>(), n };
-      pin.port.template clock_enable<p>()
-              .template init<n,mode>();
-      return pin;
-   }
-
-   /// Helper Pin_ from pins.h
    template<class Pin_, PinMode mode> static auto make()
    {
-      return make<Pin_::periph, Pin_::n, mode>();
+      Pin pin { mcu::make_reference<Pin_::periph>(), Pin_::n };
+      pin.port.template clock_enable<Pin_::periph>()
+              .template init<Pin_,mode>();
+      return pin;
    }
 
    void toggle()    { port.toggle(n);          }

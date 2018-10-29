@@ -27,17 +27,19 @@ all: $(BUILD_DIR)
 	g++-7 f1_test_rcc.cpp   $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_rcc -pthread
 	g++-7 f1_test_gpio.cpp  $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_gpio
 	g++-7 f1_test_afio.cpp  $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_afio
+	g++-7 f1_test_usart.cpp  $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_usart
 	g++-7 f4_test_usart.cpp $(CPP_FLAGS_F4) -o ./$(BUILD_DIR)/f4_test_usart
 
 	./$(BUILD_DIR)/f0_test_rcc
 	./$(BUILD_DIR)/f1_test_rcc
 	./$(BUILD_DIR)/f1_test_gpio
 	./$(BUILD_DIR)/f1_test_afio
+	./$(BUILD_DIR)/f1_test_usart
 	./$(BUILD_DIR)/f4_test_usart
 
 $(BUILD_DIR):
 	mkdir $@
 
 current: $(BUILD_DIR)
-	g++-7 f1_test_afio.cpp  $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_afio
-	./$(BUILD_DIR)/f1_test_afio
+	g++-7 f1_test_usart.cpp  $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_usart
+	./$(BUILD_DIR)/f1_test_usart
