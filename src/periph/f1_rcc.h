@@ -62,6 +62,8 @@ public:
       else if constexpr (p == Periph::USART1) APB2ENR.USART1EN = true;
       else if constexpr (p == Periph::USART2) APB1ENR.USART2EN = true;
       else if constexpr (p == Periph::USART3) APB1ENR.USART3EN = true;
+
+      else if constexpr (p == Periph::DMA1) AHBENR.DMA1EN = true;
    }
 };
 

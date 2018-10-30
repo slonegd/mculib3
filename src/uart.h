@@ -10,7 +10,7 @@ namespace mcu {
 
 class UART {
    USART& usart;
-   // Stream& stream;
+   DMA_stream& stream;
    const size_t clock;
 public:
    UART (USART& usart, size_t clock)

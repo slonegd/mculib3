@@ -65,9 +65,32 @@ function(test_F0 name)
    add_test(${name} build/${name})
 endfunction(test_F0)
 
+function(test_F1 name)
+   add_executable (${name} ${name}.cpp)
+
+   include_directories (
+      ${PROJECT_SOURCE_DIR}/../STM32F1_files
+      ${PROJECT_SOURCE_DIR}/../STM32F1_files/CMSIS
+   )
+
+   target_link_libraries (${name} 
+      ${Boost_LIBRARIES}
+      ${CMAKE_THREAD_LIBS_INIT}
+   )
+
+   set_target_properties (${name} PROPERTIES
+      CXX_STANDARD 17
+      CXX_STANDARD_REQUIRED ON
+      COMPILE_OPTIONS -Wpedantic -Wall -Wextra
+      COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+   )
+   add_test(${name} build/${name})
+endfunction(test_F1)
+
 
 
 test_F0(f0_boosttest_rcc)
+test_F1(f1_test_dma)
 
 
 

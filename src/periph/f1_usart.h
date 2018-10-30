@@ -43,6 +43,7 @@ public:
    using DataBits       = USART_bits::CR1::DataBits;
    using BreakDetection = USART_bits::CR2::BreakDetection;
    using StopBits       = USART_bits::CR2::StopBits;
+   using Channel        = DMA_bits::Channel;
 
    USART_& set (Parity         v)         {this->CR1.PS    = v; return *this;}
    USART_& set (WakeMethod     v)         {this->CR1.WAKE  = v; return *this;}
@@ -67,13 +68,13 @@ public:
    USART_& parity_enable (){this->CR1.PCE  = true;  return *this;}
    USART_& parity_disable(){this->CR1.PCE  = false; return *this;}
 
-   USART_& enable_IDLE_interrupt         (){this->CR1.IDLEIE = true;  return *this;}
-   bool   is_IDLE_interrupt              (){return this->SR.IDLE;}
-   USART_& enable_tx_complete_interrupt  (){this->CR1.TCIE   = true;  return *this;}
-   USART_& disable_tx_complete_interrupt (){this->CR1.TCIE   = false; return *this;}
-   bool   is_tx_complete                 (){return this->SR.TC;}
-   bool   is_tx_complete_interrupt_enable(){return this->CR1.TCIE;}
-   USART_& clear_interrupt_flags         (){
+   USART_& enable_IDLE_interrupt          (){this->CR1.IDLEIE = true;  return *this;}
+   bool    is_IDLE_interrupt              (){return this->SR.IDLE;}
+   USART_& enable_tx_complete_interrupt   (){this->CR1.TCIE   = true;  return *this;}
+   USART_& disable_tx_complete_interrupt  (){this->CR1.TCIE   = false; return *this;}
+   bool    is_tx_complete                 (){return this->SR.TC;}
+   bool    is_tx_complete_interrupt_enable(){return this->CR1.TCIE;}
+   USART_& clear_interrupt_flags          (){
       [[maybe_unused]] uint32_t t1 = this->read_SR();
       [[maybe_unused]] uint32_t t2 = this->DR;
       return *this;
@@ -129,7 +130,7 @@ size_t USART_<R>::clock()
 }
 
 template <class R>
-constexpr Channel USART_<R>::DMA_channel(PinMode p)
+constexpr USART::Channel USART_<R>::DMA_channel(PinMode p)
 {
    return p == PinMode::USART1_TX ? Channel::_4 :
           p == PinMode::USART1_RX ? Channel::_5 :
