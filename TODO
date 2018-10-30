@@ -27,6 +27,8 @@ test flash
    f1_test_gpio.cpp
    f1_test_rcc.cpp
    f1_test_usart.cpp
-   f4_test_flash.cpp
+   [done] f4_test_flash.cpp
    f4_test_usart.cpp
 see f0_test_rcc.cpp wait_PLL_ready
+see f4_test_flash.cpp unlock
+see f4_test_flash.cpp start_erase_sector

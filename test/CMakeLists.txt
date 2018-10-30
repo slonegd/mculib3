@@ -53,7 +53,8 @@ endfunction(test)
 
 
 
-test(STM32F0 f0_test_rcc)
+test (STM32F0 f0_test_rcc)
+test (STM32F4 f4_test_flash)
 
 
 
