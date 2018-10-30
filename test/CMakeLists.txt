@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.9)
 project(mcu_test)
 
 # find_package (Threads)
@@ -41,15 +41,27 @@ include_directories (
    ${Boost_INCLUDE_DIR}
 )
 
-set(CMAKE_CXX_FLAGS "-Wno-register")
+set (CMAKE_CXX_FLAGS "-Wno-register")
 
-function(test_F0 name)
+function(test MCU name)
    add_executable (${name} ${name}.cpp)
-
-   include_directories (
-      ${PROJECT_SOURCE_DIR}/../STM32F0_files
-      ${PROJECT_SOURCE_DIR}/../STM32F0_files/CMSIS
+   if (MCU STREQUAL STM32F0)
+      target_include_directories (${name} PRIVATE
+         ${PROJECT_SOURCE_DIR}/../STM32F0_files
+         ${PROJECT_SOURCE_DIR}/../STM32F0_files/CMSIS
+      )
+   elseif (MCU STREQUAL STM32F1)
+   target_include_directories (${name} PRIVATE
+      ${PROJECT_SOURCE_DIR}/../STM32F1_files
+      ${PROJECT_SOURCE_DIR}/../STM32F1_files/CMSIS
    )
+   elseif (MCU STREQUAL STM32F4)
+      target_include_directories (${name} PRIVATE
+         ${PROJECT_SOURCE_DIR}/../STM32F4_files
+         ${PROJECT_SOURCE_DIR}/../STM32F4_files/CMSIS
+      )
+   endif()
+
 
    target_link_libraries (${name} 
       ${Boost_LIBRARIES}
@@ -63,11 +75,11 @@ function(test_F0 name)
       COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
    )
    add_test(${name} build/${name})
-endfunction(test_F0)
+endfunction(test)
 
 
 
-test_F0(f0_boosttest_rcc)
+test(STM32F0 f0_boosttest_rcc)
 
 
 
