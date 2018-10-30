@@ -1,239 +1,188 @@
-#define STM32F030x6
+#define BOOST_TEST_MODULE f0_test_rcc
+#include <boost/test/unit_test.hpp>
 
+#define STM32F030x6
 
 #include "rcc.h"
 #include <iostream>
 #include <type_traits>
 #include <thread>
 
+BOOST_AUTO_TEST_SUITE (test_suite_main)
+
 mcu::RCC rcc;
 auto& CMSIS = *reinterpret_cast<mcu::RCC::CMSIS_type*>(&rcc);
 
-bool make_reference()
+BOOST_AUTO_TEST_CASE (make_reference)
 {
    auto& rcc {mcu::make_reference<mcu::Periph::RCC>()};
-   return reinterpret_cast<size_t>(&rcc) == RCC_BASE 
-      and std::is_same_v<std::remove_reference_t<decltype(rcc)>, mcu::RCC>;
+   auto address = reinterpret_cast<size_t>(&rcc);
+   auto same = std::is_same_v<std::remove_reference_t<decltype(rcc)>, mcu::RCC>;
+   BOOST_CHECK_EQUAL (address, RCC_BASE);
+   BOOST_CHECK_EQUAL (same, true);
 }
 
-bool set_AHBprescaler()
+BOOST_AUTO_TEST_CASE (set_AHBprescaler)
 {
    CMSIS.CFGR = 0;
-   bool good {true};
+   uint32_t result {0};
    rcc.set (mcu::RCC::AHBprescaler::AHBdiv512);
-   good &=     (CMSIS.CFGR & RCC_CFGR_HPRE_0)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_1)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_2)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_3);
+   result = RCC_CFGR_HPRE_0 | RCC_CFGR_HPRE_1 | RCC_CFGR_HPRE_2 | RCC_CFGR_HPRE_3;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::AHBprescaler::AHBdiv256);
-   good &= not (CMSIS.CFGR & RCC_CFGR_HPRE_0)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_1)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_2)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_3);
+   result = RCC_CFGR_HPRE_1 | RCC_CFGR_HPRE_2 | RCC_CFGR_HPRE_3;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::AHBprescaler::AHBdiv128);
-   good &=     (CMSIS.CFGR & RCC_CFGR_HPRE_0)
-       and not (CMSIS.CFGR & RCC_CFGR_HPRE_1)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_2)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_3);
+   result = RCC_CFGR_HPRE_0 | RCC_CFGR_HPRE_2 | RCC_CFGR_HPRE_3;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::AHBprescaler::AHBdiv64);
-   good &= not (CMSIS.CFGR & RCC_CFGR_HPRE_0)
-       and not (CMSIS.CFGR & RCC_CFGR_HPRE_1)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_2)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_3);
+   result = RCC_CFGR_HPRE_2 | RCC_CFGR_HPRE_3;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::AHBprescaler::AHBdiv16);
-   good &=     (CMSIS.CFGR & RCC_CFGR_HPRE_0)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_1)
-       and not (CMSIS.CFGR & RCC_CFGR_HPRE_2)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_3);
+   result = RCC_CFGR_HPRE_0 | RCC_CFGR_HPRE_1 | RCC_CFGR_HPRE_3;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::AHBprescaler::AHBdiv8);
-   good &= not (CMSIS.CFGR & RCC_CFGR_HPRE_0)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_1)
-       and not (CMSIS.CFGR & RCC_CFGR_HPRE_2)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_3);
+   result = RCC_CFGR_HPRE_1 | RCC_CFGR_HPRE_3;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::AHBprescaler::AHBdiv4);
-   good &=     (CMSIS.CFGR & RCC_CFGR_HPRE_0)
-       and not (CMSIS.CFGR & RCC_CFGR_HPRE_1)
-       and not (CMSIS.CFGR & RCC_CFGR_HPRE_2)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_3);
+   result = RCC_CFGR_HPRE_0 | RCC_CFGR_HPRE_3;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::AHBprescaler::AHBdiv2);
-   good &= not (CMSIS.CFGR & RCC_CFGR_HPRE_0)
-       and not (CMSIS.CFGR & RCC_CFGR_HPRE_1)
-       and not (CMSIS.CFGR & RCC_CFGR_HPRE_2)
-       and     (CMSIS.CFGR & RCC_CFGR_HPRE_3);
+   result = RCC_CFGR_HPRE_3;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::AHBprescaler::AHBnotdiv);
-   good &= not (CMSIS.CFGR & RCC_CFGR_HPRE_3);
-
-   return good;
+   result = 0;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 }
 
-bool set_APBprescaler()
+BOOST_AUTO_TEST_CASE (set_APBprescaler)
 {
    CMSIS.CFGR = 0;
-   bool good {true};
+   uint32_t result {0};
    rcc.set (mcu::RCC::APBprescaler::APBdiv16);
-   good &=     (CMSIS.CFGR & RCC_CFGR_PPRE_0)
-       and     (CMSIS.CFGR & RCC_CFGR_PPRE_1)
-       and     (CMSIS.CFGR & RCC_CFGR_PPRE_2);
+   result = RCC_CFGR_PPRE_0 | RCC_CFGR_PPRE_1 | RCC_CFGR_PPRE_2;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::APBprescaler::APBdiv8);
-   good &= not (CMSIS.CFGR & RCC_CFGR_PPRE_0)
-       and     (CMSIS.CFGR & RCC_CFGR_PPRE_1)
-       and     (CMSIS.CFGR & RCC_CFGR_PPRE_2);
+   result = RCC_CFGR_PPRE_1 | RCC_CFGR_PPRE_2;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::APBprescaler::APBdiv4);
-   good &=     (CMSIS.CFGR & RCC_CFGR_PPRE_0)
-       and not (CMSIS.CFGR & RCC_CFGR_PPRE_1)
-       and     (CMSIS.CFGR & RCC_CFGR_PPRE_2);
+   result = RCC_CFGR_PPRE_0 | RCC_CFGR_PPRE_2;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::APBprescaler::APBdiv2);
-   good &= not (CMSIS.CFGR & RCC_CFGR_PPRE_0)
-       and not (CMSIS.CFGR & RCC_CFGR_PPRE_1)
-       and     (CMSIS.CFGR & RCC_CFGR_PPRE_2);
+   result = RCC_CFGR_PPRE_2;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::APBprescaler::APBnotdiv);
-   good &= not (CMSIS.CFGR & RCC_CFGR_PPRE_2);
-
-   return good;
+   result = 0;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 }
 
-bool set_SystemClock()
+BOOST_AUTO_TEST_CASE (set_SystemClock)
 {
    CMSIS.CFGR = 0;
-   bool good {true};
+   uint32_t result {0};
    rcc.set (mcu::RCC::SystemClock::CS_PLL);
-   good &= not (CMSIS.CFGR & RCC_CFGR_SW_0)
-       and     (CMSIS.CFGR & RCC_CFGR_SW_1);
+   result = RCC_CFGR_SW_1;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::SystemClock::CS_HSE);
-   good &=     (CMSIS.CFGR & RCC_CFGR_SW_0)
-       and not (CMSIS.CFGR & RCC_CFGR_SW_1);
+   result = RCC_CFGR_SW_0;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::SystemClock::CS_HSI);
-   good &= not (CMSIS.CFGR & RCC_CFGR_SW_0)
-       and not (CMSIS.CFGR & RCC_CFGR_SW_1);
-
-   return good;
+   result = 0;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 }
 
-bool set_PLLsource()
+BOOST_AUTO_TEST_CASE (set_PLLsource)
 {
    CMSIS.CFGR = 0;
-   bool good {true};
    rcc.set (mcu::RCC::PLLsource::HSE);
-   good &=     bool(CMSIS.CFGR & RCC_CFGR_PLLSRC_Msk);
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, RCC_CFGR_PLLSRC_Msk);
 
    rcc.set (mcu::RCC::PLLsource::HSIdiv2);
-   good &= not bool(CMSIS.CFGR & RCC_CFGR_PLLSRC_Msk);
-
-   return good;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, 0);
 }
 
-bool set_PLLmultiplier()
+BOOST_AUTO_TEST_CASE (set_PLLmultiplier)
 {
    CMSIS.CFGR = 0;
-   bool good {true};
+   uint32_t result {0};
    rcc.set (mcu::RCC::PLLmultiplier::_16);
-   good &=     (CMSIS.CFGR & RCC_CFGR_PLLMUL_1)
-       and     (CMSIS.CFGR & RCC_CFGR_PLLMUL_2)
-       and     (CMSIS.CFGR & RCC_CFGR_PLLMUL_3);
+   result = RCC_CFGR_PLLMUL_1 | RCC_CFGR_PLLMUL_2 | RCC_CFGR_PLLMUL_3;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
+   BOOST_CHECK_EQUAL (bool(CMSIS.CFGR & RCC_CFGR_PLLMUL_1), true);
+   BOOST_CHECK_EQUAL (bool(CMSIS.CFGR & RCC_CFGR_PLLMUL_2), true);
+   BOOST_CHECK_EQUAL (bool(CMSIS.CFGR & RCC_CFGR_PLLMUL_3), true);
 
    rcc.set (mcu::RCC::PLLmultiplier::_15);
-   good &=     (CMSIS.CFGR & RCC_CFGR_PLLMUL_0)
-       and not (CMSIS.CFGR & RCC_CFGR_PLLMUL_1)
-       and     (CMSIS.CFGR & RCC_CFGR_PLLMUL_2)
-       and     (CMSIS.CFGR & RCC_CFGR_PLLMUL_3);
+   result = RCC_CFGR_PLLMUL_0 | RCC_CFGR_PLLMUL_2 | RCC_CFGR_PLLMUL_3;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::PLLmultiplier::_10);
-   good &= not (CMSIS.CFGR & RCC_CFGR_PLLMUL_0)
-       and not (CMSIS.CFGR & RCC_CFGR_PLLMUL_1)
-       and not (CMSIS.CFGR & RCC_CFGR_PLLMUL_2)
-       and     (CMSIS.CFGR & RCC_CFGR_PLLMUL_3);
+   result = RCC_CFGR_PLLMUL_3;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::PLLmultiplier::_9);
-   good &=     (CMSIS.CFGR & RCC_CFGR_PLLMUL_0)
-       and     (CMSIS.CFGR & RCC_CFGR_PLLMUL_1)
-       and     (CMSIS.CFGR & RCC_CFGR_PLLMUL_2)
-       and not (CMSIS.CFGR & RCC_CFGR_PLLMUL_3);
+   result = RCC_CFGR_PLLMUL_0 | RCC_CFGR_PLLMUL_1 | RCC_CFGR_PLLMUL_2;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 
    rcc.set (mcu::RCC::PLLmultiplier::_2);
-   good &= not (CMSIS.CFGR & RCC_CFGR_PLLMUL_0)
-       and not (CMSIS.CFGR & RCC_CFGR_PLLMUL_1)
-       and not (CMSIS.CFGR & RCC_CFGR_PLLMUL_2)
-       and not (CMSIS.CFGR & RCC_CFGR_PLLMUL_3);
-
-
-   return good;
+   result = 0;
+   BOOST_CHECK_EQUAL (CMSIS.CFGR, result);
 }
 
-bool on_PLL()
+BOOST_AUTO_TEST_CASE (on_PLL)
 {
    CMSIS.CR = 0;
    rcc.on_PLL();
-   return CMSIS.CR & RCC_CR_PLLON_Msk;
+   BOOST_CHECK_EQUAL (CMSIS.CR, RCC_CR_PLLON_Msk);
 }
 
-bool wait_PLL_ready()
+BOOST_AUTO_TEST_CASE (wait_PLL_ready)
 {
    CMSIS.CR = 0;
    bool good {true};
    bool work {true};
    auto worker = [&]() { rcc.wait_PLL_ready(); work = false; };
    std::thread {worker}.detach();
-   std::this_thread::sleep_for(std::chrono::milliseconds(100));
+   std::this_thread::sleep_for(std::chrono::milliseconds(1));
    good &= work;
    CMSIS.CR |= RCC_CR_PLLRDY_Msk;
    while (work) {}
-
-   return good;
 }
 
-bool clock_enable()
+BOOST_AUTO_TEST_CASE (clock_enable)
 {
    CMSIS.AHBENR = 0;
-   bool good {true};
-
    rcc.clock_enable<mcu::Periph::GPIOA>();
-   good &= bool(CMSIS.AHBENR & RCC_AHBENR_GPIOAEN_Msk);
+   BOOST_CHECK_EQUAL (CMSIS.AHBENR, RCC_AHBENR_GPIOAEN_Msk);
 
    rcc.clock_enable<mcu::Periph::GPIOB>();
-   good &= bool(CMSIS.AHBENR & RCC_AHBENR_GPIOBEN_Msk);
+   BOOST_CHECK_EQUAL (CMSIS.AHBENR, RCC_AHBENR_GPIOBEN_Msk | RCC_AHBENR_GPIOAEN_Msk);
 
+   CMSIS.AHBENR = 0;
    rcc.clock_enable<mcu::Periph::GPIOC>();
-   good &= bool(CMSIS.AHBENR & RCC_AHBENR_GPIOCEN_Msk);
+   BOOST_CHECK_EQUAL (CMSIS.AHBENR, RCC_AHBENR_GPIOCEN_Msk);
 
+   CMSIS.AHBENR = 0;
    rcc.clock_enable<mcu::Periph::GPIOD>();
-   good &= bool(CMSIS.AHBENR & RCC_AHBENR_GPIODEN_Msk);
+   BOOST_CHECK_EQUAL (CMSIS.AHBENR, RCC_AHBENR_GPIODEN_Msk);
 
+   CMSIS.AHBENR = 0;
    rcc.clock_enable<mcu::Periph::GPIOF>();
-   good &= bool(CMSIS.AHBENR & RCC_AHBENR_GPIOFEN_Msk);
-
-   return good;
+   BOOST_CHECK_EQUAL (CMSIS.AHBENR, RCC_AHBENR_GPIOFEN_Msk);
 }
 
-int main()
-{
-   std::cout << '\n'
-             << "Тесты класса RCC для STM32F0:" << std::endl;
-
-   auto test = [](auto s, auto f){
-      std::cout << s << (f() ? "\033[32mпрошёл\033[0m" : "\033[31mпровален\033[0m") << std::endl;
-   };
-
-   test ("RCC::make_reference        ", make_reference);
-   test ("RCC::set_AHBprescaler      ", set_AHBprescaler);
-   test ("RCC::set_APBprescaler      ", set_APBprescaler);
-   test ("RCC::set_SystemClock       ", set_SystemClock);
-   test ("RCC::set_PLLsource         ", set_PLLsource);
-   test ("RCC::set_PLLmultiplier     ", set_PLLmultiplier);
-   test ("RCC::on_PLL                ", on_PLL);
-   test ("RCC::wait_PLL_ready        ", wait_PLL_ready);
-   test ("RCC::clock_enable          ", clock_enable);
-}
+BOOST_AUTO_TEST_SUITE_END()

@@ -21,3 +21,13 @@ f0_flash
 f0_test_flash
 [done] flash finish
 test flash
+перевести на бусттест
+   [done] f0_test_rcc.cpp
+   f1_test_afio.cpp
+   f1_test_gpio.cpp
+   f1_test_rcc.cpp
+   f1_test_usart.cpp
+   [done] f4_test_flash.cpp
+   f4_test_usart.cpp
+[done] see f4_test_flash.cpp unlock
+see f4_test_flash.cpp start_erase_sector

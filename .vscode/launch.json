@@ -8,7 +8,7 @@
        "name": "test",
        "type": "cppdbg",
        "request": "launch",
-       "program": "${workspaceFolder}/test/build/f1_test_afio",
+       "program": "${workspaceFolder}/test/cmake/build/f4_test_flash",
        "args": [],
        "stopAtEntry": false,
        "cwd": "${workspaceFolder}",

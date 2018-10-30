@@ -1,30 +1,5 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.9)
 project(mcu_test)
-
-# find_package (Threads)
-# find_package (Boost COMPONENTS system REQUIRED)
-
-# set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ../build)
-# set (CMAKE_BUILD_TYPE Debug)
-
-# add_executable(join_server main.cpp)
-
-# include_directories(join_server ${Boost_INCLUDE_DIRS})
-
-# set_target_properties (join_server PROPERTIES
-#    CXX_STANDARD 14
-#    CXX_STANDARD_REQUIRED ON
-#    COMPILE_OPTIONS -Wpedantic -Wall -Wextra
-#    COMPILE_FLAGS -O2
-#    # COMPILE_DEFINITIONS BOOST_ASIO_ENABLE_HANDLER_TRACKING
-#    INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/otus12
-# )
-
-
-# target_link_libraries (join_server
-#    ${Boost_LIBRARIES}
-#    ${CMAKE_THREAD_LIBS_INIT}
-# )
 
 enable_testing()
 
@@ -41,37 +16,26 @@ include_directories (
    ${Boost_INCLUDE_DIR}
 )
 
-set(CMAKE_CXX_FLAGS "-Wno-register")
+set (CMAKE_CXX_FLAGS "-Wno-register")
 
-function(test_F0 name)
+function(test MCU name)
    add_executable (${name} ${name}.cpp)
-
-   include_directories (
-      ${PROJECT_SOURCE_DIR}/../STM32F0_files
-      ${PROJECT_SOURCE_DIR}/../STM32F0_files/CMSIS
-   )
-
-   target_link_libraries (${name} 
-      ${Boost_LIBRARIES}
-      ${CMAKE_THREAD_LIBS_INIT}
-   )
-
-   set_target_properties (${name} PROPERTIES
-      CXX_STANDARD 17
-      CXX_STANDARD_REQUIRED ON
-      COMPILE_OPTIONS -Wpedantic -Wall -Wextra
-      COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
-   )
-   add_test(${name} build/${name})
-endfunction(test_F0)
-
-function(test_F1 name)
-   add_executable (${name} ${name}.cpp)
-
-   include_directories (
+   if (MCU STREQUAL STM32F0)
+      target_include_directories (${name} PRIVATE
+         ${PROJECT_SOURCE_DIR}/../STM32F0_files
+         ${PROJECT_SOURCE_DIR}/../STM32F0_files/CMSIS
+      )
+   elseif (MCU STREQUAL STM32F1)
+   target_include_directories (${name} PRIVATE
       ${PROJECT_SOURCE_DIR}/../STM32F1_files
       ${PROJECT_SOURCE_DIR}/../STM32F1_files/CMSIS
    )
+   elseif (MCU STREQUAL STM32F4)
+      target_include_directories (${name} PRIVATE
+         ${PROJECT_SOURCE_DIR}/../STM32F4_files
+         ${PROJECT_SOURCE_DIR}/../STM32F4_files/CMSIS
+      )
+   endif()
 
    target_link_libraries (${name} 
       ${Boost_LIBRARIES}
@@ -85,12 +49,11 @@ function(test_F1 name)
       COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
    )
    add_test(${name} build/${name})
-endfunction(test_F1)
+endfunction(test)
 
-
-
-test_F0(f0_boosttest_rcc)
-test_F1(f1_test_dma)
+test (STM32F0 f0_test_rcc)
+test (STM32F1 f1_test_dma)
+test (STM32F4 f4_test_flash)
 
 
 

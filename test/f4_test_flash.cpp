@@ -1,140 +1,134 @@
+#define BOOST_TEST_MODULE f4_test_flash
+#include <boost/test/unit_test.hpp>
+
 #define STM32F405xx
+#define TEST
 
 #include "periph_flash.h"
 #include <iostream>
 #include <type_traits>
 #include <thread>
 
+BOOST_AUTO_TEST_SUITE (test_suite_main)
+
 mcu::FLASH flash;
 auto& cmsis = *reinterpret_cast<mcu::FLASH::CMSIS_type*>(&flash);
 
-// тесты возвращают true, если прошли
-bool set_latency()
+BOOST_AUTO_TEST_CASE (make_reference)
 {
-   bool good {true};
-
-   cmsis.ACR = 0;
-   flash.set (mcu::FLASH::Latency::_7);
-   good &= (cmsis.ACR == FLASH_ACR_LATENCY_7WS);
-
-   flash.set (mcu::FLASH::Latency::_6);
-   good &= (cmsis.ACR == FLASH_ACR_LATENCY_6WS);
-
-   flash.set (mcu::FLASH::Latency::_5);
-   good &= (cmsis.ACR == FLASH_ACR_LATENCY_5WS);
-
-   flash.set (mcu::FLASH::Latency::_4);
-   good &= (cmsis.ACR == FLASH_ACR_LATENCY_4WS);
-
-   flash.set (mcu::FLASH::Latency::_3);
-   good &= (cmsis.ACR == FLASH_ACR_LATENCY_3WS);
-
-   flash.set (mcu::FLASH::Latency::_2);
-   good &= (cmsis.ACR == FLASH_ACR_LATENCY_2WS);
-
-   flash.set (mcu::FLASH::Latency::_1);
-   good &= (cmsis.ACR == FLASH_ACR_LATENCY_1WS);
-
-   flash.set (mcu::FLASH::Latency::_0);
-   good &= (cmsis.ACR == FLASH_ACR_LATENCY_0WS);
-
-   return good;
+   auto& flash {mcu::make_reference<mcu::Periph::FLASH>()};
+   auto address = reinterpret_cast<size_t>(&flash);
+   auto same = std::is_same_v<std::remove_reference_t<decltype(flash)>, mcu::FLASH>;
+   BOOST_CHECK_EQUAL (address, FLASH_R_BASE);
+   BOOST_CHECK_EQUAL (same, true);
 }
 
-bool lock()
+BOOST_AUTO_TEST_CASE (set_latency)
+{
+   cmsis.ACR = 0;
+   flash.set (mcu::FLASH::Latency::_7);
+   BOOST_CHECK_EQUAL (cmsis.ACR, FLASH_ACR_LATENCY_7WS);
+
+   flash.set (mcu::FLASH::Latency::_6);
+   BOOST_CHECK_EQUAL (cmsis.ACR, FLASH_ACR_LATENCY_6WS);
+
+   flash.set (mcu::FLASH::Latency::_5);
+   BOOST_CHECK_EQUAL (cmsis.ACR, FLASH_ACR_LATENCY_5WS);
+
+   flash.set (mcu::FLASH::Latency::_4);
+   BOOST_CHECK_EQUAL (cmsis.ACR, FLASH_ACR_LATENCY_4WS);
+
+   flash.set (mcu::FLASH::Latency::_3);
+   BOOST_CHECK_EQUAL (cmsis.ACR, FLASH_ACR_LATENCY_3WS);
+
+   flash.set (mcu::FLASH::Latency::_2);
+   BOOST_CHECK_EQUAL (cmsis.ACR, FLASH_ACR_LATENCY_2WS);
+
+   flash.set (mcu::FLASH::Latency::_1);
+   BOOST_CHECK_EQUAL (cmsis.ACR, FLASH_ACR_LATENCY_1WS);
+
+   flash.set (mcu::FLASH::Latency::_0);
+   BOOST_CHECK_EQUAL (cmsis.ACR, FLASH_ACR_LATENCY_0WS);
+}
+
+BOOST_AUTO_TEST_CASE (lock)
 {
    cmsis.CR = 0;
    flash.lock();
-   return cmsis.CR & FLASH_CR_LOCK_Msk;
+   BOOST_CHECK_EQUAL (cmsis.CR, FLASH_CR_LOCK_Msk);
 }
 
-bool is_lock()
+BOOST_AUTO_TEST_CASE (is_lock)
 {
-   bool good {true};
-
    cmsis.CR = 0;
-   good &= not flash.is_lock();
-   cmsis.CR |= FLASH_CR_LOCK_Msk;
-   good &=     flash.is_lock();
-
-   return good;
+   BOOST_CHECK_EQUAL (flash.is_lock(), false);
+   cmsis.CR = FLASH_CR_LOCK_Msk;
+   BOOST_CHECK_EQUAL (flash.is_lock(), true);
 }
 
-bool unlock()
+BOOST_AUTO_TEST_CASE (unlock, *boost::unit_test::timeout(1))
 {
    cmsis.KEYR = 0;
    cmsis.CR |= FLASH_CR_LOCK_Msk;
    std::thread { [&](){flash.unlock();} }.detach();
    while (cmsis.KEYR != 0x45670123) {}
    while (cmsis.KEYR != 0xCDEF89AB) {}
-   return true;
 }
 
-bool set_progMode()
+BOOST_AUTO_TEST_CASE (set_progMode)
 {
    cmsis.CR = 0;
    flash.set_progMode();
-   return cmsis.CR & FLASH_CR_PG_Msk;
+   BOOST_CHECK_EQUAL (cmsis.CR, FLASH_CR_PG_Msk);
 }
 
-bool is_endOfProg()
+BOOST_AUTO_TEST_CASE (is_endOfProg)
 {
-   bool good {true};
-
    cmsis.SR = 0;
-   good &= not flash.is_endOfProg();
-   cmsis.SR |= FLASH_SR_EOP_Msk;
-   good &=     flash.is_endOfProg();
-
-   return good;
+   BOOST_CHECK_EQUAL (flash.is_endOfProg(), false);
+   cmsis.SR = FLASH_SR_EOP_Msk;
+   BOOST_CHECK_EQUAL (flash.is_endOfProg(), true);
 }
 
-bool clear_flag_endOfProg()
+BOOST_AUTO_TEST_CASE (clear_flag_endOfProg)
 {
    cmsis.SR = 0;
    flash.clear_flag_endOfProg();
-   return cmsis.SR & FLASH_SR_EOP_Msk;
+   BOOST_CHECK_EQUAL (cmsis.SR, FLASH_SR_EOP_Msk);
 }
 
-bool is_busy()
+BOOST_AUTO_TEST_CASE (is_busy)
 {
-   bool good {true};
-
    cmsis.SR = 0;
-   good &= not flash.is_busy();
-   cmsis.SR |= FLASH_SR_BSY_Msk;
-   good &=     flash.is_busy();
-
-   return good;
+   BOOST_CHECK_EQUAL (flash.is_busy(), false);
+   cmsis.SR = FLASH_SR_BSY_Msk;
+   BOOST_CHECK_EQUAL (flash.is_busy(), true);
 }
 
-bool set_ProgSize()
+BOOST_AUTO_TEST_CASE (set_ProgSize)
 {
-   bool good {true};
-
    cmsis.CR = 0;
+   uint32_t result {0};
    flash.set (mcu::FLASH::ProgSize::x64);
-   good &=     (cmsis.CR & FLASH_CR_PSIZE_0)
-       and     (cmsis.CR & FLASH_CR_PSIZE_1);
+   result = FLASH_CR_PSIZE_0 | FLASH_CR_PSIZE_1;
+   BOOST_CHECK_EQUAL (cmsis.CR, result);
 
    flash.set (mcu::FLASH::ProgSize::x32);
-   good &= not (cmsis.CR & FLASH_CR_PSIZE_0)
-       and     (cmsis.CR & FLASH_CR_PSIZE_1);
+   result = FLASH_CR_PSIZE_1;
+   BOOST_CHECK_EQUAL (cmsis.CR, result);
 
    flash.set (mcu::FLASH::ProgSize::x16);
-   good &=     (cmsis.CR & FLASH_CR_PSIZE_0)
-       and not (cmsis.CR & FLASH_CR_PSIZE_1);
+   result = FLASH_CR_PSIZE_0;
+   BOOST_CHECK_EQUAL (cmsis.CR, result);
 
    flash.set (mcu::FLASH::ProgSize::x8);
-   good &= not (cmsis.CR & FLASH_CR_PSIZE_0)
-       and not (cmsis.CR & FLASH_CR_PSIZE_1);
-   
-   return good;
+   result = 0;
+   BOOST_CHECK_EQUAL (cmsis.CR, result);
 }
 
-
-bool start_erase_sector()
+BOOST_AUTO_TEST_CASE (start_erase_sector, *boost::unit_test::timeout(1))
 {
+   // TODO: rewrite
    cmsis.CR = 0;
 
    std::thread { [&](){flash.start_erase (mcu::FLASH::Sector::_11);} }.detach();
@@ -173,70 +167,38 @@ bool start_erase_sector()
            )
    ) { }
    while ( not (cmsis.CR & FLASH_CR_STRT_Msk) ) { }
-
-
-   return true;
 }
 
-bool address()
+BOOST_AUTO_TEST_CASE (address)
 {
-   return mcu::FLASH::address<mcu::FLASH::Sector::_0>()  == 0x08000000
-      and mcu::FLASH::address<mcu::FLASH::Sector::_1>()  == 0x08004000
-      and mcu::FLASH::address<mcu::FLASH::Sector::_2>()  == 0x08008000
-      and mcu::FLASH::address<mcu::FLASH::Sector::_3>()  == 0x0800C000
-      and mcu::FLASH::address<mcu::FLASH::Sector::_4>()  == 0x08010000
-      and mcu::FLASH::address<mcu::FLASH::Sector::_5>()  == 0x08020000
-      and mcu::FLASH::address<mcu::FLASH::Sector::_6>()  == 0x08040000
-      and mcu::FLASH::address<mcu::FLASH::Sector::_7>()  == 0x08060000
-      and mcu::FLASH::address<mcu::FLASH::Sector::_8>()  == 0x08080000
-      and mcu::FLASH::address<mcu::FLASH::Sector::_9>()  == 0x080A0000
-      and mcu::FLASH::address<mcu::FLASH::Sector::_10>() == 0x080C0000
-      and mcu::FLASH::address<mcu::FLASH::Sector::_11>() == 0x080E0000;
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _0>(), 0x08000000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _1>(), 0x08004000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _2>(), 0x08008000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _3>(), 0x0800C000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _4>(), 0x08010000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _5>(), 0x08020000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _6>(), 0x08040000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _7>(), 0x08060000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _8>(), 0x08080000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _9>(), 0x080A0000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_10>(), 0x080C0000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_11>(), 0x080E0000);
 }
 
-bool size()
+BOOST_AUTO_TEST_CASE (size)
 {
-   return mcu::FLASH::size<mcu::FLASH::Sector::_0>()  ==  16 * 1024
-      and mcu::FLASH::size<mcu::FLASH::Sector::_1>()  ==  16 * 1024
-      and mcu::FLASH::size<mcu::FLASH::Sector::_2>()  ==  16 * 1024
-      and mcu::FLASH::size<mcu::FLASH::Sector::_3>()  ==  16 * 1024
-      and mcu::FLASH::size<mcu::FLASH::Sector::_4>()  ==  64 * 1024
-      and mcu::FLASH::size<mcu::FLASH::Sector::_5>()  == 128 * 1024
-      and mcu::FLASH::size<mcu::FLASH::Sector::_6>()  == 128 * 1024
-      and mcu::FLASH::size<mcu::FLASH::Sector::_7>()  == 128 * 1024
-      and mcu::FLASH::size<mcu::FLASH::Sector::_8>()  == 128 * 1024
-      and mcu::FLASH::size<mcu::FLASH::Sector::_9>()  == 128 * 1024
-      and mcu::FLASH::size<mcu::FLASH::Sector::_10>() == 128 * 1024
-      and mcu::FLASH::size<mcu::FLASH::Sector::_11>() == 128 * 1024;
-
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _0>(),  16 * 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _1>(),  16 * 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _2>(),  16 * 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _3>(),  16 * 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _4>(),  64 * 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _5>(), 128 * 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _6>(), 128 * 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _7>(), 128 * 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _8>(), 128 * 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _9>(), 128 * 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector::_10>(), 128 * 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector::_11>(), 128 * 1024);
 }
 
-
-
-
-
-
-int main()
-{
-   std::cout << '\n'
-             << "Тесты класса FLASH для STM32F4:" << std::endl;
-
-   auto test = [](auto s, auto f){
-      std::cout << s << (f() ? "\033[32mпрошёл\033[0m" : "\033[31mпровален\033[0m") << std::endl;
-   };
-
-   test ("FLASH::set_latency              ", set_latency);
-   test ("FLASH::lock                     ", lock);
-   test ("FLASH::is_lock                  ", is_lock);
-   test ("FLASH::unlock                   ", unlock);
-   test ("FLASH::set_progMode             ", set_progMode);
-   test ("FLASH::is_endOfProg             ", is_endOfProg);
-   test ("FLASH::clear_flag_endOfProg     ", clear_flag_endOfProg);
-   test ("FLASH::is_busy                  ", is_busy);
-   test ("FLASH::set_ProgSize             ", set_ProgSize);
-   test ("FLASH::start_erase_sector       ", start_erase_sector);
-   test ("FLASH::address                  ", address);
-   test ("FLASH::size                     ", size);
-
-   std::cout << '\n' << std::endl;
-}
+BOOST_AUTO_TEST_SUITE_END()
