@@ -66,9 +66,8 @@ BOOST_AUTO_TEST_CASE (is_lock)
    BOOST_CHECK_EQUAL (flash.is_lock(), true);
 }
 
-BOOST_AUTO_TEST_CASE (unlock)
+BOOST_AUTO_TEST_CASE (unlock, *boost::unit_test::timeout(1))
 {
-   // TODO: timeout when failed
    cmsis.KEYR = 0;
    cmsis.CR |= FLASH_CR_LOCK_Msk;
    std::thread { [&](){flash.unlock();} }.detach();
@@ -127,7 +126,7 @@ BOOST_AUTO_TEST_CASE (set_ProgSize)
    BOOST_CHECK_EQUAL (cmsis.CR, result);
 }
 
-BOOST_AUTO_TEST_CASE (start_erase_sector)
+BOOST_AUTO_TEST_CASE (start_erase_sector, *boost::unit_test::timeout(1))
 {
    // TODO: rewrite
    cmsis.CR = 0;
