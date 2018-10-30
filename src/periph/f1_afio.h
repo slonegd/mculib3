@@ -17,7 +17,7 @@ public:
    using Pin        = AFIO_bits::EVCR::Pin;
    using Remap      = AFIO_bits::MAPR::Remap;
 
-   template<Periph p, Periph v = Periph::RCC> void clock_enable() { make_reference<v>().template clock_enable<p>(); }
+   template<Periph p, Periph v = Periph::RCC> AFIO& clock_enable() { make_reference<v>().template clock_enable<p>(); return *this; }
 
    AFIO& event_enable() {EVCR.EVOE = true;}
 

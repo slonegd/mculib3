@@ -46,6 +46,7 @@
 #undef TIM16
 #undef TIM17
 #undef FLASH
+#undef DMA1
 
 namespace mcu {
 
@@ -68,6 +69,9 @@ enum class Periph {
 #endif
 #if defined(STM32F4)
     USART1, USART2, USART3, USART4, USART5, USART6,
+#endif
+#if defined(STM32F1)
+    DMA1, DMA1_stream1, DMA1_stream2, DMA1_stream3, DMA1_stream4, DMA1_stream5, DMA1_stream6, DMA1_stream7,
 #endif
     SysTick,
     TIM1, TIM3, TIM14, TIM16, TIM17,
