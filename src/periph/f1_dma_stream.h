@@ -18,11 +18,11 @@ public:
    using DataDirection = DMA_bits::CCR::DataDirection;
    using Channel       = DMA_bits::Channel;
 
-   template <Periph p, Periph v = Periph::DMA1>
-   DMA_stream& clock_enable (){make_reference<v>().template clock_enable<p>(); return *this;}
-   DMA_stream& enable       (){CCR.EN = true; while(CCR.EN){} return *this;}
+   template <Periph p = Periph::DMA1>
+   DMA_stream& clock_enable (){make_reference<p>().template clock_enable<p>(); return *this;}
+   DMA_stream& enable       (){CCR.EN = true; while(not CCR.EN){} return *this;}
    DMA_stream& disable      (){CCR.EN = false;                return *this;}
-   bool        is_disable   (){return CCR.EN;}
+   bool        is_disable   (){return (not CCR.EN);}
    DMA_stream& inc_memory   (){CCR.MINC = true; return *this;}
    DMA_stream& inc_periph   (){CCR.PINC = true; return *this;}
    DMA_stream& circular_mode(){CCR.CIRC = true; return *this;}

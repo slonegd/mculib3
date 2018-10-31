@@ -1,5 +1,5 @@
 #define BOOST_TEST_MODULE f4_test_flash
-#include <boost/test/unit_test.hpp>
+#include <boost/test/included/unit_test.hpp>
 
 #define STM32F405xx
 #define TEST
