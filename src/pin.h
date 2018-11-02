@@ -15,7 +15,7 @@ public:
    {
       Pin pin { mcu::make_reference<Pin_::periph>(), Pin_::n };
       pin.port.template clock_enable<Pin_::periph>()
-              .template init<Pin_,mode>();
+              .template init<Pin_, mode>();
       return pin;
    }
 

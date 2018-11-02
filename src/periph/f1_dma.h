@@ -13,13 +13,13 @@ public:
    using CMSIS_type = DMA_TypeDef;
    using Channel    = DMA_bits::Channel;
 
-   template <Periph p, Periph v = Periph::RCC> DMA& clock_enable(){make_reference<v>().template clock_enable<p>(); return *this;}
+   template <Periph dma, Periph rcc = Periph::RCC> DMA& clock_enable(){make_reference<rcc>().template clock_enable<dma>(); return *this;}
    void clear_interrupt_flags         (Channel);
    bool is_transfer_complete_interrupt(Channel);
 };
 
 
-template <Periph p> std::enable_if_t<p == Periph::DMA1, DMA&> make_reference() {return *reinterpret_cast<DMA*>(DMA1_BASE);}
+template <Periph dma> std::enable_if_t<dma == Periph::DMA1, DMA&> make_reference() {return *reinterpret_cast<DMA*>(DMA1_BASE);}
 
 
 

@@ -19,7 +19,7 @@ public:
 
    template<Periph p, Periph v = Periph::RCC> AFIO& clock_enable() { make_reference<v>().template clock_enable<p>(); return *this; }
 
-   AFIO& event_enable() {EVCR.EVOE = true;}
+   AFIO& event_enable() {EVCR.EVOE = true; return *this;}
 
    template<Periph> AFIO& remap();
    template<Periph, Remap> AFIO& remap();
@@ -43,13 +43,13 @@ template<Periph p> std::enable_if_t<p == Periph::AFIO, AFIO&> make_reference() {
 
 template<Periph p> AFIO& AFIO::remap()
 {
-   if      constexpr (p == Periph::USART1) MAPR.USART1_REMAP = true;
-   else if constexpr (p == Periph::USART2) MAPR.USART2_REMAP = true;
+   if      constexpr (p == Periph::USART1) {MAPR.USART1_REMAP = true; return *this;}
+   else if constexpr (p == Periph::USART2) {MAPR.USART2_REMAP = true; return *this;}
 }
 
 template<Periph p, AFIO::Remap r> AFIO& AFIO::remap()
 {
-   if      constexpr (p == Periph::USART3) MAPR.USART3_REMAP = r;
+   if      constexpr (p == Periph::USART3) {MAPR.USART3_REMAP = r; return *this;}
 }
 
 

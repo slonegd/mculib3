@@ -53,8 +53,8 @@ public:
    USART_& send_byte (uint8_t  v)         {this->DR = v;        return *this;}
    USART_& set (Baudrate v, size_t clock) {this->BRR = clock/v; return *this;}
 
-   template <Periph p, Periph v = Periph::RCC>
-   USART_& clock_enable  (){make_reference<v>().template clock_enable<p>(); return *this;}
+   template <Periph usart, Periph rcc = Periph::RCC>
+   USART_& clock_enable  (){make_reference<rcc>().template clock_enable<usart>(); return *this;}
    USART_& enable        (){this->CR1.UE   = true;  return *this;}
    USART_& disable       (){this->CR1.UE   = false; return *this;}
    USART_& rx_enable     (){this->CR1.RE   = true;  return *this;}
@@ -83,10 +83,11 @@ public:
    size_t receive_data_adr () {return reinterpret_cast<size_t>(&this->DR);}
    size_t transmit_data_adr() {return reinterpret_cast<size_t>(&this->DR);}
 
-   static constexpr Channel DMA_channel(PinMode);
-   static constexpr IRQn_Type IRQn(Periph);
+   template<Periph, class Pin_> static constexpr Periph stream();
+   template<Periph> static constexpr IRQn_Type IRQn();
    
-   template <Periph p, Periph v = Periph::RCC> static size_t clock ();
+   template <Periph usart, class Pin_> static constexpr PinMode pin_mode();
+   template <Periph usart, Periph rcc = Periph::RCC> static size_t clock();
 };
 
 using USART = USART_<>;
@@ -118,33 +119,59 @@ template <Periph p> std::enable_if_t<p == Periph::USART3, USART&> make_reference
 
 
 
-
+template <class R>
+template <Periph usart, class Pin> constexpr PinMode USART_<R>::pin_mode()
+{
+   if constexpr (usart == Periph::USART1) {
+      if      constexpr (std::is_same_v<Pin, PA9>  or std::is_same_v<Pin, PB6>) return PinMode::USART1_TX; 
+      else if constexpr (std::is_same_v<Pin, PA10> or std::is_same_v<Pin, PB7>) return PinMode::USART1_RX;
+      else return PinMode::Input;
+   }
+   else if constexpr (usart == Periph::USART2) {
+      if      constexpr (std::is_same_v<Pin, PA2> or std::is_same_v<Pin, PD5>) return PinMode::USART2_TX; 
+      else if constexpr (std::is_same_v<Pin, PA3> or std::is_same_v<Pin, PD6>) return PinMode::USART2_RX;
+      else return PinMode::Input;
+   }
+   else if constexpr (usart == Periph::USART3) {
+      if      constexpr (std::is_same_v<Pin, PB10> or std::is_same_v<Pin, PC10> or std::is_same_v<Pin, PD8>) return PinMode::USART3_TX; 
+      else if constexpr (std::is_same_v<Pin, PB11> or std::is_same_v<Pin, PC11> or std::is_same_v<Pin, PD9>) return PinMode::USART3_RX;
+      else return PinMode::Input;
+   }
+}
 
 template <class R>
-template <Periph p, Periph v>
+template <Periph usart, Periph rcc>
 size_t USART_<R>::clock()
 {
-   if      constexpr (p == Periph::USART1) return make_reference<v>().get_APB2_clock();
-   else if constexpr (p == Periph::USART2) return make_reference<v>().get_APB1_clock();
-   else if constexpr (p == Periph::USART3) return make_reference<v>().get_APB1_clock();
+   if      constexpr (usart == Periph::USART1) return make_reference<rcc>().get_APB2_clock();
+   else if constexpr (usart == Periph::USART2) return make_reference<rcc>().get_APB1_clock();
+   else if constexpr (usart == Periph::USART3) return make_reference<rcc>().get_APB1_clock();
 }
 
 template <class R>
-constexpr USART::Channel USART_<R>::DMA_channel(PinMode p)
+template<Periph usart, class Pin_> constexpr Periph USART_<R>::stream()
 {
-   return p == PinMode::USART1_TX ? Channel::_4 :
-          p == PinMode::USART1_RX ? Channel::_5 :
-          p == PinMode::USART2_TX ? Channel::_7 :
-          p == PinMode::USART2_RX ? Channel::_6 :
-          p == PinMode::USART3_TX ? Channel::_2 : Channel::_3;
+   if constexpr (usart == Periph::USART1) {
+      if      constexpr (std::is_same_v<Pin, PA9>  or std::is_same_v<Pin, PB6>) return Periph::DMA1_stream4; 
+      else if constexpr (std::is_same_v<Pin, PA10> or std::is_same_v<Pin, PB7>) return Periph::DMA1_stream5;
+   }
+   else if constexpr (usart == Periph::USART2) {
+      if      constexpr (std::is_same_v<Pin, PA2> or std::is_same_v<Pin, PD5>) return Periph::DMA1_stream7; 
+      else if constexpr (std::is_same_v<Pin, PA3> or std::is_same_v<Pin, PD6>) return Periph::DMA1_stream6;
+   }
+   else if constexpr (usart == Periph::USART3) {
+      if      constexpr (std::is_same_v<Pin, PB10> or std::is_same_v<Pin, PC10> or std::is_same_v<Pin, PD8>) return Periph::DMA1_stream2; 
+      else if constexpr (std::is_same_v<Pin, PB11> or std::is_same_v<Pin, PC11> or std::is_same_v<Pin, PD9>) return Periph::DMA1_stream3;
+   }
+   return Periph::DMA1_stream1;
 }
 
 template <class R>
-constexpr IRQn_Type USART_<R>::IRQn(Periph p)
+template<Periph usart> constexpr IRQn_Type USART_<R>::IRQn()
 {
-   return p == Periph::USART1 ? USART1_IRQn :
-          p == Periph::USART2 ? USART2_IRQn :
-          p == Periph::USART3 ? USART3_IRQn :
+   return usart == Periph::USART1 ? USART1_IRQn :
+          usart == Periph::USART2 ? USART2_IRQn :
+          usart == Periph::USART3 ? USART3_IRQn :
           NonMaskableInt_IRQn;
 }
 

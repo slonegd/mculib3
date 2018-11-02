@@ -75,9 +75,8 @@ public:
          channel != TIM::Channel::error,
          "Вывод контроллера не поддерживает функцию ШИМ с этим таймером"
       );
-      auto& tim = make_reference<tim_>();
       PWM pwm {
-         tim,
+         make_reference<tim_>(),
          Pin::make<Pin_, pin_mode>(),
          max_fill,
          TIM::enable_mask<channel>(),

@@ -54,7 +54,7 @@ endfunction(test)
 test (STM32F0 f0_test_rcc)
 test (STM32F1 f1_test_dma)
 test (STM32F1 f1_test_dma_stream)
-test (STM32F4 f4_test_flash)
+# test (STM32F4 f4_test_flash)
 
 
 
