@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(set_periph_adr)
 BOOST_AUTO_TEST_CASE(set_qty_ransactions)
 {
    CMSIS.CNDTR = 0;
-   dma_stream.set_qty_ransactions(0xFF);
+   dma_stream.set_qty_transactions(0xFF);
    BOOST_CHECK_EQUAL(CMSIS.CNDTR, 0xFF);
 }
 
