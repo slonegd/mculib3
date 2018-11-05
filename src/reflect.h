@@ -12,7 +12,9 @@ namespace reflect {
 
    template<class T> constexpr size_t member_count();
    template<class T> constexpr size_t member_count(T&);
-   // template<size_t i, class T> using get_t
+   // template<size_t i, class T> using get_t // определена далее
+
+
 
 
 
@@ -39,7 +41,8 @@ namespace reflect {
 
    template<class T> constexpr size_t member_count()
    {
-      return detail::member_count<T> (std::make_index_sequence<sizeof(T) + 1>{});
+      // +64 - для битовых полей
+      return detail::member_count<T> (std::make_index_sequence<sizeof(T) + 64>{});
    }
    template<class T> constexpr size_t member_count(T&)
    {
@@ -50,8 +53,15 @@ namespace reflect {
 
    namespace detail {
 
-      #define HELPER(n,...) template <class T> constexpr auto make_tuple(T v, std::enable_if_t<reflect::member_count<T>() == n, size_t> = n) { \
-         auto [__VA_ARGS__] = v; return std::make_tuple(__VA_ARGS__); }
+      #define HELPER(n,...) \
+         template <class T> \
+         constexpr auto as_tuple ( \
+              T v \
+            , std::enable_if_t<reflect::member_count<T>() == n, size_t> = n \
+         ) { \
+            auto [__VA_ARGS__] = v; \
+            return std::tuple {__VA_ARGS__}; \
+         }
 
       HELPER( 1,n1)
       HELPER( 2,n1,n2)
@@ -71,7 +81,7 @@ namespace reflect {
          using type = std::remove_reference_t <
             decltype (
                std::get<i>(
-                  make_tuple(T{})
+                  as_tuple(T{})
                )
             )
          >;
@@ -107,8 +117,5 @@ namespace reflect {
       static_assert (std::is_same_v<get_t<1,test>, uint16_t>);
       static_assert (std::is_same_v<get_t<2,test>, Data1>);
       static_assert (std::is_same_v<get_t<3,test>, Data2>);
-
    } // namespace test 
-
-
-} // namespace reflection {
+} // namespace reflect {
