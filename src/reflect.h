@@ -55,11 +55,10 @@ namespace reflect {
 
       #define HELPER(n,...) \
          template <class T> \
-         constexpr auto as_tuple ( \
-              T v \
-            , std::enable_if_t<reflect::member_count<T>() == n, size_t> = n \
-         ) { \
-            auto [__VA_ARGS__] = v; \
+         constexpr auto as_tuple (std::enable_if_t<reflect::member_count<T>() == n, size_t> = n) \
+         { \
+            constexpr T t{}; \
+            auto [__VA_ARGS__] = t; \
             return std::tuple {__VA_ARGS__}; \
          }
 
@@ -77,15 +76,7 @@ namespace reflect {
       #undef HELPER
 
       template<size_t i, class T>
-      struct get {
-         using type = std::remove_reference_t <
-            decltype (
-               std::get<i>(
-                  as_tuple(T{})
-               )
-            )
-         >;
-      };
+      struct get { using type = std::tuple_element_t<i, decltype(as_tuple<T>())>; };
    } // namespace detail {
 
    template<size_t i, class T>
