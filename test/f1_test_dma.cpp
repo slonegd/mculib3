@@ -9,6 +9,7 @@
 #include <type_traits>
 #include "periph.h"
 
+
 struct MockRCC {
    bool good {false};
    template <mcu::Periph p> void clock_enable(){good = true;}
