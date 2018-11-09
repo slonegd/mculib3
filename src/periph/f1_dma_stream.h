@@ -36,7 +36,7 @@ public:
    DMA_stream& size_memory(DataSize d)     {CCR.MSIZE = d; return *this;}
    DMA_stream& size_periph(DataSize d)     {CCR.PSIZE = d; return *this;}
 
-   static constexpr Channel channel(Periph);
+//    static constexpr Channel channel(Periph);
    static constexpr IRQn_Type IRQn (Periph);
 
    DMA_stream& enable_transfer_complete_interrupt(){CCR.TCIE = true; return *this;}

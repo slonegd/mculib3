@@ -40,10 +40,10 @@ public:
    {}
 
    struct Settings {
-      Parity         parity          = Parity::even;
-      DataBits       data_bits       = DataBits::_8;
-      StopBits       stop_bits       = StopBits::_1;
-      Baudrate       baudrate        = Baudrate::BR9600;
+      Parity         parity    = Parity::even;
+      DataBits       data_bits = DataBits::_8;
+      StopBits       stop_bits = StopBits::_1;
+      Baudrate       baudrate  = Baudrate::BR9600;
    };
 
    template <Periph usart, class TXpin, class RXpin> static auto make()
@@ -131,8 +131,6 @@ public:
       RXstream.disable()
               .enable();
    }
-
-   void 
 
 };
 } // namespace mcu
