@@ -56,6 +56,7 @@ bool DMA::is_transfer_complete_interrupt(Channel channel)
    else if (channel == Channel::_5) return ISR.TCIF5;
    else if (channel == Channel::_6) return ISR.TCIF6;
    else if (channel == Channel::_7) return ISR.TCIF7;
+   else return false;
 }
 
 } //namespace mcu

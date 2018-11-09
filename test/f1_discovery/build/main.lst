@@ -1,0 +1,431 @@
+ARM GAS  /tmp/ccWqEiwM.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 4
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"main.cpp"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text._ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE,"ax",%progbits
+  16              		.align	1
+  17              		.global	_ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE
+  18              		.syntax unified
+  19              		.code	16
+  20              		.thumb_func
+  21              		.fpu softvfp
+  23              	_ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:
+  24              	.LFB129:
+  25              		.file 1 "../../src/periph/f1_dma.h"
+   1:../../src/periph/f1_dma.h **** #pragma once
+   2:../../src/periph/f1_dma.h **** 
+   3:../../src/periph/f1_dma.h **** #include "f1_bits_dma.h"
+   4:../../src/periph/f1_dma.h **** 
+   5:../../src/periph/f1_dma.h **** namespace mcu {
+   6:../../src/periph/f1_dma.h **** 
+   7:../../src/periph/f1_dma.h **** class DMA 
+   8:../../src/periph/f1_dma.h **** {
+   9:../../src/periph/f1_dma.h ****    __IO DMA_bits::ISR  ISR;  // DMA interrupt status register     offset: 0x00
+  10:../../src/periph/f1_dma.h ****    __IO DMA_bits::IFCR IFCR; // DMA interrupt flag clear register offset: 0x04
+  11:../../src/periph/f1_dma.h **** 
+  12:../../src/periph/f1_dma.h **** public:
+  13:../../src/periph/f1_dma.h ****    using CMSIS_type = DMA_TypeDef;
+  14:../../src/periph/f1_dma.h ****    using Channel    = DMA_bits::Channel;
+  15:../../src/periph/f1_dma.h **** 
+  16:../../src/periph/f1_dma.h ****    template <Periph dma, Periph rcc = Periph::RCC> DMA& clock_enable(){make_reference<rcc>().templa
+  17:../../src/periph/f1_dma.h ****    void clear_interrupt_flags         (Channel);
+  18:../../src/periph/f1_dma.h ****    bool is_transfer_complete_interrupt(Channel);
+  19:../../src/periph/f1_dma.h **** };
+  20:../../src/periph/f1_dma.h **** 
+  21:../../src/periph/f1_dma.h **** 
+  22:../../src/periph/f1_dma.h **** template <Periph dma> std::enable_if_t<dma == Periph::DMA1, DMA&> make_reference() {return *reinter
+  23:../../src/periph/f1_dma.h **** 
+  24:../../src/periph/f1_dma.h **** 
+  25:../../src/periph/f1_dma.h **** 
+  26:../../src/periph/f1_dma.h **** 
+  27:../../src/periph/f1_dma.h **** 
+  28:../../src/periph/f1_dma.h **** 
+  29:../../src/periph/f1_dma.h **** 
+  30:../../src/periph/f1_dma.h **** 
+  31:../../src/periph/f1_dma.h **** 
+  32:../../src/periph/f1_dma.h **** 
+  33:../../src/periph/f1_dma.h **** 
+ARM GAS  /tmp/ccWqEiwM.s 			page 2
+
+
+  34:../../src/periph/f1_dma.h **** 
+  35:../../src/periph/f1_dma.h **** 
+  36:../../src/periph/f1_dma.h **** 
+  37:../../src/periph/f1_dma.h **** 
+  38:../../src/periph/f1_dma.h **** 
+  39:../../src/periph/f1_dma.h **** void DMA::clear_interrupt_flags(Channel channel)
+  40:../../src/periph/f1_dma.h **** {
+  26              		.loc 1 40 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31              	.LVL0:
+  41:../../src/periph/f1_dma.h ****    if      (channel == Channel::_1) IFCR.CGIF1 = true;
+  32              		.loc 1 41 0
+  33 0000 0129     		cmp	r1, #1
+  34 0002 03D1     		bne	.L2
+  35              		.loc 1 41 0 is_stmt 0 discriminator 1
+  36 0004 0379     		ldrb	r3, [r0, #4]
+  37 0006 1943     		orrs	r1, r3
+  38              	.LVL1:
+  39 0008 0171     		strb	r1, [r0, #4]
+  40              	.L1:
+  42:../../src/periph/f1_dma.h ****    else if (channel == Channel::_2) IFCR.CGIF2 = true;
+  43:../../src/periph/f1_dma.h ****    else if (channel == Channel::_3) IFCR.CGIF3 = true;
+  44:../../src/periph/f1_dma.h ****    else if (channel == Channel::_4) IFCR.CGIF4 = true;
+  45:../../src/periph/f1_dma.h ****    else if (channel == Channel::_5) IFCR.CGIF5 = true;
+  46:../../src/periph/f1_dma.h ****    else if (channel == Channel::_6) IFCR.CGIF6 = true;
+  47:../../src/periph/f1_dma.h ****    else if (channel == Channel::_7) IFCR.CGIF7 = true;
+  48:../../src/periph/f1_dma.h **** }
+  41              		.loc 1 48 0 is_stmt 1
+  42              		@ sp needed
+  43 000a 7047     		bx	lr
+  44              	.LVL2:
+  45              	.L2:
+  42:../../src/periph/f1_dma.h ****    else if (channel == Channel::_2) IFCR.CGIF2 = true;
+  46              		.loc 1 42 0
+  47 000c 0229     		cmp	r1, #2
+  48 000e 04D1     		bne	.L4
+  42:../../src/periph/f1_dma.h ****    else if (channel == Channel::_2) IFCR.CGIF2 = true;
+  49              		.loc 1 42 0 is_stmt 0 discriminator 1
+  50 0010 1023     		movs	r3, #16
+  51 0012 0279     		ldrb	r2, [r0, #4]
+  52 0014 1343     		orrs	r3, r2
+  53 0016 0371     		strb	r3, [r0, #4]
+  54 0018 F7E7     		b	.L1
+  55              	.L4:
+  43:../../src/periph/f1_dma.h ****    else if (channel == Channel::_4) IFCR.CGIF4 = true;
+  56              		.loc 1 43 0 is_stmt 1
+  57 001a 0329     		cmp	r1, #3
+  58 001c 04D1     		bne	.L5
+  43:../../src/periph/f1_dma.h ****    else if (channel == Channel::_4) IFCR.CGIF4 = true;
+  59              		.loc 1 43 0 is_stmt 0 discriminator 1
+  60 001e 0123     		movs	r3, #1
+  61 0020 4279     		ldrb	r2, [r0, #5]
+  62              	.L9:
+  44:../../src/periph/f1_dma.h ****    else if (channel == Channel::_5) IFCR.CGIF5 = true;
+ARM GAS  /tmp/ccWqEiwM.s 			page 3
+
+
+  63              		.loc 1 44 0 is_stmt 1 discriminator 1
+  64 0022 1343     		orrs	r3, r2
+  65 0024 4371     		strb	r3, [r0, #5]
+  66 0026 F0E7     		b	.L1
+  67              	.L5:
+  44:../../src/periph/f1_dma.h ****    else if (channel == Channel::_5) IFCR.CGIF5 = true;
+  68              		.loc 1 44 0 is_stmt 0
+  69 0028 0429     		cmp	r1, #4
+  70 002a 02D1     		bne	.L6
+  44:../../src/periph/f1_dma.h ****    else if (channel == Channel::_5) IFCR.CGIF5 = true;
+  71              		.loc 1 44 0 discriminator 1
+  72 002c 4279     		ldrb	r2, [r0, #5]
+  73 002e 1023     		movs	r3, #16
+  74 0030 F7E7     		b	.L9
+  75              	.L6:
+  45:../../src/periph/f1_dma.h ****    else if (channel == Channel::_6) IFCR.CGIF6 = true;
+  76              		.loc 1 45 0 is_stmt 1
+  77 0032 0529     		cmp	r1, #5
+  78 0034 04D1     		bne	.L7
+  45:../../src/periph/f1_dma.h ****    else if (channel == Channel::_6) IFCR.CGIF6 = true;
+  79              		.loc 1 45 0 is_stmt 0 discriminator 1
+  80 0036 0123     		movs	r3, #1
+  81 0038 8279     		ldrb	r2, [r0, #6]
+  82              	.L10:
+  46:../../src/periph/f1_dma.h ****    else if (channel == Channel::_7) IFCR.CGIF7 = true;
+  83              		.loc 1 46 0 is_stmt 1 discriminator 1
+  84 003a 1343     		orrs	r3, r2
+  85 003c 8371     		strb	r3, [r0, #6]
+  86 003e E4E7     		b	.L1
+  87              	.L7:
+  46:../../src/periph/f1_dma.h ****    else if (channel == Channel::_7) IFCR.CGIF7 = true;
+  88              		.loc 1 46 0 is_stmt 0
+  89 0040 0629     		cmp	r1, #6
+  90 0042 02D1     		bne	.L8
+  46:../../src/periph/f1_dma.h ****    else if (channel == Channel::_7) IFCR.CGIF7 = true;
+  91              		.loc 1 46 0 discriminator 1
+  92 0044 8279     		ldrb	r2, [r0, #6]
+  93 0046 1023     		movs	r3, #16
+  94 0048 F7E7     		b	.L10
+  95              	.L8:
+  47:../../src/periph/f1_dma.h **** }
+  96              		.loc 1 47 0 is_stmt 1
+  97 004a 0729     		cmp	r1, #7
+  98 004c DDD1     		bne	.L1
+  47:../../src/periph/f1_dma.h **** }
+  99              		.loc 1 47 0 is_stmt 0 discriminator 1
+ 100 004e 0123     		movs	r3, #1
+ 101 0050 C279     		ldrb	r2, [r0, #7]
+ 102 0052 1343     		orrs	r3, r2
+ 103 0054 C371     		strb	r3, [r0, #7]
+ 104              		.loc 1 48 0 is_stmt 1 discriminator 1
+ 105 0056 D8E7     		b	.L1
+ 106              		.cfi_endproc
+ 107              	.LFE129:
+ 109              		.section	.text._ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE,"ax",%progbits
+ 110              		.align	1
+ 111              		.global	_ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE
+ARM GAS  /tmp/ccWqEiwM.s 			page 4
+
+
+ 112              		.syntax unified
+ 113              		.code	16
+ 114              		.thumb_func
+ 115              		.fpu softvfp
+ 117              	_ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE:
+ 118              	.LFB130:
+  49:../../src/periph/f1_dma.h **** 
+  50:../../src/periph/f1_dma.h **** bool DMA::is_transfer_complete_interrupt(Channel channel)
+  51:../../src/periph/f1_dma.h **** {
+ 119              		.loc 1 51 0
+ 120              		.cfi_startproc
+ 121              		@ args = 0, pretend = 0, frame = 0
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123              		@ link register save eliminated.
+ 124              	.LVL3:
+ 125              		.loc 1 51 0
+ 126 0000 0300     		movs	r3, r0
+  52:../../src/periph/f1_dma.h ****    if      (channel == Channel::_1) return ISR.TCIF1;
+ 127              		.loc 1 52 0
+ 128 0002 0129     		cmp	r1, #1
+ 129 0004 02D1     		bne	.L12
+ 130              		.loc 1 52 0 is_stmt 0 discriminator 1
+ 131 0006 0078     		ldrb	r0, [r0]
+ 132              	.LVL4:
+ 133              	.L20:
+  53:../../src/periph/f1_dma.h ****    else if (channel == Channel::_2) return ISR.TCIF2;
+  54:../../src/periph/f1_dma.h ****    else if (channel == Channel::_3) return ISR.TCIF3;
+  55:../../src/periph/f1_dma.h ****    else if (channel == Channel::_4) return ISR.TCIF4;
+  56:../../src/periph/f1_dma.h ****    else if (channel == Channel::_5) return ISR.TCIF5;
+  57:../../src/periph/f1_dma.h ****    else if (channel == Channel::_6) return ISR.TCIF6;
+  58:../../src/periph/f1_dma.h ****    else if (channel == Channel::_7) return ISR.TCIF7;
+ 134              		.loc 1 58 0 is_stmt 1 discriminator 1
+ 135 0008 8007     		lsls	r0, r0, #30
+ 136 000a 03E0     		b	.L21
+ 137              	.LVL5:
+ 138              	.L12:
+  53:../../src/periph/f1_dma.h ****    else if (channel == Channel::_2) return ISR.TCIF2;
+ 139              		.loc 1 53 0
+ 140 000c 0229     		cmp	r1, #2
+ 141 000e 03D1     		bne	.L14
+  53:../../src/periph/f1_dma.h ****    else if (channel == Channel::_2) return ISR.TCIF2;
+ 142              		.loc 1 53 0 is_stmt 0 discriminator 1
+ 143 0010 0078     		ldrb	r0, [r0]
+ 144              	.LVL6:
+ 145              	.L22:
+  57:../../src/periph/f1_dma.h ****    else if (channel == Channel::_7) return ISR.TCIF7;
+ 146              		.loc 1 57 0 is_stmt 1 discriminator 1
+ 147 0012 8006     		lsls	r0, r0, #26
+ 148              	.L21:
+ 149              		.loc 1 58 0 discriminator 1
+ 150 0014 C00F     		lsrs	r0, r0, #31
+ 151              	.L13:
+  59:../../src/periph/f1_dma.h ****    else return false;
+  60:../../src/periph/f1_dma.h **** }
+ 152              		.loc 1 60 0
+ 153              		@ sp needed
+ 154 0016 7047     		bx	lr
+ARM GAS  /tmp/ccWqEiwM.s 			page 5
+
+
+ 155              	.LVL7:
+ 156              	.L14:
+  54:../../src/periph/f1_dma.h ****    else if (channel == Channel::_4) return ISR.TCIF4;
+ 157              		.loc 1 54 0
+ 158 0018 0329     		cmp	r1, #3
+ 159 001a 01D1     		bne	.L15
+  54:../../src/periph/f1_dma.h ****    else if (channel == Channel::_4) return ISR.TCIF4;
+ 160              		.loc 1 54 0 is_stmt 0 discriminator 1
+ 161 001c 4078     		ldrb	r0, [r0, #1]
+ 162              	.LVL8:
+ 163 001e F3E7     		b	.L20
+ 164              	.LVL9:
+ 165              	.L15:
+  55:../../src/periph/f1_dma.h ****    else if (channel == Channel::_5) return ISR.TCIF5;
+ 166              		.loc 1 55 0 is_stmt 1
+ 167 0020 0429     		cmp	r1, #4
+ 168 0022 01D1     		bne	.L16
+  55:../../src/periph/f1_dma.h ****    else if (channel == Channel::_5) return ISR.TCIF5;
+ 169              		.loc 1 55 0 is_stmt 0 discriminator 1
+ 170 0024 4078     		ldrb	r0, [r0, #1]
+ 171              	.LVL10:
+ 172 0026 F4E7     		b	.L22
+ 173              	.LVL11:
+ 174              	.L16:
+  56:../../src/periph/f1_dma.h ****    else if (channel == Channel::_6) return ISR.TCIF6;
+ 175              		.loc 1 56 0 is_stmt 1
+ 176 0028 0529     		cmp	r1, #5
+ 177 002a 01D1     		bne	.L17
+  56:../../src/periph/f1_dma.h ****    else if (channel == Channel::_6) return ISR.TCIF6;
+ 178              		.loc 1 56 0 is_stmt 0 discriminator 1
+ 179 002c 8078     		ldrb	r0, [r0, #2]
+ 180              	.LVL12:
+ 181 002e EBE7     		b	.L20
+ 182              	.LVL13:
+ 183              	.L17:
+  57:../../src/periph/f1_dma.h ****    else if (channel == Channel::_7) return ISR.TCIF7;
+ 184              		.loc 1 57 0 is_stmt 1
+ 185 0030 0629     		cmp	r1, #6
+ 186 0032 01D1     		bne	.L18
+  57:../../src/periph/f1_dma.h ****    else if (channel == Channel::_7) return ISR.TCIF7;
+ 187              		.loc 1 57 0 is_stmt 0 discriminator 1
+ 188 0034 8078     		ldrb	r0, [r0, #2]
+ 189              	.LVL14:
+ 190 0036 ECE7     		b	.L22
+ 191              	.LVL15:
+ 192              	.L18:
+  59:../../src/periph/f1_dma.h **** }
+ 193              		.loc 1 59 0 is_stmt 1
+ 194 0038 0020     		movs	r0, #0
+ 195              	.LVL16:
+  58:../../src/periph/f1_dma.h ****    else return false;
+ 196              		.loc 1 58 0
+ 197 003a 0729     		cmp	r1, #7
+ 198 003c EBD1     		bne	.L13
+  58:../../src/periph/f1_dma.h ****    else return false;
+ 199              		.loc 1 58 0 is_stmt 0 discriminator 1
+ 200 003e D878     		ldrb	r0, [r3, #3]
+ARM GAS  /tmp/ccWqEiwM.s 			page 6
+
+
+ 201 0040 E2E7     		b	.L20
+ 202              		.cfi_endproc
+ 203              	.LFE130:
+ 205              		.section	.text.init_clock,"ax",%progbits
+ 206              		.align	1
+ 207              		.global	init_clock
+ 208              		.syntax unified
+ 209              		.code	16
+ 210              		.thumb_func
+ 211              		.fpu softvfp
+ 213              	init_clock:
+ 214              	.LFB197:
+ 215              		.file 2 "main.cpp"
+   1:main.cpp      **** #define STM32F103xB
+   2:main.cpp      **** #define F_OSC   8000000UL
+   3:main.cpp      **** #define F_CPU   72000000UL
+   4:main.cpp      **** #include "rcc.h"
+   5:main.cpp      **** #include "pin.h"
+   6:main.cpp      **** // #include "timers.h"
+   7:main.cpp      **** // #include "pwm.h"
+   8:main.cpp      **** #include "uart.h"
+   9:main.cpp      **** // #include "fifo.h"
+  10:main.cpp      **** 
+  11:main.cpp      **** /// эта функция вызываеться первой в startup файле
+  12:main.cpp      **** extern "C" void init_clock ()
+  13:main.cpp      **** {
+ 216              		.loc 2 13 0 is_stmt 1
+ 217              		.cfi_startproc
+ 218              		@ args = 0, pretend = 0, frame = 0
+ 219              		@ frame_needed = 0, uses_anonymous_args = 0
+ 220              		@ link register save eliminated.
+  14:main.cpp      ****    // FLASH::set (FLASH::Latency::_1);
+  15:main.cpp      **** 
+  16:main.cpp      **** //    mcu::make_reference<mcu::Periph::RCC>()
+  17:main.cpp      **** //       .set (mcu::RCC:: AHBprescaler::AHBnotdiv)
+  18:main.cpp      **** //       .set (mcu::RCC:: APBprescaler::APBnotdiv)
+  19:main.cpp      **** //       .set (mcu::RCC::  SystemClock::CS_PLL)
+  20:main.cpp      **** //       .set (mcu::RCC::    PLLsource::HSIdiv2)
+  21:main.cpp      **** //       .set (mcu::RCC::PLLmultiplier::_12)
+  22:main.cpp      **** //       .on_PLL()
+  23:main.cpp      **** //       .wait_PLL_ready();
+  24:main.cpp      **** }
+ 221              		.loc 2 24 0
+ 222              		@ sp needed
+ 223 0000 7047     		bx	lr
+ 224              		.cfi_endproc
+ 225              	.LFE197:
+ 227              		.section	.text.startup.main,"ax",%progbits
+ 228              		.align	1
+ 229              		.global	main
+ 230              		.syntax unified
+ 231              		.code	16
+ 232              		.thumb_func
+ 233              		.fpu softvfp
+ 235              	main:
+ 236              	.LFB198:
+  25:main.cpp      **** 
+ARM GAS  /tmp/ccWqEiwM.s 			page 7
+
+
+  26:main.cpp      **** 
+  27:main.cpp      **** 
+  28:main.cpp      **** int main()
+  29:main.cpp      **** {
+ 237              		.loc 2 29 0
+ 238              		.cfi_startproc
+ 239              		@ args = 0, pretend = 0, frame = 0
+ 240              		@ frame_needed = 0, uses_anonymous_args = 0
+ 241              		@ link register save eliminated.
+  30:main.cpp      **** //    auto pc8 = mcu::Pin::make<mcu::PC8, mcu::PinMode::Output>();
+  31:main.cpp      **** //    Timer timer {200};
+  32:main.cpp      **** 
+  33:main.cpp      **** //    auto pwm = mcu::PWM::make<mcu::Periph::TIM1, mcu::PA8>();
+  34:main.cpp      **** //    pwm.fill_ratio = 500_from1000;
+  35:main.cpp      **** //    pwm.frequency  = 20_kHz;
+  36:main.cpp      **** //    pwm.out_enable();
+  37:main.cpp      **** 
+  38:main.cpp      ****    // auto uart = mcu::UART<>::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10>;
+  39:main.cpp      **** 
+  40:main.cpp      **** //    while(1) {
+  41:main.cpp      **** 
+  42:main.cpp      **** //       if (timer.event()) {
+  43:main.cpp      **** //          pc8 ^= 1;
+  44:main.cpp      **** //       }
+  45:main.cpp      **** 
+  46:main.cpp      **** //    } // while(1) {
+  47:main.cpp      ****    // FIFO buffer;
+  48:main.cpp      **** }
+ 242              		.loc 2 48 0
+ 243 0000 0020     		movs	r0, #0
+ 244              		@ sp needed
+ 245 0002 7047     		bx	lr
+ 246              		.cfi_endproc
+ 247              	.LFE198:
+ 249              		.text
+ 250              	.Letext0:
+ 251              		.file 3 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_def
+ 252              		.file 4 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint.
+ 253              		.file 5 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdint.h"
+ 254              		.file 6 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/ty
+ 255              		.file 7 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/ar
+ 256              		.file 8 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/cs
+ 257              		.file 9 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/cs
+ 258              		.file 10 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/inclu
+ 259              		.file 11 "<built-in>"
+ 260              		.file 12 "../../src/periph/periph.h"
+ 261              		.file 13 "../../src/bits/f1_bits_rcc.h"
+ 262              		.file 14 "../../src/bits/f1_bits_gpio.h"
+ 263              		.file 15 "../../src/bits/f1_bits_afio.h"
+ 264              		.file 16 "../../src/bits/f1_bits_usart.h"
+ 265              		.file 17 "../../src/bits/f1_bits_dma_stream.h"
+ 266              		.file 18 "../../src/bits/f1_bits_dma.h"
+ 267              		.file 19 "../../STM32F1_files/CMSIS/core_cm3.h"
+ARM GAS  /tmp/ccWqEiwM.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.cpp
+     /tmp/ccWqEiwM.s:16     .text._ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:0000000000000000 $t
+     /tmp/ccWqEiwM.s:23     .text._ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:0000000000000000 _ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE
+     /tmp/ccWqEiwM.s:110    .text._ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE:0000000000000000 $t
+     /tmp/ccWqEiwM.s:117    .text._ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE:0000000000000000 _ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE
+     /tmp/ccWqEiwM.s:206    .text.init_clock:0000000000000000 $t
+     /tmp/ccWqEiwM.s:213    .text.init_clock:0000000000000000 init_clock
+     /tmp/ccWqEiwM.s:228    .text.startup.main:0000000000000000 $t
+     /tmp/ccWqEiwM.s:235    .text.startup.main:0000000000000000 main
+
+NO UNDEFINED SYMBOLS

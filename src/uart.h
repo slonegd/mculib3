@@ -86,23 +86,23 @@ public:
       uart.TXstream.template clock_enable();
       uart.RXstream.template clock_enable();
 
-      TXstream.disable()
+      uart.TXstream.disable()
               .direction(DataDirection::MemToPer)
-              .set_memory_adr(uint32_t(buffer))
-              .set_periph_adr(usart.transmit_data_adr())
+              .set_memory_adr(uint32_t(uart.buffer))
+              .set_periph_adr(uart.usart.transmit_data_adr())
               .inc_memory()
               .size_memory(DataSize::byte8)
               .size_periph(DataSize::byte8)
               .enable_transfer_complete_interrupt();
-        NVIC_EnableIRQ(TXstream.IRQn(TX_stream));
+        NVIC_EnableIRQ(uart.TXstream.IRQn(TX_stream));
 
-      RXstream.direction(DataDirection::PerToMem)
-              .set_memory_adr(uint32_t(buffer))
-              .set_periph_adr(usart.transmit_data_adr())
+      uart.RXstream.direction(DataDirection::PerToMem)
+              .set_memory_adr(uint32_t(uart.buffer))
+              .set_periph_adr(uart.usart.transmit_data_adr())
               .set_qty_transactions(buffer_size)
               .inc_memory()
               .size_memory(DataSize::byte8)
-              .size_periph(DataSize::byte8)
+              .size_periph(DataSize::byte8);
       //         .enable_transfer_complete_interrupt();
       //   NVIC_EnableIRQ(RXstream.IRQn(RX_stream));
 

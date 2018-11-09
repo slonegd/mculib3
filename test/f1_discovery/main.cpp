@@ -6,7 +6,7 @@
 // #include "timers.h"
 // #include "pwm.h"
 #include "uart.h"
-#include "fifo.h"
+// #include "fifo.h"
 
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock ()
@@ -44,5 +44,5 @@ int main()
 //       }
 
 //    } // while(1) {
-   FIFO buffer;
+   // FIFO buffer;
 }
