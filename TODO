@@ -29,5 +29,6 @@ test flash
    f1_test_usart.cpp
    [done] f4_test_flash.cpp
    f4_test_usart.cpp
-[done] see f4_test_flash.cpp unlock
+see f4_test_flash.cpp unlock add timeout
 see f4_test_flash.cpp start_erase_sector
+[done] test_reflect
