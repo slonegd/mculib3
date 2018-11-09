@@ -6,6 +6,7 @@
 // #include "timers.h"
 // #include "pwm.h"
 #include "uart.h"
+#include "fifo.h"
 
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock ()
@@ -34,7 +35,7 @@ int main()
 //    pwm.frequency  = 20_kHz;
 //    pwm.out_enable();
 
-   auto uart = mcu::UART<>::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10>;
+   // auto uart = mcu::UART<>::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10>;
 
 //    while(1) {
 
@@ -43,5 +44,5 @@ int main()
 //       }
 
 //    } // while(1) {
-
+   FIFO buffer;
 }

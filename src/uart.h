@@ -1,7 +1,3 @@
-
-// Не закончен, писался под F4
-
-
 #pragma once
 
 #include "usart.h"

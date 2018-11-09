@@ -21,14 +21,14 @@ public:
    template <Periph dma = Periph::DMA1>
    DMA_stream& clock_enable (){make_reference<dma>().template clock_enable<dma>(); return *this;}
    DMA_stream& enable       (){CCR.EN = true; while(not CCR.EN){} return *this;}
-   DMA_stream& disable      (){CCR.EN = false;                return *this;}
+   DMA_stream& disable      (){CCR.EN = false;  return *this;}
    bool        is_disable   (){return (not CCR.EN);}
    DMA_stream& inc_memory   (){CCR.MINC = true; return *this;}
    DMA_stream& inc_periph   (){CCR.PINC = true; return *this;}
    DMA_stream& circular_mode(){CCR.CIRC = true; return *this;}
 
-   DMA_stream& set_memory_adr     (uint32_t v){CMAR = v;  return *this;}
-   DMA_stream& set_periph_adr     (uint32_t v){CPAR = v;  return *this;}
+   DMA_stream& set_memory_adr      (uint32_t v){CMAR  = v; return *this;}
+   DMA_stream& set_periph_adr      (uint32_t v){CPAR  = v; return *this;}
    DMA_stream& set_qty_transactions(uint16_t v){CNDTR = v; return *this;}
    
 

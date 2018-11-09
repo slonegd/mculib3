@@ -343,27 +343,27 @@ bool transmit_data_adr()
    return good;
 }
 
-bool DMA_channel()
-{
-   bool good {true};
-   good &= bool  (mcu::DMA_bits::Channel::_4 == usart.DMA_channel(mcu::PinMode::USART1_TX))
-        and bool (mcu::DMA_bits::Channel::_5 == usart.DMA_channel(mcu::PinMode::USART1_RX))
-        and bool (mcu::DMA_bits::Channel::_7 == usart.DMA_channel(mcu::PinMode::USART2_TX))
-        and bool (mcu::DMA_bits::Channel::_6 == usart.DMA_channel(mcu::PinMode::USART2_RX))
-        and bool (mcu::DMA_bits::Channel::_2 == usart.DMA_channel(mcu::PinMode::USART3_TX))
-        and bool (mcu::DMA_bits::Channel::_3 == usart.DMA_channel(mcu::PinMode::USART3_RX));
-   return good;
-}
+// bool DMA_channel()
+// {
+//    bool good {true};
+//    good &=  bool (mcu::DMA_bits::Channel::_4 == usart.DMA_channel(mcu::PinMode::USART1_TX))
+//         and bool (mcu::DMA_bits::Channel::_5 == usart.DMA_channel(mcu::PinMode::USART1_RX))
+//         and bool (mcu::DMA_bits::Channel::_7 == usart.DMA_channel(mcu::PinMode::USART2_TX))
+//         and bool (mcu::DMA_bits::Channel::_6 == usart.DMA_channel(mcu::PinMode::USART2_RX))
+//         and bool (mcu::DMA_bits::Channel::_2 == usart.DMA_channel(mcu::PinMode::USART3_TX))
+//         and bool (mcu::DMA_bits::Channel::_3 == usart.DMA_channel(mcu::PinMode::USART3_RX));
+//    return good;
+// }
 
 bool IRQn()
 {
    bool good {true};
-   good &= bool (USART1_IRQn == usart.IRQn(mcu::Periph::USART1))
-       and not  (USART2_IRQn == usart.IRQn(mcu::Periph::USART1))
-       and bool (USART2_IRQn == usart.IRQn(mcu::Periph::USART2))
-       and not  (USART1_IRQn == usart.IRQn(mcu::Periph::USART2))
-       and bool (USART3_IRQn == usart.IRQn(mcu::Periph::USART3))
-       and not  (USART1_IRQn == usart.IRQn(mcu::Periph::USART3));
+   good &= bool (USART1_IRQn == usart.IRQn<mcu::Periph::USART1>())
+       and not  (USART2_IRQn == usart.IRQn<mcu::Periph::USART1>())
+       and bool (USART2_IRQn == usart.IRQn<mcu::Periph::USART2>())
+       and not  (USART1_IRQn == usart.IRQn<mcu::Periph::USART2>())
+       and bool (USART3_IRQn == usart.IRQn<mcu::Periph::USART3>())
+       and not  (USART1_IRQn == usart.IRQn<mcu::Periph::USART3>());
    return good;
 }
 
@@ -426,7 +426,7 @@ int main()
    test ("USART::clear_interrupt_flags    ", clear_interrupt_flags);
    test ("USART::receive_data_adr         ", receive_data_adr);
    test ("USART::transmit_data_adr        ", transmit_data_adr);
-   test ("USART::DMA_channel              ", DMA_channel);
+//    test ("USART::DMA_channel              ", DMA_channel);
    test ("USART::IRQn                     ", IRQn);
    test ("USART::number_clock             ", number_clock);
 
