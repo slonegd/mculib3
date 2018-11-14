@@ -3,13 +3,18 @@
 
 class FIFO
 {
-   uint8_t v;
-   static size_t size;
-   uint8_t buffer[size];
-   FIFO* first;
-   FIFO* last;
-   FIFO* next;
+   // struct Node {
+   //    uint8_t v;
+   //    Node* next {nullptr};
+   // };
+   
+   // std::array <uint8_t, size> buffer{0};
+   uint8_t buffer[255];
+   // Node* first {nullptr};
+   // Node* last  {nullptr};
 
+public:
+   int size;
    void    operator<< (const uint8_t v);
    uint8_t operator>> (uint8_t v);
 };
@@ -18,7 +23,7 @@ void FIFO::operator<< (const uint8_t v)
 {
    static int count {0};
 
-   buffer << v;
+   buffer [count] = v;
 
    count++;
    size = count;
@@ -26,6 +31,13 @@ void FIFO::operator<< (const uint8_t v)
 
 uint8_t FIFO::operator>> (uint8_t v)
 {
-   buffer >> v;
-   size -= 1;
+   static int read {0};
+
+   v = buffer [read];
+
+   read ++;
+   size --;
+
+   return v;
 }
+

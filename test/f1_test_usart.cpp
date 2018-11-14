@@ -155,9 +155,9 @@ bool baudrate()
 {
    CMSIS.BRR = 0;
    bool good {true};
-   usart.set(mcu::Baudrate::BR115200, 10000000);
+   usart.set(mcu::USART::Baudrate::BR115200, 10000000);
    good &= bool (CMSIS.BRR & USART_BRR_DIV_Mantissa_Msk);
-   usart.set(mcu::Baudrate::BR57600, 20000000);
+   usart.set(mcu::USART::Baudrate::BR57600, 20000000);
    good &= bool (CMSIS.BRR & USART_BRR_DIV_Mantissa_Msk);
    return good;
 }
@@ -358,12 +358,12 @@ bool transmit_data_adr()
 bool IRQn()
 {
    bool good {true};
-   good &= bool (USART1_IRQn == usart.IRQn<mcu::Periph::USART1>())
-       and not  (USART2_IRQn == usart.IRQn<mcu::Periph::USART1>())
-       and bool (USART2_IRQn == usart.IRQn<mcu::Periph::USART2>())
-       and not  (USART1_IRQn == usart.IRQn<mcu::Periph::USART2>())
-       and bool (USART3_IRQn == usart.IRQn<mcu::Periph::USART3>())
-       and not  (USART1_IRQn == usart.IRQn<mcu::Periph::USART3>());
+   good &= bool (USART1_IRQn == usart.IRQn(mcu::Periph::USART1))
+       and not  (USART2_IRQn == usart.IRQn(mcu::Periph::USART1))
+       and bool (USART2_IRQn == usart.IRQn(mcu::Periph::USART2))
+       and not  (USART1_IRQn == usart.IRQn(mcu::Periph::USART2))
+       and bool (USART3_IRQn == usart.IRQn(mcu::Periph::USART3))
+       and not  (USART1_IRQn == usart.IRQn(mcu::Periph::USART3));
    return good;
 }
 

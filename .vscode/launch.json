@@ -4,6 +4,44 @@
    // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
    "version": "0.2.0",
    "configurations": [
+       {
+           "name": "uart",
+           "type": "cppdbg",
+           "request": "launch",
+           "program": " ${workspaceFolder}/test/cmake/build/test_uart",
+           "args": [],
+           "stopAtEntry": false,
+           "cwd": "${workspaceFolder}",
+           "environment": [],
+           "externalConsole": true,
+           "MIMode": "gdb",
+           "setupCommands": [
+               {
+                   "description": "Enable pretty-printing for gdb",
+                   "text": "-enable-pretty-printing",
+                   "ignoreFailures": true
+               }
+           ]
+       },
+       {
+           "name": "fifo",
+           "type": "cppdbg",
+           "request": "launch",
+           "program": "${workspaceFolder}/fifo/a.out",
+           "args": [],
+           "stopAtEntry": false,
+           "cwd": "${workspaceFolder}",
+           "environment": [],
+           "externalConsole": true,
+           "MIMode": "gdb",
+           "setupCommands": [
+               {
+                   "description": "Enable pretty-printing for gdb",
+                   "text": "-enable-pretty-printing",
+                   "ignoreFailures": true
+               }
+           ]
+       },
      {
        "name": "test",
        "type": "cppdbg",

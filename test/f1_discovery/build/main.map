@@ -27,12 +27,40 @@ Discarded input sections
  .text          0x0000000000000000        0x0 build/main.o
  .data          0x0000000000000000        0x0 build/main.o
  .bss           0x0000000000000000        0x0 build/main.o
+ .text._ZN5Timer6notifyEv
+                0x0000000000000000        0x8 build/main.o
  .text._ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE
                 0x0000000000000000       0x58 build/main.o
  .text._ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE
                 0x0000000000000000       0x42 build/main.o
+ .text._ZN5Timer5eventEv
+                0x0000000000000000       0x12 build/main.o
+ .text._ZN5Timer4doneEv
+                0x0000000000000000        0xe build/main.o
+ .text._ZN5Timer7isCountEv
+                0x0000000000000000        0x4 build/main.o
+ .text._ZN5Timer10timePassedEv
+                0x0000000000000000        0x4 build/main.o
+ .text._ZN5Timer8timeLeftEv
+                0x0000000000000000        0x8 build/main.o
+ .text._ZN5Timer9isGreaterEm
+                0x0000000000000000        0xa build/main.o
+ .text._ZN14TickSubscriber11unsubscribeEv
+                0x0000000000000000       0x40 build/main.o
+ .text._ZN5Timer4stopEv
+                0x0000000000000000        0xc build/main.o
+ .text._ZN5Timer5pauseEv
+                0x0000000000000000        0x8 build/main.o
+ .text._ZN14TickSubscriber9subscribeEv
+                0x0000000000000000       0x28 build/main.o
+ .text._ZN5Timer5startEm
+                0x0000000000000000        0xa build/main.o
+ .text._ZN5Timer5startEv
+                0x0000000000000000        0x8 build/main.o
  .text.init_clock
                 0x0000000000000000        0x2 build/main.o
+ .rodata._ZTV5Timer
+                0x0000000000000000        0xc build/main.o
  .text          0x0000000000000000       0x14 build/startup_stm32f103xb.o
  .data          0x0000000000000000        0x0 build/startup_stm32f103xb.o
  .bss           0x0000000000000000        0x0 build/startup_stm32f103xb.o
@@ -126,140 +154,145 @@ LOAD /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-n
                 0x0000000008000000                g_pfnVectors
                 0x000000000800010c                . = ALIGN (0x4)
 
-.text           0x000000000800010c       0xf4
+.text           0x000000000800010c      0x29c
                 0x000000000800010c                . = ALIGN (0x4)
  *(.text)
  .text          0x000000000800010c       0x48 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
  *(.text*)
+ .text.SysTick_Handler
+                0x0000000008000154       0x1c build/main.o
+                0x0000000008000154                SysTick_Handler
  .text.startup.main
-                0x0000000008000154        0x4 build/main.o
-                0x0000000008000154                main
+                0x0000000008000170      0x158 build/main.o
+                0x0000000008000170                main
+ .text.startup._GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE
+                0x00000000080002c8       0x38 build/main.o
  .text.Reset_Handler
-                0x0000000008000158       0x44 build/startup_stm32f103xb.o
-                0x0000000008000158                Reset_Handler
+                0x0000000008000300       0x44 build/startup_stm32f103xb.o
+                0x0000000008000300                Reset_Handler
  .text.Default_Handler
-                0x000000000800019c        0x2 build/startup_stm32f103xb.o
-                0x000000000800019c                RTC_Alarm_IRQHandler
-                0x000000000800019c                EXTI2_IRQHandler
-                0x000000000800019c                DebugMon_Handler
-                0x000000000800019c                TIM1_CC_IRQHandler
-                0x000000000800019c                HardFault_Handler
-                0x000000000800019c                SysTick_Handler
-                0x000000000800019c                PVD_IRQHandler
-                0x000000000800019c                PendSV_Handler
-                0x000000000800019c                NMI_Handler
-                0x000000000800019c                EXTI3_IRQHandler
-                0x000000000800019c                EXTI0_IRQHandler
-                0x000000000800019c                I2C2_EV_IRQHandler
-                0x000000000800019c                UsageFault_Handler
-                0x000000000800019c                ADC1_2_IRQHandler
-                0x000000000800019c                SPI1_IRQHandler
-                0x000000000800019c                TAMPER_IRQHandler
-                0x000000000800019c                DMA1_Channel4_IRQHandler
-                0x000000000800019c                USART3_IRQHandler
-                0x000000000800019c                RTC_IRQHandler
-                0x000000000800019c                DMA1_Channel7_IRQHandler
-                0x000000000800019c                CAN1_RX1_IRQHandler
-                0x000000000800019c                TIM4_IRQHandler
-                0x000000000800019c                I2C1_EV_IRQHandler
-                0x000000000800019c                DMA1_Channel6_IRQHandler
-                0x000000000800019c                TIM3_IRQHandler
-                0x000000000800019c                RCC_IRQHandler
-                0x000000000800019c                TIM1_TRG_COM_IRQHandler
-                0x000000000800019c                DMA1_Channel1_IRQHandler
-                0x000000000800019c                Default_Handler
-                0x000000000800019c                EXTI15_10_IRQHandler
-                0x000000000800019c                EXTI9_5_IRQHandler
-                0x000000000800019c                SPI2_IRQHandler
-                0x000000000800019c                MemManage_Handler
-                0x000000000800019c                SVC_Handler
-                0x000000000800019c                DMA1_Channel5_IRQHandler
-                0x000000000800019c                EXTI4_IRQHandler
-                0x000000000800019c                USB_LP_CAN1_RX0_IRQHandler
-                0x000000000800019c                USB_HP_CAN1_TX_IRQHandler
-                0x000000000800019c                DMA1_Channel3_IRQHandler
-                0x000000000800019c                TIM1_UP_IRQHandler
-                0x000000000800019c                WWDG_IRQHandler
-                0x000000000800019c                TIM2_IRQHandler
-                0x000000000800019c                TIM1_BRK_IRQHandler
-                0x000000000800019c                EXTI1_IRQHandler
-                0x000000000800019c                USART2_IRQHandler
-                0x000000000800019c                I2C2_ER_IRQHandler
-                0x000000000800019c                DMA1_Channel2_IRQHandler
-                0x000000000800019c                CAN1_SCE_IRQHandler
-                0x000000000800019c                FLASH_IRQHandler
-                0x000000000800019c                BusFault_Handler
-                0x000000000800019c                USART1_IRQHandler
-                0x000000000800019c                I2C1_ER_IRQHandler
-                0x000000000800019c                USBWakeUp_IRQHandler
- *fill*         0x000000000800019e        0x2 
+                0x0000000008000344        0x2 build/startup_stm32f103xb.o
+                0x0000000008000344                RTC_Alarm_IRQHandler
+                0x0000000008000344                EXTI2_IRQHandler
+                0x0000000008000344                DebugMon_Handler
+                0x0000000008000344                TIM1_CC_IRQHandler
+                0x0000000008000344                HardFault_Handler
+                0x0000000008000344                PVD_IRQHandler
+                0x0000000008000344                PendSV_Handler
+                0x0000000008000344                NMI_Handler
+                0x0000000008000344                EXTI3_IRQHandler
+                0x0000000008000344                EXTI0_IRQHandler
+                0x0000000008000344                I2C2_EV_IRQHandler
+                0x0000000008000344                UsageFault_Handler
+                0x0000000008000344                ADC1_2_IRQHandler
+                0x0000000008000344                SPI1_IRQHandler
+                0x0000000008000344                TAMPER_IRQHandler
+                0x0000000008000344                DMA1_Channel4_IRQHandler
+                0x0000000008000344                USART3_IRQHandler
+                0x0000000008000344                RTC_IRQHandler
+                0x0000000008000344                DMA1_Channel7_IRQHandler
+                0x0000000008000344                CAN1_RX1_IRQHandler
+                0x0000000008000344                TIM4_IRQHandler
+                0x0000000008000344                I2C1_EV_IRQHandler
+                0x0000000008000344                DMA1_Channel6_IRQHandler
+                0x0000000008000344                TIM3_IRQHandler
+                0x0000000008000344                RCC_IRQHandler
+                0x0000000008000344                TIM1_TRG_COM_IRQHandler
+                0x0000000008000344                DMA1_Channel1_IRQHandler
+                0x0000000008000344                Default_Handler
+                0x0000000008000344                EXTI15_10_IRQHandler
+                0x0000000008000344                EXTI9_5_IRQHandler
+                0x0000000008000344                SPI2_IRQHandler
+                0x0000000008000344                MemManage_Handler
+                0x0000000008000344                SVC_Handler
+                0x0000000008000344                DMA1_Channel5_IRQHandler
+                0x0000000008000344                EXTI4_IRQHandler
+                0x0000000008000344                USB_LP_CAN1_RX0_IRQHandler
+                0x0000000008000344                USB_HP_CAN1_TX_IRQHandler
+                0x0000000008000344                DMA1_Channel3_IRQHandler
+                0x0000000008000344                TIM1_UP_IRQHandler
+                0x0000000008000344                WWDG_IRQHandler
+                0x0000000008000344                TIM2_IRQHandler
+                0x0000000008000344                TIM1_BRK_IRQHandler
+                0x0000000008000344                EXTI1_IRQHandler
+                0x0000000008000344                USART2_IRQHandler
+                0x0000000008000344                I2C2_ER_IRQHandler
+                0x0000000008000344                DMA1_Channel2_IRQHandler
+                0x0000000008000344                CAN1_SCE_IRQHandler
+                0x0000000008000344                FLASH_IRQHandler
+                0x0000000008000344                BusFault_Handler
+                0x0000000008000344                USART1_IRQHandler
+                0x0000000008000344                I2C1_ER_IRQHandler
+                0x0000000008000344                USBWakeUp_IRQHandler
+ *fill*         0x0000000008000346        0x2 
  .text.__libc_init_array
-                0x00000000080001a0       0x48 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-init.o)
-                0x00000000080001a0                __libc_init_array
+                0x0000000008000348       0x48 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-init.o)
+                0x0000000008000348                __libc_init_array
  *(.glue_7)
- .glue_7        0x00000000080001e8        0x0 linker stubs
+ .glue_7        0x0000000008000390        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x00000000080001e8        0x0 linker stubs
+ .glue_7t       0x0000000008000390        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x00000000080001e8        0x0 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+ .eh_frame      0x0000000008000390        0x0 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
  *(.init)
- .init          0x00000000080001e8        0x4 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crti.o
-                0x00000000080001e8                _init
- .init          0x00000000080001ec        0x8 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtn.o
+ .init          0x0000000008000390        0x4 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crti.o
+                0x0000000008000390                _init
+ .init          0x0000000008000394        0x8 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtn.o
  *(.fini)
- .fini          0x00000000080001f4        0x4 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crti.o
-                0x00000000080001f4                _fini
- .fini          0x00000000080001f8        0x8 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtn.o
-                0x0000000008000200                . = ALIGN (0x4)
-                0x0000000008000200                _etext = .
+ .fini          0x000000000800039c        0x4 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crti.o
+                0x000000000800039c                _fini
+ .fini          0x00000000080003a0        0x8 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtn.o
+                0x00000000080003a8                . = ALIGN (0x4)
+                0x00000000080003a8                _etext = .
 
-.vfp11_veneer   0x0000000008000200        0x0
- .vfp11_veneer  0x0000000008000200        0x0 linker stubs
+.vfp11_veneer   0x00000000080003a8        0x0
+ .vfp11_veneer  0x00000000080003a8        0x0 linker stubs
 
-.v4_bx          0x0000000008000200        0x0
- .v4_bx         0x0000000008000200        0x0 linker stubs
+.v4_bx          0x00000000080003a8        0x0
+ .v4_bx         0x00000000080003a8        0x0 linker stubs
 
-.iplt           0x0000000008000200        0x0
- .iplt          0x0000000008000200        0x0 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+.iplt           0x00000000080003a8        0x0
+ .iplt          0x00000000080003a8        0x0 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
 
-.rel.dyn        0x0000000008000200        0x0
- .rel.iplt      0x0000000008000200        0x0 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+.rel.dyn        0x00000000080003a8        0x0
+ .rel.iplt      0x00000000080003a8        0x0 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
 
-.rodata         0x0000000008000200        0x0
-                0x0000000008000200                . = ALIGN (0x4)
+.rodata         0x00000000080003a8        0x0
+                0x00000000080003a8                . = ALIGN (0x4)
  *(.rodata)
  *(.rodata*)
-                0x0000000008000200                . = ALIGN (0x4)
+                0x00000000080003a8                . = ALIGN (0x4)
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x0000000008000200        0x0
-                0x0000000008000200                __exidx_start = .
+.ARM            0x00000000080003a8        0x0
+                0x00000000080003a8                __exidx_start = .
  *(.ARM.exidx*)
-                0x0000000008000200                __exidx_end = .
+                0x00000000080003a8                __exidx_end = .
 
-.preinit_array  0x0000000008000200        0x0
-                0x0000000008000200                PROVIDE (__preinit_array_start = .)
+.preinit_array  0x00000000080003a8        0x0
+                0x00000000080003a8                PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x0000000008000200                PROVIDE (__preinit_array_end = .)
+                0x00000000080003a8                PROVIDE (__preinit_array_end = .)
 
-.init_array     0x0000000008000200        0x4
-                0x0000000008000200                PROVIDE (__init_array_start = .)
+.init_array     0x00000000080003a8        0x8
+                0x00000000080003a8                PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array*)
- .init_array    0x0000000008000200        0x4 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
-                0x0000000008000204                PROVIDE (__init_array_end = .)
+ .init_array    0x00000000080003a8        0x4 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+ .init_array    0x00000000080003ac        0x4 build/main.o
+                0x00000000080003b0                PROVIDE (__init_array_end = .)
 
-.fini_array     0x0000000008000204        0x4
+.fini_array     0x00000000080003b0        0x4
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x0000000008000204        0x4 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+ .fini_array    0x00000000080003b0        0x4 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
                 [!provide]                        PROVIDE (__fini_array_end = .)
-                0x0000000008000208                _sidata = LOADADDR (.data)
+                0x00000000080003b4                _sidata = LOADADDR (.data)
 
-.data           0x0000000020000000        0x0 load address 0x0000000008000208
+.data           0x0000000020000000        0x0 load address 0x00000000080003b4
                 0x0000000020000000                . = ALIGN (0x4)
                 0x0000000020000000                _sdata = .
  *(.data)
@@ -267,32 +300,35 @@ LOAD /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-n
                 0x0000000020000000                . = ALIGN (0x4)
                 0x0000000020000000                _edata = .
 
-.igot.plt       0x0000000020000000        0x0 load address 0x0000000008000208
+.igot.plt       0x0000000020000000        0x0 load address 0x00000000080003b4
  .igot.plt      0x0000000020000000        0x0 /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
                 0x0000000020000000                . = ALIGN (0x4)
 
-.bss            0x0000000020000000       0x1c load address 0x0000000008000208
+.bss            0x0000000020000000       0x24 load address 0x00000000080003b4
                 0x0000000020000000                _sbss = .
                 0x0000000020000000                __bss_start__ = _sbss
  *(.bss)
  .bss           0x0000000020000000       0x1c /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
  *(.bss*)
+ .bss.tickUpdater
+                0x000000002000001c        0x8 build/main.o
+                0x000000002000001c                tickUpdater
  *(COMMON)
-                0x000000002000001c                . = ALIGN (0x4)
-                0x000000002000001c                _ebss = .
-                0x000000002000001c                __bss_end__ = _ebss
+                0x0000000020000024                . = ALIGN (0x4)
+                0x0000000020000024                _ebss = .
+                0x0000000020000024                __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x000000002000001c      0x604 load address 0x0000000008000208
-                0x0000000020000020                . = ALIGN (0x8)
- *fill*         0x000000002000001c        0x4 
+                0x0000000020000024      0x604 load address 0x00000000080003b4
+                0x0000000020000028                . = ALIGN (0x8)
+ *fill*         0x0000000020000024        0x4 
                 [!provide]                        PROVIDE (end = .)
                 [!provide]                        PROVIDE (_end = .)
-                0x0000000020000220                . = (. + _Min_Heap_Size)
- *fill*         0x0000000020000020      0x200 
-                0x0000000020000620                . = (. + _Min_Stack_Size)
- *fill*         0x0000000020000220      0x400 
-                0x0000000020000620                . = ALIGN (0x8)
+                0x0000000020000228                . = (. + _Min_Heap_Size)
+ *fill*         0x0000000020000028      0x200 
+                0x0000000020000628                . = (. + _Min_Stack_Size)
+ *fill*         0x0000000020000228      0x400 
+                0x0000000020000628                . = ALIGN (0x8)
 
 /DISCARD/
  libc.a(*)
@@ -316,44 +352,44 @@ LOAD /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-n
                 0x00000000000000c8       0x1e /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtn.o
 OUTPUT(build/main.elf elf32-littlearm)
 
-.debug_info     0x0000000000000000      0xb3b
- .debug_info    0x0000000000000000      0xb19 build/main.o
- .debug_info    0x0000000000000b19       0x22 build/startup_stm32f103xb.o
+.debug_info     0x0000000000000000     0x6594
+ .debug_info    0x0000000000000000     0x6572 build/main.o
+ .debug_info    0x0000000000006572       0x22 build/startup_stm32f103xb.o
 
-.debug_abbrev   0x0000000000000000      0x2a4
- .debug_abbrev  0x0000000000000000      0x292 build/main.o
- .debug_abbrev  0x0000000000000292       0x12 build/startup_stm32f103xb.o
+.debug_abbrev   0x0000000000000000      0x8c2
+ .debug_abbrev  0x0000000000000000      0x8b0 build/main.o
+ .debug_abbrev  0x00000000000008b0       0x12 build/startup_stm32f103xb.o
 
-.debug_loc      0x0000000000000000       0xce
- .debug_loc     0x0000000000000000       0xce build/main.o
+.debug_loc      0x0000000000000000      0x74b
+ .debug_loc     0x0000000000000000      0x74b build/main.o
 
-.debug_aranges  0x0000000000000000       0x60
+.debug_aranges  0x0000000000000000       0xd8
  .debug_aranges
-                0x0000000000000000       0x38 build/main.o
+                0x0000000000000000       0xb0 build/main.o
  .debug_aranges
-                0x0000000000000038       0x28 build/startup_stm32f103xb.o
+                0x00000000000000b0       0x28 build/startup_stm32f103xb.o
 
-.debug_ranges   0x0000000000000000       0x48
- .debug_ranges  0x0000000000000000       0x28 build/main.o
- .debug_ranges  0x0000000000000028       0x20 build/startup_stm32f103xb.o
+.debug_ranges   0x0000000000000000      0x460
+ .debug_ranges  0x0000000000000000      0x440 build/main.o
+ .debug_ranges  0x0000000000000440       0x20 build/startup_stm32f103xb.o
 
-.debug_line     0x0000000000000000      0x4ef
- .debug_line    0x0000000000000000      0x46a build/main.o
- .debug_line    0x000000000000046a       0x85 build/startup_stm32f103xb.o
+.debug_line     0x0000000000000000      0x87a
+ .debug_line    0x0000000000000000      0x7f5 build/main.o
+ .debug_line    0x00000000000007f5       0x85 build/startup_stm32f103xb.o
 
-.debug_str      0x0000000000000000      0x7b7
- .debug_str     0x0000000000000000      0x77f build/main.o
-                                        0x978 (size before relaxing)
- .debug_str     0x000000000000077f       0x38 build/startup_stm32f103xb.o
+.debug_str      0x0000000000000000     0x42ed
+ .debug_str     0x0000000000000000     0x42b5 build/main.o
+                                       0x45d0 (size before relaxing)
+ .debug_str     0x00000000000042b5       0x38 build/startup_stm32f103xb.o
                                          0x66 (size before relaxing)
 
 .comment        0x0000000000000000       0x7f
  .comment       0x0000000000000000       0x7f build/main.o
                                          0x80 (size before relaxing)
 
-.debug_frame    0x0000000000000000       0x7c
- .debug_frame   0x0000000000000000       0x50 build/main.o
- .debug_frame   0x0000000000000050       0x2c /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-init.o)
+.debug_frame    0x0000000000000000      0x1c0
+ .debug_frame   0x0000000000000000      0x194 build/main.o
+ .debug_frame   0x0000000000000194       0x2c /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-init.o)
 
 Cross Reference Table
 
@@ -395,7 +431,7 @@ Reset_Handler                                     build/startup_stm32f103xb.o
 SPI1_IRQHandler                                   build/startup_stm32f103xb.o
 SPI2_IRQHandler                                   build/startup_stm32f103xb.o
 SVC_Handler                                       build/startup_stm32f103xb.o
-SysTick_Handler                                   build/startup_stm32f103xb.o
+SysTick_Handler                                   build/main.o
 TAMPER_IRQHandler                                 build/startup_stm32f103xb.o
 TIM1_BRK_IRQHandler                               build/startup_stm32f103xb.o
 TIM1_CC_IRQHandler                                build/startup_stm32f103xb.o
@@ -404,6 +440,19 @@ TIM1_UP_IRQHandler                                build/startup_stm32f103xb.o
 TIM2_IRQHandler                                   build/startup_stm32f103xb.o
 TIM3_IRQHandler                                   build/startup_stm32f103xb.o
 TIM4_IRQHandler                                   build/startup_stm32f103xb.o
+TickSubscriber::subscribe()                       build/main.o
+TickSubscriber::unsubscribe()                     build/main.o
+Timer::done()                                     build/main.o
+Timer::event()                                    build/main.o
+Timer::isCount()                                  build/main.o
+Timer::isGreater(unsigned long)                   build/main.o
+Timer::notify()                                   build/main.o
+Timer::pause()                                    build/main.o
+Timer::start()                                    build/main.o
+Timer::start(unsigned long)                       build/main.o
+Timer::stop()                                     build/main.o
+Timer::timeLeft()                                 build/main.o
+Timer::timePassed()                               build/main.o
 USART1_IRQHandler                                 build/startup_stm32f103xb.o
 USART2_IRQHandler                                 build/startup_stm32f103xb.o
 USART3_IRQHandler                                 build/startup_stm32f103xb.o
@@ -460,3 +509,5 @@ mcu::DMA::is_transfer_complete_interrupt(mcu::DMA_bits::Channel) build/main.o
 memset                                            /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-memset.o)
                                                   /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o
 software_init_hook                                /home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o
+tickUpdater                                       build/main.o
+vtable for Timer                                  build/main.o

@@ -1,3 +1,5 @@
+v3.020 test_uart.cpp, mock_for_test.h начат modbus_slave.h, fifo.h
+
 v3.019 add test_reflect, fix f4_test_flash for travis
 
 v3.018 add reflect

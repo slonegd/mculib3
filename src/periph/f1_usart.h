@@ -8,17 +8,6 @@
 
 namespace mcu {
 
-enum Baudrate {
-      BR9600   = 9600,
-      BR14400  = 14400,
-      BR19200  = 19200,
-      BR28800  = 28800,
-      BR38400  = 38400,
-      BR57600  = 57600,
-      BR76800  = 76800,
-      BR115200 = 115200
-   };
-
 class USART_default
 {
 public:
@@ -43,7 +32,17 @@ public:
    using DataBits       = USART_bits::CR1::DataBits;
    using BreakDetection = USART_bits::CR2::BreakDetection;
    using StopBits       = USART_bits::CR2::StopBits;
-   using Channel        = DMA_bits::Channel;
+
+   enum Baudrate {
+      BR9600   = 0b000,
+      BR14400  = 0b001,
+      BR19200  = 0b010,
+      BR28800  = 0b011,
+      BR38400  = 0b100,
+      BR57600  = 0b101,
+      BR76800  = 0b110,
+      BR115200 = 0b111
+   };
 
    USART_& set (Parity         v)         {this->CR1.PS    = v; return *this;}
    USART_& set (WakeMethod     v)         {this->CR1.WAKE  = v; return *this;}
@@ -51,7 +50,7 @@ public:
    USART_& set (BreakDetection v)         {this->CR2.LBDL  = v; return *this;}
    USART_& set (StopBits       v)         {this->CR2.STOP  = v; return *this;}
    USART_& send_byte (uint8_t  v)         {this->DR = v;        return *this;}
-   USART_& set (Baudrate v, size_t clock) {this->BRR = clock/v; return *this;}
+   USART_& set (Baudrate, size_t);
 
    template <Periph usart, Periph rcc = Periph::RCC>
    USART_& clock_enable  (){make_reference<rcc>().template clock_enable<usart>(); return *this;}
@@ -83,11 +82,12 @@ public:
    size_t receive_data_adr () {return reinterpret_cast<size_t>(&this->DR);}
    size_t transmit_data_adr() {return reinterpret_cast<size_t>(&this->DR);}
 
-   template<Periph, class Pin_> static constexpr Periph stream();
-   template<Periph> static constexpr IRQn_Type IRQn();
    
-   template <Periph usart, class Pin_> static constexpr PinMode pin_mode();
-   template <Periph usart, Periph rcc = Periph::RCC> static size_t clock();
+   static constexpr IRQn_Type IRQn(Periph);
+   template<Periph usart, class Pin> static constexpr Periph stream();
+   template<Periph usart, class Pin> static constexpr PinMode pin_mode();
+   template<Periph usart, class TXpin, class RXpin> static void pin_static_assert();
+   template<Periph usart, Periph rcc = Periph::RCC> static size_t clock();
 };
 
 using USART = USART_<>;
@@ -117,7 +117,28 @@ template <Periph p> std::enable_if_t<p == Periph::USART3, USART&> make_reference
 
 
 
-
+template <class R>
+USART_<R>& USART_<R>::set(Baudrate baudrate, size_t clock)
+{
+   switch (baudrate) {
+      case BR9600:
+         this->BRR = clock/9600;  return *this;
+      case BR14400:
+         this->BRR = clock/14400; return *this;
+      case BR19200:
+         this->BRR = clock/19200; return *this;
+      case BR28800:
+         this->BRR = clock/28800; return *this;
+      case BR38400:
+         this->BRR = clock/38400; return *this;
+      case BR57600:
+         this->BRR = clock/57600; return *this;
+      case BR76800:
+         this->BRR = clock/76800; return *this;
+      case BR115200:
+         this->BRR = clock/115200;return *this;
+   }
+}
 
 template <class R>
 template <Periph usart, class Pin> constexpr PinMode USART_<R>::pin_mode()
@@ -149,7 +170,7 @@ size_t USART_<R>::clock()
 }
 
 template <class R>
-template<Periph usart, class Pin_> constexpr Periph USART_<R>::stream()
+template<Periph usart, class Pin> constexpr Periph USART_<R>::stream()
 {
    if constexpr (usart == Periph::USART1) {
       if      constexpr (std::is_same_v<Pin, PA9>  or std::is_same_v<Pin, PB6>) return Periph::DMA1_stream4; 
@@ -167,12 +188,34 @@ template<Periph usart, class Pin_> constexpr Periph USART_<R>::stream()
 }
 
 template <class R>
-template<Periph usart> constexpr IRQn_Type USART_<R>::IRQn()
+constexpr IRQn_Type USART_<R>::IRQn(Periph usart)
 {
    return usart == Periph::USART1 ? USART1_IRQn :
           usart == Periph::USART2 ? USART2_IRQn :
           usart == Periph::USART3 ? USART3_IRQn :
           NonMaskableInt_IRQn;
+}
+
+template <class R>
+template<Periph usart, class TXpin, class RXpin> void USART_<R>::pin_static_assert()
+{
+   if constexpr (usart == Periph::USART1) {
+         static_assert (
+            (std::is_same_v<TXpin, PA9> and std::is_same_v<RXpin, PA10>) or
+            (std::is_same_v<TXpin, PB6> and std::is_same_v<RXpin, PB7>),
+            "USART1 возможен только с парами пинов TX/PA9, RX/PA10 или TX/PB6, RX/PB7");
+      } else if constexpr (usart == Periph::USART2) {
+         static_assert (
+            (std::is_same_v<TXpin, PA2> and std::is_same_v<RXpin, PA3>) or
+            (std::is_same_v<TXpin, PD5> and std::is_same_v<RXpin, PD6>),
+            "USART2 возможен только с парами пинов TX/PA2, RX/PA3 или TX/PD5, RX/PD6");
+      } else if constexpr (usart == Periph::USART3) {
+         static_assert (
+            (std::is_same_v<TXpin, PB10> and std::is_same_v<RXpin, PB11>) or
+            (std::is_same_v<TXpin, PC10> and std::is_same_v<RXpin, PC11>) or
+            (std::is_same_v<TXpin, PD8>  and std::is_same_v<RXpin, PD9>),
+            "USART3 возможен только с парами пинов TX/PB10, RX/PB11 или TX/PC10, RX/PC11 или TX/PD8, RX/PD9");
+      }
 }
 
 } //namespace mcu

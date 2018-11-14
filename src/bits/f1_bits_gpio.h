@@ -6,9 +6,9 @@ namespace mcu::GPIO_bits {
 
 struct CR {
    enum Mode { In_analog = 0b0000, Out10MHz_push_pull,      Out2MHz_push_pull,      Out50MHz_push_pull,
-                   In_floating,        Out10MHz_open_drain,     Out2MHz_open_drain,     Out50MHz_open_drain,
-                   In_pull,            Out10MHz_push_pull_alt,  Out2MHz_push_pull_alt,  Out50MHz_push_pull_alt,
-                   Reserved,           Out10MHz_open_drain_alt, Out2MHz_open_drain_alt, Out50MHz_open_drain_alt
+               In_floating,        Out10MHz_open_drain,     Out2MHz_open_drain,     Out50MHz_open_drain,
+               In_pull,            Out10MHz_push_pull_alt,  Out2MHz_push_pull_alt,  Out50MHz_push_pull_alt,
+               Reserved,           Out10MHz_open_drain_alt, Out2MHz_open_drain_alt, Out50MHz_open_drain_alt
    };
    Mode CNF_MODE0  :4;
    Mode CNF_MODE1  :4;

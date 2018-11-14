@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE f1_dma
+#define BOOST_TEST_MODULE f1_test_dma_stream
 #include <boost/test/unit_test.hpp>
 
 #define STM32F103xB

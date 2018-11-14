@@ -56,6 +56,7 @@ test (STM32F1 f1_test_dma)
 # test (STM32F1 f1_test_dma_stream)
 test (STM32F4 f4_test_flash)
 test (NULL test_reflect)
+test (STM32F1 test_uart)
 
 
 

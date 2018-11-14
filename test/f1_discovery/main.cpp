@@ -3,10 +3,11 @@
 #define F_CPU   72000000UL
 #include "rcc.h"
 #include "pin.h"
-// #include "timers.h"
-// #include "pwm.h"
+// // #include "timers.h"
+// // #include "pwm.h"
 #include "uart.h"
 // #include "fifo.h"
+# include "modbus_slave.h"
 
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock ()
@@ -35,7 +36,7 @@ int main()
 //    pwm.frequency  = 20_kHz;
 //    pwm.out_enable();
 
-   // auto uart = mcu::UART<>::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10>;
+   auto uart = mcu::UART::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10,mcu::PA8, mcu::PA12>();
 
 //    while(1) {
 
@@ -45,4 +46,12 @@ int main()
 
 //    } // while(1) {
    // FIFO buffer;
+   // buffer << 2;
+
+   // buffer << 2;
+
+   // struct InReg{};
+   // struct OutReg{};
+
+   // auto modbus = mcu::Modbus_slave::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10, InReg, OutReg>();
 }

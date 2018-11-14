@@ -78,7 +78,7 @@ enum class Periph {
     FLASH,
 
 #if defined(TEST)
-    TEST_RCC, TEST_AFIO, TEST_DMA,
+    TEST_RCC, TEST_AFIO, TEST_DMA
 #endif
 };
 
