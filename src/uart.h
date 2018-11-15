@@ -97,14 +97,13 @@ public:
                    .enable_transfer_complete_interrupt();
          NVIC_EnableIRQ(uart.TXstream.IRQn(TX_stream));
 
-      uart.RXstream.template clock_enable()
-                   .direction(DataDirection::PerToMem)
-              	 	 .set_memory_adr(reinterpret_cast<size_t>(uart.buffer))
-              	 	 .set_periph_adr(uart.usart.transmit_data_adr())
-              	 	 .set_qty_transactions(buffer_size)
-              	 	 .inc_memory()
-              	 	 .size_memory(DataSize::byte8)
-              	 	 .size_periph(DataSize::byte8);
+      uart.RXstream.direction(DataDirection::PerToMem)
+              		 .set_memory_adr(reinterpret_cast<size_t>(uart.buffer))
+              		 .set_periph_adr(uart.usart.transmit_data_adr())
+              		 .set_qty_transactions(buffer_size)
+              		 .inc_memory()
+              		 .size_memory(DataSize::byte8)
+              		 .size_periph(DataSize::byte8);
 
       return uart;
    }
