@@ -6,7 +6,7 @@ constexpr int qty = 8;
 
 enum IRQn_Type
 {
-   USART1_IRQn, DMA1_Channel1_IRQn, DMA1_Channel2_IRQn
+   USART1_IRQn, DMA1_Channel1_IRQn, DMA1_Channel2_IRQn, Error
 };
 
 
@@ -49,28 +49,28 @@ public:
    bool operator= (bool v) 
    {
       if (pin == tx) {
-         result << (v ? "устанавливаем значение пина TX true"   : "устанавливаем значение пина TX false")  << '\n'; return v;
+         result << (v ? "устанавливаем значение пина TX true"   : "устанавливаем значение пина TX false")  << '\n';
       } else if (pin == rx) {
-          result << (v ? "устанавливаем значение пина RX true"  : "устанавливаем значение пина RX false")  << '\n'; return v;
+          result << (v ? "устанавливаем значение пина RX true"  : "устанавливаем значение пина RX false")  << '\n';
       } else if (pin == rts){
-         result << (v ? "устанавливаем значение пина RTS true"  : "устанавливаем значение пина RTS false") << '\n'; return v;
+         result << (v ? "устанавливаем значение пина RTS true"  : "устанавливаем значение пина RTS false") << '\n';
       } else if (pin == led) {
-          result << (v ? "устанавливаем значение пина LED true" : "устанавливаем значение пина LED false") << '\n'; return v;
-      }
-
-}
+          result << (v ? "устанавливаем значение пина LED true" : "устанавливаем значение пина LED false") << '\n';
+      } 
+      return v;
+   }
 
    template<class Pin_, PinMode mode> static auto make()
    {Pin pin; 
 
       if (std::is_same_v<Pin_, TX> and mode == PinMode::USART1_TX) {
-         result << "создали пин TX" << '\n';
+         result << "создали пин TX в альтернативном режиме" << '\n';
       } else if (std::is_same_v<Pin_, RX> and mode == PinMode::USART1_RX) {
-         result << "создали пин RX" << '\n';
+         result << "создали пин RX в альтернативном режиме" << '\n';
       } else if (std::is_same_v<Pin_, RTS> and mode == PinMode::Output) {
-         result << "создали пин RTS" << '\n';
+         result << "создали пин RTS в режиме выхода" << '\n';
       } else if (std::is_same_v<Pin_, LED> and mode == PinMode::Output) {
-         result << "создали пин LED" << '\n';
+         result << "создали пин LED в режиме выхода" << '\n';
       }
 
       return pin;
@@ -273,8 +273,15 @@ public:
       if (stream == TX_stream) {
          result << "Определяем номер прерывания TX_stream" << '\n'; return DMA1_Channel1_IRQn;
       } else if (stream == RX_stream) {
-          result << "Определяем номер прерывания RX_stream" << '\n'; return DMA1_Channel2_IRQn;
+         result << "Определяем номер прерывания RX_stream" << '\n'; return DMA1_Channel2_IRQn;
       }
+
+      return Error;
+   }
+
+   uint16_t qty_transactions_left()
+   {
+      return 0;
    }
 };
 

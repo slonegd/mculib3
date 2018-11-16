@@ -34,10 +34,10 @@ BOOST_AUTO_TEST_CASE (make)
       "Создали ссылку на переферию tx stream"               "\n"
       "Создали ссылку на переферию rx stream"               "\n"
       "Передаем значение clock"                             "\n"
-      "создали пин TX"                                      "\n"
-      "создали пин RX"                                      "\n"
-      "создали пин RTS"                                     "\n"
-      "создали пин LED"                                     "\n"
+      "создали пин TX в альтернативном режиме"              "\n"
+      "создали пин RX в альтернативном режиме"              "\n"
+      "создали пин RTS в режиме выхода"                     "\n"
+      "создали пин LED в режиме выхода"                     "\n"
       "Включаем тактирование переферии usart"               "\n"
       "USART Transmitter enable"                            "\n"
       "USART Receiver enable"                               "\n"
@@ -130,7 +130,7 @@ BOOST_AUTO_TEST_CASE(transmit)
 BOOST_AUTO_TEST_CASE(start_receive)
 {
    result.str("");
-   uart.start_receive(buffer);
+   uart.start_receive();
    BOOST_CHECK_EQUAL (result.str(),
       "устанавливаем значение пина LED false" "\n"
       "устанавливаем значение пина RTS false" "\n"

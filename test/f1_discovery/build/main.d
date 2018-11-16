@@ -13,7 +13,7 @@ build/main.d: main.cpp ../../src/periph/rcc.h ../../src/periph/periph.h \
  ../../src/bits/f1_bits_dma_stream.h ../../src/periph/f1_dma.h \
  ../../src/bits/f1_bits_dma.h ../../src/modbus_slave.h ../../src/timers.h \
  ../../src/periph/systick.h ../../src/bits/f0_f4_bits_systick.h \
- ../../src/subscriber.h ../../src/list.h
+ ../../src/subscriber.h ../../src/list.h ../../src/interrupt.h
 
 ../../src/periph/rcc.h:
 
@@ -78,3 +78,5 @@ build/main.d: main.cpp ../../src/periph/rcc.h ../../src/periph/periph.h \
 ../../src/subscriber.h:
 
 ../../src/list.h:
+
+../../src/interrupt.h:

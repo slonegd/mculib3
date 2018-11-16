@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccTd0H1B.s 			page 1
+ARM GAS  /tmp/cchd5eTC.s 			page 1
 
 
    1              		.cpu cortex-m0
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   31:../../src/timers.h **** class Timer : TickSubscriber
   32:../../src/timers.h **** {
   33:../../src/timers.h **** public:
-ARM GAS  /tmp/ccTd0H1B.s 			page 2
+ARM GAS  /tmp/cchd5eTC.s 			page 2
 
 
   34:../../src/timers.h ****    Timer() = default;
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   52              	_ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:
   53              	.LFB129:
   54              		.file 2 "../../src/periph/f1_dma.h"
-ARM GAS  /tmp/ccTd0H1B.s 			page 3
+ARM GAS  /tmp/cchd5eTC.s 			page 3
 
 
    1:../../src/periph/f1_dma.h **** #pragma once
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   68 0008 0171     		strb	r1, [r0, #4]
   69              	.L2:
   42:../../src/periph/f1_dma.h ****    else if (channel == Channel::_2) IFCR.CGIF2 = true;
-ARM GAS  /tmp/ccTd0H1B.s 			page 4
+ARM GAS  /tmp/cchd5eTC.s 			page 4
 
 
   43:../../src/periph/f1_dma.h ****    else if (channel == Channel::_3) IFCR.CGIF3 = true;
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  109 0036 0123     		movs	r3, #1
  110 0038 8279     		ldrb	r2, [r0, #6]
  111              	.L11:
-ARM GAS  /tmp/ccTd0H1B.s 			page 5
+ARM GAS  /tmp/cchd5eTC.s 			page 5
 
 
   46:../../src/periph/f1_dma.h ****    else if (channel == Channel::_7) IFCR.CGIF7 = true;
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  159              		.loc 2 52 0 is_stmt 0 discriminator 1
  160 0006 0078     		ldrb	r0, [r0]
  161              	.LVL5:
-ARM GAS  /tmp/ccTd0H1B.s 			page 6
+ARM GAS  /tmp/cchd5eTC.s 			page 6
 
 
  162              	.L21:
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  201 0026 F4E7     		b	.L23
  202              	.LVL12:
  203              	.L17:
-ARM GAS  /tmp/ccTd0H1B.s 			page 7
+ARM GAS  /tmp/cchd5eTC.s 			page 7
 
 
   56:../../src/periph/f1_dma.h ****    else if (channel == Channel::_6) return ISR.TCIF6;
@@ -412,13 +412,13 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  246              		@ args = 0, pretend = 0, frame = 0
  247              		@ frame_needed = 0, uses_anonymous_args = 0
  248              	.LVL18:
- 249              	.LBB265:
- 250              	.LBB266:
+ 249              	.LBB267:
+ 250              	.LBB268:
  251              		.file 3 "../../src/subscriber.h"
    1:../../src/subscriber.h **** #pragma once
    2:../../src/subscriber.h **** 
    3:../../src/subscriber.h **** #pragma once
-ARM GAS  /tmp/ccTd0H1B.s 			page 8
+ARM GAS  /tmp/cchd5eTC.s 			page 8
 
 
    4:../../src/subscriber.h **** 
@@ -437,8 +437,8 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   17:../../src/subscriber.h ****       for (auto& subscriber : *this)
  252              		.loc 3 17 0
  253 0000 054B     		ldr	r3, .L27
- 254              	.LBE266:
- 255              	.LBE265:
+ 254              	.LBE268:
+ 255              	.LBE267:
   16:../../src/timers.h ****    tickUpdater.notify();
  256              		.loc 1 16 0
  257 0002 10B5     		push	{r4, lr}
@@ -446,8 +446,8 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  259              		.cfi_def_cfa_offset 8
  260              		.cfi_offset 4, -8
  261              		.cfi_offset 14, -4
- 262              	.LBB270:
- 263              	.LBB269:
+ 262              	.LBB272:
+ 263              	.LBB271:
  264              		.loc 3 17 0
  265 0004 1C68     		ldr	r4, [r3]
  266              	.LVL19:
@@ -461,8 +461,8 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  273 000e 1B68     		ldr	r3, [r3]
  274 0010 9847     		blx	r3
  275              	.LVL20:
- 276              	.LBB267:
- 277              	.LBB268:
+ 276              	.LBB269:
+ 277              	.LBB270:
  278              		.file 4 "../../src/list.h"
    1:../../src/list.h **** #pragma once
    2:../../src/list.h **** 
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   12:../../src/list.h ****    T* first {nullptr};
   13:../../src/list.h ****    T* last  {nullptr};
   14:../../src/list.h **** public:
-ARM GAS  /tmp/ccTd0H1B.s 			page 9
+ARM GAS  /tmp/cchd5eTC.s 			page 9
 
 
   15:../../src/list.h ****    void push_back  (T*);
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   69:../../src/list.h ****       last = p->prev;
   70:../../src/list.h ****       last->next = nullptr;
   71:../../src/list.h ****       if (not last) first = nullptr;
-ARM GAS  /tmp/ccTd0H1B.s 			page 10
+ARM GAS  /tmp/cchd5eTC.s 			page 10
 
 
   72:../../src/list.h ****    } else {                         // если единственный 
@@ -595,13 +595,13 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  282 0014 F7E7     		b	.L26
  283              	.LVL22:
  284              	.L24:
- 285              	.LBE268:
- 286              	.LBE267:
- 287              	.LBE269:
-ARM GAS  /tmp/ccTd0H1B.s 			page 11
+ 285              	.LBE270:
+ 286              	.LBE269:
+ 287              	.LBE271:
+ARM GAS  /tmp/cchd5eTC.s 			page 11
 
 
- 288              	.LBE270:
+ 288              	.LBE272:
   18:../../src/timers.h **** 
  289              		.loc 1 18 0
  290              		@ sp needed
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   79:../../src/timers.h ****       return (false);
   80:../../src/timers.h ****    }
   81:../../src/timers.h **** }
-ARM GAS  /tmp/ccTd0H1B.s 			page 12
+ARM GAS  /tmp/cchd5eTC.s 			page 12
 
 
  327              		.loc 1 81 0
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  364              		.section	.text._ZN5Timer7isCountEv,"ax",%progbits
  365              		.align	1
  366              		.global	_ZN5Timer7isCountEv
-ARM GAS  /tmp/ccTd0H1B.s 			page 13
+ARM GAS  /tmp/cchd5eTC.s 			page 13
 
 
  367              		.syntax unified
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  106:../../src/timers.h **** uint32_t Timer::timeLeft(  ) { return timeSet - timePassed_; }
  422              		.loc 1 106 0
  423              		.cfi_startproc
-ARM GAS  /tmp/ccTd0H1B.s 			page 14
+ARM GAS  /tmp/cchd5eTC.s 			page 14
 
 
  424              		@ args = 0, pretend = 0, frame = 0
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  476              		.cfi_startproc
  477              		@ args = 0, pretend = 0, frame = 0
  478              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /tmp/ccTd0H1B.s 			page 15
+ARM GAS  /tmp/cchd5eTC.s 			page 15
 
 
  479              		@ link register save eliminated.
@@ -849,27 +849,27 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  483 0002 002B     		cmp	r3, #0
  484 0004 0DD0     		beq	.L37
  485              	.LVL37:
- 486              	.LBB277:
- 487              	.LBB278:
+ 486              	.LBB279:
+ 487              	.LBB280:
  114:../../src/timers.h ****       subscribed = false;
  488              		.loc 1 114 0
  489 0006 0023     		movs	r3, #0
- 490              	.LBB279:
- 491              	.LBB280:
- 492              	.LBB281:
+ 490              	.LBB281:
+ 491              	.LBB282:
+ 492              	.LBB283:
   61:../../src/list.h ****       p->prev->next = p->next;
  493              		.loc 4 61 0
  494 0008 4268     		ldr	r2, [r0, #4]
- 495              	.LBE281:
- 496              	.LBE280:
- 497              	.LBE279:
+ 495              	.LBE283:
+ 496              	.LBE282:
+ 497              	.LBE281:
  498              		.loc 1 114 0
  499 000a 0373     		strb	r3, [r0, #12]
  500              	.LVL38:
  501 000c 8368     		ldr	r3, [r0, #8]
- 502              	.LBB286:
- 503              	.LBB284:
- 504              	.LBB282:
+ 502              	.LBB288:
+ 503              	.LBB286:
+ 504              	.LBB284:
   61:../../src/list.h ****       p->prev->next = p->next;
  505              		.loc 4 61 0
  506 000e 002A     		cmp	r2, #0
@@ -896,14 +896,14 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  522 0020 8360     		str	r3, [r0, #8]
  523              	.LVL39:
  524              	.L37:
- 525              	.LBE282:
- 526              	.LBE284:
-ARM GAS  /tmp/ccTd0H1B.s 			page 16
+ 525              	.LBE284:
+ 526              	.LBE286:
+ARM GAS  /tmp/cchd5eTC.s 			page 16
 
 
- 527              	.LBE286:
- 528              	.LBE278:
- 529              	.LBE277:
+ 527              	.LBE288:
+ 528              	.LBE280:
+ 529              	.LBE279:
  115:../../src/timers.h ****       tickUpdater.unsubscribe (this);
  116:../../src/timers.h ****    }
  117:../../src/timers.h **** }
@@ -912,11 +912,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  532 0022 7047     		bx	lr
  533              	.LVL40:
  534              	.L42:
- 535              	.LBB289:
- 536              	.LBB288:
- 537              	.LBB287:
- 538              	.LBB285:
- 539              	.LBB283:
+ 535              	.LBB291:
+ 536              	.LBB290:
+ 537              	.LBB289:
+ 538              	.LBB287:
+ 539              	.LBB285:
   65:../../src/list.h ****       first->prev = nullptr;
  540              		.loc 4 65 0
  541 0024 0B60     		str	r3, [r1]
@@ -949,16 +949,16 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  562              		.align	2
  563              	.L49:
  564 003c 00000000 		.word	.LANCHOR0
- 565              	.LBE283:
- 566              	.LBE285:
- 567              	.LBE287:
- 568              	.LBE288:
- 569              	.LBE289:
+ 565              	.LBE285:
+ 566              	.LBE287:
+ 567              	.LBE289:
+ 568              	.LBE290:
+ 569              	.LBE291:
  570              		.cfi_endproc
  571              	.LFE252:
  573              		.section	.text._ZN5Timer4stopEv,"ax",%progbits
  574              		.align	1
-ARM GAS  /tmp/ccTd0H1B.s 			page 17
+ARM GAS  /tmp/cchd5eTC.s 			page 17
 
 
  575              		.global	_ZN5Timer4stopEv
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  625              		.cfi_offset 4, -8
  626              		.cfi_offset 14, -4
  102:../../src/timers.h **** void     Timer::start()      { subscribe();  }
-ARM GAS  /tmp/ccTd0H1B.s 			page 18
+ARM GAS  /tmp/cchd5eTC.s 			page 18
 
 
  627              		.loc 1 102 0
@@ -1053,16 +1053,16 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  653 0002 002B     		cmp	r3, #0
  654 0004 0CD1     		bne	.L53
  655              	.LVL46:
- 656              	.LBB296:
- 657              	.LBB297:
+ 656              	.LBB298:
+ 657              	.LBB299:
  123:../../src/timers.h ****       subscribed = true;
  658              		.loc 1 123 0
  659 0006 0133     		adds	r3, r3, #1
  660 0008 0373     		strb	r3, [r0, #12]
  661              	.LVL47:
- 662              	.LBB298:
- 663              	.LBB299:
- 664              	.LBB300:
+ 662              	.LBB300:
+ 663              	.LBB301:
+ 664              	.LBB302:
   42:../../src/list.h ****    if (last)
  665              		.loc 4 42 0
  666 000a 064B     		ldr	r3, .L61
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  674              	.L56:
   46:../../src/list.h ****       first = p;
  675              		.loc 4 46 0
-ARM GAS  /tmp/ccTd0H1B.s 			page 19
+ARM GAS  /tmp/cchd5eTC.s 			page 19
 
 
  676 0016 1A68     		ldr	r2, [r3]
@@ -1094,11 +1094,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  683 001e 1860     		str	r0, [r3]
  684              	.LVL48:
  685              	.L53:
- 686              	.LBE300:
- 687              	.LBE299:
- 688              	.LBE298:
- 689              	.LBE297:
- 690              	.LBE296:
+ 686              	.LBE302:
+ 687              	.LBE301:
+ 688              	.LBE300:
+ 689              	.LBE299:
+ 690              	.LBE298:
  124:../../src/timers.h ****       tickUpdater.subscribe (this);
  125:../../src/timers.h ****    }
  126:../../src/timers.h **** }...
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  723              		.loc 1 69 0
  724 0004 FFF7FEFF 		bl	_ZN14TickSubscriber9subscribeEv
  725              	.LVL50:
-ARM GAS  /tmp/ccTd0H1B.s 			page 20
+ARM GAS  /tmp/cchd5eTC.s 			page 20
 
 
   70:../../src/timers.h **** }
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   11:main.cpp      **** 
   12:main.cpp      **** /// эта функция вызываеться первой в startup файле
   13:main.cpp      **** extern "C" void init_clock ()
-ARM GAS  /tmp/ccTd0H1B.s 			page 21
+ARM GAS  /tmp/cchd5eTC.s 			page 21
 
 
   14:main.cpp      **** {
@@ -1242,25 +1242,27 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  794              		@ args = 0, pretend = 0, frame = 304
  795              		@ frame_needed = 0, uses_anonymous_args = 0
  796              	.LVL53:
- 797              	.LBB419:
- 798              	.LBB420:
- 799              	.LBB421:
- 800              	.LBB422:
- 801              	.LBB423:
- 802              	.LBB424:
- 803              	.LBB425:
- 804              		.file 6 "../../src/periph/f1_rcc.h"
+ 797              	.LBB422:
+ 798              	.LBB423:
+ 799              	.LBB424:
+ 800              	.LBB425:
+ 801              	.LBB426:
+ 802              	.LBB427:
+ 803              	.LBB428:
+ 804              	.LBB429:
+ 805              	.LBB430:
+ 806              		.file 6 "../../src/periph/f1_rcc.h"
    1:../../src/periph/f1_rcc.h **** #pragma once
    2:../../src/periph/f1_rcc.h **** 
    3:../../src/periph/f1_rcc.h **** #include "f1_bits_rcc.h"
    4:../../src/periph/f1_rcc.h **** 
    5:../../src/periph/f1_rcc.h **** namespace mcu {
    6:../../src/periph/f1_rcc.h **** 
+ARM GAS  /tmp/cchd5eTC.s 			page 22
+
+
    7:../../src/periph/f1_rcc.h **** class RCC {
    8:../../src/periph/f1_rcc.h ****    __IO RCC_bits::CR      CR;       // RCC clock control register,                offset: 0x00
-ARM GAS  /tmp/ccTd0H1B.s 			page 22
-
-
    9:../../src/periph/f1_rcc.h ****    __IO RCC_bits::CFGR    CFGR;     // RCC clock configuration register,          offset: 0x04
   10:../../src/periph/f1_rcc.h ****    __IO uint32_t          CIR;      // RCC clock interrupt register,              offset: 0x08
   11:../../src/periph/f1_rcc.h ****    __IO uint32_t          APB2RSTR; // RCC APB2 peripheral reset register,        offset: 0x0C
@@ -1308,50 +1310,52 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   53:../../src/periph/f1_rcc.h ****    template<Periph p> void clock_enable()
   54:../../src/periph/f1_rcc.h ****    {
   55:../../src/periph/f1_rcc.h ****       if      constexpr (p == Periph::GPIOA) APB2ENR.IOPAEN = true;
- 805              		.loc 6 55 0
- 806 0000 0420     		movs	r0, #4
- 807              	.LBE425:
- 808              	.LBE424:
- 809              	.LBE423:
- 810              	.LBB430:
- 811              	.LBB431:
- 812              	.LBB432:
- 813              	.LBB433:
+ 807              		.loc 6 55 0
+ 808 0000 0422     		movs	r2, #4
+ 809              	.LBE430:
+ 810              	.LBE429:
+ 811              	.LBE428:
+ 812              	.LBE427:
+ 813              	.LBE426:
+ 814              	.LBE425:
+ARM GAS  /tmp/cchd5eTC.s 			page 23
+
+
+ 815              	.LBE424:
+ 816              	.LBE423:
+ 817              	.LBE422:
+ 818              		.loc 5 30 0
+ 819 0002 F0B5     		push	{r4, r5, r6, r7, lr}
+ 820              	.LCFI5:
+ 821              		.cfi_def_cfa_offset 20
+ 822              		.cfi_offset 4, -20
+ 823              		.cfi_offset 5, -16
+ 824              		.cfi_offset 6, -12
+ 825              		.cfi_offset 7, -8
+ 826              		.cfi_offset 14, -4
+ 827              	.LBB599:
+ 828              	.LBB596:
+ 829              	.LBB593:
+ 830              	.LBB590:
+ 831              	.LBB452:
+ 832              	.LBB449:
+ 833              	.LBB435:
+ 834              	.LBB436:
+ 835              	.LBB437:
+ 836              	.LBB438:
   56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
-ARM GAS  /tmp/ccTd0H1B.s 			page 23
-
-
   57:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
   58:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOD) APB2ENR.IOPDEN = true;
   59:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOE) APB2ENR.IOPEEN = true;
   60:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::AFIO ) APB2ENR.AFIOEN = true;
- 814              		.loc 6 60 0
- 815 0002 0121     		movs	r1, #1
- 816              	.LBE433:
- 817              	.LBE432:
- 818              	.LBE431:
- 819              	.LBE430:
- 820              	.LBE422:
- 821              	.LBE421:
- 822              	.LBE420:
- 823              	.LBE419:
- 824              		.loc 5 30 0
- 825 0004 F0B5     		push	{r4, r5, r6, r7, lr}
- 826              	.LCFI5:
- 827              		.cfi_def_cfa_offset 20
- 828              		.cfi_offset 4, -20
- 829              		.cfi_offset 5, -16
- 830              		.cfi_offset 6, -12
- 831              		.cfi_offset 7, -8
- 832              		.cfi_offset 14, -4
- 833              	.LBB611:
- 834              	.LBB608:
- 835              	.LBB453:
- 836              	.LBB449:
- 837              	.LBB444:
- 838              	.LBB438:
- 839              	.LBB439:
- 840              		.file 7 "../../src/periph/f1_gpio.h"
+ 837              		.loc 6 60 0
+ 838 0004 0124     		movs	r4, #1
+ 839              	.LBE438:
+ 840              	.LBE437:
+ 841              	.LBE436:
+ 842              	.LBB441:
+ 843              	.LBB442:
+ 844              		.file 7 "../../src/periph/f1_gpio.h"
    1:../../src/periph/f1_gpio.h **** #pragma once
    2:../../src/periph/f1_gpio.h **** 
    3:../../src/periph/f1_gpio.h **** #include "f1_bits_gpio.h"
@@ -1374,13 +1378,13 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   20:../../src/periph/f1_gpio.h **** public:
   21:../../src/periph/f1_gpio.h ****    using CMSIS_type = GPIO_TypeDef;
   22:../../src/periph/f1_gpio.h ****    using Mode       = GPIO_bits::CR::Mode;
+ARM GAS  /tmp/cchd5eTC.s 			page 24
+
+
   23:../../src/periph/f1_gpio.h ****    using Remap      = AFIO::Remap;
   24:../../src/periph/f1_gpio.h **** 
   25:../../src/periph/f1_gpio.h ****    template<Periph p, Periph v = Periph::RCC> GPIO& clock_enable() { make_reference<v>().template c
   26:../../src/periph/f1_gpio.h **** 
-ARM GAS  /tmp/ccTd0H1B.s 			page 24
-
-
   27:../../src/periph/f1_gpio.h ****    void set     (size_t n) { BSRR |= (1 << n);              }
   28:../../src/periph/f1_gpio.h ****    void clear   (size_t n) { BSRR |= (1 << (n + 16));       }
   29:../../src/periph/f1_gpio.h ****    bool is_set  (size_t n) { return IDR.reg & (1 << n);     }
@@ -1426,388 +1430,337 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   69:../../src/periph/f1_gpio.h ****    else if constexpr (n == 7)  { CR.CNF_MODE7  = v; return *this; }
   70:../../src/periph/f1_gpio.h ****    else if constexpr (n == 8)  { CR.CNF_MODE8  = v; return *this; }
   71:../../src/periph/f1_gpio.h ****    else if constexpr (n == 9)  { CR.CNF_MODE9  = v; return *this; }
- 841              		.loc 7 71 0
- 842 0006 F025     		movs	r5, #240
- 843              	.LBE439:
- 844              	.LBE438:
- 845              	.LBE444:
- 846              	.LBE449:
- 847              	.LBE453:
- 848              	.LBB454:
- 849              	.LBB455:
- 850              	.LBB456:
+ 845              		.loc 7 71 0
+ 846 0006 F025     		movs	r5, #240
+ 847 0008 A021     		movs	r1, #160
+ 848              	.LBE442:
+ 849              	.LBE441:
+ 850              	.LBE435:
+ 851              	.LBE449:
+ 852              	.LBE452:
+ARM GAS  /tmp/cchd5eTC.s 			page 25
+
+
+ 853              	.LBB453:
+ 854              	.LBB454:
+ 855              	.LBB455:
   49:../../src/periph/f1_rcc.h **** 
- 851              		.loc 6 49 0
-ARM GAS  /tmp/ccTd0H1B.s 			page 25
+ 856              		.loc 6 49 0
+ 857 000a 4748     		ldr	r0, .L67
+ 858              	.LBE455:
+ 859              	.LBE454:
+ 860              	.LBE453:
+ 861              	.LBB458:
+ 862              	.LBB459:
+ 863              	.LBB460:
+ 864              	.LBB461:
+ 865              	.LBB462:
+  72:../../src/periph/f1_gpio.h ****    else if constexpr (n == 10) { CR.CNF_MODE10 = v; return *this; }
+ 866              		.loc 7 72 0
+ 867 000c 474F     		ldr	r7, .L67+4
+ 868              	.LBE462:
+ 869              	.LBE461:
+ 870              	.LBE460:
+ 871              	.LBE459:
+ 872              	.LBE458:
+ 873              	.LBB473:
+ 874              	.LBB457:
+ 875              	.LBB456:
+  49:../../src/periph/f1_rcc.h **** 
+ 876              		.loc 6 49 0
+ 877 000e 4368     		ldr	r3, [r0, #4]
+ 878              	.LVL54:
+ 879              	.LBE456:
+ 880              	.LBE457:
+ 881              	.LBE473:
+ 882              	.LBB474:
+ 883              	.LBB450:
+ 884              	.LBB446:
+ 885              	.LBB433:
+ 886              	.LBB431:
+  55:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
+ 887              		.loc 6 55 0
+ 888 0010 8369     		ldr	r3, [r0, #24]
+ 889              	.LBE431:
+ 890              	.LBE433:
+ 891              	.LBE446:
+ 892              	.LBE450:
+ 893              	.LBE474:
+ 894              	.LBE590:
+ 895              	.LBE593:
+ 896              	.LBE596:
+ 897              	.LBE599:
+ 898              		.loc 5 30 0
+ 899 0012 CDB0     		sub	sp, sp, #308
+ 900              	.LCFI6:
+ 901              		.cfi_def_cfa_offset 328
+ 902              	.LBB600:
+ 903              	.LBB597:
+ 904              	.LBB594:
+ 905              	.LBB591:
+ARM GAS  /tmp/cchd5eTC.s 			page 26
 
 
- 852 0008 494B     		ldr	r3, .L67
- 853              	.LBE456:
- 854              	.LBE455:
- 855              	.LBE454:
- 856              	.LBB459:
- 857              	.LBB460:
- 858              	.LBB461:
+ 906              	.LBB475:
+ 907              	.LBB451:
+ 908              	.LBB447:
+ 909              	.LBB434:
+ 910              	.LBB432:
+  55:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
+ 911              		.loc 6 55 0
+ 912 0014 1343     		orrs	r3, r2
+ 913 0016 8361     		str	r3, [r0, #24]
+ 914              	.LVL55:
+ 915              	.LBE432:
+ 916              	.LBE434:
+ 917              	.LBE447:
+ 918              	.LBB448:
+ 919              	.LBB444:
+ 920              	.LBB440:
+ 921              	.LBB439:
+ 922              		.loc 6 60 0
+ 923 0018 8369     		ldr	r3, [r0, #24]
+ 924 001a 2343     		orrs	r3, r4
+ 925 001c 8361     		str	r3, [r0, #24]
+ 926              	.LVL56:
+ 927              	.LBE439:
+ 928              	.LBE440:
+ 929              	.LBE444:
+ 930              	.LBB445:
+ 931              	.LBB443:
+  71:../../src/periph/f1_gpio.h ****    else if constexpr (n == 10) { CR.CNF_MODE10 = v; return *this; }
+ 932              		.loc 7 71 0
+ 933 001e 444B     		ldr	r3, .L67+8
+ 934 0020 5E68     		ldr	r6, [r3, #4]
+ 935 0022 AE43     		bics	r6, r5
+ 936 0024 3143     		orrs	r1, r6
+ 937 0026 5960     		str	r1, [r3, #4]
+ 938              	.LVL57:
+ 939              	.LBE443:
+ 940              	.LBE445:
+ 941              	.LBE448:
+ 942              	.LBE451:
+ 943              	.LBE475:
+ 944              	.LBB476:
+ 945              	.LBB472:
+ 946              	.LBB468:
+ 947              	.LBB469:
+ 948              	.LBB470:
+  55:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
+ 949              		.loc 6 55 0
+ 950 0028 8169     		ldr	r1, [r0, #24]
+ 951 002a 1143     		orrs	r1, r2
+ 952 002c 8161     		str	r1, [r0, #24]
+ 953              	.LVL58:
+ 954              	.LBE470:
+ 955              	.LBE469:
+ 956              	.LBE468:
+ 957              	.LBB471:
+ 958              	.LBB464:
+ 959              	.LBB465:
+ARM GAS  /tmp/cchd5eTC.s 			page 27
+
+
+ 960              	.LBB466:
+ 961              		.loc 6 60 0
+ 962 002e 8169     		ldr	r1, [r0, #24]
+ 963 0030 2143     		orrs	r1, r4
+ 964 0032 8161     		str	r1, [r0, #24]
+ 965              	.LVL59:
+ 966              	.LBE466:
+ 967              	.LBE465:
+ 968              	.LBE464:
+ 969              	.LBB467:
+ 970              	.LBB463:
+ 971              		.loc 7 72 0
+ 972 0034 A021     		movs	r1, #160
+ 973 0036 5E68     		ldr	r6, [r3, #4]
+ 974 0038 0901     		lsls	r1, r1, #4
+ 975 003a 3E40     		ands	r6, r7
+ 976 003c 3143     		orrs	r1, r6
+ 977 003e 5960     		str	r1, [r3, #4]
+ 978              	.LVL60:
+ 979              	.LBE463:
+ 980              	.LBE467:
+ 981              	.LBE471:
+ 982              	.LBE472:
+ 983              	.LBE476:
+ 984              	.LBB477:
+ 985              	.LBB478:
+ 986              	.LBB479:
+ 987              	.LBB480:
+ 988              	.LBB481:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 989              		.loc 6 56 0
+ 990 0040 0821     		movs	r1, #8
+ 991 0042 8369     		ldr	r3, [r0, #24]
+ 992              	.LBE481:
+ 993              	.LBE480:
+ 994              	.LBE479:
+ 995              	.LBB484:
+ 996              	.LBB485:
+ 997              	.LBB486:
+  63:../../src/periph/f1_gpio.h ****    else if constexpr (n == 2)  { CR.CNF_MODE2  = v; return *this; }
+ 998              		.loc 7 63 0
+ 999 0044 3B4E     		ldr	r6, .L67+12
+ 1000              	.LBE486:
+ 1001              	.LBE485:
+ 1002              	.LBE484:
+ 1003              	.LBB489:
+ 1004              	.LBB483:
+ 1005              	.LBB482:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1006              		.loc 6 56 0
+ 1007 0046 0B43     		orrs	r3, r1
+ 1008 0048 8361     		str	r3, [r0, #24]
+ 1009              	.LVL61:
+ 1010              	.LBE482:
+ 1011              	.LBE483:
+ 1012              	.LBE489:
+ 1013              	.LBB490:
+ARM GAS  /tmp/cchd5eTC.s 			page 28
+
+
+ 1014              	.LBB488:
+ 1015              	.LBB487:
+  63:../../src/periph/f1_gpio.h ****    else if constexpr (n == 2)  { CR.CNF_MODE2  = v; return *this; }
+ 1016              		.loc 7 63 0
+ 1017 004a 3368     		ldr	r3, [r6]
+ 1018 004c AB43     		bics	r3, r5
+ 1019 004e D03D     		subs	r5, r5, #208
+ 1020 0050 2B43     		orrs	r3, r5
+ 1021 0052 3360     		str	r3, [r6]
+ 1022              	.LVL62:
+ 1023              	.LBE487:
+ 1024              	.LBE488:
+ 1025              	.LBE490:
+ 1026              	.LBE478:
+ 1027              	.LBE477:
+ 1028              	.LBB491:
+ 1029              	.LBB492:
+ 1030              	.LBB493:
+ 1031              	.LBB494:
+ 1032              	.LBB495:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1033              		.loc 6 56 0
+ 1034 0054 8369     		ldr	r3, [r0, #24]
+ 1035 0056 0B43     		orrs	r3, r1
+ 1036 0058 8361     		str	r3, [r0, #24]
+ 1037              	.LVL63:
+ 1038              	.LBE495:
+ 1039              	.LBE494:
+ 1040              	.LBE493:
+ 1041              	.LBB496:
+ 1042              	.LBB497:
+ 1043              	.LBB498:
+  64:../../src/periph/f1_gpio.h ****    else if constexpr (n == 3)  { CR.CNF_MODE3  = v; return *this; }
+ 1044              		.loc 7 64 0
+ 1045 005a 3368     		ldr	r3, [r6]
+ 1046 005c 3B40     		ands	r3, r7
+ 1047 005e 8027     		movs	r7, #128
+ 1048 0060 BF00     		lsls	r7, r7, #2
+ 1049 0062 1F43     		orrs	r7, r3
+ 1050 0064 3760     		str	r7, [r6]
+ 1051              	.LVL64:
+ 1052              	.LBE498:
+ 1053              	.LBE497:
+ 1054              	.LBE496:
+ 1055              	.LBE492:
+ 1056              	.LBE491:
+ 1057              	.LBB499:
+ 1058              	.LBB500:
+ 1059              	.LBB501:
   61:../../src/periph/f1_rcc.h **** 
   62:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::USART1) APB2ENR.USART1EN = true;
- 859              		.loc 6 62 0
- 860 000a 8027     		movs	r7, #128
- 861              	.LBE461:
- 862              	.LBE460:
- 863              	.LBE459:
- 864              	.LBB466:
- 865              	.LBB458:
- 866              	.LBB457:
-  49:../../src/periph/f1_rcc.h **** 
- 867              		.loc 6 49 0
- 868 000c 5A68     		ldr	r2, [r3, #4]
- 869              	.LVL54:
- 870              	.LBE457:
- 871              	.LBE458:
- 872              	.LBE466:
- 873              	.LBB467:
- 874              	.LBB450:
- 875              	.LBB445:
- 876              	.LBB428:
- 877              	.LBB426:
-  55:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
- 878              		.loc 6 55 0
- 879 000e 9A69     		ldr	r2, [r3, #24]
- 880              	.LBE426:
- 881              	.LBE428:
- 882              	.LBE445:
- 883              	.LBE450:
- 884              	.LBE467:
- 885              	.LBE608:
- 886              	.LBE611:
- 887              		.loc 5 30 0
- 888 0010 CDB0     		sub	sp, sp, #308
- 889              	.LCFI6:
- 890              		.cfi_def_cfa_offset 328
- 891              	.LBB612:
- 892              	.LBB609:
- 893              	.LBB468:
- 894              	.LBB451:
- 895              	.LBB446:
- 896              	.LBB429:
- 897              	.LBB427:
-  55:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
- 898              		.loc 6 55 0
- 899 0012 0243     		orrs	r2, r0
- 900 0014 9A61     		str	r2, [r3, #24]
- 901              	.LVL55:
- 902              	.LBE427:
- 903              	.LBE429:
-ARM GAS  /tmp/ccTd0H1B.s 			page 26
+ 1060              		.loc 6 62 0
+ 1061 0066 8027     		movs	r7, #128
+ 1062              	.LBE501:
+ 1063              	.LBE500:
+ 1064              	.LBE499:
+ 1065              	.LBB504:
+ARM GAS  /tmp/cchd5eTC.s 			page 29
 
 
- 904              	.LBE446:
- 905              	.LBB447:
- 906              	.LBB441:
- 907              	.LBB436:
- 908              	.LBB434:
-  60:../../src/periph/f1_rcc.h **** 
- 909              		.loc 6 60 0
- 910 0016 9A69     		ldr	r2, [r3, #24]
- 911              	.LBE434:
- 912              	.LBE436:
- 913              	.LBE441:
- 914              	.LBE447:
- 915              	.LBE451:
- 916              	.LBE468:
- 917              	.LBB469:
- 918              	.LBB464:
- 919              	.LBB462:
- 920              		.loc 6 62 0
- 921 0018 FF01     		lsls	r7, r7, #7
- 922              	.LBE462:
- 923              	.LBE464:
- 924              	.LBE469:
- 925              	.LBB470:
- 926              	.LBB452:
- 927              	.LBB448:
- 928              	.LBB442:
- 929              	.LBB437:
- 930              	.LBB435:
-  60:../../src/periph/f1_rcc.h **** 
- 931              		.loc 6 60 0
- 932 001a 0A43     		orrs	r2, r1
- 933 001c 9A61     		str	r2, [r3, #24]
- 934              	.LVL56:
- 935              	.LBE435:
- 936              	.LBE437:
- 937              	.LBE442:
- 938              	.LBB443:
- 939              	.LBB440:
- 940              		.loc 7 71 0
- 941 001e 454A     		ldr	r2, .L67+4
- 942 0020 5468     		ldr	r4, [r2, #4]
- 943 0022 AC43     		bics	r4, r5
- 944 0024 2500     		movs	r5, r4
- 945 0026 A024     		movs	r4, #160
- 946 0028 2C43     		orrs	r4, r5
- 947 002a 5460     		str	r4, [r2, #4]
- 948              	.LVL57:
- 949              	.LBE440:
- 950              	.LBE443:
- 951              	.LBE448:
- 952              	.LBE452:
- 953              	.LBE470:
- 954              	.LBB471:
- 955              	.LBB472:
- 956              	.LBB473:
- 957              	.LBB474:
- 958              	.LBB475:
-ARM GAS  /tmp/ccTd0H1B.s 			page 27
-
-
-  55:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
- 959              		.loc 6 55 0
- 960 002c 9C69     		ldr	r4, [r3, #24]
- 961              	.LBE475:
- 962              	.LBE474:
- 963              	.LBE473:
- 964              	.LBB478:
- 965              	.LBB479:
- 966              	.LBB480:
-  72:../../src/periph/f1_gpio.h ****    else if constexpr (n == 10) { CR.CNF_MODE10 = v; return *this; }
- 967              		.loc 7 72 0
- 968 002e 424D     		ldr	r5, .L67+8
- 969              	.LBE480:
- 970              	.LBE479:
- 971              	.LBE478:
- 972              	.LBB488:
- 973              	.LBB477:
- 974              	.LBB476:
-  55:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
- 975              		.loc 6 55 0
- 976 0030 0443     		orrs	r4, r0
- 977 0032 9C61     		str	r4, [r3, #24]
- 978              	.LVL58:
- 979              	.LBE476:
- 980              	.LBE477:
- 981              	.LBE488:
- 982              	.LBB489:
- 983              	.LBB483:
- 984              	.LBB484:
- 985              	.LBB485:
-  60:../../src/periph/f1_rcc.h **** 
- 986              		.loc 6 60 0
- 987 0034 9C69     		ldr	r4, [r3, #24]
- 988 0036 0C43     		orrs	r4, r1
- 989 0038 9C61     		str	r4, [r3, #24]
- 990              	.LVL59:
- 991              	.LBE485:
- 992              	.LBE484:
- 993              	.LBE483:
- 994              	.LBB486:
- 995              	.LBB481:
- 996              		.loc 7 72 0
- 997 003a 5468     		ldr	r4, [r2, #4]
- 998 003c 2540     		ands	r5, r4
- 999 003e A024     		movs	r4, #160
- 1000 0040 2401     		lsls	r4, r4, #4
- 1001 0042 2C43     		orrs	r4, r5
- 1002              	.LBE481:
- 1003              	.LBE486:
- 1004              	.LBE489:
- 1005              	.LBE472:
- 1006              	.LBE471:
- 1007              	.LBB492:
- 1008              	.LBB493:
- 1009              	.LBB494:
- 1010              	.LBB495:
- 1011              	.LBB496:
-ARM GAS  /tmp/ccTd0H1B.s 			page 28
-
-
-  70:../../src/periph/f1_gpio.h ****    else if constexpr (n == 9)  { CR.CNF_MODE9  = v; return *this; }
- 1012              		.loc 7 70 0
- 1013 0044 0F25     		movs	r5, #15
- 1014              	.LBE496:
- 1015              	.LBE495:
- 1016              	.LBE494:
- 1017              	.LBE493:
- 1018              	.LBE492:
- 1019              	.LBB508:
- 1020              	.LBB491:
- 1021              	.LBB490:
- 1022              	.LBB487:
- 1023              	.LBB482:
- 1024              		.loc 7 72 0
- 1025 0046 5460     		str	r4, [r2, #4]
- 1026              	.LVL60:
- 1027              	.LBE482:
- 1028              	.LBE487:
- 1029              	.LBE490:
- 1030              	.LBE491:
- 1031              	.LBE508:
- 1032              	.LBB509:
- 1033              	.LBB506:
- 1034              	.LBB501:
- 1035              	.LBB502:
- 1036              	.LBB503:
-  55:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
- 1037              		.loc 6 55 0
- 1038 0048 9C69     		ldr	r4, [r3, #24]
- 1039 004a 0443     		orrs	r4, r0
- 1040 004c 9C61     		str	r4, [r3, #24]
- 1041              	.LVL61:
- 1042              	.LBE503:
- 1043              	.LBE502:
- 1044              	.LBE501:
- 1045              	.LBB504:
- 1046              	.LBB499:
- 1047              	.LBB497:
-  70:../../src/periph/f1_gpio.h ****    else if constexpr (n == 9)  { CR.CNF_MODE9  = v; return *this; }
- 1048              		.loc 7 70 0
- 1049 004e 5468     		ldr	r4, [r2, #4]
- 1050 0050 AC43     		bics	r4, r5
- 1051 0052 0D3D     		subs	r5, r5, #13
- 1052 0054 2C43     		orrs	r4, r5
- 1053 0056 5460     		str	r4, [r2, #4]
- 1054              	.LVL62:
- 1055              	.LBE497:
- 1056              	.LBE499:
- 1057              	.LBE504:
- 1058              	.LBE506:
- 1059              	.LBE509:
- 1060              	.LBB510:
- 1061              	.LBB511:
- 1062              	.LBB512:
- 1063              	.LBB513:
- 1064              	.LBB514:
-  55:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
-ARM GAS  /tmp/ccTd0H1B.s 			page 29
-
-
- 1065              		.loc 6 55 0
- 1066 0058 9C69     		ldr	r4, [r3, #24]
- 1067              	.LBE514:
- 1068              	.LBE513:
- 1069              	.LBE512:
- 1070              	.LBE511:
- 1071              	.LBE510:
- 1072              	.LBB522:
- 1073              	.LBB507:
- 1074              	.LBB505:
- 1075              	.LBB500:
- 1076              	.LBB498:
-  70:../../src/periph/f1_gpio.h ****    else if constexpr (n == 9)  { CR.CNF_MODE9  = v; return *this; }
- 1077              		.loc 7 70 0
- 1078 005a 2E00     		movs	r6, r5
- 1079              	.LBE498:
- 1080              	.LBE500:
- 1081              	.LBE505:
- 1082              	.LBE507:
- 1083              	.LBE522:
- 1084              	.LBB523:
- 1085              	.LBB521:
- 1086              	.LBB517:
- 1087              	.LBB516:
- 1088              	.LBB515:
-  55:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
- 1089              		.loc 6 55 0
- 1090 005c 0443     		orrs	r4, r0
- 1091 005e 9C61     		str	r4, [r3, #24]
- 1092              	.LVL63:
- 1093              	.LBE515:
- 1094              	.LBE516:
- 1095              	.LBE517:
- 1096              	.LBB518:
- 1097              	.LBB519:
- 1098              	.LBB520:
-  73:../../src/periph/f1_gpio.h ****    else if constexpr (n == 11) { CR.CNF_MODE11 = v; return *this; }
-  74:../../src/periph/f1_gpio.h ****    else if constexpr (n == 12) { CR.CNF_MODE12 = v; return *this; }
- 1099              		.loc 7 74 0
- 1100 0060 5468     		ldr	r4, [r2, #4]
- 1101 0062 364D     		ldr	r5, .L67+12
- 1102 0064 2540     		ands	r5, r4
- 1103 0066 8024     		movs	r4, #128
- 1104 0068 A402     		lsls	r4, r4, #10
- 1105 006a 2C43     		orrs	r4, r5
- 1106 006c 5460     		str	r4, [r2, #4]
- 1107              	.LVL64:
- 1108              	.LBE520:
- 1109              	.LBE519:
- 1110              	.LBE518:
- 1111              	.LBE521:
- 1112              	.LBE523:
- 1113              	.LBB524:
- 1114              	.LBB525:
- 1115              	.LBB526:
- 1116              		.file 8 "../../src/uart.h"
+ 1066              	.LBB505:
+ 1067              	.LBB506:
+ 1068              		.file 8 "../../src/uart.h"
    1:../../src/uart.h **** #pragma once
-ARM GAS  /tmp/ccTd0H1B.s 			page 30
-
-
    2:../../src/uart.h **** 
-   3:../../src/uart.h **** #include "usart.h"
-   4:../../src/uart.h **** 
-   5:../../src/uart.h **** namespace mcu {
-   6:../../src/uart.h **** 
-   7:../../src/uart.h **** template<size_t buffer_size = 255>
-   8:../../src/uart.h **** class UART_ {
-   9:../../src/uart.h ****    USART& usart;
-  10:../../src/uart.h ****    DMA_stream& TXstream;
-  11:../../src/uart.h ****    DMA_stream& RXstream;
-  12:../../src/uart.h ****    const size_t clock;
-  13:../../src/uart.h ****    Pin tx;
-  14:../../src/uart.h ****    Pin rx;
-  15:../../src/uart.h ****    Pin rts;
-  16:../../src/uart.h ****    Pin led;
-  17:../../src/uart.h ****    uint8_t buffer[buffer_size];
-  18:../../src/uart.h ****    
-  19:../../src/uart.h **** public:
-  20:../../src/uart.h **** 
-  21:../../src/uart.h ****    using Parity         = USART::Parity;
-  22:../../src/uart.h ****    using WakeMethod     = USART::WakeMethod;
-  23:../../src/uart.h ****    using DataBits       = USART::DataBits;
-  24:../../src/uart.h ****    using BreakDetection = USART::BreakDetection;
-  25:../../src/uart.h ****    using StopBits       = USART::StopBits;
-  26:../../src/uart.h ****    using Baudrate       = USART::Baudrate;
-  27:../../src/uart.h ****    using Channel        = USART::Channel;
+   3:../../src/uart.h **** #if not defined (TEST)
+   4:../../src/uart.h **** 	#include "usart.h"
+   5:../../src/uart.h **** #endif
+   6:../../src/uart.h **** namespace mcu {
+   7:../../src/uart.h **** 
+   8:../../src/uart.h **** template<size_t buffer_size = 255>
+   9:../../src/uart.h **** class UART_ {
+  10:../../src/uart.h ****    USART& usart;
+  11:../../src/uart.h ****    DMA_stream& TXstream;
+  12:../../src/uart.h ****    DMA_stream& RXstream;
+  13:../../src/uart.h ****    const size_t clock;
+  14:../../src/uart.h ****    Pin tx;
+  15:../../src/uart.h ****    Pin rx;
+  16:../../src/uart.h ****    Pin rts;
+  17:../../src/uart.h ****    Pin led;
+  18:../../src/uart.h ****    uint8_t buffer[buffer_size];
+  19:../../src/uart.h ****    
+  20:../../src/uart.h **** public:
+  21:../../src/uart.h **** 
+  22:../../src/uart.h ****    using Parity         = USART::Parity;
+  23:../../src/uart.h ****    using WakeMethod     = USART::WakeMethod;
+  24:../../src/uart.h ****    using DataBits       = USART::DataBits;
+  25:../../src/uart.h ****    using BreakDetection = USART::BreakDetection;
+  26:../../src/uart.h ****    using StopBits       = USART::StopBits;
+  27:../../src/uart.h ****    using Baudrate       = USART::Baudrate;
   28:../../src/uart.h ****    using DataSize       = DMA_stream::DataSize;
   29:../../src/uart.h ****    using Priority       = DMA_stream::Priority;
   30:../../src/uart.h ****    using DataDirection  = DMA_stream::DataDirection;
   31:../../src/uart.h **** 
-  32:../../src/uart.h ****    UART_ (USART& usart, DMA_stream& TXstream, DMA_stream& RXstream, size_t clock, Pin tx, Pin rx, P
-  33:../../src/uart.h ****       : usart    {usart}
-  34:../../src/uart.h ****       , TXstream {TXstream}
-  35:../../src/uart.h ****       , RXstream {RXstream}
-  36:../../src/uart.h ****       , clock    {clock}
-  37:../../src/uart.h ****       , tx       {tx}
-  38:../../src/uart.h ****       , rx       {rx}
-  39:../../src/uart.h ****       , rts      {rts}
-  40:../../src/uart.h ****       , led      {led}
- 1117              		.loc 8 40 0
- 1118 006e 344C     		ldr	r4, .L67+16
- 1119 0070 344A     		ldr	r2, .L67+20
- 1120 0072 0194     		str	r4, [sp, #4]
- 1121 0074 344C     		ldr	r4, .L67+24
- 1122 0076 0092     		str	r2, [sp]
- 1123 0078 0294     		str	r4, [sp, #8]
- 1124              	.LVL65:
- 1125              	.LBE526:
- 1126              	.LBE525:
- 1127              	.LBE524:
- 1128              	.LBB527:
- 1129              	.LBB465:
- 1130              	.LBB463:
- 1131              		.loc 6 62 0
- 1132 007a 9C69     		ldr	r4, [r3, #24]
- 1133 007c 3C43     		orrs	r4, r7
- 1134 007e 9C61     		str	r4, [r3, #24]
-ARM GAS  /tmp/ccTd0H1B.s 			page 31
+  32:../../src/uart.h ****    UART_ (
+  33:../../src/uart.h ****         USART& usart
+  34:../../src/uart.h ****       , DMA_stream& TXstream
+  35:../../src/uart.h ****       , DMA_stream& RXstream
+  36:../../src/uart.h ****       , size_t clock
+  37:../../src/uart.h ****       , Pin tx
+  38:../../src/uart.h ****       , Pin rx
+  39:../../src/uart.h ****       , Pin rts
+  40:../../src/uart.h ****       , Pin led
+  41:../../src/uart.h ****    )  : usart    {usart}
+  42:../../src/uart.h ****       , TXstream {TXstream}
+  43:../../src/uart.h ****       , RXstream {RXstream}
+  44:../../src/uart.h ****       , clock    {clock}
+  45:../../src/uart.h ****       , tx       {tx}
+  46:../../src/uart.h ****       , rx       {rx}
+  47:../../src/uart.h ****       , rts      {rts}
+  48:../../src/uart.h ****       , led      {led}
+ 1069              		.loc 8 48 0
+ 1070 0068 334E     		ldr	r6, .L67+16
+ 1071 006a 344B     		ldr	r3, .L67+20
+ 1072 006c 0196     		str	r6, [sp, #4]
+ 1073 006e 344E     		ldr	r6, .L67+24
+ 1074 0070 0093     		str	r3, [sp]
+ARM GAS  /tmp/cchd5eTC.s 			page 30
 
 
- 1135              	.LVL66:
- 1136              	.LBE463:
- 1137              	.LBE465:
- 1138              	.LBE527:
- 1139              	.LBB528:
- 1140              	.LBB529:
- 1141              		.file 9 "../../src/periph/f1_usart.h"
+ 1075 0072 0296     		str	r6, [sp, #8]
+ 1076              	.LVL65:
+ 1077              	.LBE506:
+ 1078              	.LBE505:
+ 1079              	.LBE504:
+ 1080              	.LBB507:
+ 1081              	.LBB503:
+ 1082              	.LBB502:
+ 1083              		.loc 6 62 0
+ 1084 0074 8669     		ldr	r6, [r0, #24]
+ 1085 0076 FF01     		lsls	r7, r7, #7
+ 1086 0078 3E43     		orrs	r6, r7
+ 1087 007a 8661     		str	r6, [r0, #24]
+ 1088              	.LVL66:
+ 1089              	.LBE502:
+ 1090              	.LBE503:
+ 1091              	.LBE507:
+ 1092              	.LBB508:
+ 1093              	.LBB509:
+ 1094              		.file 9 "../../src/periph/f1_usart.h"
    1:../../src/periph/f1_usart.h **** #pragma once
    2:../../src/periph/f1_usart.h **** 
    3:../../src/periph/f1_usart.h **** #include <type_traits>
@@ -1842,118 +1795,107 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   32:../../src/periph/f1_usart.h ****    using DataBits       = USART_bits::CR1::DataBits;
   33:../../src/periph/f1_usart.h ****    using BreakDetection = USART_bits::CR2::BreakDetection;
   34:../../src/periph/f1_usart.h ****    using StopBits       = USART_bits::CR2::StopBits;
-  35:../../src/periph/f1_usart.h ****    using Channel        = DMA_bits::Channel;
-  36:../../src/periph/f1_usart.h **** 
-  37:../../src/periph/f1_usart.h ****    enum Baudrate {
-  38:../../src/periph/f1_usart.h ****       BR9600   = 0b000,
-  39:../../src/periph/f1_usart.h ****       BR14400  = 0b001,
-  40:../../src/periph/f1_usart.h ****       BR19200  = 0b010,
-  41:../../src/periph/f1_usart.h ****       BR28800  = 0b011,
-  42:../../src/periph/f1_usart.h ****       BR38400  = 0b100,
-  43:../../src/periph/f1_usart.h ****       BR57600  = 0b101,
-  44:../../src/periph/f1_usart.h ****       BR76800  = 0b110,
-  45:../../src/periph/f1_usart.h ****       BR115200 = 0b111
-  46:../../src/periph/f1_usart.h ****    };
-  47:../../src/periph/f1_usart.h **** 
-  48:../../src/periph/f1_usart.h ****    USART_& set (Parity         v)         {this->CR1.PS    = v; return *this;}
-  49:../../src/periph/f1_usart.h ****    USART_& set (WakeMethod     v)         {this->CR1.WAKE  = v; return *this;}
-  50:../../src/periph/f1_usart.h ****    USART_& set (DataBits       v)         {this->CR1.M     = v; return *this;}
-ARM GAS  /tmp/ccTd0H1B.s 			page 32
+  35:../../src/periph/f1_usart.h **** 
+  36:../../src/periph/f1_usart.h ****    enum Baudrate {
+  37:../../src/periph/f1_usart.h ****       BR9600   = 0b000,
+ARM GAS  /tmp/cchd5eTC.s 			page 31
 
 
-  51:../../src/periph/f1_usart.h ****    USART_& set (BreakDetection v)         {this->CR2.LBDL  = v; return *this;}
-  52:../../src/periph/f1_usart.h ****    USART_& set (StopBits       v)         {this->CR2.STOP  = v; return *this;}
-  53:../../src/periph/f1_usart.h ****    USART_& send_byte (uint8_t  v)         {this->DR = v;        return *this;}
-  54:../../src/periph/f1_usart.h ****    USART_& set (Baudrate, size_t);
-  55:../../src/periph/f1_usart.h **** 
-  56:../../src/periph/f1_usart.h ****    template <Periph usart, Periph rcc = Periph::RCC>
-  57:../../src/periph/f1_usart.h ****    USART_& clock_enable  (){make_reference<rcc>().template clock_enable<usart>(); return *this;}
-  58:../../src/periph/f1_usart.h ****    USART_& enable        (){this->CR1.UE   = true;  return *this;}
-  59:../../src/periph/f1_usart.h ****    USART_& disable       (){this->CR1.UE   = false; return *this;}
-  60:../../src/periph/f1_usart.h ****    USART_& rx_enable     (){this->CR1.RE   = true;  return *this;}
-  61:../../src/periph/f1_usart.h ****    USART_& rx_disable    (){this->CR1.RE   = false; return *this;}
-  62:../../src/periph/f1_usart.h ****    USART_& tx_enable     (){this->CR1.TE   = true;  return *this;}
- 1142              		.loc 9 62 0
- 1143 0080 0824     		movs	r4, #8
- 1144              	.LBE529:
- 1145              	.LBE528:
- 1146              	.LBB531:
- 1147              	.LBB532:
-  63:../../src/periph/f1_usart.h ****    USART_& tx_disable    (){this->CR1.TE   = false; return *this;}
-  64:../../src/periph/f1_usart.h ****    USART_& rts_enable    (){this->CR3.RTSE = true;  return *this;}
-  65:../../src/periph/f1_usart.h ****    USART_& rts_disable   (){this->CR3.RTSE = false; return *this;}
-  66:../../src/periph/f1_usart.h ****    USART_& DMA_tx_enable (){this->CR3.DMAT = true;  return *this;}
- 1148              		.loc 9 66 0
- 1149 0082 8027     		movs	r7, #128
- 1150              	.LBE532:
- 1151              	.LBE531:
- 1152              	.LBB534:
- 1153              	.LBB530:
-  62:../../src/periph/f1_usart.h ****    USART_& tx_disable    (){this->CR1.TE   = false; return *this;}
- 1154              		.loc 9 62 0
- 1155 0084 D568     		ldr	r5, [r2, #12]
- 1156 0086 2C43     		orrs	r4, r5
- 1157 0088 D460     		str	r4, [r2, #12]
- 1158              	.LBE530:
- 1159              	.LBE534:
- 1160              	.LBB535:
- 1161              	.LBB536:
-  60:../../src/periph/f1_usart.h ****    USART_& rx_disable    (){this->CR1.RE   = false; return *this;}
- 1162              		.loc 9 60 0
- 1163 008a D468     		ldr	r4, [r2, #12]
- 1164 008c 2043     		orrs	r0, r4
- 1165 008e D060     		str	r0, [r2, #12]
- 1166              	.LBE536:
- 1167              	.LBE535:
- 1168              	.LBB537:
- 1169              	.LBB533:
- 1170              		.loc 9 66 0
- 1171 0090 5069     		ldr	r0, [r2, #20]
- 1172 0092 3843     		orrs	r0, r7
- 1173 0094 5061     		str	r0, [r2, #20]
- 1174              	.LBE533:
- 1175              	.LBE537:
- 1176              	.LBB538:
- 1177              	.LBB539:
-  67:../../src/periph/f1_usart.h ****    USART_& DMA_rx_enable (){this->CR3.DMAR = true;  return *this;}
- 1178              		.loc 9 67 0
- 1179 0096 4020     		movs	r0, #64
-ARM GAS  /tmp/ccTd0H1B.s 			page 33
-
-
- 1180 0098 5469     		ldr	r4, [r2, #20]
- 1181 009a 2043     		orrs	r0, r4
- 1182 009c 5061     		str	r0, [r2, #20]
- 1183              	.LBE539:
- 1184              	.LBE538:
- 1185              	.LBB540:
- 1186              	.LBB541:
-  68:../../src/periph/f1_usart.h ****    USART_& parity_enable (){this->CR1.PCE  = true;  return *this;}
-  69:../../src/periph/f1_usart.h ****    USART_& parity_disable(){this->CR1.PCE  = false; return *this;}
-  70:../../src/periph/f1_usart.h **** 
-  71:../../src/periph/f1_usart.h ****    USART_& enable_IDLE_interrupt          (){this->CR1.IDLEIE = true;  return *this;}
- 1187              		.loc 9 71 0
- 1188 009e 1020     		movs	r0, #16
- 1189 00a0 D468     		ldr	r4, [r2, #12]
- 1190 00a2 0443     		orrs	r4, r0
- 1191 00a4 D460     		str	r4, [r2, #12]
- 1192              	.LBE541:
- 1193              	.LBE540:
- 1194              	.LBB542:
- 1195              	.LBB543:
+  38:../../src/periph/f1_usart.h ****       BR14400  = 0b001,
+  39:../../src/periph/f1_usart.h ****       BR19200  = 0b010,
+  40:../../src/periph/f1_usart.h ****       BR28800  = 0b011,
+  41:../../src/periph/f1_usart.h ****       BR38400  = 0b100,
+  42:../../src/periph/f1_usart.h ****       BR57600  = 0b101,
+  43:../../src/periph/f1_usart.h ****       BR76800  = 0b110,
+  44:../../src/periph/f1_usart.h ****       BR115200 = 0b111
+  45:../../src/periph/f1_usart.h ****    };
+  46:../../src/periph/f1_usart.h **** 
+  47:../../src/periph/f1_usart.h ****    USART_& set (Parity         v)         {this->CR1.PS    = v; return *this;}
+  48:../../src/periph/f1_usart.h ****    USART_& set (WakeMethod     v)         {this->CR1.WAKE  = v; return *this;}
+  49:../../src/periph/f1_usart.h ****    USART_& set (DataBits       v)         {this->CR1.M     = v; return *this;}
+  50:../../src/periph/f1_usart.h ****    USART_& set (BreakDetection v)         {this->CR2.LBDL  = v; return *this;}
+  51:../../src/periph/f1_usart.h ****    USART_& set (StopBits       v)         {this->CR2.STOP  = v; return *this;}
+  52:../../src/periph/f1_usart.h ****    USART_& send_byte (uint8_t  v)         {this->DR = v;        return *this;}
+  53:../../src/periph/f1_usart.h ****    USART_& set (Baudrate, size_t);
+  54:../../src/periph/f1_usart.h **** 
+  55:../../src/periph/f1_usart.h ****    template <Periph usart, Periph rcc = Periph::RCC>
+  56:../../src/periph/f1_usart.h ****    USART_& clock_enable  (){make_reference<rcc>().template clock_enable<usart>(); return *this;}
+  57:../../src/periph/f1_usart.h ****    USART_& enable        (){this->CR1.UE   = true;  return *this;}
   58:../../src/periph/f1_usart.h ****    USART_& disable       (){this->CR1.UE   = false; return *this;}
- 1196              		.loc 9 58 0
- 1197 00a6 8024     		movs	r4, #128
- 1198 00a8 D568     		ldr	r5, [r2, #12]
- 1199 00aa A401     		lsls	r4, r4, #6
- 1200 00ac 2C43     		orrs	r4, r5
- 1201 00ae D460     		str	r4, [r2, #12]
- 1202              	.LVL67:
- 1203              	.LBE543:
- 1204              	.LBE542:
- 1205              	.LBB544:
- 1206              	.LBB545:
- 1207              		.file 10 "../../STM32F1_files/CMSIS/core_cm3.h"
+  59:../../src/periph/f1_usart.h ****    USART_& rx_enable     (){this->CR1.RE   = true;  return *this;}
+  60:../../src/periph/f1_usart.h ****    USART_& rx_disable    (){this->CR1.RE   = false; return *this;}
+  61:../../src/periph/f1_usart.h ****    USART_& tx_enable     (){this->CR1.TE   = true;  return *this;}
+ 1095              		.loc 9 61 0
+ 1096 007c DE68     		ldr	r6, [r3, #12]
+ 1097 007e 3143     		orrs	r1, r6
+ 1098 0080 D960     		str	r1, [r3, #12]
+ 1099              	.LBE509:
+ 1100              	.LBE508:
+ 1101              	.LBB510:
+ 1102              	.LBB511:
+  59:../../src/periph/f1_usart.h ****    USART_& rx_disable    (){this->CR1.RE   = false; return *this;}
+ 1103              		.loc 9 59 0
+ 1104 0082 D968     		ldr	r1, [r3, #12]
+ 1105 0084 0A43     		orrs	r2, r1
+ 1106 0086 DA60     		str	r2, [r3, #12]
+ 1107              	.LBE511:
+ 1108              	.LBE510:
+ 1109              	.LBB512:
+ 1110              	.LBB513:
+  62:../../src/periph/f1_usart.h ****    USART_& tx_disable    (){this->CR1.TE   = false; return *this;}
+  63:../../src/periph/f1_usart.h ****    USART_& rts_enable    (){this->CR3.RTSE = true;  return *this;}
+  64:../../src/periph/f1_usart.h ****    USART_& rts_disable   (){this->CR3.RTSE = false; return *this;}
+  65:../../src/periph/f1_usart.h ****    USART_& DMA_tx_enable (){this->CR3.DMAT = true;  return *this;}
+ 1111              		.loc 9 65 0
+ 1112 0088 8022     		movs	r2, #128
+ 1113 008a 5969     		ldr	r1, [r3, #20]
+ 1114 008c 1143     		orrs	r1, r2
+ 1115 008e 5961     		str	r1, [r3, #20]
+ 1116              	.LBE513:
+ 1117              	.LBE512:
+ 1118              	.LBB514:
+ 1119              	.LBB515:
+  66:../../src/periph/f1_usart.h ****    USART_& DMA_rx_enable (){this->CR3.DMAR = true;  return *this;}
+ 1120              		.loc 9 66 0
+ 1121 0090 4021     		movs	r1, #64
+ARM GAS  /tmp/cchd5eTC.s 			page 32
+
+
+ 1122 0092 5E69     		ldr	r6, [r3, #20]
+ 1123 0094 3143     		orrs	r1, r6
+ 1124 0096 5961     		str	r1, [r3, #20]
+ 1125              	.LBE515:
+ 1126              	.LBE514:
+ 1127              	.LBB516:
+ 1128              	.LBB517:
+  67:../../src/periph/f1_usart.h ****    USART_& parity_enable (){this->CR1.PCE  = true;  return *this;}
+  68:../../src/periph/f1_usart.h ****    USART_& parity_disable(){this->CR1.PCE  = false; return *this;}
+  69:../../src/periph/f1_usart.h **** 
+  70:../../src/periph/f1_usart.h ****    USART_& enable_IDLE_interrupt          (){this->CR1.IDLEIE = true;  return *this;}
+ 1129              		.loc 9 70 0
+ 1130 0098 1021     		movs	r1, #16
+ 1131 009a DE68     		ldr	r6, [r3, #12]
+ 1132 009c 0E43     		orrs	r6, r1
+ 1133 009e DE60     		str	r6, [r3, #12]
+ 1134              	.LBE517:
+ 1135              	.LBE516:
+ 1136              	.LBB518:
+ 1137              	.LBB519:
+  57:../../src/periph/f1_usart.h ****    USART_& disable       (){this->CR1.UE   = false; return *this;}
+ 1138              		.loc 9 57 0
+ 1139 00a0 DE68     		ldr	r6, [r3, #12]
+ 1140 00a2 B446     		mov	ip, r6
+ 1141 00a4 8026     		movs	r6, #128
+ 1142 00a6 6746     		mov	r7, ip
+ 1143 00a8 B601     		lsls	r6, r6, #6
+ 1144 00aa 3E43     		orrs	r6, r7
+ 1145 00ac DE60     		str	r6, [r3, #12]
+ 1146              	.LVL67:
+ 1147              	.LBE519:
+ 1148              	.LBE518:
+ 1149              	.LBB520:
+ 1150              	.LBB521:
+ 1151              		.file 10 "../../STM32F1_files/CMSIS/core_cm3.h"
    1:../../STM32F1_files/CMSIS/core_cm3.h **** /**************************************************************************//**
    2:../../STM32F1_files/CMSIS/core_cm3.h ****  * @file     core_cm3.h
    3:../../STM32F1_files/CMSIS/core_cm3.h ****  * @brief    CMSIS Cortex-M3 Core Peripheral Access Layer Header File
@@ -1976,11 +1918,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   20:../../STM32F1_files/CMSIS/core_cm3.h ****    *
   21:../../STM32F1_files/CMSIS/core_cm3.h ****    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
   22:../../STM32F1_files/CMSIS/core_cm3.h ****    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ARM GAS  /tmp/cchd5eTC.s 			page 33
+
+
   23:../../STM32F1_files/CMSIS/core_cm3.h ****    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
   24:../../STM32F1_files/CMSIS/core_cm3.h ****    ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
-ARM GAS  /tmp/ccTd0H1B.s 			page 34
-
-
   25:../../STM32F1_files/CMSIS/core_cm3.h ****    LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
   26:../../STM32F1_files/CMSIS/core_cm3.h ****    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
   27:../../STM32F1_files/CMSIS/core_cm3.h ****    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
@@ -2036,11 +1978,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   77:../../STM32F1_files/CMSIS/core_cm3.h ****                                     __CM3_CMSIS_VERSION_SUB           )        /*!< CMSIS HAL versi
   78:../../STM32F1_files/CMSIS/core_cm3.h **** 
   79:../../STM32F1_files/CMSIS/core_cm3.h **** #define __CORTEX_M                (0x03U)                                      /*!< Cortex-M Core *
+ARM GAS  /tmp/cchd5eTC.s 			page 34
+
+
   80:../../STM32F1_files/CMSIS/core_cm3.h **** 
   81:../../STM32F1_files/CMSIS/core_cm3.h **** 
-ARM GAS  /tmp/ccTd0H1B.s 			page 35
-
-
   82:../../STM32F1_files/CMSIS/core_cm3.h **** #if   defined ( __CC_ARM )
   83:../../STM32F1_files/CMSIS/core_cm3.h ****   #define __ASM            __asm                                      /*!< asm keyword for ARM Comp
   84:../../STM32F1_files/CMSIS/core_cm3.h ****   #define __INLINE         __inline                                   /*!< inline keyword for ARM C
@@ -2096,11 +2038,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  134:../../STM32F1_files/CMSIS/core_cm3.h ****   #endif
  135:../../STM32F1_files/CMSIS/core_cm3.h **** 
  136:../../STM32F1_files/CMSIS/core_cm3.h **** #elif defined ( __GNUC__ )
+ARM GAS  /tmp/cchd5eTC.s 			page 35
+
+
  137:../../STM32F1_files/CMSIS/core_cm3.h ****   #if defined (__VFP_FP__) && !defined(__SOFTFP__)
  138:../../STM32F1_files/CMSIS/core_cm3.h ****     #error "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)"
-ARM GAS  /tmp/ccTd0H1B.s 			page 36
-
-
  139:../../STM32F1_files/CMSIS/core_cm3.h ****   #endif
  140:../../STM32F1_files/CMSIS/core_cm3.h **** 
  141:../../STM32F1_files/CMSIS/core_cm3.h **** #elif defined ( __ICCARM__ )
@@ -2156,11 +2098,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  191:../../STM32F1_files/CMSIS/core_cm3.h ****   #endif
  192:../../STM32F1_files/CMSIS/core_cm3.h **** 
  193:../../STM32F1_files/CMSIS/core_cm3.h ****   #ifndef __NVIC_PRIO_BITS
+ARM GAS  /tmp/cchd5eTC.s 			page 36
+
+
  194:../../STM32F1_files/CMSIS/core_cm3.h ****     #define __NVIC_PRIO_BITS          4U
  195:../../STM32F1_files/CMSIS/core_cm3.h ****     #warning "__NVIC_PRIO_BITS not defined in device header file; using default!"
-ARM GAS  /tmp/ccTd0H1B.s 			page 37
-
-
  196:../../STM32F1_files/CMSIS/core_cm3.h ****   #endif
  197:../../STM32F1_files/CMSIS/core_cm3.h **** 
  198:../../STM32F1_files/CMSIS/core_cm3.h ****   #ifndef __Vendor_SysTickConfig
@@ -2216,11 +2158,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  248:../../STM32F1_files/CMSIS/core_cm3.h ****   @{
  249:../../STM32F1_files/CMSIS/core_cm3.h ****  */
  250:../../STM32F1_files/CMSIS/core_cm3.h **** 
+ARM GAS  /tmp/cchd5eTC.s 			page 37
+
+
  251:../../STM32F1_files/CMSIS/core_cm3.h **** /**
  252:../../STM32F1_files/CMSIS/core_cm3.h ****   \brief  Union type to access the Application Program Status Register (APSR).
-ARM GAS  /tmp/ccTd0H1B.s 			page 38
-
-
  253:../../STM32F1_files/CMSIS/core_cm3.h ****  */
  254:../../STM32F1_files/CMSIS/core_cm3.h **** typedef union
  255:../../STM32F1_files/CMSIS/core_cm3.h **** {
@@ -2276,11 +2218,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  305:../../STM32F1_files/CMSIS/core_cm3.h ****  */
  306:../../STM32F1_files/CMSIS/core_cm3.h **** typedef union
  307:../../STM32F1_files/CMSIS/core_cm3.h **** {
+ARM GAS  /tmp/cchd5eTC.s 			page 38
+
+
  308:../../STM32F1_files/CMSIS/core_cm3.h ****   struct
  309:../../STM32F1_files/CMSIS/core_cm3.h ****   {
-ARM GAS  /tmp/ccTd0H1B.s 			page 39
-
-
  310:../../STM32F1_files/CMSIS/core_cm3.h ****     uint32_t ISR:9;                      /*!< bit:  0.. 8  Exception number */
  311:../../STM32F1_files/CMSIS/core_cm3.h ****     uint32_t _reserved0:15;              /*!< bit:  9..23  Reserved */
  312:../../STM32F1_files/CMSIS/core_cm3.h ****     uint32_t T:1;                        /*!< bit:     24  Thumb bit        (read 0) */
@@ -2336,11 +2278,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  362:../../STM32F1_files/CMSIS/core_cm3.h **** 
  363:../../STM32F1_files/CMSIS/core_cm3.h **** /* CONTROL Register Definitions */
  364:../../STM32F1_files/CMSIS/core_cm3.h **** #define CONTROL_SPSEL_Pos                   1U                                            /*!< CONT
+ARM GAS  /tmp/cchd5eTC.s 			page 39
+
+
  365:../../STM32F1_files/CMSIS/core_cm3.h **** #define CONTROL_SPSEL_Msk                  (1UL << CONTROL_SPSEL_Pos)                     /*!< CONT
  366:../../STM32F1_files/CMSIS/core_cm3.h **** 
-ARM GAS  /tmp/ccTd0H1B.s 			page 40
-
-
  367:../../STM32F1_files/CMSIS/core_cm3.h **** #define CONTROL_nPRIV_Pos                   0U                                            /*!< CONT
  368:../../STM32F1_files/CMSIS/core_cm3.h **** #define CONTROL_nPRIV_Msk                  (1UL /*<< CONTROL_nPRIV_Pos*/)                 /*!< CONT
  369:../../STM32F1_files/CMSIS/core_cm3.h **** 
@@ -2396,11 +2338,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  419:../../STM32F1_files/CMSIS/core_cm3.h ****   __IM  uint32_t CPUID;                  /*!< Offset: 0x000 (R/ )  CPUID Base Register */
  420:../../STM32F1_files/CMSIS/core_cm3.h ****   __IOM uint32_t ICSR;                   /*!< Offset: 0x004 (R/W)  Interrupt Control and State Regi
  421:../../STM32F1_files/CMSIS/core_cm3.h ****   __IOM uint32_t VTOR;                   /*!< Offset: 0x008 (R/W)  Vector Table Offset Register */
+ARM GAS  /tmp/cchd5eTC.s 			page 40
+
+
  422:../../STM32F1_files/CMSIS/core_cm3.h ****   __IOM uint32_t AIRCR;                  /*!< Offset: 0x00C (R/W)  Application Interrupt and Reset 
  423:../../STM32F1_files/CMSIS/core_cm3.h ****   __IOM uint32_t SCR;                    /*!< Offset: 0x010 (R/W)  System Control Register */
-ARM GAS  /tmp/ccTd0H1B.s 			page 41
-
-
  424:../../STM32F1_files/CMSIS/core_cm3.h ****   __IOM uint32_t CCR;                    /*!< Offset: 0x014 (R/W)  Configuration Control Register *
  425:../../STM32F1_files/CMSIS/core_cm3.h ****   __IOM uint8_t  SHP[12U];               /*!< Offset: 0x018 (R/W)  System Handlers Priority Registe
  426:../../STM32F1_files/CMSIS/core_cm3.h ****   __IOM uint32_t SHCSR;                  /*!< Offset: 0x024 (R/W)  System Handler Control and State
@@ -2456,11 +2398,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  476:../../STM32F1_files/CMSIS/core_cm3.h **** 
  477:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_ICSR_ISRPENDING_Pos            22U                                            /*!< SCB 
  478:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_ICSR_ISRPENDING_Msk            (1UL << SCB_ICSR_ISRPENDING_Pos)               /*!< SCB 
+ARM GAS  /tmp/cchd5eTC.s 			page 41
+
+
  479:../../STM32F1_files/CMSIS/core_cm3.h **** 
  480:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_ICSR_VECTPENDING_Pos           12U                                            /*!< SCB 
-ARM GAS  /tmp/ccTd0H1B.s 			page 42
-
-
  481:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_ICSR_VECTPENDING_Msk           (0x1FFUL << SCB_ICSR_VECTPENDING_Pos)          /*!< SCB 
  482:../../STM32F1_files/CMSIS/core_cm3.h **** 
  483:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_ICSR_RETTOBASE_Pos             11U                                            /*!< SCB 
@@ -2516,11 +2458,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  533:../../STM32F1_files/CMSIS/core_cm3.h **** /* SCB Configuration Control Register Definitions */
  534:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_CCR_STKALIGN_Pos                9U                                            /*!< SCB 
  535:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_CCR_STKALIGN_Msk               (1UL << SCB_CCR_STKALIGN_Pos)                  /*!< SCB 
+ARM GAS  /tmp/cchd5eTC.s 			page 42
+
+
  536:../../STM32F1_files/CMSIS/core_cm3.h **** 
  537:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_CCR_BFHFNMIGN_Pos               8U                                            /*!< SCB 
-ARM GAS  /tmp/ccTd0H1B.s 			page 43
-
-
  538:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_CCR_BFHFNMIGN_Msk              (1UL << SCB_CCR_BFHFNMIGN_Pos)                 /*!< SCB 
  539:../../STM32F1_files/CMSIS/core_cm3.h **** 
  540:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_CCR_DIV_0_TRP_Pos               4U                                            /*!< SCB 
@@ -2576,11 +2518,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  590:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_SHCSR_BUSFAULTACT_Msk          (1UL << SCB_SHCSR_BUSFAULTACT_Pos)             /*!< SCB 
  591:../../STM32F1_files/CMSIS/core_cm3.h **** 
  592:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_SHCSR_MEMFAULTACT_Pos           0U                                            /*!< SCB 
+ARM GAS  /tmp/cchd5eTC.s 			page 43
+
+
  593:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_SHCSR_MEMFAULTACT_Msk          (1UL /*<< SCB_SHCSR_MEMFAULTACT_Pos*/)         /*!< SCB 
  594:../../STM32F1_files/CMSIS/core_cm3.h **** 
-ARM GAS  /tmp/ccTd0H1B.s 			page 44
-
-
  595:../../STM32F1_files/CMSIS/core_cm3.h **** /* SCB Configurable Fault Status Register Definitions */
  596:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_CFSR_USGFAULTSR_Pos            16U                                            /*!< SCB 
  597:../../STM32F1_files/CMSIS/core_cm3.h **** #define SCB_CFSR_USGFAULTSR_Msk            (0xFFFFUL << SCB_CFSR_USGFAULTSR_Pos)          /*!< SCB 
@@ -2636,11 +2578,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  647:../../STM32F1_files/CMSIS/core_cm3.h ****   __IM  uint32_t ICTR;                   /*!< Offset: 0x004 (R/ )  Interrupt Controller Type Regist
  648:../../STM32F1_files/CMSIS/core_cm3.h **** #if ((defined __CM3_REV) && (__CM3_REV >= 0x200U))
  649:../../STM32F1_files/CMSIS/core_cm3.h ****   __IOM uint32_t ACTLR;                  /*!< Offset: 0x008 (R/W)  Auxiliary Control Register */
+ARM GAS  /tmp/cchd5eTC.s 			page 44
+
+
  650:../../STM32F1_files/CMSIS/core_cm3.h **** #else
  651:../../STM32F1_files/CMSIS/core_cm3.h ****         uint32_t RESERVED1[1U];
-ARM GAS  /tmp/ccTd0H1B.s 			page 45
-
-
  652:../../STM32F1_files/CMSIS/core_cm3.h **** #endif
  653:../../STM32F1_files/CMSIS/core_cm3.h **** } SCnSCB_Type;
  654:../../STM32F1_files/CMSIS/core_cm3.h **** 
@@ -2696,11 +2638,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  704:../../STM32F1_files/CMSIS/core_cm3.h **** /* SysTick Reload Register Definitions */
  705:../../STM32F1_files/CMSIS/core_cm3.h **** #define SysTick_LOAD_RELOAD_Pos             0U                                            /*!< SysT
  706:../../STM32F1_files/CMSIS/core_cm3.h **** #define SysTick_LOAD_RELOAD_Msk            (0xFFFFFFUL /*<< SysTick_LOAD_RELOAD_Pos*/)    /*!< SysT
+ARM GAS  /tmp/cchd5eTC.s 			page 45
+
+
  707:../../STM32F1_files/CMSIS/core_cm3.h **** 
  708:../../STM32F1_files/CMSIS/core_cm3.h **** /* SysTick Current Register Definitions */
-ARM GAS  /tmp/ccTd0H1B.s 			page 46
-
-
  709:../../STM32F1_files/CMSIS/core_cm3.h **** #define SysTick_VAL_CURRENT_Pos             0U                                            /*!< SysT
  710:../../STM32F1_files/CMSIS/core_cm3.h **** #define SysTick_VAL_CURRENT_Msk            (0xFFFFFFUL /*<< SysTick_VAL_CURRENT_Pos*/)    /*!< SysT
  711:../../STM32F1_files/CMSIS/core_cm3.h **** 
@@ -2756,11 +2698,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  761:../../STM32F1_files/CMSIS/core_cm3.h ****   __IM  uint32_t PID0;                   /*!< Offset: 0xFE0 (R/ )  ITM Peripheral Identification Re
  762:../../STM32F1_files/CMSIS/core_cm3.h ****   __IM  uint32_t PID1;                   /*!< Offset: 0xFE4 (R/ )  ITM Peripheral Identification Re
  763:../../STM32F1_files/CMSIS/core_cm3.h ****   __IM  uint32_t PID2;                   /*!< Offset: 0xFE8 (R/ )  ITM Peripheral Identification Re
+ARM GAS  /tmp/cchd5eTC.s 			page 46
+
+
  764:../../STM32F1_files/CMSIS/core_cm3.h ****   __IM  uint32_t PID3;                   /*!< Offset: 0xFEC (R/ )  ITM Peripheral Identification Re
  765:../../STM32F1_files/CMSIS/core_cm3.h ****   __IM  uint32_t CID0;                   /*!< Offset: 0xFF0 (R/ )  ITM Component  Identification Re
-ARM GAS  /tmp/ccTd0H1B.s 			page 47
-
-
  766:../../STM32F1_files/CMSIS/core_cm3.h ****   __IM  uint32_t CID1;                   /*!< Offset: 0xFF4 (R/ )  ITM Component  Identification Re
  767:../../STM32F1_files/CMSIS/core_cm3.h ****   __IM  uint32_t CID2;                   /*!< Offset: 0xFF8 (R/ )  ITM Component  Identification Re
  768:../../STM32F1_files/CMSIS/core_cm3.h ****   __IM  uint32_t CID3;                   /*!< Offset: 0xFFC (R/ )  ITM Component  Identification Re
@@ -2816,11 +2758,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  818:../../STM32F1_files/CMSIS/core_cm3.h **** 
  819:../../STM32F1_files/CMSIS/core_cm3.h **** #define ITM_LSR_Access_Pos                  1U                                            /*!< ITM 
  820:../../STM32F1_files/CMSIS/core_cm3.h **** #define ITM_LSR_Access_Msk                 (1UL << ITM_LSR_Access_Pos)                    /*!< ITM 
+ARM GAS  /tmp/cchd5eTC.s 			page 47
+
+
  821:../../STM32F1_files/CMSIS/core_cm3.h **** 
  822:../../STM32F1_files/CMSIS/core_cm3.h **** #define ITM_LSR_Present_Pos                 0U                                            /*!< ITM 
-ARM GAS  /tmp/ccTd0H1B.s 			page 48
-
-
  823:../../STM32F1_files/CMSIS/core_cm3.h **** #define ITM_LSR_Present_Msk                (1UL /*<< ITM_LSR_Present_Pos*/)               /*!< ITM 
  824:../../STM32F1_files/CMSIS/core_cm3.h **** 
  825:../../STM32F1_files/CMSIS/core_cm3.h **** /*@}*/ /* end of group CMSIS_ITM */
@@ -2876,11 +2818,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  875:../../STM32F1_files/CMSIS/core_cm3.h **** #define DWT_CTRL_NOCYCCNT_Pos              25U                                         /*!< DWT CTR
  876:../../STM32F1_files/CMSIS/core_cm3.h **** #define DWT_CTRL_NOCYCCNT_Msk              (0x1UL << DWT_CTRL_NOCYCCNT_Pos)            /*!< DWT CTR
  877:../../STM32F1_files/CMSIS/core_cm3.h **** 
+ARM GAS  /tmp/cchd5eTC.s 			page 48
+
+
  878:../../STM32F1_files/CMSIS/core_cm3.h **** #define DWT_CTRL_NOPRFCNT_Pos              24U                                         /*!< DWT CTR
  879:../../STM32F1_files/CMSIS/core_cm3.h **** #define DWT_CTRL_NOPRFCNT_Msk              (0x1UL << DWT_CTRL_NOPRFCNT_Pos)            /*!< DWT CTR
-ARM GAS  /tmp/ccTd0H1B.s 			page 49
-
-
  880:../../STM32F1_files/CMSIS/core_cm3.h **** 
  881:../../STM32F1_files/CMSIS/core_cm3.h **** #define DWT_CTRL_CYCEVTENA_Pos             22U                                         /*!< DWT CTR
  882:../../STM32F1_files/CMSIS/core_cm3.h **** #define DWT_CTRL_CYCEVTENA_Msk             (0x1UL << DWT_CTRL_CYCEVTENA_Pos)           /*!< DWT CTR
@@ -2936,11 +2878,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  932:../../STM32F1_files/CMSIS/core_cm3.h **** /* DWT LSU Count Register Definitions */
  933:../../STM32F1_files/CMSIS/core_cm3.h **** #define DWT_LSUCNT_LSUCNT_Pos               0U                                         /*!< DWT LSU
  934:../../STM32F1_files/CMSIS/core_cm3.h **** #define DWT_LSUCNT_LSUCNT_Msk              (0xFFUL /*<< DWT_LSUCNT_LSUCNT_Pos*/)       /*!< DWT LSU
+ARM GAS  /tmp/cchd5eTC.s 			page 49
+
+
  935:../../STM32F1_files/CMSIS/core_cm3.h **** 
  936:../../STM32F1_files/CMSIS/core_cm3.h **** /* DWT Folded-instruction Count Register Definitions */
-ARM GAS  /tmp/ccTd0H1B.s 			page 50
-
-
  937:../../STM32F1_files/CMSIS/core_cm3.h **** #define DWT_FOLDCNT_FOLDCNT_Pos             0U                                         /*!< DWT FOL
  938:../../STM32F1_files/CMSIS/core_cm3.h **** #define DWT_FOLDCNT_FOLDCNT_Msk            (0xFFUL /*<< DWT_FOLDCNT_FOLDCNT_Pos*/)     /*!< DWT FOL
  939:../../STM32F1_files/CMSIS/core_cm3.h **** 
@@ -2996,11 +2938,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
  989:../../STM32F1_files/CMSIS/core_cm3.h ****         uint32_t RESERVED0[2U];
  990:../../STM32F1_files/CMSIS/core_cm3.h ****   __IOM uint32_t ACPR;                   /*!< Offset: 0x010 (R/W)  Asynchronous Clock Prescaler Reg
  991:../../STM32F1_files/CMSIS/core_cm3.h ****         uint32_t RESERVED1[55U];
+ARM GAS  /tmp/cchd5eTC.s 			page 50
+
+
  992:../../STM32F1_files/CMSIS/core_cm3.h ****   __IOM uint32_t SPPR;                   /*!< Offset: 0x0F0 (R/W)  Selected Pin Protocol Register *
  993:../../STM32F1_files/CMSIS/core_cm3.h ****         uint32_t RESERVED2[131U];
-ARM GAS  /tmp/ccTd0H1B.s 			page 51
-
-
  994:../../STM32F1_files/CMSIS/core_cm3.h ****   __IM  uint32_t FFSR;                   /*!< Offset: 0x300 (R/ )  Formatter and Flush Status Regis
  995:../../STM32F1_files/CMSIS/core_cm3.h ****   __IOM uint32_t FFCR;                   /*!< Offset: 0x304 (R/W)  Formatter and Flush Control Regi
  996:../../STM32F1_files/CMSIS/core_cm3.h ****   __IM  uint32_t FSCR;                   /*!< Offset: 0x308 (R/ )  Formatter Synchronization Counte
@@ -3056,11 +2998,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
 1046:../../STM32F1_files/CMSIS/core_cm3.h **** #define TPI_FIFO0_ITM_ATVALID_Pos          29U                                         /*!< TPI FIF
 1047:../../STM32F1_files/CMSIS/core_cm3.h **** #define TPI_FIFO0_ITM_ATVALID_Msk          (0x3UL << TPI_FIFO0_ITM_ATVALID_Pos)        /*!< TPI FIF
 1048:../../STM32F1_files/CMSIS/core_cm3.h **** 
+ARM GAS  /tmp/cchd5eTC.s 			page 51
+
+
 1049:../../STM32F1_files/CMSIS/core_cm3.h **** #define TPI_FIFO0_ITM_bytecount_Pos        27U                                         /*!< TPI FIF
 1050:../../STM32F1_files/CMSIS/core_cm3.h **** #define TPI_FIFO0_ITM_bytecount_Msk        (0x3UL << TPI_FIFO0_ITM_bytecount_Pos)      /*!< TPI FIF
-ARM GAS  /tmp/ccTd0H1B.s 			page 52
-
-
 1051:../../STM32F1_files/CMSIS/core_cm3.h **** 
 1052:../../STM32F1_files/CMSIS/core_cm3.h **** #define TPI_FIFO0_ETM_ATVALID_Pos          26U                                         /*!< TPI FIF
 1053:../../STM32F1_files/CMSIS/core_cm3.h **** #define TPI_FIFO0_ETM_ATVALID_Msk          (0x3UL << TPI_FIFO0_ETM_ATVALID_Pos)        /*!< TPI FIF
@@ -3116,11 +3058,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
 1103:../../STM32F1_files/CMSIS/core_cm3.h **** #define TPI_DEVID_NRZVALID_Msk             (0x1UL << TPI_DEVID_NRZVALID_Pos)           /*!< TPI DEV
 1104:../../STM32F1_files/CMSIS/core_cm3.h **** 
 1105:../../STM32F1_files/CMSIS/core_cm3.h **** #define TPI_DEVID_MANCVALID_Pos            10U                                         /*!< TPI DEV
+ARM GAS  /tmp/cchd5eTC.s 			page 52
+
+
 1106:../../STM32F1_files/CMSIS/core_cm3.h **** #define TPI_DEVID_MANCVALID_Msk            (0x1UL << TPI_DEVID_MANCVALID_Pos)          /*!< TPI DEV
 1107:../../STM32F1_files/CMSIS/core_cm3.h **** 
-ARM GAS  /tmp/ccTd0H1B.s 			page 53
-
-
 1108:../../STM32F1_files/CMSIS/core_cm3.h **** #define TPI_DEVID_PTINVALID_Pos             9U                                         /*!< TPI DEV
 1109:../../STM32F1_files/CMSIS/core_cm3.h **** #define TPI_DEVID_PTINVALID_Msk            (0x1UL << TPI_DEVID_PTINVALID_Pos)          /*!< TPI DEV
 1110:../../STM32F1_files/CMSIS/core_cm3.h **** 
@@ -3176,11 +3118,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
 1160:../../STM32F1_files/CMSIS/core_cm3.h **** #define MPU_TYPE_DREGION_Pos                8U                                            /*!< MPU 
 1161:../../STM32F1_files/CMSIS/core_cm3.h **** #define MPU_TYPE_DREGION_Msk               (0xFFUL << MPU_TYPE_DREGION_Pos)               /*!< MPU 
 1162:../../STM32F1_files/CMSIS/core_cm3.h **** 
+ARM GAS  /tmp/cchd5eTC.s 			page 53
+
+
 1163:../../STM32F1_files/CMSIS/core_cm3.h **** #define MPU_TYPE_SEPARATE_Pos               0U                                            /*!< MPU 
 1164:../../STM32F1_files/CMSIS/core_cm3.h **** #define MPU_TYPE_SEPARATE_Msk              (1UL /*<< MPU_TYPE_SEPARATE_Pos*/)             /*!< MPU 
-ARM GAS  /tmp/ccTd0H1B.s 			page 54
-
-
 1165:../../STM32F1_files/CMSIS/core_cm3.h **** 
 1166:../../STM32F1_files/CMSIS/core_cm3.h **** /* MPU Control Register Definitions */
 1167:../../STM32F1_files/CMSIS/core_cm3.h **** #define MPU_CTRL_PRIVDEFENA_Pos             2U                                            /*!< MPU 
@@ -3236,11 +3178,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
 1217:../../STM32F1_files/CMSIS/core_cm3.h **** 
 1218:../../STM32F1_files/CMSIS/core_cm3.h **** #define MPU_RASR_ENABLE_Pos                 0U                                            /*!< MPU 
 1219:../../STM32F1_files/CMSIS/core_cm3.h **** #define MPU_RASR_ENABLE_Msk                (1UL /*<< MPU_RASR_ENABLE_Pos*/)               /*!< MPU 
+ARM GAS  /tmp/cchd5eTC.s 			page 54
+
+
 1220:../../STM32F1_files/CMSIS/core_cm3.h **** 
 1221:../../STM32F1_files/CMSIS/core_cm3.h **** /*@} end of group CMSIS_MPU */
-ARM GAS  /tmp/ccTd0H1B.s 			page 55
-
-
 1222:../../STM32F1_files/CMSIS/core_cm3.h **** #endif
 1223:../../STM32F1_files/CMSIS/core_cm3.h **** 
 1224:../../STM32F1_files/CMSIS/core_cm3.h **** 
@@ -3296,11 +3238,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
 1274:../../STM32F1_files/CMSIS/core_cm3.h **** #define CoreDebug_DHCSR_C_HALT_Pos          1U                                            /*!< Core
 1275:../../STM32F1_files/CMSIS/core_cm3.h **** #define CoreDebug_DHCSR_C_HALT_Msk         (1UL << CoreDebug_DHCSR_C_HALT_Pos)            /*!< Core
 1276:../../STM32F1_files/CMSIS/core_cm3.h **** 
+ARM GAS  /tmp/cchd5eTC.s 			page 55
+
+
 1277:../../STM32F1_files/CMSIS/core_cm3.h **** #define CoreDebug_DHCSR_C_DEBUGEN_Pos       0U                                            /*!< Core
 1278:../../STM32F1_files/CMSIS/core_cm3.h **** #define CoreDebug_DHCSR_C_DEBUGEN_Msk      (1UL /*<< CoreDebug_DHCSR_C_DEBUGEN_Pos*/)     /*!< Core
-ARM GAS  /tmp/ccTd0H1B.s 			page 56
-
-
 1279:../../STM32F1_files/CMSIS/core_cm3.h **** 
 1280:../../STM32F1_files/CMSIS/core_cm3.h **** /* Debug Core Register Selector Register Definitions */
 1281:../../STM32F1_files/CMSIS/core_cm3.h **** #define CoreDebug_DCRSR_REGWnR_Pos         16U                                            /*!< Core
@@ -3356,11 +3298,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
 1331:../../STM32F1_files/CMSIS/core_cm3.h ****   \ingroup    CMSIS_core_register
 1332:../../STM32F1_files/CMSIS/core_cm3.h ****   \defgroup   CMSIS_core_bitfield     Core register bit field macros
 1333:../../STM32F1_files/CMSIS/core_cm3.h ****   \brief      Macros for use with bit field definitions (xxx_Pos, xxx_Msk).
+ARM GAS  /tmp/cchd5eTC.s 			page 56
+
+
 1334:../../STM32F1_files/CMSIS/core_cm3.h ****   @{
 1335:../../STM32F1_files/CMSIS/core_cm3.h ****  */
-ARM GAS  /tmp/ccTd0H1B.s 			page 57
-
-
 1336:../../STM32F1_files/CMSIS/core_cm3.h **** 
 1337:../../STM32F1_files/CMSIS/core_cm3.h **** /**
 1338:../../STM32F1_files/CMSIS/core_cm3.h ****   \brief   Mask and shift a bit field value for use in a register bit range.
@@ -3416,11 +3358,11 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
 1388:../../STM32F1_files/CMSIS/core_cm3.h **** 
 1389:../../STM32F1_files/CMSIS/core_cm3.h **** 
 1390:../../STM32F1_files/CMSIS/core_cm3.h **** 
+ARM GAS  /tmp/cchd5eTC.s 			page 57
+
+
 1391:../../STM32F1_files/CMSIS/core_cm3.h **** /*******************************************************************************
 1392:../../STM32F1_files/CMSIS/core_cm3.h ****  *                Hardware Abstraction Layer
-ARM GAS  /tmp/ccTd0H1B.s 			page 58
-
-
 1393:../../STM32F1_files/CMSIS/core_cm3.h ****   Core Function Interface contains:
 1394:../../STM32F1_files/CMSIS/core_cm3.h ****   - Core NVIC Functions
 1395:../../STM32F1_files/CMSIS/core_cm3.h ****   - Core SysTick Functions
@@ -3476,24 +3418,23 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
 1445:../../STM32F1_files/CMSIS/core_cm3.h **** 
 1446:../../STM32F1_files/CMSIS/core_cm3.h **** 
 1447:../../STM32F1_files/CMSIS/core_cm3.h **** /**
+ARM GAS  /tmp/cchd5eTC.s 			page 58
+
+
 1448:../../STM32F1_files/CMSIS/core_cm3.h ****   \brief   Enable External Interrupt
 1449:../../STM32F1_files/CMSIS/core_cm3.h ****   \details Enables a device-specific interrupt in the NVIC interrupt controller.
-ARM GAS  /tmp/ccTd0H1B.s 			page 59
-
-
 1450:../../STM32F1_files/CMSIS/core_cm3.h ****   \param [in]      IRQn  External interrupt number. Value cannot be negative.
 1451:../../STM32F1_files/CMSIS/core_cm3.h ****  */
 1452:../../STM32F1_files/CMSIS/core_cm3.h **** __STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
 1453:../../STM32F1_files/CMSIS/core_cm3.h **** {
 1454:../../STM32F1_files/CMSIS/core_cm3.h ****   NVIC->ISER[(((uint32_t)(int32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0
- 1208              		.loc 10 1454 0
- 1209 00b0 2022     		movs	r2, #32
- 1210 00b2 264C     		ldr	r4, .L67+28
- 1211              	.LBE545:
- 1212              	.LBE544:
- 1213              	.LBB547:
- 1214              	.LBB548:
- 1215              		.file 11 "../../src/periph/f1_dma_stream.h"
+ 1152              		.loc 10 1454 0
+ 1153 00ae 254E     		ldr	r6, .L67+28
+ 1154              	.LBE521:
+ 1155              	.LBE520:
+ 1156              	.LBB523:
+ 1157              	.LBB524:
+ 1158              		.file 11 "../../src/periph/f1_dma_stream.h"
    1:../../src/periph/f1_dma_stream.h **** #pragma once
    2:../../src/periph/f1_dma_stream.h **** 
    3:../../src/periph/f1_dma_stream.h **** #include "f1_bits_dma_stream.h"
@@ -3530,292 +3471,327 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   34:../../src/periph/f1_dma_stream.h **** 
   35:../../src/periph/f1_dma_stream.h ****    DMA_stream& direction  (DataDirection d){CCR.DIR = d;   return *this;}
   36:../../src/periph/f1_dma_stream.h ****    DMA_stream& size_memory(DataSize d)     {CCR.MSIZE = d; return *this;}
- 1216              		.loc 11 36 0
- 1217 00b4 264D     		ldr	r5, .L67+32
- 1218              	.LBE548:
- 1219              	.LBE547:
- 1220              	.LBB550:
- 1221              	.LBB546:
- 1222              		.loc 10 1454 0
- 1223 00b6 6260     		str	r2, [r4, #4]
-ARM GAS  /tmp/ccTd0H1B.s 			page 60
+  37:../../src/periph/f1_dma_stream.h ****    DMA_stream& size_periph(DataSize d)     {CCR.PSIZE = d; return *this;}
+ 1159              		.loc 11 37 0
+ 1160 00b0 254F     		ldr	r7, .L67+32
+ 1161              	.LBE524:
+ 1162              	.LBE523:
+ 1163              	.LBB527:
+ 1164              	.LBB522:
+ARM GAS  /tmp/cchd5eTC.s 			page 59
 
 
- 1224              	.LVL68:
- 1225 00b8 A446     		mov	ip, r4
- 1226              	.LBE546:
- 1227              	.LBE550:
- 1228              	.LBB551:
- 1229              	.LBB552:
- 1230              	.LBB553:
- 1231              	.LBB554:
+ 1165              		.loc 10 1454 0
+ 1166 00b2 7560     		str	r5, [r6, #4]
+ 1167              	.LVL68:
+ 1168              	.LBE522:
+ 1169              	.LBE527:
+ 1170              	.LBB528:
+ 1171              	.LBB529:
+ 1172              	.LBB530:
+ 1173              	.LBB531:
   63:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::USART2) APB1ENR.USART2EN = true;
   64:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::USART3) APB1ENR.USART3EN = true;
   65:../../src/periph/f1_rcc.h **** 
   66:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::DMA1) AHBENR.DMA1EN = true;
- 1232              		.loc 6 66 0
- 1233 00ba 5C69     		ldr	r4, [r3, #20]
- 1234              	.LBE554:
- 1235              	.LBE553:
- 1236              	.LBE552:
- 1237              	.LBE551:
-  41:../../src/uart.h ****    {}
-  42:../../src/uart.h **** 
-  43:../../src/uart.h ****    struct Settings {
-  44:../../src/uart.h ****       bool     parity_enable :1;
-  45:../../src/uart.h ****       Parity   parity        :1;
-  46:../../src/uart.h ****       DataBits data_bits     :1;
-  47:../../src/uart.h ****       StopBits stop_bits     :2;
-  48:../../src/uart.h ****       Baudrate baudrate      :3;
-  49:../../src/uart.h ****       uint16_t               :8;
-  50:../../src/uart.h ****    };
-  51:../../src/uart.h **** 
-  52:../../src/uart.h ****    template <Periph usart, class TXpin, class RXpin, class RTSpin, class LEDpin> static auto make()
-  53:../../src/uart.h ****    {
-  54:../../src/uart.h ****       USART::pin_static_assert<usart, TXpin, RXpin>();
-  55:../../src/uart.h ****       
-  56:../../src/uart.h ****       constexpr auto TX_stream   = USART::stream  <usart, TXpin>();
-  57:../../src/uart.h ****       constexpr auto RX_stream   = USART::stream  <usart, RXpin>();
-  58:../../src/uart.h ****       constexpr auto TXpin_mode  = USART::pin_mode<usart, TXpin>();
-  59:../../src/uart.h ****       constexpr auto RXpin_mode  = USART::pin_mode<usart, RXpin>();
-  60:../../src/uart.h **** 
-  61:../../src/uart.h ****       UART_ uart {
-  62:../../src/uart.h ****            make_reference<usart>()
-  63:../../src/uart.h ****          , make_reference<TX_stream>()
-  64:../../src/uart.h ****          , make_reference<RX_stream>()
-  65:../../src/uart.h ****          , USART::clock<usart>()
-  66:../../src/uart.h ****          , Pin::make<TXpin, TXpin_mode>()
-  67:../../src/uart.h ****          , Pin::make<RXpin, RXpin_mode>()
-  68:../../src/uart.h ****          , Pin::make<RTSpin, PinMode::Output>()
-  69:../../src/uart.h ****          , Pin::make<LEDpin, PinMode::Output>()
-  70:../../src/uart.h ****       };
-  71:../../src/uart.h **** 
-  72:../../src/uart.h ****       uart.usart.template clock_enable<usart>()
-  73:../../src/uart.h ****                 .tx_enable()
-  74:../../src/uart.h ****                 .rx_enable()
-  75:../../src/uart.h ****                 .DMA_tx_enable()
-  76:../../src/uart.h ****                 .DMA_rx_enable()
-  77:../../src/uart.h ****                 .enable_IDLE_interrupt()
-  78:../../src/uart.h ****                 .enable();
-  79:../../src/uart.h ****          NVIC_EnableIRQ(uart.usart.IRQn(usart));
-ARM GAS  /tmp/ccTd0H1B.s 			page 61
+ 1174              		.loc 6 66 0
+ 1175 00b4 4569     		ldr	r5, [r0, #20]
+ 1176              	.LBE531:
+ 1177              	.LBE530:
+ 1178              	.LBE529:
+ 1179              	.LBE528:
+  49:../../src/uart.h ****    {}
+  50:../../src/uart.h **** 
+  51:../../src/uart.h ****    struct Settings {
+  52:../../src/uart.h ****       bool     parity_enable :1;
+  53:../../src/uart.h ****       Parity   parity        :1;
+  54:../../src/uart.h ****       DataBits data_bits     :1;
+  55:../../src/uart.h ****       StopBits stop_bits     :2;
+  56:../../src/uart.h ****       Baudrate baudrate      :3;
+  57:../../src/uart.h ****       uint16_t res           :8;
+  58:../../src/uart.h ****    };
+  59:../../src/uart.h **** 
+  60:../../src/uart.h ****    template <Periph usart, class TXpin, class RXpin, class RTSpin, class LEDpin> static auto make()
+  61:../../src/uart.h ****    {
+  62:../../src/uart.h ****       USART::pin_static_assert<usart, TXpin, RXpin>();
+  63:../../src/uart.h ****       
+  64:../../src/uart.h ****       constexpr auto TX_stream  = USART::stream  <usart, TXpin>();
+  65:../../src/uart.h ****       constexpr auto RX_stream  = USART::stream  <usart, RXpin>();
+  66:../../src/uart.h ****       constexpr auto TXpin_mode = USART::pin_mode<usart, TXpin>();
+  67:../../src/uart.h ****       constexpr auto RXpin_mode = USART::pin_mode<usart, RXpin>();
+  68:../../src/uart.h **** 
+  69:../../src/uart.h ****       UART_ uart {
+  70:../../src/uart.h ****            make_reference<usart>()
+  71:../../src/uart.h ****          , make_reference<TX_stream>()
+  72:../../src/uart.h ****          , make_reference<RX_stream>()
+  73:../../src/uart.h ****          , USART::clock<usart>()
+  74:../../src/uart.h ****          , Pin::make<TXpin, TXpin_mode>()
+  75:../../src/uart.h ****          , Pin::make<RXpin, RXpin_mode>()
+  76:../../src/uart.h ****          , Pin::make<RTSpin, PinMode::Output>()
+  77:../../src/uart.h ****          , Pin::make<LEDpin, PinMode::Output>()
+  78:../../src/uart.h ****       };
+  79:../../src/uart.h **** 
+  80:../../src/uart.h ****       uart.usart.template clock_enable<usart>()
+  81:../../src/uart.h ****                 .tx_enable()
+  82:../../src/uart.h ****                 .rx_enable()
+  83:../../src/uart.h ****                 .DMA_tx_enable()
+  84:../../src/uart.h ****                 .DMA_rx_enable()
+  85:../../src/uart.h ****                 .enable_IDLE_interrupt()
+  86:../../src/uart.h ****                 .enable();
+ARM GAS  /tmp/cchd5eTC.s 			page 60
 
 
-  80:../../src/uart.h **** 
-  81:../../src/uart.h ****       uart.TXstream.template clock_enable()
- 1238              		.loc 8 81 0
- 1239 00bc 019A     		ldr	r2, [sp, #4]
- 1240              	.LVL69:
- 1241              	.LBB558:
- 1242              	.LBB557:
- 1243              	.LBB556:
- 1244              	.LBB555:
- 1245              		.loc 6 66 0
- 1246 00be 0C43     		orrs	r4, r1
- 1247 00c0 5C61     		str	r4, [r3, #20]
- 1248              	.LVL70:
- 1249              	.LBE555:
- 1250              	.LBE556:
- 1251              	.LBE557:
- 1252              	.LBE558:
- 1253              	.LBB559:
- 1254              	.LBB560:
+  87:../../src/uart.h ****          NVIC_EnableIRQ(uart.usart.IRQn(usart));
+  88:../../src/uart.h **** 
+  89:../../src/uart.h ****       uart.TXstream.template clock_enable()
+ 1180              		.loc 8 89 0
+ 1181 00b6 019B     		ldr	r3, [sp, #4]
+ 1182              	.LVL69:
+ 1183              	.LBB535:
+ 1184              	.LBB534:
+ 1185              	.LBB533:
+ 1186              	.LBB532:
+ 1187              		.loc 6 66 0
+ 1188 00b8 2543     		orrs	r5, r4
+ 1189 00ba 4561     		str	r5, [r0, #20]
+ 1190              	.LVL70:
+ 1191              	.LBE532:
+ 1192              	.LBE533:
+ 1193              	.LBE534:
+ 1194              	.LBE535:
+ 1195              	.LBB536:
+ 1196              	.LBB537:
   24:../../src/periph/f1_dma_stream.h ****    bool        is_disable   (){return (not CCR.EN);}
- 1255              		.loc 11 24 0
- 1256 00c2 1468     		ldr	r4, [r2]
- 1257 00c4 8C43     		bics	r4, r1
- 1258 00c6 1460     		str	r4, [r2]
- 1259              	.LVL71:
- 1260              	.LBE560:
- 1261              	.LBE559:
- 1262              	.LBB561:
- 1263              	.LBB562:
+ 1197              		.loc 11 24 0
+ 1198 00bc 1868     		ldr	r0, [r3]
+ 1199              	.LBE537:
+ 1200              	.LBE536:
+  90:../../src/uart.h ****                    .disable()
+  91:../../src/uart.h ****                    .direction(DataDirection::MemToPer)
+  92:../../src/uart.h ****                    .set_memory_adr(reinterpret_cast<size_t>(uart.buffer))
+ 1201              		.loc 8 92 0
+ 1202 00be 0CAD     		add	r5, sp, #48
+ 1203              	.LBB539:
+ 1204              	.LBB538:
+  24:../../src/periph/f1_dma_stream.h ****    bool        is_disable   (){return (not CCR.EN);}
+ 1205              		.loc 11 24 0
+ 1206 00c0 A043     		bics	r0, r4
+ 1207 00c2 1860     		str	r0, [r3]
+ 1208              	.LVL71:
+ 1209              	.LBE538:
+ 1210              	.LBE539:
+ 1211              	.LBB540:
+ 1212              	.LBB541:
   35:../../src/periph/f1_dma_stream.h ****    DMA_stream& size_memory(DataSize d)     {CCR.MSIZE = d; return *this;}
- 1264              		.loc 11 35 0
- 1265 00c8 1468     		ldr	r4, [r2]
- 1266 00ca 0443     		orrs	r4, r0
- 1267 00cc 1460     		str	r4, [r2]
- 1268              	.LVL72:
- 1269              	.LBE562:
- 1270              	.LBE561:
- 1271              	.LBB563:
- 1272              	.LBB564:
+ 1213              		.loc 11 35 0
+ 1214 00c4 1868     		ldr	r0, [r3]
+ 1215              	.LBE541:
+ 1216              	.LBE540:
+ 1217              	.LBB543:
+ 1218              	.LBB544:
+  36:../../src/periph/f1_dma_stream.h ****    DMA_stream& size_periph(DataSize d)     {CCR.PSIZE = d; return *this;}
+ 1219              		.loc 11 36 0
+ 1220 00c6 214C     		ldr	r4, .L67+36
+ 1221              	.LBE544:
+ 1222              	.LBE543:
+ 1223              	.LBB546:
+ 1224              	.LBB542:
+  35:../../src/periph/f1_dma_stream.h ****    DMA_stream& size_memory(DataSize d)     {CCR.MSIZE = d; return *this;}
+ 1225              		.loc 11 35 0
+ARM GAS  /tmp/cchd5eTC.s 			page 61
+
+
+ 1226 00c8 0843     		orrs	r0, r1
+ 1227 00ca 1860     		str	r0, [r3]
+ 1228              	.LVL72:
+ 1229              	.LBE542:
+ 1230              	.LBE546:
+ 1231              	.LBB547:
+ 1232              	.LBB548:
+  71:../../src/periph/f1_usart.h ****    bool    is_IDLE_interrupt              (){return this->SR.IDLE;}
+  72:../../src/periph/f1_usart.h ****    USART_& enable_tx_complete_interrupt   (){this->CR1.TCIE   = true;  return *this;}
+  73:../../src/periph/f1_usart.h ****    USART_& disable_tx_complete_interrupt  (){this->CR1.TCIE   = false; return *this;}
+  74:../../src/periph/f1_usart.h ****    bool    is_tx_complete                 (){return this->SR.TC;}
+  75:../../src/periph/f1_usart.h ****    bool    is_tx_complete_interrupt_enable(){return this->CR1.TCIE;}
+  76:../../src/periph/f1_usart.h ****    USART_& clear_interrupt_flags          (){
+  77:../../src/periph/f1_usart.h ****       [[maybe_unused]] uint32_t t1 = this->read_SR();
+  78:../../src/periph/f1_usart.h ****       [[maybe_unused]] uint32_t t2 = this->DR;
+  79:../../src/periph/f1_usart.h ****       return *this;
+  80:../../src/periph/f1_usart.h ****    }
+  81:../../src/periph/f1_usart.h **** 
+  82:../../src/periph/f1_usart.h ****    size_t receive_data_adr () {return reinterpret_cast<size_t>(&this->DR);}
+  83:../../src/periph/f1_usart.h ****    size_t transmit_data_adr() {return reinterpret_cast<size_t>(&this->DR);}
+ 1233              		.loc 9 83 0
+ 1234 00cc 0098     		ldr	r0, [sp]
+ 1235              	.LBE548:
+ 1236              	.LBE547:
+ 1237              	.LBB550:
+ 1238              	.LBB551:
   30:../../src/periph/f1_dma_stream.h ****    DMA_stream& set_periph_adr      (uint32_t v){CPAR  = v; return *this;}
- 1273              		.loc 11 30 0
- 1274 00ce 0CAC     		add	r4, sp, #48
- 1275              	.LVL73:
- 1276 00d0 D460     		str	r4, [r2, #12]
- 1277              	.LVL74:
- 1278              	.LBE564:
- 1279              	.LBE563:
- 1280              	.LBB565:
- 1281              	.LBB566:
-  72:../../src/periph/f1_usart.h ****    bool    is_IDLE_interrupt              (){return this->SR.IDLE;}
-  73:../../src/periph/f1_usart.h ****    USART_& enable_tx_complete_interrupt   (){this->CR1.TCIE   = true;  return *this;}
-  74:../../src/periph/f1_usart.h ****    USART_& disable_tx_complete_interrupt  (){this->CR1.TCIE   = false; return *this;}
-  75:../../src/periph/f1_usart.h ****    bool    is_tx_complete                 (){return this->SR.TC;}
-  76:../../src/periph/f1_usart.h ****    bool    is_tx_complete_interrupt_enable(){return this->CR1.TCIE;}
-  77:../../src/periph/f1_usart.h ****    USART_& clear_interrupt_flags          (){
-  78:../../src/periph/f1_usart.h ****       [[maybe_unused]] uint32_t t1 = this->read_SR();
-  79:../../src/periph/f1_usart.h ****       [[maybe_unused]] uint32_t t2 = this->DR;
-ARM GAS  /tmp/ccTd0H1B.s 			page 62
-
-
-  80:../../src/periph/f1_usart.h ****       return *this;
-  81:../../src/periph/f1_usart.h ****    }
-  82:../../src/periph/f1_usart.h **** 
-  83:../../src/periph/f1_usart.h ****    size_t receive_data_adr () {return reinterpret_cast<size_t>(&this->DR);}
-  84:../../src/periph/f1_usart.h ****    size_t transmit_data_adr() {return reinterpret_cast<size_t>(&this->DR);}
- 1282              		.loc 9 84 0
- 1283 00d2 009C     		ldr	r4, [sp]
- 1284 00d4 0434     		adds	r4, r4, #4
- 1285              	.LVL75:
- 1286              	.LBE566:
- 1287              	.LBE565:
- 1288              	.LBB567:
- 1289              	.LBB568:
+ 1239              		.loc 11 30 0
+ 1240 00ce DD60     		str	r5, [r3, #12]
+ 1241              	.LVL73:
+ 1242              	.LBE551:
+ 1243              	.LBE550:
+ 1244              	.LBB552:
+ 1245              	.LBB549:
+ 1246              		.loc 9 83 0
+ 1247 00d0 0430     		adds	r0, r0, #4
+ 1248              	.LVL74:
+ 1249              	.LBE549:
+ 1250              	.LBE552:
+ 1251              	.LBB553:
+ 1252              	.LBB554:
   31:../../src/periph/f1_dma_stream.h ****    DMA_stream& set_qty_transactions(uint16_t v){CNDTR = v; return *this;}
- 1290              		.loc 11 31 0
- 1291 00d6 9460     		str	r4, [r2, #8]
- 1292              	.LBE568:
- 1293              	.LBE567:
- 1294              	.LBB569:
- 1295              	.LBB570:
+ 1253              		.loc 11 31 0
+ 1254 00d2 9860     		str	r0, [r3, #8]
+ 1255              	.LBE554:
+ 1256              	.LBE553:
+ 1257              	.LBB555:
+ 1258              	.LBB556:
   26:../../src/periph/f1_dma_stream.h ****    DMA_stream& inc_periph   (){CCR.PINC = true; return *this;}
- 1296              		.loc 11 26 0
- 1297 00d8 1468     		ldr	r4, [r2]
- 1298 00da 3C43     		orrs	r4, r7
- 1299 00dc 1460     		str	r4, [r2]
- 1300              	.LVL76:
- 1301              	.LBE570:
- 1302              	.LBE569:
- 1303              	.LBB571:
- 1304              	.LBB549:
- 1305              		.loc 11 36 0
- 1306 00de 1468     		ldr	r4, [r2]
- 1307 00e0 2C40     		ands	r4, r5
- 1308 00e2 1460     		str	r4, [r2]
- 1309              	.LVL77:
- 1310              	.LBE549:
- 1311              	.LBE571:
- 1312              	.LBB572:
- 1313              	.LBB573:
-  37:../../src/periph/f1_dma_stream.h ****    DMA_stream& size_periph(DataSize d)     {CCR.PSIZE = d; return *this;}
- 1314              		.loc 11 37 0
- 1315 00e4 1468     		ldr	r4, [r2]
- 1316 00e6 1B4D     		ldr	r5, .L67+36
- 1317 00e8 2C40     		ands	r4, r5
- 1318 00ea 1460     		str	r4, [r2]
- 1319              	.LVL78:
- 1320              	.LBE573:
- 1321              	.LBE572:
- 1322              	.LBB574:
- 1323              	.LBB575:
+ 1259              		.loc 11 26 0
+ 1260 00d4 1868     		ldr	r0, [r3]
+ 1261              	.LBE556:
+ 1262              	.LBE555:
+ 1263              	.LBB558:
+ 1264              	.LBB525:
+ 1265              		.loc 11 37 0
+ 1266 00d6 BC46     		mov	ip, r7
+ARM GAS  /tmp/cchd5eTC.s 			page 62
+
+
+ 1267              	.LBE525:
+ 1268              	.LBE558:
+ 1269              	.LBB559:
+ 1270              	.LBB557:
+  26:../../src/periph/f1_dma_stream.h ****    DMA_stream& inc_periph   (){CCR.PINC = true; return *this;}
+ 1271              		.loc 11 26 0
+ 1272 00d8 1043     		orrs	r0, r2
+ 1273 00da 1860     		str	r0, [r3]
+ 1274              	.LVL75:
+ 1275              	.LBE557:
+ 1276              	.LBE559:
+ 1277              	.LBB560:
+ 1278              	.LBB545:
+  36:../../src/periph/f1_dma_stream.h ****    DMA_stream& size_periph(DataSize d)     {CCR.PSIZE = d; return *this;}
+ 1279              		.loc 11 36 0
+ 1280 00dc 1868     		ldr	r0, [r3]
+ 1281 00de 2040     		ands	r0, r4
+ 1282 00e0 1860     		str	r0, [r3]
+ 1283              	.LVL76:
+ 1284              	.LBE545:
+ 1285              	.LBE560:
+ 1286              	.LBB561:
+ 1287              	.LBB526:
+ 1288              		.loc 11 37 0
+ 1289 00e2 1868     		ldr	r0, [r3]
+ 1290 00e4 3840     		ands	r0, r7
+ 1291 00e6 1860     		str	r0, [r3]
+ 1292              	.LVL77:
+ 1293              	.LBE526:
+ 1294              	.LBE561:
+ 1295              	.LBB562:
+ 1296              	.LBB563:
   38:../../src/periph/f1_dma_stream.h **** 
   39:../../src/periph/f1_dma_stream.h **** //    static constexpr Channel channel(Periph);
   40:../../src/periph/f1_dma_stream.h ****    static constexpr IRQn_Type IRQn (Periph);
   41:../../src/periph/f1_dma_stream.h **** 
   42:../../src/periph/f1_dma_stream.h ****    DMA_stream& enable_transfer_complete_interrupt(){CCR.TCIE = true; return *this;}
- 1324              		.loc 11 42 0
- 1325 00ec 1468     		ldr	r4, [r2]
-ARM GAS  /tmp/ccTd0H1B.s 			page 63
+ 1297              		.loc 11 42 0
+ 1298 00e8 1868     		ldr	r0, [r3]
+ 1299 00ea 0700     		movs	r7, r0
+ 1300 00ec 0220     		movs	r0, #2
+ 1301 00ee 3843     		orrs	r0, r7
+ 1302 00f0 1860     		str	r0, [r3]
+ 1303              	.LVL78:
+ 1304              	.LBE563:
+ 1305              	.LBE562:
+ 1306              	.LBB564:
+ 1307              	.LBB565:
+ 1308              		.loc 10 1454 0
+ 1309 00f2 8023     		movs	r3, #128
+ 1310 00f4 DB01     		lsls	r3, r3, #7
+ 1311 00f6 3360     		str	r3, [r6]
+ 1312              	.LVL79:
+ 1313              	.LBE565:
+ 1314              	.LBE564:
+  93:../../src/uart.h ****                    .set_periph_adr(uart.usart.transmit_data_adr())
+  94:../../src/uart.h ****                    .inc_memory()
+ARM GAS  /tmp/cchd5eTC.s 			page 63
 
 
- 1326 00ee 3443     		orrs	r4, r6
- 1327 00f0 1460     		str	r4, [r2]
- 1328              	.LVL79:
- 1329              	.LBE575:
- 1330              	.LBE574:
- 1331              	.LBB576:
- 1332              	.LBB577:
- 1333              		.loc 10 1454 0
- 1334 00f2 8022     		movs	r2, #128
- 1335 00f4 6446     		mov	r4, ip
- 1336 00f6 D201     		lsls	r2, r2, #7
- 1337 00f8 2260     		str	r2, [r4]
- 1338              	.LVL80:
- 1339              	.LBE577:
- 1340              	.LBE576:
- 1341              	.LBB578:
- 1342              	.LBB579:
- 1343              	.LBB580:
- 1344              	.LBB581:
- 1345              		.loc 6 66 0
- 1346 00fa 5C69     		ldr	r4, [r3, #20]
- 1347              	.LBE581:
- 1348              	.LBE580:
- 1349              	.LBE579:
- 1350              	.LBE578:
-  82:../../src/uart.h ****                    .disable()
-  83:../../src/uart.h ****                 	 .direction(DataDirection::MemToPer)
-  84:../../src/uart.h ****                 	 .set_memory_adr(reinterpret_cast<size_t>(uart.buffer))
-  85:../../src/uart.h ****                 	 .set_periph_adr(uart.usart.transmit_data_adr())
-  86:../../src/uart.h ****                 	 .inc_memory()
-  87:../../src/uart.h ****                 	 .size_memory(DataSize::byte8)
-  88:../../src/uart.h ****                 	 .size_periph(DataSize::byte8)
-  89:../../src/uart.h ****                 	 .enable_transfer_complete_interrupt();
-  90:../../src/uart.h ****          NVIC_EnableIRQ(uart.TXstream.IRQn(TX_stream));
-  91:../../src/uart.h **** 
-  92:../../src/uart.h ****       uart.RXstream.template clock_enable()
- 1351              		.loc 8 92 0
- 1352 00fc 029A     		ldr	r2, [sp, #8]
- 1353              	.LVL81:
- 1354              	.LBB585:
- 1355              	.LBB584:
- 1356              	.LBB583:
- 1357              	.LBB582:
- 1358              		.loc 6 66 0
- 1359 00fe 2143     		orrs	r1, r4
- 1360 0100 5961     		str	r1, [r3, #20]
- 1361              	.LVL82:
- 1362              	.LBE582:
- 1363              	.LBE583:
- 1364              	.LBE584:
- 1365              	.LBE585:
- 1366              	.LBB586:
- 1367              	.LBB587:
+  95:../../src/uart.h ****                    .size_memory(DataSize::byte8)
+  96:../../src/uart.h ****                    .size_periph(DataSize::byte8)
+  97:../../src/uart.h ****                    .enable_transfer_complete_interrupt();
+  98:../../src/uart.h ****          NVIC_EnableIRQ(uart.TXstream.IRQn(TX_stream));
+  99:../../src/uart.h **** 
+ 100:../../src/uart.h ****       uart.RXstream.direction(DataDirection::PerToMem)
+ 1315              		.loc 8 100 0
+ 1316 00f8 029B     		ldr	r3, [sp, #8]
+ 1317              	.LVL80:
+ 1318              	.LBB566:
+ 1319              	.LBB567:
   35:../../src/periph/f1_dma_stream.h ****    DMA_stream& size_memory(DataSize d)     {CCR.MSIZE = d; return *this;}
- 1368              		.loc 11 35 0
- 1369 0102 1368     		ldr	r3, [r2]
- 1370              	.LBE587:
-ARM GAS  /tmp/ccTd0H1B.s 			page 64
-
-
- 1371              	.LBE586:
- 1372              	.LBB589:
- 1373              	.LBB590:
-  36:../../src/periph/f1_dma_stream.h ****    DMA_stream& size_periph(DataSize d)     {CCR.PSIZE = d; return *this;}
- 1374              		.loc 11 36 0
- 1375 0104 124E     		ldr	r6, .L67+32
- 1376              	.LBE590:
- 1377              	.LBE589:
- 1378              	.LBB592:
- 1379              	.LBB588:
-  35:../../src/periph/f1_dma_stream.h ****    DMA_stream& size_memory(DataSize d)     {CCR.MSIZE = d; return *this;}
- 1380              		.loc 11 35 0
- 1381 0106 8343     		bics	r3, r0
- 1382 0108 1360     		str	r3, [r2]
- 1383              	.LVL83:
- 1384              	.LBE588:
- 1385              	.LBE592:
- 1386              	.LBB593:
- 1387              	.LBB594:
+ 1320              		.loc 11 35 0
+ 1321 00fa 1868     		ldr	r0, [r3]
+ 1322 00fc 8843     		bics	r0, r1
+ 1323 00fe 1860     		str	r0, [r3]
+ 1324              	.LVL81:
+ 1325              	.LBE567:
+ 1326              	.LBE566:
+ 1327              	.LBB568:
+ 1328              	.LBB569:
+ 1329              		.loc 9 83 0
+ 1330 0100 0099     		ldr	r1, [sp]
+ 1331              	.LBE569:
+ 1332              	.LBE568:
+ 1333              	.LBB571:
+ 1334              	.LBB572:
   30:../../src/periph/f1_dma_stream.h ****    DMA_stream& set_periph_adr      (uint32_t v){CPAR  = v; return *this;}
- 1388              		.loc 11 30 0
- 1389 010a 0CAB     		add	r3, sp, #48
- 1390              	.LVL84:
- 1391 010c D360     		str	r3, [r2, #12]
- 1392              	.LVL85:
- 1393              	.LBE594:
- 1394              	.LBE593:
- 1395              	.LBB595:
- 1396              	.LBB596:
- 1397              		.loc 9 84 0
- 1398 010e 009B     		ldr	r3, [sp]
- 1399              	.LBE596:
- 1400              	.LBE595:
- 1401              	.LBE609:
- 1402              	.LBE612:
+ 1335              		.loc 11 30 0
+ 1336 0102 DD60     		str	r5, [r3, #12]
+ 1337              	.LVL82:
+ 1338              	.LBE572:
+ 1339              	.LBE571:
+ 1340              	.LBB573:
+ 1341              	.LBB570:
+ 1342              		.loc 9 83 0
+ 1343 0104 0431     		adds	r1, r1, #4
+ 1344              	.LVL83:
+ 1345              	.LBE570:
+ 1346              	.LBE573:
+ 1347              	.LBB574:
+ 1348              	.LBB575:
+  31:../../src/periph/f1_dma_stream.h ****    DMA_stream& set_qty_transactions(uint16_t v){CNDTR = v; return *this;}
+ 1349              		.loc 11 31 0
+ 1350 0106 9960     		str	r1, [r3, #8]
+ 1351              	.LVL84:
+ 1352              	.LBE575:
+ 1353              	.LBE574:
+ 1354              	.LBB576:
+ 1355              	.LBB577:
+  32:../../src/periph/f1_dma_stream.h ****    
+ 1356              		.loc 11 32 0
+ 1357 0108 FF21     		movs	r1, #255
+ 1358 010a 5960     		str	r1, [r3, #4]
+ 1359              	.LVL85:
+ 1360              	.LBE577:
+ 1361              	.LBE576:
+ARM GAS  /tmp/cchd5eTC.s 			page 64
+
+
+ 1362              	.LBB578:
+ 1363              	.LBB579:
+  26:../../src/periph/f1_dma_stream.h ****    DMA_stream& inc_periph   (){CCR.PINC = true; return *this;}
+ 1364              		.loc 11 26 0
+ 1365 010c 1968     		ldr	r1, [r3]
+ 1366              	.LBE579:
+ 1367              	.LBE578:
+ 1368              	.LBE591:
+ 1369              	.LBE594:
+ 1370              	.LBE597:
+ 1371              	.LBE600:
   31:main.cpp      **** //    auto pc8 = mcu::Pin::make<mcu::PC8, mcu::PinMode::Output>();
   32:main.cpp      **** //    Timer timer {200};
   33:main.cpp      **** 
@@ -3824,7 +3800,7 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   36:main.cpp      **** //    pwm.frequency  = 20_kHz;
   37:main.cpp      **** //    pwm.out_enable();
   38:main.cpp      **** 
-  39:main.cpp      ****    auto uart = mcu::UART::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10,mcu::PA8, mcu::PA12>();
+  39:main.cpp      ****    // auto uart = mcu::UART::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10,mcu::PA8, mcu::PA12>();
   40:main.cpp      **** 
   41:main.cpp      **** //    while(1) {
   42:main.cpp      **** 
@@ -3838,132 +3814,122 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   50:main.cpp      **** 
   51:main.cpp      ****    // buffer << 2;
   52:main.cpp      **** 
-ARM GAS  /tmp/ccTd0H1B.s 			page 65
-
-
-  53:main.cpp      ****    // struct InReg{};
-  54:main.cpp      ****    // struct OutReg{};
+  53:main.cpp      ****    struct InReg{};
+  54:main.cpp      ****    struct OutReg{};
   55:main.cpp      **** 
-  56:main.cpp      ****    // auto modbus = mcu::Modbus_slave::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10, InReg, OutReg
-  57:main.cpp      **** }
- 1403              		.loc 5 57 0
- 1404 0110 0020     		movs	r0, #0
- 1405              	.LBB613:
- 1406              	.LBB610:
- 1407              	.LBB598:
- 1408              	.LBB597:
- 1409              		.loc 9 84 0
- 1410 0112 0433     		adds	r3, r3, #4
- 1411              	.LVL86:
- 1412              	.LBE597:
- 1413              	.LBE598:
- 1414              	.LBB599:
- 1415              	.LBB600:
-  31:../../src/periph/f1_dma_stream.h ****    DMA_stream& set_qty_transactions(uint16_t v){CNDTR = v; return *this;}
- 1416              		.loc 11 31 0
- 1417 0114 9360     		str	r3, [r2, #8]
- 1418              	.LVL87:
- 1419              	.LBE600:
- 1420              	.LBE599:
- 1421              	.LBB601:
- 1422              	.LBB602:
-  32:../../src/periph/f1_dma_stream.h ****    
- 1423              		.loc 11 32 0
- 1424 0116 FF23     		movs	r3, #255
- 1425 0118 5360     		str	r3, [r2, #4]
- 1426              	.LVL88:
- 1427              	.LBE602:
- 1428              	.LBE601:
- 1429              	.LBB603:
- 1430              	.LBB604:
+  56:main.cpp      ****    auto modbus = mcu::Modbus_slave::make<mcu::Periph::USART1, 
+  57:main.cpp      ****    mcu::PA9, mcu::PA10, mcu::PB1, mcu::PB2, InReg, OutReg>();
+  58:main.cpp      **** }
+ 1372              		.loc 5 58 0
+ 1373 010e 0020     		movs	r0, #0
+ 1374              	.LBB601:
+ 1375              	.LBB598:
+ 1376              	.LBB595:
+ 1377              	.LBB592:
+ 1378              	.LBB582:
+ 1379              	.LBB580:
   26:../../src/periph/f1_dma_stream.h ****    DMA_stream& inc_periph   (){CCR.PINC = true; return *this;}
- 1431              		.loc 11 26 0
- 1432 011a 1368     		ldr	r3, [r2]
- 1433 011c 3B43     		orrs	r3, r7
- 1434 011e 1360     		str	r3, [r2]
- 1435              	.LVL89:
- 1436              	.LBE604:
- 1437              	.LBE603:
- 1438              	.LBB605:
- 1439              	.LBB591:
-  36:../../src/periph/f1_dma_stream.h ****    DMA_stream& size_periph(DataSize d)     {CCR.PSIZE = d; return *this;}
- 1440              		.loc 11 36 0
- 1441 0120 1368     		ldr	r3, [r2]
- 1442 0122 1E40     		ands	r6, r3
- 1443 0124 1660     		str	r6, [r2]
- 1444              	.LVL90:
- 1445              	.LBE591:
- 1446              	.LBE605:
- 1447              	.LBB606:
- 1448              	.LBB607:
+ 1380              		.loc 11 26 0
+ 1381 0110 0A43     		orrs	r2, r1
+ 1382              	.LBE580:
+ 1383              	.LBE582:
+ 1384              	.LBB583:
+ 1385              	.LBB584:
   37:../../src/periph/f1_dma_stream.h **** 
- 1449              		.loc 11 37 0
-ARM GAS  /tmp/ccTd0H1B.s 			page 66
+ 1386              		.loc 11 37 0
+ 1387 0112 6146     		mov	r1, ip
+ARM GAS  /tmp/cchd5eTC.s 			page 65
 
 
- 1450 0126 1368     		ldr	r3, [r2]
- 1451 0128 1D40     		ands	r5, r3
- 1452 012a 1560     		str	r5, [r2]
- 1453              	.LVL91:
- 1454              	.LBE607:
- 1455              	.LBE606:
- 1456              	.LBE610:
- 1457              	.LBE613:
- 1458              		.loc 5 57 0
- 1459 012c 4DB0     		add	sp, sp, #308
- 1460              		@ sp needed
- 1461 012e F0BD     		pop	{r4, r5, r6, r7, pc}
- 1462              	.L68:
- 1463              		.align	2
- 1464              	.L67:
- 1465 0130 00100240 		.word	1073876992
- 1466 0134 00080140 		.word	1073809408
- 1467 0138 FFF0FFFF 		.word	-3841
- 1468 013c FFFFF0FF 		.word	-983041
- 1469 0140 44000240 		.word	1073872964
- 1470 0144 00380140 		.word	1073821696
- 1471 0148 58000240 		.word	1073872984
- 1472 014c 00E100E0 		.word	-536813312
- 1473 0150 FFF3FFFF 		.word	-3073
- 1474 0154 FFFCFFFF 		.word	-769
- 1475              		.cfi_endproc
- 1476              	.LFE264:
- 1478              		.section	.text.startup._GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE,"ax
- 1479              		.align	1
- 1480              		.syntax unified
- 1481              		.code	16
- 1482              		.thumb_func
- 1483              		.fpu softvfp
- 1485              	_GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:
- 1486              	.LFB328:
- 1487              		.loc 5 57 0
- 1488              		.cfi_startproc
- 1489              		@ args = 0, pretend = 0, frame = 0
- 1490              		@ frame_needed = 0, uses_anonymous_args = 0
- 1491              		@ link register save eliminated.
- 1492              	.LVL92:
- 1493              	.LBB635:
- 1494              	.LBB636:
- 1495              	.LBB637:
- 1496              	.LBB638:
- 1497              	.LBB639:
- 1498              	.LBB640:
- 1499              	.LBB641:
+ 1388              	.LBE584:
+ 1389              	.LBE583:
+ 1390              	.LBB586:
+ 1391              	.LBB581:
+  26:../../src/periph/f1_dma_stream.h ****    DMA_stream& inc_periph   (){CCR.PINC = true; return *this;}
+ 1392              		.loc 11 26 0
+ 1393 0114 1A60     		str	r2, [r3]
+ 1394              	.LVL86:
+ 1395              	.LBE581:
+ 1396              	.LBE586:
+ 1397              	.LBB587:
+ 1398              	.LBB588:
+  36:../../src/periph/f1_dma_stream.h ****    DMA_stream& size_periph(DataSize d)     {CCR.PSIZE = d; return *this;}
+ 1399              		.loc 11 36 0
+ 1400 0116 1A68     		ldr	r2, [r3]
+ 1401 0118 1440     		ands	r4, r2
+ 1402 011a 1C60     		str	r4, [r3]
+ 1403              	.LVL87:
+ 1404              	.LBE588:
+ 1405              	.LBE587:
+ 1406              	.LBB589:
+ 1407              	.LBB585:
+  37:../../src/periph/f1_dma_stream.h **** 
+ 1408              		.loc 11 37 0
+ 1409 011c 1A68     		ldr	r2, [r3]
+ 1410 011e 0A40     		ands	r2, r1
+ 1411 0120 1A60     		str	r2, [r3]
+ 1412              	.LVL88:
+ 1413              	.LBE585:
+ 1414              	.LBE589:
+ 1415              	.LBE592:
+ 1416              	.LBE595:
+ 1417              	.LBE598:
+ 1418              	.LBE601:
+ 1419              		.loc 5 58 0
+ 1420 0122 4DB0     		add	sp, sp, #308
+ 1421              		@ sp needed
+ 1422 0124 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 1423              	.L68:
+ 1424 0126 C046     		.align	2
+ 1425              	.L67:
+ 1426 0128 00100240 		.word	1073876992
+ 1427 012c FFF0FFFF 		.word	-3841
+ 1428 0130 00080140 		.word	1073809408
+ 1429 0134 000C0140 		.word	1073810432
+ 1430 0138 44000240 		.word	1073872964
+ 1431 013c 00380140 		.word	1073821696
+ 1432 0140 58000240 		.word	1073872984
+ 1433 0144 00E100E0 		.word	-536813312
+ 1434 0148 FFFCFFFF 		.word	-769
+ 1435 014c FFF3FFFF 		.word	-3073
+ 1436              		.cfi_endproc
+ 1437              	.LFE264:
+ 1439              		.section	.text.startup._GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE,"ax
+ 1440              		.align	1
+ 1441              		.syntax unified
+ 1442              		.code	16
+ARM GAS  /tmp/cchd5eTC.s 			page 66
+
+
+ 1443              		.thumb_func
+ 1444              		.fpu softvfp
+ 1446              	_GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:
+ 1447              	.LFB332:
+ 1448              		.loc 5 58 0
+ 1449              		.cfi_startproc
+ 1450              		@ args = 0, pretend = 0, frame = 0
+ 1451              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1452              		@ link register save eliminated.
+ 1453              	.LVL89:
+ 1454              	.LBB623:
+ 1455              	.LBB624:
+ 1456              	.LBB625:
+ 1457              	.LBB626:
+ 1458              	.LBB627:
+ 1459              	.LBB628:
+ 1460              	.LBB629:
   10:../../src/list.h **** {
- 1500              		.loc 4 10 0
- 1501 0000 0022     		movs	r2, #0
- 1502 0002 0A4B     		ldr	r3, .L70
- 1503              	.LBE641:
- 1504              	.LBE640:
- 1505              	.LBE639:
- 1506              	.LBB644:
- 1507              	.LBB645:
-ARM GAS  /tmp/ccTd0H1B.s 			page 67
-
-
- 1508              	.LBB646:
- 1509              	.LBB647:
- 1510              		.file 12 "../../src/periph/systick.h"
+ 1461              		.loc 4 10 0
+ 1462 0000 0022     		movs	r2, #0
+ 1463 0002 0A4B     		ldr	r3, .L70
+ 1464              	.LBE629:
+ 1465              	.LBE628:
+ 1466              	.LBE627:
+ 1467              	.LBB632:
+ 1468              	.LBB633:
+ 1469              	.LBB634:
+ 1470              	.LBB635:
+ 1471              		.file 12 "../../src/periph/systick.h"
    1:../../src/periph/systick.h **** #pragma once
    2:../../src/periph/systick.h **** 
    3:../../src/periph/systick.h **** #include "periph.h"
@@ -3983,212 +3949,238 @@ ARM GAS  /tmp/ccTd0H1B.s 			page 1
   17:../../src/periph/systick.h ****    using Clock = SysTick_bits::CTRL::Clock;
   18:../../src/periph/systick.h ****    
   19:../../src/periph/systick.h ****    void load (uint32_t v)   { LOAD = v; }
- 1511              		.loc 12 19 0
- 1512 0004 0A49     		ldr	r1, .L70+4
- 1513              	.LBE647:
- 1514              	.LBE646:
- 1515              	.LBE645:
- 1516              	.LBE644:
- 1517              	.LBB662:
- 1518              	.LBB643:
- 1519              	.LBB642:
+ 1472              		.loc 12 19 0
+ 1473 0004 0A49     		ldr	r1, .L70+4
+ 1474              	.LBE635:
+ 1475              	.LBE634:
+ 1476              	.LBE633:
+ 1477              	.LBE632:
+ 1478              	.LBB650:
+ 1479              	.LBB631:
+ 1480              	.LBB630:
+ARM GAS  /tmp/cchd5eTC.s 			page 67
+
+
   10:../../src/list.h **** {
- 1520              		.loc 4 10 0
- 1521 0006 1A60     		str	r2, [r3]
- 1522 0008 5A60     		str	r2, [r3, #4]
- 1523              	.LVL93:
- 1524              	.LBE642:
- 1525              	.LBE643:
- 1526              	.LBE662:
- 1527              	.LBB663:
- 1528              	.LBB660:
- 1529              	.LBB650:
- 1530              	.LBB648:
- 1531              		.loc 12 19 0
- 1532 000a 0A4B     		ldr	r3, .L70+8
- 1533              	.LBE648:
- 1534              	.LBE650:
- 1535              	.LBE660:
- 1536              	.LBE663:
- 1537              	.LBE638:
- 1538              	.LBE637:
- 1539              	.LBE636:
- 1540              	.LBE635:
- 1541              		.loc 5 57 0
- 1542              		@ sp needed
- 1543              	.LBB668:
- 1544              	.LBB667:
-ARM GAS  /tmp/ccTd0H1B.s 			page 68
-
-
- 1545              	.LBB666:
- 1546              	.LBB665:
- 1547              	.LBB664:
- 1548              	.LBB661:
- 1549              	.LBB651:
- 1550              	.LBB649:
- 1551              		.loc 12 19 0
- 1552 000c 5960     		str	r1, [r3, #4]
- 1553              	.LVL94:
- 1554              	.LBE649:
- 1555              	.LBE651:
- 1556              	.LBB652:
- 1557              	.LBB653:
+ 1481              		.loc 4 10 0
+ 1482 0006 1A60     		str	r2, [r3]
+ 1483 0008 5A60     		str	r2, [r3, #4]
+ 1484              	.LVL90:
+ 1485              	.LBE630:
+ 1486              	.LBE631:
+ 1487              	.LBE650:
+ 1488              	.LBB651:
+ 1489              	.LBB648:
+ 1490              	.LBB638:
+ 1491              	.LBB636:
+ 1492              		.loc 12 19 0
+ 1493 000a 0A4B     		ldr	r3, .L70+8
+ 1494              	.LBE636:
+ 1495              	.LBE638:
+ 1496              	.LBE648:
+ 1497              	.LBE651:
+ 1498              	.LBE626:
+ 1499              	.LBE625:
+ 1500              	.LBE624:
+ 1501              	.LBE623:
+ 1502              		.loc 5 58 0
+ 1503              		@ sp needed
+ 1504              	.LBB656:
+ 1505              	.LBB655:
+ 1506              	.LBB654:
+ 1507              	.LBB653:
+ 1508              	.LBB652:
+ 1509              	.LBB649:
+ 1510              	.LBB639:
+ 1511              	.LBB637:
+ 1512              		.loc 12 19 0
+ 1513 000c 5960     		str	r1, [r3, #4]
+ 1514              	.LVL91:
+ 1515              	.LBE637:
+ 1516              	.LBE639:
+ 1517              	.LBB640:
+ 1518              	.LBB641:
   20:../../src/periph/systick.h ****    void clear()             { VAL = 0; }
- 1558              		.loc 12 20 0
- 1559 000e 9A60     		str	r2, [r3, #8]
- 1560              	.LVL95:
- 1561              	.LBE653:
- 1562              	.LBE652:
- 1563              	.LBB654:
- 1564              	.LBB655:
+ 1519              		.loc 12 20 0
+ 1520 000e 9A60     		str	r2, [r3, #8]
+ 1521              	.LVL92:
+ 1522              	.LBE641:
+ 1523              	.LBE640:
+ 1524              	.LBB642:
+ 1525              	.LBB643:
   21:../../src/periph/systick.h ****    void setSource (Clock v) { CTRL.CLKSOURCE = v; }
- 1565              		.loc 12 21 0
- 1566 0010 1968     		ldr	r1, [r3]
- 1567 0012 0432     		adds	r2, r2, #4
- 1568 0014 0A43     		orrs	r2, r1
- 1569 0016 1A60     		str	r2, [r3]
- 1570              	.LVL96:
- 1571              	.LBE655:
- 1572              	.LBE654:
- 1573              	.LBB656:
- 1574              	.LBB657:
+ 1526              		.loc 12 21 0
+ 1527 0010 1968     		ldr	r1, [r3]
+ 1528 0012 0432     		adds	r2, r2, #4
+ 1529 0014 0A43     		orrs	r2, r1
+ 1530 0016 1A60     		str	r2, [r3]
+ 1531              	.LVL93:
+ 1532              	.LBE643:
+ 1533              	.LBE642:
+ 1534              	.LBB644:
+ARM GAS  /tmp/cchd5eTC.s 			page 68
+
+
+ 1535              	.LBB645:
   22:../../src/periph/systick.h ****    void enableInterrupt()   { CTRL.TICKINT = true; }
- 1575              		.loc 12 22 0
- 1576 0018 0222     		movs	r2, #2
- 1577 001a 1968     		ldr	r1, [r3]
- 1578 001c 0A43     		orrs	r2, r1
- 1579 001e 1A60     		str	r2, [r3]
- 1580              	.LVL97:
- 1581              	.LBE657:
- 1582              	.LBE656:
- 1583              	.LBB658:
- 1584              	.LBB659:
+ 1536              		.loc 12 22 0
+ 1537 0018 0222     		movs	r2, #2
+ 1538 001a 1968     		ldr	r1, [r3]
+ 1539 001c 0A43     		orrs	r2, r1
+ 1540 001e 1A60     		str	r2, [r3]
+ 1541              	.LVL94:
+ 1542              	.LBE645:
+ 1543              	.LBE644:
+ 1544              	.LBB646:
+ 1545              	.LBB647:
   23:../../src/periph/systick.h ****    void enable()            { CTRL.ENABLE = true; }
- 1585              		.loc 12 23 0
- 1586 0020 0122     		movs	r2, #1
- 1587 0022 1968     		ldr	r1, [r3]
- 1588 0024 0A43     		orrs	r2, r1
- 1589 0026 1A60     		str	r2, [r3]
- 1590              	.LVL98:
- 1591              	.LBE659:
- 1592              	.LBE658:
- 1593              	.LBE661:
- 1594              	.LBE664:
- 1595              	.LBE665:
- 1596              	.LBE666:
- 1597              	.LBE667:
-ARM GAS  /tmp/ccTd0H1B.s 			page 69
+ 1546              		.loc 12 23 0
+ 1547 0020 0122     		movs	r2, #1
+ 1548 0022 1968     		ldr	r1, [r3]
+ 1549 0024 0A43     		orrs	r2, r1
+ 1550 0026 1A60     		str	r2, [r3]
+ 1551              	.LVL95:
+ 1552              	.LBE647:
+ 1553              	.LBE646:
+ 1554              	.LBE649:
+ 1555              	.LBE652:
+ 1556              	.LBE653:
+ 1557              	.LBE654:
+ 1558              	.LBE655:
+ 1559              	.LBE656:
+ 1560              		.loc 5 58 0
+ 1561 0028 7047     		bx	lr
+ 1562              	.L71:
+ 1563 002a C046     		.align	2
+ 1564              	.L70:
+ 1565 002c 00000000 		.word	.LANCHOR0
+ 1566 0030 3F190100 		.word	71999
+ 1567 0034 10E000E0 		.word	-536813552
+ 1568              		.cfi_endproc
+ 1569              	.LFE332:
+ 1571              		.section	.init_array,"aw",%init_array
+ 1572              		.align	2
+ 1573 0000 00000000 		.word	_GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE(target1)
+ 1574              		.global	_ZTV5Timer
+ 1575              		.global	interrupt_usart3
+ 1576              		.global	interrupt_usart2
+ 1577              		.global	interrupt_usart1
+ 1578              		.global	tickUpdater
+ 1579              		.section	.bss.interrupt_usart1,"aw",%nobits
+ 1582              	interrupt_usart1:
+ 1583 0000 00       		.space	1
+ 1584              		.section	.bss.interrupt_usart2,"aw",%nobits
+ 1587              	interrupt_usart2:
+ 1588 0000 00       		.space	1
+ 1589              		.section	.bss.interrupt_usart3,"aw",%nobits
+ 1592              	interrupt_usart3:
+ 1593 0000 00       		.space	1
+ 1594              		.section	.bss.tickUpdater,"aw",%nobits
+ 1595              		.align	2
+ 1596              		.set	.LANCHOR0,. + 0
+ARM GAS  /tmp/cchd5eTC.s 			page 69
 
 
- 1598              	.LBE668:
- 1599              		.loc 5 57 0
- 1600 0028 7047     		bx	lr
- 1601              	.L71:
- 1602 002a C046     		.align	2
- 1603              	.L70:
- 1604 002c 00000000 		.word	.LANCHOR0
- 1605 0030 3F190100 		.word	71999
- 1606 0034 10E000E0 		.word	-536813552
- 1607              		.cfi_endproc
- 1608              	.LFE328:
- 1610              		.section	.init_array,"aw",%init_array
- 1611              		.align	2
- 1612 0000 00000000 		.word	_GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE(target1)
- 1613              		.global	_ZTV5Timer
- 1614              		.global	tickUpdater
- 1615              		.section	.bss.tickUpdater,"aw",%nobits
- 1616              		.align	2
- 1617              		.set	.LANCHOR0,. + 0
- 1620              	tickUpdater:
- 1621 0000 00000000 		.space	8
- 1621      00000000 
- 1622              		.section	.rodata._ZTV5Timer,"a",%progbits
- 1623              		.align	2
- 1626              	_ZTV5Timer:
- 1627 0000 00000000 		.word	0
- 1628 0004 00000000 		.word	0
- 1629 0008 00000000 		.word	_ZN5Timer6notifyEv
- 1630              		.text
- 1631              	.Letext0:
- 1632              		.file 13 "../../STM32F1_files/stm32f103xb.h"
- 1633              		.file 14 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_de
- 1634              		.file 15 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdint
- 1635              		.file 16 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdint.h"
- 1636              		.file 17 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/t
- 1637              		.file 18 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/a
- 1638              		.file 19 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/c
- 1639              		.file 20 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/c
- 1640              		.file 21 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/c
- 1641              		.file 22 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/inclu
- 1642              		.file 23 "<built-in>"
- 1643              		.file 24 "../../src/periph/periph.h"
- 1644              		.file 25 "../../src/bits/f1_bits_rcc.h"
- 1645              		.file 26 "../../src/bits/f1_bits_gpio.h"
- 1646              		.file 27 "../../src/bits/f1_bits_afio.h"
- 1647              		.file 28 "../../src/periph/f1_afio.h"
- 1648              		.file 29 "../../src/pin.h"
- 1649              		.file 30 "../../src/bits/f1_bits_usart.h"
- 1650              		.file 31 "../../src/bits/f1_bits_dma_stream.h"
- 1651              		.file 32 "../../src/bits/f1_bits_dma.h"
- 1652              		.file 33 "../../src/bits/f0_f4_bits_systick.h"
- 1653              		.file 34 "../../src/pins.h"
- 1654              		.file 35 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h"
- 1655              		.file 36 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types.
- 1656              		.file 37 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.h
- 1657              		.file 38 "/home/alexandr/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/string.h"
-ARM GAS  /tmp/ccTd0H1B.s 			page 70
+ 1599              	tickUpdater:
+ 1600 0000 00000000 		.space	8
+ 1600      00000000 
+ 1601              		.section	.rodata._ZTV5Timer,"a",%progbits
+ 1602              		.align	2
+ 1605              	_ZTV5Timer:
+ 1606 0000 00000000 		.word	0
+ 1607 0004 00000000 		.word	0
+ 1608 0008 00000000 		.word	_ZN5Timer6notifyEv
+ 1609              		.text
+ 1610              	.Letext0:
+ 1611              		.file 13 "../../STM32F1_files/stm32f103xb.h"
+ 1612              		.file 14 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_d
+ 1613              		.file 15 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdin
+ 1614              		.file 16 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdint.h"
+ 1615              		.file 17 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1616              		.file 18 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1617              		.file 19 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1618              		.file 20 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1619              		.file 21 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1620              		.file 22 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/incl
+ 1621              		.file 23 "<built-in>"
+ 1622              		.file 24 "../../src/periph/periph.h"
+ 1623              		.file 25 "../../src/bits/f1_bits_rcc.h"
+ 1624              		.file 26 "../../src/bits/f1_bits_gpio.h"
+ 1625              		.file 27 "../../src/bits/f1_bits_afio.h"
+ 1626              		.file 28 "../../src/periph/f1_afio.h"
+ 1627              		.file 29 "../../src/pin.h"
+ 1628              		.file 30 "../../src/bits/f1_bits_usart.h"
+ 1629              		.file 31 "../../src/bits/f1_bits_dma_stream.h"
+ 1630              		.file 32 "../../src/bits/f1_bits_dma.h"
+ 1631              		.file 33 "../../src/bits/f0_f4_bits_systick.h"
+ 1632              		.file 34 "../../src/modbus_slave.h"
+ 1633              		.file 35 "../../src/pins.h"
+ 1634              		.file 36 "../../src/interrupt.h"
+ 1635              		.file 37 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h
+ 1636              		.file 38 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types
+ 1637              		.file 39 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.
+ 1638              		.file 40 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/string.h"
+ARM GAS  /tmp/cchd5eTC.s 			page 70
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.cpp
-     /tmp/ccTd0H1B.s:16     .text._ZN5Timer6notifyEv:0000000000000000 $t
-     /tmp/ccTd0H1B.s:23     .text._ZN5Timer6notifyEv:0000000000000000 _ZN5Timer6notifyEv
-     /tmp/ccTd0H1B.s:45     .text._ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:0000000000000000 $t
-     /tmp/ccTd0H1B.s:52     .text._ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:0000000000000000 _ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE
-     /tmp/ccTd0H1B.s:139    .text._ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE:0000000000000000 $t
-     /tmp/ccTd0H1B.s:146    .text._ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE:0000000000000000 _ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE
-     /tmp/ccTd0H1B.s:235    .text.SysTick_Handler:0000000000000000 $t
-     /tmp/ccTd0H1B.s:242    .text.SysTick_Handler:0000000000000000 SysTick_Handler
-     /tmp/ccTd0H1B.s:296    .text.SysTick_Handler:0000000000000018 $d
-     /tmp/ccTd0H1B.s:301    .text._ZN5Timer5eventEv:0000000000000000 $t
-     /tmp/ccTd0H1B.s:308    .text._ZN5Timer5eventEv:0000000000000000 _ZN5Timer5eventEv
-     /tmp/ccTd0H1B.s:336    .text._ZN5Timer4doneEv:0000000000000000 $t
-     /tmp/ccTd0H1B.s:343    .text._ZN5Timer4doneEv:0000000000000000 _ZN5Timer4doneEv
-     /tmp/ccTd0H1B.s:365    .text._ZN5Timer7isCountEv:0000000000000000 $t
-     /tmp/ccTd0H1B.s:372    .text._ZN5Timer7isCountEv:0000000000000000 _ZN5Timer7isCountEv
-     /tmp/ccTd0H1B.s:389    .text._ZN5Timer10timePassedEv:0000000000000000 $t
-     /tmp/ccTd0H1B.s:396    .text._ZN5Timer10timePassedEv:0000000000000000 _ZN5Timer10timePassedEv
-     /tmp/ccTd0H1B.s:413    .text._ZN5Timer8timeLeftEv:0000000000000000 $t
-     /tmp/ccTd0H1B.s:420    .text._ZN5Timer8timeLeftEv:0000000000000000 _ZN5Timer8timeLeftEv
-     /tmp/ccTd0H1B.s:439    .text._ZN5Timer9isGreaterEm:0000000000000000 $t
-     /tmp/ccTd0H1B.s:446    .text._ZN5Timer9isGreaterEm:0000000000000000 _ZN5Timer9isGreaterEm
-     /tmp/ccTd0H1B.s:466    .text._ZN14TickSubscriber11unsubscribeEv:0000000000000000 $t
-     /tmp/ccTd0H1B.s:473    .text._ZN14TickSubscriber11unsubscribeEv:0000000000000000 _ZN14TickSubscriber11unsubscribeEv
-     /tmp/ccTd0H1B.s:564    .text._ZN14TickSubscriber11unsubscribeEv:000000000000003c $d
-     /tmp/ccTd0H1B.s:574    .text._ZN5Timer4stopEv:0000000000000000 $t
-     /tmp/ccTd0H1B.s:581    .text._ZN5Timer4stopEv:0000000000000000 _ZN5Timer4stopEv
-     /tmp/ccTd0H1B.s:608    .text._ZN5Timer5pauseEv:0000000000000000 $t
-     /tmp/ccTd0H1B.s:615    .text._ZN5Timer5pauseEv:0000000000000000 _ZN5Timer5pauseEv
-     /tmp/ccTd0H1B.s:636    .text._ZN14TickSubscriber9subscribeEv:0000000000000000 $t
-     /tmp/ccTd0H1B.s:643    .text._ZN14TickSubscriber9subscribeEv:0000000000000000 _ZN14TickSubscriber9subscribeEv
-     /tmp/ccTd0H1B.s:697    .text._ZN14TickSubscriber9subscribeEv:0000000000000024 $d
-     /tmp/ccTd0H1B.s:702    .text._ZN5Timer5startEm:0000000000000000 $t
-     /tmp/ccTd0H1B.s:709    .text._ZN5Timer5startEm:0000000000000000 _ZN5Timer5startEm
-     /tmp/ccTd0H1B.s:733    .text._ZN5Timer5startEv:0000000000000000 $t
-     /tmp/ccTd0H1B.s:740    .text._ZN5Timer5startEv:0000000000000000 _ZN5Timer5startEv
-     /tmp/ccTd0H1B.s:761    .text.init_clock:0000000000000000 $t
-     /tmp/ccTd0H1B.s:768    .text.init_clock:0000000000000000 init_clock
-     /tmp/ccTd0H1B.s:783    .text.startup.main:0000000000000000 $t
-     /tmp/ccTd0H1B.s:790    .text.startup.main:0000000000000000 main
-     /tmp/ccTd0H1B.s:1465   .text.startup.main:0000000000000130 $d
-     /tmp/ccTd0H1B.s:1479   .text.startup._GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:0000000000000000 $t
-     /tmp/ccTd0H1B.s:1485   .text.startup._GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:0000000000000000 _GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE
-     /tmp/ccTd0H1B.s:1604   .text.startup._GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:000000000000002c $d
-     /tmp/ccTd0H1B.s:1611   .init_array:0000000000000000 $d
-     /tmp/ccTd0H1B.s:1626   .rodata._ZTV5Timer:0000000000000000 _ZTV5Timer
-     /tmp/ccTd0H1B.s:1620   .bss.tickUpdater:0000000000000000 tickUpdater
-     /tmp/ccTd0H1B.s:1616   .bss.tickUpdater:0000000000000000 $d
-     /tmp/ccTd0H1B.s:1623   .rodata._ZTV5Timer:0000000000000000 $d
+     /tmp/cchd5eTC.s:16     .text._ZN5Timer6notifyEv:0000000000000000 $t
+     /tmp/cchd5eTC.s:23     .text._ZN5Timer6notifyEv:0000000000000000 _ZN5Timer6notifyEv
+     /tmp/cchd5eTC.s:45     .text._ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:0000000000000000 $t
+     /tmp/cchd5eTC.s:52     .text._ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:0000000000000000 _ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE
+     /tmp/cchd5eTC.s:139    .text._ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE:0000000000000000 $t
+     /tmp/cchd5eTC.s:146    .text._ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE:0000000000000000 _ZN3mcu3DMA30is_transfer_complete_interruptENS_8DMA_bits7ChannelE
+     /tmp/cchd5eTC.s:235    .text.SysTick_Handler:0000000000000000 $t
+     /tmp/cchd5eTC.s:242    .text.SysTick_Handler:0000000000000000 SysTick_Handler
+     /tmp/cchd5eTC.s:296    .text.SysTick_Handler:0000000000000018 $d
+     /tmp/cchd5eTC.s:301    .text._ZN5Timer5eventEv:0000000000000000 $t
+     /tmp/cchd5eTC.s:308    .text._ZN5Timer5eventEv:0000000000000000 _ZN5Timer5eventEv
+     /tmp/cchd5eTC.s:336    .text._ZN5Timer4doneEv:0000000000000000 $t
+     /tmp/cchd5eTC.s:343    .text._ZN5Timer4doneEv:0000000000000000 _ZN5Timer4doneEv
+     /tmp/cchd5eTC.s:365    .text._ZN5Timer7isCountEv:0000000000000000 $t
+     /tmp/cchd5eTC.s:372    .text._ZN5Timer7isCountEv:0000000000000000 _ZN5Timer7isCountEv
+     /tmp/cchd5eTC.s:389    .text._ZN5Timer10timePassedEv:0000000000000000 $t
+     /tmp/cchd5eTC.s:396    .text._ZN5Timer10timePassedEv:0000000000000000 _ZN5Timer10timePassedEv
+     /tmp/cchd5eTC.s:413    .text._ZN5Timer8timeLeftEv:0000000000000000 $t
+     /tmp/cchd5eTC.s:420    .text._ZN5Timer8timeLeftEv:0000000000000000 _ZN5Timer8timeLeftEv
+     /tmp/cchd5eTC.s:439    .text._ZN5Timer9isGreaterEm:0000000000000000 $t
+     /tmp/cchd5eTC.s:446    .text._ZN5Timer9isGreaterEm:0000000000000000 _ZN5Timer9isGreaterEm
+     /tmp/cchd5eTC.s:466    .text._ZN14TickSubscriber11unsubscribeEv:0000000000000000 $t
+     /tmp/cchd5eTC.s:473    .text._ZN14TickSubscriber11unsubscribeEv:0000000000000000 _ZN14TickSubscriber11unsubscribeEv
+     /tmp/cchd5eTC.s:564    .text._ZN14TickSubscriber11unsubscribeEv:000000000000003c $d
+     /tmp/cchd5eTC.s:574    .text._ZN5Timer4stopEv:0000000000000000 $t
+     /tmp/cchd5eTC.s:581    .text._ZN5Timer4stopEv:0000000000000000 _ZN5Timer4stopEv
+     /tmp/cchd5eTC.s:608    .text._ZN5Timer5pauseEv:0000000000000000 $t
+     /tmp/cchd5eTC.s:615    .text._ZN5Timer5pauseEv:0000000000000000 _ZN5Timer5pauseEv
+     /tmp/cchd5eTC.s:636    .text._ZN14TickSubscriber9subscribeEv:0000000000000000 $t
+     /tmp/cchd5eTC.s:643    .text._ZN14TickSubscriber9subscribeEv:0000000000000000 _ZN14TickSubscriber9subscribeEv
+     /tmp/cchd5eTC.s:697    .text._ZN14TickSubscriber9subscribeEv:0000000000000024 $d
+     /tmp/cchd5eTC.s:702    .text._ZN5Timer5startEm:0000000000000000 $t
+     /tmp/cchd5eTC.s:709    .text._ZN5Timer5startEm:0000000000000000 _ZN5Timer5startEm
+     /tmp/cchd5eTC.s:733    .text._ZN5Timer5startEv:0000000000000000 $t
+     /tmp/cchd5eTC.s:740    .text._ZN5Timer5startEv:0000000000000000 _ZN5Timer5startEv
+     /tmp/cchd5eTC.s:761    .text.init_clock:0000000000000000 $t
+     /tmp/cchd5eTC.s:768    .text.init_clock:0000000000000000 init_clock
+     /tmp/cchd5eTC.s:783    .text.startup.main:0000000000000000 $t
+     /tmp/cchd5eTC.s:790    .text.startup.main:0000000000000000 main
+     /tmp/cchd5eTC.s:1426   .text.startup.main:0000000000000128 $d
+     /tmp/cchd5eTC.s:1440   .text.startup._GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:0000000000000000 $t
+     /tmp/cchd5eTC.s:1446   .text.startup._GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:0000000000000000 _GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE
+     /tmp/cchd5eTC.s:1565   .text.startup._GLOBAL__sub_I__ZN3mcu3DMA21clear_interrupt_flagsENS_8DMA_bits7ChannelE:000000000000002c $d
+     /tmp/cchd5eTC.s:1572   .init_array:0000000000000000 $d
+     /tmp/cchd5eTC.s:1605   .rodata._ZTV5Timer:0000000000000000 _ZTV5Timer
+     /tmp/cchd5eTC.s:1592   .bss.interrupt_usart3:0000000000000000 interrupt_usart3
+     /tmp/cchd5eTC.s:1587   .bss.interrupt_usart2:0000000000000000 interrupt_usart2
+     /tmp/cchd5eTC.s:1582   .bss.interrupt_usart1:0000000000000000 interrupt_usart1
+     /tmp/cchd5eTC.s:1599   .bss.tickUpdater:0000000000000000 tickUpdater
+     /tmp/cchd5eTC.s:1583   .bss.interrupt_usart1:0000000000000000 $d
+     /tmp/cchd5eTC.s:1588   .bss.interrupt_usart2:0000000000000000 $d
+     /tmp/cchd5eTC.s:1593   .bss.interrupt_usart3:0000000000000000 $d
+     /tmp/cchd5eTC.s:1595   .bss.tickUpdater:0000000000000000 $d
+     /tmp/cchd5eTC.s:1602   .rodata._ZTV5Timer:0000000000000000 $d
+
+ARM GAS  /tmp/cchd5eTC.s 			page 71
+
 
 NO UNDEFINED SYMBOLS

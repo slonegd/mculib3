@@ -45,7 +45,7 @@ function(test MCU name)
    set_target_properties (${name} PROPERTIES
       CXX_STANDARD 17
       CXX_STANDARD_REQUIRED ON
-      COMPILE_OPTIONS -Wpedantic -Wall -Wextra
+      COMPILE_OPTIONS -Wno-pedantic -Wall -Wextra
       COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
    )
    add_test(${name} build/${name})

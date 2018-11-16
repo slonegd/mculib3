@@ -36,7 +36,7 @@ int main()
 //    pwm.frequency  = 20_kHz;
 //    pwm.out_enable();
 
-   auto uart = mcu::UART::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10,mcu::PA8, mcu::PA12>();
+   // auto uart = mcu::UART::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10,mcu::PA8, mcu::PA12>();
 
 //    while(1) {
 
@@ -50,8 +50,9 @@ int main()
 
    // buffer << 2;
 
-   // struct InReg{};
-   // struct OutReg{};
+   struct InReg{};
+   struct OutReg{};
 
-   // auto modbus = mcu::Modbus_slave::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10, InReg, OutReg>();
+   auto modbus = mcu::Modbus_slave::make<mcu::Periph::USART1, 
+   mcu::PA9, mcu::PA10, mcu::PB1, mcu::PB2, InReg, OutReg>();
 }
