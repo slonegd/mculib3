@@ -1,7 +1,7 @@
 #pragma once
 #include "interrupt.h"
 
-#if define (STM32F103xB)
+#if defined (STM32F103xB)
 
 	// список прерываний, которые не описаны
 	extern "C" void WWDG_IRQHandler            () { while(1) {} }

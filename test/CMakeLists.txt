@@ -11,6 +11,7 @@ set (CMAKE_BUILD_TYPE Debug)
 
 include_directories (
    ${PROJECT_SOURCE_DIR}/../src
+   ${PROJECT_SOURCE_DIR}/../src/mock_class
    ${PROJECT_SOURCE_DIR}/../src/bits
    ${PROJECT_SOURCE_DIR}/../src/periph
    ${Boost_INCLUDE_DIR}
@@ -57,6 +58,7 @@ test (STM32F1 f1_test_dma)
 test (STM32F4 f4_test_flash)
 test (NULL test_reflect)
 test (STM32F1 test_uart)
+test (STM32F1 test_modbus_slave)
 
 
 

@@ -8,10 +8,13 @@
 
 #include <iostream>
 #include <type_traits>
-#include "mock_for_test_uart.h"
+#include "test_NVIC_Enable.h"
+#include "mock_usart.h"
+#include "mock_DMA_stream.h"
 #include "uart.h"
 
-auto uart = mcu::UART::make <
+
+   auto uart = mcu::UART::make <
         mcu::Periph::TEST_USART
       , mcu::TX
       , mcu::RX
@@ -20,9 +23,9 @@ auto uart = mcu::UART::make <
    >();
 
 
+
+
 BOOST_AUTO_TEST_SUITE (test_suite_main)
-
-
 
 BOOST_AUTO_TEST_CASE (make)
 {

@@ -53,6 +53,6 @@ int main()
    struct InReg{};
    struct OutReg{};
 
-   auto modbus = mcu::Modbus_slave::make<mcu::Periph::USART1, 
-   mcu::PA9, mcu::PA10, mcu::PB1, mcu::PB2, InReg, OutReg>();
+   auto modbus = mcu::Modbus_slave<InReg, OutReg>::make<mcu::Periph::USART1, 
+   mcu::PA9, mcu::PA10, mcu::PB1, mcu::PB2>();
 }

@@ -1,34 +1,48 @@
 #pragma once
 
-#include "uart.h"
-#include "timers.h"
-#include "interrupt.h"
-#include <cstring>
+#if not defined (TEST)
+   #include "uart.h"
+   #include "timers.h"
+   #include "interrupt.h"
+   #include <cstring>
+#endif
 
 namespace mcu {
 
+template <class InReg, class OutReg>
 class Modbus_slave
 {
+   enum class Function   : uint8_t {read_03 = 0x03, write_16 = 0x10};
+   enum class Error_code : uint8_t {wrong_func = 0x01, wrong_reg = 0x02, wrong_value = 0x03};
 
    UART uart;
    Interrupt& interrupt_usart;
 
+   uint8_t address;
+   uint8_t func;
+   uint16_t first_reg{0};
+   uint16_t last_reg {0};
+   uint16_t qty_reg  {0};
+   uint8_t  qty_byte {0};
+   uint8_t  data;
+   uint16_t crc{0};
+
+   uint16_t crc16(uint8_t* data, uint8_t length);
+   uint8_t  set_high_bit(uint8_t func);
+
+   bool check_CRC  ();
+   bool check_reg  (uint16_t qty_reg_device);
+   bool check_value();
+
+   void answer_error(Error_code);
+   void answer_03();
+   template <class function> void answer_16(function reaction);
+
 public:
-
-   Modbus_slave (UART uart, Interrupt& interrupt_usart) 
-      : uart {uart} 
-      , interrupt_usart {interrupt_usart}
-      {}
-
-   template <Periph usart, class TXpin,  class RXpin, class RTSpin, 
-                           class LEDpin, class InReg, class OutReg> 
-   static auto make (/*const UART::Settings& set*/)
-   {
 
    static constexpr uint16_t InRegQty  = sizeof (InReg) / 2;
    static constexpr uint16_t OutRegQty = sizeof(OutReg) / 2;
 
-   uint8_t address;
    union {
       InReg inRegs;
       uint16_t arInRegs[InRegQty];
@@ -45,24 +59,28 @@ public:
       InReg inRegsMax;
       uint16_t arInRegsMax[InRegQty];
    };
+   
+   Modbus_slave (UART uart, Interrupt& interrupt_usart) 
+      : uart {uart} 
+      , interrupt_usart {interrupt_usart}
+      {}
 
-   auto interrupt_tmp = usart == Periph::USART1 ? &interrupt_usart1 :
-                        usart == Periph::USART2 ? &interrupt_usart2 :
-                        usart == Periph::USART3 ? &interrupt_usart3 :
-                        nullptr;
-                                  
+   template <Periph usart, class TXpin,  class RXpin, class RTSpin, class LEDpin> 
+   static auto make (/*const UART::Settings& set*/)
+   {
+      auto interrupt_tmp = usart == Periph::USART1 ? &interrupt_usart1 :
+                           usart == Periph::USART2 ? &interrupt_usart2 :
+                           usart == Periph::USART3 ? &interrupt_usart3 :
+                           nullptr;
 
-   Modbus_slave modbus {UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>(), *interrupt_tmp};
+      Modbus_slave<InReg, OutReg> modbus {UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>(), *interrupt_tmp};
 
-   // modbus.uart.init(set);
+      // modbus.uart.init(set);
       return modbus;
    }
 
-   uint16_t crc16(uint8_t* data, uint8_t length);
-   bool check_CRC();
-   void answer_03();
-   void answer_16();
-   void operator() (function reaction);
+
+   template <class function> void operator() (function reaction);
 
 
 };
@@ -105,35 +123,37 @@ public:
 
 
 
-
-
-void Modbus_slave::operator() (function reaction)
+template <class InReg, class OutReg>
+template <class function>
+void Modbus_slave<InReg, OutReg>::operator() (function reaction)
 {
-   uint8_t adr{0};
+   uint16_t qty_transactions;
+   uint8_t adr;
    uart >> adr;
    if (adr != address) {
       uart.start_receive();
       return;
    }
-   check_CRC();
-   uint8_t function;
-   uart >> function
-   if(function == 3) {
-      uint16_t first_reg{0}; uart >> first_reg;
-      uint16_t qty_reg  {0}; uart >> qty_reg; 
-      uint16_t last_reg = first_reg + last_reg;
-      uint32_t qty_byte = qty_reg * 2;
-      if (last_reg > (OutRegQty - 1)) {
-         uart << address << function << qty_byte << data << crc;
-      }
+   if (not check_CRC()) {
+      uart.start_receive();
       return;
-   } else if (function == 16) {
-
    }
-
+   uart >> func;
+   if(func == static_cast<uint8_t>(Function::read_03))
+      answer_03();
+   else if (func == static_cast<uint8_t>(Function::write_16))
+      answer_16(reaction);
+   else 
+      answer_error(Error_code::wrong_func);
 }
 
-uint16_t Modbus_slave::crc16(uint8_t* data, uint8_t length))
+
+
+
+
+
+template <class InReg, class OutReg>
+uint16_t Modbus_slave<InReg, OutReg>::crc16(uint8_t* data, uint8_t length)
 {
    int j;
    uint16_t reg_crc = 0xFFFF;
@@ -149,17 +169,90 @@ uint16_t Modbus_slave::crc16(uint8_t* data, uint8_t length))
    }
    return reg_crc;
 }
-bool Modbus_slave::check_CRC()
+
+template <class InReg, class OutReg>
+uint8_t Modbus_slave<InReg, OutReg>::set_high_bit(uint8_t func)
 {
-   crc = crc16 (uart.buffer, byteQty - 2);
-   return (static_cast<uint8_t>(crc)      == uart.buffer[byteQty-2]
-       and static_cast<uint8_t>(crc >> 8) == uart.buffer[byteQty-1])
+   return (func | 0b10000000);
 }
 
-void Modbus_slave::answer_03()
+template <class InReg, class OutReg>
+bool Modbus_slave<InReg, OutReg>::check_CRC()
 {
-   uint8_t function = 3;
+   return uart.buffer_CRC() == crc16(uart.buffer_pointer(), uart.buffer_end());
+}
+
+template <class InReg, class OutReg>
+bool Modbus_slave<InReg, OutReg>::check_reg(uint16_t qty_reg_device)
+{
+   first_reg; uart >> first_reg;
+   qty_reg;   uart >> qty_reg; 
+   last_reg = first_reg + qty_reg;
+   qty_byte = qty_reg * 2;
+   return (last_reg > (qty_reg_device - 1));
+}
+
+template <class InReg, class OutReg>
+void Modbus_slave<InReg, OutReg>::answer_error(Error_code code)
+{
+   if (code == Error_code::wrong_func)
+      uart << address << set_high_bit(func) << static_cast<uint8_t>(code);
+   else
+      uart << address << func << static_cast<uint8_t>(code);
+   crc = crc16 (uart.buffer_pointer(), uart.buffer_end());
+   uart << crc;
+   uart.start_transmit();
+}
+
+template <class InReg, class OutReg>
+void Modbus_slave<InReg, OutReg>::answer_03()
+{
+   if (not check_reg(OutRegQty)) {
+      answer_error(Error_code::wrong_reg);
+      return;
+   }
+   uart << address << static_cast<uint8_t>(Function::read) << qty_byte;
+   while(qty_reg--)
+      uart << arOutRegs[first_reg++];
+   crc = crc16 (uart.buffer_pointer(), uart.buffer_end());
+   uart << crc;
+   uart.start_transmit();
+}
+
+template <class InReg, class OutReg>
+template <class function>
+void Modbus_slave<InReg, OutReg>::answer_16(function reaction)
+{
+   if (not check_reg(InRegQty)) {
+      answer_error(Error_code::wrong_reg);
+      return;
+   }
+   if (not check_value()) {
+      answer_error(Error_code::wrong_value);
+      uart.start_receive();
+      return;
+   }
    
+   while(qty_reg--) {
+      uart >> arInRegs[first_reg++];
+      reaction (first_reg++);
+   }
+   uart << address << func << first_reg << qty_reg;
+   crc = crc16 (uart.buffer_pointer(), uart.buffer_end());
+   uart << crc;
+   uart.start_transmit();
+}
+
+template <class InReg, class OutReg>
+bool Modbus_slave<InReg, OutReg>::check_value()
+{
+   while(qty_reg--) {
+      uart >> data;
+      if (data < arInRegsMin[first_reg++] and data > arInRegsMax[first_reg++])
+         return false;
+   }
+
+   return true;
 }
 
 

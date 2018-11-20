@@ -61,16 +61,19 @@ public:
    template <Periph usart, class TXpin, class RXpin, class RTSpin, class LEDpin> static auto make();
    void init (const Settings&) ;
    void transmit(uint16_t qty);
+   void start_transmit();
    void start_receive();
    
-
-   UART_&  operator<< (const uint8_t&);
-   UART_&  operator<< (const uint16_t&);
-   UART_&  operator>> (uint8_t&);
-   UART_&  operator>> (uint16_t&);
-   uint8_t operator[] (const int index) {return buffer[index];}
+   auto buffer_pointer(){return &buffer[0];}
+   auto buffer_end    (){return end;}
+   void buffer_clean  (){begin = end = 0;}
+   UART_&   operator<< (const uint8_t&);
+   UART_&   operator<< (const uint16_t&);
+   UART_&   operator>> (uint8_t&);
+   UART_&   operator>> (uint16_t&);
+   uint8_t  operator[] (const int index) {return buffer[index];}
    uint16_t qty_byte(){return buffer_size - RXstream.qty_transactions_left();}
-
+   uint16_t buffer_CRC();
 };
 
 using UART = UART_<>;
@@ -185,8 +188,19 @@ void UART_<buffer_size>::transmit(uint16_t qty)
 }
 
 template<size_t buffer_size>
+void UART_<buffer_size>::start_transmit()
+{
+   rts = led = true;
+   RXstream.disable();
+   TXstream.disable()
+           .set_qty_transactions(end)
+           .enable();
+}
+
+template<size_t buffer_size>
 void UART_<buffer_size>::start_receive()
 {
+   buffer_clean();
    rts = led = false;
    TXstream.disable();
    RXstream.disable()
@@ -219,7 +233,6 @@ UART_<buffer_size>& UART_<buffer_size>::operator<< (const uint16_t& v)
    high = v >> 8; 
    low  = static_cast<uint8_t>(v);
    *this << high << low;
-   v = static_cast<uint8_t>(low) << 8 | high;
    return *this;
 }
 
@@ -228,8 +241,17 @@ UART_<buffer_size>& UART_<buffer_size>::operator>> (uint16_t& v)
 {
    uint8_t high, low;
    *this >> high >> low;
-   v = static_cast<uint8_t>(low) << 8 | high;
+   v = high << 8 | low;
    return *this;
+}
+
+template<size_t buffer_size>
+uint16_t UART_<buffer_size>::buffer_CRC()
+{
+   uint8_t low  = buffer[end -1];
+   uint8_t high = buffer[end];
+   end -=2;
+   return high << 8 | low;
 }
 
 } // namespace mcu
