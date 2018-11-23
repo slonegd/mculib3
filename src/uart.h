@@ -63,6 +63,7 @@ public:
    void transmit(uint16_t qty);
    void start_transmit();
    void start_receive();
+   bool is_IDLE();
    
    auto buffer_pointer(){return &buffer[0];}
    auto buffer_end    (){return end;}
@@ -73,7 +74,8 @@ public:
    UART_&   operator>> (uint16_t&);
    uint8_t  operator[] (const int index) {return buffer[index];}
    uint16_t qty_byte(){return buffer_size - RXstream.qty_transactions_left();}
-   uint16_t buffer_CRC();
+   uint16_t pop_back();
+   void push_back(const uint16_t&);
 };
 
 using UART = UART_<>;
@@ -208,18 +210,22 @@ void UART_<buffer_size>::start_receive()
 }
 
 template<size_t buffer_size>
+bool UART_<buffer_size>::is_IDLE()
+{
+   return usart.is_IDLE_interrupt();
+}
+
+template<size_t buffer_size>
 UART_<buffer_size>& UART_<buffer_size>::operator<< (const uint8_t& v)
 {
-   buffer [end] = v;
-   end ++;
+   buffer [end++] = v;
    return *this;
 }
 
 template<size_t buffer_size>
 UART_<buffer_size>& UART_<buffer_size>::operator>> (uint8_t& v)
 {
-   v = buffer[begin];
-   begin ++;
+   v = buffer[begin++];
    if (begin == end) {
       begin = end = 0;
    }
@@ -246,12 +252,18 @@ UART_<buffer_size>& UART_<buffer_size>::operator>> (uint16_t& v)
 }
 
 template<size_t buffer_size>
-uint16_t UART_<buffer_size>::buffer_CRC()
+uint16_t UART_<buffer_size>::pop_back()
 {
-   uint8_t low  = buffer[end -1];
-   uint8_t high = buffer[end];
-   end -=2;
+   uint8_t high = buffer[--end];
+   uint8_t low  = buffer[--end];
    return high << 8 | low;
+}
+
+template<size_t buffer_size>
+void UART_<buffer_size>::push_back(const uint16_t& v)
+{
+   buffer[end++] = static_cast<uint8_t>(v);
+   buffer[end++] = v >> 8;
 }
 
 } // namespace mcu

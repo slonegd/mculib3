@@ -12,10 +12,8 @@ struct Interrupting
 class Interrupt 
 {
    Interrupting* first{nullptr};
-   void clearInterruptFlags(){};
 
 public:
-   
    
    void subscribe(Interrupting* ps)
    {
@@ -35,7 +33,6 @@ public:
          p->interrupt();
          p = p->next;
       }
-      clearInterruptFlags();
    }
 };
 

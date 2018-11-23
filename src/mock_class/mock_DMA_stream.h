@@ -25,6 +25,8 @@ public:
 
    template <Periph dma = Periph::TEST_DMA> DMA_stream& clock_enable(){result << "Включаем тактирование переферии DMA" << '\n'; return *this;}
 
+   DMA_stream& is_transfer_complete_interrupt(){return *this;}
+   
    DMA_stream& enable()
    {
       stream == TX_stream ? result << "Разрешаем работу TX_stream" << '\n':

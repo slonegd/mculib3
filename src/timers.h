@@ -1,8 +1,10 @@
 #pragma once
 
 #include <cstdint>
-#include "systick.h"
 #include "subscriber.h"
+#if not defined (TEST)
+   #include "systick.h"
+#endif
 
 
 struct TickUpdater : Publisher

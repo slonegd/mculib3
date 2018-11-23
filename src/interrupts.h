@@ -1,5 +1,7 @@
 #pragma once
 #include "interrupt.h"
+#include "usart.h"
+#include "dma.h"
 
 #if defined (STM32F103xB)
 
@@ -38,17 +40,17 @@
    extern "C" void RTC_Alarm_IRQHandler       () { while(1) {} }
    extern "C" void USBWakeUp_IRQHandler       () { while(1) {} }
 
-	extern "C" void USART1_IRQHandler          () { interrupt_usart1.interrupt(); }
-   extern "C" void USART2_IRQHandler          () { interrupt_usart2.interrupt(); }
-   extern "C" void USART3_IRQHandler          () { interrupt_usart3.interrupt(); }
+	extern "C" void USART1_IRQHandler          () { interrupt_usart1.interrupt(); make_reference<Periph::USART1>().clear_interrupt_flags();}
+   extern "C" void USART2_IRQHandler          () { interrupt_usart2.interrupt(); make_reference<Periph::USART2>().clear_interrupt_flags();}
+   extern "C" void USART3_IRQHandler          () { interrupt_usart3.interrupt(); make_reference<Periph::USART3>().clear_interrupt_flags();}
 
-	extern "C" void DMA1_Channel1_IRQHandler   () { interrupt_DMA_channel1.interrupt(); }
-   extern "C" void DMA1_Channel2_IRQHandler   () { interrupt_DMA_channel2.interrupt(); }
-   extern "C" void DMA1_Channel3_IRQHandler   () { interrupt_DMA_channel3.interrupt(); }
-   extern "C" void DMA1_Channel4_IRQHandler   () { interrupt_DMA_channel4.interrupt(); }
-   extern "C" void DMA1_Channel5_IRQHandler   () { interrupt_DMA_channel5.interrupt(); }
-   extern "C" void DMA1_Channel6_IRQHandler   () { interrupt_DMA_channel6.interrupt(); }
-   extern "C" void DMA1_Channel7_IRQHandler   () { interrupt_DMA_channel7.interrupt(); }
+	extern "C" void DMA1_Channel1_IRQHandler   () { interrupt_DMA_channel1.interrupt(); make_reference<Periph::DMA1>().clear_interrupt_flags(Channel::_1);}
+   extern "C" void DMA1_Channel2_IRQHandler   () { interrupt_DMA_channel2.interrupt(); make_reference<Periph::DMA1>().clear_interrupt_flags(Channel::_2);}
+   extern "C" void DMA1_Channel3_IRQHandler   () { interrupt_DMA_channel3.interrupt(); make_reference<Periph::DMA1>().clear_interrupt_flags(Channel::_3);}
+   extern "C" void DMA1_Channel4_IRQHandler   () { interrupt_DMA_channel4.interrupt(); make_reference<Periph::DMA1>().clear_interrupt_flags(Channel::_4);}
+   extern "C" void DMA1_Channel5_IRQHandler   () { interrupt_DMA_channel5.interrupt(); make_reference<Periph::DMA1>().clear_interrupt_flags(Channel::_5);}
+   extern "C" void DMA1_Channel6_IRQHandler   () { interrupt_DMA_channel6.interrupt(); make_reference<Periph::DMA1>().clear_interrupt_flags(Channel::_6);}
+   extern "C" void DMA1_Channel7_IRQHandler   () { interrupt_DMA_channel7.interrupt(); make_reference<Periph::DMA1>().clear_interrupt_flags(Channel::_7);}
 
 
 #endif

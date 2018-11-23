@@ -3,14 +3,18 @@
 #include "test_periph.h"
 #include "mock_pin.h"
 
+uint8_t buffer[255]{0};
+   int begin {0};
+   int end   {0};
+
 namespace mcu {
+
+   
     
 template<size_t buffer_size = 255>
 class UART_ {
 
-   uint8_t buffer[buffer_size];
-   int begin {0};
-   int end   {0};
+   
 
 public:
 
@@ -21,10 +25,15 @@ public:
    }
    void start_transmit();
    void start_receive ();
-   uint16_t buffer_CRC();
+   uint16_t pop_back();
+   void push_back(const uint16_t&);
 
-   auto buffer_pointer(){result << "Возвращаем указатель на буфер" << '\n'; return &buffer[0];}
-   auto buffer_end    (){return end;}
+   bool is_IDLE(){return true;}
+   bool is_tx_complete(){return true;}
+   void tx_complete_handler(){}
+
+   auto buffer_pointer(){result << "Возвращаем указатель на буфер для расчета CRC" << '\n'; return &buffer[0];}
+   auto buffer_end    (){ result << "Берем значение end" << '\n'; return end;}
    void buffer_clean  (){result << "Очищаем буфер" << '\n'; begin = end = 0;}
    UART_&   operator<< (const uint8_t&);
    UART_&   operator<< (const uint16_t&);
@@ -50,21 +59,27 @@ void UART_<buffer_size>::start_receive()
 }
 
 template<size_t buffer_size>
-uint16_t UART_<buffer_size>::buffer_CRC()
+uint16_t UART_<buffer_size>::pop_back()
 {
    result << "Получаем значение CRC полученного буфера" << '\n';
-   uint8_t low  = buffer[end -1];
-   uint8_t high = buffer[end];
-   end -=2;
+   uint8_t high = buffer[--end];
+   uint8_t low  = buffer[--end];
    return high << 8 | low;
+}
+
+template<size_t buffer_size>
+void UART_<buffer_size>::push_back(const uint16_t& v)
+{
+   result << "Записываем значение CRC ответного буфера" << '\n';
+   buffer[end++] = static_cast<uint8_t>(v);
+   buffer[end++] = v >> 8;
 }
 
 template<size_t buffer_size>
 UART_<buffer_size>& UART_<buffer_size>::operator<< (const uint8_t& v)
 {
    result << "Добавляем в буфер новый 8-битный элемент" << '\n';
-   buffer [end] = v;
-   end ++;
+   buffer [end++] = v;
    return *this;
 }
 
@@ -72,8 +87,7 @@ template<size_t buffer_size>
 UART_<buffer_size>& UART_<buffer_size>::operator>> (uint8_t& v)
 {
    result << "Забираем из буфера 8-битный элемент" << '\n';
-   v = buffer[begin];
-   begin ++;
+   v = buffer[begin++];
    if (begin == end) {
       begin = end = 0;
    }

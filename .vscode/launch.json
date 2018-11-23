@@ -5,6 +5,25 @@
    "version": "0.2.0",
    "configurations": [
        {
+           "name": "modbus",
+           "type": "cppdbg",
+           "request": "launch",
+           "program": "${workspaceFolder}/test/cmake/build/test_modbus_slave",
+           "args": [],
+           "stopAtEntry": false,
+           "cwd": "${workspaceFolder}",
+           "environment": [],
+           "externalConsole": true,
+           "MIMode": "gdb",
+           "setupCommands": [
+               {
+                   "description": "Enable pretty-printing for gdb",
+                   "text": "-enable-pretty-printing",
+                   "ignoreFailures": true
+               }
+           ]
+       },
+       {
            "name": "uart",
            "type": "cppdbg",
            "request": "launch",

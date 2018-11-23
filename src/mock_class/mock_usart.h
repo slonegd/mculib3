@@ -66,7 +66,12 @@ public:
    USART& DMA_rx_enable (){result << "DMA enable receiver"    << '\n'; return *this;}
 
    USART& enable_IDLE_interrupt(){result << "USART IDLE interrupt enable" << '\n'; return *this;}
+   USART& disable_tx_complete_interrupt  (){return *this;}
    USART& enable(){result << "USART enable" << '\n'; return *this;}
+
+   bool    is_IDLE_interrupt              (){return true;}
+   bool    is_tx_complete                 (){return true;}
+   bool    is_tx_complete_interrupt_enable(){return true;}
 
    size_t transmit_data_adr(){result << "Передаем адрес регистра данных" << '\n'; return 0xff;}
 
