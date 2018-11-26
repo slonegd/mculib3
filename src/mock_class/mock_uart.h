@@ -24,6 +24,12 @@ public:
       UART_ uart;
       result << "Создаем объект UART" << '\n'; return uart;
    }
+   using Baudrate  = USART::Baudrate;
+   struct Settings {
+      Baudrate baudrate;
+   };
+
+   void init (const Settings& set) {result << "Инициализация uart" << '\n';}
    void start_transmit();
    void start_receive ();
    uint16_t pop_back();
@@ -33,6 +39,7 @@ public:
    bool is_tx_complete(){return true;}
    void tx_complete_handler(){}
 
+   size_t modbus_time (Baudrate) {result << "Определение время задержки для модбаса" << '\n'; return 5;}
    auto buffer_pointer(){result << "Возвращаем указатель на буфер для расчета CRC" << '\n'; return &buffer[0];}
    auto buffer_end    (){ result << "Берем значение end" << '\n'; return end;}
    void buffer_clean  (){result << "Очищаем буфер" << '\n'; begin = end = 0;}

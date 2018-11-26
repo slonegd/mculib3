@@ -12,7 +12,7 @@ namespace mcu {
 template <class InRegs_t, class OutRegs_t>
 class Modbus_slave : TickSubscriber
 {
-   size_t time {0}; // выдержка времени для модбаса  
+   size_t time {0}; // выдержка времени для модбаса 
    
    enum class Function   : uint8_t {read_03 = 0x03, write_16 = 0x10};
    enum class Error_code : uint8_t {wrong_func = 0x01, wrong_reg = 0x02, wrong_value = 0x03};
@@ -29,7 +29,6 @@ class Modbus_slave : TickSubscriber
    uint8_t  qty_byte {0};
    uint16_t  data;
    uint16_t crc{0};
-
 
 
    uint16_t crc16(uint8_t* data, uint8_t length);
@@ -114,7 +113,7 @@ public:
       {}
 
    template <uint8_t address, Periph usart, class TXpin,  class RXpin, class RTSpin, class LEDpin> 
-   static auto make (/*const UART::Settings& set*/)
+   static auto make (UART::Settings set)
    {
       auto interrupt_usart = usart == Periph::USART1 ? &interrupt_usart1 :
                              usart == Periph::USART2 ? &interrupt_usart2 :
@@ -127,7 +126,8 @@ public:
 
       Modbus_slave<InRegs_t, OutRegs_t> modbus {address, UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>(), *interrupt_usart, *interrupt_dma};
 
-      // modbus.uart.init(set);
+      modbus.uart.init(set);
+      modbus.uart.modbus_time(set.baudrate);
       return modbus;
    }
 
@@ -179,7 +179,7 @@ template <class InRegs_t, class OutRegs_t>
 template <class function>
 inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (function reaction)
 {
-   if (time < 5)
+   if (time < 4)
       return;
 
    time = 0;
@@ -209,7 +209,6 @@ inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (function reaction)
    else 
       answer_error(Error_code::wrong_func);
 }
-
 
 
 

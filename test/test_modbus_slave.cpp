@@ -12,17 +12,51 @@
 #include "mock_interrupt.h"
 #include "modbus_slave.h"
 
-// auto uart = mcu::UART::make
-
-
+int count {0};
 void reaction(uint16_t reg_address){
-
+    count++;
 }
 
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 
+BOOST_AUTO_TEST_CASE(make)
+{
+    mcu::UART::Settings set;
+    
+    struct InReg{
+        uint16_t a;
+        uint16_t b;
+        uint16_t c;
+        uint16_t d;
+        uint16_t f;
+        uint16_t g;
+    } in_reg;
+
+    struct OutReg {
+        int16_t  a = -25;
+        uint16_t b = 0x12C;
+        uint16_t c = 3;
+        uint16_t d = 4;
+        uint16_t f = 5;
+        uint16_t g = 6;
+    } out_reg;
+    
+    const uint8_t address = 1;
+    auto modbus = mcu::Modbus_slave<InReg, OutReg>
+                 ::make<address, mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+    
+    BOOST_CHECK_EQUAL(result.str(),
+        "Создаем объект UART"                    "\n"
+        "Инициализация uart"                     "\n"
+        "Определение время задержки для модбаса" "\n"
+    );
+}
+
 BOOST_AUTO_TEST_CASE (read)
 {
+    mcu::UART::Settings set;
+    
     struct InReg{
         uint16_t a;
         uint16_t b;
@@ -41,10 +75,14 @@ BOOST_AUTO_TEST_CASE (read)
         uint16_t g = 6;
     } out_reg;
 
+    interrupt_usart1.clear_subscribe();
+    interrupt_DMA_channel4.clear_subscribe();
+
+    result.str("");
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
                  ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
 
     buffer[0] = 1;
     buffer[1] = 3;
@@ -87,6 +125,8 @@ BOOST_AUTO_TEST_CASE (read)
 
     BOOST_CHECK_EQUAL(result.str(),
         "Создаем объект UART"                          "\n"
+        "Инициализация uart"                           "\n"
+        "Определение время задержки для модбаса"       "\n"
         "Прерывание uart"                              "\n"
         "Создали ссылку на переферию usart"            "\n"
         "Очищаем флаги прерываний uart"                "\n"
@@ -241,6 +281,8 @@ BOOST_AUTO_TEST_CASE (read)
 
 BOOST_AUTO_TEST_CASE (incomplete_message)
 {
+    mcu::UART::Settings set;
+    
     struct InReg{
         uint16_t a;
         uint16_t b;
@@ -262,10 +304,11 @@ BOOST_AUTO_TEST_CASE (incomplete_message)
     interrupt_usart1.clear_subscribe();
     interrupt_DMA_channel4.clear_subscribe();
 
+    
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
                  ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
 
     buffer[0] = 1;
     begin = 0;
@@ -296,6 +339,8 @@ BOOST_AUTO_TEST_CASE (incomplete_message)
 
 BOOST_AUTO_TEST_CASE (wrong_CRC)
 {
+    mcu::UART::Settings set;
+    
     struct InReg{
         uint16_t a;
         uint16_t b;
@@ -320,7 +365,7 @@ BOOST_AUTO_TEST_CASE (wrong_CRC)
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
                  ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
 
     buffer[0] = 1;
     buffer[1] = 3;
@@ -368,6 +413,8 @@ BOOST_AUTO_TEST_CASE (wrong_CRC)
 
 BOOST_AUTO_TEST_CASE (wrong_adr)
 {
+    mcu::UART::Settings set;
+    
     struct InReg{
         uint16_t a;
         uint16_t b;
@@ -392,7 +439,7 @@ BOOST_AUTO_TEST_CASE (wrong_adr)
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
                  ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
 
     buffer[0] = 9;
     buffer[1] = 3;
@@ -437,6 +484,8 @@ BOOST_AUTO_TEST_CASE (wrong_adr)
 
 BOOST_AUTO_TEST_CASE (wrong_func)
 {
+    mcu::UART::Settings set;
+    
     struct InReg{
         uint16_t a;
         uint16_t b;
@@ -462,7 +511,7 @@ BOOST_AUTO_TEST_CASE (wrong_func)
     uint8_t wrong_func = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
                  ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
 
     buffer[0] = 1;
     buffer[1] = 9;
@@ -526,6 +575,8 @@ BOOST_AUTO_TEST_CASE (wrong_func)
 
 BOOST_AUTO_TEST_CASE (wrong_reg)
 {
+    mcu::UART::Settings set;
+    
     struct InReg{
         uint16_t a;
         uint16_t b;
@@ -549,7 +600,7 @@ BOOST_AUTO_TEST_CASE (wrong_reg)
     uint8_t wrong_reg = 2;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
                  ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
 
     buffer[0] = 3;
     buffer[1] = 3;
@@ -619,6 +670,8 @@ BOOST_AUTO_TEST_CASE (wrong_reg)
 
 BOOST_AUTO_TEST_CASE (write)
 {
+    mcu::UART::Settings set;
+    
     struct InReg{
         uint16_t a;
         uint16_t b;
@@ -641,7 +694,7 @@ BOOST_AUTO_TEST_CASE (write)
     const uint8_t address = 7;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
                  ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
 
     buffer[0] = 7;
     buffer[1] = 16;
@@ -687,6 +740,8 @@ BOOST_AUTO_TEST_CASE (write)
     BOOST_CHECK_EQUAL(buffer[6], crc_low);
     BOOST_CHECK_EQUAL(buffer[7], crc_high);
     BOOST_CHECK_EQUAL(modbus.inRegs.c, 8);
+    BOOST_CHECK_EQUAL(count, 1);
+    count = 0;
 
     BOOST_CHECK_EQUAL(result.str(),
         "Прерывание uart"                               "\n"
@@ -773,11 +828,15 @@ BOOST_AUTO_TEST_CASE (write)
     BOOST_CHECK_EQUAL(modbus.inRegs.c, 5670);
     BOOST_CHECK_EQUAL(modbus.inRegs.d, -34);
     BOOST_CHECK_EQUAL(modbus.inRegs.f, 7);
+    BOOST_CHECK_EQUAL(count, 3);
+    count = 0;
 
 }
 
 BOOST_AUTO_TEST_CASE (check_value)
 {
+    mcu::UART::Settings set;
+    
     struct InReg{
         int16_t  a;
         uint16_t b;
@@ -800,7 +859,7 @@ BOOST_AUTO_TEST_CASE (check_value)
     const uint8_t address = 7;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
                  ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
 
     buffer[0] = 7;
     buffer[1] = 16;
@@ -848,6 +907,8 @@ BOOST_AUTO_TEST_CASE (check_value)
 
 BOOST_AUTO_TEST_CASE (not_tick)
 {
+    mcu::UART::Settings set;
+    
     struct InReg{
         uint16_t a;
         uint16_t b;
@@ -870,7 +931,7 @@ BOOST_AUTO_TEST_CASE (not_tick)
     const uint8_t address = 7;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
                  ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
 
     buffer[0] = 7;
     buffer[1] = 16;
@@ -896,8 +957,7 @@ BOOST_AUTO_TEST_CASE (not_tick)
 
     SysTick_Handler();
     SysTick_Handler();
-    SysTick_Handler();
-    SysTick_Handler(); //время выдержки для modbus time = 4 < 5;
+    SysTick_Handler(); //время выдержки для modbus time = 3 < 4;
     // буфер остается непрочитанным
     BOOST_CHECK_EQUAL(buffer[0], address);
     BOOST_CHECK_EQUAL(buffer[1], 0x10);
@@ -916,6 +976,8 @@ BOOST_AUTO_TEST_CASE (not_tick)
 
 BOOST_AUTO_TEST_CASE (not_uart_interrupt)
 {
+    mcu::UART::Settings set;
+    
     struct InReg{
         uint16_t a;
         uint16_t b;
@@ -938,7 +1000,7 @@ BOOST_AUTO_TEST_CASE (not_uart_interrupt)
     const uint8_t address = 7;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
                  ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
 
     buffer[0] = 7;
     buffer[1] = 16;
@@ -985,6 +1047,8 @@ BOOST_AUTO_TEST_CASE (not_uart_interrupt)
 
 BOOST_AUTO_TEST_CASE (dma_interrupt)
 {
+    mcu::UART::Settings set;
+    
     struct InReg{
         uint16_t a;
         uint16_t b;
@@ -1007,7 +1071,7 @@ BOOST_AUTO_TEST_CASE (dma_interrupt)
     const uint8_t address = 7;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
                  ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
 
     buffer[0] = 7;
     buffer[1] = 16;

@@ -59,12 +59,13 @@ public:
    };
 
    template <Periph usart, class TXpin, class RXpin, class RTSpin, class LEDpin> static auto make();
-   void init (const Settings&) ;
+   void init (const Settings&);
    void transmit(uint16_t qty);
    void start_transmit();
    void start_receive();
    bool is_IDLE();
    
+   size_t modbus_time (Baudrate);
    auto buffer_pointer(){return &buffer[0];}
    auto buffer_end    (){return end;}
    void buffer_clean  (){begin = end = 0;}
@@ -207,6 +208,15 @@ void UART_<buffer_size>::start_receive()
    TXstream.disable();
    RXstream.disable()
            .enable();
+}
+
+template<size_t buffer_size>
+size_t UART_<buffer_size>::modbus_time (Baudrate baudrate)
+{
+   return baudrate == Baudrate::BR9600  ? 4 :
+          baudrate == Baudrate::BR14400 ? 3 :
+          baudrate == Baudrate::BR19200 ? 2 :
+          baudrate == Baudrate::BR28800 ? 2 : 1;
 }
 
 template<size_t buffer_size>
