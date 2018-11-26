@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE (read)
 
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::TEST_USART, 
+                 ::make<address, mcu::Periph::USART1, 
                    mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
 
     buffer[0] = 1;
@@ -63,6 +63,14 @@ BOOST_AUTO_TEST_CASE (read)
     begin = 0;
     end = 8;
 
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+
     modbus(reaction);
 
     crc = 0x4638;
@@ -79,6 +87,9 @@ BOOST_AUTO_TEST_CASE (read)
 
     BOOST_CHECK_EQUAL(result.str(),
         "Создаем объект UART"                          "\n"
+        "Прерывание uart"                              "\n"
+        "Создали ссылку на переферию usart"            "\n"
+        "Очищаем флаги прерываний uart"                "\n"
         "Берем значение end"                           "\n"
         "Забираем из буфера 8-битный элемент"          "\n"
         "Получаем значение CRC полученного буфера"     "\n"
@@ -120,6 +131,14 @@ BOOST_AUTO_TEST_CASE (read)
     begin = 0;
     end = 8;
 
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+
     modbus(reaction);
 
     crc = 0xB7E4;
@@ -155,6 +174,14 @@ BOOST_AUTO_TEST_CASE (read)
     begin = 0;
     end = 8;
 
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+
     modbus(reaction);
 
     crc = 0x077A;
@@ -187,6 +214,14 @@ BOOST_AUTO_TEST_CASE (read)
 
     begin = 0;
     end = 8;
+    
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
 
     modbus(reaction);
 
@@ -224,22 +259,37 @@ BOOST_AUTO_TEST_CASE (incomplete_message)
         uint16_t g = 6;
     } out_reg;
 
+    interrupt_usart1.clear_subscribe();
+    interrupt_DMA_channel4.clear_subscribe();
+
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::TEST_USART, 
+                 ::make<address, mcu::Periph::USART1, 
                    mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
 
     buffer[0] = 1;
     begin = 0;
     end = 1;
-    
+
     result.str("");
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    
+    
     modbus(reaction);
 
     BOOST_CHECK_EQUAL(result.str(),
-        "Берем значение end" "\n"
-        "Очищаем буфер"      "\n"
-        "Старт приема"       "\n"
+        "Прерывание uart"                   "\n"
+        "Создали ссылку на переферию usart" "\n"
+        "Очищаем флаги прерываний uart"     "\n"
+        "Берем значение end"                "\n"
+        "Очищаем буфер"                     "\n"
+        "Старт приема"                      "\n"
     );
 
 }
@@ -264,9 +314,12 @@ BOOST_AUTO_TEST_CASE (wrong_CRC)
         uint16_t g = 6;
     } out_reg;
 
+    interrupt_usart1.clear_subscribe();
+    interrupt_DMA_channel4.clear_subscribe();
+
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::TEST_USART, 
+                 ::make<address, mcu::Periph::USART1, 
                    mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
 
     buffer[0] = 1;
@@ -285,11 +338,23 @@ BOOST_AUTO_TEST_CASE (wrong_CRC)
 
     begin = 0;
     end = 8;
-    
+
     result.str("");
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    
+    
     modbus(reaction);
 
     BOOST_CHECK_EQUAL(result.str(),
+        "Прерывание uart"                               "\n"
+        "Создали ссылку на переферию usart"             "\n"
+        "Очищаем флаги прерываний uart"                 "\n"
         "Берем значение end"                            "\n"
         "Забираем из буфера 8-битный элемент"           "\n"
         "Получаем значение CRC полученного буфера"      "\n"
@@ -321,9 +386,12 @@ BOOST_AUTO_TEST_CASE (wrong_adr)
         uint16_t g = 6;
     } out_reg;
 
+    interrupt_usart1.clear_subscribe();
+    interrupt_DMA_channel4.clear_subscribe();
+
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::TEST_USART, 
+                 ::make<address, mcu::Periph::USART1, 
                    mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
 
     buffer[0] = 9;
@@ -342,11 +410,23 @@ BOOST_AUTO_TEST_CASE (wrong_adr)
 
     begin = 0;
     end = 8;
-    
+
     result.str("");
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    
+    
     modbus(reaction);
 
     BOOST_CHECK_EQUAL(result.str(),
+        "Прерывание uart"                               "\n"
+        "Создали ссылку на переферию usart"             "\n"
+        "Очищаем флаги прерываний uart"                 "\n"
         "Берем значение end"                            "\n"
         "Забираем из буфера 8-битный элемент"           "\n"
         "Очищаем буфер"                                 "\n"
@@ -375,10 +455,13 @@ BOOST_AUTO_TEST_CASE (wrong_func)
         uint16_t g = 6;
     } out_reg;
 
+    interrupt_usart1.clear_subscribe();
+    interrupt_DMA_channel4.clear_subscribe();
+
     const uint8_t address = 1;
     uint8_t wrong_func = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::TEST_USART, 
+                 ::make<address, mcu::Periph::USART1, 
                    mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
 
     buffer[0] = 1;
@@ -397,8 +480,16 @@ BOOST_AUTO_TEST_CASE (wrong_func)
 
     begin = 0;
     end = 8;
-    
+
     result.str("");
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    
     modbus(reaction);
 
     crc = 0x5086;
@@ -412,6 +503,9 @@ BOOST_AUTO_TEST_CASE (wrong_func)
     BOOST_CHECK_EQUAL(buffer[4], crc_high);
 
     BOOST_CHECK_EQUAL(result.str(),
+        "Прерывание uart"                               "\n"
+        "Создали ссылку на переферию usart"             "\n"
+        "Очищаем флаги прерываний uart"                 "\n"
         "Берем значение end"                            "\n"
         "Забираем из буфера 8-битный элемент"           "\n"
         "Получаем значение CRC полученного буфера"      "\n"
@@ -448,10 +542,13 @@ BOOST_AUTO_TEST_CASE (wrong_reg)
         uint16_t d = 3;
     };
 
+    interrupt_usart1.clear_subscribe();
+    interrupt_DMA_channel4.clear_subscribe();
+
     const uint8_t address = 3;
     uint8_t wrong_reg = 2;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::TEST_USART, 
+                 ::make<address, mcu::Periph::USART1, 
                    mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
 
     buffer[0] = 3;
@@ -470,8 +567,16 @@ BOOST_AUTO_TEST_CASE (wrong_reg)
 
     begin = 0;
     end = 8;
-    
+
     result.str("");
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    
     modbus(reaction);
 
     crc = 0xF100;
@@ -485,6 +590,9 @@ BOOST_AUTO_TEST_CASE (wrong_reg)
     BOOST_CHECK_EQUAL(buffer[4], crc_high);
 
     BOOST_CHECK_EQUAL(result.str(),
+        "Прерывание uart"                               "\n"
+        "Создали ссылку на переферию usart"             "\n"
+        "Очищаем флаги прерываний uart"                 "\n"
         "Берем значение end"                            "\n"
         "Забираем из буфера 8-битный элемент"           "\n"
         "Получаем значение CRC полученного буфера"      "\n"
@@ -527,9 +635,12 @@ BOOST_AUTO_TEST_CASE (write)
         uint16_t d = 3;
     } out_reg;
 
+    interrupt_usart1.clear_subscribe();
+    interrupt_DMA_channel4.clear_subscribe();
+
     const uint8_t address = 7;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::TEST_USART, 
+                 ::make<address, mcu::Periph::USART1, 
                    mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
 
     buffer[0] = 7;
@@ -551,8 +662,16 @@ BOOST_AUTO_TEST_CASE (write)
 
     begin = 0;
     end = 11;
-    
+
     result.str("");
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    
     modbus(reaction);
 
     crc = 0x6FA0;
@@ -570,6 +689,9 @@ BOOST_AUTO_TEST_CASE (write)
     BOOST_CHECK_EQUAL(modbus.inRegs.c, 8);
 
     BOOST_CHECK_EQUAL(result.str(),
+        "Прерывание uart"                               "\n"
+        "Создали ссылку на переферию usart"             "\n"
+        "Очищаем флаги прерываний uart"                 "\n"
         "Берем значение end"                            "\n"
         "Забираем из буфера 8-битный элемент"           "\n"
         "Получаем значение CRC полученного буфера"      "\n"
@@ -623,8 +745,16 @@ BOOST_AUTO_TEST_CASE (write)
 
     begin = 0;
     end = 15;
-    
+
     result.str("");
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    
     modbus.signed_[3] =true;
     modbus(reaction);
 
@@ -664,9 +794,12 @@ BOOST_AUTO_TEST_CASE (check_value)
         uint16_t d = 3;
     } out_reg;
 
+    interrupt_usart1.clear_subscribe();
+    interrupt_DMA_channel4.clear_subscribe();
+
     const uint8_t address = 7;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::TEST_USART, 
+                 ::make<address, mcu::Periph::USART1, 
                    mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
 
     buffer[0] = 7;
@@ -688,8 +821,15 @@ BOOST_AUTO_TEST_CASE (check_value)
 
     begin = 0;
     end = 11;
+
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
     
-    result.str("");
     modbus.arInRegsMin[0] = -500;
     modbus.arInRegsMax[0] = 500;
     modbus(reaction);
@@ -705,5 +845,255 @@ BOOST_AUTO_TEST_CASE (check_value)
     BOOST_CHECK_EQUAL(buffer[4], crc_high);
     // BOOST_CHECK_EQUAL(modbus.inRegs.c, 8);
 }
+
+BOOST_AUTO_TEST_CASE (not_tick)
+{
+    struct InReg{
+        uint16_t a;
+        uint16_t b;
+        uint16_t c;
+        int16_t  d;
+        uint16_t f;
+        uint16_t g;
+    } in_reg;
+
+    struct OutReg {
+        uint16_t a = 6;
+        uint16_t b = 5;
+        uint16_t c = 4;
+        uint16_t d = 3;
+    } out_reg;
+
+    interrupt_usart1.clear_subscribe();
+    interrupt_DMA_channel4.clear_subscribe();
+
+    const uint8_t address = 7;
+    auto modbus = mcu::Modbus_slave<InReg, OutReg>
+                 ::make<address, mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+
+    buffer[0] = 7;
+    buffer[1] = 16;
+    buffer[2] = 0;
+    buffer[3] = 2;
+    buffer[4] = 0;
+    buffer[5] = 1;
+    buffer[6] = 2;
+    buffer[7] = 0;
+    buffer[8] = 8;
+
+    uint16_t crc = 0xD48D; 
+    uint8_t  crc_low = static_cast<uint8_t>(crc);
+    uint8_t  crc_high = crc >> 8;
+
+    buffer[9] = crc_low;
+    buffer[10] = crc_high;
+
+    begin = 0;
+    end = 11;
+
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler(); //время выдержки для modbus time = 4 < 5;
+    // буфер остается непрочитанным
+    BOOST_CHECK_EQUAL(buffer[0], address);
+    BOOST_CHECK_EQUAL(buffer[1], 0x10);
+    BOOST_CHECK_EQUAL(buffer[2], 0);
+    BOOST_CHECK_EQUAL(buffer[3], 2);
+    BOOST_CHECK_EQUAL(buffer[4], 0);
+    BOOST_CHECK_EQUAL(buffer[5], 1);
+    BOOST_CHECK_EQUAL(buffer[6], 2);
+    BOOST_CHECK_EQUAL(buffer[7], 0);
+    BOOST_CHECK_EQUAL(buffer[8], 8);
+    BOOST_CHECK_EQUAL(buffer[9], crc_low);
+    BOOST_CHECK_EQUAL(buffer[10], crc_high);
+
+    tickUpdater.clear(); // отписываемся от прерываний tick
+}
+
+BOOST_AUTO_TEST_CASE (not_uart_interrupt)
+{
+    struct InReg{
+        uint16_t a;
+        uint16_t b;
+        uint16_t c;
+        int16_t  d;
+        uint16_t f;
+        uint16_t g;
+    } in_reg;
+
+    struct OutReg {
+        uint16_t a = 6;
+        uint16_t b = 5;
+        uint16_t c = 4;
+        uint16_t d = 3;
+    } out_reg;
+
+    interrupt_usart1.clear_subscribe();
+    interrupt_DMA_channel4.clear_subscribe();
+
+    const uint8_t address = 7;
+    auto modbus = mcu::Modbus_slave<InReg, OutReg>
+                 ::make<address, mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+
+    buffer[0] = 7;
+    buffer[1] = 16;
+    buffer[2] = 0;
+    buffer[3] = 2;
+    buffer[4] = 0;
+    buffer[5] = 1;
+    buffer[6] = 2;
+    buffer[7] = 0;
+    buffer[8] = 8;
+
+    uint16_t crc = 0xD48D; 
+    uint8_t  crc_low = static_cast<uint8_t>(crc);
+    uint8_t  crc_high = crc >> 8;
+
+    buffer[9] = crc_low;
+    buffer[10] = crc_high;
+
+    begin = 0;
+    end = 11;
+
+    // USART1_IRQHandler(); // прерывания нет, подписки нет, notify нет
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler(); //таймер не считает
+    // буфер остается непрочитанным
+    BOOST_CHECK_EQUAL(buffer[0], address);
+    BOOST_CHECK_EQUAL(buffer[1], 0x10);
+    BOOST_CHECK_EQUAL(buffer[2], 0);
+    BOOST_CHECK_EQUAL(buffer[3], 2);
+    BOOST_CHECK_EQUAL(buffer[4], 0);
+    BOOST_CHECK_EQUAL(buffer[5], 1);
+    BOOST_CHECK_EQUAL(buffer[6], 2);
+    BOOST_CHECK_EQUAL(buffer[7], 0);
+    BOOST_CHECK_EQUAL(buffer[8], 8);
+    BOOST_CHECK_EQUAL(buffer[9], crc_low);
+    BOOST_CHECK_EQUAL(buffer[10], crc_high);
+
+    tickUpdater.clear();
+}
+
+BOOST_AUTO_TEST_CASE (dma_interrupt)
+{
+    struct InReg{
+        uint16_t a;
+        uint16_t b;
+        uint16_t c;
+        int16_t  d;
+        uint16_t f;
+        uint16_t g;
+    } in_reg;
+
+    struct OutReg {
+        uint16_t a = 6;
+        uint16_t b = 5;
+        uint16_t c = 4;
+        uint16_t d = 3;
+    } out_reg;
+
+    interrupt_usart1.clear_subscribe();
+    interrupt_DMA_channel4.clear_subscribe();
+
+    const uint8_t address = 7;
+    auto modbus = mcu::Modbus_slave<InReg, OutReg>
+                 ::make<address, mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>();
+
+    buffer[0] = 7;
+    buffer[1] = 16;
+    buffer[2] = 0;
+    buffer[3] = 2;
+    buffer[4] = 0;
+    buffer[5] = 1;
+    buffer[6] = 2;
+    buffer[7] = 0;
+    buffer[8] = 8;
+
+    uint16_t crc = 0xD48D; 
+    uint8_t  crc_low = static_cast<uint8_t>(crc);
+    uint8_t  crc_high = crc >> 8;
+
+    buffer[9] = crc_low;
+    buffer[10] = crc_high;
+
+    begin = 0;
+    end = 11;
+
+    result.str("");
+    USART1_IRQHandler();
+
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    SysTick_Handler();
+    
+    modbus(reaction);
+    DMA1_Channel4_IRQHandler(); // в прерывании переходим на прием
+
+    crc = 0x6FA0;
+    crc_low = static_cast<uint8_t>(crc);
+    crc_high = crc >> 8;
+
+    BOOST_CHECK_EQUAL(buffer[0], address);
+    BOOST_CHECK_EQUAL(buffer[1], 0x10);
+    BOOST_CHECK_EQUAL(buffer[2], 0);
+    BOOST_CHECK_EQUAL(buffer[3], 2);
+    BOOST_CHECK_EQUAL(buffer[4], 0);
+    BOOST_CHECK_EQUAL(buffer[5], 1);
+    BOOST_CHECK_EQUAL(buffer[6], crc_low);
+    BOOST_CHECK_EQUAL(buffer[7], crc_high);
+    BOOST_CHECK_EQUAL(modbus.inRegs.c, 8);
+
+    BOOST_CHECK_EQUAL(result.str(),
+        "Прерывание uart"                               "\n"
+        "Создали ссылку на переферию usart"             "\n"
+        "Очищаем флаги прерываний uart"                 "\n"
+        "Берем значение end"                            "\n"
+        "Забираем из буфера 8-битный элемент"           "\n"
+        "Получаем значение CRC полученного буфера"      "\n"
+        "Берем значение end"                            "\n"
+        "Возвращаем указатель на буфер для расчета CRC" "\n"
+        "Забираем из буфера 8-битный элемент"           "\n"
+        "Забираем из буфера 16-битный элемент"          "\n"
+        "Забираем из буфера 8-битный элемент"           "\n"
+        "Забираем из буфера 8-битный элемент"           "\n"
+        "Забираем из буфера 16-битный элемент"          "\n"
+        "Забираем из буфера 8-битный элемент"           "\n"
+        "Забираем из буфера 8-битный элемент"           "\n"
+        "Забираем из буфера 8-битный элемент"           "\n"
+        "Забираем из буфера 16-битный элемент"          "\n"
+        "Забираем из буфера 8-битный элемент"           "\n"
+        "Забираем из буфера 8-битный элемент"           "\n"
+        "Добавляем в буфер новый 8-битный элемент"      "\n"
+        "Добавляем в буфер новый 8-битный элемент"      "\n"
+        "Добавляем в буфер новый 16-битный элемент"     "\n"
+        "Добавляем в буфер новый 8-битный элемент"      "\n"
+        "Добавляем в буфер новый 8-битный элемент"      "\n"
+        "Добавляем в буфер новый 16-битный элемент"     "\n"
+        "Добавляем в буфер новый 8-битный элемент"      "\n"
+        "Добавляем в буфер новый 8-битный элемент"      "\n"
+        "Берем значение end"                            "\n"
+        "Возвращаем указатель на буфер для расчета CRC" "\n"
+        "Записываем значение CRC ответного буфера"      "\n"
+        "Старт передачи"                                "\n"
+        "Прерывание dma"                                "\n"
+        "Очищаем буфер"                                 "\n"
+        "Старт приема"                                  "\n"
+        "Создали ссылку на переферию tx stream"         "\n"
+        "Очищаем флаги прерываний dma"                  "\n"
+    );
+}
+
 
 BOOST_AUTO_TEST_SUITE_END()

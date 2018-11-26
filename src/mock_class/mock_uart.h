@@ -2,6 +2,7 @@
 
 #include "test_periph.h"
 #include "mock_pin.h"
+#include "mock_usart.h"
 
 uint8_t buffer[255]{0};
    int begin {0};

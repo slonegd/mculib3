@@ -3,8 +3,9 @@
 #include <type_traits>
 #include "mock_pin.h"
 #include "test_periph.h"
+#include "test_NVIC_Enable.h"
 
-uint8_t buffer[2];
+uint8_t buffer_[2];
 constexpr int qty = 8;
 
 namespace mcu {
@@ -68,6 +69,7 @@ public:
    USART& enable_IDLE_interrupt(){result << "USART IDLE interrupt enable" << '\n'; return *this;}
    USART& disable_tx_complete_interrupt  (){return *this;}
    USART& enable(){result << "USART enable" << '\n'; return *this;}
+   USART& clear_interrupt_flags(){ result << "Очищаем флаги прерываний uart" << '\n'; return *this;}
 
    bool    is_IDLE_interrupt              (){return true;}
    bool    is_tx_complete                 (){return true;}

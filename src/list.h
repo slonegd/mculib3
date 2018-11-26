@@ -12,6 +12,7 @@ template<class T> class List
    T* first {nullptr};
    T* last  {nullptr};
 public:
+   void clear_subscribe(){first = nullptr; last = nullptr;}
    void push_back  (T*);
    void push_front (T*);
    void remove     (T*);

@@ -1,4 +1,6 @@
 # pragma once
+#include "mock_uart.h"
+#include "mock_DMA_stream.h"
 #include "string_result.h"
 
 struct Interrupting
@@ -10,10 +12,10 @@ struct Interrupting
 class Interrupt 
 {
    Interrupting* first{nullptr};
-   void clearInterruptFlags(){};
 
 public:
    
+   void clear_subscribe(){first = nullptr;}
    
    void subscribe(Interrupting* ps)
    {
@@ -33,7 +35,6 @@ public:
          p->interrupt();
          p = p->next;
       }
-      clearInterruptFlags();
    }
 };
 
@@ -60,14 +61,14 @@ Interrupt interrupt_DMA_channel7;
 
 
 
-void USART1_IRQHandler          () { interrupt_usart1.interrupt(); }
-void USART2_IRQHandler          () { interrupt_usart2.interrupt(); }
-void USART3_IRQHandler          () { interrupt_usart3.interrupt(); }
+void USART1_IRQHandler          () { result << "Прерывание uart" << '\n'; interrupt_usart1.interrupt(); mcu::make_reference<mcu::Periph::TEST_USART>().clear_interrupt_flags();}
+void USART2_IRQHandler          () { result << "Прерывание uart" << '\n'; interrupt_usart2.interrupt(); mcu::make_reference<mcu::Periph::TEST_USART>().clear_interrupt_flags();}
+void USART3_IRQHandler          () { result << "Прерывание uart" << '\n'; interrupt_usart3.interrupt(); mcu::make_reference<mcu::Periph::TEST_USART>().clear_interrupt_flags();}
 
-void DMA1_Channel1_IRQHandler   () { interrupt_DMA_channel1.interrupt(); }
-void DMA1_Channel2_IRQHandler   () { interrupt_DMA_channel2.interrupt(); }
-void DMA1_Channel3_IRQHandler   () { interrupt_DMA_channel3.interrupt(); }
-void DMA1_Channel4_IRQHandler   () { interrupt_DMA_channel4.interrupt(); }
-void DMA1_Channel5_IRQHandler   () { interrupt_DMA_channel5.interrupt(); }
-void DMA1_Channel6_IRQHandler   () { interrupt_DMA_channel6.interrupt(); }
-void DMA1_Channel7_IRQHandler   () { interrupt_DMA_channel7.interrupt(); }
+void DMA1_Channel1_IRQHandler   () { result << "Прерывание dma"  << '\n'; interrupt_DMA_channel1.interrupt(); mcu::make_reference<mcu::Periph::TEST_DMA_stream1>().clear_interrupt_flags();}
+void DMA1_Channel2_IRQHandler   () { result << "Прерывание dma"  << '\n'; interrupt_DMA_channel2.interrupt(); mcu::make_reference<mcu::Periph::TEST_DMA_stream1>().clear_interrupt_flags();}
+void DMA1_Channel3_IRQHandler   () { result << "Прерывание dma"  << '\n'; interrupt_DMA_channel3.interrupt(); mcu::make_reference<mcu::Periph::TEST_DMA_stream1>().clear_interrupt_flags();}
+void DMA1_Channel4_IRQHandler   () { result << "Прерывание dma"  << '\n'; interrupt_DMA_channel4.interrupt(); mcu::make_reference<mcu::Periph::TEST_DMA_stream1>().clear_interrupt_flags();}
+void DMA1_Channel5_IRQHandler   () { result << "Прерывание dma"  << '\n'; interrupt_DMA_channel5.interrupt(); mcu::make_reference<mcu::Periph::TEST_DMA_stream1>().clear_interrupt_flags();}
+void DMA1_Channel6_IRQHandler   () { result << "Прерывание dma"  << '\n'; interrupt_DMA_channel6.interrupt(); mcu::make_reference<mcu::Periph::TEST_DMA_stream1>().clear_interrupt_flags();}
+void DMA1_Channel7_IRQHandler   () { result << "Прерывание dma"  << '\n'; interrupt_DMA_channel7.interrupt(); mcu::make_reference<mcu::Periph::TEST_DMA_stream1>().clear_interrupt_flags();}

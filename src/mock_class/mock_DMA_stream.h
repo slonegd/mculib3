@@ -121,6 +121,8 @@ public:
    {
       return 0;
    }
+
+   DMA_stream& clear_interrupt_flags() {result << "Очищаем флаги прерываний dma" << '\n'; return *this;}
 };
 
 int DMA_stream::counter{0};
