@@ -10,9 +10,9 @@ BOOST_AUTO_TEST_SUITE (test_suite_main)
 BOOST_AUTO_TEST_CASE(crc)
 {
     uint8_t buffer[256] {0};
-
+    
     buffer[0] = 1;
-    buffer[1] = 3;
+    buffer[1] = 3; 
     buffer[2] = 0;
     buffer[3] = 5;
     buffer[4] = 0;
