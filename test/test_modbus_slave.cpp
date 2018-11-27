@@ -43,8 +43,8 @@ BOOST_AUTO_TEST_CASE(make)
     
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
     
     BOOST_CHECK_EQUAL(result.str(),
         "Создаем объект UART"                    "\n"
@@ -81,8 +81,8 @@ BOOST_AUTO_TEST_CASE (read)
     result.str("");
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
 
     buffer[0] = 1;
     buffer[1] = 3;
@@ -309,8 +309,8 @@ BOOST_AUTO_TEST_CASE (incomplete_message)
     
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
 
     buffer[0] = 1;
     begin = 0;
@@ -366,8 +366,8 @@ BOOST_AUTO_TEST_CASE (wrong_CRC)
 
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
 
     buffer[0] = 1;
     buffer[1] = 3;
@@ -440,8 +440,8 @@ BOOST_AUTO_TEST_CASE (wrong_adr)
 
     const uint8_t address = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
 
     buffer[0] = 9;
     buffer[1] = 3;
@@ -512,8 +512,8 @@ BOOST_AUTO_TEST_CASE (wrong_func)
     const uint8_t address = 1;
     uint8_t wrong_func = 1;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
 
     buffer[0] = 1;
     buffer[1] = 9;
@@ -603,8 +603,8 @@ BOOST_AUTO_TEST_CASE (wrong_reg)
     const uint8_t address = 3;
     uint8_t wrong_reg = 2;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
 
     buffer[0] = 3;
     buffer[1] = 3;
@@ -699,8 +699,8 @@ BOOST_AUTO_TEST_CASE (write)
 
     const uint8_t address = 7;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
 
     buffer[0] = 7;
     buffer[1] = 16;
@@ -866,8 +866,8 @@ BOOST_AUTO_TEST_CASE (check_value)
 
     const uint8_t address = 7;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
 
     buffer[0] = 7;
     buffer[1] = 16;
@@ -938,8 +938,8 @@ BOOST_AUTO_TEST_CASE (not_tick)
 
     const uint8_t address = 7;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
 
     buffer[0] = 7;
     buffer[1] = 16;
@@ -1007,8 +1007,8 @@ BOOST_AUTO_TEST_CASE (not_uart_interrupt)
 
     const uint8_t address = 7;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
 
     buffer[0] = 7;
     buffer[1] = 16;
@@ -1078,8 +1078,8 @@ BOOST_AUTO_TEST_CASE (dma_interrupt)
 
     const uint8_t address = 7;
     auto modbus = mcu::Modbus_slave<InReg, OutReg>
-                 ::make<address, mcu::Periph::USART1, 
-                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(set);
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
 
     buffer[0] = 7;
     buffer[1] = 16;

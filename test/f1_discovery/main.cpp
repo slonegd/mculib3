@@ -8,6 +8,8 @@
 #include "uart.h"
 // #include "fifo.h"
 # include "modbus_slave.h"
+// #include "modbus_master.h"
+
 
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock ()
@@ -50,9 +52,14 @@ int main()
 
    // buffer << 2;
 
-   struct InReg{};
-   struct OutReg{};
+   struct InReg{}in_reg;
+   struct OutReg{}out_reg;
+   struct Settings{}set;
 
    auto modbus = mcu::Modbus_slave<InReg, OutReg>::make<mcu::Periph::USART1, 
-   mcu::PA9, mcu::PA10, mcu::PB1, mcu::PB2>();
+                                    mcu::PA9, mcu::PA10, mcu::PB1, mcu::PB2>(1, set);
+
+   auto m = mcu::Modbus_slave<InReg, OutReg>
+                 ::make<mcu::Periph::USART1, 
+                   mcu::PA9, mcu::PA10, mcu::PB1, mcu::PB2>(1, set);
 }

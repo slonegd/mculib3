@@ -16,7 +16,7 @@ public:
    using DataSize      = DMA_bits::CCR::DataSize;
    using Priority      = DMA_bits::CCR::Priority;
    using DataDirection = DMA_bits::CCR::DataDirection;
-   using Channel       = DMA_bits::Channel;
+   using Channel       = DMA::Channel;
 
    template <Periph dma = Periph::DMA1>
    DMA_stream& clock_enable (){make_reference<dma>().template clock_enable<dma>(); return *this;}

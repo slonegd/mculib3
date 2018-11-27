@@ -11,7 +11,7 @@ class DMA
 
 public:
    using CMSIS_type = DMA_TypeDef;
-   using Channel    = DMA_bits::Channel;
+   enum class Channel { _1 = 1, _2, _3, _4, _5, _6, _7, error };
 
    template <Periph dma, Periph rcc = Periph::RCC> DMA& clock_enable(){make_reference<rcc>().template clock_enable<dma>(); return *this;}
    void clear_interrupt_flags         (Channel);

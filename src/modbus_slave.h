@@ -113,8 +113,8 @@ public:
       , interrupt_DMA_channel {interrupt_DMA_channel}
       {}
 
-   template <uint8_t address, Periph usart, class TXpin,  class RXpin, class RTSpin, class LEDpin> 
-   static auto make (UART::Settings set)
+   template <Periph usart, class TXpin,  class RXpin, class RTSpin, class LEDpin> 
+   static auto make (uint8_t address, UART::Settings set)
    {
       auto interrupt_usart = usart == Periph::USART1 ? &interrupt_usart1 :
                              usart == Periph::USART2 ? &interrupt_usart2 :

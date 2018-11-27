@@ -38,10 +38,10 @@ public:
       BR14400  = 0b001, // modbus time 3 ms
       BR19200  = 0b010, // modbus time 2 ms
       BR28800  = 0b011, // modbus time 2 ms
-      BR38400  = 0b100, // modbus time 1 ms
-      BR57600  = 0b101, // modbus time 1 ms
-      BR76800  = 0b110, // modbus time 1 ms
-      BR115200 = 0b111  // modbus time 1 ms
+      BR38400  = 0b100, // modbus time 2 ms
+      BR57600  = 0b101, // modbus time 2 ms
+      BR76800  = 0b110, // modbus time 2 ms
+      BR115200 = 0b111  // modbus time 2 ms
    };
 
    USART_& set (Parity         v)         {this->CR1.PS    = v; return *this;}
