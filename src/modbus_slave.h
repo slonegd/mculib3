@@ -1,6 +1,7 @@
 #pragma once
 
 #include "timers.h"
+#include "table_crc.h"
 #if not defined (TEST)
    #include "uart.h"
    #include "interrupt.h"
@@ -213,25 +214,6 @@ inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (function reaction)
 
 
 
-
-template <class InRegs_t, class OutRegs_t>
-uint16_t Modbus_slave<InRegs_t, OutRegs_t>::crc16(uint8_t* data, uint8_t length)
-{
-   int j;
-   uint16_t reg_crc = 0xFFFF;
-   while(length--)	{
-      reg_crc ^= *data++;
-      for(j = 0; j < 8; j++) {
-         if (reg_crc & 0x01) {
-            reg_crc=(reg_crc>>1) ^ 0xA001; // LSB(b0)=1
-         } else {
-            reg_crc=reg_crc>>1;
-         }	
-      }
-   }
-   return reg_crc;
-}
-
 template <class InReg, class OutRegs_t>
 uint8_t Modbus_slave<InReg, OutRegs_t>::set_high_bit(uint8_t func)
 {
@@ -242,7 +224,7 @@ template <class InReg, class OutRegs_t>
 bool Modbus_slave<InReg, OutRegs_t>::check_CRC()
 {
    crc = uart.pop_back();
-   uint16_t crc_buffer = crc16(uart.buffer_pointer(), uart.buffer_end());
+   uint16_t crc_buffer = CRC16(uart.buffer_pointer(), uart.buffer_end());
    return crc == crc_buffer;
 }
 
@@ -268,8 +250,8 @@ void Modbus_slave<InReg, OutRegs_t>::answer_error(Error_code code)
    else if (code == Error_code::wrong_value)
       uart << address << func << static_cast<uint8_t>(code);
       
-   crc = crc16 (uart.buffer_pointer(), uart.buffer_end());
-   uart.push_back(crc);
+   crc = CRC16(uart.buffer_pointer(), uart.buffer_end());
+   uart << crc;
    uart.start_transmit();
 }
 
@@ -283,8 +265,8 @@ void Modbus_slave<InReg, OutRegs_t>::answer_03()
    uart << address << static_cast<uint8_t>(Function::read_03) << qty_byte;
    while(qty_reg--)
       uart << arOutRegs[first_reg++];
-   crc = crc16 (uart.buffer_pointer(), uart.buffer_end());
-   uart.push_back(crc);
+   crc = CRC16(uart.buffer_pointer(), uart.buffer_end());
+   uart << crc;
    uart.start_transmit();
 }
 
@@ -309,8 +291,8 @@ void Modbus_slave<InReg, OutRegs_t>::answer_16(function reaction)
    }
    
    uart << address << func << first_reg << qty_reg;
-   crc = crc16 (uart.buffer_pointer(), uart.buffer_end());
-   uart.push_back(crc);
+   crc = CRC16(uart.buffer_pointer(), uart.buffer_end());
+   uart << crc;
    uart.start_transmit();
 }
 

@@ -33,7 +33,6 @@ public:
    void start_transmit();
    void start_receive ();
    uint16_t pop_back();
-   void push_back(const uint16_t&);
 
    bool is_IDLE(){return true;}
    bool is_tx_complete(){return true;}
@@ -70,17 +69,9 @@ template<size_t buffer_size>
 uint16_t UART_<buffer_size>::pop_back()
 {
    result << "Получаем значение CRC полученного буфера" << '\n';
-   uint8_t high = buffer[--end];
    uint8_t low  = buffer[--end];
+   uint8_t high = buffer[--end];
    return high << 8 | low;
-}
-
-template<size_t buffer_size>
-void UART_<buffer_size>::push_back(const uint16_t& v)
-{
-   result << "Записываем значение CRC ответного буфера" << '\n';
-   buffer[end++] = static_cast<uint8_t>(v);
-   buffer[end++] = v >> 8;
 }
 
 template<size_t buffer_size>

@@ -75,8 +75,8 @@ public:
    UART_&   operator>> (uint16_t&);
    uint8_t  operator[] (const int index) {return buffer[index];}
    uint16_t qty_byte(){return buffer_size - RXstream.qty_transactions_left();}
-   uint16_t pop_back();
-   void push_back(const uint16_t&);
+   uint16_t pop_back(); // метод забирает не переставляя старший и младший биты
+   void push_back(const uint16_t&); // метод записывает переставляя старший и младший биты, сейчас не используется
 };
 
 using UART = UART_<>;
@@ -262,10 +262,10 @@ UART_<buffer_size>& UART_<buffer_size>::operator>> (uint16_t& v)
 }
 
 template<size_t buffer_size>
-uint16_t UART_<buffer_size>::pop_back()
+uint16_t UART_<buffer_size>::pop_back() 
 {
-   uint8_t high = buffer[--end];
    uint8_t low  = buffer[--end];
+   uint8_t high = buffer[--end];
    return high << 8 | low;
 }
 
