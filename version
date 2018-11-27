@@ -1,4 +1,4 @@
-v3.025 
+v3.025 table_crc.h, test_table_crc.cpp
 
 v3.024 modbus_slave.h, test_modbus_slave.h
 
