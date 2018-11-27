@@ -59,6 +59,7 @@ test (STM32F4 f4_test_flash)
 test (NULL test_reflect)
 test (STM32F1 test_uart)
 test (STM32F1 test_modbus_slave)
+test (NULL test_crc_table)
 
 
 

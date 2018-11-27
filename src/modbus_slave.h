@@ -127,7 +127,7 @@ public:
       Modbus_slave<InRegs_t, OutRegs_t> modbus {address, UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>(), *interrupt_usart, *interrupt_dma};
 
       modbus.uart.init(set);
-      modbus.uart.modbus_time(set.baudrate);
+      // modbus.uart.modbus_time(set.baudrate);
       return modbus;
    }
 

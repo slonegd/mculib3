@@ -65,7 +65,7 @@ public:
    void start_receive();
    bool is_IDLE();
    
-   size_t modbus_time (Baudrate);
+   size_t modbus_time (Baudrate); // пока не знаю как это применить в модбасе
    auto buffer_pointer(){return &buffer[0];}
    auto buffer_end    (){return end;}
    void buffer_clean  (){begin = end = 0;}

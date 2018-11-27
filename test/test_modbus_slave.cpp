@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE test_uart
+#define BOOST_TEST_MODULE test_modbus_slave
 #include <boost/test/unit_test.hpp>
 
 #define F_CPU   72000000UL
@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE(make)
     BOOST_CHECK_EQUAL(result.str(),
         "Создаем объект UART"                    "\n"
         "Инициализация uart"                     "\n"
-        "Определение время задержки для модбаса" "\n"
+        // "Определение время задержки для модбаса" "\n"
     );
 }
 
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE (read)
     BOOST_CHECK_EQUAL(result.str(),
         "Создаем объект UART"                          "\n"
         "Инициализация uart"                           "\n"
-        "Определение время задержки для модбаса"       "\n"
+        // "Определение время задержки для модбаса"       "\n"
         "Прерывание uart"                              "\n"
         "Создали ссылку на переферию usart"            "\n"
         "Очищаем флаги прерываний uart"                "\n"
