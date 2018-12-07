@@ -30,8 +30,8 @@ public:
       Buttons_ <sizeof ... (Pins)> buttons {pins};
       return buttons;
    }
-//    static constexpr uint16_t MinPressed = 10_ms;
-//    static constexpr uint16_t LongPressed = 1_s;
+   static constexpr uint16_t MinPressed = 10_ms;
+   static constexpr uint16_t LongPressed = 1_s;
 
 //    Buttons()
 //    : pushHandeledFlag     {false},
