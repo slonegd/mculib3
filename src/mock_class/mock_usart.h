@@ -71,9 +71,10 @@ public:
    USART& enable(){result << "USART enable" << '\n'; return *this;}
    USART& clear_interrupt_flags(){ result << "Очищаем флаги прерываний uart" << '\n'; return *this;}
 
-   bool    is_IDLE_interrupt              (){return true;}
-   bool    is_tx_complete                 (){return true;}
-   bool    is_tx_complete_interrupt_enable(){return true;}
+   bool is_IDLE_interrupt              (){return true;}
+   bool is_tx_complete                 (){return true;}
+   bool is_tx_complete_interrupt_enable(){return true;}
+   bool is_ready_read                  (){return true;}
 
    size_t transmit_data_adr(){result << "Передаем адрес регистра данных" << '\n'; return 0xff;}
 
@@ -83,14 +84,16 @@ public:
 
    template<Periph usart, class Pin> static constexpr Periph stream()
    {
-      if constexpr (usart == Periph::TEST_USART) {
+      if constexpr (usart == Periph::USART1) {
          if      constexpr (std::is_same_v<Pin, TX>) {/*result << "Определили поток №1" << '\n';*/ return Periph::TEST_DMA_stream1;}
          else if constexpr (std::is_same_v<Pin, RX>) {/*result << "Определили поток №2" << '\n';*/ return Periph::TEST_DMA_stream2;}
       }
+
+      return Periph::TEST_USART;
    }
    template<Periph usart, class Pin> static constexpr PinMode pin_mode()
    {
-      if constexpr (usart == Periph::TEST_USART) {
+      if constexpr (usart == Periph::USART1) {
       	if      constexpr (std::is_same_v<Pin, TX>) return PinMode::USART1_TX; 
       	else if constexpr (std::is_same_v<Pin, RX>) return PinMode::USART1_RX;
       	else return PinMode::Input;
@@ -105,9 +108,22 @@ public:
 
 size_t USART::clock_{1000};
 
-template <Periph p> std::enable_if_t<p == Periph::TEST_USART, USART&> make_reference()
+template <Periph p> std::enable_if_t<p == Periph::USART1, USART&> make_reference()
 {
    result << "Создали ссылку на переферию usart" << '\n';
-   return mock_usart;}
+   return mock_usart;
+}
+
+template <Periph p> std::enable_if_t<p == Periph::USART2, USART&> make_reference()
+{
+   result << "Создали ссылку на переферию usart" << '\n';
+   return mock_usart;
+}
+
+template <Periph p> std::enable_if_t<p == Periph::USART3, USART&> make_reference()
+{
+   result << "Создали ссылку на переферию usart" << '\n';
+   return mock_usart;
+}
 
 } //namespace mcu

@@ -31,14 +31,14 @@ public:
    {
       stream == TX_stream ? result << "Разрешаем работу TX_stream" << '\n':
       stream == RX_stream ? result << "Разрешаем работу RX_stream" << '\n':
-      result << "Невыбран поток"   << '\n';
+                            result << "Невыбран поток"   << '\n';
       return *this;
    }
    DMA_stream& disable()
    {
       stream == TX_stream ? result << "Запрещаем работу TX_stream" << '\n':
       stream == RX_stream ? result << "Запрещаем работу RX_stream" << '\n':
-      result << "Невыбран поток"   << '\n';
+                            result << "Невыбран поток"   << '\n';
       return *this;
    }
    DMA_stream& direction(DataDirection d)

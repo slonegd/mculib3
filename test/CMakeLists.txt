@@ -19,6 +19,7 @@ include_directories (
 
 set (CMAKE_CXX_FLAGS "-Wno-register")
 
+
 function(test MCU name)
    add_executable (${name} ${name}.cpp)
    if (MCU STREQUAL STM32F0)
@@ -47,6 +48,7 @@ function(test MCU name)
       CXX_STANDARD 17
       CXX_STANDARD_REQUIRED ON
       COMPILE_OPTIONS -Wno-pedantic -Wall -Wextra
+      #COMPILE_FLAGS -O2
       COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
    )
    add_test(${name} build/${name})
@@ -54,12 +56,13 @@ endfunction(test)
 
 test (STM32F0 f0_test_rcc)
 test (STM32F1 f1_test_dma)
-# test (STM32F1 f1_test_dma_stream)
+test (STM32F1 f1_test_dma_stream)
 test (STM32F4 f4_test_flash)
 test (NULL test_reflect)
 test (STM32F1 test_uart)
 test (STM32F1 test_modbus_slave)
 test (NULL test_table_crc)
+test (STM32F1 test_modbus_master)
 
 
 

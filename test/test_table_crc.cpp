@@ -19,10 +19,10 @@ BOOST_AUTO_TEST_CASE(crc)
     buffer[5] = 1;
 
     uint16_t crc_online = 0x0B94;
-    uint16_t crc = CRC16(&buffer[0], 6);
+    auto [low1, high1] = CRC16(&buffer[0], &buffer[6]);
 
-    // для проверки байты нужно поменять местами
-    BOOST_CHECK_EQUAL(crc, 0x940B);
+    BOOST_CHECK_EQUAL(low1, 0x94);
+    BOOST_CHECK_EQUAL(high1, 0x0B);
 
     buffer[0] = 7;
     buffer[1] = 16;
@@ -35,8 +35,9 @@ BOOST_AUTO_TEST_CASE(crc)
     buffer[8] = 8;
 
     crc_online = 0xD48D;
-    crc = CRC16(&buffer[0], 9);
-    BOOST_CHECK_EQUAL(crc, 0x8DD4);
+    auto [low2, high2] = CRC16(&buffer[0], &buffer[9]);
+    BOOST_CHECK_EQUAL(low2, 0x8D);
+    BOOST_CHECK_EQUAL(high2, 0xD4);
 
     buffer[0] = 7;
     buffer[1] = 0x10;
@@ -53,8 +54,9 @@ BOOST_AUTO_TEST_CASE(crc)
     buffer[12] = 7;
 
     crc_online = 0x5154;
-    crc = CRC16(&buffer[0], 13);
-    BOOST_CHECK_EQUAL(crc, 0x5451);
+    auto [low3, high3] = CRC16(&buffer[0], &buffer[13]);
+    BOOST_CHECK_EQUAL(low3, 0x54);
+    BOOST_CHECK_EQUAL(high3, 0x51);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

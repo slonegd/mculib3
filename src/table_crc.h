@@ -2,7 +2,7 @@
 
 // функция возвращает значение CRC меняя местами старший и младший биты, как заложено в спецификации модбас
 
-const uint8_t crc_high_table[256] =
+constexpr uint8_t crc_low_table[]
 {
         0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
         0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
@@ -24,7 +24,7 @@ const uint8_t crc_high_table[256] =
         0x40
 };
 
- const uint8_t crc_low_table[256] =
+ constexpr uint8_t crc_high_table[]
 {
         0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06, 0x07, 0xC7, 0x05, 0xC5, 0xC4,
         0x04, 0xCC, 0x0C, 0x0D, 0xCD, 0x0F, 0xCF, 0xCE, 0x0E, 0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09,
@@ -44,25 +44,39 @@ const uint8_t crc_high_table[256] =
         0x48, 0x49, 0x89, 0x4B, 0x8B, 0x8A, 0x4A, 0x4E, 0x8E, 0x8F, 0x4F, 0x8D, 0x4D, 0x4C, 0x8C,
         0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42, 0x43, 0x83, 0x41, 0x81, 0x80,
         0x40
-};        
-uint16_t CRC16(uint8_t *data, uint8_t length)
+}; 
+
+template<class InputIt>
+constexpr auto CRC16(InputIt first, InputIt last)
 {
-    uint8_t crc_high;
-    uint8_t crc_low;
-
-    if (length > 256) return (0);
-
-    crc_high = 0xFF;   // high byte of CRC initialized
-    crc_low  = 0xFF;   // low byte of CRC initialized
+    uint8_t crc_high = 0xFF;   // high byte of CRC initialized
+    uint8_t crc_low  = 0xFF;   // low byte of CRC initialized
 
     do
     {
-       uint8_t i = crc_high ^ *data++;               // will index into CRC lookup table
-       crc_high  = crc_low  ^ crc_high_table[i];    // calculate the CRC
-       crc_low   =            crc_low_table [i];
+       uint8_t i = crc_low ^ *first++;              // will index into CRC lookup table
+       crc_low  = crc_high  ^ crc_low_table[i];    // calculate the CRC
+       crc_high =             crc_high_table [i];
     }
-    while (--length);   // pass through message buffer (max 256)
+    while (first != last);   // pass through message buffer (max 256)
         
-    if (data) return ((crc_high << 8) | crc_low);
-    else return 0;
+    return std::tuple {crc_low, crc_high};
 }
+
+// template<size_t n>
+// constexpr auto CRC16_(const uint8_t(&data)[n])
+// {
+//     uint8_t crc_high{0xFF}; // high byte of CRC initialized
+//     uint8_t crc_low{0xFF};  // low byte of CRC initialized
+
+//     for (auto d : data) {
+
+//        uint8_t i = crc_low ^ d;           // will index into CRC lookup table
+//        crc_low  = crc_high  ^ crc_low_table[i];    // calculate the CRC
+//        crc_high =             crc_high_table [i];
+//     }
+
+//     // pass through message buffer (max 256)
+    
+//     return std::tuple {crc_low, crc_high};
+// }

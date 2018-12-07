@@ -66,6 +66,7 @@ public:
    USART_& DMA_rx_enable (){this->CR3.DMAR = true;  return *this;}
    USART_& parity_enable (){this->CR1.PCE  = true;  return *this;}
    USART_& parity_disable(){this->CR1.PCE  = false; return *this;}
+   bool    is_ready_read (){return this->SR.RXNE;}
 
    USART_& enable_IDLE_interrupt          (){this->CR1.IDLEIE = true;  return *this;}
    bool    is_IDLE_interrupt              (){return this->SR.IDLE;}

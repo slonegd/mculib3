@@ -1,5 +1,5 @@
 # pragma once
-#include "mock_uart.h"
+#include "mock_usart.h"
 #include "mock_DMA_stream.h"
 #include "string_result.h"
 
@@ -28,6 +28,20 @@ public:
          first = ps;
       } 
    }
+
+   void unsubscribe(Interrupting* ps)
+   {
+      auto p = first;
+      while (p->next) {
+         if (p == ps)
+            first = ps->next;
+         else if (p->next = ps) {
+            p->next = p->next->next;
+         }
+         p++;
+      }
+   }
+
    void interrupt()
    {
       auto p = first;
@@ -61,9 +75,9 @@ Interrupt interrupt_DMA_channel7;
 
 
 
-void USART1_IRQHandler          () { result << "Прерывание uart" << '\n'; interrupt_usart1.interrupt(); mcu::make_reference<mcu::Periph::TEST_USART>().clear_interrupt_flags();}
-void USART2_IRQHandler          () { result << "Прерывание uart" << '\n'; interrupt_usart2.interrupt(); mcu::make_reference<mcu::Periph::TEST_USART>().clear_interrupt_flags();}
-void USART3_IRQHandler          () { result << "Прерывание uart" << '\n'; interrupt_usart3.interrupt(); mcu::make_reference<mcu::Periph::TEST_USART>().clear_interrupt_flags();}
+void USART1_IRQHandler          () { result << "Прерывание uart" << '\n'; interrupt_usart1.interrupt(); mcu::make_reference<mcu::Periph::USART1>().clear_interrupt_flags();}
+void USART2_IRQHandler          () { result << "Прерывание uart" << '\n'; interrupt_usart2.interrupt(); mcu::make_reference<mcu::Periph::USART2>().clear_interrupt_flags();}
+void USART3_IRQHandler          () { result << "Прерывание uart" << '\n'; interrupt_usart3.interrupt(); mcu::make_reference<mcu::Periph::USART3>().clear_interrupt_flags();}
 
 void DMA1_Channel1_IRQHandler   () { result << "Прерывание dma"  << '\n'; interrupt_DMA_channel1.interrupt(); mcu::make_reference<mcu::Periph::TEST_DMA_stream1>().clear_interrupt_flags();}
 void DMA1_Channel2_IRQHandler   () { result << "Прерывание dma"  << '\n'; interrupt_DMA_channel2.interrupt(); mcu::make_reference<mcu::Periph::TEST_DMA_stream1>().clear_interrupt_flags();}

@@ -48,6 +48,7 @@ BOOST_AUTO_TEST_CASE(make)
     
     BOOST_CHECK_EQUAL(result.str(),
         "Создаем объект UART"                    "\n"
+        "Определение время задержки для модбаса" "\n"
         "Инициализация uart"                     "\n"
         // "Определение время задержки для модбаса" "\n"
     );
@@ -98,8 +99,7 @@ BOOST_AUTO_TEST_CASE (read)
     buffer[6] = crc_low;
     buffer[7] = crc_high;
 
-    begin = 0;
-    end = 8;
+    mcu::CNDTR = 247;
 
     USART1_IRQHandler();
 
@@ -125,13 +125,13 @@ BOOST_AUTO_TEST_CASE (read)
 
     BOOST_CHECK_EQUAL(result.str(),
         "Создаем объект UART"                          "\n"
+        "Определение время задержки для модбаса"       "\n"
         "Инициализация uart"                           "\n"
-        // "Определение время задержки для модбаса"       "\n"
         "Прерывание uart"                              "\n"
         "Создали ссылку на переферию usart"            "\n"
         "Очищаем флаги прерываний uart"                "\n"
-        "Берем значение end"                           "\n"
         "Забираем из буфера 8-битный элемент"          "\n"
+        "Получаем значение CRC полученного буфера"     "\n"
         "Получаем значение CRC полученного буфера"     "\n"
         "Берем значение end"                           "\n"
         "Возвращаем указатель на буфер для расчета CRC""\n"
@@ -150,11 +150,11 @@ BOOST_AUTO_TEST_CASE (read)
         "Добавляем в буфер новый 8-битный элемент"     "\n"
         "Берем значение end"                           "\n"
         "Возвращаем указатель на буфер для расчета CRC""\n"
-        "Добавляем в буфер новый 16-битный элемент"    "\n"
         "Добавляем в буфер новый 8-битный элемент"     "\n"
         "Добавляем в буфер новый 8-битный элемент"     "\n"
         "Старт передачи"                               "\n"
     );
+
 
     buffer[0] = 1;
     buffer[1] = 3;
@@ -169,9 +169,6 @@ BOOST_AUTO_TEST_CASE (read)
 
     buffer[6] = crc_low;
     buffer[7] = crc_high;
-
-    begin = 0;
-    end = 8;
 
     USART1_IRQHandler();
 
@@ -213,9 +210,6 @@ BOOST_AUTO_TEST_CASE (read)
     buffer[6] = crc_low;
     buffer[7] = crc_high;
 
-    begin = 0;
-    end = 8;
-
     USART1_IRQHandler();
 
     SysTick_Handler();
@@ -254,8 +248,6 @@ BOOST_AUTO_TEST_CASE (read)
     buffer[6] = crc_low;
     buffer[7] = crc_high;
 
-    begin = 0;
-    end = 8;
     
     USART1_IRQHandler();
 
@@ -313,8 +305,6 @@ BOOST_AUTO_TEST_CASE (incomplete_message)
                    mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
 
     buffer[0] = 1;
-    begin = 0;
-    end = 1;
 
     result.str("");
     USART1_IRQHandler();
@@ -325,14 +315,13 @@ BOOST_AUTO_TEST_CASE (incomplete_message)
     SysTick_Handler();
     SysTick_Handler();
     
-    
+    mcu::CNDTR = 254;
     modbus(reaction);
 
     BOOST_CHECK_EQUAL(result.str(),
         "Прерывание uart"                   "\n"
         "Создали ссылку на переферию usart" "\n"
         "Очищаем флаги прерываний uart"     "\n"
-        "Берем значение end"                "\n"
         "Очищаем буфер"                     "\n"
         "Старт приема"                      "\n"
     );
@@ -383,8 +372,7 @@ BOOST_AUTO_TEST_CASE (wrong_CRC)
     buffer[6] = crc_low;
     buffer[7] = crc_high;
 
-    begin = 0;
-    end = 8;
+    mcu::CNDTR = 247;
 
     result.str("");
     USART1_IRQHandler();
@@ -402,8 +390,8 @@ BOOST_AUTO_TEST_CASE (wrong_CRC)
         "Прерывание uart"                               "\n"
         "Создали ссылку на переферию usart"             "\n"
         "Очищаем флаги прерываний uart"                 "\n"
-        "Берем значение end"                            "\n"
         "Забираем из буфера 8-битный элемент"           "\n"
+        "Получаем значение CRC полученного буфера"      "\n"
         "Получаем значение CRC полученного буфера"      "\n"
         "Берем значение end"                            "\n"
         "Возвращаем указатель на буфер для расчета CRC" "\n"
@@ -457,8 +445,7 @@ BOOST_AUTO_TEST_CASE (wrong_adr)
     buffer[6] = crc_low;
     buffer[7] = crc_high;
 
-    begin = 0;
-    end = 8;
+    mcu::CNDTR = 247;
 
     result.str("");
     USART1_IRQHandler();
@@ -476,7 +463,6 @@ BOOST_AUTO_TEST_CASE (wrong_adr)
         "Прерывание uart"                               "\n"
         "Создали ссылку на переферию usart"             "\n"
         "Очищаем флаги прерываний uart"                 "\n"
-        "Берем значение end"                            "\n"
         "Забираем из буфера 8-битный элемент"           "\n"
         "Очищаем буфер"                                 "\n"
         "Старт приема"                                  "\n"
@@ -529,8 +515,7 @@ BOOST_AUTO_TEST_CASE (wrong_func)
     buffer[6] = crc_low;
     buffer[7] = crc_high;
 
-    begin = 0;
-    end = 8;
+    mcu::CNDTR = 247;
 
     result.str("");
     USART1_IRQHandler();
@@ -557,8 +542,8 @@ BOOST_AUTO_TEST_CASE (wrong_func)
         "Прерывание uart"                               "\n"
         "Создали ссылку на переферию usart"             "\n"
         "Очищаем флаги прерываний uart"                 "\n"
-        "Берем значение end"                            "\n"
         "Забираем из буфера 8-битный элемент"           "\n"
+        "Получаем значение CRC полученного буфера"      "\n"
         "Получаем значение CRC полученного буфера"      "\n"
         "Берем значение end"                            "\n"
         "Возвращаем указатель на буфер для расчета CRC" "\n"
@@ -569,7 +554,6 @@ BOOST_AUTO_TEST_CASE (wrong_func)
         "Добавляем в буфер новый 8-битный элемент"      "\n"
         "Берем значение end"                            "\n"
         "Возвращаем указатель на буфер для расчета CRC" "\n"
-        "Добавляем в буфер новый 16-битный элемент"     "\n"
         "Добавляем в буфер новый 8-битный элемент"      "\n"
         "Добавляем в буфер новый 8-битный элемент"      "\n"
         "Старт передачи"                                "\n"
@@ -620,8 +604,7 @@ BOOST_AUTO_TEST_CASE (wrong_reg)
     buffer[6] = crc_low;
     buffer[7] = crc_high;
 
-    begin = 0;
-    end = 8;
+    mcu::CNDTR = 247;
 
     result.str("");
     USART1_IRQHandler();
@@ -648,8 +631,8 @@ BOOST_AUTO_TEST_CASE (wrong_reg)
         "Прерывание uart"                               "\n"
         "Создали ссылку на переферию usart"             "\n"
         "Очищаем флаги прерываний uart"                 "\n"
-        "Берем значение end"                            "\n"
         "Забираем из буфера 8-битный элемент"           "\n"
+        "Получаем значение CRC полученного буфера"      "\n"
         "Получаем значение CRC полученного буфера"      "\n"
         "Берем значение end"                            "\n"
         "Возвращаем указатель на буфер для расчета CRC" "\n"
@@ -666,7 +649,6 @@ BOOST_AUTO_TEST_CASE (wrong_reg)
         "Добавляем в буфер новый 8-битный элемент"      "\n"
         "Берем значение end"                            "\n"
         "Возвращаем указатель на буфер для расчета CRC" "\n"
-        "Добавляем в буфер новый 16-битный элемент"     "\n"
         "Добавляем в буфер новый 8-битный элемент"      "\n"
         "Добавляем в буфер новый 8-битный элемент"      "\n"
         "Старт передачи"                                "\n"
@@ -719,8 +701,7 @@ BOOST_AUTO_TEST_CASE (write)
     buffer[9] = crc_low;
     buffer[10] = crc_high;
 
-    begin = 0;
-    end = 11;
+    mcu::CNDTR = 244;
 
     result.str("");
     USART1_IRQHandler();
@@ -753,8 +734,8 @@ BOOST_AUTO_TEST_CASE (write)
         "Прерывание uart"                               "\n"
         "Создали ссылку на переферию usart"             "\n"
         "Очищаем флаги прерываний uart"                 "\n"
-        "Берем значение end"                            "\n"
         "Забираем из буфера 8-битный элемент"           "\n"
+        "Получаем значение CRC полученного буфера"      "\n"
         "Получаем значение CRC полученного буфера"      "\n"
         "Берем значение end"                            "\n"
         "Возвращаем указатель на буфер для расчета CRC" "\n"
@@ -779,7 +760,6 @@ BOOST_AUTO_TEST_CASE (write)
         "Добавляем в буфер новый 8-битный элемент"      "\n"
         "Берем значение end"                            "\n"
         "Возвращаем указатель на буфер для расчета CRC" "\n"
-        "Добавляем в буфер новый 16-битный элемент"     "\n"
         "Добавляем в буфер новый 8-битный элемент"      "\n"
         "Добавляем в буфер новый 8-битный элемент"      "\n"
         "Старт передачи"                                "\n"
@@ -806,8 +786,7 @@ BOOST_AUTO_TEST_CASE (write)
     buffer[13] = crc_low;
     buffer[14] = crc_high;
 
-    begin = 0;
-    end = 15;
+    mcu::CNDTR = 240;
 
     result.str("");
     USART1_IRQHandler();
@@ -886,8 +865,7 @@ BOOST_AUTO_TEST_CASE (check_value)
     buffer[9] = crc_low;
     buffer[10] = crc_high;
 
-    begin = 0;
-    end = 11;
+    mcu::CNDTR = 244;
 
     USART1_IRQHandler();
 
@@ -958,8 +936,7 @@ BOOST_AUTO_TEST_CASE (not_tick)
     buffer[9] = crc_low;
     buffer[10] = crc_high;
 
-    begin = 0;
-    end = 11;
+    mcu::CNDTR = 244;
 
     USART1_IRQHandler();
 
@@ -1027,8 +1004,7 @@ BOOST_AUTO_TEST_CASE (not_uart_interrupt)
     buffer[9] = crc_low;
     buffer[10] = crc_high;
 
-    begin = 0;
-    end = 11;
+    mcu::CNDTR = 244;
 
     // USART1_IRQHandler(); // прерывания нет, подписки нет, notify нет
 
@@ -1098,8 +1074,7 @@ BOOST_AUTO_TEST_CASE (dma_interrupt)
     buffer[9] = crc_low;
     buffer[10] = crc_high;
 
-    begin = 0;
-    end = 11;
+    mcu::CNDTR = 244;
 
     result.str("");
     USART1_IRQHandler();
@@ -1131,8 +1106,8 @@ BOOST_AUTO_TEST_CASE (dma_interrupt)
         "Прерывание uart"                               "\n"
         "Создали ссылку на переферию usart"             "\n"
         "Очищаем флаги прерываний uart"                 "\n"
-        "Берем значение end"                            "\n"
         "Забираем из буфера 8-битный элемент"           "\n"
+        "Получаем значение CRC полученного буфера"      "\n"
         "Получаем значение CRC полученного буфера"      "\n"
         "Берем значение end"                            "\n"
         "Возвращаем указатель на буфер для расчета CRC" "\n"
@@ -1157,7 +1132,6 @@ BOOST_AUTO_TEST_CASE (dma_interrupt)
         "Добавляем в буфер новый 8-битный элемент"      "\n"
         "Берем значение end"                            "\n"
         "Возвращаем указатель на буфер для расчета CRC" "\n"
-        "Добавляем в буфер новый 16-битный элемент"     "\n"
         "Добавляем в буфер новый 8-битный элемент"      "\n"
         "Добавляем в буфер новый 8-битный элемент"      "\n"
         "Старт передачи"                                "\n"
@@ -1167,6 +1141,84 @@ BOOST_AUTO_TEST_CASE (dma_interrupt)
         "Создали ссылку на переферию tx stream"         "\n"
         "Очищаем флаги прерываний dma"                  "\n"
     );
+
+    mcu::CNDTR = 255;
+}
+
+BOOST_AUTO_TEST_CASE(new_message)
+{
+	 mcu::UART::Settings set;
+    
+    struct InReg{
+        uint16_t a;
+        uint16_t b;
+        uint16_t c;
+        int16_t  d;
+        uint16_t f;
+        uint16_t g;
+    } in_reg;
+
+    struct OutReg {
+        uint16_t a = 6;
+        uint16_t b = 5;
+        uint16_t c = 4;
+        uint16_t d = 3;
+    } out_reg;
+
+    interrupt_usart1.clear_subscribe();
+    interrupt_DMA_channel4.clear_subscribe();
+
+    const uint8_t address = 3;
+    uint8_t wrong_reg = 2;
+    auto modbus = mcu::Modbus_slave<InReg, OutReg>
+                 ::make<mcu::Periph::USART1, 
+                   mcu::TX, mcu::RX, mcu::RTS, mcu::LED>(address, set);
+
+    auto passed_ms = [&](int n)
+    {
+        while (n--) {
+            SysTick_Handler();
+            modbus(reaction);
+        }
+    };
+
+
+	buffer[0] = 3;
+    buffer[1] = 3;
+    buffer[2] = 0;
+    buffer[3] = 9;
+
+    mcu::CNDTR = 251;
+
+    USART1_IRQHandler();
+    passed_ms(2);
+
+    buffer[4] = 0;
+    buffer[5] = 1;
+
+    uint16_t crc = 0xEA55; 
+    uint8_t  crc_low = static_cast<uint8_t>(crc);
+    uint8_t  crc_high = crc >> 8;
+
+    buffer[6] = crc_low;
+    buffer[7] = crc_high;
+
+    mcu::CNDTR = 247;
+    passed_ms(2);
+
+    USART1_IRQHandler();
+    passed_ms(5);
+    DMA1_Channel4_IRQHandler ();
+
+    crc = 0xF100;
+    crc_low = static_cast<uint8_t>(crc);
+    crc_high = crc >> 8;
+
+    BOOST_CHECK_EQUAL(buffer[0], address);
+    BOOST_CHECK_EQUAL(buffer[1], 3);
+    BOOST_CHECK_EQUAL(buffer[2], wrong_reg);
+    BOOST_CHECK_EQUAL(buffer[3], crc_low);
+    BOOST_CHECK_EQUAL(buffer[4], crc_high);
 }
 
 

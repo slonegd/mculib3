@@ -1,23 +1,28 @@
 #pragma once
 
+
+#include <array>
 #if not defined (TEST)
 	#include "usart.h"
+   #include "interrupt.h"
 #endif
 namespace mcu {
 
 template<size_t buffer_size = 255>
-class UART_ {
+class UART_
+{
    USART& usart;
    DMA_stream& TXstream;
    DMA_stream& RXstream;
+   // Interrupt& interrupt_usart;
    const size_t clock;
    Pin tx;
    Pin rx;
    Pin rts;
    Pin led;
    uint8_t buffer[buffer_size];
-   int begin {0};
-   int end   {0};
+   uint8_t begin_ {0};
+   uint8_t end_   {0};
 public:
 
    using Parity         = USART::Parity;
@@ -34,6 +39,7 @@ public:
         USART& usart
       , DMA_stream& TXstream
       , DMA_stream& RXstream
+      // , Interrupt& interrupt_usart
       , size_t clock
       , Pin tx
       , Pin rx
@@ -42,6 +48,7 @@ public:
    )  : usart    {usart}
       , TXstream {TXstream}
       , RXstream {RXstream}
+      // , interrupt_usart{interrupt_usart}
       , clock    {clock}
       , tx       {tx}
       , rx       {rx}
@@ -63,20 +70,38 @@ public:
    void transmit(uint16_t qty);
    void start_transmit();
    void start_receive();
+   bool is_tx_complete();
+   uint16_t CNDTR();
    bool is_IDLE();
    
-   size_t modbus_time (Baudrate); // пока не знаю как это применить в модбасе
-   auto buffer_pointer(){return &buffer[0];}
-   auto buffer_end    (){return end;}
-   void buffer_clean  (){begin = end = 0;}
+   int modbus_time (Baudrate);
+   auto begin         (){return &buffer[0];}
+   auto end           (){return &buffer[end_];}
+   auto message_size  (){return buffer_size - RXstream.qty_transactions_left();}
+   void interrupt     (){end_ = message_size();} 
+   void buffer_clean  (){begin_ = end_ = 0;}
+   UART_&   operator<< (const std::array<uint8_t, 8> &arr){std::copy(arr.begin(), arr.end(), buffer); return *this;}
    UART_&   operator<< (const uint8_t&);
    UART_&   operator<< (const uint16_t&);
    UART_&   operator>> (uint8_t&);
    UART_&   operator>> (uint16_t&);
    uint8_t  operator[] (const int index) {return buffer[index];}
    uint16_t qty_byte(){return buffer_size - RXstream.qty_transactions_left();}
-   uint16_t pop_back(); // метод забирает не переставляя старший и младший биты
+   uint16_t pop_back();
    void push_back(const uint16_t&); // метод записывает переставляя старший и младший биты, сейчас не используется
+
+   // using Parent = UART_;
+   // // структура создана потому что не срабатывало NRVO у parent при подписке в make()
+   // struct uart_interrupt : Interrupting
+   // {
+   //    Parent& parent;
+   //    uart_interrupt (Parent& parent) : parent(parent) {
+   //       parent.interrupt_usart.subscribe (this);
+   //    }
+   //    void interrupt() override {parent.interrupt();} 
+   // } uart_ {*this};
+
+
 };
 
 using UART = UART_<>;
@@ -129,10 +154,16 @@ auto UART_<buffer_size>::make()
    constexpr auto TXpin_mode = USART::pin_mode<usart, TXpin>();
    constexpr auto RXpin_mode = USART::pin_mode<usart, RXpin>();
 
+   // auto interrupt_usart = usart == Periph::USART1 ? &interrupt_usart1 :
+   //                        usart == Periph::USART2 ? &interrupt_usart2 :
+   //                        usart == Periph::USART3 ? &interrupt_usart3 :
+   //                        nullptr;
+
    UART_ uart {
         make_reference<usart>()
       , make_reference<TX_stream>()
       , make_reference<RX_stream>()
+      // , *interrupt_usart
       , USART::clock<usart>()
       , Pin::make<TXpin, TXpin_mode>()
       , Pin::make<RXpin, RXpin_mode>()
@@ -167,6 +198,10 @@ auto UART_<buffer_size>::make()
            		 .inc_memory()
            		 .size_memory(DataSize::byte8)
            		 .size_periph(DataSize::byte8);
+
+   
+   
+   // interrupt_usart->subscribe(&uart);
 
    return uart;
 }
@@ -211,7 +246,7 @@ void UART_<buffer_size>::start_receive()
 }
 
 template<size_t buffer_size>
-size_t UART_<buffer_size>::modbus_time (Baudrate baudrate)
+int UART_<buffer_size>::modbus_time (Baudrate baudrate)
 {
    return baudrate == Baudrate::BR9600  ? 4 :
           baudrate == Baudrate::BR14400 ? 3 :
@@ -226,18 +261,30 @@ bool UART_<buffer_size>::is_IDLE()
 }
 
 template<size_t buffer_size>
+bool UART_<buffer_size>::is_tx_complete()
+{
+   return usart.is_tx_complete();
+}
+
+template<size_t buffer_size>
+uint16_t UART_<buffer_size>::CNDTR()
+{
+   return RXstream.qty_transactions_left();
+}
+
+template<size_t buffer_size>
 UART_<buffer_size>& UART_<buffer_size>::operator<< (const uint8_t& v)
 {
-   buffer [end++] = v;
+   buffer [end_++] = v;
    return *this;
 }
 
 template<size_t buffer_size>
 UART_<buffer_size>& UART_<buffer_size>::operator>> (uint8_t& v)
 {
-   v = buffer[begin++];
-   if (begin == end) {
-      begin = end = 0;
+   v = buffer[begin_++];
+   if (begin_ == end_) {
+      begin_ = end_ = 0;
    }
    return *this;
 }
@@ -264,16 +311,15 @@ UART_<buffer_size>& UART_<buffer_size>::operator>> (uint16_t& v)
 template<size_t buffer_size>
 uint16_t UART_<buffer_size>::pop_back() 
 {
-   uint8_t low  = buffer[--end];
-   uint8_t high = buffer[--end];
-   return high << 8 | low;
+   uint8_t v  = buffer[--end_];
+   return v;
 }
 
 template<size_t buffer_size>
 void UART_<buffer_size>::push_back(const uint16_t& v)
 {
-   buffer[end++] = static_cast<uint8_t>(v);
-   buffer[end++] = v >> 8;
+   buffer[end_++] = static_cast<uint8_t>(v);
+   buffer[end_++] = v >> 8;
 }
 
 } // namespace mcu

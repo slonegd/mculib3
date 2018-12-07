@@ -1,5 +1,6 @@
 #pragma once
 
+#include "rcc.h"
 #include "f1_bits_dma.h"
 
 namespace mcu {

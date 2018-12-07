@@ -52,6 +52,7 @@ public:
    {return make_reference<dma>().is_transfer_complete_interrupt(channel);}
 
 
+
 };
 
 template <Periph dma_stream> std::enable_if_t<dma_stream == Periph::DMA1_stream1, DMA_stream&> make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Channel1_BASE);}

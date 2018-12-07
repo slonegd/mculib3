@@ -13,14 +13,15 @@ namespace mcu {
 template <class InRegs_t, class OutRegs_t>
 class Modbus_slave : TickSubscriber
 {
-   size_t time {0}; // выдержка времени для модбаса 
-   
    enum class Function   : uint8_t {read_03 = 0x03, write_16 = 0x10};
    enum class Error_code : uint8_t {wrong_func = 0x01, wrong_reg = 0x02, wrong_value = 0x03};
 
    UART uart;
    Interrupt& interrupt_usart;
    Interrupt& interrupt_DMA_channel;
+
+   int time {0}; // выдержка времени для модбаса 
+   int modbus_time {0};
 
    const uint8_t address;
    uint8_t func;
@@ -30,6 +31,7 @@ class Modbus_slave : TickSubscriber
    uint8_t  qty_byte {0};
    uint16_t  data;
    uint16_t crc{0};
+   size_t message_size;
 
 
    uint16_t crc16(uint8_t* data, uint8_t length);
@@ -46,11 +48,14 @@ class Modbus_slave : TickSubscriber
    void uartInterrupt()
    {
       if (uart.is_IDLE())
+         message_size = uart.message_size();
+         uart.interrupt();
          subscribe();
    }
    void dmaInterrupt()
    {
-      uart.start_receive();
+      if (uart.is_tx_complete())
+         uart.start_receive();
    }
 
    void notify() override 
@@ -76,7 +81,7 @@ class Modbus_slave : TickSubscriber
          parent.interrupt_DMA_channel.subscribe (this);
       }
       void interrupt() override {parent.dmaInterrupt();} 
-   } dma_ {*this};;
+   } dma_ {*this};
 
 public:
 
@@ -100,17 +105,18 @@ public:
       uint16_t arInRegsMax[InRegQty];
    };
 
-   bool signed_[InRegQty] {false};
+   bool signed_[InRegQty] {};
    
-   Modbus_slave (uint8_t address, UART uart, Interrupt& interrupt_usart, Interrupt& interrupt_DMA_channel) 
-      : address     {address}
+   Modbus_slave (uint8_t address, UART&& uart, Interrupt& interrupt_usart, Interrupt& interrupt_DMA_channel, UART::Settings set) 
+      : uart                  {std::forward<UART>(uart)}
+      , modbus_time           {uart.modbus_time(set.baudrate)}
+      , interrupt_usart       {interrupt_usart}
+      , interrupt_DMA_channel {interrupt_DMA_channel}
+      , address               {address}
       , arInRegs    {}
       , outRegs     {}
       , arInRegsMin {}
       , arInRegsMax {}
-      , uart {uart} 
-      , interrupt_usart {interrupt_usart}
-      , interrupt_DMA_channel {interrupt_DMA_channel}
       {}
 
    template <Periph usart, class TXpin,  class RXpin, class RTSpin, class LEDpin> 
@@ -125,10 +131,9 @@ public:
                              usart == Periph::USART3 ? &interrupt_DMA_channel2 :
                              nullptr;
 
-      Modbus_slave<InRegs_t, OutRegs_t> modbus {address, UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>(), *interrupt_usart, *interrupt_dma};
+      Modbus_slave<InRegs_t, OutRegs_t> modbus {address, UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>(), *interrupt_usart, *interrupt_dma, set};
 
       modbus.uart.init(set);
-      // modbus.uart.modbus_time(set.baudrate);
       return modbus;
    }
 
@@ -180,13 +185,20 @@ template <class InRegs_t, class OutRegs_t>
 template <class function>
 inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (function reaction)
 {
-   if (time < 4)
+   if (message_size < uart.message_size()) {
+      time = 0;
+      unsubscribe();
+      uart.start_receive();
+      return;
+   }
+   
+   if (time < modbus_time) 
       return;
 
    time = 0;
    unsubscribe();
    
-   if (uart.buffer_end() < 8) {
+   if (uart.message_size() < 8) {
       uart.start_receive();
       return;
    }
@@ -223,9 +235,10 @@ uint8_t Modbus_slave<InReg, OutRegs_t>::set_high_bit(uint8_t func)
 template <class InReg, class OutRegs_t>
 bool Modbus_slave<InReg, OutRegs_t>::check_CRC()
 {
-   crc = uart.pop_back();
-   uint16_t crc_buffer = CRC16(uart.buffer_pointer(), uart.buffer_end());
-   return crc == crc_buffer;
+   uint8_t high = uart.pop_back();
+	uint8_t low  = uart.pop_back();
+   auto [low_, high_] = CRC16(uart.begin(), uart.end());
+   return (high == high_) and (low == low_);
 }
 
 template <class InReg, class OutRegs_t>
@@ -250,8 +263,8 @@ void Modbus_slave<InReg, OutRegs_t>::answer_error(Error_code code)
    else if (code == Error_code::wrong_value)
       uart << address << func << static_cast<uint8_t>(code);
       
-   crc = CRC16(uart.buffer_pointer(), uart.buffer_end());
-   uart << crc;
+   auto [low_, high_] = CRC16(uart.begin(), uart.end());
+   uart << low_ << high_;
    uart.start_transmit();
 }
 
@@ -265,8 +278,8 @@ void Modbus_slave<InReg, OutRegs_t>::answer_03()
    uart << address << static_cast<uint8_t>(Function::read_03) << qty_byte;
    while(qty_reg--)
       uart << arOutRegs[first_reg++];
-   crc = CRC16(uart.buffer_pointer(), uart.buffer_end());
-   uart << crc;
+   auto [low_, high_] = CRC16(uart.begin(), uart.end());
+   uart << low_ << high_;
    uart.start_transmit();
 }
 
@@ -291,8 +304,8 @@ void Modbus_slave<InReg, OutRegs_t>::answer_16(function reaction)
    }
    
    uart << address << func << first_reg << qty_reg;
-   crc = CRC16(uart.buffer_pointer(), uart.buffer_end());
-   uart << crc;
+   auto [low_, high_] = CRC16(uart.begin(), uart.end());
+   uart << low_ << high_;
    uart.start_transmit();
 }
 

@@ -11,11 +11,13 @@
 #include "test_NVIC_Enable.h"
 #include "mock_usart.h"
 #include "mock_DMA_stream.h"
+#include "mock_interrupt.h"
 #include "uart.h"
 
 
+
    auto uart = mcu::UART::make <
-        mcu::Periph::TEST_USART
+        mcu::Periph::USART1
       , mcu::TX
       , mcu::RX
       , mcu::RTS
@@ -141,6 +143,12 @@ BOOST_AUTO_TEST_CASE(start_receive)
       "Запрещаем работу RX_stream"            "\n"
       "Разрешаем работу RX_stream"            "\n"
    ); 
+}
+
+BOOST_AUTO_TEST_CASE(interrupt)
+{
+   uint message_size = uart.message_size();
+   USART1_IRQHandler();
 }
 
 BOOST_AUTO_TEST_SUITE_END()
