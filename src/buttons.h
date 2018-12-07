@@ -12,9 +12,9 @@ namespace mcu {
 template <int qty>
 class Buttons_ : TickSubscriber
 {
-   using Array = std::array<Pin, qty>;
-   Array pins;
-   Timer timer;
+   // using Array = std::array<Pin, qty>;
+   // Array pins;
+   // Timer timer;
 
 public:
 
