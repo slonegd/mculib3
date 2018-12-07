@@ -33,14 +33,14 @@ public:
    static constexpr uint16_t MinPressed = 10_ms;
    static constexpr uint16_t LongPressed = 1_s;
 
-//    Buttons()
-//    : pushHandeledFlag     {false},
-//      longPushHandeledFlag {false}
-//    {
-//       template<size_t ... n, PinMode::Input> void GPIO::init();
-//       timer.timeSet = 100_s; // 100 s просто большое время
-//       subscribe();
-//    }
+   Buttons()
+   : pushHandeledFlag     {false},
+     longPushHandeledFlag {false}
+   {
+      template<size_t ... n, PinMode::Input> void GPIO::init();
+      timer.timeSet = 100_s; // 100 s просто большое время
+      subscribe();
+   }
 
    // запускает/останавливает таймер отслеживания времени нажатия
    void notify() override
