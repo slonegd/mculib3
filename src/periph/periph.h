@@ -1,21 +1,25 @@
 #pragma once
 
-#if defined(STM32F030x6)
+#if   defined(STM32F030x6)
    #define STM32F0
 #elif defined(STM32F103xB)
    #define STM32F1
 #elif defined(STM32F405xx)
    #define STM32F4
+#elif defined(STM32F746xx)
+   #define STM32F7
 #else
    #define STM32F0
 #endif
 
-#if defined(STM32F0)
+#if   defined(STM32F0)
    #include "stm32f0xx.h"
 #elif defined(STM32F1)
    #include "stm32f1xx.h"
 #elif defined(STM32F4)
    #include "stm32f4xx.h"
+#elif defined(STM32F7)
+   #include "stm32f7xx.h"
 #endif
 
 #include <type_traits>
@@ -32,6 +36,8 @@
 #undef GPIOG
 #undef GPIOH
 #undef GPIOI
+#undef GPIOJ
+#undef GPIOK
 #undef AFIO
 #undef USART1
 #undef USART2
@@ -39,6 +45,8 @@
 #undef UART4
 #undef UART5
 #undef USART6
+#undef UART7
+#undef UART8
 #undef SysTick
 #undef TIM1
 #undef TIM3
@@ -48,27 +56,28 @@
 #undef FLASH
 #undef DMA1
 
+
 namespace mcu {
 
 enum class Periph {
     RCC,
-#if defined(STM32F0)
+#if   defined(STM32F0)
     GPIOA, GPIOB, GPIOC, GPIOD, GPIOF,
-#endif
-#if defined(STM32F1)
+#elif defined(STM32F1)
     GPIOA, GPIOB, GPIOC, GPIOD, GPIOE, AFIO,
-#endif
-#if defined(STM32F4)
+#elif defined(STM32F4)
     GPIOA, GPIOB, GPIOC, GPIOD, GPIOF, GPIOE, GPIOG, GPIOH, GPIOI,
+#elif defined(STM32F7)
+    GPIOA, GPIOB, GPIOC, GPIOD, GPIOF, GPIOE, GPIOG, GPIOH, GPIOI, GPIOJ, GPIOK,
 #endif
-#if defined(STM32F0)
+#if   defined(STM32F0)
     USART1,
-#endif
-#if defined(STM32F1)
+#elif defined(STM32F1)
     USART1, USART2, USART3,
-#endif
-#if defined(STM32F4)
+#elif defined(STM32F4)
     USART1, USART2, USART3, USART4, USART5, USART6,
+#elif defined(STM32F7)
+    USART1, USART2, USART3, USART4, USART5, USART6, USART7, USART8, 
 #endif
 #if defined(STM32F1)
     DMA1, DMA1_stream1, DMA1_stream2, DMA1_stream3, DMA1_stream4, DMA1_stream5, DMA1_stream6, DMA1_stream7,

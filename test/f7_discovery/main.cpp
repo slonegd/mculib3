@@ -1,5 +1,7 @@
 #define STM32F746xx
-// #define F_CPU   168000000UL
+#define F_CPU   8000000UL
+
+#include "rcc.h"
 
 
 
@@ -13,6 +15,9 @@ extern "C" void init_clock()
 
 int main()
 {
+   mcu::make_reference<mcu::Periph::RCC>()
+      .clock_enable<mcu::Periph::GPIOA>()
+      .clock_enable<mcu::Periph::USART8>();
    
    while (1) {
       

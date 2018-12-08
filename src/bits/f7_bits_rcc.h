@@ -80,7 +80,7 @@ struct AHB1ENR {
    uint32_t              :1; // Bit 31 Reserved, must be kept at reset value.
 }__attribute__((packed));
 
-struct APB1ENR {
+struct APBENR {
    bool     TIM2EN   :1; // Bit 0 TIM2EN: TIM2 clock enable
    bool     TIM3EN   :1; // Bit 1 TIM3EN: TIM3 clock enable
    bool     TIM4EN   :1; // Bit 2 TIM4EN: TIM4 clock enable
@@ -111,9 +111,6 @@ struct APB1ENR {
    bool     DACEN    :1; // Bit 29 DACEN: DAC interface clock enable
    bool     UART7EN  :1; // Bit 30 UART7EN: UART7 clock enable
    bool     UART8EN  :1; // Bit 31 UART8EN: UART8 clock enable
-}__attribute__((packed));
-
-struct APB2ENR {
    bool     TIM1EN    :1; // Bit 0 TIM1EN: TIM1 clock enable
    bool     TIM8EN    :1; // Bit 1 TIM8EN: TIM8 clock enable
    uint32_t           :2; // Bits 3:2 Reserved, must be kept at reset value.
@@ -135,11 +132,12 @@ struct APB2ENR {
    uint32_t           :1; // Bit 19 Reserved, must be kept at reset value.
    bool     SPI5EN    :1; // Bit 20 SPI5EN: SPI5 clock enable
    uint32_t           :1; // Bit 21 Reserved, must be kept at reset value.
-   bool     SAI1      :1; // Bit 22 SAI1EN: SAI1 clock enable
+   bool     SAI1EN    :1; // Bit 22 SAI1EN: SAI1 clock enable
    bool     SAI2EN    :1; // Bit 23 SAI2EN: SAI2 clock enable
    uint32_t           :6; // Bits 30 24 Reserved, must be kept at reset value.
    bool     OTGPHYCEN :1; // Bit 31 OTGPHYCEN: USB OTG HS PHY controller clock enable
 }__attribute__((packed));
+
 
 } // namespace mcu::RCC_bits {
 
