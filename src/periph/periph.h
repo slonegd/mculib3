@@ -1,5 +1,9 @@
 #pragma once
 
+#include <type_traits>
+#include <cstddef>
+#include <cstdint>
+
 #if   defined(STM32F030x6)
    #define STM32F0
 #elif defined(STM32F103xB)
@@ -21,10 +25,6 @@
 #elif defined(STM32F7)
    #include "stm32f7xx.h"
 #endif
-
-#include <type_traits>
-#include <cstddef>
-#include <cstdint>
 
 #undef RCC
 #undef GPIOA
