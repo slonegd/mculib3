@@ -1,7 +1,7 @@
 #define BOOST_TEST_MODULE f0_test_rcc
 #include <boost/test/unit_test.hpp>
 
-#define F_CPU   168000000UL
+#define F_CPU   48000000UL
 #define STM32F030x6
 
 #include "rcc.h"
@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE (wait_PLL_ready)
 {
    CMSIS.CR = 0;
    bool good {true};
-   bool work {true};
+   volatile bool work {true};
    auto worker = [&]() { rcc.wait_PLL_ready(); work = false; };
    std::thread {worker}.detach();
    std::this_thread::sleep_for(std::chrono::milliseconds(1));

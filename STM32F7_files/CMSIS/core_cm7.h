@@ -2306,7 +2306,7 @@ __STATIC_INLINE void SCB_InvalidateDCache_by_Addr (uint32_t *addr, int32_t dsize
 {
   #if (__DCACHE_PRESENT == 1U)
      int32_t op_size = dsize;
-    uint32_t op_addr = (uint32_t)addr;
+    uint32_t op_addr = (size_t)addr;
      int32_t linesize = 32U;                /* in Cortex-M7 size of cache line is fixed to 8 words (32 bytes) */
 
     __DSB();
@@ -2333,7 +2333,7 @@ __STATIC_INLINE void SCB_CleanDCache_by_Addr (uint32_t *addr, int32_t dsize)
 {
   #if (__DCACHE_PRESENT == 1)
      int32_t op_size = dsize;
-    uint32_t op_addr = (uint32_t) addr;
+    uint32_t op_addr = (size_t) addr;
      int32_t linesize = 32U;                /* in Cortex-M7 size of cache line is fixed to 8 words (32 bytes) */
 
     __DSB();
@@ -2360,7 +2360,7 @@ __STATIC_INLINE void SCB_CleanInvalidateDCache_by_Addr (uint32_t *addr, int32_t 
 {
   #if (__DCACHE_PRESENT == 1U)
      int32_t op_size = dsize;
-    uint32_t op_addr = (uint32_t) addr;
+    uint32_t op_addr = (size_t) addr;
      int32_t linesize = 32U;                /* in Cortex-M7 size of cache line is fixed to 8 words (32 bytes) */
 
     __DSB();

@@ -3,15 +3,11 @@
 #include "f7_bits_rcc.h"
 
 namespace mcu {
-typedef struct
-{
 
-
-} RCC_TypeDef;
 class RCC {
    volatile RCC_bits::CR      CR;           // clock control register,                                  offset: 0x00
    volatile RCC_bits::PLLCFGR PLLCFGR;      // PLL configuration register,                              offset: 0x04
-   volatile RCC_bits::CFGR   CFGR;         // clock configuration register,                            offset: 0x08
+   volatile RCC_bits::CFGR    CFGR;         // clock configuration register,                            offset: 0x08
    volatile uint32_t          CIR;          // clock interrupt register,                                offset: 0x0C
    volatile uint32_t          AHB1RSTR;     // AHB1 peripheral reset register,                          offset: 0x10
    volatile uint32_t          AHB2RSTR;     // AHB2 peripheral reset register,                          offset: 0x14
@@ -50,21 +46,14 @@ public:
    using PLLPdiv      = RCC_bits::PLLCFGR::PLLPdiv;
    using PLLsource    = RCC_bits::PLLCFGR::PLLsource;
 
+   auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
+
    RCC& set       (AHBprescaler v) { CFGR.HPRE      = v; return *this; }
    RCC& set_APB1  (APBprescaler v) { CFGR.PPRE1     = v; return *this; }
    RCC& set_APB2  (APBprescaler v) { CFGR.PPRE2     = v; return *this; }
    RCC& set       (SystemClock  v) { CFGR.SW        = v; return *this; }
    RCC& set       (PLLPdiv      v) { PLLCFGR.PLLP   = v; return *this; }
    RCC& set       (PLLsource    v) { PLLCFGR.PLLSRC = v; return *this; }
-
-   size_t get_APB_clock (APBprescaler v)
-   {
-      return v == APBprescaler::APBnotdiv ? F_CPU     :
-             v == APBprescaler::APBdiv2   ? F_CPU / 2 :
-             v == APBprescaler::APBdiv4   ? F_CPU / 4 :
-             v == APBprescaler::APBdiv8   ? F_CPU / 8 :
-                                            F_CPU / 16;
-   }
 
    size_t get_APB1_clock() { return get_APB_clock (CFGR.PPRE1); }
    size_t get_APB2_clock() { return get_APB_clock (CFGR.PPRE2); }
@@ -100,6 +89,18 @@ public:
       else if constexpr (p == Periph::USART8) APBENR.UART8EN  = true;
 
       return *this;
+   }
+
+
+
+private:
+   size_t get_APB_clock (APBprescaler v)
+   {
+      return v == APBprescaler::APBnotdiv ? F_CPU     :
+             v == APBprescaler::APBdiv2   ? F_CPU / 2 :
+             v == APBprescaler::APBdiv4   ? F_CPU / 4 :
+             v == APBprescaler::APBdiv8   ? F_CPU / 8 :
+                                            F_CPU / 16;
    }
 };
 

@@ -26,7 +26,7 @@ struct CR {
 
 struct PLLCFGR {
    enum PLLPdiv { PLLdiv2 = 0b00, PLLdiv4, PLLdiv6,  PLLdiv8 };
-   enum PLLsource { sHSI = 0b0, sHSE = 0b1 };
+   enum PLLsource { HSIdiv2 = 0b0, HSE = 0b1 };
    uint32_t  PLLM   :6; // Bits 5:0 2≤PLLM≤63: Division factor for the main PLL (PLL) and audio PLL (PLLI2S) input clock
    uint32_t  PLLN   :9; // Bits 14:6 50≤PLLN≤432: Main PLL (PLL) multiplication factor for VCO
    uint32_t         :1; // Bit 15 Reserved, must be kept at reset value.
@@ -81,36 +81,37 @@ struct AHB1ENR {
 }__attribute__((packed));
 
 struct APBENR {
-   bool     TIM2EN   :1; // Bit 0 TIM2EN: TIM2 clock enable
-   bool     TIM3EN   :1; // Bit 1 TIM3EN: TIM3 clock enable
-   bool     TIM4EN   :1; // Bit 2 TIM4EN: TIM4 clock enable
-   bool     TIM5EN   :1; // Bit 3 TIM5EN: TIM5 clock enable
-   bool     TIM6EN   :1; // Bit 4 TIM6EN: TIM6 clock enable
-   bool     TIM7EN   :1; // Bit 5 TIM7EN: TIM7 clock enable
-   bool     TIM12EN  :1; // Bit 6 TIM12EN: TIM12 clock enable
-   bool     TIM13EN  :1; // Bit 7 TIM13EN: TIM13 clock enable
-   bool     TIM14EN  :1; // Bit 8 TIM14EN: TIM14 clock enable
-   bool     LPTMI1EN :1; // Bit 9 LPTMI1EN: Low-power timer 1 clock enable
-   bool     RTCAPB   :1; // Bit 10 RTCAPBEN: RTCAPB clock enable
-   bool     WWDGEN   :1; // Bit 11 WWDGEN: Window watchdog clock enable
-   uint32_t          :2; // Bits 13:12 Reserved, must be kept at reset value.
-   bool     SPI2EN   :1; // Bit 14 SPI2EN: SPI2 clock enable
-   bool     SPI3EN   :1; // Bit 15 SPI3EN: SPI3 clock enable
-   uint32_t          :1; // Bit 16 Reserved, must be kept at reset value.
-   bool     USART2EN :1; // Bit 17 USART2EN: USART2 clock enable
-   bool     USART3EN :1; // Bit 18 USART3EN: USART3 clock enable
-   bool     UART4EN  :1; // Bit 19 UART4EN: UART4 clock enable
-   bool     UART5EN  :1; // Bit 20 UART5EN: UART5 clock enable
-   bool     I2C1EN   :1; // Bit 21 I2C1EN: I2C1 clock enable
-   bool     I2C2EN   :1; // Bit 22 I2C2EN: I2C2 clock enable
-   bool     I2C3EN   :1; // Bit 23 I2C3EN: I2C3 clock enable
-   uint32_t          :1; // Bit 24 Reserved, must be kept at reset value.
-   bool     CAN1EN   :1; // Bit 25 CAN1EN: CAN 1 clock enable
-   uint32_t          :1; // Bits 27:26 Reserved, must be kept at reset value.
-   bool     PWREN    :1; // Bit 28 PWREN: Power interface clock enable
-   bool     DACEN    :1; // Bit 29 DACEN: DAC interface clock enable
-   bool     UART7EN  :1; // Bit 30 UART7EN: UART7 clock enable
-   bool     UART8EN  :1; // Bit 31 UART8EN: UART8 clock enable
+   bool     TIM2EN    :1; // Bit 0 TIM2EN: TIM2 clock enable
+   bool     TIM3EN    :1; // Bit 1 TIM3EN: TIM3 clock enable
+   bool     TIM4EN    :1; // Bit 2 TIM4EN: TIM4 clock enable
+   bool     TIM5EN    :1; // Bit 3 TIM5EN: TIM5 clock enable
+   bool     TIM6EN    :1; // Bit 4 TIM6EN: TIM6 clock enable
+   bool     TIM7EN    :1; // Bit 5 TIM7EN: TIM7 clock enable
+   bool     TIM12EN   :1; // Bit 6 TIM12EN: TIM12 clock enable
+   bool     TIM13EN   :1; // Bit 7 TIM13EN: TIM13 clock enable
+   bool     TIM14EN   :1; // Bit 8 TIM14EN: TIM14 clock enable
+   bool     LPTMI1EN  :1; // Bit 9 LPTMI1EN: Low-power timer 1 clock enable
+   bool     RTCAPB    :1; // Bit 10 RTCAPBEN: RTCAPB clock enable
+   bool     WWDGEN    :1; // Bit 11 WWDGEN: Window watchdog clock enable
+   uint32_t           :2; // Bits 13:12 Reserved, must be kept at reset value.
+   bool     SPI2EN    :1; // Bit 14 SPI2EN: SPI2 clock enable
+   bool     SPI3EN    :1; // Bit 15 SPI3EN: SPI3 clock enable
+   uint32_t           :1; // Bit 16 Reserved, must be kept at reset value.
+   bool     USART2EN  :1; // Bit 17 USART2EN: USART2 clock enable
+   bool     USART3EN  :1; // Bit 18 USART3EN: USART3 clock enable
+   bool     UART4EN   :1; // Bit 19 UART4EN: UART4 clock enable
+   bool     UART5EN   :1; // Bit 20 UART5EN: UART5 clock enable
+   bool     I2C1EN    :1; // Bit 21 I2C1EN: I2C1 clock enable
+   bool     I2C2EN    :1; // Bit 22 I2C2EN: I2C2 clock enable
+   bool     I2C3EN    :1; // Bit 23 I2C3EN: I2C3 clock enable
+   uint32_t           :1; // Bit 24 Reserved, must be kept at reset value.
+   bool     CAN1EN    :1; // Bit 25 CAN1EN: CAN 1 clock enable
+   uint32_t           :2; // Bits 27:26 Reserved, must be kept at reset value.
+   bool     PWREN     :1; // Bit 28 PWREN: Power interface clock enable
+   bool     DACEN     :1; // Bit 29 DACEN: DAC interface clock enable
+   bool     UART7EN   :1; // Bit 30 UART7EN: UART7 clock enable
+   bool     UART8EN   :1; // Bit 31 UART8EN: UART8 clock enable
+
    bool     TIM1EN    :1; // Bit 0 TIM1EN: TIM1 clock enable
    bool     TIM8EN    :1; // Bit 1 TIM8EN: TIM8 clock enable
    uint32_t           :2; // Bits 3:2 Reserved, must be kept at reset value.

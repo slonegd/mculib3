@@ -1,5 +1,5 @@
 #define STM32F746xx
-#define F_CPU   8000000UL
+#define F_CPU   216'000'000UL
 
 #include "rcc.h"
 
