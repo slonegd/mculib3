@@ -12,9 +12,9 @@ namespace mcu {
 template <int qty>
 class Buttons_ : TickSubscriber
 {
-   using Array = std::array<Pin, qty>;
-   Array pins;
-   Timer timer;
+   // using Array = std::array<Pin, qty>;
+   // Array pins;
+   // Timer timer;
 
 public:
 
@@ -30,17 +30,17 @@ public:
       Buttons_ <sizeof ... (Pins)> buttons {pins};
       return buttons;
    }
-//    static constexpr uint16_t MinPressed = 10_ms;
-//    static constexpr uint16_t LongPressed = 1_s;
+   static constexpr uint16_t MinPressed = 10_ms;
+   static constexpr uint16_t LongPressed = 1_s;
 
-//    Buttons()
-//    : pushHandeledFlag     {false},
-//      longPushHandeledFlag {false}
-//    {
-//       template<size_t ... n, PinMode::Input> void GPIO::init();
-//       timer.timeSet = 100_s; // 100 s просто большое время
-//       subscribe();
-//    }
+   Buttons()
+   : pushHandeledFlag     {false},
+     longPushHandeledFlag {false}
+   {
+      template<size_t ... n, PinMode::Input> void GPIO::init();
+      timer.timeSet = 100_s; // 100 s просто большое время
+      subscribe();
+   }
 
    // запускает/останавливает таймер отслеживания времени нажатия
    void notify() override

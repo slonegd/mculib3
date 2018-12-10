@@ -3,19 +3,22 @@
 
 #define STM32F103xB
 #define TEST
+#define F_CPU 72000000
 
 
 #include <iostream>
 #include <type_traits>
 #include "periph.h"
 #include "f1_bits_dma_stream.h"
+#include "f1_dma.h"
 
-struct MockDMA {
+
+struct MockDMA : mcu::DMA {
    bool good {false};
    bool clear_flags {false};
    template <mcu::Periph p> void clock_enable(){good = true;}
-   void clear_interrupt_flags(mcu::DMA_bits::Channel channel) {clear_flags = true;}
-   bool is_transfer_complete_interrupt(mcu::DMA_bits::Channel channel) {return true;}
+   void clear_interrupt_flags(Channel channel) {clear_flags = true;}
+   bool is_transfer_complete_interrupt(Channel channel) {return true;}
 }mockDMA;
 namespace mcu {
 template <Periph p> std::enable_if_t<p == Periph::TEST_DMA, MockDMA&> make_reference() {return mockDMA;}
@@ -206,13 +209,13 @@ BOOST_AUTO_TEST_CASE(enable_transfer_complete_interrupt)
 
 BOOST_AUTO_TEST_CASE(clear_interrupt_flags)
 {
-   dma_stream.clear_interrupt_flags<mcu::Periph::TEST_DMA>(mcu::DMA_stream::Channel::_1);
+   dma_stream.clear_interrupt_flags<mcu::Periph::TEST_DMA>(MockDMA::Channel::_1);
    BOOST_CHECK_EQUAL(mockDMA.clear_flags, true);
 }
 
 BOOST_AUTO_TEST_CASE(is_transfer_complete_interrupt)
 {
-   BOOST_CHECK_EQUAL(dma_stream.is_transfer_complete_interrupt<mcu::Periph::TEST_DMA>(mcu::DMA_stream::Channel::_2), true);
+   BOOST_CHECK_EQUAL(dma_stream.is_transfer_complete_interrupt<mcu::Periph::TEST_DMA>(MockDMA::Channel::_2), true);
 }
 
 

@@ -151,18 +151,18 @@ BOOST_AUTO_TEST_CASE (on_PLL)
    BOOST_CHECK_EQUAL (CMSIS.CR, RCC_CR_PLLON_Msk);
 }
 
-BOOST_AUTO_TEST_CASE (wait_PLL_ready)
-{
-   CMSIS.CR = 0;
-   bool good {true};
-   volatile bool work {true};
-   auto worker = [&]() { rcc.wait_PLL_ready(); work = false; };
-   std::thread {worker}.detach();
-   std::this_thread::sleep_for(std::chrono::milliseconds(1));
-   good &= work;
-   CMSIS.CR |= RCC_CR_PLLRDY_Msk;
-   while (work) {}
-}
+// BOOST_AUTO_TEST_CASE (wait_PLL_ready)
+// {
+//    CMSIS.CR = 0;
+//    bool good {true};
+//    bool work {true};
+//    auto worker = [&]() { rcc.wait_PLL_ready(); work = false; };
+//    std::thread {worker}.detach();
+//    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+//    good &= work;
+//    CMSIS.CR |= RCC_CR_PLLRDY_Msk;
+//    while (work) {}
+// }
 
 BOOST_AUTO_TEST_CASE (clock_enable)
 {

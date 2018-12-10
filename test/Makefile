@@ -23,11 +23,10 @@ CPP_FLAGS_F4 += $(CPP_FLAGS) $(INCLUDES_F4)
 BUILD_DIR = build
 
 all: $(BUILD_DIR)
-	g++-7 f1_test_rcc.cpp   $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_rcc   -pthread
-	g++-7 f1_test_gpio.cpp  $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_gpio
-	g++-7 f1_test_afio.cpp  $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_afio
-	g++-7 f1_test_usart.cpp $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_usart
-	g++-7 test_uart.cpp     $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/test_uart
+	g++ f1_test_rcc.cpp   $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_rcc   -pthread
+	g++ f1_test_gpio.cpp  $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_gpio
+	g++ f1_test_afio.cpp  $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_afio
+	g++ f1_test_usart.cpp $(CPP_FLAGS_F1) -o ./$(BUILD_DIR)/f1_test_usart
 	# g++-7 f4_test_usart.cpp $(CPP_FLAGS_F4) -o ./$(BUILD_DIR)/f4_test_usart
 	# g++-7 f4_test_flash.cpp $(CPP_FLAGS_F4) -o ./$(BUILD_DIR)/f4_test_flash -pthread
 
@@ -35,7 +34,6 @@ all: $(BUILD_DIR)
 	./$(BUILD_DIR)/f1_test_gpio
 	./$(BUILD_DIR)/f1_test_afio
 	./$(BUILD_DIR)/f1_test_usart
-	./$(BUILD_DIR)/test_uart
 	# ./$(BUILD_DIR)/f4_test_usart
 	# ./$(BUILD_DIR)/f4_test_flash
 

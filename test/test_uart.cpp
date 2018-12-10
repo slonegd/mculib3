@@ -8,11 +8,16 @@
 
 #include <iostream>
 #include <type_traits>
-#include "mock_for_test_uart.h"
+#include "test_NVIC_Enable.h"
+#include "mock_usart.h"
+#include "mock_DMA_stream.h"
+#include "mock_interrupt.h"
 #include "uart.h"
 
-auto uart = mcu::UART::make <
-        mcu::Periph::TEST_USART
+
+
+   auto uart = mcu::UART::make <
+        mcu::Periph::USART1
       , mcu::TX
       , mcu::RX
       , mcu::RTS
@@ -20,9 +25,9 @@ auto uart = mcu::UART::make <
    >();
 
 
+
+
 BOOST_AUTO_TEST_SUITE (test_suite_main)
-
-
 
 BOOST_AUTO_TEST_CASE (make)
 {
@@ -34,10 +39,10 @@ BOOST_AUTO_TEST_CASE (make)
       "Создали ссылку на переферию tx stream"               "\n"
       "Создали ссылку на переферию rx stream"               "\n"
       "Передаем значение clock"                             "\n"
-      "создали пин TX"                                      "\n"
-      "создали пин RX"                                      "\n"
-      "создали пин RTS"                                     "\n"
-      "создали пин LED"                                     "\n"
+      "создали пин TX в альтернативном режиме"              "\n"
+      "создали пин RX в альтернативном режиме"              "\n"
+      "создали пин RTS в режиме выхода"                     "\n"
+      "создали пин LED в режиме выхода"                     "\n"
       "Включаем тактирование переферии usart"               "\n"
       "USART Transmitter enable"                            "\n"
       "USART Receiver enable"                               "\n"
@@ -130,7 +135,7 @@ BOOST_AUTO_TEST_CASE(transmit)
 BOOST_AUTO_TEST_CASE(start_receive)
 {
    result.str("");
-   uart.start_receive(buffer);
+   uart.start_receive();
    BOOST_CHECK_EQUAL (result.str(),
       "устанавливаем значение пина LED false" "\n"
       "устанавливаем значение пина RTS false" "\n"
@@ -138,6 +143,12 @@ BOOST_AUTO_TEST_CASE(start_receive)
       "Запрещаем работу RX_stream"            "\n"
       "Разрешаем работу RX_stream"            "\n"
    ); 
+}
+
+BOOST_AUTO_TEST_CASE(interrupt)
+{
+   uint message_size = uart.message_size();
+   USART1_IRQHandler();
 }
 
 BOOST_AUTO_TEST_SUITE_END()

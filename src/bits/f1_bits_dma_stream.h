@@ -4,8 +4,6 @@
 
 namespace mcu::DMA_bits {
 
-enum class Channel { _1 = 1, _2, _3, _4, _5, _6, _7, error };
-
 struct CCR {
    enum DataSize      { byte8 = 0b00, word16, dword32 };
    enum Priority      { low = 0b00, medium, high, veryHi = 0b11 };

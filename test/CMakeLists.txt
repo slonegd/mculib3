@@ -11,12 +11,14 @@ set (CMAKE_BUILD_TYPE Debug)
 
 include_directories (
    ${PROJECT_SOURCE_DIR}/../src
+   ${PROJECT_SOURCE_DIR}/../src/mock_class
    ${PROJECT_SOURCE_DIR}/../src/bits
    ${PROJECT_SOURCE_DIR}/../src/periph
    ${Boost_INCLUDE_DIR}
 )
 
 set (CMAKE_CXX_FLAGS "-Wno-register")
+
 
 function(test MCU name)
    add_executable (${name} ${name}.cpp)
@@ -60,10 +62,13 @@ endfunction(test)
 test (STM32F0 f0_test_rcc)
 test (STM32F7 f7_test_rcc)
 test (STM32F1 f1_test_dma)
-# test (STM32F1 f1_test_dma_stream)
+test (STM32F1 f1_test_dma_stream)
 test (STM32F4 f4_test_flash)
 test (NULL test_reflect)
 test (STM32F1 test_uart)
+test (STM32F1 test_modbus_slave)
+test (NULL test_table_crc)
+test (STM32F1 test_modbus_master)
 
 
 

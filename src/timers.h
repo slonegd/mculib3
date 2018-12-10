@@ -1,8 +1,10 @@
 #pragma once
 
 #include <cstdint>
-#include "systick.h"
 #include "subscriber.h"
+#if not defined (TEST)
+   #include "systick.h"
+#endif
 
 
 struct TickUpdater : Publisher
@@ -10,6 +12,7 @@ struct TickUpdater : Publisher
 #if not defined(TEST) 
    TickUpdater() { mcu::make_reference<mcu::Periph::SysTick>().initInterrupt<1>(); }
 #endif
+   // using List::clear_subscribe;
 } tickUpdater;
 
 extern "C" void SysTick_Handler()
@@ -24,6 +27,8 @@ protected:
    bool subscribed {false};
    void subscribe();
    void unsubscribe();
+public:
+   
 };
 
 

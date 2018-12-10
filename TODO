@@ -32,3 +32,4 @@ test flash
 see f4_test_flash.cpp unlock add timeout
 see f4_test_flash.cpp start_erase_sector
 [done] test_reflect
+f0_test_rcc wait_PLL_ready fix 

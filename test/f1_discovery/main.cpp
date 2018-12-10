@@ -1,13 +1,16 @@
 #define STM32F103xB
 #define F_OSC   8000000UL
 #define F_CPU   72000000UL
+// #include <iostream>
 #include "rcc.h"
 #include "pin.h"
 // // #include "timers.h"
 // // #include "pwm.h"
 #include "uart.h"
 // #include "fifo.h"
-# include "modbus_slave.h"
+// # include "modbus_slave.h"
+#include "modbus_master.h"
+
 
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock ()
@@ -24,7 +27,7 @@ extern "C" void init_clock ()
 //       .wait_PLL_ready();
 }
 
-
+  
 
 int main()
 {
@@ -36,7 +39,7 @@ int main()
 //    pwm.frequency  = 20_kHz;
 //    pwm.out_enable();
 
-   auto uart = mcu::UART::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10,mcu::PA8, mcu::PA12>();
+   // auto uart = mcu::UART::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10,mcu::PA8, mcu::PA12>();
 
 //    while(1) {
 
@@ -50,8 +53,23 @@ int main()
 
    // buffer << 2;
 
-   // struct InReg{};
-   // struct OutReg{};
+   // struct InReg{}in_reg;
+   // struct OutReg{}out_reg;
+   // mcu::UART::Settings set;
 
-   // auto modbus = mcu::Modbus_slave::make<mcu::Periph::USART1, mcu::PA9, mcu::PA10, InReg, OutReg>();
+   
+
+      mcu::Register<1, 2, uint16_t> temp;
+      mcu::Register<1, 2, uint16_t> uf;
+   
+   // mcu::Modbus_master<Regs> master;
+
+   // master.temp = 40;
+   
+   // uint16_t tmp = master.temp;
+
+   auto modbus = mcu::make
+   <mcu::Periph::USART1, mcu::PA9, mcu::PA10, mcu::PB1, mcu::PB2>(50, temp, uf);
+
+
 }

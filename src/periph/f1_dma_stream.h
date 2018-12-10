@@ -16,7 +16,7 @@ public:
    using DataSize      = DMA_bits::CCR::DataSize;
    using Priority      = DMA_bits::CCR::Priority;
    using DataDirection = DMA_bits::CCR::DataDirection;
-   using Channel       = DMA_bits::Channel;
+   using Channel       = DMA::Channel;
 
    template <Periph dma = Periph::DMA1>
    DMA_stream& clock_enable (){make_reference<dma>().template clock_enable<dma>(); return *this;}
@@ -40,6 +40,8 @@ public:
    static constexpr IRQn_Type IRQn (Periph);
 
    DMA_stream& enable_transfer_complete_interrupt(){CCR.TCIE = true; return *this;}
+
+   uint16_t qty_transactions_left(){return CNDTR;}
    
    template <Periph dma = Periph::DMA1>
    DMA_stream& clear_interrupt_flags(Channel channel)
@@ -48,6 +50,8 @@ public:
    template <Periph dma = Periph::DMA1>
    bool is_transfer_complete_interrupt(Channel channel)
    {return make_reference<dma>().is_transfer_complete_interrupt(channel);}
+
+
 
 };
 
