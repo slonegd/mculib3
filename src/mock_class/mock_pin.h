@@ -1,5 +1,6 @@
 # pragma once
 
+#include <vector>
 #include "string_result.h"
 
 namespace mcu {
@@ -10,11 +11,15 @@ namespace mcu {
 	struct RX{};
 	struct RTS{};
 	struct LED{};
+   struct PA1{};
+   struct PA2{};
 
 class Pin 
 {
 public:
-   enum Pins {tx, rx, rts, led};
+
+   bool set{false};
+   enum Pins {tx, rx, rts, led, PA1, PA2};
    static int counter;
    Pins pin;
    Pin(){
@@ -24,6 +29,8 @@ public:
       else if (counter == 3) pin = rts;
       else if (counter == 4) pin = led;
    }
+
+
    bool operator= (bool v) 
    {
       if (pin == tx) {
@@ -37,9 +44,12 @@ public:
       } 
       return v;
    }
+   
+   operator bool() { return set; }
 
    template<class Pin_, PinMode mode> static auto make()
-   {Pin pin; 
+   {  
+      Pin pin; 
 
       if (std::is_same_v<Pin_, TX> and mode == PinMode::USART1_TX) {
          result << "создали пин TX в альтернативном режиме" << '\n';
@@ -53,7 +63,21 @@ public:
 
       return pin;
    }
+
+   template<class Pin_, PinMode mode> static Pin& make_new();
+
 };
 
-int Pin::counter{0};
+std::vector<Pin*> pins;
+size_t index{0};
+
+template<class Pin_, PinMode mode> 
+Pin& Pin::make_new()
+{  
+   auto& pin = *new Pin; 
+   pins.push_back(&pin);
+   return *pins[index++];
 }
+
+int Pin::counter{0};
+} // mcu
