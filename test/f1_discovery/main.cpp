@@ -2,14 +2,15 @@
 #define F_OSC   8000000UL
 #define F_CPU   72000000UL
 // #include <iostream>
-#include "rcc.h"
-#include "pin.h"
+// #include "rcc.h"
+// #include "pin.h"
 // // #include "timers.h"
 // // #include "pwm.h"
-#include "uart.h"
+// #include "uart.h"
 // #include "fifo.h"
 // # include "modbus_slave.h"
-#include "modbus_master.h"
+// #include "modbus_master.h"
+#include "buttons.h"
 
 
 /// эта функция вызываеться первой в startup файле
@@ -31,6 +32,14 @@ extern "C" void init_clock ()
 
 int main()
 {
+   auto [start, stop] = mcu::Button::make<mcu::PA1, mcu::PA10>();
+   start.push();
+   stop.push();
+
+   bool tmp = false;
+   if (start and stop) tmp = true;
+
+
 //    auto pc8 = mcu::Pin::make<mcu::PC8, mcu::PinMode::Output>();
 //    Timer timer {200};
 
@@ -59,8 +68,8 @@ int main()
 
    
 
-      mcu::Register<1, 2, uint16_t> temp;
-      mcu::Register<1, 2, uint16_t> uf;
+      // mcu::Register<1, 2, uint16_t> temp;
+      // mcu::Register<1, 2, uint16_t> uf;
    
    // mcu::Modbus_master<Regs> master;
 
@@ -68,8 +77,8 @@ int main()
    
    // uint16_t tmp = master.temp;
 
-   auto modbus = mcu::make
-   <mcu::Periph::USART1, mcu::PA9, mcu::PA10, mcu::PB1, mcu::PB2>(50, temp, uf);
+   // auto modbus = mcu::make
+   // <mcu::Periph::USART1, mcu::PA9, mcu::PA10, mcu::PB1, mcu::PB2>(50, temp, uf);
 
 
 }

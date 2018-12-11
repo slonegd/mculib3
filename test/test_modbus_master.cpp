@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE test_modbus_slave
+#define BOOST_TEST_MODULE test_modbus_master
 #include <boost/test/unit_test.hpp>
 
 #define F_CPU   72000000UL

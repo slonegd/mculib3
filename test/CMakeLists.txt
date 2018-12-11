@@ -63,6 +63,7 @@ test (STM32F1 test_uart)
 test (STM32F1 test_modbus_slave)
 test (NULL test_table_crc)
 test (STM32F1 test_modbus_master)
+test (STM32F1 test_button)
 
 
 

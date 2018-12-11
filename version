@@ -1,3 +1,5 @@
+v3.028 buttons.h, test_button.cpp
+
 v3.027 modbus_master.h, test_modbus_master.cpp, обработка конца сообщения в uart, поправлен slave и master
 
 v3.026 modbus_slave переписан с table_crc.h, поправлен uart.h и все тесты

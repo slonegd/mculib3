@@ -2,6 +2,9 @@
 
 #include "gpio.h"
 #include "pins.h"
+#if not defined (TEST)
+   #include "heap.h"
+#endif
 
 namespace mcu {
 
@@ -16,6 +19,14 @@ public:
       Pin pin { mcu::make_reference<Pin_::periph>(), Pin_::n };
       pin.port.template clock_enable<Pin_::periph>()
               .template init<Pin_, mode>();
+      return pin;
+   }
+
+   template<class Pin_, PinMode mode> static auto& make_new()
+   {
+      auto& pin = *new Pin { make_reference<Pin_::periph>(), Pin_::n };
+      pin.port.template clock_enable<Pin_::periph>()
+               .template init<Pin_, mode>();
       return pin;
    }
 

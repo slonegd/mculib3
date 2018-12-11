@@ -45,6 +45,7 @@
       "sstream": "cpp",
       "string_view": "cpp",
       "list": "cpp",
-      "complex": "cpp"
+      "complex": "cpp",
+      "algorithm": "cpp"
    }
 }

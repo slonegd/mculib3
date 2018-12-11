@@ -5,6 +5,25 @@
    "version": "0.2.0",
    "configurations": [
         {
+        "name": "button",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/test/cmake/build/test_button",
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": true,
+        "MIMode": "gdb",
+        "setupCommands": [
+            {
+                "description": "Enable pretty-printing for gdb",
+                "text": "-enable-pretty-printing",
+                "ignoreFailures": true
+            }
+        ]
+        },
+        {
         "name": "rcc",
         "type": "cppdbg",
         "request": "launch",
