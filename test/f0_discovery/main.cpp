@@ -1,11 +1,9 @@
-#define STM32F103xB
+#define STM32F030x6
 #define F_OSC   8000000UL
 #define F_CPU   48000000UL
 #include "rcc.h"
 #include "pin.h"
 #include "timers.h"
-#include "pwm.h"
-#include "uart.h"
 
 // аналогичный файл есть в каталоге mculib2
 // библиотека | пустой | без таймера | с таймером  | pwm
@@ -41,12 +39,6 @@ int main()
    auto pc8 = mcu::Pin::make<mcu::PC8, mcu::PinMode::Output>();
    Timer timer {200};
 
-   auto pwm = mcu::PWM::make<mcu::Periph::TIM1, mcu::PA8>();
-   pwm.fill_ratio = 500_from1000;
-   pwm.frequency  = 20_kHz;
-   pwm.out_enable();
-
-   auto uart = mcu::UART::make<mcu::Periph::USART1, mcu::PA1, mcu::PB6>;
 
    while(1) {
 

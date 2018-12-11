@@ -34,7 +34,7 @@ public:
 
    template<size_t> GPIO& set (Mode);
    template<size_t> GPIO& set (AF);
-   template<size_t, PinMode> void init();
+   template<class Pin_, PinMode> void init();
 };
 
 
@@ -108,40 +108,43 @@ template<size_t n> GPIO& GPIO::set (AF v)
    else if constexpr (n == 15) { AFR.AF15 = v; return *this; }
 }
 
-template<size_t n, PinMode v> void GPIO::init()
+template<class Pin_, PinMode v> void GPIO::init()
 {
    if constexpr (v == PinMode::Input) {
-      set<n> (Mode::Input);
+      set<Pin_::n> (Mode::Input);
 
    } else if constexpr (v == PinMode::Output) {
-      set<n> (Mode::Output);
+      set<Pin_::n> (Mode::Output);
 
    } else if constexpr (v == PinMode::Alternate_0) {
-      set<n> (Mode::Alternate);
-      set<n>   (AF::_0);
+      set<Pin_::n> (Mode::Alternate);
+      set<Pin_::n>   (AF::_0);
 
    } else if constexpr (v == PinMode::Alternate_1) {
-      set<n> (Mode::Alternate);
-      set<n>   (AF::_1);
+      set<Pin_::n> (Mode::Alternate);
+      set<Pin_::n>   (AF::_1);
 
    } else if constexpr (v == PinMode::Alternate_2) {
-      set<n> (Mode::Alternate);
-      set<n>   (AF::_2);
+      set<Pin_::n> (Mode::Alternate);
+      set<Pin_::n>   (AF::_2);
 
    } else if constexpr (v == PinMode::Alternate_4) {
-      set<n> (Mode::Alternate);
-      set<n>   (AF::_4);
+      set<Pin_::n> (Mode::Alternate);
+      set<Pin_::n>   (AF::_4);
 
    } else if constexpr (v == PinMode::Alternate_5) {
-      set<n> (Mode::Alternate);
-      set<n>   (AF::_5);
+      set<Pin_::n> (Mode::Alternate);
+      set<Pin_::n>   (AF::_5);
 
    } else if constexpr (v == PinMode::Alternate_7) {
-      set<n> (Mode::Alternate);
-      set<n>   (AF::_7);
+      set<Pin_::n> (Mode::Alternate);
+      set<Pin_::n>   (AF::_7);
+
+#if defined(STM32F4)
    } else if constexpr (v == PinMode::Alternate_8) {
-      set<n> (Mode::Alternate);
-      set<n>   (AF::_8);
+      set<in_::n> (Mode::Alternate);
+      set<in_::n>   (AF::_8);
+#endif
    }
 }
 
