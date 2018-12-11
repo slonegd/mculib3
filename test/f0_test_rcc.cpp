@@ -1,7 +1,7 @@
 #define BOOST_TEST_MODULE f0_test_rcc
 #include <boost/test/unit_test.hpp>
 
-#define F_CPU   168000000UL
+#define F_CPU   48000000UL
 #define STM32F030x6
 
 #include "rcc.h"

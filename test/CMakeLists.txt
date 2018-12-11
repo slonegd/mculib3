@@ -37,6 +37,11 @@ function(test MCU name)
          ${PROJECT_SOURCE_DIR}/../STM32F4_files
          ${PROJECT_SOURCE_DIR}/../STM32F4_files/CMSIS
       )
+   elseif (MCU STREQUAL STM32F7)
+      target_include_directories (${name} PRIVATE
+         ${PROJECT_SOURCE_DIR}/../STM32F7_files
+         ${PROJECT_SOURCE_DIR}/../STM32F7_files/CMSIS
+      )
    endif()
 
    target_link_libraries (${name} 
@@ -47,14 +52,15 @@ function(test MCU name)
    set_target_properties (${name} PROPERTIES
       CXX_STANDARD 17
       CXX_STANDARD_REQUIRED ON
+      COMPILE_FLAGS -Os
       COMPILE_OPTIONS -Wno-pedantic -Wall -Wextra
-      #COMPILE_FLAGS -O2
       COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
    )
    add_test(${name} build/${name})
 endfunction(test)
 
 test (STM32F0 f0_test_rcc)
+test (STM32F7 f7_test_rcc)
 test (STM32F1 f1_test_dma)
 test (STM32F1 f1_test_dma_stream)
 test (STM32F4 f4_test_flash)
