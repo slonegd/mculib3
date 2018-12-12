@@ -1,0 +1,1884 @@
+ARM GAS  /tmp/cciP0LwE.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 4
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"main.cpp"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text._ZN5Timer6notifyEv,"ax",%progbits
+  16              		.align	1
+  17              		.global	_ZN5Timer6notifyEv
+  18              		.syntax unified
+  19              		.code	16
+  20              		.thumb_func
+  21              		.fpu softvfp
+  23              	_ZN5Timer6notifyEv:
+  24              	.LFB180:
+  25              		.file 1 "../../src/timers.h"
+   1:../../src/timers.h **** #pragma once
+   2:../../src/timers.h **** 
+   3:../../src/timers.h **** #include <cstdint>
+   4:../../src/timers.h **** #include "subscriber.h"
+   5:../../src/timers.h **** #if not defined (TEST)
+   6:../../src/timers.h ****    #include "systick.h"
+   7:../../src/timers.h **** #endif
+   8:../../src/timers.h **** 
+   9:../../src/timers.h **** 
+  10:../../src/timers.h **** struct TickUpdater : Publisher
+  11:../../src/timers.h **** {
+  12:../../src/timers.h **** #if not defined(TEST) 
+  13:../../src/timers.h ****    TickUpdater() { mcu::make_reference<mcu::Periph::SysTick>().initInterrupt<1>(); }
+  14:../../src/timers.h **** #endif
+  15:../../src/timers.h ****    // using List::clear_subscribe;
+  16:../../src/timers.h **** } tickUpdater;
+  17:../../src/timers.h **** 
+  18:../../src/timers.h **** extern "C" void SysTick_Handler()
+  19:../../src/timers.h **** {
+  20:../../src/timers.h ****    tickUpdater.notify();
+  21:../../src/timers.h **** }
+  22:../../src/timers.h **** 
+  23:../../src/timers.h **** 
+  24:../../src/timers.h **** class TickSubscriber : Subscriber
+  25:../../src/timers.h **** {
+  26:../../src/timers.h **** protected:
+  27:../../src/timers.h ****    bool subscribed {false};
+  28:../../src/timers.h ****    void subscribe();
+  29:../../src/timers.h ****    void unsubscribe();
+  30:../../src/timers.h **** public:
+  31:../../src/timers.h ****    
+  32:../../src/timers.h **** };
+  33:../../src/timers.h **** 
+ARM GAS  /tmp/cciP0LwE.s 			page 2
+
+
+  34:../../src/timers.h **** 
+  35:../../src/timers.h **** 
+  36:../../src/timers.h **** class Timer : TickSubscriber
+  37:../../src/timers.h **** {
+  38:../../src/timers.h **** public:
+  39:../../src/timers.h ****    Timer() = default;
+  40:../../src/timers.h ****    Timer (uint32_t ms) { start(ms); }
+  41:../../src/timers.h **** 
+  42:../../src/timers.h ****    void     start   (uint32_t ms); /// запускает счёт с текущего значен
+  43:../../src/timers.h ****    bool     event();   /// возвращает true, если таймер натикал и пе�
+  44:../../src/timers.h ****    bool     done();    /// возвращает true, если таймер натикал и НЕ 
+  45:../../src/timers.h ****    void     pause();   /// останавливает счёт, но не сбрасывает сч
+  46:../../src/timers.h ****    void     start();   /// запускает счёт с текущего значения счё�
+  47:../../src/timers.h ****    void     stop();    /// останавливает счёт и сбрасывает счётчи
+  48:../../src/timers.h ****    bool     isGreater (uint32_t val); /// возвращает true, если счётчик нат
+  49:../../src/timers.h ****    bool     isCount(); /// возвращает true если считает, но не досчи�
+  50:../../src/timers.h ****    uint32_t timePassed(); /// возвращает сколько натикал
+  51:../../src/timers.h ****    uint32_t timeLeft();   /// возвращает сколько осталось
+  52:../../src/timers.h ****    template<class function>
+  53:../../src/timers.h ****    void     event (function); /// выполняет function, когда дотикал и пер�
+  54:../../src/timers.h **** 
+  55:../../src/timers.h ****    volatile uint32_t timeSet {0};
+  56:../../src/timers.h **** private:
+  57:../../src/timers.h ****    volatile uint32_t timePassed_ {0};	
+  58:../../src/timers.h **** 
+  59:../../src/timers.h ****    void notify() override;
+  60:../../src/timers.h **** };
+  61:../../src/timers.h **** 
+  62:../../src/timers.h **** 
+  63:../../src/timers.h **** 
+  64:../../src/timers.h **** void Timer::notify()
+  65:../../src/timers.h **** {
+  26              		.loc 1 65 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31              	.LVL0:
+  66:../../src/timers.h ****    timePassed_++;
+  32              		.loc 1 66 0
+  33 0000 4369     		ldr	r3, [r0, #20]
+  67:../../src/timers.h **** }
+  34              		.loc 1 67 0
+  35              		@ sp needed
+  66:../../src/timers.h ****    timePassed_++;
+  36              		.loc 1 66 0
+  37 0002 0133     		adds	r3, r3, #1
+  38 0004 4361     		str	r3, [r0, #20]
+  39              		.loc 1 67 0
+  40 0006 7047     		bx	lr
+  41              		.cfi_endproc
+  42              	.LFE180:
+  44              		.section	.text._Znwj,"ax",%progbits
+  45              		.align	1
+  46              		.global	_Znwj
+  47              		.syntax unified
+  48              		.code	16
+ARM GAS  /tmp/cciP0LwE.s 			page 3
+
+
+  49              		.thumb_func
+  50              		.fpu softvfp
+  52              	_Znwj:
+  53              	.LFB123:
+  54              		.file 2 "../../src/heap.h"
+   1:../../src/heap.h **** // необходимо понимать, что в микромире работать с куче
+   2:../../src/heap.h **** // постоянные выделения/освобождения памяти могут при�
+   3:../../src/heap.h **** // от этого легко обезопаситься, если применять new к объ
+   4:../../src/heap.h **** // , которые никогда не удаляются, а это практически все
+   5:../../src/heap.h **** // , которые работают с переферией, инициализируются на
+   6:../../src/heap.h **** // и перестают работать только, когда пропадает питани�
+   7:../../src/heap.h **** 
+   8:../../src/heap.h **** // Для собственного оператора нужна собственная куча
+   9:../../src/heap.h **** // самый простой способ, выделить память в самом начале
+  10:../../src/heap.h **** // и выдавать указатель оператору, контролируя перепол
+  11:../../src/heap.h **** // Способ посложнее, который не рассматриваю пока, проп
+  12:../../src/heap.h **** template<size_t heap_size>
+  13:../../src/heap.h **** class Heap
+  14:../../src/heap.h **** {
+  15:../../src/heap.h ****    uint8_t memory[heap_size];
+  16:../../src/heap.h ****    size_t free_index {0};
+  17:../../src/heap.h **** public:
+  18:../../src/heap.h ****    void* allocate (size_t size)
+  19:../../src/heap.h ****    {
+  20:../../src/heap.h ****       void* p = reinterpret_cast<void*>(memory + free_index);
+  21:../../src/heap.h ****       free_index += size;
+  22:../../src/heap.h ****       // если нам необходимо памяти больше, чем выделено, �
+  23:../../src/heap.h ****       // что определиться при первой же отладке
+  24:../../src/heap.h ****       return (free_index < heap_size) ? p : nullptr;
+  25:../../src/heap.h ****    }
+  26:../../src/heap.h **** };
+  27:../../src/heap.h **** 
+  28:../../src/heap.h **** // выделяем память под динамические объекты
+  29:../../src/heap.h **** constexpr size_t heap_size {256};
+  30:../../src/heap.h **** Heap<heap_size> heap {};
+  31:../../src/heap.h **** 
+  32:../../src/heap.h **** // собственный глобальный оператор new, который работае�
+  33:../../src/heap.h **** void* operator new (size_t size)
+  34:../../src/heap.h **** {
+  55              		.loc 2 34 0
+  56              		.cfi_startproc
+  57              		@ args = 0, pretend = 0, frame = 0
+  58              		@ frame_needed = 0, uses_anonymous_args = 0
+  59              		@ link register save eliminated.
+  60              	.LVL1:
+  61              	.LBB118:
+  62              	.LBB119:
+  20:../../src/heap.h ****       free_index += size;
+  63              		.loc 2 20 0
+  64 0000 054B     		ldr	r3, .L4
+  65 0002 1A00     		movs	r2, r3
+  66 0004 FC32     		adds	r2, r2, #252
+  67 0006 5168     		ldr	r1, [r2, #4]
+  21:../../src/heap.h ****       // если нам необходимо памяти больше, чем выделено, �
+  68              		.loc 2 21 0
+  69 0008 4018     		adds	r0, r0, r1
+  70              	.LVL2:
+ARM GAS  /tmp/cciP0LwE.s 			page 4
+
+
+  20:../../src/heap.h ****       free_index += size;
+  71              		.loc 2 20 0
+  72 000a CB18     		adds	r3, r1, r3
+  73              	.LVL3:
+  21:../../src/heap.h ****       // если нам необходимо памяти больше, чем выделено, �
+  74              		.loc 2 21 0
+  75 000c 5060     		str	r0, [r2, #4]
+  24:../../src/heap.h ****    }
+  76              		.loc 2 24 0
+  77 000e FF28     		cmp	r0, #255
+  78 0010 00D9     		bls	.L2
+  79 0012 0023     		movs	r3, #0
+  80              	.LVL4:
+  81              	.L2:
+  82              	.LBE119:
+  83              	.LBE118:
+  35:../../src/heap.h ****    return heap.allocate(size);
+  36:../../src/heap.h **** }...
+  84              		.loc 2 36 0
+  85 0014 1800     		movs	r0, r3
+  86              		@ sp needed
+  87 0016 7047     		bx	lr
+  88              	.L5:
+  89              		.align	2
+  90              	.L4:
+  91 0018 00000000 		.word	heap
+  92              		.cfi_endproc
+  93              	.LFE123:
+  95              		.section	.text.SysTick_Handler,"ax",%progbits
+  96              		.align	1
+  97              		.global	SysTick_Handler
+  98              		.syntax unified
+  99              		.code	16
+ 100              		.thumb_func
+ 101              		.fpu softvfp
+ 103              	SysTick_Handler:
+ 104              	.LFB167:
+  19:../../src/timers.h ****    tickUpdater.notify();
+ 105              		.loc 1 19 0
+ 106              		.cfi_startproc
+ 107              		@ args = 0, pretend = 0, frame = 0
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109              	.LVL5:
+ 110              	.LBB129:
+ 111              	.LBB130:
+ 112              		.file 3 "../../src/subscriber.h"
+   1:../../src/subscriber.h **** #pragma once
+   2:../../src/subscriber.h **** 
+   3:../../src/subscriber.h **** #pragma once
+   4:../../src/subscriber.h **** 
+   5:../../src/subscriber.h **** #include "list.h"
+   6:../../src/subscriber.h **** 
+   7:../../src/subscriber.h **** struct Subscriber : Listable<Subscriber> {
+   8:../../src/subscriber.h ****    virtual void notify() = 0;
+   9:../../src/subscriber.h **** };
+  10:../../src/subscriber.h **** 
+  11:../../src/subscriber.h **** struct Publisher : private List<Subscriber>
+ARM GAS  /tmp/cciP0LwE.s 			page 5
+
+
+  12:../../src/subscriber.h **** {
+  13:../../src/subscriber.h ****    void clear(){clear_subscribe();}
+  14:../../src/subscriber.h ****    void subscribe  (Subscriber* p) { push_back(p); }
+  15:../../src/subscriber.h ****    void unsubscribe(Subscriber* p) { remove(p);    }
+  16:../../src/subscriber.h ****    // ссылка, чтобы не копировал каждый subscriber из *this
+  17:../../src/subscriber.h ****    void notify() {
+  18:../../src/subscriber.h ****       for (auto& subscriber : *this)
+ 113              		.loc 3 18 0
+ 114 0000 054B     		ldr	r3, .L9
+ 115              	.LBE130:
+ 116              	.LBE129:
+  19:../../src/timers.h ****    tickUpdater.notify();
+ 117              		.loc 1 19 0
+ 118 0002 10B5     		push	{r4, lr}
+ 119              	.LCFI0:
+ 120              		.cfi_def_cfa_offset 8
+ 121              		.cfi_offset 4, -8
+ 122              		.cfi_offset 14, -4
+ 123              	.LBB134:
+ 124              	.LBB133:
+ 125              		.loc 3 18 0
+ 126 0004 1C68     		ldr	r4, [r3]
+ 127              	.LVL6:
+ 128              	.L8:
+ 129 0006 002C     		cmp	r4, #0
+ 130 0008 05D0     		beq	.L6
+  19:../../src/subscriber.h ****          subscriber.notify();
+ 131              		.loc 3 19 0
+ 132 000a 2368     		ldr	r3, [r4]
+ 133 000c 2000     		movs	r0, r4
+ 134 000e 1B68     		ldr	r3, [r3]
+ 135 0010 9847     		blx	r3
+ 136              	.LVL7:
+ 137              	.LBB131:
+ 138              	.LBB132:
+ 139              		.file 4 "../../src/list.h"
+   1:../../src/list.h **** #pragma once
+   2:../../src/list.h **** 
+   3:../../src/list.h **** 
+   4:../../src/list.h **** template<class T> struct Listable
+   5:../../src/list.h **** {
+   6:../../src/list.h ****    T* prev {nullptr};
+   7:../../src/list.h ****    T* next {nullptr};
+   8:../../src/list.h **** };
+   9:../../src/list.h **** 
+  10:../../src/list.h **** template<class T> class List
+  11:../../src/list.h **** {
+  12:../../src/list.h ****    T* first {nullptr};
+  13:../../src/list.h ****    T* last  {nullptr};
+  14:../../src/list.h **** public:
+  15:../../src/list.h ****    void clear_subscribe(){first = nullptr; last = nullptr;}
+  16:../../src/list.h ****    void push_back  (T*);
+  17:../../src/list.h ****    void push_front (T*);
+  18:../../src/list.h ****    void remove     (T*);
+  19:../../src/list.h ****    
+  20:../../src/list.h ****    class Iterator
+  21:../../src/list.h ****    {
+ARM GAS  /tmp/cciP0LwE.s 			page 6
+
+
+  22:../../src/list.h ****       T* p {nullptr};
+  23:../../src/list.h ****    public:
+  24:../../src/list.h ****       Iterator (T*);
+  25:../../src/list.h ****       Iterator() = default;
+  26:../../src/list.h **** 
+  27:../../src/list.h ****       T&        operator*  () const;
+  28:../../src/list.h ****       bool      operator!= (const Iterator&) const;
+  29:../../src/list.h ****       Iterator& operator++ ();
+  30:../../src/list.h ****    };
+  31:../../src/list.h **** 
+  32:../../src/list.h ****    Iterator begin();
+  33:../../src/list.h ****    Iterator end();
+  34:../../src/list.h **** };
+  35:../../src/list.h **** 
+  36:../../src/list.h **** 
+  37:../../src/list.h **** 
+  38:../../src/list.h **** 
+  39:../../src/list.h **** 
+  40:../../src/list.h **** template<class T>
+  41:../../src/list.h **** void List<T>::push_back (T* p)
+  42:../../src/list.h **** {
+  43:../../src/list.h ****    p->prev = last;
+  44:../../src/list.h ****    if (last)
+  45:../../src/list.h ****       last->next = p;
+  46:../../src/list.h ****    last = p;
+  47:../../src/list.h ****    if (not first)
+  48:../../src/list.h ****       first = p;
+  49:../../src/list.h **** }
+  50:../../src/list.h **** 
+  51:../../src/list.h **** 
+  52:../../src/list.h **** template<class T>
+  53:../../src/list.h **** void List<T>::push_front (T* p)
+  54:../../src/list.h **** {
+  55:../../src/list.h ****    // не реализован
+  56:../../src/list.h **** }
+  57:../../src/list.h **** 
+  58:../../src/list.h **** 
+  59:../../src/list.h **** template<class T>
+  60:../../src/list.h **** void List<T>::remove (T* p)
+  61:../../src/list.h **** {
+  62:../../src/list.h ****    if (p->prev and p->next) {       // если в серединке
+  63:../../src/list.h ****       p->prev->next = p->next;
+  64:../../src/list.h ****       p->next->prev = p->prev;
+  65:../../src/list.h ****    } else if (p->next) {            // если первый
+  66:../../src/list.h ****       first = p->next;
+  67:../../src/list.h ****       first->prev = nullptr;
+  68:../../src/list.h ****       if (not first) last = nullptr;
+  69:../../src/list.h ****    } else if (p->prev) {            // если последний
+  70:../../src/list.h ****       last = p->prev;
+  71:../../src/list.h ****       last->next = nullptr;
+  72:../../src/list.h ****       if (not last) first = nullptr;
+  73:../../src/list.h ****    } else {                         // если единственный 
+  74:../../src/list.h ****       first = nullptr;
+  75:../../src/list.h ****       last  = nullptr;
+  76:../../src/list.h ****    }
+  77:../../src/list.h ****    p->prev = nullptr;
+  78:../../src/list.h ****    p->next = nullptr;
+ARM GAS  /tmp/cciP0LwE.s 			page 7
+
+
+  79:../../src/list.h **** 
+  80:../../src/list.h **** }
+  81:../../src/list.h **** 
+  82:../../src/list.h **** 
+  83:../../src/list.h **** template<class T>
+  84:../../src/list.h **** typename List<T>::Iterator List<T>::begin()
+  85:../../src/list.h **** {
+  86:../../src/list.h ****    return List<T>::Iterator {first};
+  87:../../src/list.h **** }
+  88:../../src/list.h **** 
+  89:../../src/list.h **** 
+  90:../../src/list.h **** template<class T>
+  91:../../src/list.h **** typename List<T>::Iterator List<T>::end()
+  92:../../src/list.h **** {
+  93:../../src/list.h ****    return List<T>::Iterator();
+  94:../../src/list.h **** }
+  95:../../src/list.h **** 
+  96:../../src/list.h **** 
+  97:../../src/list.h **** 
+  98:../../src/list.h **** 
+  99:../../src/list.h **** 
+ 100:../../src/list.h **** 
+ 101:../../src/list.h **** /// Iterator
+ 102:../../src/list.h **** template<class T>
+ 103:../../src/list.h **** List<T>::Iterator::Iterator (T* other) : p {other} {}
+ 104:../../src/list.h **** 
+ 105:../../src/list.h **** template<class T>
+ 106:../../src/list.h **** T& List<T>::Iterator::operator* () const 
+ 107:../../src/list.h **** {
+ 108:../../src/list.h ****    return *p;
+ 109:../../src/list.h **** }
+ 110:../../src/list.h **** 
+ 111:../../src/list.h **** template<class T>
+ 112:../../src/list.h **** bool List<T>::Iterator::operator!= (const List<T>::Iterator& other) const
+ 113:../../src/list.h **** {
+ 114:../../src/list.h ****    return p != other.p;
+ 115:../../src/list.h **** }
+ 116:../../src/list.h **** 
+ 117:../../src/list.h **** template<class T>
+ 118:../../src/list.h **** typename List<T>::Iterator& List<T>::Iterator::operator++ ()
+ 119:../../src/list.h **** {
+ 120:../../src/list.h ****    p = p->next;
+ 140              		.loc 4 120 0
+ 141 0012 A468     		ldr	r4, [r4, #8]
+ 142              	.LVL8:
+ 143 0014 F7E7     		b	.L8
+ 144              	.LVL9:
+ 145              	.L6:
+ 146              	.LBE132:
+ 147              	.LBE131:
+ 148              	.LBE133:
+ 149              	.LBE134:
+  21:../../src/timers.h **** 
+ 150              		.loc 1 21 0
+ 151              		@ sp needed
+ 152              	.LVL10:
+ 153 0016 10BD     		pop	{r4, pc}
+ARM GAS  /tmp/cciP0LwE.s 			page 8
+
+
+ 154              	.L10:
+ 155              		.align	2
+ 156              	.L9:
+ 157 0018 00000000 		.word	.LANCHOR0
+ 158              		.cfi_endproc
+ 159              	.LFE167:
+ 161              		.section	.text._ZN5Timer5eventEv,"ax",%progbits
+ 162              		.align	1
+ 163              		.global	_ZN5Timer5eventEv
+ 164              		.syntax unified
+ 165              		.code	16
+ 166              		.thumb_func
+ 167              		.fpu softvfp
+ 169              	_ZN5Timer5eventEv:
+ 170              	.LFB182:
+  68:../../src/timers.h **** 
+  69:../../src/timers.h **** 
+  70:../../src/timers.h **** 
+  71:../../src/timers.h **** void Timer::start (uint32_t ms)
+  72:../../src/timers.h **** {
+  73:../../src/timers.h ****    timeSet = ms;
+  74:../../src/timers.h ****    subscribe();
+  75:../../src/timers.h **** }
+  76:../../src/timers.h **** 
+  77:../../src/timers.h **** 
+  78:../../src/timers.h **** bool Timer::event()
+  79:../../src/timers.h **** {
+ 171              		.loc 1 79 0
+ 172              		.cfi_startproc
+ 173              		@ args = 0, pretend = 0, frame = 0
+ 174              		@ frame_needed = 0, uses_anonymous_args = 0
+ 175              		@ link register save eliminated.
+ 176              	.LVL11:
+  80:../../src/timers.h ****    if (timePassed_ >= timeSet) {
+ 177              		.loc 1 80 0
+ 178 0000 4169     		ldr	r1, [r0, #20]
+ 179 0002 0269     		ldr	r2, [r0, #16]
+ 180 0004 0023     		movs	r3, #0
+ 181 0006 9142     		cmp	r1, r2
+ 182 0008 01D3     		bcc	.L12
+  81:../../src/timers.h ****       timePassed_ = 0;
+ 183              		.loc 1 81 0
+ 184 000a 4361     		str	r3, [r0, #20]
+  82:../../src/timers.h ****       return (true);
+ 185              		.loc 1 82 0
+ 186 000c 0133     		adds	r3, r3, #1
+ 187              	.L12:
+  83:../../src/timers.h ****    } else {
+  84:../../src/timers.h ****       return (false);
+  85:../../src/timers.h ****    }
+  86:../../src/timers.h **** }
+ 188              		.loc 1 86 0
+ 189 000e 1800     		movs	r0, r3
+ 190              	.LVL12:
+ 191              		@ sp needed
+ 192 0010 7047     		bx	lr
+ 193              		.cfi_endproc
+ARM GAS  /tmp/cciP0LwE.s 			page 9
+
+
+ 194              	.LFE182:
+ 196              		.section	.text._ZN5Timer4doneEv,"ax",%progbits
+ 197              		.align	1
+ 198              		.global	_ZN5Timer4doneEv
+ 199              		.syntax unified
+ 200              		.code	16
+ 201              		.thumb_func
+ 202              		.fpu softvfp
+ 204              	_ZN5Timer4doneEv:
+ 205              	.LFB185:
+  87:../../src/timers.h **** 
+  88:../../src/timers.h **** 
+  89:../../src/timers.h **** template<class Functor>
+  90:../../src/timers.h **** void Timer::event (Functor functor)
+  91:../../src/timers.h **** {
+  92:../../src/timers.h ****    if (timePassed_ >= timeSet) {
+  93:../../src/timers.h ****       timePassed_ = 0;
+  94:../../src/timers.h ****       functor();
+  95:../../src/timers.h ****    }
+  96:../../src/timers.h **** }
+  97:../../src/timers.h **** 
+  98:../../src/timers.h **** 
+  99:../../src/timers.h **** void Timer::stop()
+ 100:../../src/timers.h **** {
+ 101:../../src/timers.h ****    timePassed_ = 0;
+ 102:../../src/timers.h ****    unsubscribe();
+ 103:../../src/timers.h **** }
+ 104:../../src/timers.h **** 
+ 105:../../src/timers.h **** 
+ 106:../../src/timers.h **** bool     Timer::done()       { return timePassed_ >= timeSet; }
+ 206              		.loc 1 106 0
+ 207              		.cfi_startproc
+ 208              		@ args = 0, pretend = 0, frame = 0
+ 209              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210              		@ link register save eliminated.
+ 211              	.LVL13:
+ 212              		.loc 1 106 0
+ 213 0000 4269     		ldr	r2, [r0, #20]
+ 214 0002 0369     		ldr	r3, [r0, #16]
+ 215 0004 0020     		movs	r0, #0
+ 216              	.LVL14:
+ 217 0006 9A42     		cmp	r2, r3
+ 218 0008 4041     		adcs	r0, r0, r0
+ 219              		@ sp needed
+ 220 000a C0B2     		uxtb	r0, r0
+ 221 000c 7047     		bx	lr
+ 222              		.cfi_endproc
+ 223              	.LFE185:
+ 225              		.section	.text._ZN5Timer7isCountEv,"ax",%progbits
+ 226              		.align	1
+ 227              		.global	_ZN5Timer7isCountEv
+ 228              		.syntax unified
+ 229              		.code	16
+ 230              		.thumb_func
+ 231              		.fpu softvfp
+ 233              	_ZN5Timer7isCountEv:
+ 234              	.LFB188:
+ARM GAS  /tmp/cciP0LwE.s 			page 10
+
+
+ 107:../../src/timers.h **** void     Timer::pause()      { unsubscribe(); }
+ 108:../../src/timers.h **** void     Timer::start()      { subscribe();  }
+ 109:../../src/timers.h **** bool     Timer::isCount()    { return subscribed; }
+ 235              		.loc 1 109 0
+ 236              		.cfi_startproc
+ 237              		@ args = 0, pretend = 0, frame = 0
+ 238              		@ frame_needed = 0, uses_anonymous_args = 0
+ 239              		@ link register save eliminated.
+ 240              	.LVL15:
+ 241              		.loc 1 109 0
+ 242 0000 007B     		ldrb	r0, [r0, #12]
+ 243              	.LVL16:
+ 244              		@ sp needed
+ 245 0002 7047     		bx	lr
+ 246              		.cfi_endproc
+ 247              	.LFE188:
+ 249              		.section	.text._ZN5Timer10timePassedEv,"ax",%progbits
+ 250              		.align	1
+ 251              		.global	_ZN5Timer10timePassedEv
+ 252              		.syntax unified
+ 253              		.code	16
+ 254              		.thumb_func
+ 255              		.fpu softvfp
+ 257              	_ZN5Timer10timePassedEv:
+ 258              	.LFB189:
+ 110:../../src/timers.h **** uint32_t Timer::timePassed() { return timePassed_; }
+ 259              		.loc 1 110 0
+ 260              		.cfi_startproc
+ 261              		@ args = 0, pretend = 0, frame = 0
+ 262              		@ frame_needed = 0, uses_anonymous_args = 0
+ 263              		@ link register save eliminated.
+ 264              	.LVL17:
+ 265              		.loc 1 110 0
+ 266 0000 4069     		ldr	r0, [r0, #20]
+ 267              	.LVL18:
+ 268              		@ sp needed
+ 269 0002 7047     		bx	lr
+ 270              		.cfi_endproc
+ 271              	.LFE189:
+ 273              		.section	.text._ZN5Timer8timeLeftEv,"ax",%progbits
+ 274              		.align	1
+ 275              		.global	_ZN5Timer8timeLeftEv
+ 276              		.syntax unified
+ 277              		.code	16
+ 278              		.thumb_func
+ 279              		.fpu softvfp
+ 281              	_ZN5Timer8timeLeftEv:
+ 282              	.LFB190:
+ 111:../../src/timers.h **** uint32_t Timer::timeLeft(  ) { return timeSet - timePassed_; }
+ 283              		.loc 1 111 0
+ 284              		.cfi_startproc
+ 285              		@ args = 0, pretend = 0, frame = 0
+ 286              		@ frame_needed = 0, uses_anonymous_args = 0
+ 287              		@ link register save eliminated.
+ 288              	.LVL19:
+ 289              		.loc 1 111 0
+ 290 0000 0369     		ldr	r3, [r0, #16]
+ARM GAS  /tmp/cciP0LwE.s 			page 11
+
+
+ 291 0002 4069     		ldr	r0, [r0, #20]
+ 292              	.LVL20:
+ 293              		@ sp needed
+ 294 0004 181A     		subs	r0, r3, r0
+ 295 0006 7047     		bx	lr
+ 296              		.cfi_endproc
+ 297              	.LFE190:
+ 299              		.section	.text._ZN5Timer9isGreaterEm,"ax",%progbits
+ 300              		.align	1
+ 301              		.global	_ZN5Timer9isGreaterEm
+ 302              		.syntax unified
+ 303              		.code	16
+ 304              		.thumb_func
+ 305              		.fpu softvfp
+ 307              	_ZN5Timer9isGreaterEm:
+ 308              	.LFB191:
+ 112:../../src/timers.h **** bool     Timer::isGreater (uint32_t val) { return timePassed_ > val; }
+ 309              		.loc 1 112 0
+ 310              		.cfi_startproc
+ 311              		@ args = 0, pretend = 0, frame = 0
+ 312              		@ frame_needed = 0, uses_anonymous_args = 0
+ 313              		@ link register save eliminated.
+ 314              	.LVL21:
+ 315              		.loc 1 112 0
+ 316 0000 4069     		ldr	r0, [r0, #20]
+ 317              	.LVL22:
+ 318              		@ sp needed
+ 319 0002 8142     		cmp	r1, r0
+ 320 0004 8041     		sbcs	r0, r0, r0
+ 321 0006 4042     		rsbs	r0, r0, #0
+ 322 0008 7047     		bx	lr
+ 323              		.cfi_endproc
+ 324              	.LFE191:
+ 326              		.section	.text._ZN14TickSubscriber11unsubscribeEv,"ax",%progbits
+ 327              		.align	1
+ 328              		.global	_ZN14TickSubscriber11unsubscribeEv
+ 329              		.syntax unified
+ 330              		.code	16
+ 331              		.thumb_func
+ 332              		.fpu softvfp
+ 334              	_ZN14TickSubscriber11unsubscribeEv:
+ 335              	.LFB192:
+ 113:../../src/timers.h **** 
+ 114:../../src/timers.h **** 
+ 115:../../src/timers.h **** 
+ 116:../../src/timers.h **** void TickSubscriber::unsubscribe()
+ 117:../../src/timers.h **** {
+ 336              		.loc 1 117 0
+ 337              		.cfi_startproc
+ 338              		@ args = 0, pretend = 0, frame = 0
+ 339              		@ frame_needed = 0, uses_anonymous_args = 0
+ 340              		@ link register save eliminated.
+ 341              	.LVL23:
+ 118:../../src/timers.h ****    if (subscribed) {
+ 342              		.loc 1 118 0
+ 343 0000 037B     		ldrb	r3, [r0, #12]
+ 344 0002 002B     		cmp	r3, #0
+ARM GAS  /tmp/cciP0LwE.s 			page 12
+
+
+ 345 0004 0DD0     		beq	.L19
+ 346              	.LVL24:
+ 347              	.LBB141:
+ 348              	.LBB142:
+ 119:../../src/timers.h ****       subscribed = false;
+ 349              		.loc 1 119 0
+ 350 0006 0023     		movs	r3, #0
+ 351              	.LBB143:
+ 352              	.LBB144:
+ 353              	.LBB145:
+  62:../../src/list.h ****       p->prev->next = p->next;
+ 354              		.loc 4 62 0
+ 355 0008 4268     		ldr	r2, [r0, #4]
+ 356              	.LBE145:
+ 357              	.LBE144:
+ 358              	.LBE143:
+ 359              		.loc 1 119 0
+ 360 000a 0373     		strb	r3, [r0, #12]
+ 361              	.LVL25:
+ 362 000c 8368     		ldr	r3, [r0, #8]
+ 363              	.LBB150:
+ 364              	.LBB148:
+ 365              	.LBB146:
+  62:../../src/list.h ****       p->prev->next = p->next;
+ 366              		.loc 4 62 0
+ 367 000e 002A     		cmp	r2, #0
+ 368 0010 0ED0     		beq	.L21
+ 369 0012 002B     		cmp	r3, #0
+ 370 0014 08D0     		beq	.L22
+  63:../../src/list.h ****       p->next->prev = p->prev;
+ 371              		.loc 4 63 0
+ 372 0016 9360     		str	r3, [r2, #8]
+  64:../../src/list.h ****    } else if (p->next) {            // если первый
+ 373              		.loc 4 64 0
+ 374 0018 8368     		ldr	r3, [r0, #8]
+ 375              	.L30:
+  67:../../src/list.h ****       if (not first) last = nullptr;
+ 376              		.loc 4 67 0
+ 377 001a 5A60     		str	r2, [r3, #4]
+ 378              	.L23:
+  77:../../src/list.h ****    p->next = nullptr;
+ 379              		.loc 4 77 0
+ 380 001c 0023     		movs	r3, #0
+ 381 001e 4360     		str	r3, [r0, #4]
+  78:../../src/list.h **** 
+ 382              		.loc 4 78 0
+ 383 0020 8360     		str	r3, [r0, #8]
+ 384              	.LVL26:
+ 385              	.L19:
+ 386              	.LBE146:
+ 387              	.LBE148:
+ 388              	.LBE150:
+ 389              	.LBE142:
+ 390              	.LBE141:
+ 120:../../src/timers.h ****       tickUpdater.unsubscribe (this);
+ 121:../../src/timers.h ****    }
+ 122:../../src/timers.h **** }
+ARM GAS  /tmp/cciP0LwE.s 			page 13
+
+
+ 391              		.loc 1 122 0
+ 392              		@ sp needed
+ 393 0022 7047     		bx	lr
+ 394              	.LVL27:
+ 395              	.L24:
+ 396              	.LBB153:
+ 397              	.LBB152:
+ 398              	.LBB151:
+ 399              	.LBB149:
+ 400              	.LBB147:
+  66:../../src/list.h ****       first->prev = nullptr;
+ 401              		.loc 4 66 0
+ 402 0024 0B60     		str	r3, [r1]
+ 403 0026 F8E7     		b	.L30
+ 404              	.L22:
+  70:../../src/list.h ****       last->next = nullptr;
+ 405              		.loc 4 70 0
+ 406 0028 0449     		ldr	r1, .L31
+  71:../../src/list.h ****       if (not last) first = nullptr;
+ 407              		.loc 4 71 0
+ 408 002a 9360     		str	r3, [r2, #8]
+  70:../../src/list.h ****       last->next = nullptr;
+ 409              		.loc 4 70 0
+ 410 002c 4A60     		str	r2, [r1, #4]
+ 411 002e F5E7     		b	.L23
+ 412              	.L21:
+ 413 0030 0249     		ldr	r1, .L31
+  65:../../src/list.h ****       first = p->next;
+ 414              		.loc 4 65 0
+ 415 0032 002B     		cmp	r3, #0
+ 416 0034 F6D1     		bne	.L24
+  74:../../src/list.h ****       last  = nullptr;
+ 417              		.loc 4 74 0
+ 418 0036 0B60     		str	r3, [r1]
+  75:../../src/list.h ****    }
+ 419              		.loc 4 75 0
+ 420 0038 4B60     		str	r3, [r1, #4]
+ 421 003a EFE7     		b	.L23
+ 422              	.L32:
+ 423              		.align	2
+ 424              	.L31:
+ 425 003c 00000000 		.word	.LANCHOR0
+ 426              	.LBE147:
+ 427              	.LBE149:
+ 428              	.LBE151:
+ 429              	.LBE152:
+ 430              	.LBE153:
+ 431              		.cfi_endproc
+ 432              	.LFE192:
+ 434              		.section	.text._ZN5Timer4stopEv,"ax",%progbits
+ 435              		.align	1
+ 436              		.global	_ZN5Timer4stopEv
+ 437              		.syntax unified
+ 438              		.code	16
+ 439              		.thumb_func
+ 440              		.fpu softvfp
+ 442              	_ZN5Timer4stopEv:
+ARM GAS  /tmp/cciP0LwE.s 			page 14
+
+
+ 443              	.LFB184:
+ 100:../../src/timers.h ****    timePassed_ = 0;
+ 444              		.loc 1 100 0
+ 445              		.cfi_startproc
+ 446              		@ args = 0, pretend = 0, frame = 0
+ 447              		@ frame_needed = 0, uses_anonymous_args = 0
+ 448              	.LVL28:
+ 101:../../src/timers.h ****    unsubscribe();
+ 449              		.loc 1 101 0
+ 450 0000 0023     		movs	r3, #0
+ 100:../../src/timers.h ****    timePassed_ = 0;
+ 451              		.loc 1 100 0
+ 452 0002 10B5     		push	{r4, lr}
+ 453              	.LCFI1:
+ 454              		.cfi_def_cfa_offset 8
+ 455              		.cfi_offset 4, -8
+ 456              		.cfi_offset 14, -4
+ 101:../../src/timers.h ****    unsubscribe();
+ 457              		.loc 1 101 0
+ 458 0004 4361     		str	r3, [r0, #20]
+ 102:../../src/timers.h **** }
+ 459              		.loc 1 102 0
+ 460 0006 FFF7FEFF 		bl	_ZN14TickSubscriber11unsubscribeEv
+ 461              	.LVL29:
+ 103:../../src/timers.h **** 
+ 462              		.loc 1 103 0
+ 463              		@ sp needed
+ 464 000a 10BD     		pop	{r4, pc}
+ 465              		.cfi_endproc
+ 466              	.LFE184:
+ 468              		.section	.text._ZN5Timer5pauseEv,"ax",%progbits
+ 469              		.align	1
+ 470              		.global	_ZN5Timer5pauseEv
+ 471              		.syntax unified
+ 472              		.code	16
+ 473              		.thumb_func
+ 474              		.fpu softvfp
+ 476              	_ZN5Timer5pauseEv:
+ 477              	.LFB186:
+ 107:../../src/timers.h **** void     Timer::start()      { subscribe();  }
+ 478              		.loc 1 107 0
+ 479              		.cfi_startproc
+ 480              		@ args = 0, pretend = 0, frame = 0
+ 481              		@ frame_needed = 0, uses_anonymous_args = 0
+ 482              	.LVL30:
+ 483 0000 10B5     		push	{r4, lr}
+ 484              	.LCFI2:
+ 485              		.cfi_def_cfa_offset 8
+ 486              		.cfi_offset 4, -8
+ 487              		.cfi_offset 14, -4
+ 107:../../src/timers.h **** void     Timer::start()      { subscribe();  }
+ 488              		.loc 1 107 0
+ 489 0002 FFF7FEFF 		bl	_ZN14TickSubscriber11unsubscribeEv
+ 490              	.LVL31:
+ 491              		@ sp needed
+ 492 0006 10BD     		pop	{r4, pc}
+ 493              		.cfi_endproc
+ARM GAS  /tmp/cciP0LwE.s 			page 15
+
+
+ 494              	.LFE186:
+ 496              		.section	.text._ZN14TickSubscriber9subscribeEv,"ax",%progbits
+ 497              		.align	1
+ 498              		.global	_ZN14TickSubscriber9subscribeEv
+ 499              		.syntax unified
+ 500              		.code	16
+ 501              		.thumb_func
+ 502              		.fpu softvfp
+ 504              	_ZN14TickSubscriber9subscribeEv:
+ 505              	.LFB193:
+ 123:../../src/timers.h **** 
+ 124:../../src/timers.h **** 
+ 125:../../src/timers.h **** void TickSubscriber::subscribe()
+ 126:../../src/timers.h **** {
+ 506              		.loc 1 126 0
+ 507              		.cfi_startproc
+ 508              		@ args = 0, pretend = 0, frame = 0
+ 509              		@ frame_needed = 0, uses_anonymous_args = 0
+ 510              		@ link register save eliminated.
+ 511              	.LVL32:
+ 127:../../src/timers.h ****    if (not subscribed) {
+ 512              		.loc 1 127 0
+ 513 0000 037B     		ldrb	r3, [r0, #12]
+ 514 0002 002B     		cmp	r3, #0
+ 515 0004 0CD1     		bne	.L35
+ 516              	.LVL33:
+ 517              	.LBB160:
+ 518              	.LBB161:
+ 128:../../src/timers.h ****       subscribed = true;
+ 519              		.loc 1 128 0
+ 520 0006 0133     		adds	r3, r3, #1
+ 521 0008 0373     		strb	r3, [r0, #12]
+ 522              	.LVL34:
+ 523              	.LBB162:
+ 524              	.LBB163:
+ 525              	.LBB164:
+  43:../../src/list.h ****    if (last)
+ 526              		.loc 4 43 0
+ 527 000a 064B     		ldr	r3, .L43
+ 528 000c 5A68     		ldr	r2, [r3, #4]
+ 529 000e 4260     		str	r2, [r0, #4]
+  44:../../src/list.h ****       last->next = p;
+ 530              		.loc 4 44 0
+ 531 0010 002A     		cmp	r2, #0
+ 532 0012 00D0     		beq	.L38
+  45:../../src/list.h ****    last = p;
+ 533              		.loc 4 45 0
+ 534 0014 9060     		str	r0, [r2, #8]
+ 535              	.L38:
+  47:../../src/list.h ****       first = p;
+ 536              		.loc 4 47 0
+ 537 0016 1A68     		ldr	r2, [r3]
+  46:../../src/list.h ****    if (not first)
+ 538              		.loc 4 46 0
+ 539 0018 5860     		str	r0, [r3, #4]
+  47:../../src/list.h ****       first = p;
+ 540              		.loc 4 47 0
+ARM GAS  /tmp/cciP0LwE.s 			page 16
+
+
+ 541 001a 002A     		cmp	r2, #0
+ 542 001c 00D1     		bne	.L35
+  48:../../src/list.h **** }
+ 543              		.loc 4 48 0
+ 544 001e 1860     		str	r0, [r3]
+ 545              	.LVL35:
+ 546              	.L35:
+ 547              	.LBE164:
+ 548              	.LBE163:
+ 549              	.LBE162:
+ 550              	.LBE161:
+ 551              	.LBE160:
+ 129:../../src/timers.h ****       tickUpdater.subscribe (this);
+ 130:../../src/timers.h ****    }
+ 131:../../src/timers.h **** }...
+ 552              		.loc 1 131 0
+ 553              		@ sp needed
+ 554 0020 7047     		bx	lr
+ 555              	.L44:
+ 556 0022 C046     		.align	2
+ 557              	.L43:
+ 558 0024 00000000 		.word	.LANCHOR0
+ 559              		.cfi_endproc
+ 560              	.LFE193:
+ 562              		.section	.text._ZN5Timer5startEm,"ax",%progbits
+ 563              		.align	1
+ 564              		.global	_ZN5Timer5startEm
+ 565              		.syntax unified
+ 566              		.code	16
+ 567              		.thumb_func
+ 568              		.fpu softvfp
+ 570              	_ZN5Timer5startEm:
+ 571              	.LFB181:
+  72:../../src/timers.h **** {
+ 572              		.loc 1 72 0
+ 573              		.cfi_startproc
+ 574              		@ args = 0, pretend = 0, frame = 0
+ 575              		@ frame_needed = 0, uses_anonymous_args = 0
+ 576              	.LVL36:
+ 577 0000 10B5     		push	{r4, lr}
+ 578              	.LCFI3:
+ 579              		.cfi_def_cfa_offset 8
+ 580              		.cfi_offset 4, -8
+ 581              		.cfi_offset 14, -4
+  73:../../src/timers.h ****    timeSet = ms;
+ 582              		.loc 1 73 0
+ 583 0002 0161     		str	r1, [r0, #16]
+  74:../../src/timers.h ****    subscribe();
+ 584              		.loc 1 74 0
+ 585 0004 FFF7FEFF 		bl	_ZN14TickSubscriber9subscribeEv
+ 586              	.LVL37:
+  75:../../src/timers.h **** }
+ 587              		.loc 1 75 0
+ 588              		@ sp needed
+ 589 0008 10BD     		pop	{r4, pc}
+ 590              		.cfi_endproc
+ 591              	.LFE181:
+ARM GAS  /tmp/cciP0LwE.s 			page 17
+
+
+ 593              		.section	.text._ZN5Timer5startEv,"ax",%progbits
+ 594              		.align	1
+ 595              		.global	_ZN5Timer5startEv
+ 596              		.syntax unified
+ 597              		.code	16
+ 598              		.thumb_func
+ 599              		.fpu softvfp
+ 601              	_ZN5Timer5startEv:
+ 602              	.LFB187:
+ 108:../../src/timers.h **** void     Timer::start()      { subscribe();  }
+ 603              		.loc 1 108 0
+ 604              		.cfi_startproc
+ 605              		@ args = 0, pretend = 0, frame = 0
+ 606              		@ frame_needed = 0, uses_anonymous_args = 0
+ 607              	.LVL38:
+ 608 0000 10B5     		push	{r4, lr}
+ 609              	.LCFI4:
+ 610              		.cfi_def_cfa_offset 8
+ 611              		.cfi_offset 4, -8
+ 612              		.cfi_offset 14, -4
+ 108:../../src/timers.h **** void     Timer::start()      { subscribe();  }
+ 613              		.loc 1 108 0
+ 614 0002 FFF7FEFF 		bl	_ZN14TickSubscriber9subscribeEv
+ 615              	.LVL39:
+ 616              		@ sp needed
+ 617 0006 10BD     		pop	{r4, pc}
+ 618              		.cfi_endproc
+ 619              	.LFE187:
+ 621              		.section	.text.init_clock,"ax",%progbits
+ 622              		.align	1
+ 623              		.global	init_clock
+ 624              		.syntax unified
+ 625              		.code	16
+ 626              		.thumb_func
+ 627              		.fpu softvfp
+ 629              	init_clock:
+ 630              	.LFB1990:
+ 631              		.file 5 "main.cpp"
+   1:main.cpp      **** #define STM32F103xB
+   2:main.cpp      **** #define F_OSC   8000000UL
+   3:main.cpp      **** #define F_CPU   72000000UL
+   4:main.cpp      **** // #include <iostream>
+   5:main.cpp      **** #include "rcc.h"
+   6:main.cpp      **** #include "periph_flash.h"
+   7:main.cpp      **** #include "pin.h"
+   8:main.cpp      **** // // #include "timers.h"
+   9:main.cpp      **** // // #include "pwm.h"
+  10:main.cpp      **** // #include "uart.h"
+  11:main.cpp      **** // #include "fifo.h"
+  12:main.cpp      **** // # include "modbus_slave.h"
+  13:main.cpp      **** // #include "modbus_master.h"
+  14:main.cpp      **** #include "buttons.h"
+  15:main.cpp      **** 
+  16:main.cpp      **** 
+  17:main.cpp      **** /// эта функция вызывается первой в startup файле
+  18:main.cpp      **** extern "C" void init_clock ()
+  19:main.cpp      **** {
+ARM GAS  /tmp/cciP0LwE.s 			page 18
+
+
+ 632              		.loc 5 19 0
+ 633              		.cfi_startproc
+ 634              		@ args = 0, pretend = 0, frame = 0
+ 635              		@ frame_needed = 0, uses_anonymous_args = 0
+ 636              		@ link register save eliminated.
+ 637              	.LBB165:
+ 638              	.LBB166:
+ 639              		.file 6 "../../src/periph/f1_flash.h"
+   1:../../src/periph/f1_flash.h **** #pragma once
+   2:../../src/periph/f1_flash.h **** 
+   3:../../src/periph/f1_flash.h **** #include "f1_bits_flash.h"
+   4:../../src/periph/f1_flash.h **** 
+   5:../../src/periph/f1_flash.h **** namespace mcu {
+   6:../../src/periph/f1_flash.h **** 
+   7:../../src/periph/f1_flash.h **** class FLASH {
+   8:../../src/periph/f1_flash.h ****    __IO FLASH_bits::ACR ACR;     // access control register,   offset: 0x00
+   9:../../src/periph/f1_flash.h ****    __IO uint32_t        KEYR;    // key register,              offset: 0x04
+  10:../../src/periph/f1_flash.h ****    __IO uint32_t        OPTKEYR; // option key register,       offset: 0x08
+  11:../../src/periph/f1_flash.h ****    __IO uint32_t        SR;      // status register,           offset: 0x0C
+  12:../../src/periph/f1_flash.h ****    __IO uint32_t        CR;      // control register,          offset: 0x10
+  13:../../src/periph/f1_flash.h ****    __IO uint32_t        AR;      // Flash address register     offset: 0x14
+  14:../../src/periph/f1_flash.h ****    __IO uint32_t        RESERVED;
+  15:../../src/periph/f1_flash.h ****    __IO uint32_t        OBR;     // Option byte register       offset: 0x1C
+  16:../../src/periph/f1_flash.h ****    __IO uint32_t        WRPR;    // Write protection register  offset: 0x20
+  17:../../src/periph/f1_flash.h **** public:
+  18:../../src/periph/f1_flash.h ****    using CMSIS_type = FLASH_TypeDef;
+  19:../../src/periph/f1_flash.h ****    using Latency    = FLASH_bits::ACR::Latency;
+  20:../../src/periph/f1_flash.h ****    // using ProgSize     = FLASH_bits::CR::ProgSize;
+  21:../../src/periph/f1_flash.h ****    // using Sector       = FLASH_bits::CR::Sector;
+  22:../../src/periph/f1_flash.h **** 
+  23:../../src/periph/f1_flash.h ****    FLASH& set (Latency v)            { ACR.LATENCY = v;    return *this; }
+  24:../../src/periph/f1_flash.h ****    FLASH& enable ()                  { ACR.PRFTBE = true;  return *this; }
+ 640              		.loc 6 24 0
+ 641 0000 8023     		movs	r3, #128
+ 642 0002 1022     		movs	r2, #16
+ 643 0004 1B05     		lsls	r3, r3, #20
+ 644 0006 1968     		ldr	r1, [r3]
+ 645 0008 0A43     		orrs	r2, r1
+ 646              	.LBE166:
+ 647              	.LBE165:
+ 648              	.LBB168:
+ 649              	.LBB169:
+  23:../../src/periph/f1_flash.h ****    FLASH& enable ()                  { ACR.PRFTBE = true;  return *this; }
+ 650              		.loc 6 23 0
+ 651 000a 0721     		movs	r1, #7
+ 652              	.LBE169:
+ 653              	.LBE168:
+ 654              	.LBB171:
+ 655              	.LBB167:
+ 656              		.loc 6 24 0
+ 657 000c 1A60     		str	r2, [r3]
+ 658              	.LVL40:
+ 659              	.LBE167:
+ 660              	.LBE171:
+ 661              	.LBB172:
+ 662              	.LBB170:
+  23:../../src/periph/f1_flash.h ****    FLASH& enable ()                  { ACR.PRFTBE = true;  return *this; }
+ARM GAS  /tmp/cciP0LwE.s 			page 19
+
+
+ 663              		.loc 6 23 0
+ 664 000e 1A68     		ldr	r2, [r3]
+ 665 0010 8A43     		bics	r2, r1
+ 666 0012 1100     		movs	r1, r2
+ 667 0014 0222     		movs	r2, #2
+ 668 0016 0A43     		orrs	r2, r1
+ 669 0018 1A60     		str	r2, [r3]
+ 670              	.LVL41:
+ 671              	.LBE170:
+ 672              	.LBE172:
+ 673              	.LBB173:
+ 674              	.LBB174:
+ 675              		.file 7 "../../src/periph/f1_rcc.h"
+   1:../../src/periph/f1_rcc.h **** #pragma once
+   2:../../src/periph/f1_rcc.h **** 
+   3:../../src/periph/f1_rcc.h **** #include "f1_bits_rcc.h"
+   4:../../src/periph/f1_rcc.h **** 
+   5:../../src/periph/f1_rcc.h **** namespace mcu {
+   6:../../src/periph/f1_rcc.h **** 
+   7:../../src/periph/f1_rcc.h **** class RCC {
+   8:../../src/periph/f1_rcc.h ****    __IO RCC_bits::CR      CR;       // RCC clock control register,                offset: 0x00
+   9:../../src/periph/f1_rcc.h ****    __IO RCC_bits::CFGR    CFGR;     // RCC clock configuration register,          offset: 0x04
+  10:../../src/periph/f1_rcc.h ****    __IO uint32_t          CIR;      // RCC clock interrupt register,              offset: 0x08
+  11:../../src/periph/f1_rcc.h ****    __IO uint32_t          APB2RSTR; // RCC APB2 peripheral reset register,        offset: 0x0C
+  12:../../src/periph/f1_rcc.h ****    __IO uint32_t          APB1RSTR; // RCC APB1 peripheral reset register,        offset: 0x10
+  13:../../src/periph/f1_rcc.h ****    __IO RCC_bits::AHBENR  AHBENR;   // RCC AHB peripheral clock register,         offset: 0x14
+  14:../../src/periph/f1_rcc.h ****    __IO RCC_bits::APB2ENR APB2ENR;  // RCC APB2 peripheral clock enable register, offset: 0x18
+  15:../../src/periph/f1_rcc.h ****    __IO RCC_bits::APB1ENR APB1ENR;  // RCC APB1 peripheral clock enable register, offset: 0x1C
+  16:../../src/periph/f1_rcc.h ****    __IO uint32_t          BDCR;     // RCC Backup domain control register,        offset: 0x20
+  17:../../src/periph/f1_rcc.h ****    __IO uint32_t          CSR;      // RCC clock control & status register,       offset: 0x24
+  18:../../src/periph/f1_rcc.h **** 
+  19:../../src/periph/f1_rcc.h **** public:
+  20:../../src/periph/f1_rcc.h ****    using CMSIS_type    = RCC_TypeDef;
+  21:../../src/periph/f1_rcc.h ****    using AHBprescaler  = RCC_bits::CFGR::AHBprescaler;
+  22:../../src/periph/f1_rcc.h ****    using APBprescaler  = RCC_bits::CFGR::APBprescaler;
+  23:../../src/periph/f1_rcc.h ****    using ADCprescaler  = RCC_bits::CFGR::ADCprescaler;
+  24:../../src/periph/f1_rcc.h ****    using SystemClock   = RCC_bits::CFGR::SystemClock;
+  25:../../src/periph/f1_rcc.h ****    using PLLsource     = RCC_bits::CFGR::PLLsource;
+  26:../../src/periph/f1_rcc.h ****    using PLLmultiplier = RCC_bits::CFGR::PLLmultiplier;
+  27:../../src/periph/f1_rcc.h **** 
+  28:../../src/periph/f1_rcc.h ****    RCC& set       (AHBprescaler  v) { CFGR.HPRE   = v; return *this; }
+  29:../../src/periph/f1_rcc.h ****    RCC& set_APB1  (APBprescaler  v) { CFGR.PPRE1  = v; return *this; }
+  30:../../src/periph/f1_rcc.h ****    RCC& set_APB2  (APBprescaler  v) { CFGR.PPRE2  = v; return *this; }
+  31:../../src/periph/f1_rcc.h ****    RCC& set       (ADCprescaler  v) { CFGR.ADCPRE = v; return *this; }
+  32:../../src/periph/f1_rcc.h ****    RCC& set       (SystemClock   v) { CFGR.SW     = v; return *this; }
+  33:../../src/periph/f1_rcc.h ****    RCC& set       (PLLsource     v) { CFGR.PLLSRC = v; return *this; }
+  34:../../src/periph/f1_rcc.h ****    RCC& set       (PLLmultiplier v) { CFGR.PLLMUL = v; return *this; }
+  35:../../src/periph/f1_rcc.h **** 
+  36:../../src/periph/f1_rcc.h ****    RCC& on_HSE        () { CR.HSEON = true;         return *this; }
+ 676              		.loc 7 36 0
+ 677 001a 8022     		movs	r2, #128
+ 678 001c 194B     		ldr	r3, .L54
+ 679 001e 5202     		lsls	r2, r2, #9
+ 680 0020 1968     		ldr	r1, [r3]
+ 681 0022 0A43     		orrs	r2, r1
+ 682 0024 1A60     		str	r2, [r3]
+ 683              	.L48:
+ARM GAS  /tmp/cciP0LwE.s 			page 20
+
+
+ 684              	.LBE174:
+ 685              	.LBE173:
+ 686              	.LBB175:
+ 687              	.LBB176:
+  37:../../src/periph/f1_rcc.h ****    RCC& wait_HSE_ready() { while (not CR.HSERDY) {} return *this; }
+ 688              		.loc 7 37 0
+ 689 0026 1A68     		ldr	r2, [r3]
+ 690 0028 9203     		lsls	r2, r2, #14
+ 691 002a FCD5     		bpl	.L48
+ 692              	.LVL42:
+ 693              	.LBE176:
+ 694              	.LBE175:
+ 695              	.LBB177:
+ 696              	.LBB178:
+  28:../../src/periph/f1_rcc.h ****    RCC& set_APB1  (APBprescaler  v) { CFGR.PPRE1  = v; return *this; }
+ 697              		.loc 7 28 0
+ 698 002c F021     		movs	r1, #240
+ 699 002e 5A68     		ldr	r2, [r3, #4]
+ 700 0030 8A43     		bics	r2, r1
+ 701 0032 5A60     		str	r2, [r3, #4]
+ 702              	.LVL43:
+ 703              	.LBE178:
+ 704              	.LBE177:
+ 705              	.LBB179:
+ 706              	.LBB180:
+  29:../../src/periph/f1_rcc.h ****    RCC& set_APB2  (APBprescaler  v) { CFGR.PPRE2  = v; return *this; }
+ 707              		.loc 7 29 0
+ 708 0034 5A68     		ldr	r2, [r3, #4]
+ 709 0036 1449     		ldr	r1, .L54+4
+ 710 0038 1140     		ands	r1, r2
+ 711 003a 8022     		movs	r2, #128
+ 712 003c D200     		lsls	r2, r2, #3
+ 713 003e 0A43     		orrs	r2, r1
+ 714 0040 5A60     		str	r2, [r3, #4]
+ 715              	.LVL44:
+ 716              	.LBE180:
+ 717              	.LBE179:
+ 718              	.LBB181:
+ 719              	.LBB182:
+  30:../../src/periph/f1_rcc.h ****    RCC& set       (ADCprescaler  v) { CFGR.ADCPRE = v; return *this; }
+ 720              		.loc 7 30 0
+ 721 0042 5A68     		ldr	r2, [r3, #4]
+ 722 0044 1149     		ldr	r1, .L54+8
+ 723 0046 0A40     		ands	r2, r1
+ 724 0048 5A60     		str	r2, [r3, #4]
+ 725              	.LVL45:
+ 726              	.LBE182:
+ 727              	.LBE181:
+ 728              	.LBB183:
+ 729              	.LBB184:
+  33:../../src/periph/f1_rcc.h ****    RCC& set       (PLLmultiplier v) { CFGR.PLLMUL = v; return *this; }
+ 730              		.loc 7 33 0
+ 731 004a 8022     		movs	r2, #128
+ 732 004c 5968     		ldr	r1, [r3, #4]
+ 733 004e 5202     		lsls	r2, r2, #9
+ 734 0050 0A43     		orrs	r2, r1
+ 735 0052 5A60     		str	r2, [r3, #4]
+ARM GAS  /tmp/cciP0LwE.s 			page 21
+
+
+ 736              	.LVL46:
+ 737              	.LBE184:
+ 738              	.LBE183:
+ 739              	.LBB185:
+ 740              	.LBB186:
+  34:../../src/periph/f1_rcc.h **** 
+ 741              		.loc 7 34 0
+ 742 0054 5A68     		ldr	r2, [r3, #4]
+ 743 0056 0E49     		ldr	r1, .L54+12
+ 744 0058 1140     		ands	r1, r2
+ 745 005a E022     		movs	r2, #224
+ 746 005c 5203     		lsls	r2, r2, #13
+ 747 005e 0A43     		orrs	r2, r1
+ 748 0060 5A60     		str	r2, [r3, #4]
+ 749              	.LVL47:
+ 750              	.LBE186:
+ 751              	.LBE185:
+ 752              	.LBB187:
+ 753              	.LBB188:
+  38:../../src/periph/f1_rcc.h ****    RCC& on_PLL        () { CR.PLLON = true;         return *this; }
+ 754              		.loc 7 38 0
+ 755 0062 8022     		movs	r2, #128
+ 756 0064 1968     		ldr	r1, [r3]
+ 757 0066 5204     		lsls	r2, r2, #17
+ 758 0068 0A43     		orrs	r2, r1
+ 759 006a 1A60     		str	r2, [r3]
+ 760              	.L49:
+ 761              	.LBE188:
+ 762              	.LBE187:
+ 763              	.LBB189:
+ 764              	.LBB190:
+  39:../../src/periph/f1_rcc.h ****    RCC& wait_PLL_ready() { while (not CR.PLLRDY) {} return *this; }
+ 765              		.loc 7 39 0
+ 766 006c 1A68     		ldr	r2, [r3]
+ 767 006e 9201     		lsls	r2, r2, #6
+ 768 0070 FCD5     		bpl	.L49
+ 769              	.LVL48:
+ 770              	.LBE190:
+ 771              	.LBE189:
+ 772              	.LBB191:
+ 773              	.LBB192:
+  32:../../src/periph/f1_rcc.h ****    RCC& set       (PLLsource     v) { CFGR.PLLSRC = v; return *this; }
+ 774              		.loc 7 32 0
+ 775 0072 0321     		movs	r1, #3
+ 776 0074 5A68     		ldr	r2, [r3, #4]
+ 777              	.LBE192:
+ 778              	.LBE191:
+  20:main.cpp      ****    mcu::make_reference<mcu::Periph::FLASH>()
+  21:main.cpp      ****       .enable()
+  22:main.cpp      ****       .set(mcu::FLASH::Latency::_48_72MHz);
+  23:main.cpp      ****    
+  24:main.cpp      **** 
+  25:main.cpp      ****    mcu::make_reference<mcu::Periph::RCC>()
+  26:main.cpp      ****       .on_HSE()
+  27:main.cpp      ****       .wait_HSE_ready()
+  28:main.cpp      ****       .set      (mcu::RCC::AHBprescaler::AHBnotdiv)
+  29:main.cpp      ****       .set_APB1 (mcu::RCC::APBprescaler::APBdiv2)
+ARM GAS  /tmp/cciP0LwE.s 			page 22
+
+
+  30:main.cpp      ****       .set_APB2 (mcu::RCC::APBprescaler::APBnotdiv)
+  31:main.cpp      ****       .set      (mcu::RCC::PLLsource::HSE)
+  32:main.cpp      ****       .set      (mcu::RCC::PLLmultiplier::_9)
+  33:main.cpp      ****       .on_PLL()
+  34:main.cpp      ****       .wait_PLL_ready()
+  35:main.cpp      ****       .set      (mcu::RCC::SystemClock::CS_PLL);
+  36:main.cpp      **** }
+ 779              		.loc 5 36 0
+ 780              		@ sp needed
+ 781              	.LBB194:
+ 782              	.LBB193:
+  32:../../src/periph/f1_rcc.h ****    RCC& set       (PLLsource     v) { CFGR.PLLSRC = v; return *this; }
+ 783              		.loc 7 32 0
+ 784 0076 8A43     		bics	r2, r1
+ 785 0078 1100     		movs	r1, r2
+ 786 007a 0222     		movs	r2, #2
+ 787 007c 0A43     		orrs	r2, r1
+ 788 007e 5A60     		str	r2, [r3, #4]
+ 789              	.LVL49:
+ 790              	.LBE193:
+ 791              	.LBE194:
+ 792              		.loc 5 36 0
+ 793 0080 7047     		bx	lr
+ 794              	.L55:
+ 795 0082 C046     		.align	2
+ 796              	.L54:
+ 797 0084 00100240 		.word	1073876992
+ 798 0088 FFF8FFFF 		.word	-1793
+ 799 008c FFC7FFFF 		.word	-14337
+ 800 0090 FFFFC3FF 		.word	-3932161
+ 801              		.cfi_endproc
+ 802              	.LFE1990:
+ 804              		.section	.text.startup.main,"ax",%progbits
+ 805              		.align	1
+ 806              		.global	main
+ 807              		.syntax unified
+ 808              		.code	16
+ 809              		.thumb_func
+ 810              		.fpu softvfp
+ 812              	main:
+ 813              	.LFB1991:
+  37:main.cpp      **** 
+  38:main.cpp      ****   
+  39:main.cpp      **** 
+  40:main.cpp      **** int main()
+  41:main.cpp      **** {
+ 814              		.loc 5 41 0
+ 815              		.cfi_startproc
+ 816              		@ args = 0, pretend = 0, frame = 0
+ 817              		@ frame_needed = 0, uses_anonymous_args = 0
+ 818 0000 10B5     		push	{r4, lr}
+ 819              	.LCFI5:
+ 820              		.cfi_def_cfa_offset 8
+ 821              		.cfi_offset 4, -8
+ 822              		.cfi_offset 14, -4
+ 823              	.LBB212:
+ 824              	.LBB213:
+ARM GAS  /tmp/cciP0LwE.s 			page 23
+
+
+ 825              		.file 8 "../../src/pin.h"
+   1:../../src/pin.h **** #pragma once
+   2:../../src/pin.h **** 
+   3:../../src/pin.h **** #include "gpio.h"
+   4:../../src/pin.h **** #include "pins.h"
+   5:../../src/pin.h **** #if not defined (TEST)
+   6:../../src/pin.h ****    #include "heap.h"
+   7:../../src/pin.h **** #endif
+   8:../../src/pin.h **** 
+   9:../../src/pin.h **** namespace mcu {
+  10:../../src/pin.h **** 
+  11:../../src/pin.h **** class Pin {
+  12:../../src/pin.h ****    GPIO& port;
+  13:../../src/pin.h ****    const int n;
+  14:../../src/pin.h **** public:
+  15:../../src/pin.h ****    Pin (GPIO& port, int n) : port{port}, n{n} {}
+  16:../../src/pin.h **** 
+  17:../../src/pin.h ****    template<class Pin_, PinMode mode> static auto make()
+  18:../../src/pin.h ****    {
+  19:../../src/pin.h ****       Pin pin { mcu::make_reference<Pin_::periph>(), Pin_::n };
+  20:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+  21:../../src/pin.h ****               .template init<Pin_, mode>();
+  22:../../src/pin.h ****       return pin;
+  23:../../src/pin.h ****    }
+  24:../../src/pin.h **** 
+  25:../../src/pin.h ****    template<class Pin_, PinMode mode> static auto& make_new()
+  26:../../src/pin.h ****    {
+  27:../../src/pin.h ****       auto& pin = *new Pin { make_reference<Pin_::periph>(), Pin_::n };
+ 826              		.loc 8 27 0
+ 827 0002 0820     		movs	r0, #8
+ 828 0004 FFF7FEFF 		bl	_Znwj
+ 829              	.LVL50:
+ 830              	.LBB214:
+ 831              	.LBB215:
+ 832              	.LBB216:
+  40:../../src/periph/f1_rcc.h **** 
+  41:../../src/periph/f1_rcc.h ****    size_t get_APB_clock (APBprescaler v)
+  42:../../src/periph/f1_rcc.h ****    {return v == APBprescaler::APBnotdiv ? F_CPU     :
+  43:../../src/periph/f1_rcc.h ****            v == APBprescaler::APBdiv2   ? F_CPU / 2 :
+  44:../../src/periph/f1_rcc.h ****            v == APBprescaler::APBdiv4   ? F_CPU / 4 :
+  45:../../src/periph/f1_rcc.h ****            v == APBprescaler::APBdiv8   ? F_CPU / 8 :
+  46:../../src/periph/f1_rcc.h ****                                           F_CPU / 16;}
+  47:../../src/periph/f1_rcc.h **** 
+  48:../../src/periph/f1_rcc.h ****    size_t get_APB1_clock(){return get_APB_clock (CFGR.PPRE1);}
+  49:../../src/periph/f1_rcc.h ****    size_t get_APB2_clock(){return get_APB_clock (CFGR.PPRE2);}
+  50:../../src/periph/f1_rcc.h **** 
+  51:../../src/periph/f1_rcc.h **** 
+  52:../../src/periph/f1_rcc.h **** 
+  53:../../src/periph/f1_rcc.h ****    template<Periph p> void clock_enable()
+  54:../../src/periph/f1_rcc.h ****    {
+  55:../../src/periph/f1_rcc.h ****       if      constexpr (p == Periph::GPIOA) APB2ENR.IOPAEN = true;
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
+  57:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 833              		.loc 7 57 0
+ 834 0008 1023     		movs	r3, #16
+ 835 000a 094A     		ldr	r2, .L57
+ 836              	.LBE216:
+ARM GAS  /tmp/cciP0LwE.s 			page 24
+
+
+ 837              	.LBE215:
+ 838              	.LBE214:
+ 839              	.LBE213:
+ 840              	.LBE212:
+  42:main.cpp      ****    // auto button = mcu::Button::make<mcu::PB8>();
+  43:main.cpp      **** 
+  44:main.cpp      ****    auto led = mcu::Pin::make_new<mcu::PC9, mcu::PinMode::Output>();
+  45:main.cpp      **** 
+  46:main.cpp      ****    // if (button.push())
+  47:main.cpp      ****       led = true;
+  48:main.cpp      ****    
+  49:main.cpp      **** 
+  50:main.cpp      **** }
+ 841              		.loc 5 50 0
+ 842 000c 0020     		movs	r0, #0
+ 843              	.LBB234:
+ 844              	.LBB232:
+ 845              	.LBB223:
+ 846              	.LBB220:
+ 847              	.LBB217:
+ 848              		.loc 7 57 0
+ 849 000e 9169     		ldr	r1, [r2, #24]
+ 850              	.LBE217:
+ 851              	.LBE220:
+ 852              	.LBE223:
+ 853              	.LBE232:
+ 854              	.LBE234:
+ 855              		.loc 5 50 0
+ 856              		@ sp needed
+ 857              	.LBB235:
+ 858              	.LBB233:
+ 859              	.LBB224:
+ 860              	.LBB221:
+ 861              	.LBB218:
+ 862              		.loc 7 57 0
+ 863 0010 0B43     		orrs	r3, r1
+ 864              	.LBE218:
+ 865              	.LBE221:
+ 866              	.LBE224:
+ 867              	.LBB225:
+ 868              	.LBB226:
+ 869              	.LBB227:
+ 870              		.file 9 "../../src/periph/f1_gpio.h"
+   1:../../src/periph/f1_gpio.h **** #pragma once
+   2:../../src/periph/f1_gpio.h **** 
+   3:../../src/periph/f1_gpio.h **** #include "f1_bits_gpio.h"
+   4:../../src/periph/f1_gpio.h **** #include "rcc.h"
+   5:../../src/periph/f1_gpio.h **** #include "f1_afio.h"
+   6:../../src/periph/f1_gpio.h **** #include "pins.h"
+   7:../../src/periph/f1_gpio.h **** 
+   8:../../src/periph/f1_gpio.h **** namespace mcu {
+   9:../../src/periph/f1_gpio.h **** 
+  10:../../src/periph/f1_gpio.h **** enum class PinMode {Input, Output, USART1_TX, USART1_RX, USART2_TX, USART2_RX, USART3_TX, USART3_RX
+  11:../../src/periph/f1_gpio.h **** 
+  12:../../src/periph/f1_gpio.h **** class GPIO {
+  13:../../src/periph/f1_gpio.h ****   __IO GPIO_bits::CR CR;   // Port configuration register      offset: 0x00
+  14:../../src/periph/f1_gpio.h ****   __IO GPIO_bits::DR IDR;  // Port input data register         offset: 0x08
+ARM GAS  /tmp/cciP0LwE.s 			page 25
+
+
+  15:../../src/periph/f1_gpio.h ****   __IO GPIO_bits::DR ODR;  // Port output data register        offset: 0x0C
+  16:../../src/periph/f1_gpio.h ****   __IO uint32_t      BSRR; // Port bit set/reset register      offset: 0x10
+  17:../../src/periph/f1_gpio.h ****   __IO uint32_t      BRR;  // Port bit reset register          offset: 0x14
+  18:../../src/periph/f1_gpio.h ****   __IO uint32_t      LCKR; // Port configuration lock register offset: 0x18
+  19:../../src/periph/f1_gpio.h **** 
+  20:../../src/periph/f1_gpio.h **** public:
+  21:../../src/periph/f1_gpio.h ****    using CMSIS_type = GPIO_TypeDef;
+  22:../../src/periph/f1_gpio.h ****    using Mode       = GPIO_bits::CR::Mode;
+  23:../../src/periph/f1_gpio.h ****    using Remap      = AFIO::Remap;
+  24:../../src/periph/f1_gpio.h **** 
+  25:../../src/periph/f1_gpio.h ****    template<Periph p, Periph v = Periph::RCC> GPIO& clock_enable() { make_reference<v>().template c
+  26:../../src/periph/f1_gpio.h **** 
+  27:../../src/periph/f1_gpio.h ****    void set     (size_t n) { BSRR |= (1 << n);              }
+  28:../../src/periph/f1_gpio.h ****    void clear   (size_t n) { BSRR |= (1 << (n + 16));       }
+  29:../../src/periph/f1_gpio.h ****    bool is_set  (size_t n) { return IDR.reg & (1 << n);     }
+  30:../../src/periph/f1_gpio.h ****    void toggle  (size_t n) { is_set(n) ? clear(n) : set(n); }
+  31:../../src/periph/f1_gpio.h **** 
+  32:../../src/periph/f1_gpio.h ****    template<size_t> GPIO& set (Mode);
+  33:../../src/periph/f1_gpio.h ****    template<class Pin_, PinMode, Periph rcc = Periph::RCC, Periph afio = Periph::AFIO> void init();
+  34:../../src/periph/f1_gpio.h **** };
+  35:../../src/periph/f1_gpio.h **** 
+  36:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOA, GPIO&> make_reference() { return *rei
+  37:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOB, GPIO&> make_reference() { return *rei
+  38:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOC, GPIO&> make_reference() { return *rei
+  39:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOD, GPIO&> make_reference() { return *rei
+  40:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOE, GPIO&> make_reference() { return *rei
+  41:../../src/periph/f1_gpio.h **** 
+  42:../../src/periph/f1_gpio.h **** 
+  43:../../src/periph/f1_gpio.h **** 
+  44:../../src/periph/f1_gpio.h **** 
+  45:../../src/periph/f1_gpio.h **** 
+  46:../../src/periph/f1_gpio.h **** 
+  47:../../src/periph/f1_gpio.h **** 
+  48:../../src/periph/f1_gpio.h **** 
+  49:../../src/periph/f1_gpio.h **** 
+  50:../../src/periph/f1_gpio.h **** 
+  51:../../src/periph/f1_gpio.h **** 
+  52:../../src/periph/f1_gpio.h **** 
+  53:../../src/periph/f1_gpio.h **** 
+  54:../../src/periph/f1_gpio.h **** 
+  55:../../src/periph/f1_gpio.h **** 
+  56:../../src/periph/f1_gpio.h **** 
+  57:../../src/periph/f1_gpio.h **** 
+  58:../../src/periph/f1_gpio.h **** 
+  59:../../src/periph/f1_gpio.h **** 
+  60:../../src/periph/f1_gpio.h **** template<size_t n> GPIO& GPIO::set (Mode v) 
+  61:../../src/periph/f1_gpio.h **** {
+  62:../../src/periph/f1_gpio.h ****    if      constexpr (n == 0)  { CR.CNF_MODE0  = v; return *this; }
+  63:../../src/periph/f1_gpio.h ****    else if constexpr (n == 1)  { CR.CNF_MODE1  = v; return *this; }
+  64:../../src/periph/f1_gpio.h ****    else if constexpr (n == 2)  { CR.CNF_MODE2  = v; return *this; }
+  65:../../src/periph/f1_gpio.h ****    else if constexpr (n == 3)  { CR.CNF_MODE3  = v; return *this; }
+  66:../../src/periph/f1_gpio.h ****    else if constexpr (n == 4)  { CR.CNF_MODE4  = v; return *this; }
+  67:../../src/periph/f1_gpio.h ****    else if constexpr (n == 5)  { CR.CNF_MODE5  = v; return *this; }
+  68:../../src/periph/f1_gpio.h ****    else if constexpr (n == 6)  { CR.CNF_MODE6  = v; return *this; }
+  69:../../src/periph/f1_gpio.h ****    else if constexpr (n == 7)  { CR.CNF_MODE7  = v; return *this; }
+  70:../../src/periph/f1_gpio.h ****    else if constexpr (n == 8)  { CR.CNF_MODE8  = v; return *this; }
+  71:../../src/periph/f1_gpio.h ****    else if constexpr (n == 9)  { CR.CNF_MODE9  = v; return *this; }
+ARM GAS  /tmp/cciP0LwE.s 			page 26
+
+
+ 871              		.loc 9 71 0
+ 872 0012 F021     		movs	r1, #240
+ 873              	.LBE227:
+ 874              	.LBE226:
+ 875              	.LBE225:
+ 876              	.LBB230:
+ 877              	.LBB222:
+ 878              	.LBB219:
+ 879              		.loc 7 57 0
+ 880 0014 9361     		str	r3, [r2, #24]
+ 881              	.LVL51:
+ 882              	.LBE219:
+ 883              	.LBE222:
+ 884              	.LBE230:
+ 885              	.LBB231:
+ 886              	.LBB229:
+ 887              	.LBB228:
+ 888              		.loc 9 71 0
+ 889 0016 074B     		ldr	r3, .L57+4
+ 890 0018 5A68     		ldr	r2, [r3, #4]
+ 891 001a 8A43     		bics	r2, r1
+ 892 001c 1100     		movs	r1, r2
+ 893 001e 2022     		movs	r2, #32
+ 894 0020 0A43     		orrs	r2, r1
+ 895 0022 5A60     		str	r2, [r3, #4]
+ 896              	.LVL52:
+ 897              	.LBE228:
+ 898              	.LBE229:
+ 899              	.LBE231:
+ 900              	.LBE233:
+ 901              	.LBE235:
+ 902              	.LBB236:
+ 903              	.LBB237:
+ 904              	.LBB238:
+ 905              	.LBB239:
+  27:../../src/periph/f1_gpio.h ****    void clear   (size_t n) { BSRR |= (1 << (n + 16));       }
+ 906              		.loc 9 27 0
+ 907 0024 8022     		movs	r2, #128
+ 908 0026 1969     		ldr	r1, [r3, #16]
+ 909 0028 9200     		lsls	r2, r2, #2
+ 910 002a 0A43     		orrs	r2, r1
+ 911 002c 1A61     		str	r2, [r3, #16]
+ 912              	.LVL53:
+ 913              	.LBE239:
+ 914              	.LBE238:
+ 915              	.LBE237:
+ 916              	.LBE236:
+ 917              		.loc 5 50 0
+ 918 002e 10BD     		pop	{r4, pc}
+ 919              	.L58:
+ 920              		.align	2
+ 921              	.L57:
+ 922 0030 00100240 		.word	1073876992
+ 923 0034 00100140 		.word	1073811456
+ 924              		.cfi_endproc
+ 925              	.LFE1991:
+ 927              		.section	.text.startup._GLOBAL__sub_I_heap,"ax",%progbits
+ARM GAS  /tmp/cciP0LwE.s 			page 27
+
+
+ 928              		.align	1
+ 929              		.syntax unified
+ 930              		.code	16
+ 931              		.thumb_func
+ 932              		.fpu softvfp
+ 934              	_GLOBAL__sub_I_heap:
+ 935              	.LFB2470:
+ 936              		.loc 5 50 0
+ 937              		.cfi_startproc
+ 938              		@ args = 0, pretend = 0, frame = 0
+ 939              		@ frame_needed = 0, uses_anonymous_args = 0
+ 940              	.LVL54:
+ 941              	.LBB262:
+ 942              	.LBB263:
+  30:../../src/heap.h **** Heap<heap_size> heap {};
+ 943              		.loc 2 30 0
+ 944 0000 8222     		movs	r2, #130
+ 945              	.LBE263:
+ 946              	.LBE262:
+ 947              		.loc 5 50 0
+ 948 0002 10B5     		push	{r4, lr}
+ 949              	.LCFI6:
+ 950              		.cfi_def_cfa_offset 8
+ 951              		.cfi_offset 4, -8
+ 952              		.cfi_offset 14, -4
+ 953              	.LBB296:
+ 954              	.LBB294:
+  30:../../src/heap.h **** Heap<heap_size> heap {};
+ 955              		.loc 2 30 0
+ 956 0004 5200     		lsls	r2, r2, #1
+ 957 0006 0021     		movs	r1, #0
+ 958 0008 0B48     		ldr	r0, .L60
+ 959 000a FFF7FEFF 		bl	memset
+ 960              	.LVL55:
+ 961              	.LBB264:
+ 962              	.LBB265:
+ 963              	.LBB266:
+ 964              	.LBB267:
+ 965              	.LBB268:
+  10:../../src/list.h **** {
+ 966              		.loc 4 10 0
+ 967 000e 0022     		movs	r2, #0
+ 968 0010 0A4B     		ldr	r3, .L60+4
+ 969              	.LBE268:
+ 970              	.LBE267:
+ 971              	.LBE266:
+ 972              	.LBB271:
+ 973              	.LBB272:
+ 974              	.LBB273:
+ 975              	.LBB274:
+ 976              		.file 10 "../../src/periph/systick.h"
+   1:../../src/periph/systick.h **** #pragma once
+   2:../../src/periph/systick.h **** 
+   3:../../src/periph/systick.h **** 
+   4:../../src/periph/systick.h **** #include "periph.h"
+   5:../../src/periph/systick.h **** #include "f0_f4_bits_systick.h"
+   6:../../src/periph/systick.h **** 
+ARM GAS  /tmp/cciP0LwE.s 			page 28
+
+
+   7:../../src/periph/systick.h **** namespace mcu {
+   8:../../src/periph/systick.h **** 
+   9:../../src/periph/systick.h **** 
+  10:../../src/periph/systick.h **** 
+  11:../../src/periph/systick.h **** 
+  12:../../src/periph/systick.h **** class SysTick {
+  13:../../src/periph/systick.h ****    __IO SysTick_bits::CTRL     CTRL;  // Offset: 0x000 (R/W)  SysTick Control and Status Register
+  14:../../src/periph/systick.h ****    __IO uint32_t               LOAD;  // Offset: 0x004 (R/W)  SysTick Reload Value Register
+  15:../../src/periph/systick.h ****    __IO uint32_t               VAL;   // Offset: 0x008 (R/W)  SysTick Current Value Register
+  16:../../src/periph/systick.h ****    __IO SysTick_bits::CALIB    CALIB; // Offset: 0x00C (R/ )  SysTick Calibration Register
+  17:../../src/periph/systick.h **** public:
+  18:../../src/periph/systick.h ****    using Clock = SysTick_bits::CTRL::Clock;
+  19:../../src/periph/systick.h ****    
+  20:../../src/periph/systick.h ****    void load (uint32_t v)   { LOAD = v; }
+ 977              		.loc 10 20 0
+ 978 0012 0B49     		ldr	r1, .L60+8
+ 979              	.LBE274:
+ 980              	.LBE273:
+ 981              	.LBE272:
+ 982              	.LBE271:
+ 983              	.LBB289:
+ 984              	.LBB270:
+ 985              	.LBB269:
+  10:../../src/list.h **** {
+ 986              		.loc 4 10 0
+ 987 0014 1A60     		str	r2, [r3]
+ 988 0016 5A60     		str	r2, [r3, #4]
+ 989              	.LVL56:
+ 990              	.LBE269:
+ 991              	.LBE270:
+ 992              	.LBE289:
+ 993              	.LBB290:
+ 994              	.LBB287:
+ 995              	.LBB277:
+ 996              	.LBB275:
+ 997              		.loc 10 20 0
+ 998 0018 0A4B     		ldr	r3, .L60+12
+ 999              	.LBE275:
+ 1000              	.LBE277:
+ 1001              	.LBE287:
+ 1002              	.LBE290:
+ 1003              	.LBE265:
+ 1004              	.LBE264:
+ 1005              	.LBE294:
+ 1006              	.LBE296:
+ 1007              		.loc 5 50 0
+ 1008              		@ sp needed
+ 1009              	.LBB297:
+ 1010              	.LBB295:
+ 1011              	.LBB293:
+ 1012              	.LBB292:
+ 1013              	.LBB291:
+ 1014              	.LBB288:
+ 1015              	.LBB278:
+ 1016              	.LBB276:
+ 1017              		.loc 10 20 0
+ 1018 001a 5960     		str	r1, [r3, #4]
+ARM GAS  /tmp/cciP0LwE.s 			page 29
+
+
+ 1019              	.LVL57:
+ 1020              	.LBE276:
+ 1021              	.LBE278:
+ 1022              	.LBB279:
+ 1023              	.LBB280:
+  21:../../src/periph/systick.h ****    void clear()             { VAL = 0; }
+ 1024              		.loc 10 21 0
+ 1025 001c 9A60     		str	r2, [r3, #8]
+ 1026              	.LVL58:
+ 1027              	.LBE280:
+ 1028              	.LBE279:
+ 1029              	.LBB281:
+ 1030              	.LBB282:
+  22:../../src/periph/systick.h ****    void setSource (Clock v) { CTRL.CLKSOURCE = v; }
+ 1031              		.loc 10 22 0
+ 1032 001e 1968     		ldr	r1, [r3]
+ 1033 0020 0432     		adds	r2, r2, #4
+ 1034 0022 0A43     		orrs	r2, r1
+ 1035 0024 1A60     		str	r2, [r3]
+ 1036              	.LVL59:
+ 1037              	.LBE282:
+ 1038              	.LBE281:
+ 1039              	.LBB283:
+ 1040              	.LBB284:
+  23:../../src/periph/systick.h ****    void enableInterrupt()   { CTRL.TICKINT = true; }
+ 1041              		.loc 10 23 0
+ 1042 0026 0222     		movs	r2, #2
+ 1043 0028 1968     		ldr	r1, [r3]
+ 1044 002a 0A43     		orrs	r2, r1
+ 1045 002c 1A60     		str	r2, [r3]
+ 1046              	.LVL60:
+ 1047              	.LBE284:
+ 1048              	.LBE283:
+ 1049              	.LBB285:
+ 1050              	.LBB286:
+  24:../../src/periph/systick.h ****    void enable()            { CTRL.ENABLE = true; }
+ 1051              		.loc 10 24 0
+ 1052 002e 0122     		movs	r2, #1
+ 1053 0030 1968     		ldr	r1, [r3]
+ 1054 0032 0A43     		orrs	r2, r1
+ 1055 0034 1A60     		str	r2, [r3]
+ 1056              	.LVL61:
+ 1057              	.LBE286:
+ 1058              	.LBE285:
+ 1059              	.LBE288:
+ 1060              	.LBE291:
+ 1061              	.LBE292:
+ 1062              	.LBE293:
+ 1063              	.LBE295:
+ 1064              	.LBE297:
+ 1065              		.loc 5 50 0
+ 1066 0036 10BD     		pop	{r4, pc}
+ 1067              	.L61:
+ 1068              		.align	2
+ 1069              	.L60:
+ 1070 0038 00000000 		.word	heap
+ 1071 003c 00000000 		.word	.LANCHOR0
+ARM GAS  /tmp/cciP0LwE.s 			page 30
+
+
+ 1072 0040 3F190100 		.word	71999
+ 1073 0044 10E000E0 		.word	-536813552
+ 1074              		.cfi_endproc
+ 1075              	.LFE2470:
+ 1077              		.section	.init_array,"aw",%init_array
+ 1078              		.align	2
+ 1079 0000 00000000 		.word	_GLOBAL__sub_I_heap(target1)
+ 1080              		.global	_ZTV5Timer
+ 1081              		.global	tickUpdater
+ 1082              		.global	heap
+ 1083              		.section	.bss.heap,"aw",%nobits
+ 1084              		.align	2
+ 1087              	heap:
+ 1088 0000 00000000 		.space	260
+ 1088      00000000 
+ 1088      00000000 
+ 1088      00000000 
+ 1088      00000000 
+ 1089              		.section	.bss.tickUpdater,"aw",%nobits
+ 1090              		.align	2
+ 1091              		.set	.LANCHOR0,. + 0
+ 1094              	tickUpdater:
+ 1095 0000 00000000 		.space	8
+ 1095      00000000 
+ 1096              		.section	.rodata._ZTV5Timer,"a",%progbits
+ 1097              		.align	2
+ 1100              	_ZTV5Timer:
+ 1101 0000 00000000 		.word	0
+ 1102 0004 00000000 		.word	0
+ 1103 0008 00000000 		.word	_ZN5Timer6notifyEv
+ 1104              		.text
+ 1105              	.Letext0:
+ 1106              		.file 11 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1107              		.file 12 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1108              		.file 13 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1109              		.file 14 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1110              		.file 15 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1111              		.file 16 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1112              		.file 17 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1113              		.file 18 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1114              		.file 19 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1115              		.file 20 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1116              		.file 21 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1117              		.file 22 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1118              		.file 23 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1119              		.file 24 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1120              		.file 25 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1121              		.file 26 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1122              		.file 27 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1123              		.file 28 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1124              		.file 29 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1125              		.file 30 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1126              		.file 31 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1127              		.file 32 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1128              		.file 33 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1129              		.file 34 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1130              		.file 35 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/incl
+ARM GAS  /tmp/cciP0LwE.s 			page 31
+
+
+ 1131              		.file 36 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_d
+ 1132              		.file 37 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdin
+ 1133              		.file 38 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdint.h"
+ 1134              		.file 39 "<built-in>"
+ 1135              		.file 40 "../../src/periph/periph.h"
+ 1136              		.file 41 "../../src/bits/f1_bits_rcc.h"
+ 1137              		.file 42 "../../src/bits/f1_bits_flash.h"
+ 1138              		.file 43 "../../src/bits/f1_bits_gpio.h"
+ 1139              		.file 44 "../../src/bits/f1_bits_afio.h"
+ 1140              		.file 45 "../../src/bits/f0_f4_bits_systick.h"
+ 1141              		.file 46 "../../src/buttons.h"
+ 1142              		.file 47 "../../src/pins.h"
+ 1143              		.file 48 "../../STM32F1_files/CMSIS/core_cm3.h"
+ 1144              		.file 49 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h
+ 1145              		.file 50 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types
+ 1146              		.file 51 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.
+ 1147              		.file 52 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/incl
+ 1148              		.file 53 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/wchar.h"
+ 1149              		.file 54 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/locale.h"
+ 1150              		.file 55 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/ctype.h"
+ 1151              		.file 56 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdlib.h"
+ 1152              		.file 57 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdio.h"
+ 1153              		.file 58 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/errno.
+ARM GAS  /tmp/cciP0LwE.s 			page 32
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.cpp
+     /tmp/cciP0LwE.s:16     .text._ZN5Timer6notifyEv:0000000000000000 $t
+     /tmp/cciP0LwE.s:23     .text._ZN5Timer6notifyEv:0000000000000000 _ZN5Timer6notifyEv
+     /tmp/cciP0LwE.s:45     .text._Znwj:0000000000000000 $t
+     /tmp/cciP0LwE.s:52     .text._Znwj:0000000000000000 _Znwj
+     /tmp/cciP0LwE.s:91     .text._Znwj:0000000000000018 $d
+     /tmp/cciP0LwE.s:1087   .bss.heap:0000000000000000 heap
+     /tmp/cciP0LwE.s:96     .text.SysTick_Handler:0000000000000000 $t
+     /tmp/cciP0LwE.s:103    .text.SysTick_Handler:0000000000000000 SysTick_Handler
+     /tmp/cciP0LwE.s:157    .text.SysTick_Handler:0000000000000018 $d
+     /tmp/cciP0LwE.s:162    .text._ZN5Timer5eventEv:0000000000000000 $t
+     /tmp/cciP0LwE.s:169    .text._ZN5Timer5eventEv:0000000000000000 _ZN5Timer5eventEv
+     /tmp/cciP0LwE.s:197    .text._ZN5Timer4doneEv:0000000000000000 $t
+     /tmp/cciP0LwE.s:204    .text._ZN5Timer4doneEv:0000000000000000 _ZN5Timer4doneEv
+     /tmp/cciP0LwE.s:226    .text._ZN5Timer7isCountEv:0000000000000000 $t
+     /tmp/cciP0LwE.s:233    .text._ZN5Timer7isCountEv:0000000000000000 _ZN5Timer7isCountEv
+     /tmp/cciP0LwE.s:250    .text._ZN5Timer10timePassedEv:0000000000000000 $t
+     /tmp/cciP0LwE.s:257    .text._ZN5Timer10timePassedEv:0000000000000000 _ZN5Timer10timePassedEv
+     /tmp/cciP0LwE.s:274    .text._ZN5Timer8timeLeftEv:0000000000000000 $t
+     /tmp/cciP0LwE.s:281    .text._ZN5Timer8timeLeftEv:0000000000000000 _ZN5Timer8timeLeftEv
+     /tmp/cciP0LwE.s:300    .text._ZN5Timer9isGreaterEm:0000000000000000 $t
+     /tmp/cciP0LwE.s:307    .text._ZN5Timer9isGreaterEm:0000000000000000 _ZN5Timer9isGreaterEm
+     /tmp/cciP0LwE.s:327    .text._ZN14TickSubscriber11unsubscribeEv:0000000000000000 $t
+     /tmp/cciP0LwE.s:334    .text._ZN14TickSubscriber11unsubscribeEv:0000000000000000 _ZN14TickSubscriber11unsubscribeEv
+     /tmp/cciP0LwE.s:425    .text._ZN14TickSubscriber11unsubscribeEv:000000000000003c $d
+     /tmp/cciP0LwE.s:435    .text._ZN5Timer4stopEv:0000000000000000 $t
+     /tmp/cciP0LwE.s:442    .text._ZN5Timer4stopEv:0000000000000000 _ZN5Timer4stopEv
+     /tmp/cciP0LwE.s:469    .text._ZN5Timer5pauseEv:0000000000000000 $t
+     /tmp/cciP0LwE.s:476    .text._ZN5Timer5pauseEv:0000000000000000 _ZN5Timer5pauseEv
+     /tmp/cciP0LwE.s:497    .text._ZN14TickSubscriber9subscribeEv:0000000000000000 $t
+     /tmp/cciP0LwE.s:504    .text._ZN14TickSubscriber9subscribeEv:0000000000000000 _ZN14TickSubscriber9subscribeEv
+     /tmp/cciP0LwE.s:558    .text._ZN14TickSubscriber9subscribeEv:0000000000000024 $d
+     /tmp/cciP0LwE.s:563    .text._ZN5Timer5startEm:0000000000000000 $t
+     /tmp/cciP0LwE.s:570    .text._ZN5Timer5startEm:0000000000000000 _ZN5Timer5startEm
+     /tmp/cciP0LwE.s:594    .text._ZN5Timer5startEv:0000000000000000 $t
+     /tmp/cciP0LwE.s:601    .text._ZN5Timer5startEv:0000000000000000 _ZN5Timer5startEv
+     /tmp/cciP0LwE.s:622    .text.init_clock:0000000000000000 $t
+     /tmp/cciP0LwE.s:629    .text.init_clock:0000000000000000 init_clock
+     /tmp/cciP0LwE.s:797    .text.init_clock:0000000000000084 $d
+     /tmp/cciP0LwE.s:805    .text.startup.main:0000000000000000 $t
+     /tmp/cciP0LwE.s:812    .text.startup.main:0000000000000000 main
+     /tmp/cciP0LwE.s:922    .text.startup.main:0000000000000030 $d
+     /tmp/cciP0LwE.s:928    .text.startup._GLOBAL__sub_I_heap:0000000000000000 $t
+     /tmp/cciP0LwE.s:934    .text.startup._GLOBAL__sub_I_heap:0000000000000000 _GLOBAL__sub_I_heap
+     /tmp/cciP0LwE.s:1070   .text.startup._GLOBAL__sub_I_heap:0000000000000038 $d
+     /tmp/cciP0LwE.s:1078   .init_array:0000000000000000 $d
+     /tmp/cciP0LwE.s:1100   .rodata._ZTV5Timer:0000000000000000 _ZTV5Timer
+     /tmp/cciP0LwE.s:1094   .bss.tickUpdater:0000000000000000 tickUpdater
+     /tmp/cciP0LwE.s:1084   .bss.heap:0000000000000000 $d
+     /tmp/cciP0LwE.s:1090   .bss.tickUpdater:0000000000000000 $d
+     /tmp/cciP0LwE.s:1097   .rodata._ZTV5Timer:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+memset
