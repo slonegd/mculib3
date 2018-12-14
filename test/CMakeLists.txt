@@ -10,6 +10,7 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY build)
 set (CMAKE_BUILD_TYPE Debug)
 
 include_directories (
+   ${PROJECT_SOURCE_DIR}/mocks
    ${PROJECT_SOURCE_DIR}/../src
    ${PROJECT_SOURCE_DIR}/../src/mock_class
    ${PROJECT_SOURCE_DIR}/../src/bits
@@ -61,6 +62,7 @@ endfunction(test)
 
 test (STM32F0 f0_test_rcc)
 test (STM32F7 f7_test_rcc)
+test (STM32F7 f7_test_mock_rcc)
 test (STM32F1 f1_test_dma)
 test (STM32F1 f1_test_dma_stream)
 test (STM32F4 f4_test_flash)

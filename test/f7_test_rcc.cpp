@@ -25,14 +25,14 @@ BOOST_AUTO_TEST_CASE (like_CMSIS)
    BOOST_CHECK_EQUAL (same, true);
 }
 
-BOOST_AUTO_TEST_CASE (make_reference)
-{
-   auto& rcc {mcu::make_reference<mcu::Periph::RCC>()};
-   auto address = reinterpret_cast<size_t>(&rcc);
-   auto same = std::is_same_v<std::remove_reference_t<decltype(rcc)>, mcu::RCC>;
-   BOOST_CHECK_EQUAL (address, RCC_BASE);
-   BOOST_CHECK_EQUAL (same, true);
-}
+// BOOST_AUTO_TEST_CASE (make_reference)
+// {
+//    auto& rcc {mcu::make_reference<mcu::Periph::RCC>()};
+//    auto address = reinterpret_cast<size_t>(&rcc);
+//    auto same = std::is_same_v<std::remove_reference_t<decltype(rcc)>, mcu::RCC>;
+//    BOOST_CHECK_EQUAL (address, RCC_BASE);
+//    BOOST_CHECK_EQUAL (same, true);
+// }
 
 BOOST_AUTO_TEST_CASE (set_AHBprescaler)
 {

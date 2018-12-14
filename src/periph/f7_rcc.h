@@ -104,6 +104,8 @@ private:
    }
 };
 
+#if not defined(TEST)
 template<Periph p> std::enable_if_t<p == Periph::RCC, RCC&> make_reference() { return *reinterpret_cast<RCC*>(RCC_BASE); }
+#endif
 
 } // namespace mcu {
