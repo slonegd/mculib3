@@ -61,8 +61,6 @@ function(test MCU name)
 endfunction(test)
 
 test (STM32F0 f0_test_rcc)
-test (STM32F7 f7_test_rcc)
-test (STM32F7 f7_test_mock_rcc)
 test (STM32F1 f1_test_dma)
 test (STM32F1 f1_test_dma_stream)
 test (STM32F4 f4_test_flash)
@@ -72,6 +70,9 @@ test (STM32F1 test_modbus_slave)
 test (NULL test_table_crc)
 test (STM32F1 test_modbus_master)
 test (STM32F1 test_button)
+test (STM32F7 f7_test_rcc)
+test (STM32F7 f7_test_init_clock)
+test (STM32F7 f7_test_make_reference)
 
 
 

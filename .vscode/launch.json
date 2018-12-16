@@ -122,7 +122,7 @@
        "name": "test",
        "type": "cppdbg",
        "request": "launch",
-       "program": "${workspaceFolder}/test/cmake/build/f4_test_flash",
+       "program": "${workspaceFolder}/test/cmake/build/f7_test_init_clock",
        "args": [],
        "stopAtEntry": false,
        "cwd": "${workspaceFolder}",

@@ -37,6 +37,48 @@ std::ostream& operator<< (std::ostream& s, mcu::RCC::SystemClock v)
       v == mcu::RCC::SystemClock::CS_PLL ? s << "PLL"                   : s;
 }
 
+std::ostream& operator<< (std::ostream& s, mcu::RCC::PLLPdiv v)
+{
+   return
+      v == mcu::RCC::PLLPdiv::PLLdiv2 ? s << "2" :
+      v == mcu::RCC::PLLPdiv::PLLdiv4 ? s << "4" :
+      v == mcu::RCC::PLLPdiv::PLLdiv6 ? s << "6" :
+      v == mcu::RCC::PLLPdiv::PLLdiv8 ? s << "8" : s;
+}
+
+std::ostream& operator<< (std::ostream& s, mcu::RCC::PLLsource v)
+{
+   return
+      v == mcu::RCC::PLLsource::HSE     ? s << "внешний" :
+      v == mcu::RCC::PLLsource::HSIdiv2 ? s << "внутренний с делителем 2" : s;
+}
+
+std::ostream& operator<< (std::ostream& s, mcu::Periph v)
+{
+   return
+      #define HELPER(p) v == mcu::Periph::p ? s << #p :
+      HELPER (GPIOA)
+      HELPER (GPIOB)
+      HELPER (GPIOC)
+      HELPER (GPIOD)
+      HELPER (GPIOE)
+      HELPER (GPIOF)
+      HELPER (GPIOG)
+      HELPER (GPIOH)
+      HELPER (GPIOI)
+
+      HELPER (USART1)
+      HELPER (USART2)
+      HELPER (USART3)
+      HELPER (USART4)
+      HELPER (USART5)
+      HELPER (USART6)
+      HELPER (USART7)
+      HELPER (USART8)
+      s;
+      #undef HELPER
+}
+
 class RCC : public mcu::RCC
 {
    std::ostream* process {nullptr};
@@ -70,6 +112,68 @@ public:
    RCC& set (SystemClock v) {
       if (process) *process << "установка источника тактирования системной шины от " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set(v);
+      return *this;
+   }
+
+   RCC& set (PLLPdiv v) {
+      if (process) *process << "установка делителя шины PLL " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set(v);
+      return *this;
+   }
+
+   RCC& set (PLLsource v) {
+      if (process) *process << "установка источника PLL " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set(v);
+      return *this;
+   }
+
+   template<int v> RCC& set_PLLM() {
+      if (process) *process << "установка M " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set_PLLM<v>();
+      return *this;
+   }
+
+   template<int v> RCC& set_PLLN() {
+      if (process) *process << "установка N " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set_PLLN<v>();
+      return *this;
+   }
+
+   template<int v> RCC& set_PLLQ() {
+      if (process) *process << "установка Q " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set_PLLQ<v>();
+      return *this;
+   }
+
+   RCC& on_HSE() {
+      if (process) *process << "включение тактирования от внешнего источника" << std::endl;
+      static_cast<mcu::RCC*>(this)->on_HSE();
+      return *this;
+   }
+
+   RCC& wait_HSE_ready() {
+      if (this->like_CMSIS().CR | RCC_CR_HSEON_Msk) this->like_CMSIS().CR |= RCC_CR_HSERDY;
+      static_cast<mcu::RCC*>(this)->wait_HSE_ready();
+      if (process) *process << "ожидание готовности тактирования от внешнего источника" << std::endl;
+      return *this;
+   }
+
+   RCC& on_PLL() {
+      if (process) *process << "включение PLL" << std::endl;
+      static_cast<mcu::RCC*>(this)->on_PLL();
+      return *this;
+   }
+
+   RCC& wait_PLL_ready() {
+      if (this->like_CMSIS().CR | RCC_CR_PLLON_Msk) this->like_CMSIS().CR |= RCC_CR_PLLRDY;
+      static_cast<mcu::RCC*>(this)->wait_PLL_ready();
+      if (process) *process << "ожидание готовности PLL" << std::endl;
+      return *this;
+   }
+
+   template<mcu::Periph v> RCC& clock_enable() {
+      if (process) *process << "включение тактирования " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->clock_enable<v>();
       return *this;
    }
 };
