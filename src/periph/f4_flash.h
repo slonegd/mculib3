@@ -18,6 +18,8 @@ public:
    using ProgSize     = FLASH_bits::CR::ProgSize;
    using Sector       = FLASH_bits::CR::Sector;
 
+   auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
+
    FLASH& set (Latency v)            { ACR.LATENCY = v;    return *this; }
    FLASH& lock()                     { CR.LOCK     = true; return *this; }
    bool   is_lock()                  { return CR.LOCK;                   }

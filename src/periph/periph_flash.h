@@ -6,4 +6,6 @@
    // #include "f0_flash.h"
 #elif defined(STM32F4)
    #include "f4_flash.h"
+#elif defined(STM32F7)
+   #include "f4_flash.h"
 #endif

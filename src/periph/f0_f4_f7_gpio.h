@@ -60,7 +60,7 @@ template<Periph p> std::enable_if_t<p == Periph::GPIOB, GPIO&> make_reference() 
 template<Periph p> std::enable_if_t<p == Periph::GPIOC, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOC_BASE); }
 template<Periph p> std::enable_if_t<p == Periph::GPIOD, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOD_BASE); }
 template<Periph p> std::enable_if_t<p == Periph::GPIOF, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOF_BASE); }
-#if defined(STM32F4)
+#if defined(STM32F4) or defined(STM32F7)
 template<Periph p> std::enable_if_t<p == Periph::GPIOE, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOE_BASE); }
 template<Periph p> std::enable_if_t<p == Periph::GPIOG, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOG_BASE); }
 template<Periph p> std::enable_if_t<p == Periph::GPIOH, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOH_BASE); }

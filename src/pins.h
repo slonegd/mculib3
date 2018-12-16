@@ -122,7 +122,7 @@ using PE15 = Pin_<Periph::GPIOE, 15>;
 
 #endif
 
-#if defined (STM32F4)
+#if defined (STM32F4) or defined (STM32F7)
 
 using PF0  = Pin_<Periph::GPIOF,  0>;
 using PF1  = Pin_<Periph::GPIOF,  1>;
