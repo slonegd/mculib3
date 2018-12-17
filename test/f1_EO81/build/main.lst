@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cciP0LwE.s 			page 1
+ARM GAS  /tmp/ccq36h94.s 			page 1
 
 
    1              		.cpu cortex-m0
@@ -15,990 +15,1101 @@ ARM GAS  /tmp/cciP0LwE.s 			page 1
   12              		.text
   13              	.Ltext0:
   14              		.cfi_sections	.debug_frame
-  15              		.section	.text._ZN5Timer6notifyEv,"ax",%progbits
+  15              		.section	.text._Znwj,"ax",%progbits
   16              		.align	1
-  17              		.global	_ZN5Timer6notifyEv
+  17              		.global	_Znwj
   18              		.syntax unified
   19              		.code	16
   20              		.thumb_func
   21              		.fpu softvfp
-  23              	_ZN5Timer6notifyEv:
-  24              	.LFB180:
-  25              		.file 1 "../../src/timers.h"
-   1:../../src/timers.h **** #pragma once
-   2:../../src/timers.h **** 
-   3:../../src/timers.h **** #include <cstdint>
-   4:../../src/timers.h **** #include "subscriber.h"
-   5:../../src/timers.h **** #if not defined (TEST)
-   6:../../src/timers.h ****    #include "systick.h"
-   7:../../src/timers.h **** #endif
-   8:../../src/timers.h **** 
-   9:../../src/timers.h **** 
-  10:../../src/timers.h **** struct TickUpdater : Publisher
-  11:../../src/timers.h **** {
-  12:../../src/timers.h **** #if not defined(TEST) 
-  13:../../src/timers.h ****    TickUpdater() { mcu::make_reference<mcu::Periph::SysTick>().initInterrupt<1>(); }
-  14:../../src/timers.h **** #endif
-  15:../../src/timers.h ****    // using List::clear_subscribe;
-  16:../../src/timers.h **** } tickUpdater;
-  17:../../src/timers.h **** 
-  18:../../src/timers.h **** extern "C" void SysTick_Handler()
-  19:../../src/timers.h **** {
-  20:../../src/timers.h ****    tickUpdater.notify();
-  21:../../src/timers.h **** }
-  22:../../src/timers.h **** 
-  23:../../src/timers.h **** 
-  24:../../src/timers.h **** class TickSubscriber : Subscriber
-  25:../../src/timers.h **** {
-  26:../../src/timers.h **** protected:
-  27:../../src/timers.h ****    bool subscribed {false};
-  28:../../src/timers.h ****    void subscribe();
-  29:../../src/timers.h ****    void unsubscribe();
-  30:../../src/timers.h **** public:
-  31:../../src/timers.h ****    
-  32:../../src/timers.h **** };
-  33:../../src/timers.h **** 
-ARM GAS  /tmp/cciP0LwE.s 			page 2
+  23              	_Znwj:
+  24              	.LFB124:
+  25              		.file 1 "../../src/heap.h"
+   1:../../src/heap.h **** #pragma once
+   2:../../src/heap.h **** 
+   3:../../src/heap.h **** // необходимо понимать, что в микромире работать с куче
+   4:../../src/heap.h **** // постоянные выделения/освобождения памяти могут при�
+   5:../../src/heap.h **** // от этого легко обезопаситься, если применять new к объ
+   6:../../src/heap.h **** // , которые никогда не удаляются, а это практически все
+   7:../../src/heap.h **** // , которые работают с переферией, инициализируются на
+   8:../../src/heap.h **** // и перестают работать только, когда пропадает питани�
+   9:../../src/heap.h **** 
+  10:../../src/heap.h **** // Для собственного оператора нужна собственная куча
+  11:../../src/heap.h **** // самый простой способ, выделить память в самом начале
+  12:../../src/heap.h **** // и выдавать указатель оператору, контролируя перепол
+  13:../../src/heap.h **** // Способ посложнее, который не рассматриваю пока, проп
+  14:../../src/heap.h **** template<size_t heap_size>
+  15:../../src/heap.h **** class Heap
+  16:../../src/heap.h **** {
+  17:../../src/heap.h ****    uint8_t memory[heap_size];
+  18:../../src/heap.h ****    size_t free_index {0};
+  19:../../src/heap.h **** public:
+  20:../../src/heap.h ****    void* allocate (size_t size)
+  21:../../src/heap.h ****    {
+  22:../../src/heap.h ****       void* p = reinterpret_cast<void*>(memory + free_index);
+  23:../../src/heap.h ****       free_index += size;
+  24:../../src/heap.h ****       // если нам необходимо памяти больше, чем выделено, �
+  25:../../src/heap.h ****       // что определиться при первой же отладке
+  26:../../src/heap.h ****       return (free_index < heap_size) ? p : nullptr;
+  27:../../src/heap.h ****    }
+  28:../../src/heap.h **** };
+  29:../../src/heap.h **** 
+  30:../../src/heap.h **** // выделяем память под динамические объекты
+  31:../../src/heap.h **** constexpr size_t heap_size {256};
+  32:../../src/heap.h **** Heap<heap_size> heap {};
+  33:../../src/heap.h **** 
+ARM GAS  /tmp/ccq36h94.s 			page 2
 
 
-  34:../../src/timers.h **** 
-  35:../../src/timers.h **** 
-  36:../../src/timers.h **** class Timer : TickSubscriber
-  37:../../src/timers.h **** {
-  38:../../src/timers.h **** public:
-  39:../../src/timers.h ****    Timer() = default;
-  40:../../src/timers.h ****    Timer (uint32_t ms) { start(ms); }
-  41:../../src/timers.h **** 
-  42:../../src/timers.h ****    void     start   (uint32_t ms); /// запускает счёт с текущего значен
-  43:../../src/timers.h ****    bool     event();   /// возвращает true, если таймер натикал и пе�
-  44:../../src/timers.h ****    bool     done();    /// возвращает true, если таймер натикал и НЕ 
-  45:../../src/timers.h ****    void     pause();   /// останавливает счёт, но не сбрасывает сч
-  46:../../src/timers.h ****    void     start();   /// запускает счёт с текущего значения счё�
-  47:../../src/timers.h ****    void     stop();    /// останавливает счёт и сбрасывает счётчи
-  48:../../src/timers.h ****    bool     isGreater (uint32_t val); /// возвращает true, если счётчик нат
-  49:../../src/timers.h ****    bool     isCount(); /// возвращает true если считает, но не досчи�
-  50:../../src/timers.h ****    uint32_t timePassed(); /// возвращает сколько натикал
-  51:../../src/timers.h ****    uint32_t timeLeft();   /// возвращает сколько осталось
-  52:../../src/timers.h ****    template<class function>
-  53:../../src/timers.h ****    void     event (function); /// выполняет function, когда дотикал и пер�
-  54:../../src/timers.h **** 
-  55:../../src/timers.h ****    volatile uint32_t timeSet {0};
-  56:../../src/timers.h **** private:
-  57:../../src/timers.h ****    volatile uint32_t timePassed_ {0};	
-  58:../../src/timers.h **** 
-  59:../../src/timers.h ****    void notify() override;
-  60:../../src/timers.h **** };
-  61:../../src/timers.h **** 
-  62:../../src/timers.h **** 
-  63:../../src/timers.h **** 
-  64:../../src/timers.h **** void Timer::notify()
-  65:../../src/timers.h **** {
-  26              		.loc 1 65 0
+  34:../../src/heap.h **** // собственный глобальный оператор new, который работае�
+  35:../../src/heap.h **** void* operator new (size_t size)
+  36:../../src/heap.h **** {
+  26              		.loc 1 36 0
   27              		.cfi_startproc
   28              		@ args = 0, pretend = 0, frame = 0
   29              		@ frame_needed = 0, uses_anonymous_args = 0
   30              		@ link register save eliminated.
   31              	.LVL0:
-  66:../../src/timers.h ****    timePassed_++;
-  32              		.loc 1 66 0
-  33 0000 4369     		ldr	r3, [r0, #20]
-  67:../../src/timers.h **** }
-  34              		.loc 1 67 0
-  35              		@ sp needed
-  66:../../src/timers.h ****    timePassed_++;
-  36              		.loc 1 66 0
-  37 0002 0133     		adds	r3, r3, #1
-  38 0004 4361     		str	r3, [r0, #20]
-  39              		.loc 1 67 0
-  40 0006 7047     		bx	lr
-  41              		.cfi_endproc
-  42              	.LFE180:
-  44              		.section	.text._Znwj,"ax",%progbits
-  45              		.align	1
-  46              		.global	_Znwj
-  47              		.syntax unified
-  48              		.code	16
-ARM GAS  /tmp/cciP0LwE.s 			page 3
+  32              	.LBB240:
+  33              	.LBB241:
+  22:../../src/heap.h ****       free_index += size;
+  34              		.loc 1 22 0
+  35 0000 054B     		ldr	r3, .L3
+  36 0002 1A00     		movs	r2, r3
+  37 0004 FC32     		adds	r2, r2, #252
+  38 0006 5168     		ldr	r1, [r2, #4]
+  23:../../src/heap.h ****       // если нам необходимо памяти больше, чем выделено, �
+  39              		.loc 1 23 0
+  40 0008 4018     		adds	r0, r0, r1
+  41              	.LVL1:
+  22:../../src/heap.h ****       free_index += size;
+  42              		.loc 1 22 0
+  43 000a CB18     		adds	r3, r1, r3
+  44              	.LVL2:
+  23:../../src/heap.h ****       // если нам необходимо памяти больше, чем выделено, �
+  45              		.loc 1 23 0
+  46 000c 5060     		str	r0, [r2, #4]
+  26:../../src/heap.h ****    }
+  47              		.loc 1 26 0
+  48 000e FF28     		cmp	r0, #255
+  49 0010 00D9     		bls	.L1
+  50 0012 0023     		movs	r3, #0
+  51              	.LVL3:
+  52              	.L1:
+  53              	.LBE241:
+  54              	.LBE240:
+  37:../../src/heap.h ****    return heap.allocate(size);
+  38:../../src/heap.h **** }...
+  55              		.loc 1 38 0
+  56 0014 1800     		movs	r0, r3
+  57              		@ sp needed
+  58 0016 7047     		bx	lr
+  59              	.L4:
+  60              		.align	2
+  61              	.L3:
+  62 0018 00000000 		.word	heap
+  63              		.cfi_endproc
+  64              	.LFE124:
+  66              		.section	.text._ZN3mcu3Pin3setEv,"axG",%progbits,_ZN3mcu3Pin3setEv,comdat
+  67              		.align	1
+  68              		.weak	_ZN3mcu3Pin3setEv
+  69              		.syntax unified
+  70              		.code	16
+  71              		.thumb_func
+  72              		.fpu softvfp
+  74              	_ZN3mcu3Pin3setEv:
+ARM GAS  /tmp/ccq36h94.s 			page 3
 
 
-  49              		.thumb_func
-  50              		.fpu softvfp
-  52              	_Znwj:
-  53              	.LFB123:
-  54              		.file 2 "../../src/heap.h"
-   1:../../src/heap.h **** // необходимо понимать, что в микромире работать с куче
-   2:../../src/heap.h **** // постоянные выделения/освобождения памяти могут при�
-   3:../../src/heap.h **** // от этого легко обезопаситься, если применять new к объ
-   4:../../src/heap.h **** // , которые никогда не удаляются, а это практически все
-   5:../../src/heap.h **** // , которые работают с переферией, инициализируются на
-   6:../../src/heap.h **** // и перестают работать только, когда пропадает питани�
-   7:../../src/heap.h **** 
-   8:../../src/heap.h **** // Для собственного оператора нужна собственная куча
-   9:../../src/heap.h **** // самый простой способ, выделить память в самом начале
-  10:../../src/heap.h **** // и выдавать указатель оператору, контролируя перепол
-  11:../../src/heap.h **** // Способ посложнее, который не рассматриваю пока, проп
-  12:../../src/heap.h **** template<size_t heap_size>
-  13:../../src/heap.h **** class Heap
-  14:../../src/heap.h **** {
-  15:../../src/heap.h ****    uint8_t memory[heap_size];
-  16:../../src/heap.h ****    size_t free_index {0};
-  17:../../src/heap.h **** public:
-  18:../../src/heap.h ****    void* allocate (size_t size)
-  19:../../src/heap.h ****    {
-  20:../../src/heap.h ****       void* p = reinterpret_cast<void*>(memory + free_index);
-  21:../../src/heap.h ****       free_index += size;
-  22:../../src/heap.h ****       // если нам необходимо памяти больше, чем выделено, �
-  23:../../src/heap.h ****       // что определиться при первой же отладке
-  24:../../src/heap.h ****       return (free_index < heap_size) ? p : nullptr;
-  25:../../src/heap.h ****    }
-  26:../../src/heap.h **** };
-  27:../../src/heap.h **** 
-  28:../../src/heap.h **** // выделяем память под динамические объекты
-  29:../../src/heap.h **** constexpr size_t heap_size {256};
-  30:../../src/heap.h **** Heap<heap_size> heap {};
-  31:../../src/heap.h **** 
-  32:../../src/heap.h **** // собственный глобальный оператор new, который работае�
-  33:../../src/heap.h **** void* operator new (size_t size)
-  34:../../src/heap.h **** {
-  55              		.loc 2 34 0
-  56              		.cfi_startproc
-  57              		@ args = 0, pretend = 0, frame = 0
-  58              		@ frame_needed = 0, uses_anonymous_args = 0
-  59              		@ link register save eliminated.
-  60              	.LVL1:
-  61              	.LBB118:
-  62              	.LBB119:
-  20:../../src/heap.h ****       free_index += size;
-  63              		.loc 2 20 0
-  64 0000 054B     		ldr	r3, .L4
-  65 0002 1A00     		movs	r2, r3
-  66 0004 FC32     		adds	r2, r2, #252
-  67 0006 5168     		ldr	r1, [r2, #4]
-  21:../../src/heap.h ****       // если нам необходимо памяти больше, чем выделено, �
-  68              		.loc 2 21 0
-  69 0008 4018     		adds	r0, r0, r1
-  70              	.LVL2:
-ARM GAS  /tmp/cciP0LwE.s 			page 4
+  75              	.LFB131:
+  76              		.file 2 "../../src/pin.h"
+   1:../../src/pin.h **** #pragma once
+   2:../../src/pin.h **** 
+   3:../../src/pin.h **** #include "gpio.h"
+   4:../../src/pin.h **** #include "pins.h"
+   5:../../src/pin.h **** #if not defined (TEST)
+   6:../../src/pin.h ****    #include "heap.h"
+   7:../../src/pin.h **** #endif
+   8:../../src/pin.h **** 
+   9:../../src/pin.h **** namespace mcu {
+  10:../../src/pin.h **** 
+  11:../../src/pin.h **** class Pin {
+  12:../../src/pin.h ****    GPIO& port;
+  13:../../src/pin.h ****    const int n;
+  14:../../src/pin.h **** public:
+  15:../../src/pin.h ****    Pin (GPIO& port, int n) : port{port}, n{n} {}
+  16:../../src/pin.h **** 
+  17:../../src/pin.h ****    template<class Pin_, PinMode mode> static auto make()
+  18:../../src/pin.h ****    {
+  19:../../src/pin.h ****       Pin pin { mcu::make_reference<Pin_::periph>(), Pin_::n };
+  20:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+  21:../../src/pin.h ****               .template init<Pin_, mode>();
+  22:../../src/pin.h ****       return pin;
+  23:../../src/pin.h ****    }
+  24:../../src/pin.h **** 
+  25:../../src/pin.h ****    template<class Pin_, PinMode mode> static auto& make_new()
+  26:../../src/pin.h ****    {
+  27:../../src/pin.h ****       auto& pin = *new Pin { make_reference<Pin_::periph>(), Pin_::n };
+  28:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+  29:../../src/pin.h ****                .template init<Pin_, mode>();
+  30:../../src/pin.h ****       return pin;
+  31:../../src/pin.h ****    }
+  32:../../src/pin.h **** 
+  33:../../src/pin.h ****    void toggle()    { port.toggle(n);          }
+  34:../../src/pin.h ****    void set()       { port.set(n);             }
+  77              		.loc 2 34 0
+  78              		.cfi_startproc
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81              		@ link register save eliminated.
+  82              	.LVL4:
+  83              	.LBB242:
+  84              	.LBB243:
+  85              		.file 3 "../../src/periph/f1_gpio.h"
+   1:../../src/periph/f1_gpio.h **** #pragma once
+   2:../../src/periph/f1_gpio.h **** 
+   3:../../src/periph/f1_gpio.h **** #include "f1_bits_gpio.h"
+   4:../../src/periph/f1_gpio.h **** #include "rcc.h"
+   5:../../src/periph/f1_gpio.h **** #include "f1_afio.h"
+   6:../../src/periph/f1_gpio.h **** #include "pins.h"
+   7:../../src/periph/f1_gpio.h **** 
+   8:../../src/periph/f1_gpio.h **** namespace mcu {
+   9:../../src/periph/f1_gpio.h **** 
+  10:../../src/periph/f1_gpio.h **** enum class PinMode {Input, Output, USART1_TX, USART1_RX, USART2_TX, USART2_RX, USART3_TX, USART3_RX
+  11:../../src/periph/f1_gpio.h **** 
+  12:../../src/periph/f1_gpio.h **** class GPIO {
+ARM GAS  /tmp/ccq36h94.s 			page 4
 
 
-  20:../../src/heap.h ****       free_index += size;
-  71              		.loc 2 20 0
-  72 000a CB18     		adds	r3, r1, r3
-  73              	.LVL3:
-  21:../../src/heap.h ****       // если нам необходимо памяти больше, чем выделено, �
-  74              		.loc 2 21 0
-  75 000c 5060     		str	r0, [r2, #4]
-  24:../../src/heap.h ****    }
-  76              		.loc 2 24 0
-  77 000e FF28     		cmp	r0, #255
-  78 0010 00D9     		bls	.L2
-  79 0012 0023     		movs	r3, #0
-  80              	.LVL4:
-  81              	.L2:
-  82              	.LBE119:
-  83              	.LBE118:
-  35:../../src/heap.h ****    return heap.allocate(size);
-  36:../../src/heap.h **** }...
-  84              		.loc 2 36 0
-  85 0014 1800     		movs	r0, r3
-  86              		@ sp needed
-  87 0016 7047     		bx	lr
-  88              	.L5:
-  89              		.align	2
-  90              	.L4:
-  91 0018 00000000 		.word	heap
-  92              		.cfi_endproc
-  93              	.LFE123:
-  95              		.section	.text.SysTick_Handler,"ax",%progbits
-  96              		.align	1
-  97              		.global	SysTick_Handler
-  98              		.syntax unified
-  99              		.code	16
- 100              		.thumb_func
- 101              		.fpu softvfp
- 103              	SysTick_Handler:
- 104              	.LFB167:
-  19:../../src/timers.h ****    tickUpdater.notify();
- 105              		.loc 1 19 0
- 106              		.cfi_startproc
- 107              		@ args = 0, pretend = 0, frame = 0
- 108              		@ frame_needed = 0, uses_anonymous_args = 0
- 109              	.LVL5:
- 110              	.LBB129:
- 111              	.LBB130:
- 112              		.file 3 "../../src/subscriber.h"
-   1:../../src/subscriber.h **** #pragma once
-   2:../../src/subscriber.h **** 
-   3:../../src/subscriber.h **** #pragma once
-   4:../../src/subscriber.h **** 
-   5:../../src/subscriber.h **** #include "list.h"
-   6:../../src/subscriber.h **** 
-   7:../../src/subscriber.h **** struct Subscriber : Listable<Subscriber> {
-   8:../../src/subscriber.h ****    virtual void notify() = 0;
-   9:../../src/subscriber.h **** };
-  10:../../src/subscriber.h **** 
-  11:../../src/subscriber.h **** struct Publisher : private List<Subscriber>
-ARM GAS  /tmp/cciP0LwE.s 			page 5
+  13:../../src/periph/f1_gpio.h ****   __IO GPIO_bits::CR CR;   // Port configuration register      offset: 0x00
+  14:../../src/periph/f1_gpio.h ****   __IO GPIO_bits::DR IDR;  // Port input data register         offset: 0x08
+  15:../../src/periph/f1_gpio.h ****   __IO GPIO_bits::DR ODR;  // Port output data register        offset: 0x0C
+  16:../../src/periph/f1_gpio.h ****   __IO uint32_t      BSRR; // Port bit set/reset register      offset: 0x10
+  17:../../src/periph/f1_gpio.h ****   __IO uint32_t      BRR;  // Port bit reset register          offset: 0x14
+  18:../../src/periph/f1_gpio.h ****   __IO uint32_t      LCKR; // Port configuration lock register offset: 0x18
+  19:../../src/periph/f1_gpio.h **** 
+  20:../../src/periph/f1_gpio.h **** public:
+  21:../../src/periph/f1_gpio.h ****    using CMSIS_type = GPIO_TypeDef;
+  22:../../src/periph/f1_gpio.h ****    using Mode       = GPIO_bits::CR::Mode;
+  23:../../src/periph/f1_gpio.h ****    using Remap      = AFIO::Remap;
+  24:../../src/periph/f1_gpio.h **** 
+  25:../../src/periph/f1_gpio.h ****    template<Periph p, Periph v = Periph::RCC> GPIO& clock_enable() { make_reference<v>().template c
+  26:../../src/periph/f1_gpio.h **** 
+  27:../../src/periph/f1_gpio.h ****    void set     (size_t n) { BSRR |= (1 << n);              }
+  86              		.loc 3 27 0
+  87 0000 0123     		movs	r3, #1
+  88              	.LBE243:
+  89              	.LBE242:
+  90              		.loc 2 34 0
+  91 0002 0268     		ldr	r2, [r0]
+  92              	.LVL5:
+  93              	.LBB245:
+  94              	.LBB244:
+  95              		.loc 3 27 0
+  96 0004 4068     		ldr	r0, [r0, #4]
+  97              	.LVL6:
+  98 0006 1169     		ldr	r1, [r2, #16]
+  99 0008 8340     		lsls	r3, r3, r0
+ 100 000a 0B43     		orrs	r3, r1
+ 101 000c 1361     		str	r3, [r2, #16]
+ 102              	.LVL7:
+ 103              	.LBE244:
+ 104              	.LBE245:
+ 105              		.loc 2 34 0
+ 106              		@ sp needed
+ 107 000e 7047     		bx	lr
+ 108              		.cfi_endproc
+ 109              	.LFE131:
+ 111              		.section	.text._ZN3mcu3Pin5clearEv,"axG",%progbits,_ZN3mcu3Pin5clearEv,comdat
+ 112              		.align	1
+ 113              		.weak	_ZN3mcu3Pin5clearEv
+ 114              		.syntax unified
+ 115              		.code	16
+ 116              		.thumb_func
+ 117              		.fpu softvfp
+ 119              	_ZN3mcu3Pin5clearEv:
+ 120              	.LFB132:
+  35:../../src/pin.h ****    void clear()     { port.clear(n);           }
+ 121              		.loc 2 35 0
+ 122              		.cfi_startproc
+ 123              		@ args = 0, pretend = 0, frame = 0
+ 124              		@ frame_needed = 0, uses_anonymous_args = 0
+ 125              	.LVL8:
+ 126              	.LBB248:
+ 127              	.LBB249:
+  28:../../src/periph/f1_gpio.h ****    void clear   (size_t n) { BSRR |= (1 << (n + 16));       }
+ARM GAS  /tmp/ccq36h94.s 			page 5
 
 
-  12:../../src/subscriber.h **** {
-  13:../../src/subscriber.h ****    void clear(){clear_subscribe();}
-  14:../../src/subscriber.h ****    void subscribe  (Subscriber* p) { push_back(p); }
-  15:../../src/subscriber.h ****    void unsubscribe(Subscriber* p) { remove(p);    }
-  16:../../src/subscriber.h ****    // ссылка, чтобы не копировал каждый subscriber из *this
-  17:../../src/subscriber.h ****    void notify() {
-  18:../../src/subscriber.h ****       for (auto& subscriber : *this)
- 113              		.loc 3 18 0
- 114 0000 054B     		ldr	r3, .L9
- 115              	.LBE130:
- 116              	.LBE129:
-  19:../../src/timers.h ****    tickUpdater.notify();
- 117              		.loc 1 19 0
- 118 0002 10B5     		push	{r4, lr}
- 119              	.LCFI0:
- 120              		.cfi_def_cfa_offset 8
- 121              		.cfi_offset 4, -8
- 122              		.cfi_offset 14, -4
- 123              	.LBB134:
- 124              	.LBB133:
- 125              		.loc 3 18 0
- 126 0004 1C68     		ldr	r4, [r3]
- 127              	.LVL6:
- 128              	.L8:
- 129 0006 002C     		cmp	r4, #0
- 130 0008 05D0     		beq	.L6
-  19:../../src/subscriber.h ****          subscriber.notify();
- 131              		.loc 3 19 0
- 132 000a 2368     		ldr	r3, [r4]
- 133 000c 2000     		movs	r0, r4
- 134 000e 1B68     		ldr	r3, [r3]
- 135 0010 9847     		blx	r3
- 136              	.LVL7:
- 137              	.LBB131:
- 138              	.LBB132:
- 139              		.file 4 "../../src/list.h"
-   1:../../src/list.h **** #pragma once
-   2:../../src/list.h **** 
-   3:../../src/list.h **** 
-   4:../../src/list.h **** template<class T> struct Listable
-   5:../../src/list.h **** {
-   6:../../src/list.h ****    T* prev {nullptr};
-   7:../../src/list.h ****    T* next {nullptr};
-   8:../../src/list.h **** };
-   9:../../src/list.h **** 
-  10:../../src/list.h **** template<class T> class List
-  11:../../src/list.h **** {
-  12:../../src/list.h ****    T* first {nullptr};
-  13:../../src/list.h ****    T* last  {nullptr};
-  14:../../src/list.h **** public:
-  15:../../src/list.h ****    void clear_subscribe(){first = nullptr; last = nullptr;}
-  16:../../src/list.h ****    void push_back  (T*);
-  17:../../src/list.h ****    void push_front (T*);
-  18:../../src/list.h ****    void remove     (T*);
-  19:../../src/list.h ****    
-  20:../../src/list.h ****    class Iterator
-  21:../../src/list.h ****    {
-ARM GAS  /tmp/cciP0LwE.s 			page 6
+ 128              		.loc 3 28 0
+ 129 0000 0123     		movs	r3, #1
+ 130 0002 4268     		ldr	r2, [r0, #4]
+ 131              	.LBE249:
+ 132              	.LBE248:
+ 133              		.loc 2 35 0
+ 134 0004 10B5     		push	{r4, lr}
+ 135              	.LCFI0:
+ 136              		.cfi_def_cfa_offset 8
+ 137              		.cfi_offset 4, -8
+ 138              		.cfi_offset 14, -4
+ 139              	.LBB252:
+ 140              	.LBB250:
+ 141              		.loc 3 28 0
+ 142 0006 1032     		adds	r2, r2, #16
+ 143 0008 9340     		lsls	r3, r3, r2
+ 144              	.LBE250:
+ 145              	.LBE252:
+ 146              		.loc 2 35 0
+ 147 000a 0168     		ldr	r1, [r0]
+ 148              	.LVL9:
+ 149              		@ sp needed
+ 150              	.LBB253:
+ 151              	.LBB251:
+ 152              		.loc 3 28 0
+ 153 000c 0C69     		ldr	r4, [r1, #16]
+ 154 000e 2343     		orrs	r3, r4
+ 155 0010 0B61     		str	r3, [r1, #16]
+ 156              	.LVL10:
+ 157              	.LBE251:
+ 158              	.LBE253:
+ 159              		.loc 2 35 0
+ 160 0012 10BD     		pop	{r4, pc}
+ 161              		.cfi_endproc
+ 162              	.LFE132:
+ 164              		.section	.text._ZN3mcu3LCD6nibbleEv.isra.1,"ax",%progbits
+ 165              		.align	1
+ 166              		.syntax unified
+ 167              		.code	16
+ 168              		.thumb_func
+ 169              		.fpu softvfp
+ 171              	_ZN3mcu3LCD6nibbleEv.isra.1:
+ 172              	.LFB199:
+ 173              		.file 4 "../../src/lcd.h"
+   1:../../src/lcd.h **** #pragma once
+   2:../../src/lcd.h **** 
+   3:../../src/lcd.h **** #include "pin.h"
+   4:../../src/lcd.h **** #include "delay.h"
+   5:../../src/lcd.h **** 
+   6:../../src/lcd.h **** namespace mcu {
+   7:../../src/lcd.h **** 
+   8:../../src/lcd.h **** class LCD 
+   9:../../src/lcd.h **** {
+  10:../../src/lcd.h ****    enum Init {reset = 0b0000, _4_bit_mode = 0x2, two_line_5x8_font = 0x8, display_on = 0xF, 
+  11:../../src/lcd.h ****               display_clear = 0x8, set_mode = 0x6 };
+  12:../../src/lcd.h ****    
+  13:../../src/lcd.h ****    Pin& rs;
+ARM GAS  /tmp/ccq36h94.s 			page 6
 
 
-  22:../../src/list.h ****       T* p {nullptr};
-  23:../../src/list.h ****    public:
-  24:../../src/list.h ****       Iterator (T*);
-  25:../../src/list.h ****       Iterator() = default;
-  26:../../src/list.h **** 
-  27:../../src/list.h ****       T&        operator*  () const;
-  28:../../src/list.h ****       bool      operator!= (const Iterator&) const;
-  29:../../src/list.h ****       Iterator& operator++ ();
-  30:../../src/list.h ****    };
-  31:../../src/list.h **** 
-  32:../../src/list.h ****    Iterator begin();
-  33:../../src/list.h ****    Iterator end();
-  34:../../src/list.h **** };
-  35:../../src/list.h **** 
-  36:../../src/list.h **** 
-  37:../../src/list.h **** 
-  38:../../src/list.h **** 
-  39:../../src/list.h **** 
-  40:../../src/list.h **** template<class T>
-  41:../../src/list.h **** void List<T>::push_back (T* p)
-  42:../../src/list.h **** {
-  43:../../src/list.h ****    p->prev = last;
-  44:../../src/list.h ****    if (last)
-  45:../../src/list.h ****       last->next = p;
-  46:../../src/list.h ****    last = p;
-  47:../../src/list.h ****    if (not first)
-  48:../../src/list.h ****       first = p;
-  49:../../src/list.h **** }
-  50:../../src/list.h **** 
-  51:../../src/list.h **** 
-  52:../../src/list.h **** template<class T>
-  53:../../src/list.h **** void List<T>::push_front (T* p)
-  54:../../src/list.h **** {
-  55:../../src/list.h ****    // не реализован
-  56:../../src/list.h **** }
-  57:../../src/list.h **** 
-  58:../../src/list.h **** 
-  59:../../src/list.h **** template<class T>
-  60:../../src/list.h **** void List<T>::remove (T* p)
-  61:../../src/list.h **** {
-  62:../../src/list.h ****    if (p->prev and p->next) {       // если в серединке
-  63:../../src/list.h ****       p->prev->next = p->next;
-  64:../../src/list.h ****       p->next->prev = p->prev;
-  65:../../src/list.h ****    } else if (p->next) {            // если первый
-  66:../../src/list.h ****       first = p->next;
-  67:../../src/list.h ****       first->prev = nullptr;
-  68:../../src/list.h ****       if (not first) last = nullptr;
-  69:../../src/list.h ****    } else if (p->prev) {            // если последний
-  70:../../src/list.h ****       last = p->prev;
-  71:../../src/list.h ****       last->next = nullptr;
-  72:../../src/list.h ****       if (not last) first = nullptr;
-  73:../../src/list.h ****    } else {                         // если единственный 
-  74:../../src/list.h ****       first = nullptr;
-  75:../../src/list.h ****       last  = nullptr;
-  76:../../src/list.h ****    }
-  77:../../src/list.h ****    p->prev = nullptr;
-  78:../../src/list.h ****    p->next = nullptr;
-ARM GAS  /tmp/cciP0LwE.s 			page 7
-
-
-  79:../../src/list.h **** 
-  80:../../src/list.h **** }
-  81:../../src/list.h **** 
-  82:../../src/list.h **** 
-  83:../../src/list.h **** template<class T>
-  84:../../src/list.h **** typename List<T>::Iterator List<T>::begin()
-  85:../../src/list.h **** {
-  86:../../src/list.h ****    return List<T>::Iterator {first};
-  87:../../src/list.h **** }
-  88:../../src/list.h **** 
-  89:../../src/list.h **** 
-  90:../../src/list.h **** template<class T>
-  91:../../src/list.h **** typename List<T>::Iterator List<T>::end()
-  92:../../src/list.h **** {
-  93:../../src/list.h ****    return List<T>::Iterator();
-  94:../../src/list.h **** }
-  95:../../src/list.h **** 
-  96:../../src/list.h **** 
-  97:../../src/list.h **** 
-  98:../../src/list.h **** 
-  99:../../src/list.h **** 
- 100:../../src/list.h **** 
- 101:../../src/list.h **** /// Iterator
- 102:../../src/list.h **** template<class T>
- 103:../../src/list.h **** List<T>::Iterator::Iterator (T* other) : p {other} {}
- 104:../../src/list.h **** 
- 105:../../src/list.h **** template<class T>
- 106:../../src/list.h **** T& List<T>::Iterator::operator* () const 
- 107:../../src/list.h **** {
- 108:../../src/list.h ****    return *p;
- 109:../../src/list.h **** }
- 110:../../src/list.h **** 
- 111:../../src/list.h **** template<class T>
- 112:../../src/list.h **** bool List<T>::Iterator::operator!= (const List<T>::Iterator& other) const
- 113:../../src/list.h **** {
- 114:../../src/list.h ****    return p != other.p;
- 115:../../src/list.h **** }
- 116:../../src/list.h **** 
- 117:../../src/list.h **** template<class T>
- 118:../../src/list.h **** typename List<T>::Iterator& List<T>::Iterator::operator++ ()
- 119:../../src/list.h **** {
- 120:../../src/list.h ****    p = p->next;
- 140              		.loc 4 120 0
- 141 0012 A468     		ldr	r4, [r4, #8]
- 142              	.LVL8:
- 143 0014 F7E7     		b	.L8
- 144              	.LVL9:
- 145              	.L6:
- 146              	.LBE132:
- 147              	.LBE131:
- 148              	.LBE133:
- 149              	.LBE134:
-  21:../../src/timers.h **** 
- 150              		.loc 1 21 0
- 151              		@ sp needed
- 152              	.LVL10:
- 153 0016 10BD     		pop	{r4, pc}
-ARM GAS  /tmp/cciP0LwE.s 			page 8
-
-
- 154              	.L10:
- 155              		.align	2
- 156              	.L9:
- 157 0018 00000000 		.word	.LANCHOR0
- 158              		.cfi_endproc
- 159              	.LFE167:
- 161              		.section	.text._ZN5Timer5eventEv,"ax",%progbits
- 162              		.align	1
- 163              		.global	_ZN5Timer5eventEv
- 164              		.syntax unified
- 165              		.code	16
- 166              		.thumb_func
- 167              		.fpu softvfp
- 169              	_ZN5Timer5eventEv:
- 170              	.LFB182:
-  68:../../src/timers.h **** 
-  69:../../src/timers.h **** 
-  70:../../src/timers.h **** 
-  71:../../src/timers.h **** void Timer::start (uint32_t ms)
-  72:../../src/timers.h **** {
-  73:../../src/timers.h ****    timeSet = ms;
-  74:../../src/timers.h ****    subscribe();
-  75:../../src/timers.h **** }
-  76:../../src/timers.h **** 
-  77:../../src/timers.h **** 
-  78:../../src/timers.h **** bool Timer::event()
-  79:../../src/timers.h **** {
- 171              		.loc 1 79 0
- 172              		.cfi_startproc
- 173              		@ args = 0, pretend = 0, frame = 0
- 174              		@ frame_needed = 0, uses_anonymous_args = 0
- 175              		@ link register save eliminated.
- 176              	.LVL11:
-  80:../../src/timers.h ****    if (timePassed_ >= timeSet) {
- 177              		.loc 1 80 0
- 178 0000 4169     		ldr	r1, [r0, #20]
- 179 0002 0269     		ldr	r2, [r0, #16]
- 180 0004 0023     		movs	r3, #0
- 181 0006 9142     		cmp	r1, r2
- 182 0008 01D3     		bcc	.L12
-  81:../../src/timers.h ****       timePassed_ = 0;
- 183              		.loc 1 81 0
- 184 000a 4361     		str	r3, [r0, #20]
-  82:../../src/timers.h ****       return (true);
- 185              		.loc 1 82 0
- 186 000c 0133     		adds	r3, r3, #1
- 187              	.L12:
-  83:../../src/timers.h ****    } else {
-  84:../../src/timers.h ****       return (false);
-  85:../../src/timers.h ****    }
-  86:../../src/timers.h **** }
- 188              		.loc 1 86 0
- 189 000e 1800     		movs	r0, r3
+  14:../../src/lcd.h ****    Pin& rw;
+  15:../../src/lcd.h ****    Pin& e;
+  16:../../src/lcd.h ****    Pin& db4;
+  17:../../src/lcd.h ****    Pin& db5;
+  18:../../src/lcd.h ****    Pin& db6;
+  19:../../src/lcd.h ****    Pin& db7;
+  20:../../src/lcd.h ****    // Delay& delay;
+  21:../../src/lcd.h **** 
+  22:../../src/lcd.h ****    LCD (Pin& rs, Pin& rw, Pin& e, Pin& db4, Pin& db5, Pin& db6, Pin& db7)
+  23:../../src/lcd.h ****       : rs {rs}
+  24:../../src/lcd.h ****       , rw {rw}
+  25:../../src/lcd.h ****       , e  {e}
+  26:../../src/lcd.h ****       , db4 {db4}
+  27:../../src/lcd.h ****       , db5 {db5}
+  28:../../src/lcd.h ****       , db6 {db6}
+  29:../../src/lcd.h ****       , db7 {db7}
+  30:../../src/lcd.h ****       // , delay{Delay::make()}
+  31:../../src/lcd.h ****       {}
+  32:../../src/lcd.h **** 
+  33:../../src/lcd.h ****    void init();
+  34:../../src/lcd.h ****    void send_data(Init data);
+  35:../../src/lcd.h ****    void delay(uint16_t time) { while(time > 0) {time--;} return; }
+  36:../../src/lcd.h **** 
+  37:../../src/lcd.h ****    void nibble(){ 
+ 174              		.loc 4 37 0
+ 175              		.cfi_startproc
+ 176              		@ args = 0, pretend = 0, frame = 0
+ 177              		@ frame_needed = 0, uses_anonymous_args = 0
+ 178              	.LVL11:
+ 179 0000 10B5     		push	{r4, lr}
+ 180              	.LCFI1:
+ 181              		.cfi_def_cfa_offset 8
+ 182              		.cfi_offset 4, -8
+ 183              		.cfi_offset 14, -4
+ 184              		.loc 4 37 0
+ 185 0002 0400     		movs	r4, r0
+ 186              	.LBB254:
+ 187              	.LBB255:
+  36:../../src/pin.h ****    bool is_set()    { return port.is_set(n);   }
+  37:../../src/pin.h **** 
+  38:../../src/pin.h ****    bool operator=  (bool v) { v ? set() : clear(); return v; }
+ 188              		.loc 2 38 0
+ 189 0004 0068     		ldr	r0, [r0]
  190              	.LVL12:
- 191              		@ sp needed
- 192 0010 7047     		bx	lr
- 193              		.cfi_endproc
-ARM GAS  /tmp/cciP0LwE.s 			page 9
+ 191 0006 FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 192              	.LVL13:
+ 193              	.LBE255:
+ 194              	.LBE254:
+ 195              	.LBB256:
+ 196              	.LBB257:
+ 197 000a 2068     		ldr	r0, [r4]
+ 198 000c FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 199              	.LVL14:
+ 200              	.LBE257:
+ 201              	.LBE256:
+  38:../../src/lcd.h ****       constexpr uint32_t us = F_CPU / 1000000; 
+  39:../../src/lcd.h ****       e = true;
+ARM GAS  /tmp/ccq36h94.s 			page 7
 
 
- 194              	.LFE182:
- 196              		.section	.text._ZN5Timer4doneEv,"ax",%progbits
- 197              		.align	1
- 198              		.global	_ZN5Timer4doneEv
- 199              		.syntax unified
- 200              		.code	16
- 201              		.thumb_func
- 202              		.fpu softvfp
- 204              	_ZN5Timer4doneEv:
- 205              	.LFB185:
-  87:../../src/timers.h **** 
-  88:../../src/timers.h **** 
-  89:../../src/timers.h **** template<class Functor>
-  90:../../src/timers.h **** void Timer::event (Functor functor)
-  91:../../src/timers.h **** {
-  92:../../src/timers.h ****    if (timePassed_ >= timeSet) {
-  93:../../src/timers.h ****       timePassed_ = 0;
-  94:../../src/timers.h ****       functor();
-  95:../../src/timers.h ****    }
-  96:../../src/timers.h **** }
-  97:../../src/timers.h **** 
-  98:../../src/timers.h **** 
-  99:../../src/timers.h **** void Timer::stop()
- 100:../../src/timers.h **** {
- 101:../../src/timers.h ****    timePassed_ = 0;
- 102:../../src/timers.h ****    unsubscribe();
- 103:../../src/timers.h **** }
- 104:../../src/timers.h **** 
- 105:../../src/timers.h **** 
- 106:../../src/timers.h **** bool     Timer::done()       { return timePassed_ >= timeSet; }
- 206              		.loc 1 106 0
- 207              		.cfi_startproc
- 208              		@ args = 0, pretend = 0, frame = 0
- 209              		@ frame_needed = 0, uses_anonymous_args = 0
- 210              		@ link register save eliminated.
- 211              	.LVL13:
- 212              		.loc 1 106 0
- 213 0000 4269     		ldr	r2, [r0, #20]
- 214 0002 0369     		ldr	r3, [r0, #16]
- 215 0004 0020     		movs	r0, #0
- 216              	.LVL14:
- 217 0006 9A42     		cmp	r2, r3
- 218 0008 4041     		adcs	r0, r0, r0
- 219              		@ sp needed
- 220 000a C0B2     		uxtb	r0, r0
- 221 000c 7047     		bx	lr
- 222              		.cfi_endproc
- 223              	.LFE185:
- 225              		.section	.text._ZN5Timer7isCountEv,"ax",%progbits
- 226              		.align	1
- 227              		.global	_ZN5Timer7isCountEv
- 228              		.syntax unified
- 229              		.code	16
- 230              		.thumb_func
- 231              		.fpu softvfp
- 233              	_ZN5Timer7isCountEv:
- 234              	.LFB188:
-ARM GAS  /tmp/cciP0LwE.s 			page 10
+  40:../../src/lcd.h ****       delay(us);
+  41:../../src/lcd.h ****       e = false;
+  42:../../src/lcd.h ****       delay(us);
+  43:../../src/lcd.h ****    }
+ 202              		.loc 4 43 0
+ 203              		@ sp needed
+ 204 0010 10BD     		pop	{r4, pc}
+ 205              		.cfi_endproc
+ 206              	.LFE199:
+ 208              		.section	.text._ZN3mcu3PinaSEb,"axG",%progbits,_ZN3mcu3PinaSEb,comdat
+ 209              		.align	1
+ 210              		.weak	_ZN3mcu3PinaSEb
+ 211              		.syntax unified
+ 212              		.code	16
+ 213              		.thumb_func
+ 214              		.fpu softvfp
+ 216              	_ZN3mcu3PinaSEb:
+ 217              	.LFB134:
+ 218              		.loc 2 38 0
+ 219              		.cfi_startproc
+ 220              		@ args = 0, pretend = 0, frame = 0
+ 221              		@ frame_needed = 0, uses_anonymous_args = 0
+ 222              	.LVL15:
+ 223 0000 10B5     		push	{r4, lr}
+ 224              	.LCFI2:
+ 225              		.cfi_def_cfa_offset 8
+ 226              		.cfi_offset 4, -8
+ 227              		.cfi_offset 14, -4
+ 228              		.loc 2 38 0
+ 229 0002 0C1E     		subs	r4, r1, #0
+ 230 0004 03D0     		beq	.L9
+ 231              		.loc 2 38 0 is_stmt 0 discriminator 1
+ 232 0006 FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 233              	.LVL16:
+ 234              	.L10:
+ 235              		.loc 2 38 0 discriminator 4
+ 236 000a 2000     		movs	r0, r4
+ 237              		@ sp needed
+ 238 000c 10BD     		pop	{r4, pc}
+ 239              	.LVL17:
+ 240              	.L9:
+ 241              		.loc 2 38 0 discriminator 2
+ 242 000e FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 243              	.LVL18:
+ 244 0012 FAE7     		b	.L10
+ 245              		.cfi_endproc
+ 246              	.LFE134:
+ 248              		.section	.text._ZN3mcu3LCD9send_dataENS0_4InitE,"ax",%progbits
+ 249              		.align	1
+ 250              		.global	_ZN3mcu3LCD9send_dataENS0_4InitE
+ 251              		.syntax unified
+ 252              		.code	16
+ 253              		.thumb_func
+ 254              		.fpu softvfp
+ 256              	_ZN3mcu3LCD9send_dataENS0_4InitE:
+ 257              	.LFB157:
+  44:../../src/lcd.h **** 
+ARM GAS  /tmp/ccq36h94.s 			page 8
 
 
- 107:../../src/timers.h **** void     Timer::pause()      { unsubscribe(); }
- 108:../../src/timers.h **** void     Timer::start()      { subscribe();  }
- 109:../../src/timers.h **** bool     Timer::isCount()    { return subscribed; }
- 235              		.loc 1 109 0
- 236              		.cfi_startproc
- 237              		@ args = 0, pretend = 0, frame = 0
- 238              		@ frame_needed = 0, uses_anonymous_args = 0
- 239              		@ link register save eliminated.
- 240              	.LVL15:
- 241              		.loc 1 109 0
- 242 0000 007B     		ldrb	r0, [r0, #12]
- 243              	.LVL16:
- 244              		@ sp needed
- 245 0002 7047     		bx	lr
- 246              		.cfi_endproc
- 247              	.LFE188:
- 249              		.section	.text._ZN5Timer10timePassedEv,"ax",%progbits
- 250              		.align	1
- 251              		.global	_ZN5Timer10timePassedEv
- 252              		.syntax unified
- 253              		.code	16
- 254              		.thumb_func
- 255              		.fpu softvfp
- 257              	_ZN5Timer10timePassedEv:
- 258              	.LFB189:
- 110:../../src/timers.h **** uint32_t Timer::timePassed() { return timePassed_; }
- 259              		.loc 1 110 0
- 260              		.cfi_startproc
- 261              		@ args = 0, pretend = 0, frame = 0
- 262              		@ frame_needed = 0, uses_anonymous_args = 0
- 263              		@ link register save eliminated.
- 264              	.LVL17:
- 265              		.loc 1 110 0
- 266 0000 4069     		ldr	r0, [r0, #20]
- 267              	.LVL18:
- 268              		@ sp needed
- 269 0002 7047     		bx	lr
- 270              		.cfi_endproc
- 271              	.LFE189:
- 273              		.section	.text._ZN5Timer8timeLeftEv,"ax",%progbits
- 274              		.align	1
- 275              		.global	_ZN5Timer8timeLeftEv
- 276              		.syntax unified
- 277              		.code	16
- 278              		.thumb_func
- 279              		.fpu softvfp
- 281              	_ZN5Timer8timeLeftEv:
- 282              	.LFB190:
- 111:../../src/timers.h **** uint32_t Timer::timeLeft(  ) { return timeSet - timePassed_; }
- 283              		.loc 1 111 0
- 284              		.cfi_startproc
- 285              		@ args = 0, pretend = 0, frame = 0
- 286              		@ frame_needed = 0, uses_anonymous_args = 0
- 287              		@ link register save eliminated.
- 288              	.LVL19:
- 289              		.loc 1 111 0
- 290 0000 0369     		ldr	r3, [r0, #16]
-ARM GAS  /tmp/cciP0LwE.s 			page 11
+  45:../../src/lcd.h **** public:
+  46:../../src/lcd.h **** 
+  47:../../src/lcd.h ****    template <class RS, class RW, class E, class DB4, class DB5, class DB6, class DB7>
+  48:../../src/lcd.h ****    static auto& make()
+  49:../../src/lcd.h ****    {
+  50:../../src/lcd.h ****       auto& screen = *new LCD 
+  51:../../src/lcd.h ****       {
+  52:../../src/lcd.h ****          Pin::template make_new<RS,  PinMode::Output>(),
+  53:../../src/lcd.h ****          Pin::template make_new<RW,  PinMode::Output>(), 
+  54:../../src/lcd.h ****          Pin::template make_new<E,   PinMode::Output>(), 
+  55:../../src/lcd.h ****          Pin::template make_new<DB4, PinMode::Output>(), 
+  56:../../src/lcd.h ****          Pin::template make_new<DB5, PinMode::Output>(), 
+  57:../../src/lcd.h ****          Pin::template make_new<DB6, PinMode::Output>(), 
+  58:../../src/lcd.h ****          Pin::template make_new<DB7, PinMode::Output>(),
+  59:../../src/lcd.h ****       };
+  60:../../src/lcd.h **** 
+  61:../../src/lcd.h ****       screen.init();
+  62:../../src/lcd.h **** 
+  63:../../src/lcd.h ****       return screen;
+  64:../../src/lcd.h ****    }
+  65:../../src/lcd.h **** 
+  66:../../src/lcd.h ****    void send ();
+  67:../../src/lcd.h **** 
+  68:../../src/lcd.h **** };
+  69:../../src/lcd.h **** 
+  70:../../src/lcd.h **** void LCD::init()
+  71:../../src/lcd.h **** {
+  72:../../src/lcd.h ****    rs = rw = false;
+  73:../../src/lcd.h ****    e = false;
+  74:../../src/lcd.h ****    delay(20000);
+  75:../../src/lcd.h ****    db4 = db5 = true;
+  76:../../src/lcd.h ****    db6 = db7 = false;
+  77:../../src/lcd.h ****    nibble();
+  78:../../src/lcd.h ****    delay(5000);
+  79:../../src/lcd.h ****    db4 = db5 = true;
+  80:../../src/lcd.h ****    db6 = db7 = false;
+  81:../../src/lcd.h ****    nibble();
+  82:../../src/lcd.h ****    delay(150);
+  83:../../src/lcd.h ****    db4 = db5 = true;
+  84:../../src/lcd.h ****    db6 = db7 = false;
+  85:../../src/lcd.h ****    nibble();
+  86:../../src/lcd.h ****    delay(40);
+  87:../../src/lcd.h ****    send_data(Init::_4_bit_mode);
+  88:../../src/lcd.h ****    nibble();
+  89:../../src/lcd.h ****    delay(40);
+  90:../../src/lcd.h ****    send_data(Init::_4_bit_mode);
+  91:../../src/lcd.h ****    nibble();
+  92:../../src/lcd.h ****    send_data(Init::two_line_5x8_font);
+  93:../../src/lcd.h ****    nibble();
+  94:../../src/lcd.h ****    delay(40);
+  95:../../src/lcd.h ****    send_data(Init::reset);
+  96:../../src/lcd.h ****    nibble();
+  97:../../src/lcd.h ****    send_data(Init::display_on);
+  98:../../src/lcd.h ****    nibble();
+  99:../../src/lcd.h ****    delay(40);
+ 100:../../src/lcd.h ****    send_data(Init::reset);
+ 101:../../src/lcd.h ****    nibble();
+ARM GAS  /tmp/ccq36h94.s 			page 9
 
 
- 291 0002 4069     		ldr	r0, [r0, #20]
- 292              	.LVL20:
- 293              		@ sp needed
- 294 0004 181A     		subs	r0, r3, r0
- 295 0006 7047     		bx	lr
- 296              		.cfi_endproc
- 297              	.LFE190:
- 299              		.section	.text._ZN5Timer9isGreaterEm,"ax",%progbits
- 300              		.align	1
- 301              		.global	_ZN5Timer9isGreaterEm
- 302              		.syntax unified
- 303              		.code	16
- 304              		.thumb_func
- 305              		.fpu softvfp
- 307              	_ZN5Timer9isGreaterEm:
- 308              	.LFB191:
- 112:../../src/timers.h **** bool     Timer::isGreater (uint32_t val) { return timePassed_ > val; }
- 309              		.loc 1 112 0
- 310              		.cfi_startproc
- 311              		@ args = 0, pretend = 0, frame = 0
- 312              		@ frame_needed = 0, uses_anonymous_args = 0
- 313              		@ link register save eliminated.
- 314              	.LVL21:
- 315              		.loc 1 112 0
- 316 0000 4069     		ldr	r0, [r0, #20]
- 317              	.LVL22:
- 318              		@ sp needed
- 319 0002 8142     		cmp	r1, r0
- 320 0004 8041     		sbcs	r0, r0, r0
- 321 0006 4042     		rsbs	r0, r0, #0
- 322 0008 7047     		bx	lr
- 323              		.cfi_endproc
- 324              	.LFE191:
- 326              		.section	.text._ZN14TickSubscriber11unsubscribeEv,"ax",%progbits
- 327              		.align	1
- 328              		.global	_ZN14TickSubscriber11unsubscribeEv
- 329              		.syntax unified
- 330              		.code	16
- 331              		.thumb_func
- 332              		.fpu softvfp
- 334              	_ZN14TickSubscriber11unsubscribeEv:
- 335              	.LFB192:
- 113:../../src/timers.h **** 
- 114:../../src/timers.h **** 
- 115:../../src/timers.h **** 
- 116:../../src/timers.h **** void TickSubscriber::unsubscribe()
- 117:../../src/timers.h **** {
- 336              		.loc 1 117 0
- 337              		.cfi_startproc
- 338              		@ args = 0, pretend = 0, frame = 0
- 339              		@ frame_needed = 0, uses_anonymous_args = 0
- 340              		@ link register save eliminated.
- 341              	.LVL23:
- 118:../../src/timers.h ****    if (subscribed) {
- 342              		.loc 1 118 0
- 343 0000 037B     		ldrb	r3, [r0, #12]
- 344 0002 002B     		cmp	r3, #0
-ARM GAS  /tmp/cciP0LwE.s 			page 12
+ 102:../../src/lcd.h ****    send_data(Init::set_mode);
+ 103:../../src/lcd.h ****    nibble();
+ 104:../../src/lcd.h ****    delay(40);
+ 105:../../src/lcd.h ****    send_data(Init::reset);
+ 106:../../src/lcd.h ****    nibble();
+ 107:../../src/lcd.h ****    send_data(Init::display_clear);
+ 108:../../src/lcd.h ****    nibble();
+ 109:../../src/lcd.h ****    delay(40);
+ 110:../../src/lcd.h ****    send_data(Init::reset);
+ 111:../../src/lcd.h ****    nibble();
+ 112:../../src/lcd.h ****    send_data(Init::_4_bit_mode);
+ 113:../../src/lcd.h ****    nibble();
+ 114:../../src/lcd.h ****    delay(40);
+ 115:../../src/lcd.h **** }
+ 116:../../src/lcd.h **** 
+ 117:../../src/lcd.h **** void LCD::send_data(Init data)
+ 118:../../src/lcd.h **** {
+ 258              		.loc 4 118 0 is_stmt 1
+ 259              		.cfi_startproc
+ 260              		@ args = 0, pretend = 0, frame = 0
+ 261              		@ frame_needed = 0, uses_anonymous_args = 0
+ 262              	.LVL19:
+ 263 0000 70B5     		push	{r4, r5, r6, lr}
+ 264              	.LCFI3:
+ 265              		.cfi_def_cfa_offset 16
+ 266              		.cfi_offset 4, -16
+ 267              		.cfi_offset 5, -12
+ 268              		.cfi_offset 6, -8
+ 269              		.cfi_offset 14, -4
+ 270              		.loc 4 118 0
+ 271 0002 0400     		movs	r4, r0
+ 272 0004 0D1E     		subs	r5, r1, #0
+ 119:../../src/lcd.h ****    if      (data == Init::reset)              db4 = db5 = db6 = db7 = false;
+ 273              		.loc 4 119 0
+ 274 0006 0ED1     		bne	.L12
+ 275              	.LVL20:
+ 276              	.LBB288:
+ 277              	.LBB289:
+ 278              		.loc 2 38 0 discriminator 1
+ 279 0008 8069     		ldr	r0, [r0, #24]
+ 280              	.LVL21:
+ 281 000a FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 282              	.LVL22:
+ 283              	.LBE289:
+ 284              	.LBE288:
+ 285              	.LBB290:
+ 286              	.LBB291:
+ 287 000e 6069     		ldr	r0, [r4, #20]
+ 288 0010 FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 289              	.LVL23:
+ 290              	.LBE291:
+ 291              	.LBE290:
+ 292              		.loc 4 119 0 discriminator 1
+ 293 0014 2900     		movs	r1, r5
+ 294 0016 2069     		ldr	r0, [r4, #16]
+ 295 0018 FFF7FEFF 		bl	_ZN3mcu3PinaSEb
+ 296              	.LVL24:
+ARM GAS  /tmp/ccq36h94.s 			page 10
 
 
- 345 0004 0DD0     		beq	.L19
- 346              	.LVL24:
- 347              	.LBB141:
- 348              	.LBB142:
- 119:../../src/timers.h ****       subscribed = false;
- 349              		.loc 1 119 0
- 350 0006 0023     		movs	r3, #0
- 351              	.LBB143:
- 352              	.LBB144:
- 353              	.LBB145:
-  62:../../src/list.h ****       p->prev->next = p->next;
- 354              		.loc 4 62 0
- 355 0008 4268     		ldr	r2, [r0, #4]
- 356              	.LBE145:
- 357              	.LBE144:
- 358              	.LBE143:
- 359              		.loc 1 119 0
- 360 000a 0373     		strb	r3, [r0, #12]
- 361              	.LVL25:
- 362 000c 8368     		ldr	r3, [r0, #8]
- 363              	.LBB150:
- 364              	.LBB148:
- 365              	.LBB146:
-  62:../../src/list.h ****       p->prev->next = p->next;
- 366              		.loc 4 62 0
- 367 000e 002A     		cmp	r2, #0
- 368 0010 0ED0     		beq	.L21
- 369 0012 002B     		cmp	r3, #0
- 370 0014 08D0     		beq	.L22
-  63:../../src/list.h ****       p->next->prev = p->prev;
- 371              		.loc 4 63 0
- 372 0016 9360     		str	r3, [r2, #8]
-  64:../../src/list.h ****    } else if (p->next) {            // если первый
- 373              		.loc 4 64 0
- 374 0018 8368     		ldr	r3, [r0, #8]
- 375              	.L30:
-  67:../../src/list.h ****       if (not first) last = nullptr;
- 376              		.loc 4 67 0
- 377 001a 5A60     		str	r2, [r3, #4]
- 378              	.L23:
-  77:../../src/list.h ****    p->next = nullptr;
- 379              		.loc 4 77 0
- 380 001c 0023     		movs	r3, #0
- 381 001e 4360     		str	r3, [r0, #4]
-  78:../../src/list.h **** 
- 382              		.loc 4 78 0
- 383 0020 8360     		str	r3, [r0, #8]
- 384              	.LVL26:
- 385              	.L19:
- 386              	.LBE146:
- 387              	.LBE148:
- 388              	.LBE150:
- 389              	.LBE142:
- 390              	.LBE141:
- 120:../../src/timers.h ****       tickUpdater.unsubscribe (this);
- 121:../../src/timers.h ****    }
- 122:../../src/timers.h **** }
-ARM GAS  /tmp/cciP0LwE.s 			page 13
+ 297 001c 0100     		movs	r1, r0
+ 298              	.L17:
+ 120:../../src/lcd.h ****    else if (data == Init::_4_bit_mode)       {db5 = true; db4 = db6 = db7 = false;}
+ 299              		.loc 4 120 0 discriminator 1
+ 300 001e E068     		ldr	r0, [r4, #12]
+ 301 0020 FFF7FEFF 		bl	_ZN3mcu3PinaSEb
+ 302              	.LVL25:
+ 303              	.L11:
+ 121:../../src/lcd.h ****    else if (data == Init::two_line_5x8_font) {db7 = true; db4 = db5 = db6 = false;}
+ 122:../../src/lcd.h ****    else if (data == Init::display_on)        {db7 = true; db4 = db5 = db6 = true;}
+ 123:../../src/lcd.h ****    else if (data == Init::display_clear)     {db4 = true; db5 = db6 = db7 = false;}
+ 124:../../src/lcd.h ****    else if (data == Init::set_mode)          {db5 = db6 = true; db4 = db7 = false;}
+ 125:../../src/lcd.h **** 
+ 126:../../src/lcd.h **** }
+ 304              		.loc 4 126 0
+ 305              		@ sp needed
+ 306              	.LVL26:
+ 307 0024 70BD     		pop	{r4, r5, r6, pc}
+ 308              	.LVL27:
+ 309              	.L12:
+ 120:../../src/lcd.h ****    else if (data == Init::_4_bit_mode)       {db5 = true; db4 = db6 = db7 = false;}
+ 310              		.loc 4 120 0
+ 311 0026 0229     		cmp	r1, #2
+ 312 0028 0AD1     		bne	.L14
+ 313              	.LVL28:
+ 314              	.LBB292:
+ 315              	.LBB293:
+ 316              		.loc 2 38 0 discriminator 1
+ 317 002a 0069     		ldr	r0, [r0, #16]
+ 318              	.LVL29:
+ 319 002c FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 320              	.LVL30:
+ 321              	.LBE293:
+ 322              	.LBE292:
+ 323              	.LBB294:
+ 324              	.LBB295:
+ 325 0030 A069     		ldr	r0, [r4, #24]
+ 326 0032 FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 327              	.LVL31:
+ 328              	.LBE295:
+ 329              	.LBE294:
+ 330              	.LBB296:
+ 331              	.LBB297:
+ 332 0036 6069     		ldr	r0, [r4, #20]
+ 333              	.LVL32:
+ 334              	.L18:
+ 335 0038 FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 336              	.LVL33:
+ 337              	.LBE297:
+ 338              	.LBE296:
+ 120:../../src/lcd.h ****    else if (data == Init::_4_bit_mode)       {db5 = true; db4 = db6 = db7 = false;}
+ 339              		.loc 4 120 0 discriminator 1
+ 340 003c 0021     		movs	r1, #0
+ 341 003e EEE7     		b	.L17
+ 342              	.LVL34:
+ 343              	.L14:
+ 121:../../src/lcd.h ****    else if (data == Init::two_line_5x8_font) {db7 = true; db4 = db5 = db6 = false;}
+ARM GAS  /tmp/ccq36h94.s 			page 11
 
 
- 391              		.loc 1 122 0
- 392              		@ sp needed
- 393 0022 7047     		bx	lr
- 394              	.LVL27:
- 395              	.L24:
- 396              	.LBB153:
- 397              	.LBB152:
- 398              	.LBB151:
- 399              	.LBB149:
- 400              	.LBB147:
-  66:../../src/list.h ****       first->prev = nullptr;
- 401              		.loc 4 66 0
- 402 0024 0B60     		str	r3, [r1]
- 403 0026 F8E7     		b	.L30
- 404              	.L22:
-  70:../../src/list.h ****       last->next = nullptr;
- 405              		.loc 4 70 0
- 406 0028 0449     		ldr	r1, .L31
-  71:../../src/list.h ****       if (not last) first = nullptr;
- 407              		.loc 4 71 0
- 408 002a 9360     		str	r3, [r2, #8]
-  70:../../src/list.h ****       last->next = nullptr;
- 409              		.loc 4 70 0
- 410 002c 4A60     		str	r2, [r1, #4]
- 411 002e F5E7     		b	.L23
- 412              	.L21:
- 413 0030 0249     		ldr	r1, .L31
-  65:../../src/list.h ****       first = p->next;
- 414              		.loc 4 65 0
- 415 0032 002B     		cmp	r3, #0
- 416 0034 F6D1     		bne	.L24
-  74:../../src/list.h ****       last  = nullptr;
- 417              		.loc 4 74 0
- 418 0036 0B60     		str	r3, [r1]
-  75:../../src/list.h ****    }
- 419              		.loc 4 75 0
- 420 0038 4B60     		str	r3, [r1, #4]
- 421 003a EFE7     		b	.L23
- 422              	.L32:
- 423              		.align	2
- 424              	.L31:
- 425 003c 00000000 		.word	.LANCHOR0
- 426              	.LBE147:
- 427              	.LBE149:
- 428              	.LBE151:
- 429              	.LBE152:
- 430              	.LBE153:
- 431              		.cfi_endproc
- 432              	.LFE192:
- 434              		.section	.text._ZN5Timer4stopEv,"ax",%progbits
- 435              		.align	1
- 436              		.global	_ZN5Timer4stopEv
- 437              		.syntax unified
- 438              		.code	16
- 439              		.thumb_func
- 440              		.fpu softvfp
- 442              	_ZN5Timer4stopEv:
-ARM GAS  /tmp/cciP0LwE.s 			page 14
+ 344              		.loc 4 121 0
+ 345 0040 0829     		cmp	r1, #8
+ 346 0042 07D1     		bne	.L15
+ 347              	.LVL35:
+ 348              	.LBB298:
+ 349              	.LBB299:
+ 350              		.loc 2 38 0 discriminator 1
+ 351 0044 8069     		ldr	r0, [r0, #24]
+ 352              	.LVL36:
+ 353 0046 FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 354              	.LVL37:
+ 355              	.LBE299:
+ 356              	.LBE298:
+ 357              	.LBB300:
+ 358              	.LBB301:
+ 359 004a 6069     		ldr	r0, [r4, #20]
+ 360 004c FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 361              	.LVL38:
+ 362              	.LBE301:
+ 363              	.LBE300:
+ 364              	.LBB302:
+ 365              	.LBB303:
+ 366 0050 2069     		ldr	r0, [r4, #16]
+ 367 0052 F1E7     		b	.L18
+ 368              	.LVL39:
+ 369              	.L15:
+ 370              	.LBE303:
+ 371              	.LBE302:
+ 122:../../src/lcd.h ****    else if (data == Init::display_clear)     {db4 = true; db5 = db6 = db7 = false;}
+ 372              		.loc 4 122 0
+ 373 0054 0F29     		cmp	r1, #15
+ 374 0056 0AD1     		bne	.L16
+ 375              	.LVL40:
+ 376              	.LBB304:
+ 377              	.LBB305:
+ 378              		.loc 2 38 0 discriminator 1
+ 379 0058 8069     		ldr	r0, [r0, #24]
+ 380              	.LVL41:
+ 381 005a FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 382              	.LVL42:
+ 383              	.LBE305:
+ 384              	.LBE304:
+ 385              	.LBB306:
+ 386              	.LBB307:
+ 387 005e 6069     		ldr	r0, [r4, #20]
+ 388 0060 FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 389              	.LVL43:
+ 390              	.LBE307:
+ 391              	.LBE306:
+ 392              	.LBB308:
+ 393              	.LBB309:
+ 394 0064 2069     		ldr	r0, [r4, #16]
+ 395 0066 FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 396              	.LVL44:
+ 397              	.LBE309:
+ 398              	.LBE308:
+ 122:../../src/lcd.h ****    else if (data == Init::display_clear)     {db4 = true; db5 = db6 = db7 = false;}
+ARM GAS  /tmp/ccq36h94.s 			page 12
 
 
- 443              	.LFB184:
- 100:../../src/timers.h ****    timePassed_ = 0;
- 444              		.loc 1 100 0
- 445              		.cfi_startproc
- 446              		@ args = 0, pretend = 0, frame = 0
- 447              		@ frame_needed = 0, uses_anonymous_args = 0
- 448              	.LVL28:
- 101:../../src/timers.h ****    unsubscribe();
- 449              		.loc 1 101 0
- 450 0000 0023     		movs	r3, #0
- 100:../../src/timers.h ****    timePassed_ = 0;
- 451              		.loc 1 100 0
- 452 0002 10B5     		push	{r4, lr}
- 453              	.LCFI1:
- 454              		.cfi_def_cfa_offset 8
- 455              		.cfi_offset 4, -8
- 456              		.cfi_offset 14, -4
- 101:../../src/timers.h ****    unsubscribe();
- 457              		.loc 1 101 0
- 458 0004 4361     		str	r3, [r0, #20]
- 102:../../src/timers.h **** }
- 459              		.loc 1 102 0
- 460 0006 FFF7FEFF 		bl	_ZN14TickSubscriber11unsubscribeEv
- 461              	.LVL29:
- 103:../../src/timers.h **** 
- 462              		.loc 1 103 0
- 463              		@ sp needed
- 464 000a 10BD     		pop	{r4, pc}
- 465              		.cfi_endproc
- 466              	.LFE184:
- 468              		.section	.text._ZN5Timer5pauseEv,"ax",%progbits
- 469              		.align	1
- 470              		.global	_ZN5Timer5pauseEv
- 471              		.syntax unified
- 472              		.code	16
- 473              		.thumb_func
- 474              		.fpu softvfp
- 476              	_ZN5Timer5pauseEv:
- 477              	.LFB186:
- 107:../../src/timers.h **** void     Timer::start()      { subscribe();  }
- 478              		.loc 1 107 0
- 479              		.cfi_startproc
- 480              		@ args = 0, pretend = 0, frame = 0
- 481              		@ frame_needed = 0, uses_anonymous_args = 0
- 482              	.LVL30:
- 483 0000 10B5     		push	{r4, lr}
- 484              	.LCFI2:
- 485              		.cfi_def_cfa_offset 8
- 486              		.cfi_offset 4, -8
- 487              		.cfi_offset 14, -4
- 107:../../src/timers.h **** void     Timer::start()      { subscribe();  }
- 488              		.loc 1 107 0
- 489 0002 FFF7FEFF 		bl	_ZN14TickSubscriber11unsubscribeEv
- 490              	.LVL31:
- 491              		@ sp needed
- 492 0006 10BD     		pop	{r4, pc}
- 493              		.cfi_endproc
-ARM GAS  /tmp/cciP0LwE.s 			page 15
+ 399              		.loc 4 122 0 discriminator 1
+ 400 006a 0121     		movs	r1, #1
+ 401 006c D7E7     		b	.L17
+ 402              	.LVL45:
+ 403              	.L16:
+ 124:../../src/lcd.h **** 
+ 404              		.loc 4 124 0
+ 405 006e 0629     		cmp	r1, #6
+ 406 0070 D8D1     		bne	.L11
+ 407              	.LVL46:
+ 408              	.LBB310:
+ 409              	.LBB311:
+ 410              		.loc 2 38 0 discriminator 1
+ 411 0072 4069     		ldr	r0, [r0, #20]
+ 412              	.LVL47:
+ 413 0074 FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 414              	.LVL48:
+ 415              	.LBE311:
+ 416              	.LBE310:
+ 417              	.LBB312:
+ 418              	.LBB313:
+ 419 0078 2069     		ldr	r0, [r4, #16]
+ 420 007a FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 421              	.LVL49:
+ 422              	.LBE313:
+ 423              	.LBE312:
+ 424              	.LBB314:
+ 425              	.LBB315:
+ 426 007e A069     		ldr	r0, [r4, #24]
+ 427 0080 FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 428              	.LVL50:
+ 429              	.LBE315:
+ 430              	.LBE314:
+ 431              	.LBB316:
+ 432              	.LBB317:
+ 433 0084 E068     		ldr	r0, [r4, #12]
+ 434 0086 FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 435              	.LVL51:
+ 436              	.LBE317:
+ 437              	.LBE316:
+ 438              		.loc 4 126 0 discriminator 1
+ 439 008a CBE7     		b	.L11
+ 440              		.cfi_endproc
+ 441              	.LFE157:
+ 443              		.section	.text._ZN3mcu3LCD4initEv,"ax",%progbits
+ 444              		.align	1
+ 445              		.global	_ZN3mcu3LCD4initEv
+ 446              		.syntax unified
+ 447              		.code	16
+ 448              		.thumb_func
+ 449              		.fpu softvfp
+ 451              	_ZN3mcu3LCD4initEv:
+ 452              	.LFB156:
+  71:../../src/lcd.h ****    rs = rw = false;
+ 453              		.loc 4 71 0
+ 454              		.cfi_startproc
+ 455              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /tmp/ccq36h94.s 			page 13
 
 
- 494              	.LFE186:
- 496              		.section	.text._ZN14TickSubscriber9subscribeEv,"ax",%progbits
- 497              		.align	1
- 498              		.global	_ZN14TickSubscriber9subscribeEv
- 499              		.syntax unified
- 500              		.code	16
- 501              		.thumb_func
- 502              		.fpu softvfp
- 504              	_ZN14TickSubscriber9subscribeEv:
- 505              	.LFB193:
- 123:../../src/timers.h **** 
- 124:../../src/timers.h **** 
- 125:../../src/timers.h **** void TickSubscriber::subscribe()
- 126:../../src/timers.h **** {
- 506              		.loc 1 126 0
- 507              		.cfi_startproc
- 508              		@ args = 0, pretend = 0, frame = 0
- 509              		@ frame_needed = 0, uses_anonymous_args = 0
- 510              		@ link register save eliminated.
- 511              	.LVL32:
- 127:../../src/timers.h ****    if (not subscribed) {
- 512              		.loc 1 127 0
- 513 0000 037B     		ldrb	r3, [r0, #12]
- 514 0002 002B     		cmp	r3, #0
- 515 0004 0CD1     		bne	.L35
- 516              	.LVL33:
- 517              	.LBB160:
- 518              	.LBB161:
- 128:../../src/timers.h ****       subscribed = true;
- 519              		.loc 1 128 0
- 520 0006 0133     		adds	r3, r3, #1
- 521 0008 0373     		strb	r3, [r0, #12]
- 522              	.LVL34:
- 523              	.LBB162:
- 524              	.LBB163:
- 525              	.LBB164:
-  43:../../src/list.h ****    if (last)
- 526              		.loc 4 43 0
- 527 000a 064B     		ldr	r3, .L43
- 528 000c 5A68     		ldr	r2, [r3, #4]
- 529 000e 4260     		str	r2, [r0, #4]
-  44:../../src/list.h ****       last->next = p;
- 530              		.loc 4 44 0
- 531 0010 002A     		cmp	r2, #0
- 532 0012 00D0     		beq	.L38
-  45:../../src/list.h ****    last = p;
- 533              		.loc 4 45 0
- 534 0014 9060     		str	r0, [r2, #8]
- 535              	.L38:
-  47:../../src/list.h ****       first = p;
- 536              		.loc 4 47 0
- 537 0016 1A68     		ldr	r2, [r3]
-  46:../../src/list.h ****    if (not first)
- 538              		.loc 4 46 0
- 539 0018 5860     		str	r0, [r3, #4]
-  47:../../src/list.h ****       first = p;
- 540              		.loc 4 47 0
-ARM GAS  /tmp/cciP0LwE.s 			page 16
+ 456              		@ frame_needed = 0, uses_anonymous_args = 0
+ 457              	.LVL52:
+ 458 0000 70B5     		push	{r4, r5, r6, lr}
+ 459              	.LCFI4:
+ 460              		.cfi_def_cfa_offset 16
+ 461              		.cfi_offset 4, -16
+ 462              		.cfi_offset 5, -12
+ 463              		.cfi_offset 6, -8
+ 464              		.cfi_offset 14, -4
+  71:../../src/lcd.h ****    rs = rw = false;
+ 465              		.loc 4 71 0
+ 466 0002 0400     		movs	r4, r0
+ 467              	.LVL53:
+ 468 0004 2500     		movs	r5, r4
+ 469              	.LBB348:
+ 470              	.LBB349:
+ 471              		.loc 2 38 0
+ 472 0006 4068     		ldr	r0, [r0, #4]
+ 473              	.LVL54:
+ 474 0008 FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 475              	.LVL55:
+ 476              	.LBE349:
+ 477              	.LBE348:
+ 478              	.LBB350:
+ 479              	.LBB351:
+ 480 000c 2068     		ldr	r0, [r4]
+ 481 000e FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 482              	.LVL56:
+ 483              	.LBE351:
+ 484              	.LBE350:
+ 485              	.LBB352:
+ 486              	.LBB353:
+ 487 0012 A068     		ldr	r0, [r4, #8]
+ 488 0014 FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 489              	.LVL57:
+ 490              	.LBE353:
+ 491              	.LBE352:
+ 492              	.LBB354:
+ 493              	.LBB355:
+ 494 0018 2069     		ldr	r0, [r4, #16]
+ 495 001a FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 496              	.LVL58:
+ 497              	.LBE355:
+ 498              	.LBE354:
+ 499              	.LBB356:
+ 500              	.LBB357:
+ 501 001e E068     		ldr	r0, [r4, #12]
+ 502 0020 FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 503              	.LVL59:
+ 504              	.LBE357:
+ 505              	.LBE356:
+ 506              	.LBB358:
+ 507              	.LBB359:
+ 508 0024 A069     		ldr	r0, [r4, #24]
+ 509 0026 0835     		adds	r5, r5, #8
+ 510 0028 FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 511              	.LVL60:
+ARM GAS  /tmp/ccq36h94.s 			page 14
 
 
- 541 001a 002A     		cmp	r2, #0
- 542 001c 00D1     		bne	.L35
-  48:../../src/list.h **** }
- 543              		.loc 4 48 0
- 544 001e 1860     		str	r0, [r3]
- 545              	.LVL35:
- 546              	.L35:
- 547              	.LBE164:
- 548              	.LBE163:
- 549              	.LBE162:
- 550              	.LBE161:
- 551              	.LBE160:
- 129:../../src/timers.h ****       tickUpdater.subscribe (this);
- 130:../../src/timers.h ****    }
- 131:../../src/timers.h **** }...
- 552              		.loc 1 131 0
- 553              		@ sp needed
- 554 0020 7047     		bx	lr
- 555              	.L44:
- 556 0022 C046     		.align	2
- 557              	.L43:
- 558 0024 00000000 		.word	.LANCHOR0
- 559              		.cfi_endproc
- 560              	.LFE193:
- 562              		.section	.text._ZN5Timer5startEm,"ax",%progbits
- 563              		.align	1
- 564              		.global	_ZN5Timer5startEm
- 565              		.syntax unified
- 566              		.code	16
- 567              		.thumb_func
- 568              		.fpu softvfp
- 570              	_ZN5Timer5startEm:
- 571              	.LFB181:
-  72:../../src/timers.h **** {
- 572              		.loc 1 72 0
- 573              		.cfi_startproc
- 574              		@ args = 0, pretend = 0, frame = 0
- 575              		@ frame_needed = 0, uses_anonymous_args = 0
- 576              	.LVL36:
- 577 0000 10B5     		push	{r4, lr}
- 578              	.LCFI3:
- 579              		.cfi_def_cfa_offset 8
- 580              		.cfi_offset 4, -8
- 581              		.cfi_offset 14, -4
-  73:../../src/timers.h ****    timeSet = ms;
- 582              		.loc 1 73 0
- 583 0002 0161     		str	r1, [r0, #16]
-  74:../../src/timers.h ****    subscribe();
- 584              		.loc 1 74 0
- 585 0004 FFF7FEFF 		bl	_ZN14TickSubscriber9subscribeEv
- 586              	.LVL37:
-  75:../../src/timers.h **** }
- 587              		.loc 1 75 0
- 588              		@ sp needed
- 589 0008 10BD     		pop	{r4, pc}
- 590              		.cfi_endproc
- 591              	.LFE181:
-ARM GAS  /tmp/cciP0LwE.s 			page 17
+ 512              	.LBE359:
+ 513              	.LBE358:
+ 514              	.LBB360:
+ 515              	.LBB361:
+ 516 002c 6069     		ldr	r0, [r4, #20]
+ 517 002e FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 518              	.LVL61:
+ 519              	.LBE361:
+ 520              	.LBE360:
+  77:../../src/lcd.h ****    delay(5000);
+ 521              		.loc 4 77 0
+ 522 0032 2800     		movs	r0, r5
+ 523 0034 FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 524              	.LVL62:
+ 525              	.LBB362:
+ 526              	.LBB363:
+ 527              		.loc 2 38 0
+ 528 0038 2069     		ldr	r0, [r4, #16]
+ 529 003a FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 530              	.LVL63:
+ 531              	.LBE363:
+ 532              	.LBE362:
+ 533              	.LBB364:
+ 534              	.LBB365:
+ 535 003e E068     		ldr	r0, [r4, #12]
+ 536 0040 FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 537              	.LVL64:
+ 538              	.LBE365:
+ 539              	.LBE364:
+ 540              	.LBB366:
+ 541              	.LBB367:
+ 542 0044 A069     		ldr	r0, [r4, #24]
+ 543 0046 FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 544              	.LVL65:
+ 545              	.LBE367:
+ 546              	.LBE366:
+ 547              	.LBB368:
+ 548              	.LBB369:
+ 549 004a 6069     		ldr	r0, [r4, #20]
+ 550 004c FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 551              	.LVL66:
+ 552              	.LBE369:
+ 553              	.LBE368:
+  81:../../src/lcd.h ****    delay(150);
+ 554              		.loc 4 81 0
+ 555 0050 2800     		movs	r0, r5
+ 556 0052 FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 557              	.LVL67:
+ 558              	.LBB370:
+ 559              	.LBB371:
+ 560              		.loc 2 38 0
+ 561 0056 2069     		ldr	r0, [r4, #16]
+ 562 0058 FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 563              	.LVL68:
+ 564              	.LBE371:
+ 565              	.LBE370:
+ 566              	.LBB372:
+ARM GAS  /tmp/ccq36h94.s 			page 15
 
 
- 593              		.section	.text._ZN5Timer5startEv,"ax",%progbits
- 594              		.align	1
- 595              		.global	_ZN5Timer5startEv
- 596              		.syntax unified
- 597              		.code	16
- 598              		.thumb_func
- 599              		.fpu softvfp
- 601              	_ZN5Timer5startEv:
- 602              	.LFB187:
- 108:../../src/timers.h **** void     Timer::start()      { subscribe();  }
- 603              		.loc 1 108 0
- 604              		.cfi_startproc
- 605              		@ args = 0, pretend = 0, frame = 0
- 606              		@ frame_needed = 0, uses_anonymous_args = 0
- 607              	.LVL38:
- 608 0000 10B5     		push	{r4, lr}
- 609              	.LCFI4:
- 610              		.cfi_def_cfa_offset 8
- 611              		.cfi_offset 4, -8
- 612              		.cfi_offset 14, -4
- 108:../../src/timers.h **** void     Timer::start()      { subscribe();  }
- 613              		.loc 1 108 0
- 614 0002 FFF7FEFF 		bl	_ZN14TickSubscriber9subscribeEv
- 615              	.LVL39:
- 616              		@ sp needed
- 617 0006 10BD     		pop	{r4, pc}
- 618              		.cfi_endproc
- 619              	.LFE187:
- 621              		.section	.text.init_clock,"ax",%progbits
- 622              		.align	1
- 623              		.global	init_clock
- 624              		.syntax unified
- 625              		.code	16
- 626              		.thumb_func
- 627              		.fpu softvfp
- 629              	init_clock:
- 630              	.LFB1990:
- 631              		.file 5 "main.cpp"
+ 567              	.LBB373:
+ 568 005c E068     		ldr	r0, [r4, #12]
+ 569 005e FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 570              	.LVL69:
+ 571              	.LBE373:
+ 572              	.LBE372:
+ 573              	.LBB374:
+ 574              	.LBB375:
+ 575 0062 A069     		ldr	r0, [r4, #24]
+ 576 0064 FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 577              	.LVL70:
+ 578              	.LBE375:
+ 579              	.LBE374:
+ 580              	.LBB376:
+ 581              	.LBB377:
+ 582 0068 6069     		ldr	r0, [r4, #20]
+ 583 006a FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 584              	.LVL71:
+ 585              	.LBE377:
+ 586              	.LBE376:
+  85:../../src/lcd.h ****    delay(40);
+ 587              		.loc 4 85 0
+ 588 006e 2800     		movs	r0, r5
+ 589 0070 FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 590              	.LVL72:
+  87:../../src/lcd.h ****    nibble();
+ 591              		.loc 4 87 0
+ 592 0074 0221     		movs	r1, #2
+ 593 0076 2000     		movs	r0, r4
+ 594 0078 FFF7FEFF 		bl	_ZN3mcu3LCD9send_dataENS0_4InitE
+ 595              	.LVL73:
+  88:../../src/lcd.h ****    delay(40);
+ 596              		.loc 4 88 0
+ 597 007c 2800     		movs	r0, r5
+ 598 007e FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 599              	.LVL74:
+  90:../../src/lcd.h ****    nibble();
+ 600              		.loc 4 90 0
+ 601 0082 0221     		movs	r1, #2
+ 602 0084 2000     		movs	r0, r4
+ 603 0086 FFF7FEFF 		bl	_ZN3mcu3LCD9send_dataENS0_4InitE
+ 604              	.LVL75:
+  91:../../src/lcd.h ****    send_data(Init::two_line_5x8_font);
+ 605              		.loc 4 91 0
+ 606 008a 2800     		movs	r0, r5
+ 607 008c FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 608              	.LVL76:
+  92:../../src/lcd.h ****    nibble();
+ 609              		.loc 4 92 0
+ 610 0090 0821     		movs	r1, #8
+ 611 0092 2000     		movs	r0, r4
+ 612 0094 FFF7FEFF 		bl	_ZN3mcu3LCD9send_dataENS0_4InitE
+ 613              	.LVL77:
+  93:../../src/lcd.h ****    delay(40);
+ 614              		.loc 4 93 0
+ 615 0098 2800     		movs	r0, r5
+ 616 009a FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ARM GAS  /tmp/ccq36h94.s 			page 16
+
+
+ 617              	.LVL78:
+  95:../../src/lcd.h ****    nibble();
+ 618              		.loc 4 95 0
+ 619 009e 0021     		movs	r1, #0
+ 620 00a0 2000     		movs	r0, r4
+ 621 00a2 FFF7FEFF 		bl	_ZN3mcu3LCD9send_dataENS0_4InitE
+ 622              	.LVL79:
+  96:../../src/lcd.h ****    send_data(Init::display_on);
+ 623              		.loc 4 96 0
+ 624 00a6 2800     		movs	r0, r5
+ 625 00a8 FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 626              	.LVL80:
+  97:../../src/lcd.h ****    nibble();
+ 627              		.loc 4 97 0
+ 628 00ac 0F21     		movs	r1, #15
+ 629 00ae 2000     		movs	r0, r4
+ 630 00b0 FFF7FEFF 		bl	_ZN3mcu3LCD9send_dataENS0_4InitE
+ 631              	.LVL81:
+  98:../../src/lcd.h ****    delay(40);
+ 632              		.loc 4 98 0
+ 633 00b4 2800     		movs	r0, r5
+ 634 00b6 FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 635              	.LVL82:
+ 100:../../src/lcd.h ****    nibble();
+ 636              		.loc 4 100 0
+ 637 00ba 0021     		movs	r1, #0
+ 638 00bc 2000     		movs	r0, r4
+ 639 00be FFF7FEFF 		bl	_ZN3mcu3LCD9send_dataENS0_4InitE
+ 640              	.LVL83:
+ 101:../../src/lcd.h ****    send_data(Init::set_mode);
+ 641              		.loc 4 101 0
+ 642 00c2 2800     		movs	r0, r5
+ 643 00c4 FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 644              	.LVL84:
+ 102:../../src/lcd.h ****    nibble();
+ 645              		.loc 4 102 0
+ 646 00c8 0621     		movs	r1, #6
+ 647 00ca 2000     		movs	r0, r4
+ 648 00cc FFF7FEFF 		bl	_ZN3mcu3LCD9send_dataENS0_4InitE
+ 649              	.LVL85:
+ 103:../../src/lcd.h ****    delay(40);
+ 650              		.loc 4 103 0
+ 651 00d0 2800     		movs	r0, r5
+ 652 00d2 FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 653              	.LVL86:
+ 105:../../src/lcd.h ****    nibble();
+ 654              		.loc 4 105 0
+ 655 00d6 0021     		movs	r1, #0
+ 656 00d8 2000     		movs	r0, r4
+ 657 00da FFF7FEFF 		bl	_ZN3mcu3LCD9send_dataENS0_4InitE
+ 658              	.LVL87:
+ 106:../../src/lcd.h ****    send_data(Init::display_clear);
+ 659              		.loc 4 106 0
+ 660 00de 2800     		movs	r0, r5
+ 661 00e0 FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 662              	.LVL88:
+ 107:../../src/lcd.h ****    nibble();
+ARM GAS  /tmp/ccq36h94.s 			page 17
+
+
+ 663              		.loc 4 107 0
+ 664 00e4 0821     		movs	r1, #8
+ 665 00e6 2000     		movs	r0, r4
+ 666 00e8 FFF7FEFF 		bl	_ZN3mcu3LCD9send_dataENS0_4InitE
+ 667              	.LVL89:
+ 108:../../src/lcd.h ****    delay(40);
+ 668              		.loc 4 108 0
+ 669 00ec 2800     		movs	r0, r5
+ 670 00ee FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 671              	.LVL90:
+ 110:../../src/lcd.h ****    nibble();
+ 672              		.loc 4 110 0
+ 673 00f2 0021     		movs	r1, #0
+ 674 00f4 2000     		movs	r0, r4
+ 675 00f6 FFF7FEFF 		bl	_ZN3mcu3LCD9send_dataENS0_4InitE
+ 676              	.LVL91:
+ 111:../../src/lcd.h ****    send_data(Init::_4_bit_mode);
+ 677              		.loc 4 111 0
+ 678 00fa 2800     		movs	r0, r5
+ 679 00fc FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 680              	.LVL92:
+ 112:../../src/lcd.h ****    nibble();
+ 681              		.loc 4 112 0
+ 682 0100 0221     		movs	r1, #2
+ 683 0102 2000     		movs	r0, r4
+ 684 0104 FFF7FEFF 		bl	_ZN3mcu3LCD9send_dataENS0_4InitE
+ 685              	.LVL93:
+ 113:../../src/lcd.h ****    delay(40);
+ 686              		.loc 4 113 0
+ 687 0108 2800     		movs	r0, r5
+ 688 010a FFF7FEFF 		bl	_ZN3mcu3LCD6nibbleEv.isra.1
+ 689              	.LVL94:
+ 115:../../src/lcd.h **** 
+ 690              		.loc 4 115 0
+ 691              		@ sp needed
+ 692              	.LVL95:
+ 693              	.LVL96:
+ 694 010e 70BD     		pop	{r4, r5, r6, pc}
+ 695              		.cfi_endproc
+ 696              	.LFE156:
+ 698              		.section	.text._ZN3mcu3LCD4sendEv,"ax",%progbits
+ 699              		.align	1
+ 700              		.global	_ZN3mcu3LCD4sendEv
+ 701              		.syntax unified
+ 702              		.code	16
+ 703              		.thumb_func
+ 704              		.fpu softvfp
+ 706              	_ZN3mcu3LCD4sendEv:
+ 707              	.LFB158:
+ 127:../../src/lcd.h **** 
+ 128:../../src/lcd.h **** void LCD::send()
+ 129:../../src/lcd.h **** {
+ 708              		.loc 4 129 0
+ 709              		.cfi_startproc
+ 710              		@ args = 0, pretend = 0, frame = 0
+ 711              		@ frame_needed = 0, uses_anonymous_args = 0
+ 712              	.LVL97:
+ARM GAS  /tmp/ccq36h94.s 			page 18
+
+
+ 713 0000 10B5     		push	{r4, lr}
+ 714              	.LCFI5:
+ 715              		.cfi_def_cfa_offset 8
+ 716              		.cfi_offset 4, -8
+ 717              		.cfi_offset 14, -4
+ 718              		.loc 4 129 0
+ 719 0002 0400     		movs	r4, r0
+ 720              	.LBB392:
+ 721              	.LBB393:
+ 722              		.loc 2 38 0
+ 723 0004 0068     		ldr	r0, [r0]
+ 724              	.LVL98:
+ 725 0006 FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 726              	.LVL99:
+ 727              	.LBE393:
+ 728              	.LBE392:
+ 729              	.LBB394:
+ 730              	.LBB395:
+ 731 000a 6068     		ldr	r0, [r4, #4]
+ 732 000c FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 733              	.LVL100:
+ 734              	.LBE395:
+ 735              	.LBE394:
+ 736              	.LBB396:
+ 737              	.LBB397:
+ 738 0010 A069     		ldr	r0, [r4, #24]
+ 739 0012 FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ 740              	.LVL101:
+ 741              	.LBE397:
+ 742              	.LBE396:
+ 743              	.LBB398:
+ 744              	.LBB399:
+ 745 0016 2069     		ldr	r0, [r4, #16]
+ 746 0018 FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 747              	.LVL102:
+ 748              	.LBE399:
+ 749              	.LBE398:
+ 750              	.LBB400:
+ 751              	.LBB401:
+ 752 001c 6069     		ldr	r0, [r4, #20]
+ 753 001e FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 754              	.LVL103:
+ 755              	.LBE401:
+ 756              	.LBE400:
+ 130:../../src/lcd.h ****    rs = true;
+ 131:../../src/lcd.h ****    rw = false;
+ 132:../../src/lcd.h ****    db7 = true; db4 = db6 = db5 = false;
+ 757              		.loc 4 132 0
+ 758 0022 0021     		movs	r1, #0
+ 759 0024 E068     		ldr	r0, [r4, #12]
+ 760 0026 FFF7FEFF 		bl	_ZN3mcu3PinaSEb
+ 761              	.LVL104:
+ 762              	.LBB402:
+ 763              	.LBB403:
+ 764              		.loc 2 38 0
+ 765 002a A068     		ldr	r0, [r4, #8]
+ 766 002c FFF7FEFF 		bl	_ZN3mcu3Pin3setEv
+ARM GAS  /tmp/ccq36h94.s 			page 19
+
+
+ 767              	.LVL105:
+ 768              	.LBE403:
+ 769              	.LBE402:
+ 770              	.LBB404:
+ 771              	.LBB405:
+ 772 0030 A068     		ldr	r0, [r4, #8]
+ 773 0032 FFF7FEFF 		bl	_ZN3mcu3Pin5clearEv
+ 774              	.LVL106:
+ 775              	.LBE405:
+ 776              	.LBE404:
+ 133:../../src/lcd.h ****    e = true;
+ 134:../../src/lcd.h ****    e = false;
+ 135:../../src/lcd.h **** }
+ 777              		.loc 4 135 0
+ 778              		@ sp needed
+ 779              	.LVL107:
+ 780 0036 10BD     		pop	{r4, pc}
+ 781              		.cfi_endproc
+ 782              	.LFE158:
+ 784              		.section	.text.init_clock,"ax",%progbits
+ 785              		.align	1
+ 786              		.global	init_clock
+ 787              		.syntax unified
+ 788              		.code	16
+ 789              		.thumb_func
+ 790              		.fpu softvfp
+ 792              	init_clock:
+ 793              	.LFB159:
+ 794              		.file 5 "main.cpp"
    1:main.cpp      **** #define STM32F103xB
    2:main.cpp      **** #define F_OSC   8000000UL
    3:main.cpp      **** #define F_CPU   72000000UL
@@ -1012,23 +1123,24 @@ ARM GAS  /tmp/cciP0LwE.s 			page 1
   11:main.cpp      **** // #include "fifo.h"
   12:main.cpp      **** // # include "modbus_slave.h"
   13:main.cpp      **** // #include "modbus_master.h"
-  14:main.cpp      **** #include "buttons.h"
-  15:main.cpp      **** 
+  14:main.cpp      **** // #include "buttons.h"
+  15:main.cpp      **** #include "lcd.h"
   16:main.cpp      **** 
-  17:main.cpp      **** /// эта функция вызывается первой в startup файле
-  18:main.cpp      **** extern "C" void init_clock ()
-  19:main.cpp      **** {
-ARM GAS  /tmp/cciP0LwE.s 			page 18
+  17:main.cpp      **** 
+  18:main.cpp      **** /// эта функция вызывается первой в startup файле
+  19:main.cpp      **** extern "C" void init_clock ()
+  20:main.cpp      **** {
+ 795              		.loc 5 20 0
+ 796              		.cfi_startproc
+ 797              		@ args = 0, pretend = 0, frame = 0
+ 798              		@ frame_needed = 0, uses_anonymous_args = 0
+ 799              		@ link register save eliminated.
+ 800              	.LBB406:
+ 801              	.LBB407:
+ 802              		.file 6 "../../src/periph/f1_flash.h"
+ARM GAS  /tmp/ccq36h94.s 			page 20
 
 
- 632              		.loc 5 19 0
- 633              		.cfi_startproc
- 634              		@ args = 0, pretend = 0, frame = 0
- 635              		@ frame_needed = 0, uses_anonymous_args = 0
- 636              		@ link register save eliminated.
- 637              	.LBB165:
- 638              	.LBB166:
- 639              		.file 6 "../../src/periph/f1_flash.h"
    1:../../src/periph/f1_flash.h **** #pragma once
    2:../../src/periph/f1_flash.h **** 
    3:../../src/periph/f1_flash.h **** #include "f1_bits_flash.h"
@@ -1053,47 +1165,46 @@ ARM GAS  /tmp/cciP0LwE.s 			page 1
   22:../../src/periph/f1_flash.h **** 
   23:../../src/periph/f1_flash.h ****    FLASH& set (Latency v)            { ACR.LATENCY = v;    return *this; }
   24:../../src/periph/f1_flash.h ****    FLASH& enable ()                  { ACR.PRFTBE = true;  return *this; }
- 640              		.loc 6 24 0
- 641 0000 8023     		movs	r3, #128
- 642 0002 1022     		movs	r2, #16
- 643 0004 1B05     		lsls	r3, r3, #20
- 644 0006 1968     		ldr	r1, [r3]
- 645 0008 0A43     		orrs	r2, r1
- 646              	.LBE166:
- 647              	.LBE165:
- 648              	.LBB168:
- 649              	.LBB169:
+ 803              		.loc 6 24 0
+ 804 0000 1022     		movs	r2, #16
+ 805 0002 1F4B     		ldr	r3, .L28
+ 806 0004 1968     		ldr	r1, [r3]
+ 807 0006 0A43     		orrs	r2, r1
+ 808              	.LBE407:
+ 809              	.LBE406:
+ 810              	.LBB409:
+ 811              	.LBB410:
   23:../../src/periph/f1_flash.h ****    FLASH& enable ()                  { ACR.PRFTBE = true;  return *this; }
- 650              		.loc 6 23 0
- 651 000a 0721     		movs	r1, #7
- 652              	.LBE169:
- 653              	.LBE168:
- 654              	.LBB171:
- 655              	.LBB167:
- 656              		.loc 6 24 0
- 657 000c 1A60     		str	r2, [r3]
- 658              	.LVL40:
- 659              	.LBE167:
- 660              	.LBE171:
- 661              	.LBB172:
- 662              	.LBB170:
+ 812              		.loc 6 23 0
+ 813 0008 0721     		movs	r1, #7
+ 814              	.LBE410:
+ 815              	.LBE409:
+ 816              	.LBB412:
+ 817              	.LBB408:
+ 818              		.loc 6 24 0
+ 819 000a 1A60     		str	r2, [r3]
+ 820              	.LVL108:
+ 821              	.LBE408:
+ 822              	.LBE412:
+ 823              	.LBB413:
+ 824              	.LBB411:
   23:../../src/periph/f1_flash.h ****    FLASH& enable ()                  { ACR.PRFTBE = true;  return *this; }
-ARM GAS  /tmp/cciP0LwE.s 			page 19
+ 825              		.loc 6 23 0
+ 826 000c 1A68     		ldr	r2, [r3]
+ 827 000e 8A43     		bics	r2, r1
+ 828 0010 1100     		movs	r1, r2
+ 829 0012 0222     		movs	r2, #2
+ 830 0014 0A43     		orrs	r2, r1
+ 831 0016 1A60     		str	r2, [r3]
+ 832              	.LVL109:
+ 833              	.LBE411:
+ARM GAS  /tmp/ccq36h94.s 			page 21
 
 
- 663              		.loc 6 23 0
- 664 000e 1A68     		ldr	r2, [r3]
- 665 0010 8A43     		bics	r2, r1
- 666 0012 1100     		movs	r1, r2
- 667 0014 0222     		movs	r2, #2
- 668 0016 0A43     		orrs	r2, r1
- 669 0018 1A60     		str	r2, [r3]
- 670              	.LVL41:
- 671              	.LBE170:
- 672              	.LBE172:
- 673              	.LBB173:
- 674              	.LBB174:
- 675              		.file 7 "../../src/periph/f1_rcc.h"
+ 834              	.LBE413:
+ 835              	.LBB414:
+ 836              	.LBB415:
+ 837              		.file 7 "../../src/periph/f1_rcc.h"
    1:../../src/periph/f1_rcc.h **** #pragma once
    2:../../src/periph/f1_rcc.h **** 
    3:../../src/periph/f1_rcc.h **** #include "f1_bits_rcc.h"
@@ -1130,232 +1241,291 @@ ARM GAS  /tmp/cciP0LwE.s 			page 1
   34:../../src/periph/f1_rcc.h ****    RCC& set       (PLLmultiplier v) { CFGR.PLLMUL = v; return *this; }
   35:../../src/periph/f1_rcc.h **** 
   36:../../src/periph/f1_rcc.h ****    RCC& on_HSE        () { CR.HSEON = true;         return *this; }
- 676              		.loc 7 36 0
- 677 001a 8022     		movs	r2, #128
- 678 001c 194B     		ldr	r3, .L54
- 679 001e 5202     		lsls	r2, r2, #9
- 680 0020 1968     		ldr	r1, [r3]
- 681 0022 0A43     		orrs	r2, r1
- 682 0024 1A60     		str	r2, [r3]
- 683              	.L48:
-ARM GAS  /tmp/cciP0LwE.s 			page 20
-
-
- 684              	.LBE174:
- 685              	.LBE173:
- 686              	.LBB175:
- 687              	.LBB176:
+ 838              		.loc 7 36 0
+ 839 0018 8022     		movs	r2, #128
+ 840 001a 1A4B     		ldr	r3, .L28+4
+ 841 001c 5202     		lsls	r2, r2, #9
+ 842 001e 1968     		ldr	r1, [r3]
+ 843 0020 0A43     		orrs	r2, r1
+ 844 0022 1A60     		str	r2, [r3]
+ 845              	.L22:
+ 846              	.LBE415:
+ 847              	.LBE414:
+ 848              	.LBB416:
+ 849              	.LBB417:
   37:../../src/periph/f1_rcc.h ****    RCC& wait_HSE_ready() { while (not CR.HSERDY) {} return *this; }
- 688              		.loc 7 37 0
- 689 0026 1A68     		ldr	r2, [r3]
- 690 0028 9203     		lsls	r2, r2, #14
- 691 002a FCD5     		bpl	.L48
- 692              	.LVL42:
- 693              	.LBE176:
- 694              	.LBE175:
- 695              	.LBB177:
- 696              	.LBB178:
+ 850              		.loc 7 37 0
+ 851 0024 1A68     		ldr	r2, [r3]
+ 852 0026 9203     		lsls	r2, r2, #14
+ 853 0028 FCD5     		bpl	.L22
+ARM GAS  /tmp/ccq36h94.s 			page 22
+
+
+ 854              	.LVL110:
+ 855              	.LBE417:
+ 856              	.LBE416:
+ 857              	.LBB418:
+ 858              	.LBB419:
   28:../../src/periph/f1_rcc.h ****    RCC& set_APB1  (APBprescaler  v) { CFGR.PPRE1  = v; return *this; }
- 697              		.loc 7 28 0
- 698 002c F021     		movs	r1, #240
- 699 002e 5A68     		ldr	r2, [r3, #4]
- 700 0030 8A43     		bics	r2, r1
- 701 0032 5A60     		str	r2, [r3, #4]
- 702              	.LVL43:
- 703              	.LBE178:
- 704              	.LBE177:
- 705              	.LBB179:
- 706              	.LBB180:
+ 859              		.loc 7 28 0
+ 860 002a F021     		movs	r1, #240
+ 861 002c 5A68     		ldr	r2, [r3, #4]
+ 862 002e 8A43     		bics	r2, r1
+ 863 0030 5A60     		str	r2, [r3, #4]
+ 864              	.LVL111:
+ 865              	.LBE419:
+ 866              	.LBE418:
+ 867              	.LBB420:
+ 868              	.LBB421:
   29:../../src/periph/f1_rcc.h ****    RCC& set_APB2  (APBprescaler  v) { CFGR.PPRE2  = v; return *this; }
- 707              		.loc 7 29 0
- 708 0034 5A68     		ldr	r2, [r3, #4]
- 709 0036 1449     		ldr	r1, .L54+4
- 710 0038 1140     		ands	r1, r2
- 711 003a 8022     		movs	r2, #128
- 712 003c D200     		lsls	r2, r2, #3
- 713 003e 0A43     		orrs	r2, r1
- 714 0040 5A60     		str	r2, [r3, #4]
- 715              	.LVL44:
- 716              	.LBE180:
- 717              	.LBE179:
- 718              	.LBB181:
- 719              	.LBB182:
+ 869              		.loc 7 29 0
+ 870 0032 5A68     		ldr	r2, [r3, #4]
+ 871 0034 1449     		ldr	r1, .L28+8
+ 872 0036 1140     		ands	r1, r2
+ 873 0038 8022     		movs	r2, #128
+ 874 003a D200     		lsls	r2, r2, #3
+ 875 003c 0A43     		orrs	r2, r1
+ 876 003e 5A60     		str	r2, [r3, #4]
+ 877              	.LVL112:
+ 878              	.LBE421:
+ 879              	.LBE420:
+ 880              	.LBB422:
+ 881              	.LBB423:
   30:../../src/periph/f1_rcc.h ****    RCC& set       (ADCprescaler  v) { CFGR.ADCPRE = v; return *this; }
- 720              		.loc 7 30 0
- 721 0042 5A68     		ldr	r2, [r3, #4]
- 722 0044 1149     		ldr	r1, .L54+8
- 723 0046 0A40     		ands	r2, r1
- 724 0048 5A60     		str	r2, [r3, #4]
- 725              	.LVL45:
- 726              	.LBE182:
- 727              	.LBE181:
- 728              	.LBB183:
- 729              	.LBB184:
+ 882              		.loc 7 30 0
+ 883 0040 5A68     		ldr	r2, [r3, #4]
+ 884 0042 1249     		ldr	r1, .L28+12
+ 885 0044 0A40     		ands	r2, r1
+ 886 0046 5A60     		str	r2, [r3, #4]
+ 887              	.LVL113:
+ 888              	.LBE423:
+ 889              	.LBE422:
+ 890              	.LBB424:
+ 891              	.LBB425:
   33:../../src/periph/f1_rcc.h ****    RCC& set       (PLLmultiplier v) { CFGR.PLLMUL = v; return *this; }
- 730              		.loc 7 33 0
- 731 004a 8022     		movs	r2, #128
- 732 004c 5968     		ldr	r1, [r3, #4]
- 733 004e 5202     		lsls	r2, r2, #9
- 734 0050 0A43     		orrs	r2, r1
- 735 0052 5A60     		str	r2, [r3, #4]
-ARM GAS  /tmp/cciP0LwE.s 			page 21
-
-
- 736              	.LVL46:
- 737              	.LBE184:
- 738              	.LBE183:
- 739              	.LBB185:
- 740              	.LBB186:
+ 892              		.loc 7 33 0
+ 893 0048 8022     		movs	r2, #128
+ 894 004a 5968     		ldr	r1, [r3, #4]
+ 895 004c 5202     		lsls	r2, r2, #9
+ 896 004e 0A43     		orrs	r2, r1
+ 897 0050 5A60     		str	r2, [r3, #4]
+ 898              	.LVL114:
+ 899              	.LBE425:
+ 900              	.LBE424:
+ 901              	.LBB426:
+ 902              	.LBB427:
   34:../../src/periph/f1_rcc.h **** 
- 741              		.loc 7 34 0
- 742 0054 5A68     		ldr	r2, [r3, #4]
- 743 0056 0E49     		ldr	r1, .L54+12
- 744 0058 1140     		ands	r1, r2
- 745 005a E022     		movs	r2, #224
- 746 005c 5203     		lsls	r2, r2, #13
- 747 005e 0A43     		orrs	r2, r1
- 748 0060 5A60     		str	r2, [r3, #4]
- 749              	.LVL47:
- 750              	.LBE186:
- 751              	.LBE185:
- 752              	.LBB187:
- 753              	.LBB188:
+ 903              		.loc 7 34 0
+ 904 0052 5A68     		ldr	r2, [r3, #4]
+ 905 0054 0E49     		ldr	r1, .L28+16
+ARM GAS  /tmp/ccq36h94.s 			page 23
+
+
+ 906 0056 1140     		ands	r1, r2
+ 907 0058 E022     		movs	r2, #224
+ 908 005a 5203     		lsls	r2, r2, #13
+ 909 005c 0A43     		orrs	r2, r1
+ 910 005e 5A60     		str	r2, [r3, #4]
+ 911              	.LVL115:
+ 912              	.LBE427:
+ 913              	.LBE426:
+ 914              	.LBB428:
+ 915              	.LBB429:
   38:../../src/periph/f1_rcc.h ****    RCC& on_PLL        () { CR.PLLON = true;         return *this; }
- 754              		.loc 7 38 0
- 755 0062 8022     		movs	r2, #128
- 756 0064 1968     		ldr	r1, [r3]
- 757 0066 5204     		lsls	r2, r2, #17
- 758 0068 0A43     		orrs	r2, r1
- 759 006a 1A60     		str	r2, [r3]
- 760              	.L49:
- 761              	.LBE188:
- 762              	.LBE187:
- 763              	.LBB189:
- 764              	.LBB190:
+ 916              		.loc 7 38 0
+ 917 0060 8022     		movs	r2, #128
+ 918 0062 1968     		ldr	r1, [r3]
+ 919 0064 5204     		lsls	r2, r2, #17
+ 920 0066 0A43     		orrs	r2, r1
+ 921 0068 1A60     		str	r2, [r3]
+ 922              	.L23:
+ 923              	.LBE429:
+ 924              	.LBE428:
+ 925              	.LBB430:
+ 926              	.LBB431:
   39:../../src/periph/f1_rcc.h ****    RCC& wait_PLL_ready() { while (not CR.PLLRDY) {} return *this; }
- 765              		.loc 7 39 0
- 766 006c 1A68     		ldr	r2, [r3]
- 767 006e 9201     		lsls	r2, r2, #6
- 768 0070 FCD5     		bpl	.L49
- 769              	.LVL48:
- 770              	.LBE190:
- 771              	.LBE189:
- 772              	.LBB191:
- 773              	.LBB192:
+ 927              		.loc 7 39 0
+ 928 006a 1A68     		ldr	r2, [r3]
+ 929 006c 9201     		lsls	r2, r2, #6
+ 930 006e FCD5     		bpl	.L23
+ 931              	.LVL116:
+ 932              	.LBE431:
+ 933              	.LBE430:
+ 934              	.LBB432:
+ 935              	.LBB433:
   32:../../src/periph/f1_rcc.h ****    RCC& set       (PLLsource     v) { CFGR.PLLSRC = v; return *this; }
- 774              		.loc 7 32 0
- 775 0072 0321     		movs	r1, #3
- 776 0074 5A68     		ldr	r2, [r3, #4]
- 777              	.LBE192:
- 778              	.LBE191:
-  20:main.cpp      ****    mcu::make_reference<mcu::Periph::FLASH>()
-  21:main.cpp      ****       .enable()
-  22:main.cpp      ****       .set(mcu::FLASH::Latency::_48_72MHz);
-  23:main.cpp      ****    
-  24:main.cpp      **** 
-  25:main.cpp      ****    mcu::make_reference<mcu::Periph::RCC>()
-  26:main.cpp      ****       .on_HSE()
-  27:main.cpp      ****       .wait_HSE_ready()
-  28:main.cpp      ****       .set      (mcu::RCC::AHBprescaler::AHBnotdiv)
-  29:main.cpp      ****       .set_APB1 (mcu::RCC::APBprescaler::APBdiv2)
-ARM GAS  /tmp/cciP0LwE.s 			page 22
+ 936              		.loc 7 32 0
+ 937 0070 0321     		movs	r1, #3
+ 938 0072 5A68     		ldr	r2, [r3, #4]
+ 939              	.LBE433:
+ 940              	.LBE432:
+  21:main.cpp      ****    mcu::make_reference<mcu::Periph::FLASH>()
+  22:main.cpp      ****       .enable()
+  23:main.cpp      ****       .set(mcu::FLASH::Latency::_48_72MHz);
+  24:main.cpp      ****    
+  25:main.cpp      **** 
+  26:main.cpp      ****    mcu::make_reference<mcu::Periph::RCC>()
+  27:main.cpp      ****       .on_HSE()
+  28:main.cpp      ****       .wait_HSE_ready()
+  29:main.cpp      ****       .set      (mcu::RCC::AHBprescaler::AHBnotdiv)
+  30:main.cpp      ****       .set_APB1 (mcu::RCC::APBprescaler::APBdiv2)
+  31:main.cpp      ****       .set_APB2 (mcu::RCC::APBprescaler::APBnotdiv)
+  32:main.cpp      ****       .set      (mcu::RCC::PLLsource::HSE)
+  33:main.cpp      ****       .set      (mcu::RCC::PLLmultiplier::_9)
+  34:main.cpp      ****       .on_PLL()
+  35:main.cpp      ****       .wait_PLL_ready()
+  36:main.cpp      ****       .set      (mcu::RCC::SystemClock::CS_PLL);
+  37:main.cpp      **** }
+ 941              		.loc 5 37 0
+ 942              		@ sp needed
+ARM GAS  /tmp/ccq36h94.s 			page 24
 
 
-  30:main.cpp      ****       .set_APB2 (mcu::RCC::APBprescaler::APBnotdiv)
-  31:main.cpp      ****       .set      (mcu::RCC::PLLsource::HSE)
-  32:main.cpp      ****       .set      (mcu::RCC::PLLmultiplier::_9)
-  33:main.cpp      ****       .on_PLL()
-  34:main.cpp      ****       .wait_PLL_ready()
-  35:main.cpp      ****       .set      (mcu::RCC::SystemClock::CS_PLL);
-  36:main.cpp      **** }
- 779              		.loc 5 36 0
- 780              		@ sp needed
- 781              	.LBB194:
- 782              	.LBB193:
+ 943              	.LBB435:
+ 944              	.LBB434:
   32:../../src/periph/f1_rcc.h ****    RCC& set       (PLLsource     v) { CFGR.PLLSRC = v; return *this; }
- 783              		.loc 7 32 0
- 784 0076 8A43     		bics	r2, r1
- 785 0078 1100     		movs	r1, r2
- 786 007a 0222     		movs	r2, #2
- 787 007c 0A43     		orrs	r2, r1
- 788 007e 5A60     		str	r2, [r3, #4]
- 789              	.LVL49:
- 790              	.LBE193:
- 791              	.LBE194:
- 792              		.loc 5 36 0
- 793 0080 7047     		bx	lr
- 794              	.L55:
- 795 0082 C046     		.align	2
- 796              	.L54:
- 797 0084 00100240 		.word	1073876992
- 798 0088 FFF8FFFF 		.word	-1793
- 799 008c FFC7FFFF 		.word	-14337
- 800 0090 FFFFC3FF 		.word	-3932161
- 801              		.cfi_endproc
- 802              	.LFE1990:
- 804              		.section	.text.startup.main,"ax",%progbits
- 805              		.align	1
- 806              		.global	main
- 807              		.syntax unified
- 808              		.code	16
- 809              		.thumb_func
- 810              		.fpu softvfp
- 812              	main:
- 813              	.LFB1991:
-  37:main.cpp      **** 
-  38:main.cpp      ****   
-  39:main.cpp      **** 
-  40:main.cpp      **** int main()
-  41:main.cpp      **** {
- 814              		.loc 5 41 0
- 815              		.cfi_startproc
- 816              		@ args = 0, pretend = 0, frame = 0
- 817              		@ frame_needed = 0, uses_anonymous_args = 0
- 818 0000 10B5     		push	{r4, lr}
- 819              	.LCFI5:
- 820              		.cfi_def_cfa_offset 8
- 821              		.cfi_offset 4, -8
- 822              		.cfi_offset 14, -4
- 823              	.LBB212:
- 824              	.LBB213:
-ARM GAS  /tmp/cciP0LwE.s 			page 23
+ 945              		.loc 7 32 0
+ 946 0074 8A43     		bics	r2, r1
+ 947 0076 1100     		movs	r1, r2
+ 948 0078 0222     		movs	r2, #2
+ 949 007a 0A43     		orrs	r2, r1
+ 950 007c 5A60     		str	r2, [r3, #4]
+ 951              	.LVL117:
+ 952              	.LBE434:
+ 953              	.LBE435:
+ 954              		.loc 5 37 0
+ 955 007e 7047     		bx	lr
+ 956              	.L29:
+ 957              		.align	2
+ 958              	.L28:
+ 959 0080 00200240 		.word	1073881088
+ 960 0084 00100240 		.word	1073876992
+ 961 0088 FFF8FFFF 		.word	-1793
+ 962 008c FFC7FFFF 		.word	-14337
+ 963 0090 FFFFC3FF 		.word	-3932161
+ 964              		.cfi_endproc
+ 965              	.LFE159:
+ 967              		.section	.text._ZN3mcu3LCD4makeINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS
+ 968              		.align	1
+ 969              		.weak	_ZN3mcu3LCD4makeINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2E
+ 970              		.syntax unified
+ 971              		.code	16
+ 972              		.thumb_func
+ 973              		.fpu softvfp
+ 975              	_ZN3mcu3LCD4makeINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEEN
+ 976              	.LFB161:
+  48:../../src/lcd.h ****    {
+ 977              		.loc 4 48 0
+ 978              		.cfi_startproc
+ 979              		@ args = 0, pretend = 0, frame = 24
+ 980              		@ frame_needed = 0, uses_anonymous_args = 0
+ 981 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 982              	.LCFI6:
+ 983              		.cfi_def_cfa_offset 20
+ 984              		.cfi_offset 4, -20
+ 985              		.cfi_offset 5, -16
+ 986              		.cfi_offset 6, -12
+ 987              		.cfi_offset 7, -8
+ 988              		.cfi_offset 14, -4
+ 989              	.LBB516:
+ 990              	.LBB517:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 991              		.loc 2 27 0
+ 992 0002 0820     		movs	r0, #8
+ 993              	.LBE517:
+ 994              	.LBE516:
+  48:../../src/lcd.h ****    {
+ 995              		.loc 4 48 0
+ 996 0004 87B0     		sub	sp, sp, #28
+ 997              	.LCFI7:
+ARM GAS  /tmp/ccq36h94.s 			page 25
 
 
- 825              		.file 8 "../../src/pin.h"
-   1:../../src/pin.h **** #pragma once
-   2:../../src/pin.h **** 
-   3:../../src/pin.h **** #include "gpio.h"
-   4:../../src/pin.h **** #include "pins.h"
-   5:../../src/pin.h **** #if not defined (TEST)
-   6:../../src/pin.h ****    #include "heap.h"
-   7:../../src/pin.h **** #endif
-   8:../../src/pin.h **** 
-   9:../../src/pin.h **** namespace mcu {
-  10:../../src/pin.h **** 
-  11:../../src/pin.h **** class Pin {
-  12:../../src/pin.h ****    GPIO& port;
-  13:../../src/pin.h ****    const int n;
-  14:../../src/pin.h **** public:
-  15:../../src/pin.h ****    Pin (GPIO& port, int n) : port{port}, n{n} {}
-  16:../../src/pin.h **** 
-  17:../../src/pin.h ****    template<class Pin_, PinMode mode> static auto make()
-  18:../../src/pin.h ****    {
-  19:../../src/pin.h ****       Pin pin { mcu::make_reference<Pin_::periph>(), Pin_::n };
-  20:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
-  21:../../src/pin.h ****               .template init<Pin_, mode>();
-  22:../../src/pin.h ****       return pin;
-  23:../../src/pin.h ****    }
-  24:../../src/pin.h **** 
-  25:../../src/pin.h ****    template<class Pin_, PinMode mode> static auto& make_new()
-  26:../../src/pin.h ****    {
-  27:../../src/pin.h ****       auto& pin = *new Pin { make_reference<Pin_::periph>(), Pin_::n };
- 826              		.loc 8 27 0
- 827 0002 0820     		movs	r0, #8
- 828 0004 FFF7FEFF 		bl	_Znwj
- 829              	.LVL50:
- 830              	.LBB214:
- 831              	.LBB215:
- 832              	.LBB216:
+ 998              		.cfi_def_cfa_offset 48
+ 999              	.LBB537:
+ 1000              	.LBB536:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1001              		.loc 2 27 0
+ 1002 0006 FFF7FEFF 		bl	_Znwj
+ 1003              	.LVL118:
+ 1004              	.LBB518:
+ 1005              	.LBB519:
+  15:../../src/pin.h **** 
+ 1006              		.loc 2 15 0
+ 1007 000a 0C23     		movs	r3, #12
+ 1008              	.LBE519:
+ 1009              	.LBE518:
+ 1010              	.LBB522:
+ 1011              	.LBB523:
+ 1012              	.LBB524:
+  29:../../src/periph/f1_gpio.h ****    bool is_set  (size_t n) { return IDR.reg & (1 << n);     }
+  30:../../src/periph/f1_gpio.h ****    void toggle  (size_t n) { is_set(n) ? clear(n) : set(n); }
+  31:../../src/periph/f1_gpio.h ****    void set (uint16_t mask, uint16_t v)
+  32:../../src/periph/f1_gpio.h ****    {
+  33:../../src/periph/f1_gpio.h ****       BSRR = v & mask | ((uint32_t)((not v) and mask) << 16);
+  34:../../src/periph/f1_gpio.h ****    }
+  35:../../src/periph/f1_gpio.h **** 
+  36:../../src/periph/f1_gpio.h ****    template<size_t> GPIO& set (Mode);
+  37:../../src/periph/f1_gpio.h ****    template<class Pin_, PinMode, Periph rcc = Periph::RCC, Periph afio = Periph::AFIO> void init();
+  38:../../src/periph/f1_gpio.h **** };
+  39:../../src/periph/f1_gpio.h **** 
+  40:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOA, GPIO&> make_reference() { return *rei
+  41:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOB, GPIO&> make_reference() { return *rei
+  42:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOC, GPIO&> make_reference() { return *rei
+  43:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOD, GPIO&> make_reference() { return *rei
+  44:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOE, GPIO&> make_reference() { return *rei
+  45:../../src/periph/f1_gpio.h **** 
+  46:../../src/periph/f1_gpio.h **** 
+  47:../../src/periph/f1_gpio.h **** 
+  48:../../src/periph/f1_gpio.h **** 
+  49:../../src/periph/f1_gpio.h **** 
+  50:../../src/periph/f1_gpio.h **** 
+  51:../../src/periph/f1_gpio.h **** 
+  52:../../src/periph/f1_gpio.h **** 
+  53:../../src/periph/f1_gpio.h **** 
+  54:../../src/periph/f1_gpio.h **** 
+  55:../../src/periph/f1_gpio.h **** 
+  56:../../src/periph/f1_gpio.h **** 
+  57:../../src/periph/f1_gpio.h **** 
+  58:../../src/periph/f1_gpio.h **** 
+  59:../../src/periph/f1_gpio.h **** 
+  60:../../src/periph/f1_gpio.h **** 
+  61:../../src/periph/f1_gpio.h **** 
+  62:../../src/periph/f1_gpio.h **** 
+  63:../../src/periph/f1_gpio.h **** 
+  64:../../src/periph/f1_gpio.h **** template<size_t n> GPIO& GPIO::set (Mode v) 
+  65:../../src/periph/f1_gpio.h **** {
+  66:../../src/periph/f1_gpio.h ****    if      constexpr (n == 0)  { CR.CNF_MODE0  = v; return *this; }
+  67:../../src/periph/f1_gpio.h ****    else if constexpr (n == 1)  { CR.CNF_MODE1  = v; return *this; }
+  68:../../src/periph/f1_gpio.h ****    else if constexpr (n == 2)  { CR.CNF_MODE2  = v; return *this; }
+ARM GAS  /tmp/ccq36h94.s 			page 26
+
+
+  69:../../src/periph/f1_gpio.h ****    else if constexpr (n == 3)  { CR.CNF_MODE3  = v; return *this; }
+  70:../../src/periph/f1_gpio.h ****    else if constexpr (n == 4)  { CR.CNF_MODE4  = v; return *this; }
+  71:../../src/periph/f1_gpio.h ****    else if constexpr (n == 5)  { CR.CNF_MODE5  = v; return *this; }
+  72:../../src/periph/f1_gpio.h ****    else if constexpr (n == 6)  { CR.CNF_MODE6  = v; return *this; }
+  73:../../src/periph/f1_gpio.h ****    else if constexpr (n == 7)  { CR.CNF_MODE7  = v; return *this; }
+  74:../../src/periph/f1_gpio.h ****    else if constexpr (n == 8)  { CR.CNF_MODE8  = v; return *this; }
+  75:../../src/periph/f1_gpio.h ****    else if constexpr (n == 9)  { CR.CNF_MODE9  = v; return *this; }
+  76:../../src/periph/f1_gpio.h ****    else if constexpr (n == 10) { CR.CNF_MODE10 = v; return *this; }
+  77:../../src/periph/f1_gpio.h ****    else if constexpr (n == 11) { CR.CNF_MODE11 = v; return *this; }
+  78:../../src/periph/f1_gpio.h ****    else if constexpr (n == 12) { CR.CNF_MODE12 = v; return *this; }
+ 1013              		.loc 3 78 0
+ 1014 000c 8026     		movs	r6, #128
+ 1015              	.LBE524:
+ 1016              	.LBE523:
+ 1017              	.LBE522:
+ 1018              	.LBB527:
+ 1019              	.LBB520:
+  15:../../src/pin.h **** 
+ 1020              		.loc 2 15 0
+ 1021 000e 474A     		ldr	r2, .L31
+ 1022              	.LBE520:
+ 1023              	.LBE527:
+ 1024              	.LBB528:
+ 1025              	.LBB529:
+ 1026              	.LBB530:
   40:../../src/periph/f1_rcc.h **** 
   41:../../src/periph/f1_rcc.h ****    size_t get_APB_clock (APBprescaler v)
   42:../../src/periph/f1_rcc.h ****    {return v == APBprescaler::APBnotdiv ? F_CPU     :
@@ -1374,511 +1544,812 @@ ARM GAS  /tmp/cciP0LwE.s 			page 1
   55:../../src/periph/f1_rcc.h ****       if      constexpr (p == Periph::GPIOA) APB2ENR.IOPAEN = true;
   56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOB) APB2ENR.IOPBEN = true;
   57:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
- 833              		.loc 7 57 0
- 834 0008 1023     		movs	r3, #16
- 835 000a 094A     		ldr	r2, .L57
- 836              	.LBE216:
-ARM GAS  /tmp/cciP0LwE.s 			page 24
+ 1027              		.loc 7 57 0
+ 1028 0010 474D     		ldr	r5, .L31+4
+ 1029              	.LBE530:
+ 1030              	.LBE529:
+ 1031              	.LBE528:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1032              		.loc 2 27 0
+ 1033 0012 0190     		str	r0, [sp, #4]
+ 1034              	.LVL119:
+ 1035              	.LBB533:
+ 1036              	.LBB521:
+  15:../../src/pin.h **** 
+ 1037              		.loc 2 15 0
+ 1038 0014 0260     		str	r2, [r0]
+ARM GAS  /tmp/ccq36h94.s 			page 27
 
 
- 837              	.LBE215:
- 838              	.LBE214:
- 839              	.LBE213:
- 840              	.LBE212:
-  42:main.cpp      ****    // auto button = mcu::Button::make<mcu::PB8>();
-  43:main.cpp      **** 
-  44:main.cpp      ****    auto led = mcu::Pin::make_new<mcu::PC9, mcu::PinMode::Output>();
-  45:main.cpp      **** 
-  46:main.cpp      ****    // if (button.push())
-  47:main.cpp      ****       led = true;
-  48:main.cpp      ****    
-  49:main.cpp      **** 
-  50:main.cpp      **** }
- 841              		.loc 5 50 0
- 842 000c 0020     		movs	r0, #0
- 843              	.LBB234:
- 844              	.LBB232:
- 845              	.LBB223:
- 846              	.LBB220:
- 847              	.LBB217:
- 848              		.loc 7 57 0
- 849 000e 9169     		ldr	r1, [r2, #24]
- 850              	.LBE217:
- 851              	.LBE220:
- 852              	.LBE223:
- 853              	.LBE232:
- 854              	.LBE234:
- 855              		.loc 5 50 0
- 856              		@ sp needed
- 857              	.LBB235:
- 858              	.LBB233:
- 859              	.LBB224:
- 860              	.LBB221:
- 861              	.LBB218:
- 862              		.loc 7 57 0
- 863 0010 0B43     		orrs	r3, r1
- 864              	.LBE218:
- 865              	.LBE221:
- 866              	.LBE224:
- 867              	.LBB225:
- 868              	.LBB226:
- 869              	.LBB227:
- 870              		.file 9 "../../src/periph/f1_gpio.h"
-   1:../../src/periph/f1_gpio.h **** #pragma once
-   2:../../src/periph/f1_gpio.h **** 
-   3:../../src/periph/f1_gpio.h **** #include "f1_bits_gpio.h"
-   4:../../src/periph/f1_gpio.h **** #include "rcc.h"
-   5:../../src/periph/f1_gpio.h **** #include "f1_afio.h"
-   6:../../src/periph/f1_gpio.h **** #include "pins.h"
-   7:../../src/periph/f1_gpio.h **** 
-   8:../../src/periph/f1_gpio.h **** namespace mcu {
-   9:../../src/periph/f1_gpio.h **** 
-  10:../../src/periph/f1_gpio.h **** enum class PinMode {Input, Output, USART1_TX, USART1_RX, USART2_TX, USART2_RX, USART3_TX, USART3_RX
-  11:../../src/periph/f1_gpio.h **** 
-  12:../../src/periph/f1_gpio.h **** class GPIO {
-  13:../../src/periph/f1_gpio.h ****   __IO GPIO_bits::CR CR;   // Port configuration register      offset: 0x00
-  14:../../src/periph/f1_gpio.h ****   __IO GPIO_bits::DR IDR;  // Port input data register         offset: 0x08
-ARM GAS  /tmp/cciP0LwE.s 			page 25
+ 1039 0016 4360     		str	r3, [r0, #4]
+ 1040              	.LVL120:
+ 1041              	.LBE521:
+ 1042              	.LBE533:
+ 1043              	.LBB534:
+ 1044              	.LBB532:
+ 1045              	.LBB531:
+ 1046              		.loc 7 57 0
+ 1047 0018 A969     		ldr	r1, [r5, #24]
+ 1048 001a 0433     		adds	r3, r3, #4
+ 1049 001c 0B43     		orrs	r3, r1
+ 1050 001e AB61     		str	r3, [r5, #24]
+ 1051              	.LVL121:
+ 1052              	.LBE531:
+ 1053              	.LBE532:
+ 1054              	.LBE534:
+ 1055              	.LBB535:
+ 1056              	.LBB526:
+ 1057              	.LBB525:
+ 1058              		.loc 3 78 0
+ 1059 0020 5368     		ldr	r3, [r2, #4]
+ 1060 0022 444F     		ldr	r7, .L31+8
+ 1061 0024 B602     		lsls	r6, r6, #10
+ 1062 0026 3B40     		ands	r3, r7
+ 1063 0028 3343     		orrs	r3, r6
+ 1064 002a 5360     		str	r3, [r2, #4]
+ 1065              	.LVL122:
+ 1066              	.LBE525:
+ 1067              	.LBE526:
+ 1068              	.LBE535:
+ 1069              	.LBE536:
+ 1070              	.LBE537:
+ 1071              	.LBB538:
+ 1072              	.LBB539:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1073              		.loc 2 27 0
+ 1074 002c 0820     		movs	r0, #8
+ 1075              	.LVL123:
+ 1076 002e FFF7FEFF 		bl	_Znwj
+ 1077              	.LVL124:
+ 1078              	.LBB540:
+ 1079              	.LBB541:
+  15:../../src/pin.h **** 
+ 1080              		.loc 2 15 0
+ 1081 0032 0222     		movs	r2, #2
+ 1082 0034 404B     		ldr	r3, .L31+12
+ 1083              	.LBE541:
+ 1084              	.LBE540:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1085              		.loc 2 27 0
+ 1086 0036 0290     		str	r0, [sp, #8]
+ 1087              	.LVL125:
+ 1088              	.LBB543:
+ 1089              	.LBB542:
+  15:../../src/pin.h **** 
+ 1090              		.loc 2 15 0
+ 1091 0038 0360     		str	r3, [r0]
+ARM GAS  /tmp/ccq36h94.s 			page 28
 
 
-  15:../../src/periph/f1_gpio.h ****   __IO GPIO_bits::DR ODR;  // Port output data register        offset: 0x0C
-  16:../../src/periph/f1_gpio.h ****   __IO uint32_t      BSRR; // Port bit set/reset register      offset: 0x10
-  17:../../src/periph/f1_gpio.h ****   __IO uint32_t      BRR;  // Port bit reset register          offset: 0x14
-  18:../../src/periph/f1_gpio.h ****   __IO uint32_t      LCKR; // Port configuration lock register offset: 0x18
-  19:../../src/periph/f1_gpio.h **** 
-  20:../../src/periph/f1_gpio.h **** public:
-  21:../../src/periph/f1_gpio.h ****    using CMSIS_type = GPIO_TypeDef;
-  22:../../src/periph/f1_gpio.h ****    using Mode       = GPIO_bits::CR::Mode;
-  23:../../src/periph/f1_gpio.h ****    using Remap      = AFIO::Remap;
-  24:../../src/periph/f1_gpio.h **** 
-  25:../../src/periph/f1_gpio.h ****    template<Periph p, Periph v = Periph::RCC> GPIO& clock_enable() { make_reference<v>().template c
-  26:../../src/periph/f1_gpio.h **** 
-  27:../../src/periph/f1_gpio.h ****    void set     (size_t n) { BSRR |= (1 << n);              }
-  28:../../src/periph/f1_gpio.h ****    void clear   (size_t n) { BSRR |= (1 << (n + 16));       }
-  29:../../src/periph/f1_gpio.h ****    bool is_set  (size_t n) { return IDR.reg & (1 << n);     }
-  30:../../src/periph/f1_gpio.h ****    void toggle  (size_t n) { is_set(n) ? clear(n) : set(n); }
-  31:../../src/periph/f1_gpio.h **** 
-  32:../../src/periph/f1_gpio.h ****    template<size_t> GPIO& set (Mode);
-  33:../../src/periph/f1_gpio.h ****    template<class Pin_, PinMode, Periph rcc = Periph::RCC, Periph afio = Periph::AFIO> void init();
-  34:../../src/periph/f1_gpio.h **** };
-  35:../../src/periph/f1_gpio.h **** 
-  36:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOA, GPIO&> make_reference() { return *rei
-  37:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOB, GPIO&> make_reference() { return *rei
-  38:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOC, GPIO&> make_reference() { return *rei
-  39:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOD, GPIO&> make_reference() { return *rei
-  40:../../src/periph/f1_gpio.h **** template<Periph gpio> std::enable_if_t<gpio == Periph::GPIOE, GPIO&> make_reference() { return *rei
-  41:../../src/periph/f1_gpio.h **** 
-  42:../../src/periph/f1_gpio.h **** 
-  43:../../src/periph/f1_gpio.h **** 
-  44:../../src/periph/f1_gpio.h **** 
-  45:../../src/periph/f1_gpio.h **** 
-  46:../../src/periph/f1_gpio.h **** 
-  47:../../src/periph/f1_gpio.h **** 
-  48:../../src/periph/f1_gpio.h **** 
-  49:../../src/periph/f1_gpio.h **** 
-  50:../../src/periph/f1_gpio.h **** 
-  51:../../src/periph/f1_gpio.h **** 
-  52:../../src/periph/f1_gpio.h **** 
-  53:../../src/periph/f1_gpio.h **** 
-  54:../../src/periph/f1_gpio.h **** 
-  55:../../src/periph/f1_gpio.h **** 
-  56:../../src/periph/f1_gpio.h **** 
-  57:../../src/periph/f1_gpio.h **** 
-  58:../../src/periph/f1_gpio.h **** 
-  59:../../src/periph/f1_gpio.h **** 
-  60:../../src/periph/f1_gpio.h **** template<size_t n> GPIO& GPIO::set (Mode v) 
-  61:../../src/periph/f1_gpio.h **** {
-  62:../../src/periph/f1_gpio.h ****    if      constexpr (n == 0)  { CR.CNF_MODE0  = v; return *this; }
-  63:../../src/periph/f1_gpio.h ****    else if constexpr (n == 1)  { CR.CNF_MODE1  = v; return *this; }
-  64:../../src/periph/f1_gpio.h ****    else if constexpr (n == 2)  { CR.CNF_MODE2  = v; return *this; }
-  65:../../src/periph/f1_gpio.h ****    else if constexpr (n == 3)  { CR.CNF_MODE3  = v; return *this; }
-  66:../../src/periph/f1_gpio.h ****    else if constexpr (n == 4)  { CR.CNF_MODE4  = v; return *this; }
-  67:../../src/periph/f1_gpio.h ****    else if constexpr (n == 5)  { CR.CNF_MODE5  = v; return *this; }
-  68:../../src/periph/f1_gpio.h ****    else if constexpr (n == 6)  { CR.CNF_MODE6  = v; return *this; }
-  69:../../src/periph/f1_gpio.h ****    else if constexpr (n == 7)  { CR.CNF_MODE7  = v; return *this; }
-  70:../../src/periph/f1_gpio.h ****    else if constexpr (n == 8)  { CR.CNF_MODE8  = v; return *this; }
-  71:../../src/periph/f1_gpio.h ****    else if constexpr (n == 9)  { CR.CNF_MODE9  = v; return *this; }
-ARM GAS  /tmp/cciP0LwE.s 			page 26
+ 1092 003a 4260     		str	r2, [r0, #4]
+ 1093              	.LVL126:
+ 1094              	.LBE542:
+ 1095              	.LBE543:
+ 1096              	.LBB544:
+ 1097              	.LBB545:
+ 1098              	.LBB546:
+  58:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOD) APB2ENR.IOPDEN = true;
+ 1099              		.loc 7 58 0
+ 1100 003c A969     		ldr	r1, [r5, #24]
+ 1101 003e 1E32     		adds	r2, r2, #30
+ 1102 0040 0A43     		orrs	r2, r1
+ 1103 0042 AA61     		str	r2, [r5, #24]
+ 1104              	.LVL127:
+ 1105              	.LBE546:
+ 1106              	.LBE545:
+ 1107              	.LBE544:
+ 1108              	.LBB547:
+ 1109              	.LBB548:
+ 1110              	.LBB549:
+  68:../../src/periph/f1_gpio.h ****    else if constexpr (n == 3)  { CR.CNF_MODE3  = v; return *this; }
+ 1111              		.loc 3 68 0
+ 1112 0044 1A68     		ldr	r2, [r3]
+ 1113 0046 3D49     		ldr	r1, .L31+16
+ 1114              	.LBE549:
+ 1115              	.LBE548:
+ 1116              	.LBE547:
+ 1117              	.LBE539:
+ 1118              	.LBE538:
+ 1119              	.LBB554:
+ 1120              	.LBB555:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1121              		.loc 2 27 0
+ 1122 0048 0820     		movs	r0, #8
+ 1123              	.LVL128:
+ 1124              	.LBE555:
+ 1125              	.LBE554:
+ 1126              	.LBB576:
+ 1127              	.LBB553:
+ 1128              	.LBB552:
+ 1129              	.LBB551:
+ 1130              	.LBB550:
+  68:../../src/periph/f1_gpio.h ****    else if constexpr (n == 3)  { CR.CNF_MODE3  = v; return *this; }
+ 1131              		.loc 3 68 0
+ 1132 004a 1140     		ands	r1, r2
+ 1133 004c 8022     		movs	r2, #128
+ 1134 004e 9200     		lsls	r2, r2, #2
+ 1135 0050 0A43     		orrs	r2, r1
+ 1136 0052 1A60     		str	r2, [r3]
+ 1137              	.LVL129:
+ 1138              	.LBE550:
+ 1139              	.LBE551:
+ 1140              	.LBE552:
+ 1141              	.LBE553:
+ 1142              	.LBE576:
+ 1143              	.LBB577:
+ 1144              	.LBB574:
+ARM GAS  /tmp/ccq36h94.s 			page 29
 
 
- 871              		.loc 9 71 0
- 872 0012 F021     		movs	r1, #240
- 873              	.LBE227:
- 874              	.LBE226:
- 875              	.LBE225:
- 876              	.LBB230:
- 877              	.LBB222:
- 878              	.LBB219:
- 879              		.loc 7 57 0
- 880 0014 9361     		str	r3, [r2, #24]
- 881              	.LVL51:
- 882              	.LBE219:
- 883              	.LBE222:
- 884              	.LBE230:
- 885              	.LBB231:
- 886              	.LBB229:
- 887              	.LBB228:
- 888              		.loc 9 71 0
- 889 0016 074B     		ldr	r3, .L57+4
- 890 0018 5A68     		ldr	r2, [r3, #4]
- 891 001a 8A43     		bics	r2, r1
- 892 001c 1100     		movs	r1, r2
- 893 001e 2022     		movs	r2, #32
- 894 0020 0A43     		orrs	r2, r1
- 895 0022 5A60     		str	r2, [r3, #4]
- 896              	.LVL52:
- 897              	.LBE228:
- 898              	.LBE229:
- 899              	.LBE231:
- 900              	.LBE233:
- 901              	.LBE235:
- 902              	.LBB236:
- 903              	.LBB237:
- 904              	.LBB238:
- 905              	.LBB239:
-  27:../../src/periph/f1_gpio.h ****    void clear   (size_t n) { BSRR |= (1 << (n + 16));       }
- 906              		.loc 9 27 0
- 907 0024 8022     		movs	r2, #128
- 908 0026 1969     		ldr	r1, [r3, #16]
- 909 0028 9200     		lsls	r2, r2, #2
- 910 002a 0A43     		orrs	r2, r1
- 911 002c 1A61     		str	r2, [r3, #16]
- 912              	.LVL53:
- 913              	.LBE239:
- 914              	.LBE238:
- 915              	.LBE237:
- 916              	.LBE236:
- 917              		.loc 5 50 0
- 918 002e 10BD     		pop	{r4, pc}
- 919              	.L58:
- 920              		.align	2
- 921              	.L57:
- 922 0030 00100240 		.word	1073876992
- 923 0034 00100140 		.word	1073811456
- 924              		.cfi_endproc
- 925              	.LFE1991:
- 927              		.section	.text.startup._GLOBAL__sub_I_heap,"ax",%progbits
-ARM GAS  /tmp/cciP0LwE.s 			page 27
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1145              		.loc 2 27 0
+ 1146 0054 FFF7FEFF 		bl	_Znwj
+ 1147              	.LVL130:
+ 1148              	.LBB556:
+ 1149              	.LBB557:
+  15:../../src/pin.h **** 
+ 1150              		.loc 2 15 0
+ 1151 0058 0323     		movs	r3, #3
+ 1152              	.LBE557:
+ 1153              	.LBE556:
+ 1154              	.LBB560:
+ 1155              	.LBB561:
+ 1156              	.LBB562:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1157              		.loc 7 56 0
+ 1158 005a 0822     		movs	r2, #8
+ 1159              	.LBE562:
+ 1160              	.LBE561:
+ 1161              	.LBE560:
+ 1162              	.LBB567:
+ 1163              	.LBB558:
+  15:../../src/pin.h **** 
+ 1164              		.loc 2 15 0
+ 1165 005c 384C     		ldr	r4, .L31+20
+ 1166              	.LBE558:
+ 1167              	.LBE567:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1168              		.loc 2 27 0
+ 1169 005e 0390     		str	r0, [sp, #12]
+ 1170              	.LVL131:
+ 1171              	.LBB568:
+ 1172              	.LBB559:
+  15:../../src/pin.h **** 
+ 1173              		.loc 2 15 0
+ 1174 0060 0460     		str	r4, [r0]
+ 1175 0062 4360     		str	r3, [r0, #4]
+ 1176              	.LVL132:
+ 1177              	.LBE559:
+ 1178              	.LBE568:
+ 1179              	.LBB569:
+ 1180              	.LBB565:
+ 1181              	.LBB563:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1182              		.loc 7 56 0
+ 1183 0064 AB69     		ldr	r3, [r5, #24]
+ 1184              	.LBE563:
+ 1185              	.LBE565:
+ 1186              	.LBE569:
+ 1187              	.LBE574:
+ 1188              	.LBE577:
+ 1189              	.LBB578:
+ 1190              	.LBB579:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1191              		.loc 2 27 0
+ 1192 0066 0820     		movs	r0, #8
+ 1193              	.LVL133:
+ARM GAS  /tmp/ccq36h94.s 			page 30
 
 
- 928              		.align	1
- 929              		.syntax unified
- 930              		.code	16
- 931              		.thumb_func
- 932              		.fpu softvfp
- 934              	_GLOBAL__sub_I_heap:
- 935              	.LFB2470:
- 936              		.loc 5 50 0
- 937              		.cfi_startproc
- 938              		@ args = 0, pretend = 0, frame = 0
- 939              		@ frame_needed = 0, uses_anonymous_args = 0
- 940              	.LVL54:
- 941              	.LBB262:
- 942              	.LBB263:
-  30:../../src/heap.h **** Heap<heap_size> heap {};
- 943              		.loc 2 30 0
- 944 0000 8222     		movs	r2, #130
- 945              	.LBE263:
- 946              	.LBE262:
- 947              		.loc 5 50 0
- 948 0002 10B5     		push	{r4, lr}
- 949              	.LCFI6:
- 950              		.cfi_def_cfa_offset 8
- 951              		.cfi_offset 4, -8
- 952              		.cfi_offset 14, -4
- 953              	.LBB296:
- 954              	.LBB294:
-  30:../../src/heap.h **** Heap<heap_size> heap {};
- 955              		.loc 2 30 0
- 956 0004 5200     		lsls	r2, r2, #1
- 957 0006 0021     		movs	r1, #0
- 958 0008 0B48     		ldr	r0, .L60
- 959 000a FFF7FEFF 		bl	memset
- 960              	.LVL55:
- 961              	.LBB264:
- 962              	.LBB265:
- 963              	.LBB266:
- 964              	.LBB267:
- 965              	.LBB268:
-  10:../../src/list.h **** {
- 966              		.loc 4 10 0
- 967 000e 0022     		movs	r2, #0
- 968 0010 0A4B     		ldr	r3, .L60+4
- 969              	.LBE268:
- 970              	.LBE267:
- 971              	.LBE266:
- 972              	.LBB271:
- 973              	.LBB272:
- 974              	.LBB273:
- 975              	.LBB274:
- 976              		.file 10 "../../src/periph/systick.h"
-   1:../../src/periph/systick.h **** #pragma once
-   2:../../src/periph/systick.h **** 
-   3:../../src/periph/systick.h **** 
-   4:../../src/periph/systick.h **** #include "periph.h"
-   5:../../src/periph/systick.h **** #include "f0_f4_bits_systick.h"
-   6:../../src/periph/systick.h **** 
-ARM GAS  /tmp/cciP0LwE.s 			page 28
+ 1194              	.LBE579:
+ 1195              	.LBE578:
+ 1196              	.LBB598:
+ 1197              	.LBB575:
+ 1198              	.LBB570:
+ 1199              	.LBB566:
+ 1200              	.LBB564:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1201              		.loc 7 56 0
+ 1202 0068 1343     		orrs	r3, r2
+ 1203 006a AB61     		str	r3, [r5, #24]
+ 1204              	.LVL134:
+ 1205              	.LBE564:
+ 1206              	.LBE566:
+ 1207              	.LBE570:
+ 1208              	.LBB571:
+ 1209              	.LBB572:
+ 1210              	.LBB573:
+  69:../../src/periph/f1_gpio.h ****    else if constexpr (n == 4)  { CR.CNF_MODE4  = v; return *this; }
+ 1211              		.loc 3 69 0
+ 1212 006c 2368     		ldr	r3, [r4]
+ 1213 006e 354A     		ldr	r2, .L31+24
+ 1214 0070 1A40     		ands	r2, r3
+ 1215 0072 8023     		movs	r3, #128
+ 1216 0074 9B01     		lsls	r3, r3, #6
+ 1217 0076 1343     		orrs	r3, r2
+ 1218 0078 2360     		str	r3, [r4]
+ 1219              	.LVL135:
+ 1220              	.LBE573:
+ 1221              	.LBE572:
+ 1222              	.LBE571:
+ 1223              	.LBE575:
+ 1224              	.LBE598:
+ 1225              	.LBB599:
+ 1226              	.LBB596:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1227              		.loc 2 27 0
+ 1228 007a FFF7FEFF 		bl	_Znwj
+ 1229              	.LVL136:
+ 1230              	.LBB580:
+ 1231              	.LBB581:
+  15:../../src/pin.h **** 
+ 1232              		.loc 2 15 0
+ 1233 007e 0423     		movs	r3, #4
+ 1234              	.LBE581:
+ 1235              	.LBE580:
+ 1236              	.LBB583:
+ 1237              	.LBB584:
+ 1238              	.LBB585:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1239              		.loc 7 56 0
+ 1240 0080 0822     		movs	r2, #8
+ 1241              	.LBE585:
+ 1242              	.LBE584:
+ 1243              	.LBE583:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1244              		.loc 2 27 0
+ARM GAS  /tmp/ccq36h94.s 			page 31
 
 
-   7:../../src/periph/systick.h **** namespace mcu {
-   8:../../src/periph/systick.h **** 
-   9:../../src/periph/systick.h **** 
-  10:../../src/periph/systick.h **** 
-  11:../../src/periph/systick.h **** 
-  12:../../src/periph/systick.h **** class SysTick {
-  13:../../src/periph/systick.h ****    __IO SysTick_bits::CTRL     CTRL;  // Offset: 0x000 (R/W)  SysTick Control and Status Register
-  14:../../src/periph/systick.h ****    __IO uint32_t               LOAD;  // Offset: 0x004 (R/W)  SysTick Reload Value Register
-  15:../../src/periph/systick.h ****    __IO uint32_t               VAL;   // Offset: 0x008 (R/W)  SysTick Current Value Register
-  16:../../src/periph/systick.h ****    __IO SysTick_bits::CALIB    CALIB; // Offset: 0x00C (R/ )  SysTick Calibration Register
-  17:../../src/periph/systick.h **** public:
-  18:../../src/periph/systick.h ****    using Clock = SysTick_bits::CTRL::Clock;
-  19:../../src/periph/systick.h ****    
-  20:../../src/periph/systick.h ****    void load (uint32_t v)   { LOAD = v; }
- 977              		.loc 10 20 0
- 978 0012 0B49     		ldr	r1, .L60+8
- 979              	.LBE274:
- 980              	.LBE273:
- 981              	.LBE272:
- 982              	.LBE271:
- 983              	.LBB289:
- 984              	.LBB270:
- 985              	.LBB269:
-  10:../../src/list.h **** {
- 986              		.loc 4 10 0
- 987 0014 1A60     		str	r2, [r3]
- 988 0016 5A60     		str	r2, [r3, #4]
- 989              	.LVL56:
- 990              	.LBE269:
- 991              	.LBE270:
- 992              	.LBE289:
- 993              	.LBB290:
- 994              	.LBB287:
- 995              	.LBB277:
- 996              	.LBB275:
- 997              		.loc 10 20 0
- 998 0018 0A4B     		ldr	r3, .L60+12
- 999              	.LBE275:
- 1000              	.LBE277:
- 1001              	.LBE287:
- 1002              	.LBE290:
- 1003              	.LBE265:
- 1004              	.LBE264:
- 1005              	.LBE294:
- 1006              	.LBE296:
- 1007              		.loc 5 50 0
- 1008              		@ sp needed
- 1009              	.LBB297:
- 1010              	.LBB295:
- 1011              	.LBB293:
- 1012              	.LBB292:
- 1013              	.LBB291:
- 1014              	.LBB288:
- 1015              	.LBB278:
- 1016              	.LBB276:
- 1017              		.loc 10 20 0
- 1018 001a 5960     		str	r1, [r3, #4]
-ARM GAS  /tmp/cciP0LwE.s 			page 29
+ 1245 0082 0490     		str	r0, [sp, #16]
+ 1246              	.LVL137:
+ 1247              	.LBB590:
+ 1248              	.LBB582:
+  15:../../src/pin.h **** 
+ 1249              		.loc 2 15 0
+ 1250 0084 0460     		str	r4, [r0]
+ 1251 0086 4360     		str	r3, [r0, #4]
+ 1252              	.LVL138:
+ 1253              	.LBE582:
+ 1254              	.LBE590:
+ 1255              	.LBB591:
+ 1256              	.LBB588:
+ 1257              	.LBB586:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1258              		.loc 7 56 0
+ 1259 0088 AB69     		ldr	r3, [r5, #24]
+ 1260              	.LBE586:
+ 1261              	.LBE588:
+ 1262              	.LBE591:
+ 1263              	.LBE596:
+ 1264              	.LBE599:
+ 1265              	.LBB600:
+ 1266              	.LBB601:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1267              		.loc 2 27 0
+ 1268 008a 1000     		movs	r0, r2
+ 1269              	.LVL139:
+ 1270              	.LBE601:
+ 1271              	.LBE600:
+ 1272              	.LBB626:
+ 1273              	.LBB597:
+ 1274              	.LBB592:
+ 1275              	.LBB589:
+ 1276              	.LBB587:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1277              		.loc 7 56 0
+ 1278 008c 1343     		orrs	r3, r2
+ 1279 008e AB61     		str	r3, [r5, #24]
+ 1280              	.LVL140:
+ 1281              	.LBE587:
+ 1282              	.LBE589:
+ 1283              	.LBE592:
+ 1284              	.LBB593:
+ 1285              	.LBB594:
+ 1286              	.LBB595:
+  70:../../src/periph/f1_gpio.h ****    else if constexpr (n == 5)  { CR.CNF_MODE5  = v; return *this; }
+ 1287              		.loc 3 70 0
+ 1288 0090 2368     		ldr	r3, [r4]
+ 1289 0092 1F40     		ands	r7, r3
+ 1290 0094 3E43     		orrs	r6, r7
+ 1291 0096 2660     		str	r6, [r4]
+ 1292              	.LVL141:
+ 1293              	.LBE595:
+ 1294              	.LBE594:
+ 1295              	.LBE593:
+ 1296              	.LBE597:
+ARM GAS  /tmp/ccq36h94.s 			page 32
 
 
- 1019              	.LVL57:
- 1020              	.LBE276:
- 1021              	.LBE278:
- 1022              	.LBB279:
- 1023              	.LBB280:
-  21:../../src/periph/systick.h ****    void clear()             { VAL = 0; }
- 1024              		.loc 10 21 0
- 1025 001c 9A60     		str	r2, [r3, #8]
- 1026              	.LVL58:
- 1027              	.LBE280:
- 1028              	.LBE279:
- 1029              	.LBB281:
- 1030              	.LBB282:
-  22:../../src/periph/systick.h ****    void setSource (Clock v) { CTRL.CLKSOURCE = v; }
- 1031              		.loc 10 22 0
- 1032 001e 1968     		ldr	r1, [r3]
- 1033 0020 0432     		adds	r2, r2, #4
- 1034 0022 0A43     		orrs	r2, r1
- 1035 0024 1A60     		str	r2, [r3]
- 1036              	.LVL59:
- 1037              	.LBE282:
- 1038              	.LBE281:
- 1039              	.LBB283:
- 1040              	.LBB284:
-  23:../../src/periph/systick.h ****    void enableInterrupt()   { CTRL.TICKINT = true; }
- 1041              		.loc 10 23 0
- 1042 0026 0222     		movs	r2, #2
- 1043 0028 1968     		ldr	r1, [r3]
- 1044 002a 0A43     		orrs	r2, r1
- 1045 002c 1A60     		str	r2, [r3]
- 1046              	.LVL60:
- 1047              	.LBE284:
- 1048              	.LBE283:
- 1049              	.LBB285:
- 1050              	.LBB286:
-  24:../../src/periph/systick.h ****    void enable()            { CTRL.ENABLE = true; }
- 1051              		.loc 10 24 0
- 1052 002e 0122     		movs	r2, #1
- 1053 0030 1968     		ldr	r1, [r3]
- 1054 0032 0A43     		orrs	r2, r1
- 1055 0034 1A60     		str	r2, [r3]
- 1056              	.LVL61:
- 1057              	.LBE286:
- 1058              	.LBE285:
- 1059              	.LBE288:
- 1060              	.LBE291:
- 1061              	.LBE292:
- 1062              	.LBE293:
- 1063              	.LBE295:
- 1064              	.LBE297:
- 1065              		.loc 5 50 0
- 1066 0036 10BD     		pop	{r4, pc}
- 1067              	.L61:
- 1068              		.align	2
- 1069              	.L60:
- 1070 0038 00000000 		.word	heap
- 1071 003c 00000000 		.word	.LANCHOR0
-ARM GAS  /tmp/cciP0LwE.s 			page 30
+ 1297              	.LBE626:
+ 1298              	.LBB627:
+ 1299              	.LBB624:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1300              		.loc 2 27 0
+ 1301 0098 FFF7FEFF 		bl	_Znwj
+ 1302              	.LVL142:
+ 1303              	.LBB602:
+ 1304              	.LBB603:
+  15:../../src/pin.h **** 
+ 1305              		.loc 2 15 0
+ 1306 009c 0523     		movs	r3, #5
+ 1307              	.LBE603:
+ 1308              	.LBE602:
+ 1309              	.LBB605:
+ 1310              	.LBB606:
+ 1311              	.LBB607:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1312              		.loc 7 56 0
+ 1313 009e 0826     		movs	r6, #8
+ 1314              	.LBE607:
+ 1315              	.LBE606:
+ 1316              	.LBE605:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1317              		.loc 2 27 0
+ 1318 00a0 0590     		str	r0, [sp, #20]
+ 1319              	.LVL143:
+ 1320              	.LBB612:
+ 1321              	.LBB604:
+  15:../../src/pin.h **** 
+ 1322              		.loc 2 15 0
+ 1323 00a2 0460     		str	r4, [r0]
+ 1324 00a4 4360     		str	r3, [r0, #4]
+ 1325              	.LVL144:
+ 1326              	.LBE604:
+ 1327              	.LBE612:
+ 1328              	.LBB613:
+ 1329              	.LBB610:
+ 1330              	.LBB608:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1331              		.loc 7 56 0
+ 1332 00a6 AB69     		ldr	r3, [r5, #24]
+ 1333              	.LBE608:
+ 1334              	.LBE610:
+ 1335              	.LBE613:
+ 1336              	.LBB614:
+ 1337              	.LBB615:
+ 1338              	.LBB616:
+  71:../../src/periph/f1_gpio.h ****    else if constexpr (n == 6)  { CR.CNF_MODE6  = v; return *this; }
+ 1339              		.loc 3 71 0
+ 1340 00a8 274A     		ldr	r2, .L31+28
+ 1341              	.LBE616:
+ 1342              	.LBE615:
+ 1343              	.LBE614:
+ 1344              	.LBB621:
+ 1345              	.LBB611:
+ 1346              	.LBB609:
+ARM GAS  /tmp/ccq36h94.s 			page 33
 
 
- 1072 0040 3F190100 		.word	71999
- 1073 0044 10E000E0 		.word	-536813552
- 1074              		.cfi_endproc
- 1075              	.LFE2470:
- 1077              		.section	.init_array,"aw",%init_array
- 1078              		.align	2
- 1079 0000 00000000 		.word	_GLOBAL__sub_I_heap(target1)
- 1080              		.global	_ZTV5Timer
- 1081              		.global	tickUpdater
- 1082              		.global	heap
- 1083              		.section	.bss.heap,"aw",%nobits
- 1084              		.align	2
- 1087              	heap:
- 1088 0000 00000000 		.space	260
- 1088      00000000 
- 1088      00000000 
- 1088      00000000 
- 1088      00000000 
- 1089              		.section	.bss.tickUpdater,"aw",%nobits
- 1090              		.align	2
- 1091              		.set	.LANCHOR0,. + 0
- 1094              	tickUpdater:
- 1095 0000 00000000 		.space	8
- 1095      00000000 
- 1096              		.section	.rodata._ZTV5Timer,"a",%progbits
- 1097              		.align	2
- 1100              	_ZTV5Timer:
- 1101 0000 00000000 		.word	0
- 1102 0004 00000000 		.word	0
- 1103 0008 00000000 		.word	_ZN5Timer6notifyEv
- 1104              		.text
- 1105              	.Letext0:
- 1106              		.file 11 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1107              		.file 12 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1108              		.file 13 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1109              		.file 14 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1110              		.file 15 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1111              		.file 16 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1112              		.file 17 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1113              		.file 18 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1114              		.file 19 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1115              		.file 20 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1116              		.file 21 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1117              		.file 22 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1118              		.file 23 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1119              		.file 24 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1120              		.file 25 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1121              		.file 26 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1122              		.file 27 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1123              		.file 28 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1124              		.file 29 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1125              		.file 30 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1126              		.file 31 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1127              		.file 32 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1128              		.file 33 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1129              		.file 34 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
- 1130              		.file 35 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/incl
-ARM GAS  /tmp/cciP0LwE.s 			page 31
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1347              		.loc 7 56 0
+ 1348 00aa 3343     		orrs	r3, r6
+ 1349 00ac AB61     		str	r3, [r5, #24]
+ 1350              	.LVL145:
+ 1351              	.LBE609:
+ 1352              	.LBE611:
+ 1353              	.LBE621:
+ 1354              	.LBB622:
+ 1355              	.LBB619:
+ 1356              	.LBB617:
+  71:../../src/periph/f1_gpio.h ****    else if constexpr (n == 6)  { CR.CNF_MODE6  = v; return *this; }
+ 1357              		.loc 3 71 0
+ 1358 00ae 2368     		ldr	r3, [r4]
+ 1359              	.LBE617:
+ 1360              	.LBE619:
+ 1361              	.LBE622:
+ 1362              	.LBE624:
+ 1363              	.LBE627:
+ 1364              	.LBB628:
+ 1365              	.LBB629:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1366              		.loc 2 27 0
+ 1367 00b0 3000     		movs	r0, r6
+ 1368              	.LVL146:
+ 1369              	.LBE629:
+ 1370              	.LBE628:
+ 1371              	.LBB648:
+ 1372              	.LBB625:
+ 1373              	.LBB623:
+ 1374              	.LBB620:
+ 1375              	.LBB618:
+  71:../../src/periph/f1_gpio.h ****    else if constexpr (n == 6)  { CR.CNF_MODE6  = v; return *this; }
+ 1376              		.loc 3 71 0
+ 1377 00b2 1A40     		ands	r2, r3
+ 1378 00b4 8023     		movs	r3, #128
+ 1379 00b6 9B03     		lsls	r3, r3, #14
+ 1380 00b8 1343     		orrs	r3, r2
+ 1381 00ba 2360     		str	r3, [r4]
+ 1382              	.LVL147:
+ 1383              	.LBE618:
+ 1384              	.LBE620:
+ 1385              	.LBE623:
+ 1386              	.LBE625:
+ 1387              	.LBE648:
+ 1388              	.LBB649:
+ 1389              	.LBB647:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1390              		.loc 2 27 0
+ 1391 00bc FFF7FEFF 		bl	_Znwj
+ 1392              	.LVL148:
+ 1393              	.LBB630:
+ 1394              	.LBB631:
+  15:../../src/pin.h **** 
+ 1395              		.loc 2 15 0
+ 1396 00c0 0623     		movs	r3, #6
+ 1397 00c2 0460     		str	r4, [r0]
+ARM GAS  /tmp/ccq36h94.s 			page 34
 
 
- 1131              		.file 36 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_d
- 1132              		.file 37 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdin
- 1133              		.file 38 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdint.h"
- 1134              		.file 39 "<built-in>"
- 1135              		.file 40 "../../src/periph/periph.h"
- 1136              		.file 41 "../../src/bits/f1_bits_rcc.h"
- 1137              		.file 42 "../../src/bits/f1_bits_flash.h"
- 1138              		.file 43 "../../src/bits/f1_bits_gpio.h"
- 1139              		.file 44 "../../src/bits/f1_bits_afio.h"
- 1140              		.file 45 "../../src/bits/f0_f4_bits_systick.h"
- 1141              		.file 46 "../../src/buttons.h"
- 1142              		.file 47 "../../src/pins.h"
- 1143              		.file 48 "../../STM32F1_files/CMSIS/core_cm3.h"
- 1144              		.file 49 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h
- 1145              		.file 50 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types
- 1146              		.file 51 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.
- 1147              		.file 52 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/incl
- 1148              		.file 53 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/wchar.h"
- 1149              		.file 54 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/locale.h"
- 1150              		.file 55 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/ctype.h"
- 1151              		.file 56 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdlib.h"
- 1152              		.file 57 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdio.h"
- 1153              		.file 58 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/errno.
-ARM GAS  /tmp/cciP0LwE.s 			page 32
+ 1398 00c4 4360     		str	r3, [r0, #4]
+ 1399              	.LBE631:
+ 1400              	.LBE630:
+ 1401              	.LBB632:
+ 1402              	.LBB633:
+ 1403              	.LBB634:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1404              		.loc 7 56 0
+ 1405 00c6 AB69     		ldr	r3, [r5, #24]
+ 1406              	.LBE634:
+ 1407              	.LBE633:
+ 1408              	.LBE632:
+ 1409              	.LBB637:
+ 1410              	.LBB638:
+ 1411              	.LBB639:
+  72:../../src/periph/f1_gpio.h ****    else if constexpr (n == 7)  { CR.CNF_MODE7  = v; return *this; }
+ 1412              		.loc 3 72 0
+ 1413 00c8 204A     		ldr	r2, .L31+32
+ 1414              	.LBE639:
+ 1415              	.LBE638:
+ 1416              	.LBE637:
+ 1417              	.LBB644:
+ 1418              	.LBB636:
+ 1419              	.LBB635:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1420              		.loc 7 56 0
+ 1421 00ca 3343     		orrs	r3, r6
+ 1422 00cc AB61     		str	r3, [r5, #24]
+ 1423              	.LBE635:
+ 1424              	.LBE636:
+ 1425              	.LBE644:
+ 1426              	.LBB645:
+ 1427              	.LBB642:
+ 1428              	.LBB640:
+  72:../../src/periph/f1_gpio.h ****    else if constexpr (n == 7)  { CR.CNF_MODE7  = v; return *this; }
+ 1429              		.loc 3 72 0
+ 1430 00ce 2368     		ldr	r3, [r4]
+ 1431              	.LBE640:
+ 1432              	.LBE642:
+ 1433              	.LBE645:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1434              		.loc 2 27 0
+ 1435 00d0 0700     		movs	r7, r0
+ 1436              	.LVL149:
+ 1437              	.LBB646:
+ 1438              	.LBB643:
+ 1439              	.LBB641:
+  72:../../src/periph/f1_gpio.h ****    else if constexpr (n == 7)  { CR.CNF_MODE7  = v; return *this; }
+ 1440              		.loc 3 72 0
+ 1441 00d2 1A40     		ands	r2, r3
+ 1442 00d4 8023     		movs	r3, #128
+ 1443 00d6 9B04     		lsls	r3, r3, #18
+ 1444 00d8 1343     		orrs	r3, r2
+ 1445 00da 2360     		str	r3, [r4]
+ 1446              	.LVL150:
+ 1447              	.LBE641:
+ 1448              	.LBE643:
+ARM GAS  /tmp/ccq36h94.s 			page 35
+
+
+ 1449              	.LBE646:
+ 1450              	.LBE647:
+ 1451              	.LBE649:
+ 1452              	.LBB650:
+ 1453              	.LBB651:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1454              		.loc 2 27 0
+ 1455 00dc 3000     		movs	r0, r6
+ 1456              	.LVL151:
+ 1457 00de FFF7FEFF 		bl	_Znwj
+ 1458              	.LVL152:
+ 1459              	.LBB652:
+ 1460              	.LBB653:
+  15:../../src/pin.h **** 
+ 1461              		.loc 2 15 0
+ 1462 00e2 0723     		movs	r3, #7
+ 1463              	.LBE653:
+ 1464              	.LBE652:
+ 1465              	.LBB655:
+ 1466              	.LBB656:
+ 1467              	.LBB657:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1468              		.loc 7 56 0
+ 1469 00e4 0822     		movs	r2, #8
+ 1470              	.LBE657:
+ 1471              	.LBE656:
+ 1472              	.LBE655:
+ 1473              	.LBB664:
+ 1474              	.LBB654:
+  15:../../src/pin.h **** 
+ 1475              		.loc 2 15 0
+ 1476 00e6 0460     		str	r4, [r0]
+ 1477 00e8 4360     		str	r3, [r0, #4]
+ 1478              	.LBE654:
+ 1479              	.LBE664:
+ 1480              	.LBB665:
+ 1481              	.LBB661:
+ 1482              	.LBB658:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1483              		.loc 7 56 0
+ 1484 00ea AB69     		ldr	r3, [r5, #24]
+ 1485              	.LBE658:
+ 1486              	.LBE661:
+ 1487              	.LBE665:
+  27:../../src/pin.h ****       pin.port.template clock_enable<Pin_::periph>()
+ 1488              		.loc 2 27 0
+ 1489 00ec 0600     		movs	r6, r0
+ 1490              	.LVL153:
+ 1491              	.LBB666:
+ 1492              	.LBB662:
+ 1493              	.LBB659:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1494              		.loc 7 56 0
+ 1495 00ee 1343     		orrs	r3, r2
+ 1496              	.LBE659:
+ 1497              	.LBE662:
+ 1498              	.LBE666:
+ARM GAS  /tmp/ccq36h94.s 			page 36
+
+
+ 1499              	.LBB667:
+ 1500              	.LBB668:
+ 1501              	.LBB669:
+  73:../../src/periph/f1_gpio.h ****    else if constexpr (n == 8)  { CR.CNF_MODE8  = v; return *this; }
+ 1502              		.loc 3 73 0
+ 1503 00f0 8022     		movs	r2, #128
+ 1504              	.LBE669:
+ 1505              	.LBE668:
+ 1506              	.LBE667:
+ 1507              	.LBB672:
+ 1508              	.LBB663:
+ 1509              	.LBB660:
+  56:../../src/periph/f1_rcc.h ****       else if constexpr (p == Periph::GPIOC) APB2ENR.IOPCEN = true;
+ 1510              		.loc 7 56 0
+ 1511 00f2 AB61     		str	r3, [r5, #24]
+ 1512              	.LVL154:
+ 1513              	.LBE660:
+ 1514              	.LBE663:
+ 1515              	.LBE672:
+ 1516              	.LBB673:
+ 1517              	.LBB671:
+ 1518              	.LBB670:
+  73:../../src/periph/f1_gpio.h ****    else if constexpr (n == 8)  { CR.CNF_MODE8  = v; return *this; }
+ 1519              		.loc 3 73 0
+ 1520 00f4 2368     		ldr	r3, [r4]
+ 1521 00f6 9205     		lsls	r2, r2, #22
+ 1522 00f8 1B01     		lsls	r3, r3, #4
+ 1523 00fa 1B09     		lsrs	r3, r3, #4
+ 1524 00fc 1343     		orrs	r3, r2
+ 1525 00fe 2360     		str	r3, [r4]
+ 1526              	.LVL155:
+ 1527              	.LBE670:
+ 1528              	.LBE671:
+ 1529              	.LBE673:
+ 1530              	.LBE651:
+ 1531              	.LBE650:
+  50:../../src/lcd.h ****       {
+ 1532              		.loc 4 50 0
+ 1533 0100 1C20     		movs	r0, #28
+ 1534              	.LVL156:
+ 1535 0102 FFF7FEFF 		bl	_Znwj
+ 1536              	.LVL157:
+ 1537 0106 0400     		movs	r4, r0
+ 1538              	.LVL158:
+ 1539              	.LBB674:
+ 1540              	.LBB675:
+  29:../../src/lcd.h ****       // , delay{Delay::make()}
+ 1541              		.loc 4 29 0
+ 1542 0108 019B     		ldr	r3, [sp, #4]
+ 1543 010a 4761     		str	r7, [r0, #20]
+ 1544 010c 0360     		str	r3, [r0]
+ 1545 010e 029B     		ldr	r3, [sp, #8]
+ 1546 0110 8661     		str	r6, [r0, #24]
+ 1547              	.LVL159:
+ 1548 0112 4360     		str	r3, [r0, #4]
+ 1549 0114 039B     		ldr	r3, [sp, #12]
+ 1550 0116 8360     		str	r3, [r0, #8]
+ARM GAS  /tmp/ccq36h94.s 			page 37
+
+
+ 1551 0118 049B     		ldr	r3, [sp, #16]
+ 1552 011a C360     		str	r3, [r0, #12]
+ 1553 011c 059B     		ldr	r3, [sp, #20]
+ 1554 011e 0361     		str	r3, [r0, #16]
+ 1555              	.LBE675:
+ 1556              	.LBE674:
+  61:../../src/lcd.h **** 
+ 1557              		.loc 4 61 0
+ 1558 0120 FFF7FEFF 		bl	_ZN3mcu3LCD4initEv
+ 1559              	.LVL160:
+  64:../../src/lcd.h **** 
+ 1560              		.loc 4 64 0
+ 1561 0124 2000     		movs	r0, r4
+ 1562 0126 07B0     		add	sp, sp, #28
+ 1563              		@ sp needed
+ 1564              	.LVL161:
+ 1565              	.LVL162:
+ 1566              	.LVL163:
+ 1567 0128 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 1568              	.L32:
+ 1569 012a C046     		.align	2
+ 1570              	.L31:
+ 1571 012c 00100140 		.word	1073811456
+ 1572 0130 00100240 		.word	1073876992
+ 1573 0134 FFFFF0FF 		.word	-983041
+ 1574 0138 00140140 		.word	1073812480
+ 1575 013c FFF0FFFF 		.word	-3841
+ 1576 0140 000C0140 		.word	1073810432
+ 1577 0144 FF0FFFFF 		.word	-61441
+ 1578 0148 FFFF0FFF 		.word	-15728641
+ 1579 014c FFFFFFF0 		.word	-251658241
+ 1580              		.cfi_endproc
+ 1581              	.LFE161:
+ 1583              		.section	.text.startup.main,"ax",%progbits
+ 1584              		.align	1
+ 1585              		.global	main
+ 1586              		.syntax unified
+ 1587              		.code	16
+ 1588              		.thumb_func
+ 1589              		.fpu softvfp
+ 1591              	main:
+ 1592              	.LFB160:
+  38:main.cpp      **** 
+  39:main.cpp      ****   
+  40:main.cpp      **** 
+  41:main.cpp      **** int main()
+  42:main.cpp      **** {
+ 1593              		.loc 5 42 0
+ 1594              		.cfi_startproc
+ 1595              		@ args = 0, pretend = 0, frame = 0
+ 1596              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1597 0000 10B5     		push	{r4, lr}
+ 1598              	.LCFI8:
+ 1599              		.cfi_def_cfa_offset 8
+ 1600              		.cfi_offset 4, -8
+ 1601              		.cfi_offset 14, -4
+  43:main.cpp      ****    
+ARM GAS  /tmp/ccq36h94.s 			page 38
+
+
+  44:main.cpp      ****    auto& screen = mcu::LCD::make
+  45:main.cpp      ****    <mcu::PC12, mcu::PD2, mcu::PB3, mcu::PB4, mcu::PB5, mcu::PB6, mcu::PB7>();
+ 1602              		.loc 5 45 0
+ 1603 0002 FFF7FEFF 		bl	_ZN3mcu3LCD4makeINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4
+ 1604              	.LVL164:
+  46:main.cpp      **** 
+  47:main.cpp      **** }
+ 1605              		.loc 5 47 0
+ 1606              		@ sp needed
+ 1607 0006 0020     		movs	r0, #0
+ 1608 0008 10BD     		pop	{r4, pc}
+ 1609              		.cfi_endproc
+ 1610              	.LFE160:
+ 1612              		.section	.text.startup._GLOBAL__sub_I_heap,"ax",%progbits
+ 1613              		.align	1
+ 1614              		.syntax unified
+ 1615              		.code	16
+ 1616              		.thumb_func
+ 1617              		.fpu softvfp
+ 1619              	_GLOBAL__sub_I_heap:
+ 1620              	.LFB197:
+ 1621              		.loc 5 47 0
+ 1622              		.cfi_startproc
+ 1623              		@ args = 0, pretend = 0, frame = 0
+ 1624              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1625              	.LVL165:
+ 1626              	.LBB679:
+ 1627              	.LBB680:
+  32:../../src/heap.h **** Heap<heap_size> heap {};
+ 1628              		.loc 1 32 0
+ 1629 0000 8222     		movs	r2, #130
+ 1630              	.LBE680:
+ 1631              	.LBE679:
+ 1632              		.loc 5 47 0
+ 1633 0002 10B5     		push	{r4, lr}
+ 1634              	.LCFI9:
+ 1635              		.cfi_def_cfa_offset 8
+ 1636              		.cfi_offset 4, -8
+ 1637              		.cfi_offset 14, -4
+ 1638              	.LBB682:
+ 1639              	.LBB681:
+  32:../../src/heap.h **** Heap<heap_size> heap {};
+ 1640              		.loc 1 32 0
+ 1641 0004 5200     		lsls	r2, r2, #1
+ 1642 0006 0021     		movs	r1, #0
+ 1643 0008 0148     		ldr	r0, .L35
+ 1644 000a FFF7FEFF 		bl	memset
+ 1645              	.LVL166:
+ 1646              	.LBE681:
+ 1647              	.LBE682:
+ 1648              		.loc 5 47 0
+ 1649              		@ sp needed
+ 1650 000e 10BD     		pop	{r4, pc}
+ 1651              	.L36:
+ 1652              		.align	2
+ 1653              	.L35:
+ 1654 0010 00000000 		.word	heap
+ARM GAS  /tmp/ccq36h94.s 			page 39
+
+
+ 1655              		.cfi_endproc
+ 1656              	.LFE197:
+ 1658              		.section	.init_array,"aw",%init_array
+ 1659              		.align	2
+ 1660 0000 00000000 		.word	_GLOBAL__sub_I_heap(target1)
+ 1661              		.global	heap
+ 1662              		.section	.bss.heap,"aw",%nobits
+ 1663              		.align	2
+ 1666              	heap:
+ 1667 0000 00000000 		.space	260
+ 1667      00000000 
+ 1667      00000000 
+ 1667      00000000 
+ 1667      00000000 
+ 1668              		.text
+ 1669              	.Letext0:
+ 1670              		.file 8 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/t
+ 1671              		.file 9 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/a
+ 1672              		.file 10 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1673              		.file 11 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/
+ 1674              		.file 12 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/incl
+ 1675              		.file 13 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/machine/_d
+ 1676              		.file 14 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_stdin
+ 1677              		.file 15 "/home/users/aag/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/stdint.h"
+ 1678              		.file 16 "<built-in>"
+ 1679              		.file 17 "../../src/periph/periph.h"
+ 1680              		.file 18 "../../src/bits/f1_bits_rcc.h"
+ 1681              		.file 19 "../../src/bits/f1_bits_flash.h"
+ 1682              		.file 20 "../../src/bits/f1_bits_gpio.h"
+ 1683              		.file 21 "../../src/bits/f1_bits_afio.h"
+ 1684              		.file 22 "../../src/bits/f0_f4_bits_systick.h"
+ 1685              		.file 23 "../../src/pins.h"
+ 1686              		.file 24 "../../STM32F1_files/CMSIS/core_cm3.h"
+ARM GAS  /tmp/ccq36h94.s 			page 40
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.cpp
-     /tmp/cciP0LwE.s:16     .text._ZN5Timer6notifyEv:0000000000000000 $t
-     /tmp/cciP0LwE.s:23     .text._ZN5Timer6notifyEv:0000000000000000 _ZN5Timer6notifyEv
-     /tmp/cciP0LwE.s:45     .text._Znwj:0000000000000000 $t
-     /tmp/cciP0LwE.s:52     .text._Znwj:0000000000000000 _Znwj
-     /tmp/cciP0LwE.s:91     .text._Znwj:0000000000000018 $d
-     /tmp/cciP0LwE.s:1087   .bss.heap:0000000000000000 heap
-     /tmp/cciP0LwE.s:96     .text.SysTick_Handler:0000000000000000 $t
-     /tmp/cciP0LwE.s:103    .text.SysTick_Handler:0000000000000000 SysTick_Handler
-     /tmp/cciP0LwE.s:157    .text.SysTick_Handler:0000000000000018 $d
-     /tmp/cciP0LwE.s:162    .text._ZN5Timer5eventEv:0000000000000000 $t
-     /tmp/cciP0LwE.s:169    .text._ZN5Timer5eventEv:0000000000000000 _ZN5Timer5eventEv
-     /tmp/cciP0LwE.s:197    .text._ZN5Timer4doneEv:0000000000000000 $t
-     /tmp/cciP0LwE.s:204    .text._ZN5Timer4doneEv:0000000000000000 _ZN5Timer4doneEv
-     /tmp/cciP0LwE.s:226    .text._ZN5Timer7isCountEv:0000000000000000 $t
-     /tmp/cciP0LwE.s:233    .text._ZN5Timer7isCountEv:0000000000000000 _ZN5Timer7isCountEv
-     /tmp/cciP0LwE.s:250    .text._ZN5Timer10timePassedEv:0000000000000000 $t
-     /tmp/cciP0LwE.s:257    .text._ZN5Timer10timePassedEv:0000000000000000 _ZN5Timer10timePassedEv
-     /tmp/cciP0LwE.s:274    .text._ZN5Timer8timeLeftEv:0000000000000000 $t
-     /tmp/cciP0LwE.s:281    .text._ZN5Timer8timeLeftEv:0000000000000000 _ZN5Timer8timeLeftEv
-     /tmp/cciP0LwE.s:300    .text._ZN5Timer9isGreaterEm:0000000000000000 $t
-     /tmp/cciP0LwE.s:307    .text._ZN5Timer9isGreaterEm:0000000000000000 _ZN5Timer9isGreaterEm
-     /tmp/cciP0LwE.s:327    .text._ZN14TickSubscriber11unsubscribeEv:0000000000000000 $t
-     /tmp/cciP0LwE.s:334    .text._ZN14TickSubscriber11unsubscribeEv:0000000000000000 _ZN14TickSubscriber11unsubscribeEv
-     /tmp/cciP0LwE.s:425    .text._ZN14TickSubscriber11unsubscribeEv:000000000000003c $d
-     /tmp/cciP0LwE.s:435    .text._ZN5Timer4stopEv:0000000000000000 $t
-     /tmp/cciP0LwE.s:442    .text._ZN5Timer4stopEv:0000000000000000 _ZN5Timer4stopEv
-     /tmp/cciP0LwE.s:469    .text._ZN5Timer5pauseEv:0000000000000000 $t
-     /tmp/cciP0LwE.s:476    .text._ZN5Timer5pauseEv:0000000000000000 _ZN5Timer5pauseEv
-     /tmp/cciP0LwE.s:497    .text._ZN14TickSubscriber9subscribeEv:0000000000000000 $t
-     /tmp/cciP0LwE.s:504    .text._ZN14TickSubscriber9subscribeEv:0000000000000000 _ZN14TickSubscriber9subscribeEv
-     /tmp/cciP0LwE.s:558    .text._ZN14TickSubscriber9subscribeEv:0000000000000024 $d
-     /tmp/cciP0LwE.s:563    .text._ZN5Timer5startEm:0000000000000000 $t
-     /tmp/cciP0LwE.s:570    .text._ZN5Timer5startEm:0000000000000000 _ZN5Timer5startEm
-     /tmp/cciP0LwE.s:594    .text._ZN5Timer5startEv:0000000000000000 $t
-     /tmp/cciP0LwE.s:601    .text._ZN5Timer5startEv:0000000000000000 _ZN5Timer5startEv
-     /tmp/cciP0LwE.s:622    .text.init_clock:0000000000000000 $t
-     /tmp/cciP0LwE.s:629    .text.init_clock:0000000000000000 init_clock
-     /tmp/cciP0LwE.s:797    .text.init_clock:0000000000000084 $d
-     /tmp/cciP0LwE.s:805    .text.startup.main:0000000000000000 $t
-     /tmp/cciP0LwE.s:812    .text.startup.main:0000000000000000 main
-     /tmp/cciP0LwE.s:922    .text.startup.main:0000000000000030 $d
-     /tmp/cciP0LwE.s:928    .text.startup._GLOBAL__sub_I_heap:0000000000000000 $t
-     /tmp/cciP0LwE.s:934    .text.startup._GLOBAL__sub_I_heap:0000000000000000 _GLOBAL__sub_I_heap
-     /tmp/cciP0LwE.s:1070   .text.startup._GLOBAL__sub_I_heap:0000000000000038 $d
-     /tmp/cciP0LwE.s:1078   .init_array:0000000000000000 $d
-     /tmp/cciP0LwE.s:1100   .rodata._ZTV5Timer:0000000000000000 _ZTV5Timer
-     /tmp/cciP0LwE.s:1094   .bss.tickUpdater:0000000000000000 tickUpdater
-     /tmp/cciP0LwE.s:1084   .bss.heap:0000000000000000 $d
-     /tmp/cciP0LwE.s:1090   .bss.tickUpdater:0000000000000000 $d
-     /tmp/cciP0LwE.s:1097   .rodata._ZTV5Timer:0000000000000000 $d
+     /tmp/ccq36h94.s:16     .text._Znwj:0000000000000000 $t
+     /tmp/ccq36h94.s:23     .text._Znwj:0000000000000000 _Znwj
+     /tmp/ccq36h94.s:62     .text._Znwj:0000000000000018 $d
+     /tmp/ccq36h94.s:1666   .bss.heap:0000000000000000 heap
+     /tmp/ccq36h94.s:67     .text._ZN3mcu3Pin3setEv:0000000000000000 $t
+     /tmp/ccq36h94.s:74     .text._ZN3mcu3Pin3setEv:0000000000000000 _ZN3mcu3Pin3setEv
+     /tmp/ccq36h94.s:112    .text._ZN3mcu3Pin5clearEv:0000000000000000 $t
+     /tmp/ccq36h94.s:119    .text._ZN3mcu3Pin5clearEv:0000000000000000 _ZN3mcu3Pin5clearEv
+     /tmp/ccq36h94.s:165    .text._ZN3mcu3LCD6nibbleEv.isra.1:0000000000000000 $t
+     /tmp/ccq36h94.s:171    .text._ZN3mcu3LCD6nibbleEv.isra.1:0000000000000000 _ZN3mcu3LCD6nibbleEv.isra.1
+     /tmp/ccq36h94.s:209    .text._ZN3mcu3PinaSEb:0000000000000000 $t
+     /tmp/ccq36h94.s:216    .text._ZN3mcu3PinaSEb:0000000000000000 _ZN3mcu3PinaSEb
+     /tmp/ccq36h94.s:249    .text._ZN3mcu3LCD9send_dataENS0_4InitE:0000000000000000 $t
+     /tmp/ccq36h94.s:256    .text._ZN3mcu3LCD9send_dataENS0_4InitE:0000000000000000 _ZN3mcu3LCD9send_dataENS0_4InitE
+     /tmp/ccq36h94.s:444    .text._ZN3mcu3LCD4initEv:0000000000000000 $t
+     /tmp/ccq36h94.s:451    .text._ZN3mcu3LCD4initEv:0000000000000000 _ZN3mcu3LCD4initEv
+     /tmp/ccq36h94.s:699    .text._ZN3mcu3LCD4sendEv:0000000000000000 $t
+     /tmp/ccq36h94.s:706    .text._ZN3mcu3LCD4sendEv:0000000000000000 _ZN3mcu3LCD4sendEv
+     /tmp/ccq36h94.s:785    .text.init_clock:0000000000000000 $t
+     /tmp/ccq36h94.s:792    .text.init_clock:0000000000000000 init_clock
+     /tmp/ccq36h94.s:959    .text.init_clock:0000000000000080 $d
+     /tmp/ccq36h94.s:968    .text._ZN3mcu3LCD4makeINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERDav:0000000000000000 $t
+     /tmp/ccq36h94.s:975    .text._ZN3mcu3LCD4makeINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERDav:0000000000000000 _ZN3mcu3LCD4makeINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERDav
+     /tmp/ccq36h94.s:1571   .text._ZN3mcu3LCD4makeINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERDav:000000000000012c $d
+     /tmp/ccq36h94.s:1584   .text.startup.main:0000000000000000 $t
+     /tmp/ccq36h94.s:1591   .text.startup.main:0000000000000000 main
+     /tmp/ccq36h94.s:1613   .text.startup._GLOBAL__sub_I_heap:0000000000000000 $t
+     /tmp/ccq36h94.s:1619   .text.startup._GLOBAL__sub_I_heap:0000000000000000 _GLOBAL__sub_I_heap
+     /tmp/ccq36h94.s:1654   .text.startup._GLOBAL__sub_I_heap:0000000000000010 $d
+     /tmp/ccq36h94.s:1659   .init_array:0000000000000000 $d
+     /tmp/ccq36h94.s:1663   .bss.heap:0000000000000000 $d
 
 UNDEFINED SYMBOLS
 memset

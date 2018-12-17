@@ -28,6 +28,10 @@ public:
    void clear   (size_t n) { BSRR |= (1 << (n + 16));       }
    bool is_set  (size_t n) { return IDR.reg & (1 << n);     }
    void toggle  (size_t n) { is_set(n) ? clear(n) : set(n); }
+   void set (uint16_t mask, uint16_t v)
+   {
+      BSRR = (v & mask) | ((uint32_t)((not v) and mask) << 16);
+   }
 
    template<size_t> GPIO& set (Mode);
    template<class Pin_, PinMode, Periph rcc = Periph::RCC, Periph afio = Periph::AFIO> void init();

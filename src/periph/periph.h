@@ -50,6 +50,7 @@
 #undef SysTick
 #undef TIM1
 #undef TIM3
+#undef TIM4
 #undef TIM14
 #undef TIM16
 #undef TIM17
@@ -81,7 +82,7 @@ enum class Periph {
     DMA1, DMA1_stream1, DMA1_stream2, DMA1_stream3, DMA1_stream4, DMA1_stream5, DMA1_stream6, DMA1_stream7,
 #endif
     SysTick,
-    TIM1, TIM3, TIM14, TIM16, TIM17,
+    TIM1, TIM3, TIM4, TIM14, TIM16, TIM17,
     FLASH,
 
 #if defined(TEST)

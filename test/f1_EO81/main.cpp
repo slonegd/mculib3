@@ -11,7 +11,8 @@
 // #include "fifo.h"
 // # include "modbus_slave.h"
 // #include "modbus_master.h"
-#include "buttons.h"
+// #include "buttons.h"
+#include "lcd.h"
 
 
 /// эта функция вызывается первой в startup файле
@@ -39,12 +40,8 @@ extern "C" void init_clock ()
 
 int main()
 {
-   // auto button = mcu::Button::make<mcu::PB8>();
-
-   auto led = mcu::Pin::make_new<mcu::PC9, mcu::PinMode::Output>();
-
-   // if (button.push())
-      led = true;
    
+   auto& screen = mcu::LCD::make
+   <mcu::PC12, mcu::PD2, mcu::PB3, mcu::PB4, mcu::PB5, mcu::PB6, mcu::PB7>();
 
 }
