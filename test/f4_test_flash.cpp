@@ -3,6 +3,7 @@
 
 #define STM32F405xx
 #define TEST
+#undef USE_MOCKS
 
 #include "periph_flash.h"
 #include <iostream>
@@ -13,15 +14,6 @@ BOOST_AUTO_TEST_SUITE (test_suite_main)
 
 mcu::FLASH flash;
 auto& cmsis = *reinterpret_cast<mcu::FLASH::CMSIS_type*>(&flash);
-
-BOOST_AUTO_TEST_CASE (make_reference)
-{
-   auto& flash {mcu::make_reference<mcu::Periph::FLASH>()};
-   auto address = reinterpret_cast<size_t>(&flash);
-   auto same = std::is_same_v<std::remove_reference_t<decltype(flash)>, mcu::FLASH>;
-   BOOST_CHECK_EQUAL (address, FLASH_R_BASE);
-   BOOST_CHECK_EQUAL (same, true);
-}
 
 BOOST_AUTO_TEST_CASE (set_latency)
 {

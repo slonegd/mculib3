@@ -44,7 +44,7 @@ struct CR {
    bool     EOPIE :1; // Bit 24 EOPIE: End of operation interrupt enable
    bool     ERRIE :1; // Bit 25 ERRIE: Error interrupt enable
    uint32_t       :5; // Bits 30:26 Reserved, must be kept cleared.
-   bool LOCK      :1; // Bit 31 LOCK: Lock
+   bool     LOCK  :1; // Bit 31 LOCK: Lock
 }__attribute__((packed));
 
 

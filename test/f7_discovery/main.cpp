@@ -12,7 +12,7 @@ volatile auto& rcc = mcu::make_reference<mcu::Periph::RCC>();
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock()
 {
-   init_clock_<F_CPU>();
+   init_clock<25_MHz,F_CPU>();
 }
 
 
