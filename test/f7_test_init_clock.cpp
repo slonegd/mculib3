@@ -7,6 +7,7 @@
 
 #include "mock_rcc.h"
 #include "mock_flash.h"
+#include "mock_gpio.h"
 #include "init_clock.h"
 #include <iostream>
 #include <thread>

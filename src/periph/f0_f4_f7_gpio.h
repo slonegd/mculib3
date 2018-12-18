@@ -7,8 +7,14 @@
 
 namespace mcu {
 
-enum class PinMode { Input, Output, Alternate_0, Alternate_1, Alternate_2, Alternate_3,
-   Alternate_4, Alternate_5, Alternate_7, Alternate_8
+enum class PinMode {
+   Input, Output, 
+   Alternate_0 , Alternate_1 , Alternate_2 , Alternate_3,
+   Alternate_4 , Alternate_5 , Alternate_6 , Alternate_7,
+#if defined(STM32F4) or defined(STM32F7)
+   Alternate_8 , Alternate_9 , Alternate_10, Alternate_11,
+   Alternate_12, Alternate_13, Alternate_14, Alternate_15
+#endif
 };
 
 class GPIO {

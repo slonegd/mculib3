@@ -11,14 +11,14 @@
 #include "timeout.h"
 
 // отсутсвуют в cmsis f0, но есть в f7
-#define GPIO_AFRL_AFRL0_0 (GPIO_AFRL_AFRL0_Pos << 0)
-#define GPIO_AFRL_AFRL1_0 (GPIO_AFRL_AFRL1_Pos << 0)
-#define GPIO_AFRL_AFRL1_1 (GPIO_AFRH_AFRH1_Pos << 1)
+#define GPIO_AFRL_AFRL0_0 (1 << GPIO_AFRL_AFRL0_Pos + 0)
+#define GPIO_AFRL_AFRL1_0 (1 << GPIO_AFRL_AFRL1_Pos + 0)
+#define GPIO_AFRL_AFRL1_1 (1 << GPIO_AFRL_AFRL1_Pos + 1)
 
-#define GPIO_AFRH_AFRH0_0 (GPIO_AFRH_AFRH0_Pos << 0)
-#define GPIO_AFRH_AFRH7_0 (GPIO_AFRH_AFRH7_Pos << 0)
-#define GPIO_AFRH_AFRH7_1 (GPIO_AFRH_AFRH7_Pos << 1)
-#define GPIO_AFRH_AFRH7_2 (GPIO_AFRH_AFRH7_Pos << 2)
+#define GPIO_AFRH_AFRH0_0 (1 << GPIO_AFRH_AFRH0_Pos + 0)
+#define GPIO_AFRH_AFRH7_0 (1 << GPIO_AFRH_AFRH7_Pos + 0)
+#define GPIO_AFRH_AFRH7_1 (1 << GPIO_AFRH_AFRH7_Pos + 1)
+#define GPIO_AFRH_AFRH7_2 (1 << GPIO_AFRH_AFRH7_Pos + 2)
 
 
 #include "f0_f4_f7_test_periph_gpio.h"
