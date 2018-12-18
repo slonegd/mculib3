@@ -1,6 +1,6 @@
-f4_test_rcc
-f0_test_gpio
-f4_test_gpio
+[done] f4_test_rcc
+[done] f0_test_gpio
+[done] f4_test_gpio
 test_pin
 f0_f4_test_systick
 test_list

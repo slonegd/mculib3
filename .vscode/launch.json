@@ -122,12 +122,12 @@
          "name": "test",
          "type": "cppdbg",
          "request": "launch",
-         "program": "${workspaceRoot}/test/cmake/build/f0_test_rcc",
+         "program": "${workspaceRoot}/test/cmake/build/f7_test_flash",
          "args": [],
          "stopAtEntry": true,
          "cwd": "${workspaceRoot}",
          "environment": [],
-         "externalConsole": true,
+         "externalConsole": false,
          "MIMode": "gdb",
          "setupCommands": [
             {

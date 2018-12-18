@@ -4,6 +4,7 @@
 #include "init_clock.h"
 #include "timers.h"
 #include "pin.h"
+#include "flash.h"
 
 
 volatile auto& rcc = mcu::make_reference<mcu::Periph::RCC>();
@@ -15,10 +16,14 @@ extern "C" void init_clock()
    init_clock<25_MHz,F_CPU>();
 }
 
+struct Data {
+   int d1 {1};
+   int d2 {2};
+};
+mcu::Flash<Data, mcu::FLASH::Sector::_7> flash {};
 
 int main()
 {
-   
    auto pin = mcu::Pin::make<mcu::PI1, mcu::PinMode::Output>();
 
    Timer timer {200_ms};

@@ -11,21 +11,30 @@ class SizedInt {
    Int value {0};
 public:
    inline Int operator++(int)   { return value = (++value < n) ? value : 0; }
+   inline Int operator--(int)   { return value = (value == 0) ? n : value - 1; }
    inline operator Int() const  { return value; }
    inline Int operator= (Int v) { return value = v; }
 };
 
-namespace mcu {
+
+template <class Data, mcu::FLASH::Sector>
+class Flash;
+
+
+#if defined(USE_PERIPH_MOCK)
+using namespace mock;
+#else
+using namespace mcu;
+#endif
 
 // для STM32F0 sector на самом деле page из refmanual
-template <class Data, FLASH::Sector sector>
-class Flash_impl : public Data, private TickSubscriber
+template <class Data, mcu::FLASH::Sector sector>
+class Flash : public Data, private TickSubscriber
 {
 public:
-   Flash_impl();
+   Flash (size_t memory_address = mcu::FLASH::template address<sector>());
 private:
-   static constexpr auto sector_size    {FLASH::template size<sector>()};
-   static constexpr auto sector_address {FLASH::template address<sector>()};
+   static constexpr auto sector_size    {mcu::FLASH::template size<sector>()};
    struct Pair {
       uint8_t offset; 
       uint8_t value;
@@ -34,9 +43,9 @@ private:
       Pair     pair[sector_size/2];
       uint16_t word[sector_size/2];
    };
-   Memory& memory {*reinterpret_cast<Memory*>(sector_address)};
+   Memory& memory;
 
-   FLASH&         flash    {make_reference<Periph::FLASH>()};
+   FLASH&          flash   {mcu::make_reference<mcu::Periph::FLASH>()};
    uint8_t* const original {reinterpret_cast<uint8_t*>(static_cast<Data*>(this))};
    uint8_t        copy[sizeof(Data)];
 
@@ -51,19 +60,11 @@ private:
    volatile uint8_t writed_data; // TODO: проверить без volatile
    SizedInt<sizeof(Data), uint8_t> data_offset {};
 
-   Flash_impl (Data d) : Data{d} {}
    // возвращает true , если данные прочитаны
    //            false, если нет или данные не полные
    bool is_read();
    void notify() override;
 };
-
-
-/// алиасинг для более быстрой записи
-// template<class Data, typename FLASH::Sector sector>
-// using Flash = Flash_impl<Data,FLASH,sector>;
-
-
 
 
 
@@ -78,7 +79,8 @@ private:
 
 
 template <class Data, typename FLASH::Sector sector>
-Flash_impl<Data,sector>::Flash_impl()
+Flash<Data,sector>::Flash (size_t memory_address)
+   : memory {*reinterpret_cast<Memory*>(memory_address)}
 {
    static_assert (
       sizeof(Data) < 255,
@@ -90,14 +92,14 @@ Flash_impl<Data,sector>::Flash_impl()
    );
    flash.lock();
    if (not is_read())
-      Flash_impl {Data{}};
+      *static_cast<Data*>(this) = Data{};
    subscribe();
 }
 
 
 
 template <class Data, typename FLASH::Sector sector>
-bool Flash_impl<Data,sector>::is_read()
+bool Flash<Data,sector>::is_read()
 {
    // обнуляем буфер перед заполнением
    std::fill (std::begin(copy), std::end(copy), 0xFF);
@@ -110,6 +112,7 @@ bool Flash_impl<Data,sector>::is_read()
          copy[pair.offset] = pair.value;
          byte_readed[pair.offset] = true;
       } else if (pair.offset == 0xFF) {
+         memory_offset--;
          break;
       }
    }
@@ -136,7 +139,7 @@ bool Flash_impl<Data,sector>::is_read()
 
 
 template <class Data, FLASH::Sector sector>
-void Flash_impl<Data,sector>::notify()
+void Flash<Data,sector>::notify()
 {
    // реализация автоматом
    switch (state) {
@@ -152,7 +155,7 @@ void Flash_impl<Data,sector>::notify()
       if ( not flash.is_busy() and flash.is_lock() ) {
          flash.unlock()
               .set_progMode();
-         #if defined(STM32F4)
+         #if defined(STM32F4) or defined(STM32F7)
             flash.set (FLASH::ProgSize::x16)
                  .en_interrupt_endOfProg(); // без этого не работает
          #endif
@@ -204,4 +207,3 @@ void Flash_impl<Data,sector>::notify()
 
 
 
-} // namespace mcu {
