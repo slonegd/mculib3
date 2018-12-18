@@ -1,7 +1,7 @@
 #pragma once
 
-#include "f0_f4_bits_gpio.h"
-#include "rcc.h"
+#include "f0_f4_f7_bits_gpio.h"
+#include "periph_rcc.h"
 
 
 
@@ -22,8 +22,11 @@ class GPIO {
    __IO uint32_t           LCKR;    // configuration lock register,  offset: 0x1C
    __IO GPIO_bits::AFR     AFR;     // alternate function registers, offset: 0x20-0x24
 public:
+   using CMSIS_type   = GPIO_TypeDef;
    using Mode = GPIO_bits::MODER::Mode;
    using AF   = GPIO_bits::  AFR::AF;
+
+   auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
 
    template<Periph p> GPIO& clock_enable() { make_reference<Periph::RCC>().clock_enable<p>(); return *this; }
 
@@ -31,10 +34,12 @@ public:
    void clear    (size_t n) { BSRR |= (1 << (n + 16));       }
    bool is_set   (size_t n) { return IDR.reg & (1 << n);     }
    void toggle   (size_t n) { is_set(n) ? clear(n) : set(n); }
+   
+   template<class Pin_, PinMode> void init();
 
+private:
    template<size_t> GPIO& set (Mode);
    template<size_t> GPIO& set (AF);
-   template<class Pin_, PinMode> void init();
 };
 
 
@@ -54,7 +59,7 @@ public:
 
 
 
-
+#if not defined(USE_PERIPH_MOCK)
 template<Periph p> std::enable_if_t<p == Periph::GPIOA, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOA_BASE); }
 template<Periph p> std::enable_if_t<p == Periph::GPIOB, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOB_BASE); }
 template<Periph p> std::enable_if_t<p == Periph::GPIOC, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOC_BASE); }
@@ -66,6 +71,7 @@ template<Periph p> std::enable_if_t<p == Periph::GPIOG, GPIO&> make_reference() 
 template<Periph p> std::enable_if_t<p == Periph::GPIOH, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOH_BASE); }
 template<Periph p> std::enable_if_t<p == Periph::GPIOI, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOI_BASE); }
 #endif
+#endif // #if not defined(USE_PERIPH_MOCK)
 
 
 template<size_t n> GPIO& GPIO::set (Mode v)
@@ -140,10 +146,10 @@ template<class Pin_, PinMode v> void GPIO::init()
       set<Pin_::n> (Mode::Alternate);
       set<Pin_::n>   (AF::_7);
 
-#if defined(STM32F4)
+#if defined(STM32F4) or defined(STM32F7)
    } else if constexpr (v == PinMode::Alternate_8) {
-      set<in_::n> (Mode::Alternate);
-      set<in_::n>   (AF::_8);
+      set<Pin_::n> (Mode::Alternate);
+      set<Pin_::n>   (AF::_8);
 #endif
    }
 }

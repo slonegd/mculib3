@@ -1,6 +1,6 @@
 #pragma once
 
-#include "gpio.h"
+#include "periph_gpio.h"
 #include "pins.h"
 #if not defined (TEST)
    #include "heap.h"

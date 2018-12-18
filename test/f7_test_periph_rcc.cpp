@@ -1,10 +1,10 @@
-#define BOOST_TEST_MODULE f7_test_rcc
+#define BOOST_TEST_MODULE f7_test_periph_rcc
 #include <boost/test/unit_test.hpp>
 
 #define F_CPU   216'000'000UL
 #define STM32F746xx
 
-#include "rcc.h"
+#include "periph_rcc.h"
 #include <iostream>
 #include <type_traits>
 #include <thread>

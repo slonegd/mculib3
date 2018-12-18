@@ -29,8 +29,10 @@ test flash
    f1_test_usart.cpp
    [done] f4_test_flash.cpp
    f4_test_usart.cpp
-see f4_test_flash.cpp unlock add timeout
-see f4_test_flash.cpp start_erase_sector
+[done] see f4_test_flash.cpp unlock add timeout
+[done] see f4_test_flash.cpp start_erase_sector
 [done] test_reflect
-f0_test_rcc wait_PLL_ready fix 
-mock_flash
+[done] f0_test_rcc wait_PLL_ready fix 
+[done] mock_flash
+f0_test_periph_rcc see set_AHBprescaler
+f0_test_periph_rcc no HSE

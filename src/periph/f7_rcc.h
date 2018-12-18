@@ -104,7 +104,7 @@ private:
    }
 };
 
-#if not defined(USE_MOCKS)
+#if not defined(USE_PERIPH_MOCK)
 template<Periph p> std::enable_if_t<p == Periph::RCC, RCC&> make_reference() { return *reinterpret_cast<RCC*>(RCC_BASE); }
 #endif
 

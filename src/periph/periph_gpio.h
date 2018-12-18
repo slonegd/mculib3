@@ -1,6 +1,7 @@
 #pragma once
 
 #include "periph.h"
+#include "pins.h"
 
 #if   defined(STM32F0)
    #include "f0_f4_f7_gpio.h"

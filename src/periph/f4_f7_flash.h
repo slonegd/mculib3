@@ -42,7 +42,7 @@ public:
 };
 
 
-#if not defined(USE_MOCKS)
+#if not defined(USE_PERIPH_MOCK)
 template<Periph p> std::enable_if_t<p == Periph::FLASH, FLASH&> make_reference() { return *reinterpret_cast<FLASH*>(FLASH_R_BASE); }
 #endif
 

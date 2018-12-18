@@ -1,7 +1,7 @@
 #pragma once
 
-#define USE_MOCKS
-#include "rcc.h"
+#define USE_PERIPH_MOCK
+#include "periph_rcc.h"
 #include <iostream>
 
 namespace mock {
@@ -181,7 +181,7 @@ public:
 
 } // namespace mock {
 
-#if defined(USE_MOCKS)
+#if defined(USE_PERIPH_MOCK)
 namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::RCC, mock::RCC&> make_reference() { return mock::RCC::make(); }
 }

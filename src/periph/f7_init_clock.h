@@ -1,5 +1,5 @@
-#include "rcc.h"
-#include "flash.h"
+#include "periph_rcc.h"
+#include "periph_flash.h"
 #include "literals.h"
 
 // template<size_t f_ext, size_t f_cpu>

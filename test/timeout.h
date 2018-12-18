@@ -1,3 +1,5 @@
+#pragma once
+
 #include <chrono>
 
 class Timeout
@@ -7,7 +9,7 @@ class Timeout
 public:
    Timeout (size_t ms) : ms {ms}
    {
-      start = std::chrono::high_resolution_clock::now();
+      restart();
    }
 
    operator bool()
@@ -15,6 +17,11 @@ public:
       return std::chrono::duration_cast<std::chrono::milliseconds> (
          std::chrono::high_resolution_clock::now() - start
       ).count() > ms;
+   }
+
+   void restart()
+   {
+      start = std::chrono::high_resolution_clock::now();
    }
 };
 

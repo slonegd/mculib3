@@ -1,10 +1,11 @@
-#define BOOST_TEST_MODULE f0_test_rcc
+#define BOOST_TEST_MODULE f0_test_periph_rcc
 #include <boost/test/unit_test.hpp>
 
 #define F_CPU   48000000UL
 #define STM32F030x6
 
-#include "rcc.h"
+#include "periph_rcc.h"
+#include "timeout.h"
 #include <iostream>
 #include <type_traits>
 #include <thread>
@@ -25,6 +26,7 @@ BOOST_AUTO_TEST_CASE (make_reference)
 
 BOOST_AUTO_TEST_CASE (set_AHBprescaler)
 {
+   // TODO wrong result, dont check 0, only 1
    CMSIS.CFGR = 0;
    uint32_t result {0};
    rcc.set (mcu::RCC::AHBprescaler::AHBdiv512);
@@ -151,18 +153,27 @@ BOOST_AUTO_TEST_CASE (on_PLL)
    BOOST_CHECK_EQUAL (CMSIS.CR, RCC_CR_PLLON_Msk);
 }
 
-// BOOST_AUTO_TEST_CASE (wait_PLL_ready)
-// {
-//    CMSIS.CR = 0;
-//    bool good {true};
-//    bool work {true};
-//    auto worker = [&]() { rcc.wait_PLL_ready(); work = false; };
-//    std::thread {worker}.detach();
-//    std::this_thread::sleep_for(std::chrono::milliseconds(10));
-//    good &= work;
-//    CMSIS.CR |= RCC_CR_PLLRDY_Msk;
-//    while (work) {}
-// }
+BOOST_AUTO_TEST_CASE (wait_PLL_ready)
+{
+   CMSIS.CR = 0;
+
+   volatile bool work {true};
+   auto worker = [&]() { rcc.wait_PLL_ready(); work = false; };
+   std::thread {worker}.detach();
+
+   std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+   BOOST_CHECK_EQUAL (work, true);
+
+   CMSIS.CR |= RCC_CR_PLLRDY_Msk;
+   Timeout timeout {100};
+   while (work) {
+      if (timeout) break;
+   }
+
+   BOOST_CHECK_EQUAL (bool(timeout), false);
+   BOOST_CHECK_EQUAL (work, false);
+}
 
 BOOST_AUTO_TEST_CASE (clock_enable)
 {
