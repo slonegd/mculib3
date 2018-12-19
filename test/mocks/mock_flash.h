@@ -2,6 +2,7 @@
 
 #define USE_PERIPH_MOCK
 #include "periph_flash.h"
+#include "mock_memory.h"
 #include <iostream>
 
 namespace mock {
@@ -82,6 +83,8 @@ public:
 
    // моделирование задержки записи в 3 мс
    bool is_endOfProg() { return not ((eop_count += 1) %= 3); }
+
+   template<Sector s> static size_t address() { return reinterpret_cast<size_t>(&memory<s>); }
 
 };
 

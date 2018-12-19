@@ -20,7 +20,6 @@ public:
 template <class Data, mcu::FLASH::Sector>
 class Flash;
 
-
 #if defined(USE_PERIPH_MOCK)
 using namespace mock;
 #else
@@ -32,9 +31,9 @@ template <class Data, mcu::FLASH::Sector sector>
 class Flash : public Data, private TickSubscriber
 {
 public:
-   Flash (size_t memory_address = mcu::FLASH::template address<sector>());
+   Flash();
 private:
-   static constexpr auto sector_size    {mcu::FLASH::template size<sector>()};
+   static constexpr auto sector_size    {FLASH::template size<sector>()};
    struct Pair {
       uint8_t offset; 
       uint8_t value;
@@ -43,7 +42,7 @@ private:
       Pair     pair[sector_size/2];
       uint16_t word[sector_size/2];
    };
-   Memory& memory;
+   Memory& memory { *reinterpret_cast<Memory*>(FLASH::template address<sector>()) };
 
    FLASH&          flash   {mcu::make_reference<mcu::Periph::FLASH>()};
    uint8_t* const original {reinterpret_cast<uint8_t*>(static_cast<Data*>(this))};
@@ -79,8 +78,7 @@ private:
 
 
 template <class Data, typename FLASH::Sector sector>
-Flash<Data,sector>::Flash (size_t memory_address)
-   : memory {*reinterpret_cast<Memory*>(memory_address)}
+Flash<Data,sector>::Flash()
 {
    static_assert (
       sizeof(Data) < 255,

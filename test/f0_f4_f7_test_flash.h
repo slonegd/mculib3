@@ -5,42 +5,12 @@ struct Data {
    uint16_t d2 {2};
 };
 
-using Sector = mcu::FLASH::Sector;
-
-template<Sector s>
-auto constexpr sector_size = mcu::FLASH::size<s>();
-
-template<Sector s>
-uint8_t memory[sector_size<s>];
-
-template<Sector s>
-size_t address = reinterpret_cast<size_t>(&memory<s>);
-
-template<Sector s>
-void erase_memory()
-{
-   std::fill (std::begin(memory<s>), std::end(memory<s>), 0xFF);
-}
-
-bool start_erase {false};
-void erase (Sector s)
-{
-   start_erase = true;
-   s == Sector::_0 ? erase_memory<Sector::_0>() : 
-   s == Sector::_1 ? erase_memory<Sector::_1>() : 
-   s == Sector::_2 ? erase_memory<Sector::_2>() : 
-   s == Sector::_3 ? erase_memory<Sector::_3>() : 
-   s == Sector::_4 ? erase_memory<Sector::_4>() : 
-   s == Sector::_5 ? erase_memory<Sector::_5>() : 
-   s == Sector::_6 ? erase_memory<Sector::_6>() : erase_memory<Sector::_7>();
-}
-
 void wait_ms (size_t ms) { while (ms--) tickUpdater.notify(); }
 
 BOOST_AUTO_TEST_CASE (ctor)
 {
-   erase_memory<Sector::_7>();
-   Flash<Data, Sector::_7> flash { address<Sector::_7> };
+   erase (Sector::_7);
+   Flash<Data, Sector::_7> flash {};
 
    wait_ms (100);
 
@@ -59,7 +29,7 @@ BOOST_AUTO_TEST_CASE (ctor)
 
 BOOST_AUTO_TEST_CASE (change)
 {
-   Flash<Data, Sector::_7> flash { address<Sector::_7> };
+   Flash<Data, Sector::_7> flash {};
    flash.d1 = 0x0301;
 
    wait_ms (100);
@@ -81,7 +51,7 @@ BOOST_AUTO_TEST_CASE (change)
 
 BOOST_AUTO_TEST_CASE (ctor_after_change)
 {
-   Flash<Data, Sector::_7> flash { address<Sector::_7> };
+   Flash<Data, Sector::_7> flash {};
 
    wait_ms (100);
 
@@ -106,7 +76,7 @@ BOOST_AUTO_TEST_CASE (end_of_sector)
    auto& periph_flash = mcu::make_reference<mcu::Periph::FLASH>();
    periph_flash.set_erase_function (erase);
    {
-      Flash<Data, Sector::_7> flash { address<Sector::_7> };
+      Flash<Data, Sector::_7> flash {};
       auto qty {sector_size<Sector::_7> + 1};
       while (qty--) {
          flash.d2++;
@@ -116,7 +86,7 @@ BOOST_AUTO_TEST_CASE (end_of_sector)
       }
       tickUpdater.clear();
    } // отключили питание
-   Flash<Data, Sector::_7> flash { address<Sector::_7> };
+   Flash<Data, Sector::_7> flash {};
    BOOST_CHECK_EQUAL (flash.d1, 0x0301);
    BOOST_CHECK_EQUAL (flash.d2, (2 + sector_size<Sector::_7> + 1) % (UINT16_MAX + 1));
    tickUpdater.clear();
@@ -127,13 +97,13 @@ BOOST_AUTO_TEST_CASE (off_when_erase)
 {
    auto& periph_flash = mcu::make_reference<mcu::Periph::FLASH>();
    periph_flash.set_erase_function (erase);
-   erase_memory<Sector::_7>();
+   erase (Sector::_7);
 
    uint16_t copy_d1;
 
    {
       start_erase = false;
-      Flash<Data, Sector::_7> flash { address<Sector::_7> };
+      Flash<Data, Sector::_7> flash {};
 
       copy_d1 = flash.d1;
 
@@ -150,7 +120,7 @@ BOOST_AUTO_TEST_CASE (off_when_erase)
       BOOST_CHECK_EQUAL (flash.d1, copy_d1);
       tickUpdater.clear();
    } // отключили питание
-   Flash<Data, Sector::_7> flash { address<Sector::_7> };
+   Flash<Data, Sector::_7> flash {};
    BOOST_CHECK_EQUAL (flash.d1, 1);
    BOOST_CHECK (flash.d1 != copy_d1);
    tickUpdater.clear();
@@ -159,7 +129,7 @@ BOOST_AUTO_TEST_CASE (off_when_erase)
 BOOST_AUTO_TEST_CASE (new_data)
 {
    {
-      Flash<Data, Sector::_7> flash { address<Sector::_7> };
+      Flash<Data, Sector::_7> flash {};
       flash.d2 = 100;
       wait_ms (100);
       tickUpdater.clear();
@@ -170,7 +140,7 @@ BOOST_AUTO_TEST_CASE (new_data)
       uint16_t d2 {2};
       uint16_t d3 {0};
    };
-   Flash<NewData, Sector::_7> flash { address<Sector::_7> };
+   Flash<NewData, Sector::_7> flash {};
 
    wait_ms (100);
 
