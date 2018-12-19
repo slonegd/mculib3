@@ -62,6 +62,7 @@ endfunction(test)
 
 test (STM32F0 f0_test_periph_rcc)
 test (STM32F0 f0_test_periph_gpio)
+test (STM32F0 f0_test_periph_flash)
 test (STM32F1 f1_test_dma)
 test (STM32F1 f1_test_dma_stream)
 test (STM32F1 test_uart)
