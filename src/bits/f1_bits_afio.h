@@ -15,6 +15,7 @@ struct EVCR {
 
 struct MAPR {
    enum Remap {No = 0b00, Partial_1, Partial_2, Full };
+   enum SWJ   {Full_SWJ_NJTRST = 0b000, Full_SWJ = 0b001, JTAG_off_SW_on = 0b010, JTAG_off_SW_off = 0b100};
    bool     SPI1_REMAP         :1; // Bit 0 SPI1_REMAP: SPI1 remapping
    bool     I2C1_REMAP         :1; // Bit 1 I2C1_REMAP: I2C1 remapping
    bool     USART1_REMAP       :1; // Bit 2 USART1_REMAP: USART1 remapping
@@ -27,11 +28,12 @@ struct MAPR {
    uint32_t CAN_REMAP          :2; // Bits 14:13 CAN_REMAP[1:0]: CAN alternate function remapping
    bool     PD01_REMAP         :1; // Bit 15 PD01_REMAP: Port D0/Port D1 mapping on OSC_IN/OSC_OUT
    bool     TIM5CH4_IREMAP     :1; // Bits 16 TIM5CH4_IREMAP: TIM5 channel4 internal remap
-   bool     ADC1_ETRGREG_REMAP :1; // Bits 17 ADC1_ETRGINJ_REMAP: ADC 1 External trigger injected conversion remapping
-   bool     ADC2_ETRGINJ_REMAP :1; // Bits 18 ADC1_ETRGREG_REMAP: ADC 1 external trigger regular conversion remapping
-   bool     ADC2_ETRGREG_REMAP :1; // Bits 19 ADC2_ETRGINJ_REMAP: ADC 2 external trigger injected conversion remapping
+   bool     ADC1_ETRGINJ_REMAP :1; // Bits 17 ADC1_ETRGINJ_REMAP: ADC 1 External trigger injected conversion remapping
+   bool     ADC1_ETRGREG_REMAP :1; // Bits 18 ADC1_ETRGREG_REMAP: ADC 1 external trigger regular conversion remapping
+   bool     ADC2_ETRGINJ_REMAP :1; // Bits 19 ADC1_ETRGREG_REMAP: ADC 1 external trigger regular conversion remapping
+   bool     ADC2_ETRGREG_REMAP :1; // Bits 20 ADC2_ETRGINJ_REMAP: ADC 2 external trigger injected conversion remapping
    uint32_t res1               :3; // Bits 23:21 Reserved.
-   uint32_t SWJ_CFG            :2; // Bits 26:24 SWJ_CFG[2:0]: Serial wire JTAG configuration
+   SWJ      SWJ_CFG            :3; // Bits 26:24 SWJ_CFG[2:0]: Serial wire JTAG configuration
    uint32_t res2               :5; // Bits 31:27 Reserved
 }__attribute__((packed));
 

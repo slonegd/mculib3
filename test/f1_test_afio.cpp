@@ -69,6 +69,37 @@ bool evet_enable()
    return bool (CMSIS.EVCR & AFIO_EVCR_EVOE_Msk);
 }
 
+bool set_JTAG()
+{
+   bool good {true};
+   CMSIS.MAPR = 0;
+   afio.set_JTAG(mcu::AFIO::SWJ::JTAG_off_SW_off);
+   good &= not  (CMSIS.MAPR & AFIO_MAPR_SWJ_CFG_0);
+   good &= not  (CMSIS.MAPR & AFIO_MAPR_SWJ_CFG_1);
+   good &= bool (CMSIS.MAPR & AFIO_MAPR_SWJ_CFG_2);
+
+   CMSIS.MAPR = 0;
+   afio.set_JTAG(mcu::AFIO::SWJ::JTAG_off_SW_on);
+   good &= not  (CMSIS.MAPR & AFIO_MAPR_SWJ_CFG_0);
+   good &= bool (CMSIS.MAPR & AFIO_MAPR_SWJ_CFG_1);
+   good &= not  (CMSIS.MAPR & AFIO_MAPR_SWJ_CFG_2);
+
+   CMSIS.MAPR = 0;
+   afio.set_JTAG(mcu::AFIO::SWJ::Full_SWJ);
+   good &= bool (CMSIS.MAPR & AFIO_MAPR_SWJ_CFG_0);
+   good &= not  (CMSIS.MAPR & AFIO_MAPR_SWJ_CFG_1);
+   good &= not  (CMSIS.MAPR & AFIO_MAPR_SWJ_CFG_2);
+
+   CMSIS.MAPR = 0;
+   afio.set_JTAG(mcu::AFIO::SWJ::Full_SWJ_NJTRST);
+   good &= not  (CMSIS.MAPR & AFIO_MAPR_SWJ_CFG_0);
+   good &= not  (CMSIS.MAPR & AFIO_MAPR_SWJ_CFG_1);
+   good &= not  (CMSIS.MAPR & AFIO_MAPR_SWJ_CFG_2);
+
+   return good;
+
+}
+
 int main()
 {
    std::cout << '\n'
@@ -78,12 +109,10 @@ int main()
       std::cout << s << (f() ? "\033[32mпрошёл\033[0m" : "\033[31mпровален\033[0m") << std::endl;
    };
 
-   test ("RCC::make            ", make);
-   test ("RCC::clock_enable    ", clock_enable);
-   test ("RCC::remap           ", remap);
-   test ("RCC::evet_enable     ", evet_enable);
+   test ("AFIO::evet_enable    ", evet_enable);
    test ("AFIO::make           ", make);
    test ("AFIO::clock_enable   ", clock_enable);
    test ("AFIO::remap          ", remap);
+   test ("AFIO::set_JTAG       ", set_JTAG);
 }
 
