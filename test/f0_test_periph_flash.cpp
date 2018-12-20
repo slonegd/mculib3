@@ -99,35 +99,38 @@ BOOST_AUTO_TEST_CASE (is_busy)
    BOOST_CHECK_EQUAL (flash.is_busy(), true);
 }
 
+template<mcu::FLASH::Sector s>
+auto test = [&]() {
+   cmsis.CR = 0;
+   std::thread { [&](){flash.start_erase<s>();} }.detach();
+
+   auto address = mcu::FLASH::address<s>();
+   
+   Timeout timeout {100_ms};
+   while (not(cmsis.CR & FLASH_CR_PER_Msk) and not timeout) { }
+   BOOST_CHECK_EQUAL (bool(timeout), false);
+   BOOST_CHECK_EQUAL (bool(cmsis.CR & FLASH_CR_STRT_Msk), false);
+
+   timeout.restart();
+   while ( cmsis.AR != address and not timeout ) { }
+   BOOST_CHECK_EQUAL (bool(timeout), false);
+   BOOST_CHECK_EQUAL (bool(cmsis.CR & FLASH_CR_PER_Msk), true);
+   BOOST_CHECK_EQUAL (cmsis.AR, address);
+   BOOST_CHECK_EQUAL (bool(cmsis.CR & FLASH_CR_STRT_Msk), false);
+
+   timeout.restart();
+   while (not(cmsis.CR & FLASH_CR_STRT_Msk) and not timeout) { }
+   BOOST_CHECK_EQUAL (bool(timeout), false);
+   BOOST_CHECK_EQUAL (bool(cmsis.CR & FLASH_CR_PER_Msk), true);
+   BOOST_CHECK_EQUAL (cmsis.AR, address);
+   BOOST_CHECK_EQUAL (bool(cmsis.CR & FLASH_CR_STRT_Msk), true);
+};
+
 BOOST_AUTO_TEST_CASE (start_erase_sector)
 {
-   auto test = [&](uint32_t address) {
-      cmsis.CR = 0;
-      std::thread { [&](){flash.start_erase (address);} }.detach();
-      
-      Timeout timeout {100_ms};
-      while (not(cmsis.CR & FLASH_CR_PER_Msk) and not timeout) { }
-      BOOST_CHECK_EQUAL (bool(timeout), false);
-      BOOST_CHECK_EQUAL (bool(cmsis.CR & FLASH_CR_STRT_Msk), false);
-
-      timeout.restart();
-      while ( cmsis.AR != address and not timeout ) { }
-      BOOST_CHECK_EQUAL (bool(timeout), false);
-      BOOST_CHECK_EQUAL (bool(cmsis.CR & FLASH_CR_PER_Msk), true);
-      BOOST_CHECK_EQUAL (cmsis.AR == address, true);
-      BOOST_CHECK_EQUAL (bool(cmsis.CR & FLASH_CR_STRT_Msk), false);
-
-      timeout.restart();
-      while (not(cmsis.CR & FLASH_CR_STRT_Msk) and not timeout) { }
-      BOOST_CHECK_EQUAL (bool(timeout), false);
-      BOOST_CHECK_EQUAL (bool(cmsis.CR & FLASH_CR_PER_Msk), true);
-      BOOST_CHECK_EQUAL (cmsis.AR == address, true);
-      BOOST_CHECK_EQUAL (bool(cmsis.CR & FLASH_CR_STRT_Msk), true);
-   };
-
-   test(mcu::FLASH::address<mcu::FLASH::Sector::_11>());
-   test(mcu::FLASH::address<mcu::FLASH::Sector::_31>());
-   test(mcu::FLASH::address<mcu::FLASH::Sector::_3>());
+   test<mcu::FLASH::Sector::_11>();
+   test<mcu::FLASH::Sector::_31>();
+   test<mcu::FLASH::Sector::_3>();
 }
 
 BOOST_AUTO_TEST_CASE (address)
@@ -154,9 +157,9 @@ BOOST_AUTO_TEST_CASE (size)
    BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _0>(), 1024);
    BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _1>(), 1024);
    BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector:: _2>(), 1024);
-
+   // ...
    BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector::_11>(), 1024);
-
+   // ...
    BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector::_30>(), 1024);
    BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector::_31>(), 1024);
 }

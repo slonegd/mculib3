@@ -32,6 +32,7 @@ class Flash : public Data, private TickSubscriber
 {
 public:
    Flash();
+   ~Flash() { unsubscribe(); }
 private:
    static constexpr auto sector_size    {FLASH::template size<sector>()};
    struct Pair {
@@ -50,12 +51,15 @@ private:
 
    SizedInt<sector_size / sizeof(Pair)>  memory_offset {};
    enum State {
-      CheckChanges,
-      StartWrite,
-      CheckWrite,
-      Erase,
-      CheckErase
-   } state {CheckChanges};
+      check_changes,
+      start_write,
+      check_write,
+      erase,
+      check_erase,
+      rewrite
+   };
+   State state {check_changes};
+   State return_state {check_changes};
    volatile uint8_t writed_data; // TODO: проверить без volatile
    SizedInt<sizeof(Data), uint8_t> data_offset {};
 
@@ -88,7 +92,7 @@ Flash<Data,sector>::Flash()
       std::is_trivially_copyable_v<Data>,
       "Можно сохранять только тривиально копируемую структуру"
    );
-   flash.lock();
+   // flash.lock(); // check if need
    if (not is_read())
       *static_cast<Data*>(this) = Data{};
    subscribe();
@@ -115,13 +119,19 @@ bool Flash<Data,sector>::is_read()
       }
    }
 
+   if (memory_offset == 0) {
+      state = start_write;
+      return_state = rewrite;
+      return false;
+   }
+
    auto other_memory_cleared = std::all_of (
         std::begin(memory.word) + memory_offset
       , std::end(memory.word)
       , [](auto& word){ return word == 0xFFFF; }
    );
    if (not other_memory_cleared) {
-      state = Erase;
+      state = erase;
       return false;
    }
 
@@ -130,6 +140,7 @@ bool Flash<Data,sector>::is_read()
       std::memcpy (original, copy, sizeof(copy));
       return true;
    } else {
+      state = erase;
       return false;
    }
 }
@@ -142,14 +153,14 @@ void Flash<Data,sector>::notify()
    // реализация автоматом
    switch (state) {
 
-   case CheckChanges:
+   case check_changes:
       if (original[data_offset] == copy[data_offset]) 
          data_offset++;
       else
-         state = StartWrite;
+         state = start_write;
       break;
 
-   case StartWrite:
+   case start_write:
       if ( not flash.is_busy() and flash.is_lock() ) {
          flash.unlock()
               .set_progMode();
@@ -159,39 +170,50 @@ void Flash<Data,sector>::notify()
          #endif
          writed_data = original[data_offset];
          memory.pair[memory_offset] = Pair{data_offset, writed_data};
-         state = CheckWrite;
+         state = check_write;
       }
       break;
 
-   case CheckWrite:
+   case check_write:
       if ( flash.is_endOfProg() ) {
          flash.clear_flag_endOfProg()
               .lock();
          copy[data_offset] = writed_data;
          memory_offset++;
          if (memory_offset)
-            state = CheckChanges;
+            state = return_state;
          else
-            state = Erase;
+            state = erase;
             
       }
       break;
 
-   case Erase:
+   case erase:
       if ( not flash.is_busy() and flash.is_lock() ) {
          flash.unlock()
-              .start_erase (sector);
-         state = CheckErase;
+              .start_erase<sector>();
+         state = check_erase;
       }
       break;
 
-   case CheckErase:
+   case check_erase:
       if ( flash.is_endOfProg() ) {
          flash.clear_flag_endOfProg()
               .lock();
          memset (copy, 0xFF, sizeof(copy));
          memory_offset = 0;
-         state = CheckChanges;
+         data_offset   = 0;
+         state = start_write;
+         return_state = rewrite;
+      }
+      break;
+
+   case rewrite:
+      if (data_offset++) {
+         state = start_write;
+      } else {
+         state = check_changes;
+         return_state = check_changes;
       }
       break;
    } // switch

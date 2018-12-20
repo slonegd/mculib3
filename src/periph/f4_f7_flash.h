@@ -9,6 +9,7 @@
 namespace mcu {
 
 class FLASH {
+protected:
    volatile FLASH_bits::ACR ACR;     // access control register,   offset: 0x00
    volatile uint32_t        KEYR;    // key register,              offset: 0x04
    volatile uint32_t        OPTKEYR; // option key register,       offset: 0x08
@@ -35,7 +36,7 @@ public:
    FLASH& set (ProgSize v)           { CR.PSIZE    = v;    return *this; }
    FLASH& en_interrupt_endOfProg()   { CR.EOPIE    = true; return *this; }
 
-   FLASH& start_erase (Sector);
+   template<Sector> FLASH& start_erase();
 
    template<Sector> static constexpr size_t address();
    template<Sector> static constexpr size_t size();
@@ -65,11 +66,12 @@ FLASH& FLASH::unlock()
 }
 
 
-FLASH& FLASH::start_erase (FLASH::Sector v)
+template<FLASH::Sector s>
+FLASH& FLASH::start_erase()
 {
    CR.SER  = true;
    IF_TEST_WAIT_MS(1);
-   CR.SNB  = v;
+   CR.SNB  = s;
    IF_TEST_WAIT_MS(1);
    CR.STRT = true;
    return *this;

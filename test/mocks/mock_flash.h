@@ -7,6 +7,7 @@
 
 namespace mock {
 
+#if defined(STM32F4) or defined(STM32F7)
 std::ostream& operator<< (std::ostream& s, mcu::FLASH::ProgSize v)
 {
    return
@@ -15,17 +16,20 @@ std::ostream& operator<< (std::ostream& s, mcu::FLASH::ProgSize v)
       v == mcu::FLASH::ProgSize::x32 ? s << "32 бита" :
       v == mcu::FLASH::ProgSize::x64 ? s << "64 бита" : s;
 }
+#endif
 
 class FLASH : public mcu::FLASH
 {
    std::ostream* process {nullptr};
-   FLASH() { this->lock(); }
+   FLASH() = default;
    size_t eop_count {0};
    void (*erase) (Sector) {nullptr};
 public:
    static FLASH& make()
    {
       static FLASH flash;
+      // заблокировано по умолчанию
+      flash.CR.LOCK = true;
       return flash;
    }
    void set_stream (std::ostream& s) { process = &s; }
@@ -38,7 +42,7 @@ public:
    }
 
    FLASH& lock() {
-      if (process) *process << "рблокировка памяти для записи" << std::endl;
+      if (process) *process << "блокировка памяти для записи" << std::endl;
       static_cast<mcu::FLASH*>(this)->lock();
       return *this;
    }
@@ -46,12 +50,12 @@ public:
    FLASH& unlock() {
       if (process) *process << "разблокировка памяти для записи" << std::endl;
       // static_cast<mcu::FLASH*>(this)->unlock(); // внутренние задержки жутко тормозили тесты
-      this->like_CMSIS().CR &= ~FLASH_CR_LOCK_Msk;
+      this->CR.LOCK = false;
       return *this;
    }
 
    FLASH& set_progMode() {
-      if (process) *process << "установка режима программирования" << std::endl;
+      if (process) *process << "переключение в режим записи" << std::endl;
       static_cast<mcu::FLASH*>(this)->set_progMode();
       return *this;
    }
@@ -62,11 +66,13 @@ public:
       return *this;
    }
 
+#if defined(STM32F4) or defined(STM32F7)
    FLASH& set (ProgSize v) {
       if (process) *process << "установка размера записи " << v << std::endl;
       static_cast<mcu::FLASH*>(this)->set(v);
       return *this;
    }
+#endif
 
    FLASH& en_interrupt_endOfProg() {
       if (process) *process << "разрешение прерывания по окончанию записи" << std::endl;
@@ -74,9 +80,10 @@ public:
       return *this;
    }
 
-   FLASH& start_erase (Sector v) {
+   template<Sector v>
+   FLASH& start_erase() {
       if (process) *process << "запуск стирания сектора " << static_cast<size_t>(v) << std::endl;
-      static_cast<mcu::FLASH*>(this)->start_erase(v);
+      static_cast<mcu::FLASH*>(this)->start_erase<v>();
       if (erase) erase(v);
       return *this;
    }

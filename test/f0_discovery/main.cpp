@@ -2,7 +2,7 @@
 #define F_OSC   8000000UL
 #define F_CPU   48000000UL
 #include "periph_rcc.h"
-// #include "flash.h"
+#include "flash.h"
 #include "pin.h"
 #include "timers.h"
 

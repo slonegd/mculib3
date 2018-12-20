@@ -21,14 +21,26 @@ bool start_erase {false};
 void erase (Sector s)
 {
    start_erase = true;
-   s == Sector::_0 ? std::fill (std::begin(memory<Sector::_0>), std::end(memory<Sector::_0>), 0xFF) : 
-   s == Sector::_1 ? std::fill (std::begin(memory<Sector::_1>), std::end(memory<Sector::_1>), 0xFF) :  
-   s == Sector::_2 ? std::fill (std::begin(memory<Sector::_2>), std::end(memory<Sector::_2>), 0xFF) : 
-   s == Sector::_3 ? std::fill (std::begin(memory<Sector::_3>), std::end(memory<Sector::_3>), 0xFF) : 
-   s == Sector::_4 ? std::fill (std::begin(memory<Sector::_4>), std::end(memory<Sector::_4>), 0xFF) : 
-   s == Sector::_5 ? std::fill (std::begin(memory<Sector::_5>), std::end(memory<Sector::_5>), 0xFF) : 
-   s == Sector::_6 ? std::fill (std::begin(memory<Sector::_6>), std::end(memory<Sector::_6>), 0xFF) : 
-                     std::fill (std::begin(memory<Sector::_7>), std::end(memory<Sector::_7>), 0xFF);
+   auto void_lambda = [](){};
+
+   #define HELPER(sector) s == sector ? std::fill (std::begin(memory<sector>), std::end(memory<sector>), 0xFF) :
+   
+   HELPER (Sector::_0) HELPER (Sector::_1) HELPER (Sector::_2) HELPER (Sector::_3) HELPER (Sector::_4)
+   HELPER (Sector::_5) HELPER (Sector::_6) HELPER (Sector::_7)
+   #if defined(STM32F4) or defined(STM32F0)
+   HELPER (Sector::_8) HELPER (Sector::_9) HELPER (Sector::_10) HELPER (Sector::_11)
+   #endif
+   #if defined(STM32F0)
+   HELPER (Sector::_12) HELPER (Sector::_13) HELPER (Sector::_14)
+   HELPER (Sector::_15) HELPER (Sector::_16) HELPER (Sector::_17) HELPER (Sector::_18) HELPER (Sector::_19)
+   HELPER (Sector::_20) HELPER (Sector::_21) HELPER (Sector::_22) HELPER (Sector::_23) HELPER (Sector::_24)
+   HELPER (Sector::_25) HELPER (Sector::_26) HELPER (Sector::_27) HELPER (Sector::_28) HELPER (Sector::_29)
+   HELPER (Sector::_30) HELPER (Sector::_31)
+   #endif
+   void_lambda();
+
+   #undef HELPER
+
 }
 
 } // namespace mock {

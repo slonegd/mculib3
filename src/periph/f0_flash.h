@@ -5,6 +5,7 @@
 namespace mcu {
 
 class FLASH {
+protected:
    volatile FLASH_bits::ACR ACR;      // FLASH access control register, offset: 0x00
    volatile uint32_t        KEYR;     // FLASH key register,            offset: 0x04
    volatile uint32_t        OPTKEYR;  // FLASH OPT key register,        offset: 0x08
@@ -36,7 +37,7 @@ public:
    bool   is_busy()                  { return SR.BSY;                    }
    FLASH& en_interrupt_endOfProg()   { CR.EOPIE    = true; return *this; }
 
-   FLASH& start_erase (size_t address);
+   template<Sector> FLASH& start_erase();
 
    template<Sector s> static constexpr size_t address() { return 0x08000000 + 1024 * s; }
    template<Sector>   static constexpr size_t size()    { return 1024; }
@@ -66,11 +67,12 @@ FLASH& FLASH::unlock()
 }
 
 
-FLASH& FLASH::start_erase (size_t address)
+template<FLASH::Sector s>
+FLASH& FLASH::start_erase()
 {
    CR.PER  = true;
    IF_TEST_WAIT_MS(1);
-   AR = address;
+   AR = address<s>();
    IF_TEST_WAIT_MS(1);
    CR.STRT = true;
    return *this;

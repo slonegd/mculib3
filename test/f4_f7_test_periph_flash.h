@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE (start_erase_sector)
 
 #if defined(STM32F4)
    cmsis.CR = 0;
-   std::thread { [&](){flash.start_erase (mcu::FLASH::Sector::_11);} }.detach();
+   std::thread { [&](){flash.start_erase<mcu::FLASH::Sector::_11>();} }.detach();
 
    timeout.restart();;
    while (not(cmsis.CR & FLASH_CR_SER_Msk) and not timeout) { }
@@ -163,7 +163,7 @@ BOOST_AUTO_TEST_CASE (start_erase_sector)
 
 
    cmsis.CR = 0;
-   std::thread { [&](){flash.start_erase (mcu::FLASH::Sector::_7);} }.detach();
+   std::thread { [&](){flash.start_erase<mcu::FLASH::Sector::_7>();} }.detach();
 
    timeout.restart();
    while (not(cmsis.CR & FLASH_CR_SER_Msk) and not timeout) { }
@@ -202,7 +202,7 @@ BOOST_AUTO_TEST_CASE (start_erase_sector)
 
 
    cmsis.CR = 0;
-   std::thread { [&](){flash.start_erase (mcu::FLASH::Sector::_0);} }.detach();
+   std::thread { [&](){flash.start_erase<mcu::FLASH::Sector::_0>();} }.detach();
 
    timeout.restart();
    while (not(cmsis.CR & FLASH_CR_SER_Msk) and not timeout) { }
