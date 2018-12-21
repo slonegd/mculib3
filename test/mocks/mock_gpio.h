@@ -59,7 +59,9 @@ public:
    }
 
    GPIO& toggle (size_t n) {
-      if (process) *process << "переключение вывода " << n << " порта " << *this << std::endl;
+      if (process)
+         *process << "переключение вывода " << n << " порта " << *this
+                  << ", а именно " << (this->like_CMSIS().IDR & (1 << n) ? "сброс" : "установка") << std::endl;
       static_cast<mcu::GPIO*>(this)->toggle(n);
       return *this;
    }
@@ -69,6 +71,13 @@ public:
       if (process) *process << "инициализация вывода " << Pin_::n << " порта " << *this << " в режиме " << mode << std::endl;
       static_cast<mcu::GPIO*>(this)->init<Pin_,mode>();
    }
+
+   struct Mock {
+      GPIO& parent;
+      Mock (GPIO& parent) : parent{parent} {}
+      void set_as_true (size_t n) { parent.like_CMSIS().IDR |= (1 << n); }
+   } mock {*this};
+
 
 };
 

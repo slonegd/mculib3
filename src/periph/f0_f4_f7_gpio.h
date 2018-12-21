@@ -34,8 +34,6 @@ public:
 
    auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
 
-   template<Periph p> GPIO& clock_enable() { make_reference<Periph::RCC>().clock_enable<p>(); return *this; }
-
    void set      (size_t n) { BSRR |= (1 << n);              }
    void clear    (size_t n) { BSRR |= (1 << (n + 16));       }
    bool is_set   (size_t n) { return IDR.reg & (1 << n);     }

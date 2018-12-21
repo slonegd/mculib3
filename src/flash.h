@@ -17,9 +17,6 @@ public:
 };
 
 
-template <class Data, mcu::FLASH::Sector>
-class Flash;
-
 #if defined(USE_PERIPH_MOCK)
 using namespace mock;
 #else

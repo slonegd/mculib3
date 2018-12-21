@@ -29,12 +29,16 @@ public:
    using PLLsource     = RCC_bits::CFGR::PLLsource;
    using PLLmultiplier = RCC_bits::CFGR::PLLmultiplier;
 
+   auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
+
    RCC& set (AHBprescaler  v) { CFGR.HPRE   = v; return *this; }
    RCC& set (APBprescaler  v) { CFGR.PPRE   = v; return *this; }
    RCC& set (SystemClock   v) { CFGR.SW     = v; return *this; }
    RCC& set (PLLsource     v) { CFGR.PLLSRC = v; return *this; }
    RCC& set (PLLmultiplier v) { CFGR.PLLMUL = v; return *this; }
 
+   RCC& on_HSE        () { CR.HSEON = true;         return *this; }
+   RCC& wait_HSE_ready() { while (not CR.HSERDY) {} return *this; }
    RCC& on_PLL        () { CR.PLLON = true;         return *this; }
    RCC& wait_PLL_ready() { while (not CR.PLLRDY) {} return *this; }
 
@@ -53,7 +57,7 @@ public:
    }
 };
 
-
+#if not defined(USE_PERIPH_MOCK)
 template<Periph p> std::enable_if_t<p == Periph::RCC, RCC&> make_reference() { return *reinterpret_cast<RCC*>(RCC_BASE); }
-
+#endif
 } // namespace mcu {

@@ -13,14 +13,14 @@
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 
 mcu::RCC rcc;
-auto& CMSIS = *reinterpret_cast<mcu::RCC::CMSIS_type*>(&rcc);
+auto& CMSIS = rcc.like_CMSIS();
 
-BOOST_AUTO_TEST_CASE (make_reference)
+BOOST_AUTO_TEST_CASE (like_CMSIS)
 {
-   auto& rcc {mcu::make_reference<mcu::Periph::RCC>()};
-   auto address = reinterpret_cast<size_t>(&rcc);
-   auto same = std::is_same_v<std::remove_reference_t<decltype(rcc)>, mcu::RCC>;
-   BOOST_CHECK_EQUAL (address, RCC_BASE);
+   auto same = std::is_same_v<std::remove_reference_t<decltype(CMSIS)>, RCC_TypeDef>;
+   auto address_rcc = reinterpret_cast<size_t>(&rcc);
+   auto address_CMSIS = reinterpret_cast<size_t>(&CMSIS);
+   BOOST_CHECK_EQUAL (address_rcc, address_CMSIS);
    BOOST_CHECK_EQUAL (same, true);
 }
 

@@ -38,6 +38,7 @@ std::ostream& operator<< (std::ostream& s, mcu::RCC::SystemClock v)
       v == mcu::RCC::SystemClock::CS_PLL ? s << "PLL"                   : s;
 }
 
+#if defined(STM32F4) or defined(STM32F7)
 std::ostream& operator<< (std::ostream& s, mcu::RCC::PLLPdiv v)
 {
    return
@@ -46,6 +47,7 @@ std::ostream& operator<< (std::ostream& s, mcu::RCC::PLLPdiv v)
       v == mcu::RCC::PLLPdiv::PLLdiv6 ? s << "6" :
       v == mcu::RCC::PLLPdiv::PLLdiv8 ? s << "8" : s;
 }
+#endif
 
 std::ostream& operator<< (std::ostream& s, mcu::RCC::PLLsource v)
 {
@@ -62,13 +64,15 @@ std::ostream& operator<< (std::ostream& s, mcu::Periph v)
       HELPER (GPIOB)
       HELPER (GPIOC)
       HELPER (GPIOD)
-      HELPER (GPIOE)
       HELPER (GPIOF)
+   #if defined(STM32F4) or defined(STM32F7)
+      HELPER (GPIOE)
       HELPER (GPIOG)
       HELPER (GPIOH)
       HELPER (GPIOI)
-
+   #endif
       HELPER (USART1)
+   #if defined(STM32F4) or defined(STM32F7)
       HELPER (USART2)
       HELPER (USART3)
       HELPER (USART4)
@@ -76,6 +80,7 @@ std::ostream& operator<< (std::ostream& s, mcu::Periph v)
       HELPER (USART6)
       HELPER (USART7)
       HELPER (USART8)
+   #endif
       s;
       #undef HELPER
 }
@@ -98,6 +103,7 @@ public:
       return *this;
    }
 
+#if defined(STM32F4) or defined(STM32F7)
    RCC& set_APB1  (APBprescaler v) {
       if (process) *process << "установка делителя шины APB1 " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set_APB1(v);
@@ -110,20 +116,8 @@ public:
       return *this;
    }
 
-   RCC& set (SystemClock v) {
-      if (process) *process << "установка источника тактирования системной шины от " << v << std::endl;
-      static_cast<mcu::RCC*>(this)->set(v);
-      return *this;
-   }
-
    RCC& set (PLLPdiv v) {
       if (process) *process << "установка делителя шины PLL " << v << std::endl;
-      static_cast<mcu::RCC*>(this)->set(v);
-      return *this;
-   }
-
-   RCC& set (PLLsource v) {
-      if (process) *process << "установка источника PLL " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set(v);
       return *this;
    }
@@ -143,6 +137,33 @@ public:
    template<int v> RCC& set_PLLQ() {
       if (process) *process << "установка Q " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set_PLLQ<v>();
+      return *this;
+   }
+#elif defined(STM32F0)
+   RCC& set (APBprescaler  v) {
+      if (process) *process << "установка делителя шины APB " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set(v);
+      return *this;
+   }
+
+   RCC& set (PLLmultiplier v) {
+      if (process) *process << "установка множителя PLL " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set(v);
+      return *this;
+   }
+#endif
+
+   RCC& set (SystemClock v) {
+      if (process) *process << "установка источника тактирования системной шины от " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set(v);
+      return *this;
+   }
+
+
+
+   RCC& set (PLLsource v) {
+      if (process) *process << "установка источника PLL " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set(v);
       return *this;
    }
 
