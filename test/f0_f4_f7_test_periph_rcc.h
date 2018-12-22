@@ -260,6 +260,52 @@ BOOST_AUTO_TEST_CASE (set_PLLM)
    rcc.set_PLLM<2>();
    BOOST_CHECK_EQUAL (CMSIS.PLLCFGR, RCC_PLLCFGR_PLLM_1);
 }
+
+BOOST_AUTO_TEST_CASE (set_PLLN)
+{
+   CMSIS.PLLCFGR = 0;
+   // rcc.set_PLLN<0>();   // compilation error
+   // rcc.set_PLLN<49>();  // compilation error
+   // rcc.set_PLLN<433>(); // compilation error
+   rcc.set_PLLN<50>();
+   auto res = CMSIS.PLLCFGR >> RCC_PLLCFGR_PLLN_Pos;
+   BOOST_CHECK_EQUAL (res, 50);
+
+   rcc.set_PLLN<51>();
+   res = CMSIS.PLLCFGR >> RCC_PLLCFGR_PLLN_Pos;
+   BOOST_CHECK_EQUAL (res, 51);
+
+   rcc.set_PLLN<431>();
+   res = CMSIS.PLLCFGR >> RCC_PLLCFGR_PLLN_Pos;
+   BOOST_CHECK_EQUAL (res, 431);
+
+   rcc.set_PLLN<432>();
+   res = CMSIS.PLLCFGR >> RCC_PLLCFGR_PLLN_Pos;
+   BOOST_CHECK_EQUAL (res, 432);
+}
+
+BOOST_AUTO_TEST_CASE (set_PLLQ)
+{
+   CMSIS.PLLCFGR = 0;
+   // rcc.set_PLLQ<0>();   // compilation error
+   // rcc.set_PLLQ<1>();  // compilation error
+   // rcc.set_PLLQ<16>(); // compilation error
+   rcc.set_PLLQ<15>();
+   auto res = CMSIS.PLLCFGR >> RCC_PLLCFGR_PLLQ_Pos;
+   BOOST_CHECK_EQUAL (res, 15);
+
+   rcc.set_PLLQ<14>();
+   res = CMSIS.PLLCFGR >> RCC_PLLCFGR_PLLQ_Pos;
+   BOOST_CHECK_EQUAL (res, 14);
+
+   rcc.set_PLLQ<3>();
+   res = CMSIS.PLLCFGR >> RCC_PLLCFGR_PLLQ_Pos;
+   BOOST_CHECK_EQUAL (res, 3);
+
+   rcc.set_PLLQ<2>();
+   res = CMSIS.PLLCFGR >> RCC_PLLCFGR_PLLQ_Pos;
+   BOOST_CHECK_EQUAL (res, 2);
+}
 #endif
 
 BOOST_AUTO_TEST_CASE (on_HSE)
