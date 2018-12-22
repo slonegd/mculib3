@@ -3,7 +3,7 @@
 
 #define STM32F103xB
 #define TEST
-#define F_CPU 72000000
+#define F_CPU 72000000UL
 
 
 #include <iostream>

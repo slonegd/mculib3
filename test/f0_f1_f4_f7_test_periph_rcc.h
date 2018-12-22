@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE (set_AHBprescaler)
    BOOST_CHECK_EQUAL (CMSIS.CFGR, RCC_CFGR_HPRE_DIV1);
 }
 
-#if defined(STM32F4) or defined(STM32F7)
+#if defined(STM32F1) or defined(STM32F4) or defined(STM32F7)
 BOOST_AUTO_TEST_CASE (set_APB1prescaler)
 {
    CMSIS.CFGR = 0;
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE (set_PLLsource)
    rcc.set (mcu::RCC::PLLsource::HSIdiv2);
    BOOST_CHECK_EQUAL (CMSIS.PLLCFGR, RCC_PLLCFGR_PLLSRC_HSI);
 
-#elif defined(STM32F0)
+#elif defined(STM32F0) or defined(STM32F1)
    CMSIS.CFGR = 0;
    rcc.set (mcu::RCC::PLLsource::HSE);
    BOOST_CHECK_EQUAL (CMSIS.CFGR, RCC_CFGR_PLLSRC_HSE_PREDIV);
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_CASE (set_PLLsource)
 #endif
 }
 
-#if defined(STM32F0)
+#if defined(STM32F0) or defined(STM32F1)
 BOOST_AUTO_TEST_CASE (set_PLLmultipler)
 {
    CMSIS.CFGR = 0;
@@ -192,7 +192,7 @@ BOOST_AUTO_TEST_CASE (set_PLLmultipler)
 
 BOOST_AUTO_TEST_CASE (get_APB_clock)
 {
-#if defined(STM32F4) or defined(STM32F7)
+#if  defined(STM32F1) or defined(STM32F4) or defined(STM32F7)
    rcc.set_APB1 (mcu::RCC::APBprescaler::APBnotdiv);
    BOOST_CHECK_EQUAL (rcc.get_APB1_clock(), F_CPU);
 
@@ -424,6 +424,31 @@ BOOST_AUTO_TEST_CASE (clock_enable)
    CMSIS.AHBENR = 0;
    rcc.clock_enable<mcu::Periph::GPIOF>();
    BOOST_CHECK_EQUAL (CMSIS.AHBENR, RCC_AHBENR_GPIOFEN_Msk);
+
+#elif defined(STM32F1)
+   CMSIS.APB2ENR = 0;
+   rcc.clock_enable<mcu::Periph::GPIOA>();
+   BOOST_CHECK_EQUAL (CMSIS.APB2ENR, RCC_APB2ENR_IOPAEN_Msk);
+
+   CMSIS.APB2ENR = 0;
+   rcc.clock_enable<mcu::Periph::GPIOB>();
+   BOOST_CHECK_EQUAL (CMSIS.APB2ENR, RCC_APB2ENR_IOPBEN_Msk);
+
+   CMSIS.APB2ENR = 0;
+   rcc.clock_enable<mcu::Periph::GPIOC>();
+   BOOST_CHECK_EQUAL (CMSIS.APB2ENR, RCC_APB2ENR_IOPCEN_Msk);
+
+   CMSIS.APB2ENR = 0;
+   rcc.clock_enable<mcu::Periph::GPIOD>();
+   BOOST_CHECK_EQUAL (CMSIS.APB2ENR, RCC_APB2ENR_IOPDEN_Msk);
+
+   CMSIS.APB2ENR = 0;
+   rcc.clock_enable<mcu::Periph::GPIOE>();
+   BOOST_CHECK_EQUAL (CMSIS.APB2ENR, RCC_APB2ENR_IOPEEN_Msk);
+
+   CMSIS.APB2ENR = 0;
+   rcc.clock_enable<mcu::Periph::AFIO>();
+   BOOST_CHECK_EQUAL (CMSIS.APB2ENR, RCC_APB2ENR_AFIOEN_Msk);
 #endif
 
 
@@ -431,7 +456,7 @@ BOOST_AUTO_TEST_CASE (clock_enable)
    rcc.clock_enable<mcu::Periph::USART1>();
    BOOST_CHECK_EQUAL (CMSIS.APB2ENR, RCC_APB2ENR_USART1EN_Msk);
 
-#if defined(STM32F4) or defined(STM32F7)
+#if defined(STM32F1) or defined(STM32F4) or defined(STM32F7)
    CMSIS.APB1ENR = 0;
    rcc.clock_enable<mcu::Periph::USART2>();
    BOOST_CHECK_EQUAL (CMSIS.APB1ENR, RCC_APB1ENR_USART2EN_Msk);
@@ -439,7 +464,8 @@ BOOST_AUTO_TEST_CASE (clock_enable)
    CMSIS.APB1ENR = 0;
    rcc.clock_enable<mcu::Periph::USART3>();
    BOOST_CHECK_EQUAL (CMSIS.APB1ENR, RCC_APB1ENR_USART3EN_Msk);
-
+#endif
+#if defined(STM32F4) or defined(STM32F7)
    CMSIS.APB1ENR = 0;
    rcc.clock_enable<mcu::Periph::USART4>();
    BOOST_CHECK_EQUAL (CMSIS.APB1ENR, RCC_APB1ENR_UART4EN_Msk);
@@ -482,6 +508,12 @@ BOOST_AUTO_TEST_CASE (clock_enable)
    CMSIS.APB2ENR = 0;
    rcc.clock_enable<mcu::Periph::TIM17>();
    BOOST_CHECK_EQUAL (CMSIS.APB2ENR, RCC_APB2ENR_TIM17EN_Msk);
+#endif
+
+#if defined(STM32F1)
+   CMSIS.AHBENR = 0;
+   rcc.clock_enable<mcu::Periph::DMA1>();
+   BOOST_CHECK_EQUAL (CMSIS.AHBENR, RCC_AHBENR_DMA1EN_Msk);
 #endif
 }
 
