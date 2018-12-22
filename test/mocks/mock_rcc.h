@@ -42,10 +42,10 @@ std::ostream& operator<< (std::ostream& s, mcu::RCC::SystemClock v)
 std::ostream& operator<< (std::ostream& s, mcu::RCC::PLLPdiv v)
 {
    return
-      v == mcu::RCC::PLLPdiv::PLLdiv2 ? s << "2" :
-      v == mcu::RCC::PLLPdiv::PLLdiv4 ? s << "4" :
-      v == mcu::RCC::PLLPdiv::PLLdiv6 ? s << "6" :
-      v == mcu::RCC::PLLPdiv::PLLdiv8 ? s << "8" : s;
+      v == mcu::RCC::PLLPdiv::_2 ? s << "2" :
+      v == mcu::RCC::PLLPdiv::_4 ? s << "4" :
+      v == mcu::RCC::PLLPdiv::_6 ? s << "6" :
+      v == mcu::RCC::PLLPdiv::_8 ? s << "8" : s;
 }
 #endif
 
