@@ -78,6 +78,8 @@ std::ostream& operator<< (std::ostream& s, mcu::Periph v)
       HELPER (USART4)
       HELPER (USART5)
       HELPER (USART6)
+   #endif
+   #if defined(STM32F7)
       HELPER (USART7)
       HELPER (USART8)
    #endif

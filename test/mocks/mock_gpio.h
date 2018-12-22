@@ -75,7 +75,10 @@ public:
    struct Mock {
       GPIO& parent;
       Mock (GPIO& parent) : parent{parent} {}
-      void set_as_true (size_t n) { parent.like_CMSIS().IDR |= (1 << n); }
+      void set (size_t n, bool v)
+      {
+         v ? parent.like_CMSIS().IDR |= (1 << n) : parent.like_CMSIS().IDR &= ~(1 << n);
+      }
    } mock {*this};
 
 
