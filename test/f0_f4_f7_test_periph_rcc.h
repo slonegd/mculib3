@@ -405,7 +405,8 @@ BOOST_AUTO_TEST_CASE (clock_enable)
    CMSIS.APB2ENR = 0;
    rcc.clock_enable<mcu::Periph::USART6>();
    BOOST_CHECK_EQUAL (CMSIS.APB2ENR, RCC_APB2ENR_USART6EN_Msk);
-
+#endif
+#if defined(STM32F7) 
    CMSIS.APB1ENR = 0;
    rcc.clock_enable<mcu::Periph::USART7>();
    BOOST_CHECK_EQUAL (CMSIS.APB1ENR, RCC_APB1ENR_UART7EN_Msk);
