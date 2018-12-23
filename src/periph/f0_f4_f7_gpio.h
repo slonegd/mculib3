@@ -49,21 +49,7 @@ private:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#if not defined(USE_PERIPH_MOCK)
+#if not defined(USE_MOCK_GPIO)
 template<Periph p> std::enable_if_t<p == Periph::GPIOA, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOA_BASE); }
 template<Periph p> std::enable_if_t<p == Periph::GPIOB, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOB_BASE); }
 template<Periph p> std::enable_if_t<p == Periph::GPIOC, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOC_BASE); }
@@ -75,7 +61,17 @@ template<Periph p> std::enable_if_t<p == Periph::GPIOG, GPIO&> make_reference() 
 template<Periph p> std::enable_if_t<p == Periph::GPIOH, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOH_BASE); }
 template<Periph p> std::enable_if_t<p == Periph::GPIOI, GPIO&> make_reference() { return *reinterpret_cast<GPIO*>(GPIOI_BASE); }
 #endif
-#endif // #if not defined(USE_PERIPH_MOCK)
+#endif // #if not defined(USE_MOCK_GPIO)
+
+
+
+
+
+
+
+
+
+
 
 
 template<size_t n> GPIO& GPIO::set (Mode v)

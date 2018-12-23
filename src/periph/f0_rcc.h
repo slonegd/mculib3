@@ -70,7 +70,7 @@ public:
    }
 };
 
-#if not defined(USE_PERIPH_MOCK)
+#if not defined(USE_MOCK_RCC)
 template<Periph p> std::enable_if_t<p == Periph::RCC, RCC&> make_reference() { return *reinterpret_cast<RCC*>(RCC_BASE); }
 #endif
 } // namespace mcu {

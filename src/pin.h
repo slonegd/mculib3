@@ -3,7 +3,7 @@
 #include "periph_gpio.h"
 #include "pins.h"
 
-#if defined(USE_PERIPH_MOCK)
+#if defined(USE_MOCK_GPIO)
 using namespace mock;
 #else
 using namespace mcu;

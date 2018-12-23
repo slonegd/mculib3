@@ -1,7 +1,8 @@
 #pragma once
 
-#define USE_PERIPH_MOCK
+#define USE_MOCK_RCC
 #include "periph_rcc.h"
+#include "mock_periph_to_stream.h"
 #include <iostream>
 
 namespace mock {
@@ -54,37 +55,6 @@ std::ostream& operator<< (std::ostream& s, mcu::RCC::PLLsource v)
    return
       v == mcu::RCC::PLLsource::HSE     ? s << "внешний" :
       v == mcu::RCC::PLLsource::HSIdiv2 ? s << "внутренний с делителем 2" : s;
-}
-
-std::ostream& operator<< (std::ostream& s, mcu::Periph v)
-{
-   return
-      #define HELPER(p) v == mcu::Periph::p ? s << #p :
-      HELPER (GPIOA)
-      HELPER (GPIOB)
-      HELPER (GPIOC)
-      HELPER (GPIOD)
-      HELPER (GPIOF)
-   #if defined(STM32F4) or defined(STM32F7)
-      HELPER (GPIOE)
-      HELPER (GPIOG)
-      HELPER (GPIOH)
-      HELPER (GPIOI)
-   #endif
-      HELPER (USART1)
-   #if defined(STM32F4) or defined(STM32F7)
-      HELPER (USART2)
-      HELPER (USART3)
-      HELPER (USART4)
-      HELPER (USART5)
-      HELPER (USART6)
-   #endif
-   #if defined(STM32F7)
-      HELPER (USART7)
-      HELPER (USART8)
-   #endif
-      s;
-      #undef HELPER
 }
 
 class RCC : public mcu::RCC
@@ -204,8 +174,6 @@ public:
 
 } // namespace mock {
 
-#if defined(USE_PERIPH_MOCK)
 namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::RCC, mock::RCC&> make_reference() { return mock::RCC::make(); }
 }
-#endif

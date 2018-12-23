@@ -1,6 +1,6 @@
 #pragma once
 
-#define USE_PERIPH_MOCK
+#define USE_MOCK_GPIO
 #include "periph_gpio.h"
 #include <iostream>
 
@@ -103,7 +103,6 @@ std::ostream& operator<< (std::ostream& s, const GPIO& v)
 
 } // namespace mock {
 
-#if defined(USE_PERIPH_MOCK)
 namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::GPIOA, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
    template<Periph p> std::enable_if_t<p == Periph::GPIOB, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
@@ -117,4 +116,3 @@ namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::GPIOI, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
 #endif
 }
-#endif // #if defined(USE_PERIPH_MOCK)
