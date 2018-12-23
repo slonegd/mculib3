@@ -17,4 +17,4 @@
 #define GPIO_AFRH_AFRH7_Msk (GPIO_AFRH_AFRH7_0 | GPIO_AFRH_AFRH7_1 | GPIO_AFRH_AFRH7_2 | GPIO_AFRH_AFRH7_3)
 
 
-#include "f0_f4_f7_test_periph_gpio.h"
+#include "f0_f1_f4_f7_test_periph_gpio.h"

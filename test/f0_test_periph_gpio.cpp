@@ -21,5 +21,5 @@
 #define GPIO_AFRH_AFRH7_2 (1 << GPIO_AFRH_AFRH7_Pos + 2)
 
 
-#include "f0_f4_f7_test_periph_gpio.h"
+#include "f0_f1_f4_f7_test_periph_gpio.h"
 

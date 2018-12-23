@@ -23,9 +23,11 @@ std::ostream& operator<< (std::ostream& s, mcu::Periph v)
       HELPER (GPIOI)
    #endif
       HELPER (USART1)
-   #if defined(STM32F4) or defined(STM32F7)
+   #if defined(STM32F1) or defined(STM32F4) or defined(STM32F7)
       HELPER (USART2)
       HELPER (USART3)
+   #endif
+   #if defined(STM32F4) or defined(STM32F7)
       HELPER (USART4)
       HELPER (USART5)
       HELPER (USART6)

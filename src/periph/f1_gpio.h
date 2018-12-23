@@ -96,7 +96,7 @@ template<class Pin_, PinMode mode> void GPIO::init()
    
    else if constexpr (mode == PinMode::USART1_TX) {
       static_assert (
-         COND(std::is_same_v<Pin_, PA9> or std::is_same_v<Pin_, PB6>),
+         std::is_same_v<Pin_, PA9> or std::is_same_v<Pin_, PB6>,
          "USART1_TX возможно только с PA9 или PB6"
       );
       make_reference<Periph::RCC>()
@@ -109,7 +109,7 @@ template<class Pin_, PinMode mode> void GPIO::init()
 
    else if constexpr (mode == PinMode::USART1_RX) {
       static_assert (
-         COND(std::is_same_v<Pin_, PA10> or std::is_same_v<Pin_, PB7>),
+         std::is_same_v<Pin_, PA10> or std::is_same_v<Pin_, PB7>,
          "USART1_RX возможно только с PA10 и PB7"
       );
       make_reference<Periph::RCC>()
@@ -122,8 +122,8 @@ template<class Pin_, PinMode mode> void GPIO::init()
 
    else if constexpr (mode == PinMode::USART2_TX) {
       static_assert (
-         COND(std::is_same_v<Pin_, PA2> or std::is_same_v<Pin_, PD5>),
-         "USART1_TX возможно только с PA2 или PD5"
+         std::is_same_v<Pin_, PA2> or std::is_same_v<Pin_, PD5>,
+         "USART2_TX возможно только с PA2 или PD5"
       );
       make_reference<Periph::RCC>()
          .template clock_enable<Periph::AFIO>();
@@ -135,8 +135,8 @@ template<class Pin_, PinMode mode> void GPIO::init()
 
    else if constexpr (mode == PinMode::USART2_RX) {
       static_assert (
-         COND(std::is_same_v<Pin_, PA3> or std::is_same_v<Pin_, PD6>),
-         "USART1_RX возможно только с PA3 иди PD6"
+         std::is_same_v<Pin_, PA3> or std::is_same_v<Pin_, PD6>,
+         "USART2_RX возможно только с PA3 или PD6"
       );
       make_reference<Periph::RCC>()
          .template clock_enable<Periph::AFIO>();
@@ -148,34 +148,34 @@ template<class Pin_, PinMode mode> void GPIO::init()
 
    else if constexpr (mode == PinMode::USART3_TX) {
       static_assert (
-         COND(std::is_same_v<Pin_, PB10> or std::is_same_v<Pin_, PC10> or std::is_same_v<Pin_, PD8>),
-         "USART1_TX возможно только с PB10, PC10 или PD8"
+         std::is_same_v<Pin_, PB10> or std::is_same_v<Pin_, PC10> or std::is_same_v<Pin_, PD8>,
+         "USART3_TX возможно только с PB10, PC10 или PD8"
       );
       make_reference<Periph::RCC>()
          .template clock_enable<Periph::AFIO>();
       set<Pin_::n>(Mode::Out2MHz_push_pull_alt);
       if (std::is_same_v<Pin_, PC10>)
          make_reference<Periph::AFIO>()
-            .template remap<Periph::USART2, Remap::Partial_1>();
+            .template remap<Periph::USART3, Remap::Partial_1>();
       else if (std::is_same_v<Pin_, PD8>)
          make_reference<Periph::AFIO>()
-            .template remap<Periph::USART2, Remap::Full>();
+            .template remap<Periph::USART3, Remap::Full>();
    }
 
    else if constexpr (mode == PinMode::USART3_RX) {
       static_assert (
-         COND(std::is_same_v<Pin_, PB11> or std::is_same_v<Pin_, PC11> or std::is_same_v<Pin_, PD9>),
-         "USART1_RX возможно только с PB11, PC11 или PD9"
+         std::is_same_v<Pin_, PB11> or std::is_same_v<Pin_, PC11> or std::is_same_v<Pin_, PD9>,
+         "USART3_RX возможно только с PB11, PC11 или PD9"
       );
       make_reference<Periph::RCC>()
          .template clock_enable<Periph::AFIO>();
       set<Pin_::n>(Mode::Out2MHz_push_pull_alt);
       if (std::is_same_v<Pin_, PC11>)
          make_reference<Periph::AFIO>()
-            .template remap<Periph::USART2, Remap::Partial_1>();
+            .template remap<Periph::USART3, Remap::Partial_1>();
       else if (std::is_same_v<Pin_, PD9>)
          make_reference<Periph::AFIO>()
-            .template remap<Periph::USART2, Remap::Full>();
+            .template remap<Periph::USART3, Remap::Full>();
    }
 
 }
