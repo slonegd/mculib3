@@ -4,7 +4,9 @@
 #define F_CPU   168'000'000UL
 #define STM32F405xx
 
+#include "catch_static_assert.h"
 #include "periph_rcc.h"
+#undef static_assert
 #include <iostream>
 #include <type_traits>
 #include <thread>

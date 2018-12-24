@@ -18,7 +18,7 @@ include_directories (
    ${Boost_INCLUDE_DIR}
 )
 
-set (CMAKE_CXX_FLAGS "-Wno-register")
+set (CMAKE_CXX_FLAGS "-Wno-register -Wno-overflow")
 
 
 function(test MCU name)

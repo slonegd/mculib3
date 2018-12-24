@@ -224,9 +224,10 @@ BOOST_AUTO_TEST_CASE (get_APB_clock)
 BOOST_AUTO_TEST_CASE (set_PLLM)
 {
    CMSIS.PLLCFGR = 0;
-   // rcc.set_PLLM<0>();  // compilation error
-   // rcc.set_PLLM<1>();  // compilation error
-   // rcc.set_PLLM<64>(); // compilation error
+   STATIC_ASSERTATION_REQUIRED ( rcc.set_PLLM<0>(), "");
+   STATIC_ASSERTATION_REQUIRED ( rcc.set_PLLM<1>(), "");
+   STATIC_ASSERTATION_REQUIRED ( rcc.set_PLLM<64>(), "");
+
    rcc.set_PLLM<63>();
    BOOST_CHECK_EQUAL (CMSIS.PLLCFGR, 
         RCC_PLLCFGR_PLLM_0 
@@ -264,9 +265,10 @@ BOOST_AUTO_TEST_CASE (set_PLLM)
 BOOST_AUTO_TEST_CASE (set_PLLN)
 {
    CMSIS.PLLCFGR = 0;
-   // rcc.set_PLLN<0>();   // compilation error
-   // rcc.set_PLLN<49>();  // compilation error
-   // rcc.set_PLLN<433>(); // compilation error
+   STATIC_ASSERTATION_REQUIRED ( rcc.set_PLLN<0>(), "");
+   STATIC_ASSERTATION_REQUIRED ( rcc.set_PLLN<49>(), "");
+   STATIC_ASSERTATION_REQUIRED ( rcc.set_PLLN<433>(), "");
+
    rcc.set_PLLN<50>();
    auto res = CMSIS.PLLCFGR >> RCC_PLLCFGR_PLLN_Pos;
    BOOST_CHECK_EQUAL (res, 50);
@@ -287,9 +289,10 @@ BOOST_AUTO_TEST_CASE (set_PLLN)
 BOOST_AUTO_TEST_CASE (set_PLLQ)
 {
    CMSIS.PLLCFGR = 0;
-   // rcc.set_PLLQ<0>();   // compilation error
-   // rcc.set_PLLQ<1>();  // compilation error
-   // rcc.set_PLLQ<16>(); // compilation error
+   STATIC_ASSERTATION_REQUIRED ( rcc.set_PLLQ<0>(), "");
+   STATIC_ASSERTATION_REQUIRED ( rcc.set_PLLQ<1>(), "");
+   STATIC_ASSERTATION_REQUIRED ( rcc.set_PLLQ<16>(), "");
+   
    rcc.set_PLLQ<15>();
    auto res = CMSIS.PLLCFGR >> RCC_PLLCFGR_PLLQ_Pos;
    BOOST_CHECK_EQUAL (res, 15);
