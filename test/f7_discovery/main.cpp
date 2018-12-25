@@ -5,6 +5,7 @@
 #include "timers.h"
 #include "pin.h"
 #include "flash.h"
+#include "meta.h"
 
 
 volatile auto& rcc = mcu::make_reference<mcu::Periph::RCC>();
@@ -20,11 +21,11 @@ struct Data {
    int d1 {1};
    int d2 {2};
 };
-mcu::Flash<Data, mcu::FLASH::Sector::_7> flash {};
+Flash<Data, mcu::FLASH::Sector::_7> flash {};
 
 int main()
 {
-   auto pin = mcu::Pin::make<mcu::PI1, mcu::PinMode::Output>();
+   auto pin = Pin::make<mcu::PI1, mcu::PinMode::Output>();
 
    Timer timer {200_ms};
    
