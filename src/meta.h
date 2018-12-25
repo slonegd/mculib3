@@ -57,33 +57,31 @@ constexpr int position_v = Position<T,Ts...>::value;
 
 
 
-/// генерирация массива данных (хелперы)
-/// пример генерирующей функции
-constexpr size_t fibo (size_t i) { return (i > 1) ? fibo(i-2) + fibo(i-1) : 1; }
-
-template<class T, T(*f)(size_t), class index_sequence>
+/// генерирация массива данных
+template<auto f, class index_sequence>
 struct generate_impl;
 
-template<class T, T(*f)(size_t), size_t ... i>
-struct generate_impl<T, f, std::index_sequence<i...>>
+template<auto f, size_t ... i>
+struct generate_impl<f, std::index_sequence<i...>>
 {
-   static constexpr std::array<T,sizeof...(i)> table {f(i)...};
+   using type = decltype(f(0));
+   static constexpr std::array<type,sizeof...(i)> table {f(i)...};
 };
 
 /// генерировать массив функцией f
-template<class T, T(*f)(size_t), size_t size>
-using Generate = generate_impl<T, f, std::make_index_sequence<size>>;
+template<auto f, size_t size>
+constexpr auto generate = generate_impl<f, std::make_index_sequence<size>>::table;
 
+/// пример генерирующей функции
+constexpr size_t fibo (size_t i) { return (i > 1) ? fibo(i-2) + fibo(i-1) : 1; }
 /// пример использования + тест
-using Fibo_example = Generate<size_t, &fibo, 6>;
-static_assert (Fibo_example::table[0] == 1);
-static_assert (Fibo_example::table[1] == 1);
-static_assert (Fibo_example::table[2] == 2);
-static_assert (Fibo_example::table[3] == 3);
-static_assert (Fibo_example::table[4] == 5);
-static_assert (Fibo_example::table[5] == 8);
-static_assert (std::size(Fibo_example::table) == 6);
-
-
+constexpr auto fibo_example = generate<fibo, 6>;
+static_assert (fibo_example[0] == 1);
+static_assert (fibo_example[1] == 1);
+static_assert (fibo_example[2] == 2);
+static_assert (fibo_example[3] == 3);
+static_assert (fibo_example[4] == 5);
+static_assert (fibo_example[5] == 8);
+static_assert (fibo_example.size() == 6);
 
 
