@@ -5,6 +5,7 @@
 // #include <iostream>
 
 #include "periph_rcc.h"
+#include "periph_dma.h"
 #include "pin.h"
 // #include "buttons.h"
 #include "flash.h"
@@ -28,9 +29,9 @@ extern "C" void init_clock ()
       .set      (mcu::RCC:: SystemClock::CS_PLL)
       .set_PLLM<4>()
       .set_PLLN<168>()
-      .set      (mcu::RCC::     PLLPdiv::PLLdiv2)
+      .set      (mcu::RCC::     PLLPdiv::_2)
       // .set_PLLQ<4>()
-      .set      (mcu::RCC::   PLLsource::sHSE)
+      .set      (mcu::RCC::   PLLsource::HSE)
       .on_PLL()
       .wait_PLL_ready();
 }
@@ -38,7 +39,11 @@ extern "C" void init_clock ()
 
 int main()
 {
-   auto led = mcu::Pin::make<mcu::PC8, mcu::PinMode::Output>();
+   auto& dma = mcu::make_reference<mcu::Periph::DMA1>();
+   dma.clear_interrupt_flags(dma.Channel::_1);
+   dma.is_transfer_complete_interrupt (dma.Channel::_1);
+
+   auto led = Pin::make<mcu::PC8, mcu::PinMode::Output>();
 
    struct Data {
       size_t d1 {1};

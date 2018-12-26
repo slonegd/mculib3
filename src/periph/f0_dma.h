@@ -19,7 +19,7 @@ public:
    bool is_transfer_complete_interrupt(Channel);
 };
 
-#if not defined(USE_MOCK_GPIO)
+#if not defined(USE_MOCK_DMA)
 template <Periph dma> std::enable_if_t<dma == Periph::DMA1, DMA&> make_reference() {return *reinterpret_cast<DMA*>(DMA1_BASE);}
 #endif
 
