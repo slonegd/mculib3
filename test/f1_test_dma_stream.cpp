@@ -24,7 +24,7 @@ namespace mcu {
 template <Periph p> std::enable_if_t<p == Periph::TEST_DMA, MockDMA&> make_reference() {return mockDMA;}
 }
 
-#include "dma.h"
+#include "periph_dma.h"
 
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 

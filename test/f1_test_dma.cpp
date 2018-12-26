@@ -19,7 +19,7 @@ namespace mcu {
 template <Periph p> std::enable_if_t<p == Periph::TEST_RCC, MockRCC&> make_reference() {return mockRcc;}
 }
 
-#include "dma.h"
+#include "periph_dma.h"
 
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 

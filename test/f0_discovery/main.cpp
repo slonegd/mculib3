@@ -5,6 +5,7 @@
 #include "flash.h"
 #include "pin.h"
 #include "timers.h"
+#include "periph_dma.h"
 
 
 /// эта функция вызываеться первой в startup файле
@@ -26,7 +27,11 @@ extern "C" void init_clock ()
 
 int main()
 {
-   auto pc8 = mcu::Pin::make<mcu::PC8, mcu::PinMode::Output>();
+   auto& dma = mcu::make_reference<mcu::Periph::DMA1>();
+   dma.clear_interrupt_flags(dma.Channel::_1);
+   dma.is_transfer_complete_interrupt (dma.Channel::_1);
+
+   auto& pc8 = Pin::make<mcu::PC8, mcu::PinMode::Output>();
    Timer timer {200};
 
 
