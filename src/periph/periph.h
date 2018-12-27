@@ -79,7 +79,7 @@ enum class Periph {
     USART1, USART2, USART3, USART4, USART5, USART6, USART7, USART8, 
 #endif
 #if defined(STM32F0)
-    DMA1,
+    DMA1, DMA1_stream1, DMA1_stream2, DMA1_stream3, DMA1_stream4, DMA1_stream5,
 #elif defined(STM32F1)
     DMA1, DMA1_stream1, DMA1_stream2, DMA1_stream3, DMA1_stream4, DMA1_stream5, DMA1_stream6, DMA1_stream7,
 #elif defined(STM32F4) or defined(STM32F7)
@@ -95,6 +95,9 @@ enum class Periph {
 };
 
 }
+
+#define SFINAE(periph,type) template <Periph p> std::enable_if_t<p == Periph::periph, type&>
+
 
 
 
