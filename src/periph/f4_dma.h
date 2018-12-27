@@ -13,7 +13,7 @@ public:
    using CMSIS_type = DMA_TypeDef;
    using Mask = DMA_bits::IFCR::Mask;
 
-   enum class Channel { _1 = 1, _2, _3, _4, _5, _6, _7, error };
+   enum class Channel { _0 = 0, _1, _2, _3, _4, _5, _6, _7, error };
 
    auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
 
@@ -43,7 +43,8 @@ template <Periph p> std::enable_if_t<p == Periph::DMA2, DMA&> make_reference() {
 
 void DMA::clear_interrupt_flags(Channel v)
 {
-   if      (v == Channel::_1) IFCR._1 = Mask::clear;
+   if      (v == Channel::_0) IFCR._0 = Mask::clear;
+   else if (v == Channel::_1) IFCR._1 = Mask::clear;
    else if (v == Channel::_2) IFCR._2 = Mask::clear;
    else if (v == Channel::_3) IFCR._3 = Mask::clear;
    else if (v == Channel::_4) IFCR._4 = Mask::clear;
@@ -54,7 +55,8 @@ void DMA::clear_interrupt_flags(Channel v)
 
 bool DMA::is_transfer_complete_interrupt(Channel v)
 {
-   if      (v == Channel::_1) return ISR.TCIF1;
+   if      (v == Channel::_0) return ISR.TCIF0;
+   else if (v == Channel::_1) return ISR.TCIF1;
    else if (v == Channel::_2) return ISR.TCIF2;
    else if (v == Channel::_3) return ISR.TCIF3;
    else if (v == Channel::_4) return ISR.TCIF4;
