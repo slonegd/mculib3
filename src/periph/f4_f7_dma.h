@@ -1,6 +1,7 @@
 #pragma once
 
 #include "f4_f7_bits_dma.h"
+#include "f4_f7_bits_dma_stream.h"
 
 namespace mcu {
 
@@ -11,9 +12,8 @@ class DMA
 
 public:
    using CMSIS_type = DMA_TypeDef;
-   using Mask = DMA_bits::IFCR::Mask;
-
-   enum class Channel { _0 = 0, _1, _2, _3, _4, _5, _6, _7, error };
+   using Mask       = DMA_bits::IFCR::Mask;
+   using Channel    = DMA_bits::CR::Channel;
 
    auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
 

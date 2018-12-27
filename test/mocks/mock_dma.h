@@ -2,7 +2,6 @@
 
 #define USE_MOCK_DMA
 #include "periph_dma.h"
-// #include "mock_periph_to_stream.h"
 #include <iostream>
 
 namespace mock {
