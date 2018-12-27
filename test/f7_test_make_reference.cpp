@@ -7,6 +7,8 @@
 #include "periph_rcc.h"
 #include "periph_flash.h"
 #include "periph_gpio.h"
+#include "periph_dma.h"
+#include "periph_dma_stream.h"
 #include <type_traits>
 
 
@@ -132,5 +134,57 @@ BOOST_AUTO_TEST_CASE (GPIOI)
    BOOST_CHECK_EQUAL (size, sizeof(mcu::GPIO::CMSIS_type));
    BOOST_CHECK_EQUAL (same, true);
 }
+
+BOOST_AUTO_TEST_CASE (DMA1)
+{
+   auto& dma1 {mcu::make_reference<mcu::Periph::DMA1>()};
+   auto address = reinterpret_cast<size_t>(&dma1);
+   auto size = sizeof(dma1);
+   auto same = std::is_same_v<std::remove_reference_t<decltype(dma1)>, mcu::DMA>;
+   BOOST_CHECK_EQUAL (address, DMA1_BASE);
+   BOOST_CHECK_EQUAL (size, sizeof(mcu::DMA::CMSIS_type));
+   BOOST_CHECK_EQUAL (same, true);
+}
+
+BOOST_AUTO_TEST_CASE (DMA2)
+{
+   auto& dma2 {mcu::make_reference<mcu::Periph::DMA2>()};
+   auto address = reinterpret_cast<size_t>(&dma2);
+   auto size = sizeof(dma2);
+   auto same = std::is_same_v<std::remove_reference_t<decltype(dma2)>, mcu::DMA>;
+   BOOST_CHECK_EQUAL (address, DMA2_BASE);
+   BOOST_CHECK_EQUAL (size, sizeof(mcu::DMA::CMSIS_type));
+   BOOST_CHECK_EQUAL (same, true);
+}
+
+#define DMA_STREAM_TEST(DMA,stream,n) \
+BOOST_AUTO_TEST_CASE (DMA##_##stream) \
+{ \
+   auto& stream {mcu::make_reference<mcu::Periph::DMA##_##stream>()}; \
+   auto address = reinterpret_cast<size_t>(&stream); \
+   auto size = sizeof(stream); \
+   auto same = std::is_same_v<std::remove_reference_t<decltype(stream)>, mcu::DMA_stream>; \
+   BOOST_CHECK_EQUAL (address, DMA##_Stream##n##_BASE); \
+   BOOST_CHECK_EQUAL (size, sizeof(mcu::DMA_stream::CMSIS_type)); \
+   BOOST_CHECK_EQUAL (same, true); \
+}
+DMA_STREAM_TEST (DMA1,stream0,0);
+DMA_STREAM_TEST (DMA1,stream1,1);
+DMA_STREAM_TEST (DMA1,stream2,2);
+DMA_STREAM_TEST (DMA1,stream3,3);
+DMA_STREAM_TEST (DMA1,stream4,4);
+DMA_STREAM_TEST (DMA1,stream5,5);
+DMA_STREAM_TEST (DMA1,stream6,6);
+DMA_STREAM_TEST (DMA1,stream7,7);
+
+DMA_STREAM_TEST (DMA2,stream0,0);
+DMA_STREAM_TEST (DMA2,stream1,1);
+DMA_STREAM_TEST (DMA2,stream2,2);
+DMA_STREAM_TEST (DMA2,stream3,3);
+DMA_STREAM_TEST (DMA2,stream4,4);
+DMA_STREAM_TEST (DMA2,stream5,5);
+DMA_STREAM_TEST (DMA2,stream6,6);
+DMA_STREAM_TEST (DMA2,stream7,7);
+
 
 BOOST_AUTO_TEST_SUITE_END()

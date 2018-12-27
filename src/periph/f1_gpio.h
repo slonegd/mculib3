@@ -12,12 +12,12 @@ namespace mcu {
 enum class PinMode {Input, Output, USART1_TX, USART1_RX, USART2_TX, USART2_RX, USART3_TX, USART3_RX};
 
 class GPIO {
-  __IO GPIO_bits::CR CR;   // Port configuration register      offset: 0x00
-  __IO GPIO_bits::DR IDR;  // Port input data register         offset: 0x08
-  __IO uint32_t      ODR;  // Port output data register        offset: 0x0C
-  __IO uint32_t      BSRR; // Port bit set/reset register      offset: 0x10
-  __IO uint32_t      BRR;  // Port bit reset register          offset: 0x14
-  __IO uint32_t      LCKR; // Port configuration lock register offset: 0x18
+  volatile GPIO_bits::CR CR;   // Port configuration register      offset: 0x00
+  volatile GPIO_bits::DR IDR;  // Port input data register         offset: 0x08
+  volatile uint32_t      ODR;  // Port output data register        offset: 0x0C
+  volatile uint32_t      BSRR; // Port bit set/reset register      offset: 0x10
+  volatile uint32_t      BRR;  // Port bit reset register          offset: 0x14
+  volatile uint32_t      LCKR; // Port configuration lock register offset: 0x18
 
 public:
    using CMSIS_type = GPIO_TypeDef;
