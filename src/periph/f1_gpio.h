@@ -26,16 +26,11 @@ public:
 
    template<Periph p, Periph v = Periph::RCC> GPIO& clock_enable() { make_reference<v>().template clock_enable<p>(); return *this; }
 
-   void set     (size_t n) { BSRR |= (1 << n);              }
-   void clear   (size_t n) { BSRR |= (1 << (n + 16));       }
-   bool is_set  (size_t n) { return IDR.reg & (1 << n);     }
-   void toggle  (size_t n) { is_set(n) ? clear(n) : set(n); }
-   void set_odr (size_t v) {ODR = v;}
-   size_t odr_value () {return ODR;}
-   void set (uint16_t mask, uint16_t v)
-   {
-      BSRR = (v & mask) | ((uint32_t)((not v) and mask) << 16);
-   }
+   void set        (size_t n) { BSRR |= (1 << n);              }
+   void clear      (size_t n) { BSRR |= (1 << (n + 16));       }
+   bool is_set     (size_t n) { return IDR.reg & (1 << n);     }
+   void toggle     (size_t n) { is_set(n) ? clear(n) : set(n); }
+   void atomic_write (uint32_t value) {BSRR |= value;}
 
    template<size_t> GPIO& set (Mode);
    template<class Pin_, PinMode, Periph rcc = Periph::RCC, Periph afio = Periph::AFIO> void init();
