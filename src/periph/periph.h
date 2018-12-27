@@ -82,7 +82,7 @@ enum class Periph {
     DMA1,
 #elif defined(STM32F1)
     DMA1, DMA1_stream1, DMA1_stream2, DMA1_stream3, DMA1_stream4, DMA1_stream5, DMA1_stream6, DMA1_stream7,
-#elif defined(STM32F4)
+#elif defined(STM32F4) or defined(STM32F7)
     DMA1, DMA2,
 #endif
     SysTick,
