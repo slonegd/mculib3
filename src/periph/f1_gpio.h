@@ -91,8 +91,8 @@ template<class Pin_, PinMode mode> void GPIO::init()
        std::is_same_v<Pin_, PA15> or
        std::is_same_v<Pin_,  PB3> or 
        std::is_same_v<Pin_,  PB4>) {
-      make_reference<afio>().template clock_enable<afio, rcc>();
-       make_reference<afio>().set_JTAG(AFIO::SWJ::JTAG_off_SW_on);
+       make_reference<Periph::RCC>().template clock_enable<Periph::AFIO>();
+       make_reference<Periph::AFIO>().set_JTAG(AFIO::SWJ::JTAG_off_SW_on);
    }
    
    if constexpr (mode == PinMode::Input) {
