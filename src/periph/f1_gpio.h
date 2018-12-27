@@ -12,7 +12,7 @@ enum class PinMode {Input, Output, USART1_TX, USART1_RX, USART2_TX, USART2_RX, U
 class GPIO {
   __IO GPIO_bits::CR CR;   // Port configuration register      offset: 0x00
   __IO GPIO_bits::DR IDR;  // Port input data register         offset: 0x08
-  __IO GPIO_bits::DR ODR;  // Port output data register        offset: 0x0C
+  __IO uint32_t      ODR;  // Port output data register        offset: 0x0C
   __IO uint32_t      BSRR; // Port bit set/reset register      offset: 0x10
   __IO uint32_t      BRR;  // Port bit reset register          offset: 0x14
   __IO uint32_t      LCKR; // Port configuration lock register offset: 0x18
@@ -22,12 +22,15 @@ public:
    using Mode       = GPIO_bits::CR::Mode;
    using Remap      = AFIO::Remap;
 
+   auto& like_CMSIS(){return *reinterpret_cast<CMSIS_type*>(this);}
+
    template<Periph p, Periph v = Periph::RCC> GPIO& clock_enable() { make_reference<v>().template clock_enable<p>(); return *this; }
 
-   void set     (size_t n) { BSRR |= (1 << n);              }
-   void clear   (size_t n) { BSRR |= (1 << (n + 16));       }
-   bool is_set  (size_t n) { return IDR.reg & (1 << n);     }
-   void toggle  (size_t n) { is_set(n) ? clear(n) : set(n); }
+   void set        (size_t n) { BSRR |= (1 << n);              }
+   void clear      (size_t n) { BSRR |= (1 << (n + 16));       }
+   bool is_set     (size_t n) { return IDR.reg & (1 << n);     }
+   void toggle     (size_t n) { is_set(n) ? clear(n) : set(n); }
+   void atomic_write (uint32_t value) {BSRR |= value;}
 
    template<size_t> GPIO& set (Mode);
    template<class Pin_, PinMode, Periph rcc = Periph::RCC, Periph afio = Periph::AFIO> void init();
@@ -79,6 +82,14 @@ template<size_t n> GPIO& GPIO::set (Mode v)
 
 template<class Pin_, PinMode mode, Periph rcc, Periph afio> void GPIO::init()
 {
+   if (std::is_same_v<Pin_, PA14> or
+       std::is_same_v<Pin_, PA15> or
+       std::is_same_v<Pin_,  PB3> or 
+       std::is_same_v<Pin_,  PB4>) {
+      make_reference<afio>().template clock_enable<afio, rcc>();
+       make_reference<afio>().set_JTAG(AFIO::SWJ::JTAG_off_SW_on);
+   }
+   
    if constexpr (mode == PinMode::Input) {
       set<Pin_::n>(Mode::In_floating);
    }

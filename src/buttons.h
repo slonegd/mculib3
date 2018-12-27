@@ -14,7 +14,7 @@ class Button : TickSubscriber
 {
    Pin& pin;
 
-   size_t time {0};
+   int time {0};
    bool short_press {false};
    bool long_press {false};
    bool increment  {false};

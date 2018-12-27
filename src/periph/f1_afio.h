@@ -16,13 +16,22 @@ public:
    using Port       = AFIO_bits::Port;
    using Pin        = AFIO_bits::EVCR::Pin;
    using Remap      = AFIO_bits::MAPR::Remap;
+   using SWJ        = AFIO_bits::MAPR::SWJ;
 
    template<Periph p, Periph v = Periph::RCC> AFIO& clock_enable() { make_reference<v>().template clock_enable<p>(); return *this; }
 
-   AFIO& event_enable() {EVCR.EVOE = true; return *this;}
+   AFIO& event_enable()        {EVCR.EVOE = true;   return *this;}
+   AFIO& set_JTAG    (SWJ swj) {MAPR.SWJ_CFG = swj; 
+   return *this;}
 
    template<Periph> AFIO& remap();
    template<Periph, Remap> AFIO& remap();
+   // template<SWJ swj> AFIO& set_JTAG()
+   // {
+   //    if constexpr (swj == SWJ::JTAG_off_SW_off)
+   // }
+
+   
 };
 
 template<Periph p> std::enable_if_t<p == Periph::AFIO, AFIO&> make_reference() { return *reinterpret_cast<AFIO*>(AFIO_BASE); }

@@ -20,6 +20,7 @@ struct MockAFIO {
    template <mcu::Periph p, mcu::Periph v> void clock_enable(){clock = true;}
    template <mcu::Periph p> void remap(){remap_ = true;}
    template <mcu::Periph p, mcu::AFIO::Remap> void remap(){remap_ = true;}
+   void set_JTAG(mcu::AFIO::SWJ){}
 }mockAFIO;
 namespace mcu {
 template <Periph p> std::enable_if_t<p == Periph::TEST_AFIO, MockAFIO&> make_reference() {return mockAFIO;}
@@ -487,12 +488,12 @@ int main()
       std::cout << s << (f() ? "\033[32mпрошёл\033[0m" : "\033[31mпровален\033[0m") << std::endl;
    };
 
-   test ("RCC::make            ", make);
-   test ("RCC::clock_enable    ", clock_enable);
-   test ("RCC::set             ", set);
-   test ("RCC::clear           ", clear);
-   test ("RCC::is_set          ", is_set);
-   test ("RCC::toggle          ", toggle);
-   test ("RCC::set_mode        ", set_mode);
-   test ("RCC::init            ", init);
+   test ("GPIO::make            ", make);
+   test ("GPIO::clock_enable    ", clock_enable);
+   test ("GPIO::set             ", set);
+   test ("GPIO::clear           ", clear);
+   test ("GPIO::is_set          ", is_set);
+   test ("GPIO::toggle          ", toggle);
+   test ("GPIO::set_mode        ", set_mode);
+   test ("GPIO::init            ", init);
 }
