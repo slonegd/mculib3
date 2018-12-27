@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <cstddef>
 #include <iterator>
+<<<<<<< HEAD
 
 template <class T, class ... Types> 
 constexpr T get1stArg (T arg1, Types ... otherArgs)
@@ -49,6 +50,12 @@ template<class T, class ... Types> struct At<1,T,Types...> {
 
 template <size_t n, class ... Ts>
 using at_t = typename At<n,Ts...>::Result;
+=======
+#include <array>
+
+
+namespace meta {
+>>>>>>> dvk
 
 // определяет первое положение конкретного типа из вариадика, пример:
 // начиная с 1
@@ -76,6 +83,7 @@ constexpr int position_v = Position<T,Ts...>::value;
 
 
 
+<<<<<<< HEAD
 /// генерирация массива данных (хелперы)
 /// пример генерирующей функции
 constexpr size_t fibo (size_t i) { return (i > 1) ? fibo(i-2) + fibo(i-1) : 1; }
@@ -132,3 +140,42 @@ static_assert (Fibox2_example::table[3] == 6);
 static_assert (Fibox2_example::table[4] == 10);
 static_assert (Fibox2_example::table[5] == 16);
 static_assert (std::size(Fibox2_example::table) == 6);
+=======
+/// генерирация массива данных
+template<auto& f, class index_sequence>
+struct generate_impl;
+
+template<auto& f, size_t ... i>
+struct generate_impl<f, std::index_sequence<i...>>
+{
+   using type = decltype(f(0));
+   static constexpr auto size = sizeof...(i);
+   static constexpr std::array<type,size> table {f(i)...};
+};
+
+/// генерировать массив функцией f
+template<auto& f, size_t size>
+constexpr auto generate = generate_impl<f, std::make_index_sequence<size>>::table;
+
+} // namespace meta {
+
+namespace { // test
+
+/// пример генерирующей функции
+constexpr size_t fibo (size_t i) { return (i > 1) ? fibo(i-2) + fibo(i-1) : 1; }
+
+/// пример использования + тест
+constexpr auto fibo_example = meta::generate<fibo, 6>;
+
+static_assert (fibo_example[0] == 1);
+static_assert (fibo_example[1] == 1);
+static_assert (fibo_example[2] == 2);
+static_assert (fibo_example[3] == 3);
+static_assert (fibo_example[4] == 5);
+static_assert (fibo_example[5] == 8);
+static_assert (fibo_example.size() == 6);
+
+} // namespace {
+
+
+>>>>>>> dvk

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "periph_rcc.h"
 #include "f1_bits_dma.h"
 
 namespace mcu {
@@ -14,14 +13,15 @@ public:
    using CMSIS_type = DMA_TypeDef;
    enum class Channel { _1 = 1, _2, _3, _4, _5, _6, _7, error };
 
-   template <Periph dma, Periph rcc = Periph::RCC> DMA& clock_enable(){make_reference<rcc>().template clock_enable<dma>(); return *this;}
+   auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
+
    void clear_interrupt_flags         (Channel);
    bool is_transfer_complete_interrupt(Channel);
 };
 
-
-template <Periph dma> std::enable_if_t<dma == Periph::DMA1, DMA&> make_reference() {return *reinterpret_cast<DMA*>(DMA1_BASE);}
-
+#if not defined(USE_MOCK_DMA)
+template <Periph p> std::enable_if_t<p == Periph::DMA1, DMA&> make_reference() {return *reinterpret_cast<DMA*>(DMA1_BASE);}
+#endif
 
 
 

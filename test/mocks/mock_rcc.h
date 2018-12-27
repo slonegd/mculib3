@@ -1,7 +1,8 @@
 #pragma once
 
-#define USE_PERIPH_MOCK
+#define USE_MOCK_RCC
 #include "periph_rcc.h"
+#include "mock_periph_to_stream.h"
 #include <iostream>
 
 namespace mock {
@@ -38,46 +39,22 @@ std::ostream& operator<< (std::ostream& s, mcu::RCC::SystemClock v)
       v == mcu::RCC::SystemClock::CS_PLL ? s << "PLL"                   : s;
 }
 
+#if defined(STM32F4) or defined(STM32F7)
 std::ostream& operator<< (std::ostream& s, mcu::RCC::PLLPdiv v)
 {
    return
-      v == mcu::RCC::PLLPdiv::PLLdiv2 ? s << "2" :
-      v == mcu::RCC::PLLPdiv::PLLdiv4 ? s << "4" :
-      v == mcu::RCC::PLLPdiv::PLLdiv6 ? s << "6" :
-      v == mcu::RCC::PLLPdiv::PLLdiv8 ? s << "8" : s;
+      v == mcu::RCC::PLLPdiv::_2 ? s << "2" :
+      v == mcu::RCC::PLLPdiv::_4 ? s << "4" :
+      v == mcu::RCC::PLLPdiv::_6 ? s << "6" :
+      v == mcu::RCC::PLLPdiv::_8 ? s << "8" : s;
 }
+#endif
 
 std::ostream& operator<< (std::ostream& s, mcu::RCC::PLLsource v)
 {
    return
       v == mcu::RCC::PLLsource::HSE     ? s << "внешний" :
       v == mcu::RCC::PLLsource::HSIdiv2 ? s << "внутренний с делителем 2" : s;
-}
-
-std::ostream& operator<< (std::ostream& s, mcu::Periph v)
-{
-   return
-      #define HELPER(p) v == mcu::Periph::p ? s << #p :
-      HELPER (GPIOA)
-      HELPER (GPIOB)
-      HELPER (GPIOC)
-      HELPER (GPIOD)
-      HELPER (GPIOE)
-      HELPER (GPIOF)
-      HELPER (GPIOG)
-      HELPER (GPIOH)
-      HELPER (GPIOI)
-
-      HELPER (USART1)
-      HELPER (USART2)
-      HELPER (USART3)
-      HELPER (USART4)
-      HELPER (USART5)
-      HELPER (USART6)
-      HELPER (USART7)
-      HELPER (USART8)
-      s;
-      #undef HELPER
 }
 
 class RCC : public mcu::RCC
@@ -98,6 +75,7 @@ public:
       return *this;
    }
 
+#if defined(STM32F4) or defined(STM32F7)
    RCC& set_APB1  (APBprescaler v) {
       if (process) *process << "установка делителя шины APB1 " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set_APB1(v);
@@ -110,20 +88,8 @@ public:
       return *this;
    }
 
-   RCC& set (SystemClock v) {
-      if (process) *process << "установка источника тактирования системной шины от " << v << std::endl;
-      static_cast<mcu::RCC*>(this)->set(v);
-      return *this;
-   }
-
    RCC& set (PLLPdiv v) {
       if (process) *process << "установка делителя шины PLL " << v << std::endl;
-      static_cast<mcu::RCC*>(this)->set(v);
-      return *this;
-   }
-
-   RCC& set (PLLsource v) {
-      if (process) *process << "установка источника PLL " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set(v);
       return *this;
    }
@@ -143,6 +109,33 @@ public:
    template<int v> RCC& set_PLLQ() {
       if (process) *process << "установка Q " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set_PLLQ<v>();
+      return *this;
+   }
+#elif defined(STM32F0)
+   RCC& set (APBprescaler  v) {
+      if (process) *process << "установка делителя шины APB " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set(v);
+      return *this;
+   }
+
+   RCC& set (PLLmultiplier v) {
+      if (process) *process << "установка множителя PLL " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set(v);
+      return *this;
+   }
+#endif
+
+   RCC& set (SystemClock v) {
+      if (process) *process << "установка источника тактирования системной шины от " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set(v);
+      return *this;
+   }
+
+
+
+   RCC& set (PLLsource v) {
+      if (process) *process << "установка источника PLL " << v << std::endl;
+      static_cast<mcu::RCC*>(this)->set(v);
       return *this;
    }
 
@@ -181,8 +174,6 @@ public:
 
 } // namespace mock {
 
-#if defined(USE_PERIPH_MOCK)
 namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::RCC, mock::RCC&> make_reference() { return mock::RCC::make(); }
 }
-#endif

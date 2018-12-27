@@ -23,8 +23,8 @@ struct CR {
 }__attribute__((packed));
 
 struct PLLCFGR {
-   enum PLLPdiv { PLLdiv2 = 0b00, PLLdiv4, PLLdiv6,  PLLdiv8 };
-   enum PLLsource { sHSI = 0b0, sHSE = 0b1 };
+   enum PLLPdiv { _2 = 0b00, _4, _6, _8 };
+   enum PLLsource { HSIdiv2 = 0b0, HSE = 0b1 };
    uint32_t  PLLM   :6; // Bits 5:0 2≤PLLM≤63: Division factor for the main PLL (PLL) and audio PLL (PLLI2S) input clock
    uint32_t  PLLN   :9; // Bits 14:6 50≤PLLN≤432: Main PLL (PLL) multiplication factor for VCO
    uint32_t         :1; // Bit 15 Reserved, must be kept at reset value.

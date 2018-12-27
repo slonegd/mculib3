@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE f7_test_periph_flash
+#define BOOST_TEST_MODULE f0_test_periph_flash
 #include <boost/test/unit_test.hpp>
 
 #define F_CPU   48'000'000UL

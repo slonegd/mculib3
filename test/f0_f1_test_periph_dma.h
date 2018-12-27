@@ -1,44 +1,15 @@
-#define BOOST_TEST_MODULE f1_dma
-#include <boost/test/unit_test.hpp>
-
-#define STM32F103xB
-#define TEST
-#define F_CPU 72000000
-
-
-#include <iostream>
-#include <type_traits>
-#include "periph.h"
-
-
-struct MockRCC {
-   bool good {false};
-   template <mcu::Periph p> void clock_enable(){good = true;}
-}mockRcc;
-namespace mcu {
-template <Periph p> std::enable_if_t<p == Periph::TEST_RCC, MockRCC&> make_reference() {return mockRcc;}
-}
-
-#include "dma.h"
-
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 
 mcu::DMA dma;
-auto& CMSIS = *reinterpret_cast<mcu::DMA::CMSIS_type*>(&dma);
+auto& CMSIS = dma.like_CMSIS();
 
-BOOST_AUTO_TEST_CASE (make_reference)
+BOOST_AUTO_TEST_CASE (like_CMSIS)
 {
-   auto& dma {mcu::make_reference<mcu::Periph::DMA1>()};
-   auto address = reinterpret_cast<size_t>(&dma);
-   auto same = std::is_same_v<std::remove_reference_t<decltype(dma)>, mcu::DMA>;
-   BOOST_CHECK_EQUAL (address, DMA1_BASE);
+   auto same = std::is_same_v<std::remove_reference_t<decltype(CMSIS)>, DMA_TypeDef>;
+   auto address_rcc = reinterpret_cast<size_t>(&dma);
+   auto address_CMSIS = reinterpret_cast<size_t>(&CMSIS);
+   BOOST_CHECK_EQUAL (address_rcc, address_CMSIS);
    BOOST_CHECK_EQUAL (same, true);
-}
-
-BOOST_AUTO_TEST_CASE (clock_enable)
-{
-   dma.clock_enable<mcu::Periph::DMA1, mcu::Periph::TEST_RCC>();
-   BOOST_CHECK_EQUAL (mockRcc.good, true);
 }
 
 BOOST_AUTO_TEST_CASE (clear_interrupt_flags)
@@ -62,7 +33,8 @@ BOOST_AUTO_TEST_CASE (clear_interrupt_flags)
    CMSIS.IFCR = 0;
    dma.clear_interrupt_flags(mcu::DMA::Channel::_5);
    BOOST_CHECK_EQUAL (CMSIS.IFCR, DMA_IFCR_CGIF5_Msk);
-
+   
+#if defined(STM32F1)
    CMSIS.IFCR = 0;
    dma.clear_interrupt_flags(mcu::DMA::Channel::_6);
    BOOST_CHECK_EQUAL (CMSIS.IFCR, DMA_IFCR_CGIF6_Msk);
@@ -70,6 +42,7 @@ BOOST_AUTO_TEST_CASE (clear_interrupt_flags)
    CMSIS.IFCR = 0;
    dma.clear_interrupt_flags(mcu::DMA::Channel::_7);
    BOOST_CHECK_EQUAL (CMSIS.IFCR, DMA_IFCR_CGIF7_Msk);
+#endif
 }
 
 BOOST_AUTO_TEST_CASE(is_transfer_complete_interrupt)
@@ -89,11 +62,13 @@ BOOST_AUTO_TEST_CASE(is_transfer_complete_interrupt)
    CMSIS.ISR = DMA_ISR_TCIF5_Msk;
    BOOST_CHECK_EQUAL (dma.is_transfer_complete_interrupt(mcu::DMA::Channel::_5), true);
 
+#if defined(STM32F1)
    CMSIS.ISR = DMA_ISR_TCIF6_Msk;
    BOOST_CHECK_EQUAL (dma.is_transfer_complete_interrupt(mcu::DMA::Channel::_6), true);
 
    CMSIS.ISR = DMA_ISR_TCIF7_Msk;
    BOOST_CHECK_EQUAL (dma.is_transfer_complete_interrupt(mcu::DMA::Channel::_7), true);
+#endif
 }
 
 

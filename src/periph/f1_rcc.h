@@ -25,30 +25,23 @@ public:
    using PLLsource     = RCC_bits::CFGR::PLLsource;
    using PLLmultiplier = RCC_bits::CFGR::PLLmultiplier;
 
-   RCC& set       (AHBprescaler  v) { CFGR.HPRE   = v; return *this; }
-   RCC& set_APB1  (APBprescaler  v) { CFGR.PPRE1  = v; return *this; }
-   RCC& set_APB2  (APBprescaler  v) { CFGR.PPRE2  = v; return *this; }
-   RCC& set       (ADCprescaler  v) { CFGR.ADCPRE = v; return *this; }
-   RCC& set       (SystemClock   v) { CFGR.SW     = v; return *this; }
-   RCC& set       (PLLsource     v) { CFGR.PLLSRC = v; return *this; }
-   RCC& set       (PLLmultiplier v) { CFGR.PLLMUL = v; return *this; }
+   auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
+
+   RCC& set       (AHBprescaler  v) { CFGR.HPRE   = v; return *this; } //
+   RCC& set_APB1  (APBprescaler  v) { CFGR.PPRE1  = v; return *this; } //
+   RCC& set_APB2  (APBprescaler  v) { CFGR.PPRE2  = v; return *this; } //
+   // RCC& set       (ADCprescaler  v) { CFGR.ADCPRE = v; return *this; } // dont use yet
+   RCC& set       (SystemClock   v) { CFGR.SW     = v; return *this; } //
+   RCC& set       (PLLsource     v) { CFGR.PLLSRC = v; return *this; } //
+   RCC& set       (PLLmultiplier v) { CFGR.PLLMUL = v; return *this; } //
 
    RCC& on_HSE        () { CR.HSEON = true;         return *this; }
    RCC& wait_HSE_ready() { while (not CR.HSERDY) {} return *this; }
    RCC& on_PLL        () { CR.PLLON = true;         return *this; }
    RCC& wait_PLL_ready() { while (not CR.PLLRDY) {} return *this; }
 
-   size_t get_APB_clock (APBprescaler v)
-   {return v == APBprescaler::APBnotdiv ? F_CPU     :
-           v == APBprescaler::APBdiv2   ? F_CPU / 2 :
-           v == APBprescaler::APBdiv4   ? F_CPU / 4 :
-           v == APBprescaler::APBdiv8   ? F_CPU / 8 :
-                                          F_CPU / 16;}
-
    size_t get_APB1_clock(){return get_APB_clock (CFGR.PPRE1);}
    size_t get_APB2_clock(){return get_APB_clock (CFGR.PPRE2);}
-
-
 
    template<Periph p> void clock_enable()
    {
@@ -67,9 +60,21 @@ public:
 
       else if constexpr (p == Periph::TIM4) APB1ENR.TIM4EN = true;
    }
+
+
+private:
+   size_t get_APB_clock (APBprescaler v)
+   {
+      return v == APBprescaler::APBnotdiv ? F_CPU     :
+             v == APBprescaler::APBdiv2   ? F_CPU / 2 :
+             v == APBprescaler::APBdiv4   ? F_CPU / 4 :
+             v == APBprescaler::APBdiv8   ? F_CPU / 8 :
+                                            F_CPU / 16;
+   }
 };
 
+#if not defined(USE_MOCK_RCC)
 template<Periph p> std::enable_if_t<p == Periph::RCC, RCC&> make_reference() { return *reinterpret_cast<RCC*>(RCC_BASE); }
-
+#endif
 
 } //namespace mcu

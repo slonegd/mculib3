@@ -29,31 +29,48 @@ public:
    using PLLsource     = RCC_bits::CFGR::PLLsource;
    using PLLmultiplier = RCC_bits::CFGR::PLLmultiplier;
 
+   auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
+
    RCC& set (AHBprescaler  v) { CFGR.HPRE   = v; return *this; }
    RCC& set (APBprescaler  v) { CFGR.PPRE   = v; return *this; }
    RCC& set (SystemClock   v) { CFGR.SW     = v; return *this; }
    RCC& set (PLLsource     v) { CFGR.PLLSRC = v; return *this; }
    RCC& set (PLLmultiplier v) { CFGR.PLLMUL = v; return *this; }
 
+   RCC& on_HSE        () { CR.HSEON = true;         return *this; }
+   RCC& wait_HSE_ready() { while (not CR.HSERDY) {} return *this; }
    RCC& on_PLL        () { CR.PLLON = true;         return *this; }
    RCC& wait_PLL_ready() { while (not CR.PLLRDY) {} return *this; }
 
+   size_t get_APB_clock()
+   {
+      auto v = CFGR.PPRE;
+      return v == APBprescaler::APBnotdiv ? F_CPU     :
+             v == APBprescaler::APBdiv2   ? F_CPU / 2 :
+             v == APBprescaler::APBdiv4   ? F_CPU / 4 :
+             v == APBprescaler::APBdiv8   ? F_CPU / 8 :
+                                            F_CPU / 16;
+   }
+
    template<Periph p> void clock_enable()
    {
-      if      constexpr (p == Periph::GPIOA) AHBENR .IOPAEN  = true;
-      else if constexpr (p == Periph::GPIOB) AHBENR .IOPBEN  = true;
-      else if constexpr (p == Periph::GPIOC) AHBENR .IOPCEN  = true;
-      else if constexpr (p == Periph::GPIOD) AHBENR .IOPDEN  = true;
-      else if constexpr (p == Periph::GPIOF) AHBENR .IOPFEN  = true;
-      else if constexpr (p == Periph::TIM1)  APB2ENR.TIM1EN  = true;
-      else if constexpr (p == Periph::TIM3)  APB1ENR.TIM3EN  = true;
-      else if constexpr (p == Periph::TIM14) APB1ENR.TIM14EN = true;
-      else if constexpr (p == Periph::TIM16) APB2ENR.TIM16EN = true;
-      else if constexpr (p == Periph::TIM17) APB2ENR.TIM17EN = true;
+      if      constexpr (p == Periph::GPIOA)  AHBENR .IOPAEN  = true;
+      else if constexpr (p == Periph::GPIOB)  AHBENR .IOPBEN  = true;
+      else if constexpr (p == Periph::GPIOC)  AHBENR .IOPCEN  = true;
+      else if constexpr (p == Periph::GPIOD)  AHBENR .IOPDEN  = true;
+      else if constexpr (p == Periph::GPIOF)  AHBENR .IOPFEN  = true;
+
+      else if constexpr (p == Periph::USART1) APB2ENR.USART1EN  = true;
+
+      else if constexpr (p == Periph::TIM1)   APB2ENR.TIM1EN  = true;
+      else if constexpr (p == Periph::TIM3)   APB1ENR.TIM3EN  = true;
+      else if constexpr (p == Periph::TIM14)  APB1ENR.TIM14EN = true;
+      else if constexpr (p == Periph::TIM16)  APB2ENR.TIM16EN = true;
+      else if constexpr (p == Periph::TIM17)  APB2ENR.TIM17EN = true;
    }
 };
 
-
+#if not defined(USE_MOCK_RCC)
 template<Periph p> std::enable_if_t<p == Periph::RCC, RCC&> make_reference() { return *reinterpret_cast<RCC*>(RCC_BASE); }
-
+#endif
 } // namespace mcu {

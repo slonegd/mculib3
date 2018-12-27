@@ -17,9 +17,6 @@ public:
 };
 
 
-template <class Data, mcu::FLASH::Sector>
-class Flash;
-
 #if defined(USE_PERIPH_MOCK)
 using namespace mock;
 #else
@@ -38,6 +35,7 @@ private:
    struct Pair {
       uint8_t offset; 
       uint8_t value;
+      operator uint16_t() { return uint16_t(value) << 8 | offset; }
    };
    union Memory {
       Pair     pair[sector_size/2];
@@ -169,7 +167,7 @@ void Flash<Data,sector>::notify()
                  .en_interrupt_endOfProg(); // без этого не работает
          #endif
          writed_data = original[data_offset];
-         memory.pair[memory_offset] = Pair{data_offset, writed_data};
+         memory.word[memory_offset] = Pair{data_offset, writed_data};
          state = check_write;
       }
       break;

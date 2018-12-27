@@ -59,4 +59,20 @@ struct ISR {
    uint32_t res12  :4;
 }__attribute__((packed));
 
+struct IFCR {
+   enum Mask {clear = 0b111101};
+   Mask _0  :6;
+   Mask _1  :6;
+   uint32_t :4;
+   Mask _2  :6;
+   Mask _3  :6;
+   uint32_t :4;
+   Mask _4  :6;
+   Mask _5  :6;
+   uint32_t :4;
+   Mask _6  :6;
+   Mask _7  :6;
+   uint32_t :4;
+}__attribute__((packed));
+
 } //namespace mcu::DMA_bits

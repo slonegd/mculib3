@@ -1,6 +1,6 @@
 #pragma once
 
-#define USE_PERIPH_MOCK
+#define USE_MOCK_GPIO
 #include "periph_gpio.h"
 #include <iostream>
 
@@ -59,7 +59,9 @@ public:
    }
 
    GPIO& toggle (size_t n) {
-      if (process) *process << "переключение вывода " << n << " порта " << *this << std::endl;
+      if (process)
+         *process << "переключение вывода " << n << " порта " << *this
+                  << ", а именно " << (this->like_CMSIS().IDR & (1 << n) ? "сброс" : "установка") << std::endl;
       static_cast<mcu::GPIO*>(this)->toggle(n);
       return *this;
    }
@@ -69,6 +71,16 @@ public:
       if (process) *process << "инициализация вывода " << Pin_::n << " порта " << *this << " в режиме " << mode << std::endl;
       static_cast<mcu::GPIO*>(this)->init<Pin_,mode>();
    }
+
+   struct Mock {
+      GPIO& parent;
+      Mock (GPIO& parent) : parent{parent} {}
+      void set (size_t n, bool v)
+      {
+         v ? parent.like_CMSIS().IDR |= (1 << n) : parent.like_CMSIS().IDR &= ~(1 << n);
+      }
+   } mock {*this};
+
 
 };
 
@@ -91,7 +103,6 @@ std::ostream& operator<< (std::ostream& s, const GPIO& v)
 
 } // namespace mock {
 
-#if defined(USE_PERIPH_MOCK)
 namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::GPIOA, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
    template<Periph p> std::enable_if_t<p == Periph::GPIOB, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
@@ -105,4 +116,3 @@ namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::GPIOI, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
 #endif
 }
-#endif // #if defined(USE_PERIPH_MOCK)

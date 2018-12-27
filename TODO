@@ -1,7 +1,3 @@
-[done] f4_test_rcc
-[done] f0_test_gpio
-[done] f4_test_gpio
-test_pin
 f0_f4_test_systick
 test_list
 test_subscriber
@@ -15,24 +11,12 @@ test_pwm
 f4_tim
 f0_test_tim
 f4_test_tim
-[done] f4_flash finish
-f0_flash
-[done] f4_test_flash
-f0_test_flash
-[done] flash finish
-test flash
 перевести на бусттест
-   [done] f0_test_rcc.cpp
    f1_test_afio.cpp
    f1_test_gpio.cpp
    f1_test_rcc.cpp
    f1_test_usart.cpp
-   [done] f4_test_flash.cpp
    f4_test_usart.cpp
-[done] see f4_test_flash.cpp unlock add timeout
-[done] see f4_test_flash.cpp start_erase_sector
-[done] test_reflect
-[done] f0_test_rcc wait_PLL_ready fix 
-[done] mock_flash
 f0_test_periph_rcc see set_AHBprescaler
 f0_test_periph_rcc no HSE
+f1_test_pin
