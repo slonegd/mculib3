@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE (GPIOD)
    BOOST_CHECK_EQUAL (same, true);
 }
 
-#if defined(STM32F4) or defined(STM32F7)
+#if defined(STM32F1) or defined(STM32F4) or defined(STM32F7)
 BOOST_AUTO_TEST_CASE (GPIOE)
 {
    auto& PE {mcu::make_reference<mcu::Periph::GPIOE>()};
@@ -79,6 +79,7 @@ BOOST_AUTO_TEST_CASE (GPIOE)
 }
 #endif
 
+#if defined(STM32F0)
 BOOST_AUTO_TEST_CASE (GPIOF)
 {
    auto& PF {mcu::make_reference<mcu::Periph::GPIOF>()};
@@ -89,6 +90,7 @@ BOOST_AUTO_TEST_CASE (GPIOF)
    BOOST_CHECK_EQUAL (size, sizeof(mcu::GPIO::CMSIS_type));
    BOOST_CHECK_EQUAL (same, true);
 }
+#endif
 
 #if defined(STM32F4) or defined(STM32F7)
 BOOST_AUTO_TEST_CASE (GPIOG)
@@ -121,6 +123,19 @@ BOOST_AUTO_TEST_CASE (GPIOI)
    auto same = std::is_same_v<std::remove_reference_t<decltype(PI)>, mcu::GPIO>;
    BOOST_CHECK_EQUAL (address, GPIOI_BASE);
    BOOST_CHECK_EQUAL (size, sizeof(mcu::GPIO::CMSIS_type));
+   BOOST_CHECK_EQUAL (same, true);
+}
+#endif
+
+#if defined(STM32F1)
+BOOST_AUTO_TEST_CASE (AFIO)
+{
+   auto& afio {mcu::make_reference<mcu::Periph::AFIO>()};
+   auto address = reinterpret_cast<size_t>(&afio);
+   auto size = sizeof(afio);
+   auto same = std::is_same_v<std::remove_reference_t<decltype(afio)>, mcu::AFIO>;
+   BOOST_CHECK_EQUAL (address, AFIO_BASE);
+   BOOST_CHECK_EQUAL (size, sizeof(mcu::AFIO::CMSIS_type));
    BOOST_CHECK_EQUAL (same, true);
 }
 #endif
@@ -179,7 +194,7 @@ DMA_STREAM_TEST (DMA2,stream5,5);
 DMA_STREAM_TEST (DMA2,stream6,6);
 DMA_STREAM_TEST (DMA2,stream7,7);
 
-#elif defined(STM32F0)
+#elif defined(STM32F0) or defined(STM32F1)
 #define DMA_STREAM_TEST(n) \
 BOOST_AUTO_TEST_CASE (DMA1_stream##n) \
 { \
@@ -197,6 +212,10 @@ DMA_STREAM_TEST(2);
 DMA_STREAM_TEST(3);
 DMA_STREAM_TEST(4);
 DMA_STREAM_TEST(5);
+#if defined(STM32F1)
+DMA_STREAM_TEST(6);
+DMA_STREAM_TEST(7);
+#endif
 #endif
 
 BOOST_AUTO_TEST_SUITE_END()
