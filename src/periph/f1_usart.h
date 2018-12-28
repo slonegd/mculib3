@@ -2,9 +2,9 @@
 
 #include <type_traits>
 #include "f1_bits_usart.h"
-#include "rcc.h"
+#include "periph_rcc.h"
 #include "pin.h"
-#include "dma.h"
+#include "periph_dma.h"
 
 namespace mcu {
 
