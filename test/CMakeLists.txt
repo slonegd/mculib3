@@ -65,6 +65,7 @@ test (STM32F0 f0_test_periph_flash)
 test (STM32F0 f0_test_periph_gpio)
 test (STM32F0 f0_test_periph_dma)
 test (STM32F0 f0_test_periph_dma_stream)
+test (STM32F0 f0_test_make_reference)
 test (STM32F0 f0_test_flash)
 test (STM32F0 f0_test_pin)
 

@@ -18,15 +18,19 @@ enum class PinMode {
 };
 
 class GPIO {
-   __IO GPIO_bits::MODER   MODER;   // mode register,                offset: 0x00
-   __IO GPIO_bits::OTYPER  OTYPER;  // output type register,         offset: 0x04
-   __IO GPIO_bits::OSPEEDR OSPEEDR; // output speed register,        offset: 0x08
-   __IO GPIO_bits::PUPDR   PUPDR;   // pull-up/pull-down register,   offset: 0x0C
-   __IO GPIO_bits::DR      IDR;     // input data register,          offset: 0x10
-   __IO GPIO_bits::DR      ODR;     // output data register,         offset: 0x14
-   __IO uint32_t           BSRR;    // bit set/reset register,       offset: 0x18
-   __IO uint32_t           LCKR;    // configuration lock register,  offset: 0x1C
-   __IO GPIO_bits::AFR     AFR;     // alternate function registers, offset: 0x20-0x24
+   volatile GPIO_bits::MODER   MODER;   // mode register,                offset: 0x00
+   volatile GPIO_bits::OTYPER  OTYPER;  // output type register,         offset: 0x04
+   volatile GPIO_bits::OSPEEDR OSPEEDR; // output speed register,        offset: 0x08
+   volatile GPIO_bits::PUPDR   PUPDR;   // pull-up/pull-down register,   offset: 0x0C
+   volatile GPIO_bits::DR      IDR;     // input data register,          offset: 0x10
+   volatile GPIO_bits::DR      ODR;     // output data register,         offset: 0x14
+   volatile uint32_t           BSRR;    // bit set/reset register,       offset: 0x18
+   volatile uint32_t           LCKR;    // configuration lock register,  offset: 0x1C
+   volatile GPIO_bits::AFR     AFR;     // alternate function registers, offset: 0x20-0x24
+#if defined(STM32F0)
+   volatile uint32_t           BRR;     // bit reset register,           offset: 0x28
+#endif
+
 public:
    using CMSIS_type   = GPIO_TypeDef;
    using Mode = GPIO_bits::MODER::Mode;

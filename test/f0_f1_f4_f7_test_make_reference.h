@@ -66,6 +66,7 @@ BOOST_AUTO_TEST_CASE (GPIOD)
    BOOST_CHECK_EQUAL (same, true);
 }
 
+#if defined(STM32F4) or defined(STM32F7)
 BOOST_AUTO_TEST_CASE (GPIOE)
 {
    auto& PE {mcu::make_reference<mcu::Periph::GPIOE>()};
@@ -76,6 +77,7 @@ BOOST_AUTO_TEST_CASE (GPIOE)
    BOOST_CHECK_EQUAL (size, sizeof(mcu::GPIO::CMSIS_type));
    BOOST_CHECK_EQUAL (same, true);
 }
+#endif
 
 BOOST_AUTO_TEST_CASE (GPIOF)
 {
@@ -88,6 +90,7 @@ BOOST_AUTO_TEST_CASE (GPIOF)
    BOOST_CHECK_EQUAL (same, true);
 }
 
+#if defined(STM32F4) or defined(STM32F7)
 BOOST_AUTO_TEST_CASE (GPIOG)
 {
    auto& PG {mcu::make_reference<mcu::Periph::GPIOG>()};
@@ -120,6 +123,7 @@ BOOST_AUTO_TEST_CASE (GPIOI)
    BOOST_CHECK_EQUAL (size, sizeof(mcu::GPIO::CMSIS_type));
    BOOST_CHECK_EQUAL (same, true);
 }
+#endif
 
 BOOST_AUTO_TEST_CASE (DMA1)
 {
@@ -132,6 +136,7 @@ BOOST_AUTO_TEST_CASE (DMA1)
    BOOST_CHECK_EQUAL (same, true);
 }
 
+#if defined(STM32F4) or defined(STM32F7)
 BOOST_AUTO_TEST_CASE (DMA2)
 {
    auto& dma2 {mcu::make_reference<mcu::Periph::DMA2>()};
@@ -142,7 +147,9 @@ BOOST_AUTO_TEST_CASE (DMA2)
    BOOST_CHECK_EQUAL (size, sizeof(mcu::DMA::CMSIS_type));
    BOOST_CHECK_EQUAL (same, true);
 }
+#endif
 
+#if defined(STM32F4) or defined(STM32F7)
 #define DMA_STREAM_TEST(DMA,stream,n) \
 BOOST_AUTO_TEST_CASE (DMA##_##stream) \
 { \
@@ -172,5 +179,24 @@ DMA_STREAM_TEST (DMA2,stream5,5);
 DMA_STREAM_TEST (DMA2,stream6,6);
 DMA_STREAM_TEST (DMA2,stream7,7);
 
+#elif defined(STM32F0)
+#define DMA_STREAM_TEST(n) \
+BOOST_AUTO_TEST_CASE (DMA1_stream##n) \
+{ \
+   auto& stream {mcu::make_reference<mcu::Periph::DMA1_stream##n>()}; \
+   auto address = reinterpret_cast<size_t>(&stream); \
+   auto size = sizeof(stream); \
+   auto same = std::is_same_v<std::remove_reference_t<decltype(stream)>, mcu::DMA_stream>; \
+   BOOST_CHECK_EQUAL (address, DMA1_Channel##n##_BASE); \
+   BOOST_CHECK_EQUAL (size, sizeof(mcu::DMA_stream::CMSIS_type)); \
+   BOOST_CHECK_EQUAL (same, true); \
+}
+
+DMA_STREAM_TEST(1);
+DMA_STREAM_TEST(2);
+DMA_STREAM_TEST(3);
+DMA_STREAM_TEST(4);
+DMA_STREAM_TEST(5);
+#endif
 
 BOOST_AUTO_TEST_SUITE_END()
