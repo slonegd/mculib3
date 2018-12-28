@@ -88,6 +88,9 @@ public:
       else if constexpr (p == Periph::USART7) APBENR.UART7EN  = true;
       else if constexpr (p == Periph::USART8) APBENR.UART8EN  = true;
 
+      else if constexpr (p == Periph::DMA1) AHB1ENR.DMA1EN = true;
+      else if constexpr (p == Periph::DMA2) AHB1ENR.DMA2EN = true;
+
       return *this;
    }
 

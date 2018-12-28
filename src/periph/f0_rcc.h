@@ -67,6 +67,8 @@ public:
       else if constexpr (p == Periph::TIM14)  APB1ENR.TIM14EN = true;
       else if constexpr (p == Periph::TIM16)  APB2ENR.TIM16EN = true;
       else if constexpr (p == Periph::TIM17)  APB2ENR.TIM17EN = true;
+
+      else if constexpr (p == Periph::DMA1)   AHBENR.DMAEN = true;
    }
 };
 

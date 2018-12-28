@@ -10,4 +10,7 @@
 #include <type_traits>
 #include <thread>
 
+// dont exist in CMSIS f0, but exist in f1
+#define RCC_AHBENR_DMA1EN_Msk RCC_AHBENR_DMAEN_Msk
+
 #include "f0_f1_f4_f7_test_periph_rcc.h"
