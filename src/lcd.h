@@ -1,13 +1,16 @@
 #pragma once
 
-#include <bitset>
 #include "pin.h"
 #include "delay.h"
 #include "meta.h"
 #include "timers.h"
 #include "rus_string.h"
 
-namespace mcu {
+#if defined(USE_MOCK_GPIO)
+using namespace mock;
+#else
+using namespace mcu;
+#endif
 
 template<class T, class ... Args>
 constexpr bool all_is_same(T& t, Args& ... args)
@@ -284,10 +287,6 @@ LCD& LCD::set_cursor(size_t cursor)
    //            line == 3 ? cursor + 40 : cursor + 60;
 }
 
-
-
-
-} // namespace mcu
 
 
 
