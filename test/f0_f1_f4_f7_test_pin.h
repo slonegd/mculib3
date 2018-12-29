@@ -7,12 +7,18 @@ auto& rcc   = mcu::make_reference<mcu::Periph::RCC>();
 auto& gpioa = mcu::make_reference<mcu::Periph::GPIOA>();
 auto& gpiob = mcu::make_reference<mcu::Periph::GPIOB>();
 auto& gpioc = mcu::make_reference<mcu::Periph::GPIOC>();
+#if defined(STM32F1)
+auto& afio = mcu::make_reference<mcu::Periph::AFIO>();
+#endif
 
 auto set_stream = [&](){
      rcc.set_stream (process);
    gpioa.set_stream (process);
    gpiob.set_stream (process);
    gpioc.set_stream (process);
+#if defined(STM32F1)
+    afio.set_stream (process);
+#endif
 };
 auto clear_stream = [&](){ process.str(std::string{}); };
 
@@ -34,6 +40,7 @@ BOOST_AUTO_TEST_CASE (make)
    );
    clear_stream();
 
+#if defined(STM32F0) or defined(STM32F4) or defined(STM32F7)
    Pin::make<mcu::PB1,mcu::PinMode::Alternate_1>();
    BOOST_CHECK_EQUAL (process.str(), 
       "включение тактирования GPIOB\n"
@@ -54,6 +61,74 @@ BOOST_AUTO_TEST_CASE (make)
       "инициализация вывода 0 порта GPIOC в режиме Alternate 7\n"
    );
    clear_stream();
+#endif
+#if defined(STM32F4) or defined(STM32F7)
+   Pin::make<mcu::PC8,mcu::PinMode::Alternate_8>();
+   BOOST_CHECK_EQUAL (process.str(), 
+      "включение тактирования GPIOC\n"
+      "инициализация вывода 8 порта GPIOC в режиме Alternate 8\n"
+   );
+   clear_stream();
+
+   Pin::make<mcu::PB10,mcu::PinMode::Alternate_15>();
+   BOOST_CHECK_EQUAL (process.str(), 
+      "включение тактирования GPIOB\n"
+      "инициализация вывода 10 порта GPIOB в режиме Alternate 15\n"
+   );
+   clear_stream();
+#endif
+#if defined(STM32F1)
+   Pin::make<mcu::PA10,mcu::PinMode::USART1_RX>();
+   BOOST_CHECK_EQUAL (process.str(), 
+      "включение тактирования GPIOA\n"
+      "инициализация вывода 10 порта GPIOA в режиме USART1_RX\n"
+      "включение тактирования AFIO\n"
+   );
+   clear_stream();
+
+   Pin::make<mcu::PA3,mcu::PinMode::USART2_RX>();
+   BOOST_CHECK_EQUAL (process.str(), 
+      "включение тактирования GPIOA\n"
+      "инициализация вывода 3 порта GPIOA в режиме USART2_RX\n"
+      "включение тактирования AFIO\n"
+   );
+   clear_stream();
+
+   Pin::make<mcu::PB11,mcu::PinMode::USART3_RX>();
+   BOOST_CHECK_EQUAL (process.str(), 
+      "включение тактирования GPIOB\n"
+      "инициализация вывода 11 порта GPIOB в режиме USART3_RX\n"
+      "включение тактирования AFIO\n"
+   );
+   clear_stream();
+
+   Pin::make<mcu::PA9,mcu::PinMode::USART1_TX>();
+   BOOST_CHECK_EQUAL (process.str(), 
+      "включение тактирования GPIOA\n"
+      "инициализация вывода 9 порта GPIOA в режиме USART1_TX\n"
+      "включение тактирования AFIO\n"
+   );
+   clear_stream();
+
+   Pin::make<mcu::PA2,mcu::PinMode::USART2_TX>();
+   BOOST_CHECK_EQUAL (process.str(),
+      "включение тактирования GPIOA\n"
+      "инициализация вывода 2 порта GPIOA в режиме USART2_TX\n"
+      "включение тактирования AFIO\n"
+   );
+   clear_stream();
+
+   Pin::make<mcu::PB10,mcu::PinMode::USART3_TX>();
+   BOOST_CHECK_EQUAL (process.str(), 
+      "включение тактирования GPIOB\n"
+      "инициализация вывода 10 порта GPIOB в режиме USART3_TX\n"
+      "включение тактирования AFIO\n"
+   );
+   clear_stream();
+
+   auto bad_test = [&]() { Pin::make<mcu::PA9,mcu::PinMode::USART3_RX>(); };
+   STATIC_ASSERTATION_REQUIRED ( bad_test(), "USART3_RX возможно только с PB11, PC11 или PD9");
+#endif
 }
 
 BOOST_AUTO_TEST_CASE (set)

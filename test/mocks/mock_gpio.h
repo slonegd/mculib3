@@ -11,6 +11,7 @@ std::ostream& operator<< (std::ostream& s, mcu::PinMode v)
    return
       v == mcu::PinMode::Input        ? s << "Input"        :
       v == mcu::PinMode::Output       ? s << "Output"       :
+   #if defined(STM32F0) or defined(STM32F4) or defined(STM32F7)
       v == mcu::PinMode::Alternate_0  ? s << "Alternate 0"  :
       v == mcu::PinMode::Alternate_1  ? s << "Alternate 1"  :
       v == mcu::PinMode::Alternate_2  ? s << "Alternate 2"  :
@@ -19,6 +20,7 @@ std::ostream& operator<< (std::ostream& s, mcu::PinMode v)
       v == mcu::PinMode::Alternate_5  ? s << "Alternate 5"  :
       v == mcu::PinMode::Alternate_6  ? s << "Alternate 6"  :
       v == mcu::PinMode::Alternate_7  ? s << "Alternate 7"  :
+   #endif
    #if defined(STM32F4) or defined(STM32F7)
       v == mcu::PinMode::Alternate_8  ? s << "Alternate 8"  :
       v == mcu::PinMode::Alternate_9  ? s << "Alternate 9"  :
@@ -28,6 +30,14 @@ std::ostream& operator<< (std::ostream& s, mcu::PinMode v)
       v == mcu::PinMode::Alternate_13 ? s << "Alternate 13" :
       v == mcu::PinMode::Alternate_14 ? s << "Alternate 14" :
       v == mcu::PinMode::Alternate_15 ? s << "Alternate 15" :
+   #endif
+   #if defined(STM32F1)
+      v == mcu::PinMode::USART1_RX  ? s << "USART1_RX"  :
+      v == mcu::PinMode::USART2_RX  ? s << "USART2_RX"  :
+      v == mcu::PinMode::USART3_RX  ? s << "USART3_RX"  :
+      v == mcu::PinMode::USART1_TX  ? s << "USART1_TX"  :
+      v == mcu::PinMode::USART2_TX  ? s << "USART2_TX"  :
+      v == mcu::PinMode::USART3_TX  ? s << "USART3_TX"  :
    #endif
       s;
 }
@@ -91,7 +101,12 @@ std::ostream& operator<< (std::ostream& s, const GPIO& v)
       &v == &GPIO::make<mcu::Periph::GPIOB>() ? s << "GPIOB" :
       &v == &GPIO::make<mcu::Periph::GPIOC>() ? s << "GPIOC" :
       &v == &GPIO::make<mcu::Periph::GPIOD>() ? s << "GPIOD" :
+   #if defined(STM32F1)
+      &v == &GPIO::make<mcu::Periph::GPIOE>() ? s << "GPIOE" :
+   #endif
+   #if defined(STM32F0) or defined(STM32F4) or defined(STM32F7)
       &v == &GPIO::make<mcu::Periph::GPIOF>() ? s << "GPIOF" :
+   #endif
    #if defined(STM32F4) or defined(STM32F7)
       &v == &GPIO::make<mcu::Periph::GPIOE>() ? s << "GPIOE" :
       &v == &GPIO::make<mcu::Periph::GPIOG>() ? s << "GPIOG" :
@@ -108,7 +123,12 @@ namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::GPIOB, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
    template<Periph p> std::enable_if_t<p == Periph::GPIOC, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
    template<Periph p> std::enable_if_t<p == Periph::GPIOD, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
+#if defined(STM32F1)
+   template<Periph p> std::enable_if_t<p == Periph::GPIOE, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
+#endif
+#if defined(STM32F0) or defined(STM32F4) or defined(STM32F7)
    template<Periph p> std::enable_if_t<p == Periph::GPIOF, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
+#endif
 #if defined(STM32F4) or defined(STM32F7)
    template<Periph p> std::enable_if_t<p == Periph::GPIOE, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
    template<Periph p> std::enable_if_t<p == Periph::GPIOG, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
