@@ -12,11 +12,5 @@ f4_tim
 f0_test_tim
 f4_test_tim
 перевести на бусттест
-   f1_test_afio.cpp
-   f1_test_gpio.cpp
-   f1_test_rcc.cpp
    f1_test_usart.cpp
    f4_test_usart.cpp
-f0_test_periph_rcc see set_AHBprescaler
-f0_test_periph_rcc no HSE
-f1_test_pin
