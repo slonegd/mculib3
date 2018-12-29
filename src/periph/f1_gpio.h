@@ -30,7 +30,7 @@ public:
    void clear      (size_t n) { BSRR |= (1 << (n + 16));       }
    bool is_set     (size_t n) { return IDR.reg & (1 << n);     }
    void toggle     (size_t n) { is_set(n) ? clear(n) : set(n); }
-   void atomic_write (uint32_t value) {BSRR |= value;}
+   void atomic_write (uint32_t value) {BSRR = value;}
 
    template<class Pin_, PinMode> void init();
 
@@ -87,10 +87,11 @@ template<size_t n> GPIO& GPIO::set (Mode v)
 
 template<class Pin_, PinMode mode> void GPIO::init()
 {
-   if (std::is_same_v<Pin_, PA14> or
-       std::is_same_v<Pin_, PA15> or
-       std::is_same_v<Pin_,  PB3> or 
-       std::is_same_v<Pin_,  PB4>) {
+   if constexpr ( std::is_same_v<Pin_, PA14> 
+               or std::is_same_v<Pin_, PA15>
+               or std::is_same_v<Pin_,  PB3>
+               or std::is_same_v<Pin_,  PB4>
+   ) {
        make_reference<Periph::RCC>().template clock_enable<Periph::AFIO>();
        make_reference<Periph::AFIO>().set_JTAG(AFIO::SWJ::JTAG_off_SW_on);
    }

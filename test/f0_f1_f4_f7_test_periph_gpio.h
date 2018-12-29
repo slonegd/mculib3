@@ -570,7 +570,69 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart3)
 
    auto test2 = [&]() { gpio.init<mcu::PA9, mcu::PinMode::USART3_RX>(); };
    STATIC_ASSERTATION_REQUIRED ( test2(), "USART3_RX возможно только с PB11, PC11 или PD9");
+}
 
+BOOST_AUTO_TEST_CASE (init_jtag_pins)
+{
+   prepare_test();
+   cmsis.CRL = 0;
+   cmsis.CRH = 0;
+
+   gpio.init<mcu::PA14, mcu::PinMode::Input>();
+   BOOST_CHECK_EQUAL (process.str(),
+      "включение тактирования AFIO\n"
+      "выключение JTAG\n"
+   );
+   BOOST_CHECK_EQUAL (cmsis.CRL,
+      0
+   );
+   BOOST_CHECK_EQUAL (cmsis.CRH,
+      GPIO_CRH_CNF14_0
+   );
+   clear_stream();
+
+   gpio.init<mcu::PA15, mcu::PinMode::Output>();
+   BOOST_CHECK_EQUAL (process.str(),
+      "включение тактирования AFIO\n"
+      "выключение JTAG\n"
+   );
+   BOOST_CHECK_EQUAL (cmsis.CRL,
+      0
+   );
+   BOOST_CHECK_EQUAL (cmsis.CRH,
+        GPIO_CRH_CNF14_0
+      | GPIO_CRH_MODE15_1
+   );
+   clear_stream();
+
+   gpio.init<mcu::PB3, mcu::PinMode::Output>();
+   BOOST_CHECK_EQUAL (process.str(),
+      "включение тактирования AFIO\n"
+      "выключение JTAG\n"
+   );
+   BOOST_CHECK_EQUAL (cmsis.CRL,
+        GPIO_CRL_MODE3_1
+   );
+   BOOST_CHECK_EQUAL (cmsis.CRH,
+        GPIO_CRH_CNF14_0
+      | GPIO_CRH_MODE15_1
+   );
+   clear_stream();
+
+   gpio.init<mcu::PB4, mcu::PinMode::Input>();
+   BOOST_CHECK_EQUAL (process.str(),
+      "включение тактирования AFIO\n"
+      "выключение JTAG\n"
+   );
+   BOOST_CHECK_EQUAL (cmsis.CRL,
+        GPIO_CRL_MODE3_1
+      | GPIO_CRL_CNF4_0
+   );
+   BOOST_CHECK_EQUAL (cmsis.CRH,
+        GPIO_CRH_CNF14_0
+      | GPIO_CRH_MODE15_1
+   );
+   clear_stream();
 }
 #endif // #if defined(STM32F1)
 
