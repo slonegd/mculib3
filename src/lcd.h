@@ -136,8 +136,8 @@ public:
    void notify() override;
    LCD& operator<< (std::string_view string);
    LCD& operator<< (size_t number);
-   LCD& set_line  (size_t string);
-   LCD& set_cursor(size_t cursor);
+   LCD& set_line   (size_t string);
+   LCD& set_cursor (size_t cursor);
    LCD& central();
 };
 
@@ -214,9 +214,12 @@ LCD& LCD::operator<< (std::string_view string)
    if (centre){
       if (rest_string < 20) {
          size_t pos = (20 - rest_string)/2;
+         std::fill(screen.begin() + line*20, screen.begin() + line*20 + 20, ' ');
          std::copy(string.begin(), string.end(), screen.begin() + (line*20 + pos));
+         centre = false;
       } else {
          std::copy(string.begin() + (rest_string - 20)/2, string.begin() + (rest_string - 20)/2 + 20, screen.begin() + line*20);
+         centre = false;
       }
    } else {
       if (rest_string < screen_size - position) {
@@ -235,7 +238,7 @@ LCD& LCD::operator<< (std::string_view string)
          position += rest_string;
       }
    }
-      
+   
    return *this;
 }
 
@@ -285,6 +288,7 @@ LCD& LCD::set_cursor(size_t cursor)
    // position = line == 1 ? cursor :
    //            line == 2 ? cursor + 20 :
    //            line == 3 ? cursor + 40 : cursor + 60;
+   return *this;
 }
 
 

@@ -2,9 +2,9 @@
 #define F_OSC   8000000UL
 #define F_CPU   72000000UL
 // #include <iostream>
-#include "rcc.h"
+#include "periph_rcc.h"
 #include "periph_flash.h"
-#include "pin.h"
+// #include "pin.h"
 // // #include "timers.h"
 // // #include "pwm.h"
 // #include "uart.h"
@@ -12,7 +12,7 @@
 // # include "modbus_slave.h"
 // #include "modbus_master.h"
 // #include "buttons.h"
-#include "lcd.h"
+#include "lcd_ram.h"
 
 
 /// эта функция вызывается первой в startup файле
@@ -40,8 +40,7 @@ extern "C" void init_clock ()
 
 int main()
 {
-   
-   auto& screen = mcu::LCD::make
-   <mcu::PC12, mcu::PD2, mcu::PB3, mcu::PB4, mcu::PB5, mcu::PB6, mcu::PB7>();
+   LCD buffer;
+   // buffer << "He/llo world!";
 
 }
