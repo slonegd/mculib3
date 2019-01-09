@@ -8,7 +8,10 @@
 #include "mock_rcc.h"
 #include "mock_afio.h"
 #include "mock_gpio.h"
+#include "meta.h"
+#include "catch_static_assert.h"
 #include "periph_usart.h"
+#undef static_assert
 // #include "timeout.h"
 // #include "literals.h"
 
@@ -134,288 +137,235 @@ BOOST_AUTO_TEST_CASE (set_baudrate)
    BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 115200 / 2);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
-
-/*
-
-bool baudrate()
+BOOST_AUTO_TEST_CASE (enable)
 {
-   CMSIS.BRR = 0;
-   bool good {true};
-   usart.set(mcu::USART::Baudrate::BR115200, 10000000);
-   good &= bool (CMSIS.BRR & USART_BRR_DIV_Mantissa_Msk);
-   usart.set(mcu::USART::Baudrate::BR57600, 20000000);
-   good &= bool (CMSIS.BRR & USART_BRR_DIV_Mantissa_Msk);
-   return good;
-}
-
-bool clock_enable()
-{
-   bool good {true};
-   usart.clock_enable<mcu::Periph::USART1, mcu::Periph::TEST_RCC>();
-   good &= mockRcc.good;
-   return good;
-}
-
-bool enable()
-{
-   CMSIS.CR1 = 0;
-   bool good {true};
+   cmsis.CR1 = 0;
    usart.enable();
-   good &= bool (CMSIS.CR1 & USART_CR1_UE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_UE_Msk);
 }
 
-bool disable()
+BOOST_AUTO_TEST_CASE (disable)
 {
-   bool good {true};
+   cmsis.CR1 = USART_CR1_UE_Msk | USART_CR1_RE_Msk;
    usart.disable();
-   good &= not (CMSIS.CR1 & USART_CR1_UE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_RE_Msk);
 }
 
-bool rx_enable()
+BOOST_AUTO_TEST_CASE (rx_enable)
 {
-   CMSIS.CR1 = 0;
-   bool good {true};
+   cmsis.CR1 = 0;
    usart.rx_enable();
-   good &= bool (CMSIS.CR1 & USART_CR1_RE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_RE_Msk);
 }
 
-bool rx_disable()
+BOOST_AUTO_TEST_CASE (rx_disable)
 {
-   bool good {true};
+   cmsis.CR1 = USART_CR1_UE_Msk | USART_CR1_RE_Msk;
    usart.rx_disable();
-   good &= not (CMSIS.CR1 & USART_CR1_RE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_UE_Msk);
 }
 
-bool tx_enable()
+BOOST_AUTO_TEST_CASE (tx_enable)
 {
-   CMSIS.CR1 = 0;
-   bool good {true};
+   cmsis.CR1 = 0;
    usart.tx_enable();
-   good &= bool (CMSIS.CR1 & USART_CR1_TE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_TE_Msk);
 }
 
-bool tx_disable()
+BOOST_AUTO_TEST_CASE (tx_disable)
 {
-   bool good {true};
+   cmsis.CR1 = USART_CR1_UE_Msk | USART_CR1_TE_Msk;
    usart.tx_disable();
-   good &= not (CMSIS.CR1 & USART_CR1_TE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_UE_Msk);
 }
 
-bool rts_enable()
+BOOST_AUTO_TEST_CASE (rts_enable)
 {
-   CMSIS.CR3 = 0;
-   bool good {true};
+   cmsis.CR3 = 0;
    usart.rts_enable();
-   good &= bool (CMSIS.CR3 & USART_CR3_RTSE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR3, USART_CR3_RTSE_Msk);
 }
 
-bool rts_disable()
+BOOST_AUTO_TEST_CASE (rts_disable)
 {
-   bool good {true};
+   cmsis.CR3 = USART_CR3_RTSE_Msk | USART_CR3_DMAR_Msk;
    usart.rts_disable();
-   good &= not (CMSIS.CR3 & USART_CR3_RTSE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR3, USART_CR3_DMAR_Msk);
 }
 
-bool DMA_tx_enable()
+BOOST_AUTO_TEST_CASE (DMA_tx_enable)
 {
-   CMSIS.CR3 = 0;
-   bool good {true};
+   cmsis.CR3 = 0;
    usart.DMA_tx_enable();
-   good &= bool (CMSIS.CR3 & USART_CR3_DMAT_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR3, USART_CR3_DMAT_Msk);
 }
 
-bool DMA_rx_enable()
+BOOST_AUTO_TEST_CASE (DMA_rx_enable)
 {
-   CMSIS.CR3 = 0;
-   bool good {true};
+   cmsis.CR3 = 0;
    usart.DMA_rx_enable();
-   good &= bool (CMSIS.CR3 & USART_CR3_DMAR_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR3, USART_CR3_DMAR_Msk);
 }
 
-bool parity_enable()
+BOOST_AUTO_TEST_CASE (parity_enable)
 {
-   CMSIS.CR1 = 0;
-   bool good {true};
+   cmsis.CR1 = 0;
    usart.parity_enable();
-   good &= bool (CMSIS.CR1 & USART_CR1_PCE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_PCE_Msk);
 }
 
-bool parity_disable()
+BOOST_AUTO_TEST_CASE (parity_disable)
 {
-   bool good {true};
+   cmsis.CR1 = USART_CR1_PCE_Msk | USART_CR1_UE_Msk;
    usart.parity_disable();
-   good &= not (CMSIS.CR1 & USART_CR1_PCE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_UE_Msk);
 }
 
-bool enable_IDLE_interrupt()
+BOOST_AUTO_TEST_CASE (enable_IDLE_interrupt)
 {
-   CMSIS.CR1 = 0;
-   bool good {true};
+   cmsis.CR1 = 0;
    usart.enable_IDLE_interrupt();
-   good &= bool (CMSIS.CR1 & USART_CR1_IDLEIE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_IDLEIE_Msk);
 }
 
-bool is_IDLE_interrupt()
+BOOST_AUTO_TEST_CASE (is_IDLE_interrupt)
 {
-   CMSIS.SR = 0;
-   bool good {true};
-   good &= not usart.is_IDLE_interrupt();
-   CMSIS.SR |= USART_SR_IDLE;
-   good &= usart.is_IDLE_interrupt();
-   return good;
+   cmsis.SR = 0;
+   BOOST_CHECK_EQUAL (usart.is_IDLE_interrupt(), false);
+   cmsis.SR = USART_SR_IDLE_Msk;
+   BOOST_CHECK_EQUAL (usart.is_IDLE_interrupt(), true);
 }
 
-bool en_complete_interrupt()
+BOOST_AUTO_TEST_CASE (enable_tx_complete_interrupt)
 {
-   CMSIS.CR1 = 0;
-   bool good {true};
+   cmsis.CR1 = 0;
    usart.enable_tx_complete_interrupt();
-   good &= bool (CMSIS.CR1 & USART_CR1_TCIE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_TCIE_Msk);
 }
 
-bool dis_complete_interrupt()
+BOOST_AUTO_TEST_CASE (disable_tx_complete_interrupt)
 {
-   bool good {true};
+   cmsis.CR1 = USART_CR1_TCIE_Msk | USART_CR1_UE_Msk;
    usart.disable_tx_complete_interrupt();
-   good &= not (CMSIS.CR1 & USART_CR1_TCIE_Msk);
-   return good;
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_UE_Msk);
 }
 
-bool is_tx_complete()
+BOOST_AUTO_TEST_CASE (is_tx_complete)
 {
-   CMSIS.SR = 0;
-   bool good {true};
-   good &= not usart.is_tx_complete();
-   CMSIS.SR |= USART_SR_TC;
-   good &= usart.is_tx_complete();
-   return good;
+   cmsis.SR = 0;
+   BOOST_CHECK_EQUAL (usart.is_tx_complete(), false);
+   cmsis.SR = USART_SR_TC_Msk;
+   BOOST_CHECK_EQUAL (usart.is_tx_complete(), true);
 }
 
-bool is_en_complete_interrupt()
+BOOST_AUTO_TEST_CASE (is_tx_complete_interrupt_enable)
 {
-   CMSIS.CR1 = 0;
-   bool good {true};
-   good &= not usart.is_tx_complete_interrupt_enable();
-   usart.enable_tx_complete_interrupt();
-   good &= usart.is_tx_complete_interrupt_enable();
-   return good;
+   cmsis.CR1 = 0;
+   BOOST_CHECK_EQUAL (usart.is_tx_complete_interrupt_enable(), false);
+   cmsis.CR1 = USART_CR1_TCIE_Msk;
+   BOOST_CHECK_EQUAL (usart.is_tx_complete_interrupt_enable(), true);
 }
 
-bool receive_data_adr()
+BOOST_AUTO_TEST_CASE (read_SR)
 {
-   bool good{true};
-   good &= bool ((reinterpret_cast<size_t>(&usart) + offsetof(mcu::USART::CMSIS_type, DR)) == usart.receive_data_adr());
-   return good;
+   cmsis.SR = 1;
+   BOOST_CHECK_EQUAL (usart.read_SR(), 1);
+   cmsis.SR = 0x0FFF;
+   BOOST_CHECK_EQUAL (usart.read_SR(), 0x0FFF);
 }
 
-bool transmit_data_adr()
+BOOST_AUTO_TEST_CASE (read_DR)
 {
-   bool good{true};
-   good &= bool ((reinterpret_cast<size_t>(&usart) + offsetof(mcu::USART::CMSIS_type, DR)) == usart.receive_data_adr());
-   return good;
+   cmsis.DR = 2;
+   BOOST_CHECK_EQUAL (usart.read_DR(), 2);
+   cmsis.DR = 0x0FFC;
+   BOOST_CHECK_EQUAL (usart.read_DR(), 0x0FFC);
 }
 
-// bool DMA_channel()
-// {
-//    bool good {true};
-//    good &=  bool (mcu::DMA_bits::Channel::_4 == usart.DMA_channel(mcu::PinMode::USART1_TX))
-//         and bool (mcu::DMA_bits::Channel::_5 == usart.DMA_channel(mcu::PinMode::USART1_RX))
-//         and bool (mcu::DMA_bits::Channel::_7 == usart.DMA_channel(mcu::PinMode::USART2_TX))
-//         and bool (mcu::DMA_bits::Channel::_6 == usart.DMA_channel(mcu::PinMode::USART2_RX))
-//         and bool (mcu::DMA_bits::Channel::_2 == usart.DMA_channel(mcu::PinMode::USART3_TX))
-//         and bool (mcu::DMA_bits::Channel::_3 == usart.DMA_channel(mcu::PinMode::USART3_RX));
-//    return good;
-// }
-
-bool IRQn()
+BOOST_AUTO_TEST_CASE (receive_data_adr)
 {
-   bool good {true};
-   good &= bool (USART1_IRQn == usart.IRQn(mcu::Periph::USART1))
-       and not  (USART2_IRQn == usart.IRQn(mcu::Periph::USART1))
-       and bool (USART2_IRQn == usart.IRQn(mcu::Periph::USART2))
-       and not  (USART1_IRQn == usart.IRQn(mcu::Periph::USART2))
-       and bool (USART3_IRQn == usart.IRQn(mcu::Periph::USART3))
-       and not  (USART1_IRQn == usart.IRQn(mcu::Periph::USART3));
-   return good;
+   BOOST_CHECK_EQUAL (
+      usart.receive_data_adr()
+      , size_t(&usart) + offsetof(mcu::USART::CMSIS_type, DR)
+   );
 }
 
-bool number_clock()
+BOOST_AUTO_TEST_CASE (transmit_data_adr)
 {
-   bool good {true};
-   usart.clock<mcu::Periph::USART1, mcu::Periph::TEST_RCC>();
-   good &=     mockRcc.APB2;
-   good &= not mockRcc.APB1;
-   mockRcc.reset_APB();
-
-   usart.clock<mcu::Periph::USART2, mcu::Periph::TEST_RCC>();
-   good &=     mockRcc.APB1;
-   good &= not mockRcc.APB2;
-   mockRcc.reset_APB();
-
-   usart.clock<mcu::Periph::USART3, mcu::Periph::TEST_RCC>();
-   good &=     mockRcc.APB1;
-   good &= not mockRcc.APB2;
-   mockRcc.reset_APB();
-   return good;
+   BOOST_CHECK_EQUAL (
+      usart.transmit_data_adr()
+      , size_t(&usart) + offsetof(mcu::USART::CMSIS_type, DR)
+   );
 }
 
-int main()
+BOOST_AUTO_TEST_CASE (IRQn)
 {
-   std::cout << '\n'
-             << "Тесты класса USART для STM32F0:" << std::endl;
-
-   auto test = [](auto s, auto f){
-      std::cout << s << (f() ? "\033[32mпрошёл\033[0m" : "\033[31mпровален\033[0m") << std::endl;
-   };
-
-   test ("USART::make_reference           ", make_reference_);
-   test ("USART::parity                   ", parity);
-   test ("USART::wake_method              ", wake_method);
-   test ("USART::data_bits                ", data_bits);
-   test ("USART::break_detection          ", break_detection);
-   test ("USART::stop_bits                ", stop_bits);
-   test ("USART::send_byte                ", send_byte);
-   test ("USART::baudrate                 ", baudrate);
-   test ("USART::clock_enable             ", clock_enable);
-   test ("USART::enable                   ", enable);
-   test ("USART::disable                  ", disable);
-   test ("USART::rx_enable                ", rx_enable);
-   test ("USART::rx_disable               ", rx_disable);
-   test ("USART::tx_enable                ", tx_enable);
-   test ("USART::tx_disable               ", tx_disable);
-   test ("USART::rts_enable               ", rts_enable);
-   test ("USART::rts_disable              ", rts_disable);
-   test ("USART::DMA_tx_enable            ", DMA_tx_enable);
-   test ("USART::DMA_rx_enable            ", DMA_rx_enable);
-   test ("USART::parity_enable            ", parity_enable);
-   test ("USART::parity_disable           ", parity_disable);
-   test ("USART::enable_IDLE_interrupt    ", enable_IDLE_interrupt);
-   test ("USART::is_IDLE_interrupt        ", is_IDLE_interrupt);
-   test ("USART::en_complete_interrupt    ", en_complete_interrupt);
-   test ("USART::dis_complete_interrupt   ", dis_complete_interrupt);
-   test ("USART::is_tx_complete           ", is_tx_complete);
-   test ("USART::is_en_complete_interrupt ", is_en_complete_interrupt);
-   test ("USART::clear_interrupt_flags    ", clear_interrupt_flags);
-   test ("USART::receive_data_adr         ", receive_data_adr);
-   test ("USART::transmit_data_adr        ", transmit_data_adr);
-//    test ("USART::DMA_channel              ", DMA_channel);
-   test ("USART::IRQn                     ", IRQn);
-   test ("USART::number_clock             ", number_clock);
-
+   BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART1), USART1_IRQn);
+   BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART2), USART2_IRQn);
+   BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART3), USART3_IRQn);
 }
-*/
+
+BOOST_AUTO_TEST_CASE (stream)
+{
+
+   BOOST_CHECK (usart.stream<mcu::PA9 >() == mcu::Periph::DMA1_stream4);
+   BOOST_CHECK (usart.stream<mcu::PB6 >() == mcu::Periph::DMA1_stream4);
+   BOOST_CHECK (usart.stream<mcu::PA10>() == mcu::Periph::DMA1_stream5);
+   BOOST_CHECK (usart.stream<mcu::PB7 >() == mcu::Periph::DMA1_stream5);
+   BOOST_CHECK (usart.stream<mcu::PA2 >() == mcu::Periph::DMA1_stream7);
+   BOOST_CHECK (usart.stream<mcu::PD5 >() == mcu::Periph::DMA1_stream7);
+   BOOST_CHECK (usart.stream<mcu::PA3 >() == mcu::Periph::DMA1_stream6);
+   BOOST_CHECK (usart.stream<mcu::PD6 >() == mcu::Periph::DMA1_stream6);
+   BOOST_CHECK (usart.stream<mcu::PB10>() == mcu::Periph::DMA1_stream2);
+   BOOST_CHECK (usart.stream<mcu::PC10>() == mcu::Periph::DMA1_stream2);
+   BOOST_CHECK (usart.stream<mcu::PD8 >() == mcu::Periph::DMA1_stream2);
+   BOOST_CHECK (usart.stream<mcu::PB11>() == mcu::Periph::DMA1_stream3);
+   BOOST_CHECK (usart.stream<mcu::PC11>() == mcu::Periph::DMA1_stream3);
+   BOOST_CHECK (usart.stream<mcu::PD9 >() == mcu::Periph::DMA1_stream3);
+
+   STATIC_ASSERTATION_REQUIRED (usart.stream<mcu::PA1>(), "неверный аргумент шаблона class Pin");
+}
+
+BOOST_AUTO_TEST_CASE (pin_mode)
+{
+
+   BOOST_CHECK (usart.pin_mode<mcu::PA9 >() == mcu::PinMode::USART1_TX);
+   BOOST_CHECK (usart.pin_mode<mcu::PB6 >() == mcu::PinMode::USART1_TX);
+   BOOST_CHECK (usart.pin_mode<mcu::PA10>() == mcu::PinMode::USART1_RX);
+   BOOST_CHECK (usart.pin_mode<mcu::PB7 >() == mcu::PinMode::USART1_RX);
+   BOOST_CHECK (usart.pin_mode<mcu::PA2 >() == mcu::PinMode::USART2_TX);
+   BOOST_CHECK (usart.pin_mode<mcu::PD5 >() == mcu::PinMode::USART2_TX);
+   BOOST_CHECK (usart.pin_mode<mcu::PA3 >() == mcu::PinMode::USART2_RX);
+   BOOST_CHECK (usart.pin_mode<mcu::PD6 >() == mcu::PinMode::USART2_RX);
+   BOOST_CHECK (usart.pin_mode<mcu::PB10>() == mcu::PinMode::USART3_TX);
+   BOOST_CHECK (usart.pin_mode<mcu::PC10>() == mcu::PinMode::USART3_TX);
+   BOOST_CHECK (usart.pin_mode<mcu::PD8 >() == mcu::PinMode::USART3_TX);
+   BOOST_CHECK (usart.pin_mode<mcu::PB11>() == mcu::PinMode::USART3_RX);
+   BOOST_CHECK (usart.pin_mode<mcu::PC11>() == mcu::PinMode::USART3_RX);
+   BOOST_CHECK (usart.pin_mode<mcu::PD9 >() == mcu::PinMode::USART3_RX);
+
+   STATIC_ASSERTATION_REQUIRED (usart.pin_mode<mcu::PB2>(), "неверный аргумент шаблона class Pin");
+}
+
+BOOST_AUTO_TEST_CASE (pin_static_assert)
+{
+   STATIC_ASSERTATION_REQUIRED (
+        WRAP(usart.pin_static_assert<mcu::Periph::USART1, mcu::PB2, mcu::PE9>())
+      , "USART1 возможен только с парами пинов TX/PA9, RX/PA10 или TX/PB6, RX/PB7"
+   );
+   usart.pin_static_assert<mcu::Periph::USART1, mcu::PA9, mcu::PA10>();
+
+   STATIC_ASSERTATION_REQUIRED (
+        WRAP(usart.pin_static_assert<mcu::Periph::USART2, mcu::PA9, mcu::PA10>())
+      , "USART2 возможен только с парами пинов TX/PA2, RX/PA3 или TX/PD5, RX/PD6"
+   );
+   usart.pin_static_assert<mcu::Periph::USART2, mcu::PA2, mcu::PA3>();
+
+   STATIC_ASSERTATION_REQUIRED (
+        WRAP(usart.pin_static_assert<mcu::Periph::USART3, mcu::PA9, mcu::PA10>())
+      , "USART3 возможен только с парами пинов TX/PB10, RX/PB11 или TX/PC10, RX/PC11 или TX/PD8, RX/PD9"
+   );
+   usart.pin_static_assert<mcu::Periph::USART3, mcu::PD8, mcu::PD9>();
+}
+
+BOOST_AUTO_TEST_SUITE_END()

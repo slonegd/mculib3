@@ -101,6 +101,7 @@ enum class Periph {
 
 #define SFINAE(periph,type) template <Periph p> std::enable_if_t<p == Periph::periph, type&>
 #define REF(periph) mcu::make_reference<mcu::Periph::periph>()
+#define WRAP(...) (__VA_ARGS__)
 
 
 

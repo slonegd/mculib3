@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE (clear_interrupt_flags)
    auto worker = [&]() { usart.clear_interrupt_flags(); };
    std::thread {worker}.detach();
 
-   Timeout timeout {100_ms};
+   Timeout timeout {200_ms};
    while (not usart.SR_readed and not timeout) {}
    BOOST_CHECK_EQUAL(bool(timeout), false);
    BOOST_CHECK_EQUAL(usart.SR_readed, true);
