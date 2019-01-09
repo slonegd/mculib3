@@ -59,13 +59,22 @@ public:
       else if constexpr (p == Periph::DMA1) AHBENR.DMA1EN = true;
 
       else if constexpr (p == Periph::TIM4) APB1ENR.TIM4EN = true;
+      static_assert (
+            p == Periph::GPIOA  or p == Periph::GPIOB  or p == Periph::GPIOC
+         or p == Periph::GPIOD  or p == Periph::GPIOE  or p == Periph::AFIO
+         or p == Periph::USART1 or p == Periph::USART2 or p == Periph::USART3
+         or p == Periph::DMA1   or p == Periph::TIM4
+         , "допиши clock_enable"
+      );
    }
 
-   template<Periph p> uint32_t clock()
+   auto clock (Periph p)
    {
-      if constexpr (p == Periph::USART1) {
-         
-      }
+      if (p == Periph::USART1) 
+         return get_APB2_clock();
+      else if (p == Periph::USART2 or p == Periph::USART3)
+         return get_APB1_clock();
+      return size_t(0);
    }
 
 

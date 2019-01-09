@@ -529,4 +529,51 @@ BOOST_AUTO_TEST_CASE (clock_enable)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE (bad_clock_enable)
+{
+   STATIC_ASSERTATION_REQUIRED (
+      rcc.clock_enable<mcu::Periph::RCC>()
+      , "допиши clock_enable");
+}
+
+BOOST_AUTO_TEST_CASE (clock)
+{
+#if defined(STM32F0)
+   rcc.set (mcu::RCC::APBprescaler::APBnotdiv);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART1), F_CPU);
+
+   rcc.set (mcu::RCC::APBprescaler::APBdiv2);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART1), F_CPU / 2);
+
+   rcc.set (mcu::RCC::APBprescaler::APBdiv16);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART1), F_CPU / 16);
+
+#elif defined(STM32F1) or defined(STM32F4) or defined(STM32F7) 
+   rcc.set_APB1 (mcu::RCC::APBprescaler::APBnotdiv);
+   rcc.set_APB2 (mcu::RCC::APBprescaler::APBnotdiv);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART1), F_CPU);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART2), F_CPU);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART3), F_CPU);
+
+   rcc.set_APB2 (mcu::RCC::APBprescaler::APBdiv2);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART1), F_CPU / 2);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART2), F_CPU);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART3), F_CPU);
+
+   rcc.set_APB1 (mcu::RCC::APBprescaler::APBdiv16);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART1), F_CPU / 2);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART2), F_CPU / 16);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART3), F_CPU / 16);
+#endif
+#if defined(STM32F4) or defined(STM32F7)
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART4), F_CPU / 16);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART5), F_CPU / 16);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART6), F_CPU / 2);
+#endif
+#if defined(STM32F7)
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART7), F_CPU / 16);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART8), F_CPU / 16);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

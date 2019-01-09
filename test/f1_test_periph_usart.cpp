@@ -105,9 +105,33 @@ BOOST_AUTO_TEST_CASE (send_byte)
 BOOST_AUTO_TEST_CASE (set_baudrate)
 {
    cmsis.BRR = 0;
-   usart.set (mcu::USART::Baudrate::BR115200, 10000000);
-   BOOST_CHECK_EQUAL (cmsis.BRR, 0xFF);
+   auto& rcc = REF(RCC);
+   rcc.set_APB1 (mcu::RCC::APBprescaler::APBnotdiv);
+   rcc.set_APB2 (mcu::RCC::APBprescaler::APBnotdiv);
+   usart.set (mcu::USART::Baudrate::BR115200, mcu::Periph::USART1);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 115200);
 
+   rcc.set_APB2 (mcu::RCC::APBprescaler::APBdiv2);
+   usart.set (mcu::USART::Baudrate::BR115200, mcu::Periph::USART1);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 115200 / 2);
+
+   rcc.set_APB2 (mcu::RCC::APBprescaler::APBdiv16);
+   usart.set (mcu::USART::Baudrate::BR115200, mcu::Periph::USART1);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 115200 / 16);
+
+   usart.set (mcu::USART::Baudrate::BR115200, mcu::Periph::USART2);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 115200);
+
+   rcc.set_APB1 (mcu::RCC::APBprescaler::APBdiv8);
+   usart.set (mcu::USART::Baudrate::BR115200, mcu::Periph::USART2);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 115200 / 8);
+
+   usart.set (mcu::USART::Baudrate::BR115200, mcu::Periph::USART3);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 115200 / 8);
+
+   rcc.set_APB1 (mcu::RCC::APBprescaler::APBdiv2);
+   usart.set (mcu::USART::Baudrate::BR115200, mcu::Periph::USART3);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 115200 / 2);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

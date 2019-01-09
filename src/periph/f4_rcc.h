@@ -89,6 +89,26 @@ public:
 
       else if constexpr (p == Periph::DMA1) AHB1ENR.DMA1EN = true;
       else if constexpr (p == Periph::DMA2) AHB1ENR.DMA2EN = true;
+
+      static_assert (
+            p == Periph::GPIOA  or p == Periph::GPIOB  or p == Periph::GPIOC
+         or p == Periph::GPIOD  or p == Periph::GPIOE  or p == Periph::GPIOF
+         or p == Periph::GPIOG  or p == Periph::GPIOH  or p == Periph::GPIOI
+         or p == Periph::USART1 or p == Periph::USART2 or p == Periph::USART3
+         or p == Periph::USART4 or p == Periph::USART5 or p == Periph::USART6
+         or p == Periph::DMA1   or p == Periph::DMA2
+         , "допиши clock_enable"
+      );
+   }
+
+   auto clock (Periph p)
+   {
+      if (p == Periph::USART1 or p == Periph::USART6) 
+         return get_APB2_clock();
+      else if (p == Periph::USART2 or p == Periph::USART3 or p == Periph::USART4 
+            or p == Periph::USART5)
+         return get_APB1_clock();
+      return size_t(0);
    }
 
    

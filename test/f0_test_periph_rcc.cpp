@@ -4,7 +4,9 @@
 #define F_CPU   48000000UL
 #define STM32F030x6
 
+#include "catch_static_assert.h"
 #include "periph_rcc.h"
+#undef static_assert
 #include "timeout.h"
 #include <iostream>
 #include <type_traits>
