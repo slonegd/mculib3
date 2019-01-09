@@ -61,6 +61,13 @@ public:
       else if constexpr (p == Periph::TIM4) APB1ENR.TIM4EN = true;
    }
 
+   template<Periph p> uint32_t clock()
+   {
+      if constexpr (p == Periph::USART1) {
+         
+      }
+   }
+
 
 private:
    size_t get_APB_clock (APBprescaler v)

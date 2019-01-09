@@ -118,6 +118,8 @@ enum class Periph {
 
 #if defined(TEST)
     #define IF_TEST_WAIT_MS(ms) std::this_thread::sleep_for(std::chrono::milliseconds(ms))
+    #define VIRTUAL_TEST virtual
 #else
     #define IF_TEST_WAIT_MS(ms)
+    #define VIRTUAL_TEST
 #endif

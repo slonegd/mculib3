@@ -3,15 +3,14 @@
 
 #define F_CPU   72'000'000UL
 #define STM32F103xB
-#define TEST
 
 #include <type_traits>
 #include "mock_rcc.h"
 #include "mock_afio.h"
 #include "mock_gpio.h"
 #include "periph_usart.h"
-#include "timeout.h"
-#include "literals.h"
+// #include "timeout.h"
+// #include "literals.h"
 
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 
@@ -24,33 +23,9 @@ BOOST_AUTO_TEST_CASE (like_CMSIS)
    auto same = std::is_same_v<std::remove_reference_t<decltype(cmsis)>, USART_TypeDef>;
    auto address_usart = reinterpret_cast<size_t>(&usart);
    auto address_CMSIS = reinterpret_cast<size_t>(&cmsis);
-   // BOOST_CHECK_EQUAL (address_usart, address_CMSIS);
    BOOST_CHECK_EQUAL (same, true);
-   // BOOST_CHECK_EQUAL (sizeof(usart), sizeof(cmsis));
-}
-
-BOOST_AUTO_TEST_CASE (clear_interrupt_flags)
-{
-   struct mock : mcu::USART {
-      volatile bool SR_readed {false};
-      uint32_t read_SR() override { SR_readed = true; }
-      volatile bool DR_readed {false};
-      uint32_t read_DR() override { DR_readed = true; }
-   } usart;
-
-   auto worker = [&]() { usart.clear_interrupt_flags(); };
-   std::thread {worker}.detach();
-
-   Timeout timeout {100_ms};
-   while (not usart.SR_readed and not timeout) {}
-   BOOST_CHECK_EQUAL(bool(timeout), false);
-   BOOST_CHECK_EQUAL(usart.SR_readed, true);
-   BOOST_CHECK_EQUAL(usart.DR_readed, false);
-
-   while (not usart.DR_readed and not timeout) {}
-   BOOST_CHECK_EQUAL(bool(timeout), false);
-   BOOST_CHECK_EQUAL(usart.SR_readed, true);
-   BOOST_CHECK_EQUAL(usart.DR_readed, true);
+   BOOST_CHECK_EQUAL (address_usart, address_CMSIS);
+   BOOST_CHECK_EQUAL (sizeof(usart), sizeof(cmsis));
 }
 
 BOOST_AUTO_TEST_CASE (set_parity)
@@ -63,84 +38,81 @@ BOOST_AUTO_TEST_CASE (set_parity)
    BOOST_CHECK_EQUAL (cmsis.CR1, 0);
 }
 
+BOOST_AUTO_TEST_CASE (set_wake_method)
+{
+   cmsis.CR1 = 0;
+   usart.set (mcu::USART::WakeMethod::address);
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_WAKE_Msk);
+
+   usart.set (mcu::USART::WakeMethod::idle);
+   BOOST_CHECK_EQUAL (cmsis.CR1, 0);
+}
+
+BOOST_AUTO_TEST_CASE (set_data_bits)
+{
+   cmsis.CR1 = 0;
+   usart.set (mcu::USART::DataBits::_9);
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_M_Msk);
+
+   usart.set (mcu::USART::DataBits::_8);
+   BOOST_CHECK_EQUAL (cmsis.CR1, 0);
+}
+
+BOOST_AUTO_TEST_CASE (set_break_detection)
+{
+   cmsis.CR2 = 0;
+   usart.set (mcu::USART::BreakDetection::_11bit);
+   BOOST_CHECK_EQUAL (cmsis.CR2, USART_CR2_LBDL_Msk);
+
+   usart.set(mcu::USART::BreakDetection::_10bit);
+   BOOST_CHECK_EQUAL (cmsis.CR2, 0);
+}
+
+BOOST_AUTO_TEST_CASE (set_stop_bits)
+{
+   cmsis.CR2 = 0;
+   usart.set (mcu::USART::StopBits::_1_5);
+   BOOST_CHECK_EQUAL (cmsis.CR2, 
+        USART_CR2_STOP_0
+      | USART_CR2_STOP_1
+   );
+
+   usart.set (mcu::USART::StopBits::_2);
+   BOOST_CHECK_EQUAL (cmsis.CR2, 
+        USART_CR2_STOP_1
+   );
+
+   usart.set (mcu::USART::StopBits::_0_5);
+   BOOST_CHECK_EQUAL (cmsis.CR2, 
+        USART_CR2_STOP_0
+   );
+
+   usart.set(mcu::USART::StopBits::_1);
+   BOOST_CHECK_EQUAL (cmsis.CR2, 
+        0
+   );
+}
+
+BOOST_AUTO_TEST_CASE (send_byte)
+{
+   cmsis.DR = 0;
+   usart.send_byte (0xFF);
+   BOOST_CHECK_EQUAL (cmsis.DR, 0xFF);
+   usart.send_byte (100);
+   BOOST_CHECK_EQUAL (cmsis.DR, 100);
+}
+
+BOOST_AUTO_TEST_CASE (set_baudrate)
+{
+   cmsis.BRR = 0;
+   usart.set (mcu::USART::Baudrate::BR115200, 10000000);
+   BOOST_CHECK_EQUAL (cmsis.BRR, 0xFF);
+
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 /*
-
-
-bool parity()
-{
-   CMSIS.CR1 = 0;
-   bool good {true};
-   usart.set(mcu::USART::Parity::odd);
-   good &= bool (CMSIS.CR1 & USART_CR1_PS_Msk);
-   usart.set(mcu::USART::Parity::even);
-   good &= not (CMSIS.CR1 & USART_CR1_PS_Msk);
-   return good;
-}
-
-bool wake_method()
-{
-   CMSIS.CR1 = 0;
-   bool good {true};
-   usart.set(mcu::USART::WakeMethod::idle);
-   good &= not (CMSIS.CR1 & USART_CR1_WAKE_Msk);
-   usart.set(mcu::USART::WakeMethod::address);
-   good &= bool (CMSIS.CR1 & USART_CR1_WAKE_Msk);
-   return good;
-}
-
-bool data_bits()
-{
-   CMSIS.CR1 = 0;
-   bool good {true};
-   usart.set(mcu::USART::DataBits::_9);
-   good &= bool (CMSIS.CR1 & USART_CR1_M_Msk);
-   usart.set(mcu::USART::DataBits::_8);
-   good &= not (CMSIS.CR1 & USART_CR1_M_Msk);
-   return good;
-}
-
-bool break_detection()
-{
-   CMSIS.CR2 = 0;
-   bool good {true};
-   usart.set(mcu::USART::BreakDetection::_11bit);
-   good &= bool (CMSIS.CR2 & USART_CR2_LBDL_Msk);
-   usart.set(mcu::USART::BreakDetection::_10bit);
-   good &= not (CMSIS.CR2 & USART_CR2_LBDIE_Msk);
-   return good;
-}
-
-bool stop_bits()
-{
-   CMSIS.CR2 = 0;
-   bool good {true};
-   usart.set(mcu::USART::StopBits::_1_5);
-   good &= bool (CMSIS.CR2 & USART_CR2_STOP_0)
-       and      (CMSIS.CR2 & USART_CR2_STOP_1);
-   usart.set(mcu::USART::StopBits::_2);
-   good &= not  (CMSIS.CR2 & USART_CR2_STOP_0)
-       and bool (CMSIS.CR2 & USART_CR2_STOP_1);
-   usart.set(mcu::USART::StopBits::_0_5);
-   good &= bool (CMSIS.CR2 & USART_CR2_STOP_0)
-       and not  (CMSIS.CR2 & USART_CR2_STOP_1);
-   usart.set(mcu::USART::StopBits::_1);
-   good &= not  (CMSIS.CR2 & USART_CR2_STOP_0)
-       and not  (CMSIS.CR2 & USART_CR2_STOP_1);
-   return good;
-}
-
-bool send_byte()
-{
-   CMSIS.DR = 0;
-   bool good {true};
-   usart.send_byte(0xFF);
-   good &= bool (CMSIS.DR & USART_DR_DR_Msk);
-   usart.send_byte(100);
-   good &= bool (CMSIS.DR & USART_DR_DR_Msk);
-   return good;
-}
 
 bool baudrate()
 {

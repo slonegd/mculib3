@@ -8,19 +8,7 @@
 
 namespace mcu {
 
-struct USART_data {
-   volatile USART_bits::SR  SR;   // USART Status register,                   offset: 0x00
-   volatile uint32_t        DR;   // USART Data register,                     offset: 0x04
-   volatile uint32_t        BRR;  // USART Baud rate register,                offset: 0x08
-   volatile USART_bits::CR1 CR1;  // USART Control register 1,                offset: 0x0C
-   volatile USART_bits::CR2 CR2;  // USART Control register 2,                offset: 0x10
-   volatile USART_bits::CR3 CR3;  // USART Control register 3,                offset: 0x14
-   volatile uint32_t        GTPR; // USART Guard time and prescaler register, offset: 0x18
- 
-};
-
-class USART : protected USART_data {
-// protected:
+// struct USART_data {
 //    volatile USART_bits::SR  SR;   // USART Status register,                   offset: 0x00
 //    volatile uint32_t        DR;   // USART Data register,                     offset: 0x04
 //    volatile uint32_t        BRR;  // USART Baud rate register,                offset: 0x08
@@ -28,6 +16,18 @@ class USART : protected USART_data {
 //    volatile USART_bits::CR2 CR2;  // USART Control register 2,                offset: 0x10
 //    volatile USART_bits::CR3 CR3;  // USART Control register 3,                offset: 0x14
 //    volatile uint32_t        GTPR; // USART Guard time and prescaler register, offset: 0x18
+ 
+// };
+
+class USART {
+   volatile USART_bits::SR  SR;   // USART Status register,                   offset: 0x00
+   volatile uint32_t        DR;   // USART Data register,                     offset: 0x04
+   volatile uint32_t        BRR;  // USART Baud rate register,                offset: 0x08
+   volatile USART_bits::CR1 CR1;  // USART Control register 1,                offset: 0x0C
+   volatile USART_bits::CR2 CR2;  // USART Control register 2,                offset: 0x10
+   volatile USART_bits::CR3 CR3;  // USART Control register 3,                offset: 0x14
+   volatile uint32_t        GTPR; // USART Guard time and prescaler register, offset: 0x18
+
 public:
    using CMSIS_type     = USART_TypeDef;
    using Parity         = USART_bits::CR1::Parity;
@@ -47,7 +47,7 @@ public:
       BR115200 = 0b111  // modbus time 2 ms
    };
 
-   auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(static_cast<USART_data*>(this)); }
+   auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
 
    USART& set (Parity         v)         {CR1.PS    = v; return *this;}
    USART& set (WakeMethod     v)         {CR1.WAKE  = v; return *this;}
@@ -79,8 +79,8 @@ public:
    bool   is_tx_complete_interrupt_enable(){return CR1.TCIE;}
 
    
-   virtual uint32_t read_SR() { return *reinterpret_cast<volatile uint32_t*>(&SR); }
-   virtual uint32_t read_DR() { return DR; }
+   VIRTUAL_TEST uint32_t read_SR() { return *reinterpret_cast<volatile uint32_t*>(&SR); }
+   VIRTUAL_TEST uint32_t read_DR() { return DR; }
    USART& clear_interrupt_flags()
    {
       [[maybe_unused]] auto _ = read_SR();
