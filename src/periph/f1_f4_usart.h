@@ -1,7 +1,11 @@
 #pragma once
 
 #include <type_traits>
+#if defined(STM32F1)
 #include "f1_bits_usart.h"
+#elif defined(STM32F4)
+#include "f4_bits_usart.h"
+#endif
 #include "periph_rcc.h"
 #include "pin.h"
 #include "meta.h"
@@ -43,7 +47,7 @@ public:
    USART& set (DataBits       v)         {CR1.M     = v; return *this;}
    USART& set (BreakDetection v)         {CR2.LBDL  = v; return *this;}
    USART& set (StopBits       v)         {CR2.STOP  = v; return *this;}
-   USART& send_byte (uint8_t  v)         {DR = v;        return *this;}
+   // USART& send_byte (uint8_t  v)         {DR = v;        return *this;} // no test
    USART& set (Baudrate, Periph);
 
    USART& enable        (){CR1.UE   = true;  return *this;}
@@ -84,7 +88,7 @@ public:
 
    
    static constexpr IRQn_Type IRQn(Periph);
-   template<class Pin> static constexpr Periph stream();
+   template<class Pin> static constexpr Periph default_stream();
    template<class Pin> static constexpr PinMode pin_mode();
    template<Periph usart, class TXpin, class RXpin> static void pin_static_assert();
 };
@@ -92,9 +96,14 @@ public:
 
 
 #if not defined(USE_MOCK_USART)
-template <Periph p> std::enable_if_t<p == Periph::USART1, USART&> make_reference() {return *reinterpret_cast<USART*>(USART1_BASE);}
-template <Periph p> std::enable_if_t<p == Periph::USART2, USART&> make_reference() {return *reinterpret_cast<USART*>(USART2_BASE);}
-template <Periph p> std::enable_if_t<p == Periph::USART3, USART&> make_reference() {return *reinterpret_cast<USART*>(USART3_BASE);}
+SFINAE(USART1,USART) make_reference() {return *reinterpret_cast<USART*>(USART1_BASE);}
+SFINAE(USART2,USART) make_reference() {return *reinterpret_cast<USART*>(USART2_BASE);}
+SFINAE(USART3,USART) make_reference() {return *reinterpret_cast<USART*>(USART3_BASE);}
+#if defined(STM32F4)
+SFINAE(USART4,USART) make_reference() {return *reinterpret_cast<USART*>(UART4_BASE );}
+SFINAE(USART5,USART) make_reference() {return *reinterpret_cast<USART*>(UART5_BASE );}
+SFINAE(USART6,USART) make_reference() {return *reinterpret_cast<USART*>(USART6_BASE);}
+#endif
 #endif
 
 
@@ -131,39 +140,78 @@ USART& USART::set (Baudrate baudrate, Periph p)
 
 template <class Pin> constexpr PinMode USART::pin_mode()
 {
-   if      constexpr (std::is_same_v<Pin, PA9>  or std::is_same_v<Pin, PB6>) return PinMode::USART1_TX; 
-   else if constexpr (std::is_same_v<Pin, PA10> or std::is_same_v<Pin, PB7>) return PinMode::USART1_RX;
-   else if constexpr (std::is_same_v<Pin, PA2> or std::is_same_v<Pin, PD5>) return PinMode::USART2_TX; 
-   else if constexpr (std::is_same_v<Pin, PA3> or std::is_same_v<Pin, PD6>) return PinMode::USART2_RX;
-   else if constexpr (std::is_same_v<Pin, PB10> or std::is_same_v<Pin, PC10> or std::is_same_v<Pin, PD8>) return PinMode::USART3_TX; 
-   else if constexpr (std::is_same_v<Pin, PB11> or std::is_same_v<Pin, PC11> or std::is_same_v<Pin, PD9>) return PinMode::USART3_RX;
    static_assert (
-      WRAP(meta::position_v<Pin,PA9,PA10,PB6,PB7,PA2,PA3,PD5,PD6,PB10,PB11,PC10,PC11,PD8,PD9>) != -1,
+      WRAP(meta::position_v<Pin
+         ,PA9,PA10,PB6,PB7,PA2,PA3,PD5,PD6,PB10,PB11,PC10,PC11,PD8,PD9
+   #if defined(STM32F4)
+         ,PA0,PA1,PC10,PC11,PC12,PD2,PC6,PC7,PG14,PG9
+   #endif
+      >) != -1,
       "неверный аргумент шаблона class Pin"
    );
+   if      constexpr (std::is_same_v<Pin, PA9>  or std::is_same_v<Pin, PB6>) return PinMode::USART1_TX; 
+   else if constexpr (std::is_same_v<Pin, PA10> or std::is_same_v<Pin, PB7>) return PinMode::USART1_RX;
+   else if constexpr (std::is_same_v<Pin, PA2>  or std::is_same_v<Pin, PD5>) return PinMode::USART2_TX; 
+   else if constexpr (std::is_same_v<Pin, PA3>  or std::is_same_v<Pin, PD6>) return PinMode::USART2_RX;
+   else if constexpr (std::is_same_v<Pin, PB10> or std::is_same_v<Pin, PC10> or std::is_same_v<Pin, PD8>) return PinMode::USART3_TX; 
+   else if constexpr (std::is_same_v<Pin, PB11> or std::is_same_v<Pin, PC11> or std::is_same_v<Pin, PD9>) return PinMode::USART3_RX;
+#if defined(STM32F4)
+   else if constexpr (std::is_same_v<Pin, PA0>  or std::is_same_v<Pin, PC10>) return PinMode::USART4_TX; // PC10 will not work
+   else if constexpr (std::is_same_v<Pin, PA1>  or std::is_same_v<Pin, PC11>) return PinMode::USART4_RX; // PC11 will not work
+   else if constexpr (std::is_same_v<Pin, PC12> return PinMode::USART5_TX;
+   else if constexpr (std::is_same_v<Pin, PD2>  return PinMode::USART5_RX;
+   else if constexpr (std::is_same_v<Pin, PC6>  or std::is_same_v<Pin, PG14>) return PinMode::USART6_TX; 
+   else if constexpr (std::is_same_v<Pin, PC7>  or std::is_same_v<Pin, PG9 >) return PinMode::USART6_RX;
+#endif
+
 }
 
 
-template<class Pin> constexpr Periph USART::stream()
+template<class Pin> constexpr Periph USART::default_stream()
 {
+   static_assert (
+      WRAP(meta::position_v<Pin
+         ,PA9,PA10,PB6,PB7,PA2,PA3,PD5,PD6,PB10,PB11,PC10,PC11,PD8,PD9
+   #if defined(STM32F4)
+         ,PA0,PA1,PC10,PC11,PC12,PD2,PC6,PC7,PG14,PG9
+   #endif
+      >) != -1,
+      "неверный аргумент шаблона class Pin"
+   );
+#if defined(STM32F1)
    if      constexpr (std::is_same_v<Pin, PA9>  or std::is_same_v<Pin, PB6>) return Periph::DMA1_stream4; 
    else if constexpr (std::is_same_v<Pin, PA10> or std::is_same_v<Pin, PB7>) return Periph::DMA1_stream5;
    else if constexpr (std::is_same_v<Pin, PA2>  or std::is_same_v<Pin, PD5>) return Periph::DMA1_stream7; 
    else if constexpr (std::is_same_v<Pin, PA3>  or std::is_same_v<Pin, PD6>) return Periph::DMA1_stream6;
    else if constexpr (std::is_same_v<Pin, PB10> or std::is_same_v<Pin, PC10> or std::is_same_v<Pin, PD8>) return Periph::DMA1_stream2; 
    else if constexpr (std::is_same_v<Pin, PB11> or std::is_same_v<Pin, PC11> or std::is_same_v<Pin, PD9>) return Periph::DMA1_stream3;
-   static_assert (
-      WRAP(meta::position_v<Pin,PA9,PA10,PB6,PB7,PA2,PA3,PD5,PD6,PB10,PB11,PC10,PC11,PD8,PD9>) != -1,
-      "неверный аргумент шаблона class Pin"
-   );
+#elif defined(STM32F4)
+   if      constexpr (std::is_same_v<Pin, PA9>  or std::is_same_v<Pin, PB6>) return Periph::DMA2_stream7; 
+   else if constexpr (std::is_same_v<Pin, PA10> or std::is_same_v<Pin, PB7>) return Periph::DMA2_stream2;
+   else if constexpr (std::is_same_v<Pin, PA2>  or std::is_same_v<Pin, PD5>) return Periph::DMA1_stream6; 
+   else if constexpr (std::is_same_v<Pin, PA3>  or std::is_same_v<Pin, PD6>) return Periph::DMA1_stream5;
+   else if constexpr (std::is_same_v<Pin, PB10> or std::is_same_v<Pin, PC10> or std::is_same_v<Pin, PD8>) return Periph::DMA1_stream3; 
+   else if constexpr (std::is_same_v<Pin, PB11> or std::is_same_v<Pin, PC11> or std::is_same_v<Pin, PD9>) return Periph::DMA1_stream1;
+   else if constexpr (std::is_same_v<Pin, PA0>  or std::is_same_v<Pin, PC10>) return Periph::DMA1_stream4;
+   else if constexpr (std::is_same_v<Pin, PA1>  or std::is_same_v<Pin, PC11>) return Periph::DMA1_stream2;
+   else if constexpr (std::is_same_v<Pin, PC12> return Periph::DMA1_stream7;
+   else if constexpr (std::is_same_v<Pin, PD2>  return Periph::DMA1_stream0;
+   else if constexpr (std::is_same_v<Pin, PC6>  or std::is_same_v<Pin, PG14>) return Periph::DMA2_stream6; 
+   else if constexpr (std::is_same_v<Pin, PC7>  or std::is_same_v<Pin, PG9 >) return Periph::DMA2_stream1;
+#endif
 }
 
 
-constexpr IRQn_Type USART::IRQn(Periph usart)
+constexpr IRQn_Type USART::IRQn (Periph usart)
 {
    return usart == Periph::USART1 ? USART1_IRQn :
           usart == Periph::USART2 ? USART2_IRQn :
           usart == Periph::USART3 ? USART3_IRQn :
+      #if defined (STM32F4)
+          usart == Periph::USART4 ? UART4_IRQn :
+          usart == Periph::USART5 ? UART5_IRQn :
+          usart == Periph::USART6 ? UART6_IRQn :
+      #endif
           NonMaskableInt_IRQn;
 }
 
@@ -187,6 +235,23 @@ template<Periph usart, class TXpin, class RXpin> void USART::pin_static_assert()
          (std::is_same_v<TXpin, PD8>  and std::is_same_v<RXpin, PD9>),
          "USART3 возможен только с парами пинов TX/PB10, RX/PB11 или TX/PC10, RX/PC11 или TX/PD8, RX/PD9");
    }
+#if defined (STM32F4)
+   if constexpr (usart == Periph::USART4) {
+      static_assert (
+         (std::is_same_v<TXpin, PA0> and std::is_same_v<RXpin, PA1>) or
+         (std::is_same_v<TXpin, PC10> and std::is_same_v<RXpin, PC11>),
+         "USART4 возможен только с парами пинов TX/PA0, RX/PA1 или TX/PC10, RX/PC11");
+   } else if constexpr (usart == Periph::USART5) {
+      static_assert (
+         (std::is_same_v<TXpin, PC12> and std::is_same_v<RXpin, PD2>),
+         "USART4 возможен только с парами пинов TX/PC12, RX/PD2");
+   } else if constexpr (usart == Periph::USART6) {
+      static_assert (
+         (std::is_same_v<TXpin, PC6> and std::is_same_v<RXpin, PC7>) or
+         (std::is_same_v<TXpin, PG14> and std::is_same_v<RXpin, PG9>),
+         "USART4 возможен только с парами пинов TX/PC6, RX/PC7 или TX/PG14, RX/PG9");
+   }
+#endif
 }
 
 } //namespace mcu

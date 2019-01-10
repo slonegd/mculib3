@@ -13,7 +13,15 @@ enum class PinMode {
    Alternate_4 , Alternate_5 , Alternate_6 , Alternate_7,
 #if defined(STM32F4) or defined(STM32F7)
    Alternate_8 , Alternate_9 , Alternate_10, Alternate_11,
-   Alternate_12, Alternate_13, Alternate_14, Alternate_15
+   Alternate_12, Alternate_13, Alternate_14, Alternate_15,
+#endif
+#if defined(STM32F4)
+   USART1_TX = Alternate_7, USART1_RX = Alternate_7,
+   USART2_TX = Alternate_7, USART2_RX = Alternate_7,
+   USART3_TX = Alternate_7, USART3_RX = Alternate_7,
+   USART4_TX = Alternate_8, USART4_RX = Alternate_8,
+   USART5_TX = Alternate_8, USART5_RX = Alternate_8,
+   USART6_TX = Alternate_8, USART6_RX = Alternate_8,
 #endif
 };
 

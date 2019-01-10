@@ -96,15 +96,6 @@ BOOST_AUTO_TEST_CASE (set_stop_bits)
    );
 }
 
-BOOST_AUTO_TEST_CASE (send_byte)
-{
-   cmsis.DR = 0;
-   usart.send_byte (0xFF);
-   BOOST_CHECK_EQUAL (cmsis.DR, 0xFF);
-   usart.send_byte (100);
-   BOOST_CHECK_EQUAL (cmsis.DR, 100);
-}
-
 BOOST_AUTO_TEST_CASE (set_baudrate)
 {
    cmsis.BRR = 0;
@@ -308,22 +299,22 @@ BOOST_AUTO_TEST_CASE (IRQn)
 BOOST_AUTO_TEST_CASE (stream)
 {
 
-   BOOST_CHECK (usart.stream<mcu::PA9 >() == mcu::Periph::DMA1_stream4);
-   BOOST_CHECK (usart.stream<mcu::PB6 >() == mcu::Periph::DMA1_stream4);
-   BOOST_CHECK (usart.stream<mcu::PA10>() == mcu::Periph::DMA1_stream5);
-   BOOST_CHECK (usart.stream<mcu::PB7 >() == mcu::Periph::DMA1_stream5);
-   BOOST_CHECK (usart.stream<mcu::PA2 >() == mcu::Periph::DMA1_stream7);
-   BOOST_CHECK (usart.stream<mcu::PD5 >() == mcu::Periph::DMA1_stream7);
-   BOOST_CHECK (usart.stream<mcu::PA3 >() == mcu::Periph::DMA1_stream6);
-   BOOST_CHECK (usart.stream<mcu::PD6 >() == mcu::Periph::DMA1_stream6);
-   BOOST_CHECK (usart.stream<mcu::PB10>() == mcu::Periph::DMA1_stream2);
-   BOOST_CHECK (usart.stream<mcu::PC10>() == mcu::Periph::DMA1_stream2);
-   BOOST_CHECK (usart.stream<mcu::PD8 >() == mcu::Periph::DMA1_stream2);
-   BOOST_CHECK (usart.stream<mcu::PB11>() == mcu::Periph::DMA1_stream3);
-   BOOST_CHECK (usart.stream<mcu::PC11>() == mcu::Periph::DMA1_stream3);
-   BOOST_CHECK (usart.stream<mcu::PD9 >() == mcu::Periph::DMA1_stream3);
+   BOOST_CHECK (usart.default_stream<mcu::PA9 >() == mcu::Periph::DMA1_stream4);
+   BOOST_CHECK (usart.default_stream<mcu::PB6 >() == mcu::Periph::DMA1_stream4);
+   BOOST_CHECK (usart.default_stream<mcu::PA10>() == mcu::Periph::DMA1_stream5);
+   BOOST_CHECK (usart.default_stream<mcu::PB7 >() == mcu::Periph::DMA1_stream5);
+   BOOST_CHECK (usart.default_stream<mcu::PA2 >() == mcu::Periph::DMA1_stream7);
+   BOOST_CHECK (usart.default_stream<mcu::PD5 >() == mcu::Periph::DMA1_stream7);
+   BOOST_CHECK (usart.default_stream<mcu::PA3 >() == mcu::Periph::DMA1_stream6);
+   BOOST_CHECK (usart.default_stream<mcu::PD6 >() == mcu::Periph::DMA1_stream6);
+   BOOST_CHECK (usart.default_stream<mcu::PB10>() == mcu::Periph::DMA1_stream2);
+   BOOST_CHECK (usart.default_stream<mcu::PC10>() == mcu::Periph::DMA1_stream2);
+   BOOST_CHECK (usart.default_stream<mcu::PD8 >() == mcu::Periph::DMA1_stream2);
+   BOOST_CHECK (usart.default_stream<mcu::PB11>() == mcu::Periph::DMA1_stream3);
+   BOOST_CHECK (usart.default_stream<mcu::PC11>() == mcu::Periph::DMA1_stream3);
+   BOOST_CHECK (usart.default_stream<mcu::PD9 >() == mcu::Periph::DMA1_stream3);
 
-   STATIC_ASSERTATION_REQUIRED (usart.stream<mcu::PA1>(), "неверный аргумент шаблона class Pin");
+   STATIC_ASSERTATION_REQUIRED (usart.default_stream<mcu::PA1>(), "неверный аргумент шаблона class Pin");
 }
 
 BOOST_AUTO_TEST_CASE (pin_mode)
