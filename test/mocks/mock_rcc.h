@@ -84,7 +84,7 @@ public:
 
    RCC& set_APB2  (APBprescaler v) {
       if (process) *process << "установка делителя шины APB2 " << v << std::endl;
-      static_cast<mcu::RCC*>(this)->set_APB1(v);
+      static_cast<mcu::RCC*>(this)->set_APB2(v);
       return *this;
    }
 

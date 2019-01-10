@@ -158,8 +158,8 @@ template <class Pin> constexpr PinMode USART::pin_mode()
 #if defined(STM32F4)
    else if constexpr (std::is_same_v<Pin, PA0>  or std::is_same_v<Pin, PC10>) return PinMode::USART4_TX; // PC10 will not work
    else if constexpr (std::is_same_v<Pin, PA1>  or std::is_same_v<Pin, PC11>) return PinMode::USART4_RX; // PC11 will not work
-   else if constexpr (std::is_same_v<Pin, PC12> return PinMode::USART5_TX;
-   else if constexpr (std::is_same_v<Pin, PD2>  return PinMode::USART5_RX;
+   else if constexpr (std::is_same_v<Pin, PC12>) return PinMode::USART5_TX;
+   else if constexpr (std::is_same_v<Pin, PD2> ) return PinMode::USART5_RX;
    else if constexpr (std::is_same_v<Pin, PC6>  or std::is_same_v<Pin, PG14>) return PinMode::USART6_TX; 
    else if constexpr (std::is_same_v<Pin, PC7>  or std::is_same_v<Pin, PG9 >) return PinMode::USART6_RX;
 #endif
@@ -194,8 +194,8 @@ template<class Pin> constexpr Periph USART::default_stream()
    else if constexpr (std::is_same_v<Pin, PB11> or std::is_same_v<Pin, PC11> or std::is_same_v<Pin, PD9>) return Periph::DMA1_stream1;
    else if constexpr (std::is_same_v<Pin, PA0>  or std::is_same_v<Pin, PC10>) return Periph::DMA1_stream4;
    else if constexpr (std::is_same_v<Pin, PA1>  or std::is_same_v<Pin, PC11>) return Periph::DMA1_stream2;
-   else if constexpr (std::is_same_v<Pin, PC12> return Periph::DMA1_stream7;
-   else if constexpr (std::is_same_v<Pin, PD2>  return Periph::DMA1_stream0;
+   else if constexpr (std::is_same_v<Pin, PC12>) return Periph::DMA1_stream7;
+   else if constexpr (std::is_same_v<Pin, PD2> ) return Periph::DMA1_stream0;
    else if constexpr (std::is_same_v<Pin, PC6>  or std::is_same_v<Pin, PG14>) return Periph::DMA2_stream6; 
    else if constexpr (std::is_same_v<Pin, PC7>  or std::is_same_v<Pin, PG9 >) return Periph::DMA2_stream1;
 #endif
@@ -210,7 +210,7 @@ constexpr IRQn_Type USART::IRQn (Periph usart)
       #if defined (STM32F4)
           usart == Periph::USART4 ? UART4_IRQn :
           usart == Periph::USART5 ? UART5_IRQn :
-          usart == Periph::USART6 ? UART6_IRQn :
+          usart == Periph::USART6 ? USART6_IRQn :
       #endif
           NonMaskableInt_IRQn;
 }
@@ -244,12 +244,12 @@ template<Periph usart, class TXpin, class RXpin> void USART::pin_static_assert()
    } else if constexpr (usart == Periph::USART5) {
       static_assert (
          (std::is_same_v<TXpin, PC12> and std::is_same_v<RXpin, PD2>),
-         "USART4 возможен только с парами пинов TX/PC12, RX/PD2");
+         "USART5 возможен только с парами пинов TX/PC12, RX/PD2");
    } else if constexpr (usart == Periph::USART6) {
       static_assert (
          (std::is_same_v<TXpin, PC6> and std::is_same_v<RXpin, PC7>) or
          (std::is_same_v<TXpin, PG14> and std::is_same_v<RXpin, PG9>),
-         "USART4 возможен только с парами пинов TX/PC6, RX/PC7 или TX/PG14, RX/PG9");
+         "USART6 возможен только с парами пинов TX/PC6, RX/PC7 или TX/PG14, RX/PG9");
    }
 #endif
 }

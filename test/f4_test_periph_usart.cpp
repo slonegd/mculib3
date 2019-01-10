@@ -1,8 +1,8 @@
-#define BOOST_TEST_MODULE f1_test_periph_usart
+#define BOOST_TEST_MODULE f4_test_periph_usart
 #include <boost/test/unit_test.hpp>
 
-#define F_CPU   72'000'000UL
-#define STM32F103xB
+#define F_CPU   168'000'000UL
+#define STM32F405xx
 
 #include <type_traits>
 #include "mock_rcc.h"

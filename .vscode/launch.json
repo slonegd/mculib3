@@ -141,7 +141,7 @@
          "name": "test",
          "type": "cppdbg",
          "request": "launch",
-         "program": "${workspaceRoot}/test/cmake/build/f1_test_periph_usart",
+         "program": "${workspaceRoot}/test/cmake/build/f4_test_periph_usart",
          "args": [],
          "stopAtEntry": true,
          "cwd": "${workspaceRoot}",
