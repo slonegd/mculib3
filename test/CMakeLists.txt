@@ -6,7 +6,7 @@ enable_testing()
 find_package (Boost COMPONENTS unit_test_framework REQUIRED)
 find_package (Threads)
 
-set (CMAKE_RUNTIME_OUTPUT_DIRECTORY build)
+# set (CMAKE_RUNTIME_OUTPUT_DIRECTORY build)
 set (CMAKE_BUILD_TYPE Debug)
 
 include_directories (
@@ -78,7 +78,7 @@ test (STM32F1 f1_test_periph_usart)
 test (STM32F1 f1_test_periph_usart_2)
 test (STM32F1 f1_test_make_reference)
 test (STM32F1 f1_test_pin)
-test (STM32F1 test_uart)
+# test (STM32F1 f1_test_uart)
 test (STM32F1 test_modbus_slave)
 test (STM32F1 test_modbus_master)
 test (STM32F1 test_button)

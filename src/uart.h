@@ -2,11 +2,14 @@
 
 
 #include <array>
-#if not defined (TEST)
-	#include "usart.h"
-   #include "interrupt.h"
+#include "periph_usart.h"
+#include "periph_dma.h"
+
+#if defined(USE_MOCK_USART)
+using namespace mock;
+#else
+using namespace mcu;
 #endif
-namespace mcu {
 
 template<size_t buffer_size = 255>
 class UART_
@@ -322,5 +325,5 @@ void UART_<buffer_size>::push_back(const uint16_t& v)
    buffer[end_++] = v >> 8;
 }
 
-} // namespace mcu
+
 
