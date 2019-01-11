@@ -97,7 +97,7 @@ endfunction(test)
 
 #test (NULL test_reflect)
 test (NULL test_table_crc)
-test (NULL test_lcd)
+test (NULL test_string_buffer)
 
 
 

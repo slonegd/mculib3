@@ -4,7 +4,6 @@
 #include "meta.h"
 #include "delay.h"
 #include "timers.h"
-#include "lcd_ram.h"
 
 #if defined(USE_MOCK_GPIO)
 using namespace mock;
@@ -30,6 +29,20 @@ struct bit_set {
    {
       value |= (1 << bit);
    }
+};
+
+constexpr size_t symbol_n_function (size_t i)
+{
+    return i < 20 ? i      :
+           i < 40 ? i + 20 :
+           i < 60 ? i - 20 : i;
+}
+
+class Symbol_n {
+   static constexpr auto table = meta::generate<symbol_n_function,80>;
+    size_t index {0};
+public:
+   size_t operator++(int) { return table[index++ % 80]; }
 };
 
 template<class DB4, class DB5, class DB6, class DB7>
@@ -76,34 +89,33 @@ class HD44780 : TickSubscriber
 {
    using BSRR = std::pair<uint32_t, uint32_t>;
 
-   size_t index {0};
-   bool _data {false};
-   bool _command {false};
+   char symbol;
    
    enum Set {_4_bit_mode   = 0x28, display_on  = 0x0C, dir_shift_right = 0x06,
              display_clear = 0x01, set_to_zero = 0x80 };
 
    enum Step {_1, _2, _3} step {Step::_1};
 
-   LCD& lcd;
    Pin& rs;
    Pin& rw;
    Pin& e;
    GPIO& port;
-   // const std::array<char, 80>& screen;
-   const std::array<BSRR, 256> chars;
-   const std::array<BSRR, 256> command;
+   Symbol_n index{};
+   const std::array<char, 80 >& buffer;
+   const std::array<BSRR, 256>& chars;
+   const std::array<BSRR, 256>& command;
 
-   HD44780(LCD& lcd, Pin& rs, Pin& rw, Pin& e, GPIO& port, /*const std::array<char, 80>& screen,*/ const std::array<BSRR, 256> chars, const std::array<BSRR, 256> command)
-      : lcd{lcd}
-      , rs {rs}
-      , rw {rw}
-      , e  {e}
-      , port  {port}
-      // , screen{screen}
-      , chars {chars}
-      , command {command}
-      {}
+   HD44780(Pin& rs, Pin& rw, Pin& e, GPIO& port
+         , const std::array<char, 80 >& buffer
+         , const std::array<BSRR, 256>& chars
+         , const std::array<BSRR, 256>& command) : rs {rs}
+                                                 , rw {rw}
+                                                 , e  {e}
+                                                 , port  {port}
+                                                 , buffer{buffer}
+                                                 , chars {chars}
+                                                 , command {command}
+   {}
 
    void init();
 
@@ -115,35 +127,32 @@ class HD44780 : TickSubscriber
       delay<100>();
    }
 
-
-public:
-
    void instruction (uint32_t action)
    {
-      _command = true;
       rs = false;
       port.atomic_write(command[action].first);
       strob_e();
       port.atomic_write(command[action].second);
       strob_e();
       delay<50>();
-      _command = false;
    }
 
+
+public:
+
    template <class RS, class RW, class E, class DB4, class DB5, class DB6, class DB7>
-   static auto& make()
+   static auto& make(const std::array<char, 80>& buffer)
    {
       static_assert ((all_is_same(DB4::periph, DB5::periph, DB6::periph, DB7::periph)),
                      "Пины для шины экрана должны быть на одном порту");
 
       static auto screen = HD44780 
       {
-         LCD::make(),
          Pin::template make<RS,  PinMode::Output>(),
          Pin::template make<RW,  PinMode::Output>(),
          Pin::template make<E,   PinMode::Output>(),
          make_reference<DB4::periph>(),
-         // lcd.begin(),
+         buffer,
          meta::generate<BSRR_value<DB4, DB5, DB6, DB7>, 256>,
          meta::generate<BSRR_command<DB4, DB5, DB6, DB7>, 256>
       };
@@ -161,13 +170,6 @@ public:
    }
 
    void notify() override;
-   HD44780& line  (size_t line)  {lcd.set_line(line);     return *this;}
-   HD44780& cursor(size_t cursor){lcd.set_cursor(cursor); return *this;}
-   HD44780& center()             {lcd.central();          return *this;}
-   HD44780& operator<< (std::string_view string){lcd << string; return *this;}
-   HD44780& operator<< (size_t number)          {lcd << number; return *this;}
-   
-
 };
 
 
@@ -178,16 +180,16 @@ void HD44780::init()
    rw = false;
    e = true;
    
-   port.atomic_write(chars[0x03].second);
+   port.atomic_write(command[0x03].second);
    strob_e();
    delay<5000>();
-   port.atomic_write(chars[0x03].second);
+   port.atomic_write(command[0x03].second);
    strob_e();
    delay<100>();
-   port.atomic_write(chars[0x03].second);
+   port.atomic_write(command[0x03].second);
    strob_e();
    delay<50>();
-   port.atomic_write(chars[0x02].second);
+   port.atomic_write(command[0x02].second);
    strob_e();
    delay<50>();
    instruction (_4_bit_mode);
@@ -201,35 +203,22 @@ void HD44780::notify()
 {
    switch (step) {
       case _1:
-         // e = true;
-         // e = false;
-         rs = true;
          rw = false;
-         port.atomic_write(chars[*(lcd.begin()+index)].first);
+         rs = true;
+         symbol = buffer[index++];
+         port.atomic_write(chars[symbol].first);
          step = Step::_2;
       break;
       case _2:
          e = true;
          e = false;
-         port.atomic_write(chars[*(lcd.begin()+index)].second);
+         port.atomic_write(chars[symbol].second);
          step = Step::_3;
       break;
       case _3:
          e = true;
          e = false;
-         index++;
-         if (index == 20)
-            index = 40;
-         else if (index == 60)
-            index = 20;
-         else if (index == 40)
-            index = 60;
-         if (index < 80)
-            step = Step::_1;
-         if (index >= 80) {
-            index = 0;
-            step = Step::_1;
-         }
+         step = Step::_1;
       break;
    }
 }
