@@ -6,10 +6,10 @@
 namespace mcu {
 
 class DMA_stream {
-   __IO DMA_bits::CCR CCR;   // DMA channel x configuration register      offset: 0x08 + 0d20 × (channel number – 1)
-   __IO uint32_t      CNDTR; // DMA channel x number of data register     offset: 0x0C + 0d20 × (channel number – 1)
-   __IO uint32_t      CPAR;  // DMA channel x peripheral address register offset: 0x10 + 0d20 × (channel number – 1)
-   __IO uint32_t      CMAR;  // DMA channel x memory address register     offset: 0x14 + 0d20 × (channel number – 1)
+   volatile DMA_bits::CCR CCR;   // DMA channel x configuration register      offset: 0x08 + 0d20 × (channel number – 1)
+   volatile uint32_t      CNDTR; // DMA channel x number of data register     offset: 0x0C + 0d20 × (channel number – 1)
+   volatile uint32_t      CPAR;  // DMA channel x peripheral address register offset: 0x10 + 0d20 × (channel number – 1)
+   volatile uint32_t      CMAR;  // DMA channel x memory address register     offset: 0x14 + 0d20 × (channel number – 1)
 
 public:
    using CMSIS_type    = DMA_Channel_TypeDef;

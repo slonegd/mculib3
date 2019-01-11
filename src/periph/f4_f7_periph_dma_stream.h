@@ -29,8 +29,8 @@ public:
    DMA_stream& inc_periph   (){CR.PINC = true; return *this;}
    DMA_stream& circular_mode(){CR.CIRC = true; return *this;}
 
-   DMA_stream& set_memory_adr      (uint32_t v){M0AR  = v; return *this;}
-   DMA_stream& set_periph_adr      (uint32_t v){PAR  = v; return *this;}
+   DMA_stream& set_memory_adr      (size_t v)  {M0AR  = v; return *this;}
+   DMA_stream& set_periph_adr      (size_t v)  {PAR  = v; return *this;}
    DMA_stream& set_qty_transactions(uint16_t v){NDTR = v; return *this;}
 
    DMA_stream& direction  (DataDirection d){CR.DIR = d;   return *this;}
