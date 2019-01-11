@@ -2,8 +2,6 @@ f0_f4_test_systick
 test_list
 test_subscriber
 test_timer
-f0_bits_usart
-f0_usart
 uart.h - не закончен
 buttons  - не закончен
 test_pwm
@@ -11,6 +9,3 @@ f4_tim
 f0_test_tim
 f4_test_tim
 mock_f1_rcc
-перевести на бусттест
-   f1_test_usart.cpp
-   f4_test_usart.cpp
