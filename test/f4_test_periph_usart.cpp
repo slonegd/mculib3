@@ -11,4 +11,4 @@
 #include "periph_usart.h"
 #undef static_assert
 
-#include "f1_f4_test_periph_usart.h"
+#include "f0_f1_f4_test_periph_usart.h"

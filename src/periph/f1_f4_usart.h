@@ -43,10 +43,10 @@ public:
    auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
 
    USART& set (Parity         v)         {CR1.PS    = v; return *this;}
-   USART& set (WakeMethod     v)         {CR1.WAKE  = v; return *this;}
    USART& set (DataBits       v)         {CR1.M     = v; return *this;}
-   USART& set (BreakDetection v)         {CR2.LBDL  = v; return *this;}
    USART& set (StopBits       v)         {CR2.STOP  = v; return *this;}
+   USART& set (WakeMethod     v)         {CR1.WAKE  = v; return *this;}
+   USART& set (BreakDetection v)         {CR2.LBDL  = v; return *this;}
    // USART& send_byte (uint8_t  v)         {DR = v;        return *this;} // no test
    USART& set (Baudrate, Periph);
 

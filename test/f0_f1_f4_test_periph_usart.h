@@ -24,16 +24,6 @@ BOOST_AUTO_TEST_CASE (set_parity)
    BOOST_CHECK_EQUAL (cmsis.CR1, 0);
 }
 
-BOOST_AUTO_TEST_CASE (set_wake_method)
-{
-   cmsis.CR1 = 0;
-   usart.set (mcu::USART::WakeMethod::address);
-   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_WAKE_Msk);
-
-   usart.set (mcu::USART::WakeMethod::idle);
-   BOOST_CHECK_EQUAL (cmsis.CR1, 0);
-}
-
 BOOST_AUTO_TEST_CASE (set_data_bits)
 {
    cmsis.CR1 = 0;
@@ -41,6 +31,44 @@ BOOST_AUTO_TEST_CASE (set_data_bits)
    BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_M_Msk);
 
    usart.set (mcu::USART::DataBits::_8);
+   BOOST_CHECK_EQUAL (cmsis.CR1, 0);
+}
+
+BOOST_AUTO_TEST_CASE (set_stop_bits)
+{
+   cmsis.CR2 = 0;
+   usart.set (mcu::USART::StopBits::_2);
+   BOOST_CHECK_EQUAL (cmsis.CR2, 
+        USART_CR2_STOP_1
+   );
+
+   usart.set(mcu::USART::StopBits::_1);
+   BOOST_CHECK_EQUAL (cmsis.CR2, 
+        0
+   );
+
+#if defined(STM32F1) or defined(STM32F4)
+   usart.set (mcu::USART::StopBits::_1_5);
+   BOOST_CHECK_EQUAL (cmsis.CR2, 
+        USART_CR2_STOP_0
+      | USART_CR2_STOP_1
+   );
+
+   usart.set (mcu::USART::StopBits::_0_5);
+   BOOST_CHECK_EQUAL (cmsis.CR2, 
+        USART_CR2_STOP_0
+   );
+#endif
+}
+
+#if defined(STM32F1) or defined(STM32F4)
+BOOST_AUTO_TEST_CASE (set_wake_method)
+{
+   cmsis.CR1 = 0;
+   usart.set (mcu::USART::WakeMethod::address);
+   BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_WAKE_Msk);
+
+   usart.set (mcu::USART::WakeMethod::idle);
    BOOST_CHECK_EQUAL (cmsis.CR1, 0);
 }
 
@@ -53,36 +81,47 @@ BOOST_AUTO_TEST_CASE (set_break_detection)
    usart.set(mcu::USART::BreakDetection::_10bit);
    BOOST_CHECK_EQUAL (cmsis.CR2, 0);
 }
-
-BOOST_AUTO_TEST_CASE (set_stop_bits)
-{
-   cmsis.CR2 = 0;
-   usart.set (mcu::USART::StopBits::_1_5);
-   BOOST_CHECK_EQUAL (cmsis.CR2, 
-        USART_CR2_STOP_0
-      | USART_CR2_STOP_1
-   );
-
-   usart.set (mcu::USART::StopBits::_2);
-   BOOST_CHECK_EQUAL (cmsis.CR2, 
-        USART_CR2_STOP_1
-   );
-
-   usart.set (mcu::USART::StopBits::_0_5);
-   BOOST_CHECK_EQUAL (cmsis.CR2, 
-        USART_CR2_STOP_0
-   );
-
-   usart.set(mcu::USART::StopBits::_1);
-   BOOST_CHECK_EQUAL (cmsis.CR2, 
-        0
-   );
-}
+#endif
 
 BOOST_AUTO_TEST_CASE (set_baudrate)
 {
    cmsis.BRR = 0;
    auto& rcc = REF(RCC);
+
+#if defined(STM32F0)
+   rcc.set (mcu::RCC::APBprescaler::APBnotdiv);
+   usart.set (mcu::USART::Baudrate::BR115200, mcu::Periph::USART1);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 115200);
+
+   rcc.set (mcu::RCC::APBprescaler::APBdiv2);
+   usart.set (mcu::USART::Baudrate::BR115200, mcu::Periph::USART1);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 115200 / 2);
+
+   usart.set (mcu::USART::Baudrate::BR14400, mcu::Periph::USART1);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 14400 / 2);
+
+   rcc.set (mcu::RCC::APBprescaler::APBdiv4);
+   usart.set (mcu::USART::Baudrate::BR19200, mcu::Periph::USART1);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 19200 / 4);
+
+   rcc.set (mcu::RCC::APBprescaler::APBdiv8);
+   usart.set (mcu::USART::Baudrate::BR28800, mcu::Periph::USART1);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 28800 / 8);
+
+   rcc.set (mcu::RCC::APBprescaler::APBdiv16);
+   usart.set (mcu::USART::Baudrate::BR38400, mcu::Periph::USART1);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 38400 / 16);
+
+   usart.set (mcu::USART::Baudrate::BR57600, mcu::Periph::USART1);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 57600 / 16);
+
+   usart.set (mcu::USART::Baudrate::BR76800, mcu::Periph::USART1);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 76800 / 16);
+
+   usart.set (mcu::USART::Baudrate::BR9600, mcu::Periph::USART1);
+   BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 9600 / 16);
+
+#elif defined(STM32F1) or defined(STM32F4)
    rcc.set_APB1 (mcu::RCC::APBprescaler::APBnotdiv);
    rcc.set_APB2 (mcu::RCC::APBprescaler::APBnotdiv);
    usart.set (mcu::USART::Baudrate::BR115200, mcu::Periph::USART1);
@@ -131,6 +170,7 @@ BOOST_AUTO_TEST_CASE (set_baudrate)
 
    usart.set (mcu::USART::Baudrate::BR9600, mcu::Periph::USART3);
    BOOST_CHECK_EQUAL (cmsis.BRR, F_CPU / 9600 / 8);
+#endif
 }
 
 BOOST_AUTO_TEST_CASE (enable)
@@ -224,12 +264,26 @@ BOOST_AUTO_TEST_CASE (enable_IDLE_interrupt)
    BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_IDLEIE_Msk);
 }
 
+#if defined(STM32F1) or defined(STM32F4)
+   auto& SR = cmsis.SR;
+#elif defined(STM32F0)
+   auto& SR = cmsis.ISR;
+#endif
+
 BOOST_AUTO_TEST_CASE (is_IDLE_interrupt)
 {
-   cmsis.SR = 0;
+   SR = 0;
    BOOST_CHECK_EQUAL (usart.is_IDLE_interrupt(), false);
-   cmsis.SR = USART_SR_IDLE_Msk;
+   SR = USART_SR_IDLE_Msk;
    BOOST_CHECK_EQUAL (usart.is_IDLE_interrupt(), true);
+}
+
+BOOST_AUTO_TEST_CASE (is_tx_complete)
+{
+   SR = 0;
+   BOOST_CHECK_EQUAL (usart.is_tx_complete(), false);
+   SR = USART_SR_TC_Msk;
+   BOOST_CHECK_EQUAL (usart.is_tx_complete(), true);
 }
 
 BOOST_AUTO_TEST_CASE (enable_tx_complete_interrupt)
@@ -246,14 +300,6 @@ BOOST_AUTO_TEST_CASE (disable_tx_complete_interrupt)
    BOOST_CHECK_EQUAL (cmsis.CR1, USART_CR1_UE_Msk);
 }
 
-BOOST_AUTO_TEST_CASE (is_tx_complete)
-{
-   cmsis.SR = 0;
-   BOOST_CHECK_EQUAL (usart.is_tx_complete(), false);
-   cmsis.SR = USART_SR_TC_Msk;
-   BOOST_CHECK_EQUAL (usart.is_tx_complete(), true);
-}
-
 BOOST_AUTO_TEST_CASE (is_tx_complete_interrupt_enable)
 {
    cmsis.CR1 = 0;
@@ -262,6 +308,7 @@ BOOST_AUTO_TEST_CASE (is_tx_complete_interrupt_enable)
    BOOST_CHECK_EQUAL (usart.is_tx_complete_interrupt_enable(), true);
 }
 
+#if defined(STM32F1) or defined(STM32F4)
 BOOST_AUTO_TEST_CASE (read_SR)
 {
    cmsis.SR = 1;
@@ -277,12 +324,18 @@ BOOST_AUTO_TEST_CASE (read_DR)
    cmsis.DR = 0x0FFC;
    BOOST_CHECK_EQUAL (usart.read_DR(), 0x0FFC);
 }
+#endif
 
 BOOST_AUTO_TEST_CASE (receive_data_adr)
 {
+
    BOOST_CHECK_EQUAL (
       usart.receive_data_adr()
+   #if defined(STM32F1) or defined(STM32F4)
       , size_t(&usart) + offsetof(mcu::USART::CMSIS_type, DR)
+   #elif defined(STM32F0)
+      , size_t(&usart) + offsetof(mcu::USART::CMSIS_type, RDR)
+   #endif
    );
 }
 
@@ -290,15 +343,35 @@ BOOST_AUTO_TEST_CASE (transmit_data_adr)
 {
    BOOST_CHECK_EQUAL (
       usart.transmit_data_adr()
+   #if defined(STM32F1) or defined(STM32F4)
       , size_t(&usart) + offsetof(mcu::USART::CMSIS_type, DR)
+   #elif defined(STM32F0)
+      , size_t(&usart) + offsetof(mcu::USART::CMSIS_type, TDR)
+   #endif
    );
 }
+
+#if defined(STM32F0)
+BOOST_AUTO_TEST_CASE (read_DR)
+{
+   cmsis.ICR = 0;
+   usart.clear_interrupt_flags();
+   BOOST_CHECK_EQUAL (cmsis.ICR, 0xFFFFFFFF);
+}
+#endif
 
 BOOST_AUTO_TEST_CASE (IRQn)
 {
    BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART1), USART1_IRQn);
+#if defined(STM32F1) or defined(STM32F4)
    BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART2), USART2_IRQn);
    BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART3), USART3_IRQn);
+#endif
+#if defined(STM32F4)
+   BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART4), UART4_IRQn);
+   BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART5), UART5_IRQn);
+   BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART6), USART6_IRQn);
+#endif
 }
 
 BOOST_AUTO_TEST_CASE (default_stream)
@@ -350,6 +423,13 @@ BOOST_AUTO_TEST_CASE (pin_mode)
 {
    STATIC_ASSERTATION_REQUIRED (usart.pin_mode<mcu::PB2>(), "неверный аргумент шаблона class Pin");
 
+#if defined(STM32F0)
+   BOOST_CHECK (usart.pin_mode<mcu::PA9 >() == mcu::PinMode::Alternate_1);
+   BOOST_CHECK (usart.pin_mode<mcu::PA10>() == mcu::PinMode::Alternate_1);
+   BOOST_CHECK (usart.pin_mode<mcu::PB6 >() == mcu::PinMode::Alternate_0);
+   BOOST_CHECK (usart.pin_mode<mcu::PB7 >() == mcu::PinMode::Alternate_0);
+#endif
+#if defined(STM32F1) or defined(STM32F4)
    BOOST_CHECK (usart.pin_mode<mcu::PA9 >() == mcu::PinMode::USART1_TX);
    BOOST_CHECK (usart.pin_mode<mcu::PB6 >() == mcu::PinMode::USART1_TX);
    BOOST_CHECK (usart.pin_mode<mcu::PA10>() == mcu::PinMode::USART1_RX);
@@ -364,6 +444,7 @@ BOOST_AUTO_TEST_CASE (pin_mode)
    BOOST_CHECK (usart.pin_mode<mcu::PB11>() == mcu::PinMode::USART3_RX);
    BOOST_CHECK (usart.pin_mode<mcu::PC11>() == mcu::PinMode::USART3_RX);
    BOOST_CHECK (usart.pin_mode<mcu::PD9 >() == mcu::PinMode::USART3_RX);
+#endif
 #if defined(STM32F4)
    BOOST_CHECK (usart.pin_mode<mcu::PA0 >() == mcu::PinMode::USART4_TX);
    // BOOST_CHECK (usart.pin_mode<mcu::PC10>() == mcu::PinMode::USART4_TX);
@@ -381,11 +462,12 @@ BOOST_AUTO_TEST_CASE (pin_mode)
 BOOST_AUTO_TEST_CASE (pin_static_assert)
 {
    STATIC_ASSERTATION_REQUIRED (
-        WRAP(usart.pin_static_assert<mcu::Periph::USART1, mcu::PB2, mcu::PE9>())
+        WRAP(usart.pin_static_assert<mcu::Periph::USART1, mcu::PB2, mcu::PB3>())
       , "USART1 возможен только с парами пинов TX/PA9, RX/PA10 или TX/PB6, RX/PB7"
    );
    usart.pin_static_assert<mcu::Periph::USART1, mcu::PA9, mcu::PA10>();
 
+#if defined(STM32F1) or defined(STM32F4)
    STATIC_ASSERTATION_REQUIRED (
         WRAP(usart.pin_static_assert<mcu::Periph::USART2, mcu::PA9, mcu::PA10>())
       , "USART2 возможен только с парами пинов TX/PA2, RX/PA3 или TX/PD5, RX/PD6"
@@ -397,7 +479,7 @@ BOOST_AUTO_TEST_CASE (pin_static_assert)
       , "USART3 возможен только с парами пинов TX/PB10, RX/PB11 или TX/PC10, RX/PC11 или TX/PD8, RX/PD9"
    );
    usart.pin_static_assert<mcu::Periph::USART3, mcu::PD8, mcu::PD9>();
-
+#endif
 #if defined(STM32F4)
    STATIC_ASSERTATION_REQUIRED (
         WRAP(usart.pin_static_assert<mcu::Periph::USART4, mcu::PB2, mcu::PE9>())
