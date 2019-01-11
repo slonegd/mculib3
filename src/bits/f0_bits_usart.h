@@ -26,7 +26,7 @@ struct SR {
    bool     RWU   :1; // Bit 19 RWU: Receiver wakeup from Mute mode
    uint32_t       :12; // Bits 31:20 Reserved, must be kept at reset value.
 }__attribute__((packed));
-//////////////////////////
+
 struct CR1 {
    enum Parity     { even = 0b0, odd     };
    enum DataBits   { _8   = 0b0, _9      };
