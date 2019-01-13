@@ -56,149 +56,148 @@ public:
    }
    void set_stream (std::ostream& s) { process = &s; }
 
-   #define BASE static_cast<mcu::USART*>(this)
+   auto& base() { return *static_cast<mcu::USART*>(this); }
 
    USART& set (Parity v)
    {
-      if (process) *process << *this << ": Задана проверка на " << v << std::endl;
-      BASE->set(v);
+      if (process) *process /*<< *this*/ << ": Задана проверка на " << v << std::endl;
+      base().set(v);
       return *this;
    }
 
    USART& set (DataBits v)
    {
-      if (process) *process << *this << ": Установлен размер пакета " << v << " бит" << std::endl;
-      BASE->set(v);
+      if (process) *process /*<< *this*/ << ": Установлен размер пакета " << v << " бит" << std::endl;
+      base().set(v);
       return *this;
    }
 
    USART& set (StopBits v)
    {
-      if (process) *process << *this << ": Установлено количество стоп битов: " << v << std::endl;
-      BASE->set(v);
+      if (process) *process /*<< *this*/ << ": Установлено количество стоп битов: " << v << std::endl;
+      base().set(v);
       return *this;
    }
 
-   USART& set (Baudrate v, Periph p)
+   USART& set (Baudrate v, mcu::Periph p)
    {
-      if (process) *process << *this << ": Установлена скорость " << v << " бит/с" << std::endl;
-      BASE->set(v, p);
+      if (process) *process /*<< *this*/ << ": Установлена скорость " << v << " бит/с" << std::endl;
+      base().set(v, p);
       return *this;
    }
 
    USART& enable()
    {
-      if (process) *process << *this << ": Разрешение работы" << std::endl;
-      BASE->enable();
+      if (process) *process /*<< *this*/ << ": Разрешение работы" << std::endl;
+      base().enable();
       return *this;
    }
 
    USART& disable()
    {
-      if (process) *process << *this << ": Запрет работы" << std::endl;
-      BASE->disable();
+      if (process) *process /*<< *this*/ << ": Запрет работы" << std::endl;
+      base().disable();
       return *this;
    }
 
    USART& rx_enable()
    {
-      if (process) *process << *this << ": Разрешение приёма" << std::endl;
-      BASE->rx_enable();
+      if (process) *process /*<< *this*/ << ": Разрешение приёма" << std::endl;
+      base().rx_enable();
       return *this;
    }
 
    USART& rx_disable()
    {
-      if (process) *process << *this << ": Запрет приёма" << std::endl;
-      BASE->rx_disable();
+      if (process) *process /*<< *this*/ << ": Запрет приёма" << std::endl;
+      base().rx_disable();
       return *this;
    }
 
    USART& tx_enable()
    {
-      if (process) *process << *this << ": Разрешение отправки" << std::endl;
-      BASE->tx_enable();
+      if (process) *process /*<< *this*/ << ": Разрешение отправки" << std::endl;
+      base().tx_enable();
       return *this;
    }
 
    USART& tx_disable()
    {
-      if (process) *process << *this << ": Запрет отправки" << std::endl;
-      BASE->tx_disable();
+      if (process) *process /*<< *this*/ << ": Запрет отправки" << std::endl;
+      base().tx_disable();
       return *this;
    }
 
    USART& rts_enable()
    {
-      if (process) *process << *this << ": Разрешение аппаратного rts" << std::endl;
-      BASE->rts_enable();
+      if (process) *process /*<< *this*/ << ": Разрешение аппаратного rts" << std::endl;
+      base().rts_enable();
       return *this;
    }
 
    USART& rts_disable()
    {
-      if (process) *process << *this << ": Запрет аппаратного rts" << std::endl;
-      BASE->rts_disable();
+      if (process) *process /*<< *this*/ << ": Запрет аппаратного rts" << std::endl;
+      base().rts_disable();
       return *this;
    }
 
    USART& DMA_tx_enable()
    {
-      if (process) *process << *this << ": Разрешение DMA на отправку" << std::endl;
-      BASE->DMA_tx_enable();
+      if (process) *process /*<< *this*/ << ": Разрешение DMA на отправку" << std::endl;
+      base().DMA_tx_enable();
       return *this;
    }
 
    USART& DMA_rx_enable()
    {
-      if (process) *process << *this << ": Разрешение DMA на приём" << std::endl;
-      BASE->DMA_rx_enable();
+      if (process) *process /*<< *this*/ << ": Разрешение DMA на приём" << std::endl;
+      base().DMA_rx_enable();
       return *this;
    }
 
    USART& parity_enable()
    {
-      if (process) *process << *this << ": Включение проверки на чётность" << std::endl;
-      BASE->parity_enable();
+      if (process) *process /*<< *this*/ << ": Включение проверки на чётность" << std::endl;
+      base().parity_enable();
       return *this;
    }
 
    USART& parity_disable()
    {
-      if (process) *process << *this << ": Отключение проверки на чётность" << std::endl;
-      BASE->parity_disable();
+      if (process) *process /*<< *this*/ << ": Отключение проверки на чётность" << std::endl;
+      base().parity_disable();
       return *this;
    }
 
    USART& enable_IDLE_interrupt()
    {
-      if (process) *process << *this << ": Разрешение прерывания по простою" << std::endl;
-      BASE->enable_IDLE_interrupt();
+      if (process) *process /*<< *this*/ << ": Разрешение прерывания по простою" << std::endl;
+      base().enable_IDLE_interrupt();
       return *this;
    }
 
    USART& enable_tx_complete_interrupt()
    {
-      if (process) *process << *this << ": Разрешение прерывания по окончанию отправки" << std::endl;
-      BASE->enable_tx_complete_interrupt();
+      if (process) *process /*<< *this*/ << ": Разрешение прерывания по окончанию отправки" << std::endl;
+      base().enable_tx_complete_interrupt();
       return *this;
    }
 
    USART& disable_tx_complete_interrupt()
    {
-      if (process) *process << *this << ": Запрет прерывания по окончанию отправки" << std::endl;
-      BASE->enable_tx_complete_interrupt();
+      if (process) *process /*<< *this*/ << ": Запрет прерывания по окончанию отправки" << std::endl;
+      base().enable_tx_complete_interrupt();
       return *this;
    }
 
    USART& clear_interrupt_flags()
    {
-      if (process) *process << *this << ": Очищение флагов прерываний" << std::endl;
-      BASE->clear_interrupt_flags();
+      if (process) *process /*<< *this*/ << ": Очищение флагов прерываний" << std::endl;
+      base().clear_interrupt_flags();
       return *this;
    }
 
-   #undef BASE
 };
 
 std::ostream& operator<< (std::ostream& s, const USART& v)
@@ -220,14 +219,14 @@ std::ostream& operator<< (std::ostream& s, const USART& v)
 } // namespace mock {
 
 namespace mcu {
-   SFINAE(USART1,USART) make_reference() {return mock::USART::make<mcu::Periph::USART1>();}
+   SFINAE(USART1,mock::USART) make_reference() {return mock::USART::make<mcu::Periph::USART1>();}
 #if defined(STM32F1) or defined(STM32F4)
-   SFINAE(USART2,USART) make_reference() {return mock::USART::make<mcu::Periph::USART2>();}
-   SFINAE(USART3,USART) make_reference() {return mock::USART::make<mcu::Periph::USART3>();}
+   SFINAE(USART2,mock::USART) make_reference() {return mock::USART::make<mcu::Periph::USART2>();}
+   SFINAE(USART3,mock::USART) make_reference() {return mock::USART::make<mcu::Periph::USART3>();}
 #endif
 #if defined(STM32F4)
-   SFINAE(USART4,USART) make_reference() {return mock::USART::make<mcu::Periph::USART4>();}
-   SFINAE(USART5,USART) make_reference() {return mock::USART::make<mcu::Periph::USART5>();}
-   SFINAE(USART6,USART) make_reference() {return mock::USART::make<mcu::Periph::USART6>();}
+   SFINAE(USART4,mock::USART) make_reference() {return mock::USART::make<mcu::Periph::USART4>();}
+   SFINAE(USART5,mock::USART) make_reference() {return mock::USART::make<mcu::Periph::USART5>();}
+   SFINAE(USART6,mock::USART) make_reference() {return mock::USART::make<mcu::Periph::USART6>();}
 #endif
 }

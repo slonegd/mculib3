@@ -45,7 +45,7 @@ public:
 
 };
 
-#if not defined(USE_MOCK_DMA_STREAM)
+#if not defined(USE_MOCK_DMA)
 SFINAE(DMA1_stream1,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Channel1_BASE);}
 SFINAE(DMA1_stream2,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Channel2_BASE);}
 SFINAE(DMA1_stream3,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Channel3_BASE);}

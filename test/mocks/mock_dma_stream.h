@@ -1,7 +1,7 @@
 #pragma once
 
 #define USE_MOCK_DMA
-#include "periph_dma.h"
+// #include "periph_dma.h"
 #include <iostream>
 
 namespace mock {
@@ -38,7 +38,7 @@ public:
 
    #define BASE static_cast<mcu::DMA_stream*>(this)
 
-   DMA_stream& enable()
+/*   DMA_stream& enable()
    {
       if (process) *process << *this << ": Разрешение работы" << std::endl;
       BASE->enable();
@@ -122,7 +122,7 @@ public:
       return *this;
    }
 
-   #undef BASE
+   #undef BASE*/
 };
 
 std::ostream& operator<< (std::ostream& s, const DMA_stream& v)
@@ -154,24 +154,24 @@ std::ostream& operator<< (std::ostream& s, const DMA_stream& v)
 } // namespace mock {
 
 namespace mcu {
-   SFINAE(DMA1_stream1,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Stream1_BASE);}
-   SFINAE(DMA1_stream2,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Stream2_BASE);}
-   SFINAE(DMA1_stream3,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Stream3_BASE);}
-   SFINAE(DMA1_stream4,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Stream4_BASE);}
-   SFINAE(DMA1_stream5,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Stream5_BASE);}
+   SFINAE(DMA1_stream1,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA1_stream1>();}
+   SFINAE(DMA1_stream2,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA1_stream2>();}
+   SFINAE(DMA1_stream3,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA1_stream3>();}
+   SFINAE(DMA1_stream4,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA1_stream4>();}
+   SFINAE(DMA1_stream5,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA1_stream5>();}
 #if defined(STM32F1) or defined(STM32F4) or defined(STM32F7)  
-   SFINAE(DMA1_stream6,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Stream6_BASE);}
-   SFINAE(DMA1_stream7,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Stream7_BASE);}
+   SFINAE(DMA1_stream6,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA1_stream6>();}
+   SFINAE(DMA1_stream7,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA1_stream7>();}
 #endif
 #if defined(STM32F4) or defined(STM32F7)  
-   SFINAE(DMA1_stream0,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Stream0_BASE);}
-   SFINAE(DMA2_stream0,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA2_Stream0_BASE);}
-   SFINAE(DMA2_stream1,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA2_Stream1_BASE);}
-   SFINAE(DMA2_stream2,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA2_Stream2_BASE);}
-   SFINAE(DMA2_stream3,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA2_Stream3_BASE);}
-   SFINAE(DMA2_stream4,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA2_Stream4_BASE);}
-   SFINAE(DMA2_stream5,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA2_Stream5_BASE);}
-   SFINAE(DMA2_stream6,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA2_Stream6_BASE);}
-   SFINAE(DMA2_stream7,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA2_Stream7_BASE);}
+   SFINAE(DMA1_stream0,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA1_stream0>();}
+   SFINAE(DMA2_stream0,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA2_stream0>();}
+   SFINAE(DMA2_stream1,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA2_stream1>();}
+   SFINAE(DMA2_stream2,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA2_stream2>();}
+   SFINAE(DMA2_stream3,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA2_stream3>();}
+   SFINAE(DMA2_stream4,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA2_stream4>();}
+   SFINAE(DMA2_stream5,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA2_stream5>();}
+   SFINAE(DMA2_stream6,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA2_stream6>();}
+   SFINAE(DMA2_stream7,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA2_stream7>();}
 #endif
 }

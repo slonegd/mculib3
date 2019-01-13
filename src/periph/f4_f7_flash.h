@@ -70,9 +70,9 @@ template<FLASH::Sector s>
 FLASH& FLASH::start_erase()
 {
    CR.SER  = true;
-   IF_TEST_WAIT_MS(1);
+   IF_TEST_WAIT_MS(10);
    CR.SNB  = s;
-   IF_TEST_WAIT_MS(1);
+   IF_TEST_WAIT_MS(10);
    CR.STRT = true;
    return *this;
 }

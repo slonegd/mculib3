@@ -9,6 +9,7 @@
 #include "mock_afio.h"
 #include "mock_gpio.h"
 #include "mock_dma.h"
+#include "mock_usart.h"
 #include "uart.h"
 #include <type_traits>
 
@@ -44,6 +45,7 @@ BOOST_AUTO_TEST_SUITE (test_suite_main)
 BOOST_AUTO_TEST_CASE (make)
 {
    set_stream();
+   clear_stream();
 
    auto uart = UART::make <
         mcu::Periph::USART1
@@ -53,8 +55,7 @@ BOOST_AUTO_TEST_CASE (make)
       , mcu::PA12
    >();
 
-   BOOST_CHECK_EQUAL ( result.str(),
-   // make()
+   BOOST_CHECK_EQUAL ( process.str(),
       // методы объекта usart
       "Проверяем назначение пинов"                          "\n"
       "Создали ссылку на переферию usart"                   "\n"

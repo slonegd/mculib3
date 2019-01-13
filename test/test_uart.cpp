@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE test_uart
+#define BOOST_TEST_MODULE f1_test_uart
 #include <boost/test/unit_test.hpp>
 
 #define F_CPU   72000000UL
