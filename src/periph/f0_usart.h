@@ -68,7 +68,7 @@ public:
    
    USART& clear_interrupt_flags()
    {
-      *reinterpret_cast<volatile uint32_t*>(&ISR) = 0xFFFFFFFF;
+      *reinterpret_cast<volatile uint32_t*>(&ICR) = 0xFFFFFFFF;
       return *this;
    }
 
