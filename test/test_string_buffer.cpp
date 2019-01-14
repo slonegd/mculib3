@@ -157,6 +157,17 @@ BOOST_AUTO_TEST_CASE(next_line_)
                      "                    ");
 }
 
+BOOST_AUTO_TEST_CASE(negative_number)
+{
+   lcd << next_line << -101;
+
+   BOOST_CHECK_EQUAL(screen,
+                     "  25                "
+                     "52                  "
+                     "-101                "
+                     "                    ");
+}
+
 
 
 BOOST_AUTO_TEST_SUITE_END()

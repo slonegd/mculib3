@@ -21,7 +21,7 @@ class String_buffer
 public:
    String_buffer (){screen.fill(' ');}
    String_buffer& operator<< (std::string_view string);
-   String_buffer& operator<< (size_t number);
+   String_buffer& operator<< (int number);
    String_buffer& operator<< (String_buffer_ref& function);
    String_buffer& line   (size_t string);
    String_buffer& width  (size_t width );
@@ -39,7 +39,7 @@ public:
 
 String_buffer& next_line (String_buffer& s) 
 {
-   s.position = (s.number_line + 1) * s.line_size;
+   s.position = (++s.number_line) * s.line_size;
    return s;
 }
 
@@ -90,10 +90,10 @@ String_buffer& String_buffer::operator<< (std::string_view string)
    return *this;
 }
 
-String_buffer& String_buffer::operator<< (size_t number)
+String_buffer& String_buffer::operator<< (int number)
 {
    char string[10];
-   sprintf(string, "%u", number);
+   sprintf(string, "%d", number);
    std::string_view str (string);
    auto qty_space = (width_size > str.size()) ? (width_size - str.size()) : 0;
 
