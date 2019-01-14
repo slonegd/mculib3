@@ -146,6 +146,17 @@ BOOST_AUTO_TEST_CASE(width)
                      "                    ");
 }
 
+BOOST_AUTO_TEST_CASE(next_line_)
+{
+   lcd << next_line << 52;
+
+   BOOST_CHECK_EQUAL(screen,
+                     "  25                "
+                     "52                  "
+                     "                    "
+                     "                    ");
+}
+
 
 
 BOOST_AUTO_TEST_SUITE_END()

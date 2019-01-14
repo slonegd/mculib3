@@ -15,10 +15,14 @@ class String_buffer
    static constexpr size_t line_size = 20;
    static constexpr size_t screen_size = 80;
 
+   using String_buffer_ref = String_buffer&(&) (String_buffer& string_buffer);
+   friend String_buffer& next_line (String_buffer& s);
+
 public:
    String_buffer (){screen.fill(' ');}
    String_buffer& operator<< (std::string_view string);
    String_buffer& operator<< (size_t number);
+   String_buffer& operator<< (String_buffer_ref& function);
    String_buffer& line   (size_t string);
    String_buffer& width  (size_t width );
    String_buffer& cursor (size_t cursor);
@@ -28,7 +32,17 @@ public:
    auto end  ()       {return screen.end()  ;}
    auto get_position(){return position;}
    auto get_line    (){return number_line;}
+
+   
+
 };
+
+String_buffer& next_line (String_buffer& s) 
+{
+   s.position = (s.number_line + 1) * s.line_size;
+   return s;
+}
+
 
 String_buffer& String_buffer::operator<< (std::string_view string)
 {
@@ -90,6 +104,11 @@ String_buffer& String_buffer::operator<< (size_t number)
    *this << string;
    width_size = 0;
    return *this;
+}
+
+String_buffer& String_buffer::operator<< (String_buffer_ref& function)
+{
+   return function(*this);
 }
 
 String_buffer& String_buffer::line(size_t string)
