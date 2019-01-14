@@ -5,7 +5,9 @@
 #define STM32F103xB
 
 
+#include "catch_static_assert.h"
 #include "periph_rcc.h"
+#undef static_assert
 #include "timeout.h"
 #include <iostream>
 #include <type_traits>

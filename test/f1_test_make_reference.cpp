@@ -1,8 +1,8 @@
-#define BOOST_TEST_MODULE f7_test_make_reference
+#define BOOST_TEST_MODULE f1_test_make_reference
 #include <boost/test/unit_test.hpp>
 
-#define F_CPU   216'000'000UL
-#define STM32F746xx
+#define STM32F103xB
+#define F_CPU 72'000'000UL
 
 #include "periph_rcc.h"
 #include "periph_flash.h"

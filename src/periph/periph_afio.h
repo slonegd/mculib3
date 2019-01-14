@@ -20,7 +20,7 @@ public:
    using SWJ        = AFIO_bits::MAPR::SWJ;
 
    // AFIO& event_enable()        {EVCR.EVOE = true;   return *this;}
-   AFIO& set_JTAG    (SWJ swj) {MAPR.SWJ_CFG = swj; return *this;}
+   AFIO& set_JTAG (SWJ v) {MAPR.SWJ_CFG = v; return *this;}
 
    template<Periph> AFIO& remap();
    template<Periph, Remap> AFIO& remap();

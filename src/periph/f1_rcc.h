@@ -57,8 +57,37 @@ public:
       else if constexpr (p == Periph::USART3) APB1ENR.USART3EN = true;
 
       else if constexpr (p == Periph::DMA1) AHBENR.DMA1EN = true;
+      else if constexpr (
+            p == Periph::DMA1_stream1
+         or p == Periph::DMA1_stream2
+         or p == Periph::DMA1_stream3
+         or p == Periph::DMA1_stream4
+         or p == Periph::DMA1_stream5
+         or p == Periph::DMA1_stream6
+         or p == Periph::DMA1_stream7
+      )
+         AHBENR.DMA1EN = true;
 
       else if constexpr (p == Periph::TIM4) APB1ENR.TIM4EN = true;
+      static_assert (
+            p == Periph::GPIOA  or p == Periph::GPIOB  or p == Periph::GPIOC
+         or p == Periph::GPIOD  or p == Periph::GPIOE  or p == Periph::AFIO
+         or p == Periph::USART1 or p == Periph::USART2 or p == Periph::USART3
+         or p == Periph::DMA1   or p == Periph::TIM4
+         or p == Periph::DMA1_stream1 or p == Periph::DMA1_stream2 or p == Periph::DMA1_stream3
+         or p == Periph::DMA1_stream4 or p == Periph::DMA1_stream5 or p == Periph::DMA1_stream6
+         or p == Periph::DMA1_stream6 or p == Periph::DMA1_stream7
+         , "допиши clock_enable"
+      );
+   }
+
+   auto clock (Periph p)
+   {
+      if (p == Periph::USART1) 
+         return get_APB2_clock();
+      else if (p == Periph::USART2 or p == Periph::USART3)
+         return get_APB1_clock();
+      return size_t(0);
    }
 
 

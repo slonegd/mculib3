@@ -67,7 +67,20 @@ public:
       else if constexpr (p == Periph::TIM14)  APB1ENR.TIM14EN = true;
       else if constexpr (p == Periph::TIM16)  APB2ENR.TIM16EN = true;
       else if constexpr (p == Periph::TIM17)  APB2ENR.TIM17EN = true;
+
+      else if constexpr (p == Periph::DMA1)   AHBENR.DMAEN = true;
+      static_assert (
+            p == Periph::GPIOA  or p == Periph::GPIOB  or p == Periph::GPIOC
+         or p == Periph::GPIOD  or p == Periph::GPIOF
+         or p == Periph::USART1 
+         or p == Periph::TIM1   or p == Periph::TIM3   or p == Periph::TIM14
+         or p == Periph::TIM16  or p == Periph::TIM17
+         or p == Periph::DMA1
+         , "допиши clock_enable"
+      );
    }
+
+   auto clock (Periph p) { return get_APB_clock(); }
 };
 
 #if not defined(USE_MOCK_RCC)

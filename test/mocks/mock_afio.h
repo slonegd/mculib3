@@ -7,6 +7,15 @@
 
 namespace mock {
 
+std::ostream& operator<< (std::ostream& s, mcu::AFIO::SWJ v)
+{
+   return
+      v == mcu::AFIO::SWJ::Full_SWJ        ? s << "включение JTAG и SW полностью"  :
+      v == mcu::AFIO::SWJ::Full_SWJ_NJTRST ? s << "включение JTAG и SW без NJTRST" :
+      v == mcu::AFIO::SWJ::JTAG_off_SW_off ? s << "выключение JTAG и SW"           :
+      v == mcu::AFIO::SWJ::JTAG_off_SW_on  ? s << "выключение JTAG"                : s;
+}
+
 class AFIO : public mcu::AFIO
 {
    std::ostream* process {nullptr};
@@ -18,6 +27,13 @@ public:
       return afio;
    }
    void set_stream (std::ostream& s) { process = &s; }
+
+   AFIO& set_JTAG (SWJ v)
+   {
+      if (process) *process << v << std::endl;
+      static_cast<mcu::AFIO*>(this)->set_JTAG(v);
+      return *this;
+   }
 
    template<mcu::Periph p> AFIO& remap()
    {

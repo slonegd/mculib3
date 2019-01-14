@@ -2,11 +2,14 @@
 
 
 #include <array>
-#if not defined (TEST)
-	#include "usart.h"
-   #include "interrupt.h"
+#include "periph_usart.h"
+#include "periph_dma.h"
+
+#if defined(USE_MOCK_DMA) or defined(USE_MOCK_USART)
+using namespace mock;
+#else
+using namespace mcu;
 #endif
-namespace mcu {
 
 template<size_t buffer_size = 255>
 class UART_
@@ -15,7 +18,6 @@ class UART_
    DMA_stream& TXstream;
    DMA_stream& RXstream;
    // Interrupt& interrupt_usart;
-   const size_t clock;
    Pin tx;
    Pin rx;
    Pin rts;
@@ -40,7 +42,6 @@ public:
       , DMA_stream& TXstream
       , DMA_stream& RXstream
       // , Interrupt& interrupt_usart
-      , size_t clock
       , Pin tx
       , Pin rx
       , Pin rts
@@ -49,7 +50,6 @@ public:
       , TXstream {TXstream}
       , RXstream {RXstream}
       // , interrupt_usart{interrupt_usart}
-      , clock    {clock}
       , tx       {tx}
       , rx       {rx}
       , rts      {rts}
@@ -65,7 +65,7 @@ public:
       uint16_t res           :8;
    };
 
-   template <Periph usart, class TXpin, class RXpin, class RTSpin, class LEDpin> static auto make();
+   template <mcu::Periph usart, class TXpin, class RXpin, class RTSpin, class LEDpin> static auto make();
    void init (const Settings&);
    void transmit(uint16_t qty);
    void start_transmit();
@@ -144,15 +144,15 @@ using UART = UART_<>;
 
 
 template<size_t buffer_size>
-template <Periph usart, class TXpin, class RXpin, class RTSpin, class LEDpin> 
+template <mcu::Periph usart, class TXpin, class RXpin, class RTSpin, class LEDpin> 
 auto UART_<buffer_size>::make()
 {
    USART::pin_static_assert<usart, TXpin, RXpin>();
    
-   constexpr auto TX_stream  = USART::stream  <usart, TXpin>();
-   constexpr auto RX_stream  = USART::stream  <usart, RXpin>();
-   constexpr auto TXpin_mode = USART::pin_mode<usart, TXpin>();
-   constexpr auto RXpin_mode = USART::pin_mode<usart, RXpin>();
+   constexpr auto TX_stream  = USART::default_stream<TXpin>();
+   constexpr auto RX_stream  = USART::default_stream<RXpin>();
+   constexpr auto TXpin_mode = USART::pin_mode<TXpin>();
+   constexpr auto RXpin_mode = USART::pin_mode<RXpin>();
 
    // auto interrupt_usart = usart == Periph::USART1 ? &interrupt_usart1 :
    //                        usart == Periph::USART2 ? &interrupt_usart2 :
@@ -160,28 +160,28 @@ auto UART_<buffer_size>::make()
    //                        nullptr;
 
    UART_ uart {
-        make_reference<usart>()
-      , make_reference<TX_stream>()
-      , make_reference<RX_stream>()
+        mcu::make_reference<usart>()
+      , mcu::make_reference<TX_stream>()
+      , mcu::make_reference<RX_stream>()
       // , *interrupt_usart
-      , USART::clock<usart>()
       , Pin::make<TXpin, TXpin_mode>()
       , Pin::make<RXpin, RXpin_mode>()
-      , Pin::make<RTSpin, PinMode::Output>()
-      , Pin::make<LEDpin, PinMode::Output>()
+      , Pin::make<RTSpin, mcu::PinMode::Output>()
+      , Pin::make<LEDpin, mcu::PinMode::Output>()
    };
 
-   uart.usart.template clock_enable<usart>()
-             .tx_enable()
+   auto& rcc = REF(RCC);
+   rcc.clock_enable<usart>();
+   uart.usart.tx_enable()
              .rx_enable()
              .DMA_tx_enable()
              .DMA_rx_enable()
              .enable_IDLE_interrupt()
              .enable();
-      NVIC_EnableIRQ(uart.usart.IRQn(usart));
+   NVIC_EnableIRQ(uart.usart.IRQn(usart));
 
-   uart.TXstream.template clock_enable()
-                .disable()
+   rcc.clock_enable<TX_stream>();
+   uart.TXstream.disable()
                 .direction(DataDirection::MemToPer)
                 .set_memory_adr(reinterpret_cast<size_t>(uart.buffer))
                 .set_periph_adr(uart.usart.transmit_data_adr())
@@ -322,5 +322,5 @@ void UART_<buffer_size>::push_back(const uint16_t& v)
    buffer[end_++] = v >> 8;
 }
 
-} // namespace mcu
+
 

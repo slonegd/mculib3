@@ -53,7 +53,7 @@ function(test MCU name)
    set_target_properties (${name} PROPERTIES
       CXX_STANDARD 17
       CXX_STANDARD_REQUIRED ON
-      COMPILE_FLAGS -Os
+      COMPILE_FLAGS -O0
       COMPILE_OPTIONS -Wno-pedantic -Wall -Wextra
       COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
    )
@@ -65,6 +65,8 @@ test (STM32F0 f0_test_periph_flash)
 test (STM32F0 f0_test_periph_gpio)
 test (STM32F0 f0_test_periph_dma)
 test (STM32F0 f0_test_periph_dma_stream)
+test (STM32F0 f0_test_periph_usart)
+test (STM32F0 f0_test_make_reference)
 test (STM32F0 f0_test_flash)
 test (STM32F0 f0_test_pin)
 
@@ -72,7 +74,11 @@ test (STM32F1 f1_test_periph_rcc)
 test (STM32F1 f1_test_periph_gpio)
 test (STM32F1 f1_test_periph_dma)
 test (STM32F1 f1_test_periph_dma_stream)
-test (STM32F1 test_uart)
+test (STM32F1 f1_test_periph_usart)
+test (STM32F1 f1_test_periph_usart_2)
+test (STM32F1 f1_test_make_reference)
+test (STM32F1 f1_test_pin)
+# test (STM32F1 f1_test_uart)
 test (STM32F1 test_modbus_slave)
 test (STM32F1 test_modbus_master)
 test (STM32F1 test_button)
@@ -82,6 +88,8 @@ test (STM32F4 f4_test_periph_flash)
 test (STM32F4 f4_test_periph_gpio)
 test (STM32F4 f4_test_periph_dma)
 test (STM32F4 f4_test_periph_dma_stream)
+test (STM32F4 f4_test_periph_usart)
+test (STM32F4 f4_test_make_reference)
 test (STM32F4 f4_test_flash)
 test (STM32F4 f4_test_pin)
 

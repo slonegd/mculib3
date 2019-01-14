@@ -513,10 +513,66 @@ BOOST_AUTO_TEST_CASE (clock_enable)
    BOOST_CHECK_EQUAL (CMSIS.APB2ENR, RCC_APB2ENR_TIM17EN_Msk);
 #endif
 
-#if defined(STM32F1)
+#if defined(STM32F0) or defined(STM32F1) 
    CMSIS.AHBENR = 0;
    rcc.clock_enable<mcu::Periph::DMA1>();
    BOOST_CHECK_EQUAL (CMSIS.AHBENR, RCC_AHBENR_DMA1EN_Msk);
+
+#elif defined(STM32F4) or defined(STM32F7)
+   CMSIS.AHB1ENR = 0;
+   rcc.clock_enable<mcu::Periph::DMA1>();
+   BOOST_CHECK_EQUAL (CMSIS.AHB1ENR, RCC_AHB1ENR_DMA1EN_Msk);
+
+   CMSIS.AHB1ENR = 0;
+   rcc.clock_enable<mcu::Periph::DMA2>();
+   BOOST_CHECK_EQUAL (CMSIS.AHB1ENR, RCC_AHB1ENR_DMA2EN_Msk);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE (bad_clock_enable)
+{
+   STATIC_ASSERTATION_REQUIRED (
+      rcc.clock_enable<mcu::Periph::RCC>()
+      , "допиши clock_enable");
+}
+
+BOOST_AUTO_TEST_CASE (clock)
+{
+#if defined(STM32F0)
+   rcc.set (mcu::RCC::APBprescaler::APBnotdiv);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART1), F_CPU);
+
+   rcc.set (mcu::RCC::APBprescaler::APBdiv2);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART1), F_CPU / 2);
+
+   rcc.set (mcu::RCC::APBprescaler::APBdiv16);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART1), F_CPU / 16);
+
+#elif defined(STM32F1) or defined(STM32F4) or defined(STM32F7) 
+   rcc.set_APB1 (mcu::RCC::APBprescaler::APBnotdiv);
+   rcc.set_APB2 (mcu::RCC::APBprescaler::APBnotdiv);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART1), F_CPU);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART2), F_CPU);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART3), F_CPU);
+
+   rcc.set_APB2 (mcu::RCC::APBprescaler::APBdiv2);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART1), F_CPU / 2);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART2), F_CPU);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART3), F_CPU);
+
+   rcc.set_APB1 (mcu::RCC::APBprescaler::APBdiv16);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART1), F_CPU / 2);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART2), F_CPU / 16);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART3), F_CPU / 16);
+#endif
+#if defined(STM32F4) or defined(STM32F7)
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART4), F_CPU / 16);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART5), F_CPU / 16);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART6), F_CPU / 2);
+#endif
+#if defined(STM32F7)
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART7), F_CPU / 16);
+   BOOST_CHECK_EQUAL (rcc.clock(mcu::Periph::USART8), F_CPU / 16);
 #endif
 }
 
