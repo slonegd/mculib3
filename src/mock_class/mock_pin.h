@@ -14,6 +14,11 @@ namespace mcu {
    struct PA1{};
    struct PA2{};
 
+   class Pin;
+
+   std::vector<Pin*> pins;
+   size_t index{0};
+
 class Pin 
 {
 public:
@@ -47,9 +52,9 @@ public:
    
    operator bool() { return set; }
 
-   template<class Pin_, PinMode mode> static auto make()
+   template<class Pin_, PinMode mode> static auto& make()
    {  
-      Pin pin; 
+      static Pin pin; 
 
       if (std::is_same_v<Pin_, TX> and mode == PinMode::USART1_TX) {
          result << "создали пин TX в альтернативном режиме" << '\n';
@@ -61,23 +66,15 @@ public:
          result << "создали пин LED в режиме выхода" << '\n';
       }
 
+      pins.push_back(&pin);
+      index++;
+
       return pin;
    }
 
    template<class Pin_, PinMode mode> static Pin& make_new();
 
 };
-
-std::vector<Pin*> pins;
-size_t index{0};
-
-template<class Pin_, PinMode mode> 
-Pin& Pin::make_new()
-{  
-   auto& pin = *new Pin; 
-   pins.push_back(&pin);
-   return *pins[index++];
-}
 
 int Pin::counter{0};
 } // mcu

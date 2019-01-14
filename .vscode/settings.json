@@ -47,6 +47,7 @@
       "list": "cpp",
       "complex": "cpp",
       "algorithm": "cpp",
-      "bitset": "cpp"
+      "bitset": "cpp",
+      "cstdarg": "cpp"
    }
 }

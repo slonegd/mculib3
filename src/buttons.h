@@ -30,7 +30,7 @@ public:
    template<class Pin_, bool inverted = false> 
    static auto& make()
    {
-      auto& button = *new Button {Pin::template make<Pin_, PinMode::Input>(), inverted};
+      static auto button = Button {Pin::template make<Pin_, PinMode::Input>(), inverted};
       return button;
    }
 
