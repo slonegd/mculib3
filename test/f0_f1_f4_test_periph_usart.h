@@ -352,7 +352,7 @@ BOOST_AUTO_TEST_CASE (transmit_data_adr)
 }
 
 #if defined(STM32F0)
-BOOST_AUTO_TEST_CASE (read_DR)
+BOOST_AUTO_TEST_CASE (clear_interrupt_flags)
 {
    cmsis.ICR = 0;
    usart.clear_interrupt_flags();
