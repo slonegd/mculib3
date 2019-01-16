@@ -6,6 +6,25 @@
    "configurations": [
 
         {
+        "name": "hd44780",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/test/cmake/build/test_hd44780",
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": false,
+        "MIMode": "gdb",
+        "setupCommands": [
+            {
+                "description": "Enable pretty-printing for gdb",
+                "text": "-enable-pretty-printing",
+                "ignoreFailures": true
+            }
+        ]
+        },
+        {
         "name": "string_buffer",
         "type": "cppdbg",
         "request": "launch",

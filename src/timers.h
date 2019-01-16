@@ -2,16 +2,20 @@
 
 #include <cstdint>
 #include "subscriber.h"
-#if not defined (TEST)
-   #include "systick.h"
+#include "systick.h"
+#ifdef USE_MOCK_SYSTICK
+using namespace mock;
+#else
+using namespace mcu;
 #endif
+
 
 
 struct TickUpdater : Publisher
 {
-#if not defined(TEST) 
+// #if not defined(TEST) 
    TickUpdater() { mcu::make_reference<mcu::Periph::SysTick>().initInterrupt<1>(); }
-#endif
+// #endif
    // using List::clear_subscribe;
 } tickUpdater;
 

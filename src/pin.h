@@ -15,7 +15,7 @@ class Pin {
 public:
    Pin (GPIO& port, int n) : port{port}, n{n} {}
 
-   template<class Pin_, mcu::PinMode mode> static auto& make()
+   template<class Pin_, mcu::PinMode mode = mcu::PinMode::Input> static auto& make()
    {
       static Pin pin { mcu::make_reference<Pin_::periph>(), Pin_::n };
       mcu::make_reference<mcu::Periph::RCC>()

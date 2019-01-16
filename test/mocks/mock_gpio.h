@@ -56,15 +56,19 @@ public:
    void set_stream (std::ostream& s) { process = &s; }
    friend std::ostream& operator<< (std::ostream&, const GPIO&);
 
+   auto& base() { return *static_cast<mcu::GPIO*>(this); }
+
    GPIO& set (size_t n) {
       if (process) *process << "установка вывода " << n << " порта " << *this << std::endl;
       static_cast<mcu::GPIO*>(this)->set(n);
+      mock.bsrr_to_idr();
       return *this;
    }
 
    GPIO& clear (size_t n) {
       if (process) *process << "сброс вывода " << n << " порта " << *this << std::endl;
       static_cast<mcu::GPIO*>(this)->clear(n);
+      mock.bsrr_to_idr();
       return *this;
    }
 
@@ -73,6 +77,7 @@ public:
          *process << "переключение вывода " << n << " порта " << *this
                   << ", а именно " << (this->like_CMSIS().IDR & (1 << n) ? "сброс" : "установка") << std::endl;
       static_cast<mcu::GPIO*>(this)->toggle(n);
+      mock.bsrr_to_idr();
       return *this;
    }
 
@@ -82,12 +87,25 @@ public:
       static_cast<mcu::GPIO*>(this)->init<Pin_,mode>();
    }
 
+   void atomic_write (uint32_t v)
+   {
+      if (process) *process << "BSRR" << std::endl;
+      base().atomic_write(v);
+      mock.bsrr_to_idr();
+   }
+
    struct Mock {
       GPIO& parent;
       Mock (GPIO& parent) : parent{parent} {}
       void set (size_t n, bool v)
       {
          v ? parent.like_CMSIS().IDR |= (1 << n) : parent.like_CMSIS().IDR &= ~(1 << n);
+      }
+      void bsrr_to_idr()
+      {
+         auto& cmsis = parent.like_CMSIS();
+         cmsis.IDR |= cmsis.BSRR & 0xFFFF;
+         cmsis.IDR &= ~((cmsis.BSRR >> 16) & 0xFFFF);
       }
    } mock {*this};
 

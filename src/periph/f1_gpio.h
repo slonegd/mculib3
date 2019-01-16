@@ -5,7 +5,7 @@
 #include "periph_afio.h"
 #include "pins.h"
 
-#define COND(...) __VA_ARGS__
+
 
 namespace mcu {
 

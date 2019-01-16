@@ -7,9 +7,8 @@
 namespace mcu {
 
 
-
-
 class SysTick {
+protected:
    __IO SysTick_bits::CTRL     CTRL;  // Offset: 0x000 (R/W)  SysTick Control and Status Register
    __IO uint32_t               LOAD;  // Offset: 0x004 (R/W)  SysTick Reload Value Register
    __IO uint32_t               VAL;   // Offset: 0x008 (R/W)  SysTick Current Value Register
@@ -40,7 +39,8 @@ public:
    }
 };
 
-template<Periph p> std::enable_if_t<p == Periph::SysTick, SysTick&> make_reference() { return *reinterpret_cast<SysTick*>(SysTick_BASE); }
-
+#if not defined(USE_MOCK_SYSTICK)
+SFINAE(SysTick, SysTick) make_reference() { return *reinterpret_cast<SysTick*>(SysTick_BASE); }
+#endif 
 
 } // namespace mcu {

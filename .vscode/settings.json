@@ -48,6 +48,7 @@
       "complex": "cpp",
       "algorithm": "cpp",
       "bitset": "cpp",
-      "cstdarg": "cpp"
+      "cstdarg": "cpp",
+      "iomanip": "cpp"
    }
 }

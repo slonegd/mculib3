@@ -5,13 +5,6 @@
 #include "delay.h"
 #include "timers.h"
 
-#if defined(USE_MOCK_GPIO)
-using namespace mock;
-#else
-using namespace mcu;
-#endif
-
-
 template<class T, class ... Args>
 constexpr bool all_is_same(T& t, Args& ... args)
 {
@@ -19,13 +12,13 @@ constexpr bool all_is_same(T& t, Args& ... args)
 }
 
 struct bit_set {
-   size_t value;
-   constexpr bit_set (size_t value) : value{value} {}
-   constexpr bool operator[] (size_t bit)
+   int16_t value;
+   constexpr bit_set (int16_t value) : value{value} {}
+   constexpr bool operator[] (int16_t bit)
    {
       return value & (1 << bit); 
    }
-   constexpr void set (size_t bit)
+   constexpr void set (int16_t bit)
    {
       value |= (1 << bit);
    }
@@ -43,6 +36,18 @@ class Symbol_n {
     size_t index {0};
 public:
    size_t operator++(int) { return table[index++ % 80]; }
+};
+
+static constexpr unsigned char  convert_HD44780[64] =
+{
+	0x41,0xA0,0x42,0xA1,0xE0,0x45,0xA3,0xA4,
+	0xA5,0xA6,0x4B,0xA7,0x4D,0x48,0x4F,0xA8,
+	0x50,0x43,0x54,0xA9,0xAA,0x58,0xE1,0xAB,
+	0xAC,0xE2,0xAD,0xAE,0xAD,0xAF,0xB0,0xB1,
+	0x61,0xB2,0xB3,0xB4,0xE3,0x65,0xB6,0xB7,
+	0xB8,0xB9,0xBA,0xBB,0xBC,0xBD,0x6F,0xBE,
+	0x70,0x63,0xBF,0x79,0xE4,0x78,0xE5,0xC0,
+	0xC1,0xE6,0xC2,0xC3,0xC4,0xC5,0xC6,0xC7
 };
 
 template<class DB4, class DB5, class DB6, class DB7>
@@ -148,19 +153,19 @@ public:
 
       static auto screen = HD44780 
       {
-         Pin::template make<RS,  PinMode::Output>(),
-         Pin::template make<RW,  PinMode::Output>(),
-         Pin::template make<E,   PinMode::Output>(),
-         make_reference<DB4::periph>(),
+         Pin::template make<RS, mcu::PinMode::Output>(),
+         Pin::template make<RW, mcu::PinMode::Output>(),
+         Pin::template make<E,  mcu::PinMode::Output>(),
+         mcu::make_reference<DB4::periph>(),
          buffer,
          meta::generate<BSRR_value<DB4, DB5, DB6, DB7>, 256>,
          meta::generate<BSRR_command<DB4, DB5, DB6, DB7>, 256>
       };
 
-      Pin::template make<DB4, PinMode::Output>();
-      Pin::template make<DB5, PinMode::Output>();
-      Pin::template make<DB6, PinMode::Output>();
-      Pin::template make<DB7, PinMode::Output>();
+      Pin::template make<DB4, mcu::PinMode::Output>();
+      Pin::template make<DB5, mcu::PinMode::Output>();
+      Pin::template make<DB6, mcu::PinMode::Output>();
+      Pin::template make<DB7, mcu::PinMode::Output>();
 
 
       screen.init();
