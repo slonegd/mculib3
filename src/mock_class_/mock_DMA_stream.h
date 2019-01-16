@@ -114,7 +114,7 @@ public:
          result << "Определяем номер прерывания RX_stream" << '\n'; return DMA1_Channel2_IRQn;
       }
 
-      return Error;
+      // return Error;
    }
 
    uint16_t qty_transactions_left()

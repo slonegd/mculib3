@@ -36,7 +36,20 @@ std::ostream& operator<< (std::ostream& s, mcu::Periph v)
       HELPER (USART7)
       HELPER (USART8)
    #endif
-      s;
+      HELPER (DMA1)
+      v == mcu::Periph::DMA1_stream1 ? s << "DMA1" :
+      v == mcu::Periph::DMA1_stream2 ? s << "DMA1" :
+      v == mcu::Periph::DMA1_stream3 ? s << "DMA1" :
+      v == mcu::Periph::DMA1_stream4 ? s << "DMA1" :
+      v == mcu::Periph::DMA1_stream5 ? s << "DMA1" :
+   #if defined(STM32F1) or defined(STM32F4) or defined(STM32F7)
+      v == mcu::Periph::DMA1_stream6 ? s << "DMA1" :
+      v == mcu::Periph::DMA1_stream7 ? s << "DMA1" :
+   #endif
+   #if defined(STM32F4) or defined(STM32F7)
+      v == mcu::Periph::DMA1_stream0 ? s << "DMA1" :
+   #endif
+      s << "допиши вывод в поток переферии";
       #undef HELPER
 }
 

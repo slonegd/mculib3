@@ -5,8 +5,6 @@
 #include "periph_afio.h"
 #include "pins.h"
 
-#define COND(...) __VA_ARGS__
-
 namespace mcu {
 
 enum class PinMode {Input, Output, USART1_TX, USART1_RX, USART2_TX, USART2_RX, USART3_TX, USART3_RX};

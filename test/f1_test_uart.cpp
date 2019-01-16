@@ -4,7 +4,7 @@
 #define F_CPU   72'000'000UL
 #define STM32F103xB
 
-
+#include "mock_interrupt.h"
 #include "mock_rcc.h"
 #include "mock_afio.h"
 #include "mock_gpio.h"
@@ -12,21 +12,39 @@
 #include "mock_usart.h"
 #include "uart.h"
 #include <type_traits>
+#include <string>
 
 std::stringstream process{};
-auto& rcc   = mcu::make_reference<mcu::Periph::RCC>();
-auto& gpioa = mcu::make_reference<mcu::Periph::GPIOA>();
-auto& gpiob = mcu::make_reference<mcu::Periph::GPIOB>();
-auto& gpioc = mcu::make_reference<mcu::Periph::GPIOC>();
+auto& rcc   = REF(RCC);
+auto& gpioa = REF(GPIOA);
+auto& gpiob = REF(GPIOB);
+auto& gpioc = REF(GPIOC);
+auto& usart1= REF(USART1);
+auto& dma1_stream1 = REF(DMA1_stream1);
+auto& dma1_stream2 = REF(DMA1_stream2);
+auto& dma1_stream3 = REF(DMA1_stream3);
+auto& dma1_stream4 = REF(DMA1_stream4);
+auto& dma1_stream5 = REF(DMA1_stream5);
+auto& dma1_stream6 = REF(DMA1_stream6);
+auto& dma1_stream7 = REF(DMA1_stream7);
 #if defined(STM32F1)
-auto& afio = mcu::make_reference<mcu::Periph::AFIO>();
+auto& afio = REF(AFIO);
 #endif
 
 auto set_stream = [&](){
-     rcc.set_stream (process);
-   gpioa.set_stream (process);
-   gpiob.set_stream (process);
-   gpioc.set_stream (process);
+      rcc.set_stream (process);
+    gpioa.set_stream (process);
+    gpiob.set_stream (process);
+    gpioc.set_stream (process);
+   usart1.set_stream (process);
+   dma1_stream1.set_stream (process);
+   dma1_stream2.set_stream (process);
+   dma1_stream3.set_stream (process);
+   dma1_stream4.set_stream (process);
+   dma1_stream5.set_stream (process);
+   dma1_stream6.set_stream (process);
+   dma1_stream7.set_stream (process);
+   mock::NVIC_EnableIRQ.process = &process;
 #if defined(STM32F1)
     afio.set_stream (process);
 #endif
@@ -47,7 +65,7 @@ BOOST_AUTO_TEST_CASE (make)
    set_stream();
    clear_stream();
 
-   auto uart = UART::make <
+   auto& uart = UART::make <
         mcu::Periph::USART1
       , mcu::PA9
       , mcu::PA10
@@ -56,123 +74,142 @@ BOOST_AUTO_TEST_CASE (make)
    >();
 
    BOOST_CHECK_EQUAL ( process.str(),
-      // методы объекта usart
-      "Проверяем назначение пинов"                          "\n"
-      "Создали ссылку на переферию usart"                   "\n"
-      "Создали ссылку на переферию tx stream"               "\n"
-      "Создали ссылку на переферию rx stream"               "\n"
-      "Передаем значение clock"                             "\n"
-      "создали пин TX в альтернативном режиме"              "\n"
-      "создали пин RX в альтернативном режиме"              "\n"
-      "создали пин RTS в режиме выхода"                     "\n"
-      "создали пин LED в режиме выхода"                     "\n"
-      "Включаем тактирование переферии usart"               "\n"
-      "USART Transmitter enable"                            "\n"
-      "USART Receiver enable"                               "\n"
-      "DMA enable transmitter"                              "\n"
-      "DMA enable receiver"                                 "\n"
-      "USART IDLE interrupt enable"                         "\n"
-      "USART enable"                                        "\n"
-      "Определили номер прерывания USART"                   "\n"
-      "Включили прерывание переферии USART"                 "\n"
-      // методы объекта TXstrteam
-      "Включаем тактирование переферии DMA"                 "\n" 
-      "Запрещаем работу TX_stream"                          "\n"
-      "Задаем направление TX_stream в переферию"            "\n"
-      "Задаем адрес памяти TX_stream"                       "\n"
-      "Передаем адрес регистра данных"                      "\n"
-      "Задаем адрес переферии TX_stream"                    "\n"
-      "Инкременнтируем адрес памяти TX_stream"              "\n"
-      "Задаем размер для памяти TX_stream 8 бит"            "\n"
-      "Задаем размер для переферии TX_stream 8 бит"         "\n"
-      "Разрешаем прерывание TX_stream по окончании отправки""\n"
-      "Определяем номер прерывания TX_stream"                "\n"
-      "Включили прерывание переферии DMA TX_stream"         "\n"
-      // методы объекта RXstrteam
-      "Задаем направление RX_stream в память"               "\n"
-      "Задаем адрес памяти RX_stream"                       "\n"
-      "Передаем адрес регистра данных"                      "\n"
-      "Задаем адрес переферии RX_stream"                    "\n"
-      "Устанавливаем колв-во транзакций для RX_stream"      "\n"
-      "Инкременнтируем адрес памяти RX_stream"              "\n"
-      "Задаем размер для памяти RX_stream 8 бит"            "\n"
-      "Задаем размер для переферии RX_stream 8 бит"         "\n"
+      "включение тактирования GPIOA\n"
+      "инициализация вывода 9 порта GPIOA в режиме USART1_TX\n"
+      "включение тактирования AFIO\n"
+      "включение тактирования GPIOA\n"
+      "инициализация вывода 10 порта GPIOA в режиме USART1_RX\n"
+      "включение тактирования AFIO\n"
+      "включение тактирования GPIOA\n"
+      "инициализация вывода 11 порта GPIOA в режиме Output\n"
+      "включение тактирования GPIOA\n"
+      "инициализация вывода 12 порта GPIOA в режиме Output\n"
+      "включение тактирования USART1\n"
+      "USART1: Разрешение отправки\n"
+      "USART1: Разрешение приёма\n"
+      "USART1: Разрешение DMA на отправку\n"
+      "USART1: Разрешение DMA на приём\n"
+      "USART1: Разрешение прерывания по простою\n"
+      "USART1: Разрешение работы\n"
+      "NVIC: включение прерывания USART1\n"
+      "включение тактирования DMA1\n"
+      "DMA1_stream4: Установка направления из памяти в переферию\n"
+      "DMA1_stream4: Установка адреса памяти: " + std::to_string(size_t(uart.begin())) + "\n"
+      "DMA1_stream4: Установка адреса переферии: " + std::to_string(size_t(&usart1.like_CMSIS().DR)) + "\n"
+      "DMA1_stream4: Установка инкремента адреса памяти\n"
+      "DMA1_stream4: Установка размера данных в памяти байт (8бит)\n"
+      "DMA1_stream4: Установка размера данных в переферии байт (8бит)\n"
+      "DMA1_stream4: Разрешение прерывания по концу передачи данных\n"
+      "NVIC: включение прерывания DMA1_Channel4\n"
+      "DMA1_stream5: Установка направления из переферии в память\n"
+      "DMA1_stream5: Установка адреса памяти: " + std::to_string(size_t(uart.begin())) + "\n"
+      "DMA1_stream5: Установка адреса переферии: " + std::to_string(size_t(&usart1.like_CMSIS().DR)) + "\n"
+      "DMA1_stream5: Установка количества передач данных: 255\n"
+      "DMA1_stream5: Установка инкремента адреса памяти\n"
+      "DMA1_stream5: Установка размера данных в памяти байт (8бит)\n"
+      "DMA1_stream5: Установка размера данных в переферии байт (8бит)\n"
    );
 }
-/*
+
 BOOST_AUTO_TEST_CASE(init)
 {
-   mcu::UART::Settings set {
+   auto& uart = UART::make <
+        mcu::Periph::USART1
+      , mcu::PA9
+      , mcu::PA10
+      , mcu::PA11
+      , mcu::PA12
+   >();
+
+   set_stream();
+   clear_stream();
+
+   UART::Settings set {
       .parity_enable = false,
-      .parity        = mcu::UART::Parity::even,
-      .data_bits     = mcu::UART::DataBits::_8,
-      .stop_bits     = mcu::UART::StopBits::_1,
-      .baudrate      = mcu::UART::Baudrate::BR9600,
+      .parity        = UART::Parity::even,
+      .data_bits     = UART::DataBits::_8,
+      .stop_bits     = UART::StopBits::_1,
+      .baudrate      = UART::Baudrate::BR9600,
       .res           = 0
    };
-   result.str("");
    uart.init(set);
-   BOOST_CHECK_EQUAL (result.str(),
-      "Установлена скорость 9600 бит/с""\n"
-      "Задана проверка на четность"    "\n"
-      "Установлен размер пакета 8 бит" "\n"
-      "УСтановлен один стоповый бит"   "\n"
+
+   BOOST_CHECK_EQUAL (process.str(),
+      "USART1: Установлена скорость 9600 бит/с\n"
+      "USART1: Задана проверка на четность\n"
+      "USART1: Установлен размер пакета 8 бит\n"
+      "USART1: Установлено количество стоп битов: 1\n"
    );
 
-   result.str("");
-   set.baudrate = mcu::UART::Baudrate::BR14400;
+   clear_stream();
+   set.baudrate = UART::Baudrate::BR14400;
    uart.init(set);
-   BOOST_CHECK_EQUAL (result.str(),
-      "Установлена скорость 14400 бит/с""\n"
-      "Задана проверка на четность"     "\n"
-      "Установлен размер пакета 8 бит"  "\n"
-      "УСтановлен один стоповый бит"    "\n"
+   BOOST_CHECK_EQUAL (process.str(),
+      "USART1: Установлена скорость 14400 бит/с\n"
+      "USART1: Задана проверка на четность\n"
+      "USART1: Установлен размер пакета 8 бит\n"
+      "USART1: Установлено количество стоп битов: 1\n"
    );
 
-   result.str("");
-   set.parity = mcu::UART::Parity::odd;
+   clear_stream();
+   set.parity = UART::Parity::odd;
    uart.init(set);
-   BOOST_CHECK_EQUAL (result.str(),
-      "Установлена скорость 14400 бит/с""\n"
-      "Задана проверка на нечетность"   "\n"
-      "Установлен размер пакета 8 бит"  "\n"
-      "УСтановлен один стоповый бит"    "\n"
+   BOOST_CHECK_EQUAL (process.str(),
+      "USART1: Установлена скорость 14400 бит/с\n"
+      "USART1: Задана проверка на нечетность\n"
+      "USART1: Установлен размер пакета 8 бит\n"
+      "USART1: Установлено количество стоп битов: 1\n"
    );
 }
 
 BOOST_AUTO_TEST_CASE(transmit)
 {
-   result.str("");
+   auto& uart = UART::make <
+        mcu::Periph::USART1
+      , mcu::PA9
+      , mcu::PA10
+      , mcu::PA11
+      , mcu::PA12
+   >();
+
+   set_stream();
+   clear_stream();
+   
+   constexpr auto qty = 5;
    uart.transmit(qty);
-   BOOST_CHECK_EQUAL (result.str(),
-      "устанавливаем значение пина LED true"          "\n"
-      "устанавливаем значение пина RTS true"          "\n"
-      "Запрещаем работу RX_stream"                    "\n"
-      "Запрещаем работу TX_stream"                    "\n"
-      "Устанавливаем колв-во транзакций для TX_stream""\n"
-      "Разрешаем работу TX_stream"                    "\n"
+   BOOST_CHECK_EQUAL (process.str(),
+      "установка вывода 12 порта GPIOA\n"
+      "установка вывода 11 порта GPIOA\n"
+      "DMA1_stream5: Запрет работы\n"
+      "DMA1_stream4: Запрет работы\n"
+      "DMA1_stream4: Установка количества передач данных: " + std::to_string(qty) + "\n"
+      "DMA1_stream4: Разрешение работы\n"
    );
 
 }
 
 BOOST_AUTO_TEST_CASE(start_receive)
 {
-   result.str("");
+   auto& uart = UART::make <
+        mcu::Periph::USART1
+      , mcu::PA9
+      , mcu::PA10
+      , mcu::PA11
+      , mcu::PA12
+   >();
+
+   set_stream();
+   clear_stream();
+
    uart.start_receive();
-   BOOST_CHECK_EQUAL (result.str(),
-      "устанавливаем значение пина LED false" "\n"
-      "устанавливаем значение пина RTS false" "\n"
-      "Запрещаем работу TX_stream"            "\n"
-      "Запрещаем работу RX_stream"            "\n"
-      "Разрешаем работу RX_stream"            "\n"
-   ); 
+   BOOST_CHECK_EQUAL (process.str(),
+      "сброс вывода 12 порта GPIOA\n"
+      "сброс вывода 11 порта GPIOA\n"
+      "DMA1_stream4: Запрет работы\n"
+      "DMA1_stream5: Запрет работы\n"
+      "DMA1_stream5: Разрешение работы\n"
+   );
 }
 
-BOOST_AUTO_TEST_CASE(interrupt)
-{
-   uint message_size = uart.message_size();
-   USART1_IRQHandler();
-}
-*/
 BOOST_AUTO_TEST_SUITE_END()
 

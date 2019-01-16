@@ -35,94 +35,94 @@ public:
       return stream;
    }
    void set_stream (std::ostream& s) { process = &s; }
+   friend std::ostream& operator<< (std::ostream& s, const DMA_stream& v);
 
-   #define BASE static_cast<mcu::DMA_stream*>(this)
+   auto& base() { return *static_cast<mcu::DMA_stream*>(this); }
 
-/*   DMA_stream& enable()
+   DMA_stream& enable()
    {
       if (process) *process << *this << ": Разрешение работы" << std::endl;
-      BASE->enable();
+      base().enable();
       return *this;     
    }
 
    DMA_stream& disable()
    {
       if (process) *process << *this << ": Запрет работы" << std::endl;
-      BASE->disable();
+      base().disable();
       return *this;     
    }
 
    DMA_stream& inc_memory()
    {
       if (process) *process << *this << ": Установка инкремента адреса памяти" << std::endl;
-      BASE->inc_memory();
+      base().inc_memory();
       return *this;     
    }
 
    DMA_stream& inc_periph()
    {
       if (process) *process << *this << ": Установка инкремента адреса переферии" << std::endl;
-      BASE->inc_periph();
+      base().inc_periph();
       return *this;     
    }
 
    DMA_stream& circular_mode()
    {
       if (process) *process << *this << ": Установка кольцевого режима" << std::endl;
-      BASE->circular_mode();
+      base().circular_mode();
       return *this;
    }
 
    DMA_stream& set_memory_adr (size_t v)
    {
       if (process) *process << *this << ": Установка адреса памяти: " << v << std::endl;
-      BASE->set_memory_adr(v);
+      base().set_memory_adr(v);
       return *this;
    }
 
    DMA_stream& set_periph_adr (size_t v)
    {
       if (process) *process << *this << ": Установка адреса переферии: " << v << std::endl;
-      BASE->set_periph_adr(v);
+      base().set_periph_adr(v);
       return *this;
    }
 
    DMA_stream& set_qty_transactions (uint16_t v)
    {
       if (process) *process << *this << ": Установка количества передач данных: " << v << std::endl;
-      BASE->set_qty_transactions(v);
+      base().set_qty_transactions(v);
       return *this;
    }
 
    DMA_stream& direction (DataDirection v)
    {
       if (process) *process << *this << ": Установка направления " << v << std::endl;
-      BASE->direction(v);
+      base().direction(v);
       return *this;
    }
 
    DMA_stream& size_memory (DataSize v)
    {
       if (process) *process << *this << ": Установка размера данных в памяти " << v << std::endl;
-      BASE->size_memory(v);
+      base().size_memory(v);
       return *this;
    }
 
    DMA_stream& size_periph (DataSize v)
    {
       if (process) *process << *this << ": Установка размера данных в переферии " << v << std::endl;
-      BASE->size_memory(v);
+      base().size_memory(v);
       return *this;
    }
 
    DMA_stream& enable_transfer_complete_interrupt()
    {
-      if (process) *process << *this << ": Расрешение прерывания по концу передачи данных" << std::endl;
-      BASE->enable_transfer_complete_interrupt();
+      if (process) *process << *this << ": Разрешение прерывания по концу передачи данных" << std::endl;
+      base().enable_transfer_complete_interrupt();
       return *this;
    }
 
-   #undef BASE*/
 };
 
 std::ostream& operator<< (std::ostream& s, const DMA_stream& v)

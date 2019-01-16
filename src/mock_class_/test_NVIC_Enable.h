@@ -1,12 +1,11 @@
 #pragma once
 
 #include "string_result.h"
+#include "periph.h"
 
-enum IRQn_Type
-{
-   USART1_IRQn, DMA1_Channel1_IRQn, DMA1_Channel2_IRQn, Error
-};
 
+
+namespace mock {
 
 struct NVIC_Enable
 {
@@ -20,5 +19,7 @@ struct NVIC_Enable
       }
    }
 
-}NVIC_EnableIRQ;
+} NVIC_EnableIRQ;
+
+}
 
