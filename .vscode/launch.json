@@ -161,7 +161,7 @@
          "name": "test",
          "type": "cppdbg",
          "request": "launch",
-         "program": "${workspaceRoot}/test/cmake/build/test_",
+         "program": "${workspaceRoot}/test/cmake/build/test_buffer",
          "args": [],
          "stopAtEntry": true,
          "cwd": "${workspaceRoot}",
