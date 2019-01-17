@@ -22,3 +22,4 @@ public:
      last_time = std::chrono::high_resolution_clock::now();
      return duration.count();
    }
+};

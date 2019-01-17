@@ -22,6 +22,7 @@ public:
    void enableInterrupt()   { CTRL.TICKINT = true; }
    void enable()            { CTRL.ENABLE = true; }
    uint32_t get()           { return VAL; }
+   uint32_t get_load()      { return LOAD; }
 
 
    template <uint16_t ms> void initInterrupt()

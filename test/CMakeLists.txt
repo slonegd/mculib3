@@ -106,7 +106,10 @@ endfunction(test)
 # test (NULL test_reflect)
 # test (NULL test_table_crc)
 test (NULL test_string_buffer)
-test (STM32F1 test_hd44780)
+# test (STM32F1 test_hd44780)
+test (STM32F1 test_timers)
+test (STM32F1 test_delay)
+
 
 
 

@@ -40,21 +40,21 @@ auto& rw = Pin::make<RW>();
 
 BOOST_AUTO_TEST_CASE(make)
 {
-   auto& systick = mcu::make_reference<mcu::Periph::SysTick>();
+   // auto& systick = mcu::make_reference<mcu::Periph::SysTick>();
    
-   bool work {false};
-   std::thread ([&](){
-      HD44780::make<RS, RW, E, DB4, DB5, DB6, DB7>(buffer);
-   }).detach();
-   // Timeout time {20};
+   // bool work {false};
+   // std::thread ([&](){
+   //    HD44780::make<RS, RW, E, DB4, DB5, DB6, DB7>(buffer);
+   // }).detach();
+   // // Timeout time {20};
  
-   auto begin = systick.now();
-   // std::thread ([&](){systick.tick();}).detach();
+   // auto begin = systick.now();
+   // // std::thread ([&](){systick.tick();}).detach();
 
-   while (not e) {systick.tick();}
-   auto passed_ms = systick.microseconds_from(begin);
+   // while (not e) {systick.tick();}
+   // auto passed_us = systick.microseconds_from(begin);
 
-   BOOST_CHECK (passed_ms >= 20'000);
+   // BOOST_CHECK (passed_us >= 20'000);
    // BOOST_CHECK (time_passed >= 20);
    // BOOST_CHECK_EQUAL (bool(e), false);
 

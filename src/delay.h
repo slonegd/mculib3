@@ -1,39 +1,81 @@
 #pragma once
 
-#include "timers.h"
-
-#ifdef USE_MOCK_SYSTICK
+#if defined (USE_MOCK_SYSTICK) or defined (USE_MOCK_TIMER)
+#define NS mock
 using namespace mock;
 #else
+#define NS
 using namespace mcu;
 #endif
 
+class Delay {
 
-template <uint32_t us>
-std::enable_if_t<us >= 1000> delay()
-{
-   constexpr uint32_t time = us/1000;
-   Timer timer {time};
-   while (not timer.event()){}
-   timer.stop();
-}
+   uint32_t begin {0};
+   uint32_t rest  {0};
+   bool first_time {false};
 
-template <uint32_t us>
-std::enable_if_t<us < 1000> delay()
-{
-   constexpr uint32_t time = us * (F_CPU / 1'000'000);
-   auto& tick = mcu::make_reference<mcu::Periph::SysTick>();
+   NS::Timer timer {};
+
+public:
+
+   Delay() {first_time = true;}
    
-   uint32_t current_time = tick.get();
-   if (tick.get() > time) {
-      while ((current_time - time) < tick.get()){}
-   } else {
-      uint32_t rest = time - tick.get();
-      current_time = tick.get();
-      while (current_time > tick.get()) {
-         current_time = tick.get();
+   bool ms (uint32_t us)
+   {
+      timer.start(us);
+
+      if (not timer.event()){ return true; } 
+      else {
+         timer.stop();
+         return false;
       }
-      current_time = tick.get();
-      while ((current_time - rest) < tick.get()){}
    }
-}
+
+   bool us (uint32_t us)
+   {
+      if (us >= 1000) {
+         if (ms(us/1000))
+            return false;
+         else 
+            return true;
+      } else {
+         uint32_t time = us * (F_CPU / 1'000'000);
+         auto& tick = mcu::make_reference<mcu::Periph::SysTick>();
+   
+         if (first_time) { 
+            begin = tick.get();
+            if (time >= begin) {
+               rest = time - begin;
+            } 
+
+            first_time = false; 
+         } 
+
+         if (begin >= time) {
+            if (begin - tick.get() < time ) { 
+               return true; 
+            } else  {
+               first_time = true;  
+               return false;
+            }
+         } else {
+            if (tick.get() < begin) {
+               return true;
+            } else {
+               if (tick.get_load() - tick.get() < rest)
+                  return true; 
+               else {
+                  first_time = true;
+                  return false;
+               } 
+            }   
+         }
+         return true;
+      }
+   }
+   
+
+
+   
+
+};

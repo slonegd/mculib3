@@ -11,6 +11,7 @@ using namespace mcu;
 
 
 
+
 struct TickUpdater : Publisher
 {
 // #if not defined(TEST) 
@@ -35,13 +36,12 @@ public:
    
 };
 
-
-
 class Timer : TickSubscriber
 {
 public:
    Timer() = default;
    Timer (uint32_t ms) { start(ms); }
+   ~Timer () {unsubscribe();}
 
    void     start   (uint32_t ms); /// запускает счёт с текущего значения счётчика, устанавливает время
    bool     event();   /// возвращает true, если таймер натикал и перезапускает его
@@ -62,6 +62,7 @@ private:
 
    void notify() override;
 };
+
 
 
 
@@ -133,3 +134,4 @@ void TickSubscriber::subscribe()
       tickUpdater.subscribe (this);
    }
 }
+
