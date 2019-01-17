@@ -114,7 +114,7 @@ test (STM32F1 test_uart_f1)
 test (NULL test_reflect)
 test (NULL test_table_crc)
 test (NULL test_string_buffer)
-test (NULL test_buffer)
+test (NULL test_net_buffer)
 #test (STM32F1 test_hd44780)
 
 # test (NULL test_)

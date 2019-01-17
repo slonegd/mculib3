@@ -9,10 +9,10 @@
 // // #include "pwm.h"
 // #include "uart.h"
 // #include "fifo.h"
-// # include "modbus_slave.h"
+# include "modbus_slave.h"
 // #include "modbus_master.h"
 // #include "buttons.h"
-#include "lcd_ram.h"
+// #include "lcd_ram.h"
 
 
 /// эта функция вызывается первой в startup файле
@@ -40,7 +40,21 @@ extern "C" void init_clock ()
 
 int main()
 {
-   LCD buffer;
-   // buffer << "He/llo world!";
+   struct In_regs {
+      uint16_t d1;
+      int16_t  d2;
+   };
+   struct Out_regs {
+      uint16_t d1;
+      int16_t  d2;
+   };
+   auto& modbus = Modbus_slave<In_regs, Out_regs>::make<
+      mcu::Periph::USART1,
+      mcu::PA9,
+      mcu::PA10,
+      mcu::PA11,
+      mcu::PA12
+   >(1, UART::Settings{});
 
+   modbus ([](auto){});
 }

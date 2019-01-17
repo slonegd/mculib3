@@ -1,5 +1,7 @@
 #pragma once
 
+#include <tuple>
+
 // функция возвращает значение CRC меняя местами старший и младший биты, как заложено в спецификации модбас
 
 constexpr uint8_t crc_low_table[]
@@ -24,7 +26,7 @@ constexpr uint8_t crc_low_table[]
         0x40
 };
 
- constexpr uint8_t crc_high_table[]
+constexpr uint8_t crc_high_table[]
 {
         0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06, 0x07, 0xC7, 0x05, 0xC5, 0xC4,
         0x04, 0xCC, 0x0C, 0x0D, 0xCD, 0x0F, 0xCF, 0xCE, 0x0E, 0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09,
@@ -55,8 +57,8 @@ constexpr auto CRC16(InputIt first, InputIt last)
     do
     {
        uint8_t i = crc_low ^ *first++;              // will index into CRC lookup table
-       crc_low  = crc_high  ^ crc_low_table[i];    // calculate the CRC
-       crc_high =             crc_high_table [i];
+       crc_low  = crc_high ^ crc_low_table[i];    // calculate the CRC
+       crc_high =            crc_high_table[i];
     }
     while (first != last);   // pass through message buffer (max 256)
         

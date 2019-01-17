@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE (make)
       "NVIC: включение прерывания USART1\n"
       "включение тактирования DMA1\n"
       "DMA1_stream4: Установка направления из памяти в переферию\n"
-      "DMA1_stream4: Установка адреса памяти: " + std::to_string(size_t(uart.begin())) + "\n"
+      "DMA1_stream4: Установка адреса памяти: " + std::to_string(size_t(uart.buffer.begin())) + "\n"
       "DMA1_stream4: Установка адреса переферии: " + std::to_string(size_t(&usart1.like_CMSIS().DR)) + "\n"
       "DMA1_stream4: Установка инкремента адреса памяти\n"
       "DMA1_stream4: Установка размера данных в памяти байт (8бит)\n"
@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_CASE (make)
       "DMA1_stream4: Разрешение прерывания по концу передачи данных\n"
       "NVIC: включение прерывания DMA1_Channel4\n"
       "DMA1_stream5: Установка направления из переферии в память\n"
-      "DMA1_stream5: Установка адреса памяти: " + std::to_string(size_t(uart.begin())) + "\n"
+      "DMA1_stream5: Установка адреса памяти: " + std::to_string(size_t(uart.buffer.begin())) + "\n"
       "DMA1_stream5: Установка адреса переферии: " + std::to_string(size_t(&usart1.like_CMSIS().DR)) + "\n"
       "DMA1_stream5: Установка количества передач данных: 255\n"
       "DMA1_stream5: Установка инкремента адреса памяти\n"
@@ -175,14 +175,14 @@ BOOST_AUTO_TEST_CASE(transmit)
    set_stream();
    clear_stream();
    
-   constexpr auto qty = 5;
-   uart.transmit(qty);
+   uart.buffer << uint8_t(1) << uint8_t(2) << uint8_t(3);
+   uart.transmit();
    BOOST_CHECK_EQUAL (process.str(),
       "установка вывода 12 порта GPIOA\n"
       "установка вывода 11 порта GPIOA\n"
       "DMA1_stream5: Запрет работы\n"
       "DMA1_stream4: Запрет работы\n"
-      "DMA1_stream4: Установка количества передач данных: " + std::to_string(qty) + "\n"
+      "DMA1_stream4: Установка количества передач данных: 3\n"
       "DMA1_stream4: Разрешение работы\n"
    );
 
@@ -201,7 +201,7 @@ BOOST_AUTO_TEST_CASE(start_receive)
    set_stream();
    clear_stream();
 
-   uart.start_receive();
+   uart.receive();
    BOOST_CHECK_EQUAL (process.str(),
       "сброс вывода 12 порта GPIOA\n"
       "сброс вывода 11 порта GPIOA\n"
