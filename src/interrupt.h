@@ -14,7 +14,6 @@ class Interrupt
    Interrupting* first{nullptr};
 
 public:
-   
    void subscribe(Interrupting* ps)
    {
       auto p = first;
@@ -26,6 +25,9 @@ public:
          first = ps;
       } 
    }
+
+   void clear_subscribe() { first = nullptr; }
+
    void interrupt()
    {
       auto p = first;

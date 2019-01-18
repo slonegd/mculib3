@@ -97,8 +97,5 @@ public:
    {
       return base()[begin_i];
    }
-
-
-
    
 };

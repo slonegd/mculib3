@@ -1,12 +1,10 @@
 #pragma once
 
-
 #include <array>
 #include <type_traits>
 #include "periph_usart.h"
 #include "periph_dma.h"
 #include "net_buffer.h"
-
 
 #if defined(USE_MOCK_DMA) or defined(USE_MOCK_USART)
 using namespace mock;
@@ -225,3 +223,5 @@ bool UART_sized<buffer_size>::is_tx_complete()
 {
    return usart.is_tx_complete();
 }
+
+#undef NS

@@ -9,7 +9,7 @@
 #include "mock_afio.h"
 #include "mock_gpio.h"
 #include "mock_dma.h"
-#include "mock_usart.h"
+#include "mock_periph_usart.h"
 #include "uart.h"
 #include <type_traits>
 #include <string>

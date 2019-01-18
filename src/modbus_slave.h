@@ -2,13 +2,16 @@
 
 #include "timers.h"
 #include "table_crc.h"
-#if not defined (TEST)
-   #include "uart.h"
-   #include "interrupt.h"
-   #include <cstring>
+#include "uart.h"
+#include "interrupt.h"
+#include <cstring>
+
+#if defined(USE_MOCK_UART)
+#define NS mock
+#else
+#define NS
 #endif
 
-namespace mcu {
 
 template <class InRegs_t, class OutRegs_t>
 class Modbus_slave : TickSubscriber
@@ -16,7 +19,7 @@ class Modbus_slave : TickSubscriber
    enum class Function   : uint8_t {read_03 = 0x03, write_16 = 0x10};
    enum class Error_code : uint8_t {wrong_func = 0x01, wrong_reg = 0x02, wrong_value = 0x03};
 
-   UART& uart;
+   NS::UART& uart;
    Interrupt& interrupt_usart;
    Interrupt& interrupt_DMA_channel;
 
@@ -48,7 +51,7 @@ class Modbus_slave : TickSubscriber
    void uartInterrupt()
    {
       if (uart.is_IDLE()) 
-         subscribe();
+         tick_subscribe();
    }
    void dmaInterrupt()
    {
@@ -107,7 +110,7 @@ public:
    
    Modbus_slave (
         uint8_t address
-      , UART& uart
+      , NS::UART& uart
       , Interrupt& interrupt_usart
       , Interrupt& interrupt_DMA_channel
    ) : uart                  {uart}
@@ -132,7 +135,7 @@ public:
                              usart == Periph::USART3 ? &interrupt_DMA_channel2 :
                              nullptr;
 
-      auto& uart_ref = UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>();
+      auto& uart_ref = NS::UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>();
 
       static Modbus_slave<InRegs_t, OutRegs_t> modbus {
            address
@@ -195,7 +198,7 @@ inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (function reaction)
 {
    if (uart.is_receiving()) {
       time = 0;
-      unsubscribe();
+      tick_unsubscribe();
       return;
    }
    
@@ -203,7 +206,7 @@ inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (function reaction)
       return;
 
    time = 0;
-   unsubscribe();
+   tick_unsubscribe();
    
    if (uart.buffer.size() < 8) {
       uart.receive();
@@ -336,4 +339,3 @@ bool Modbus_slave<InRegs_t, OutRegs_t>::check_value()
 }
 
 
-} // namespace mcu
