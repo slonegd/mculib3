@@ -124,23 +124,23 @@ class HD44780 : TickSubscriber
 
    void init();
 
-   void strob_e()
-   { 
-      e = false;
-      delay<100>();
-      e = true;
-      delay<100>();
-   }
+   // void strob_e()
+   // { 
+   //    e = false;
+   //    delay.us(100);
+   //    e = true;
+   //    delay.us(100);
+   // }
 
-   void instruction (uint32_t action)
-   {
-      rs = false;
-      port.atomic_write(command[action].first);
-      strob_e();
-      port.atomic_write(command[action].second);
-      strob_e();
-      delay<50>();
-   }
+   // void instruction (uint32_t action)
+   // {
+   //    rs = false;
+   //    port.atomic_write(command[action].first);
+   //    strob_e();
+   //    port.atomic_write(command[action].second);
+   //    strob_e();
+   //    delay.us(50);
+   // }
 
 
 public:
@@ -180,23 +180,40 @@ public:
 
 void HD44780::init()
 {
-   delay<20000>();
+   Delay delay;
+   
+   auto strob_e = [&](){
+      e = false;
+      while(delay.us(100)) {}
+      e = true;
+      while(delay.us(100)) {}
+   };
+
+   auto instruction = [&](uint32_t action) {
+      rs = false;
+      port.atomic_write(command[action].first);
+      strob_e();
+      port.atomic_write(command[action].second);
+      strob_e();
+      while(delay.us(50)) {}
+   };
+   
+   while(delay.ms(20)) {}
    rs = false;
    rw = false;
    e = true;
-   
    port.atomic_write(command[0x03].second);
    strob_e();
-   delay<5000>();
+   while(delay.ms(5)) {}
    port.atomic_write(command[0x03].second);
    strob_e();
-   delay<100>();
+   while(delay.us(100)) {}
    port.atomic_write(command[0x03].second);
    strob_e();
-   delay<50>();
+   while(delay.us(50)) {}
    port.atomic_write(command[0x02].second);
    strob_e();
-   delay<50>();
+   while(delay.us(50)) {}
    instruction (_4_bit_mode);
    instruction (display_on);
    instruction (dir_shift_right);
