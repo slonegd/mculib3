@@ -10,14 +10,12 @@ install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
 before_script:
   - sudo apt-get install libboost-test-dev -y
-  # - sudo apt-get install libboost-system-dev -y
   - sudo apt-get install doxygen graphviz
 script:
   - cd test
   - cmake -H. -Bcmake
   - cmake --build cmake
   - cmake --build cmake --target test
-  # - cmake --build cmake --target package
   - doxygen Doxyfile
 deploy:
   - provider: pages
