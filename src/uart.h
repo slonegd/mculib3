@@ -4,49 +4,72 @@
 #include <type_traits>
 #include "periph_usart.h"
 #include "periph_dma.h"
+#include "pin.h"
 #include "net_buffer.h"
 
-#if defined(USE_MOCK_DMA) or defined(USE_MOCK_USART)
-using namespace mock;
-#define NS mock
-#else
-using namespace mcu;
-#define NS 
-#endif
+#include "mock_def.h"
 
 template<size_t buffer_size = 255>
 class UART_sized
 {
-   Pin& tx;
-   Pin& rx;
-   Pin& rts;
-   Pin& led;
-   USART& usart;
-   DMA_stream& TXstream;
-   DMA_stream& RXstream;
-   const mcu::Periph uart_periph;
-
 public:
-   using Parity         = USART::Parity;
-   using WakeMethod     = USART::WakeMethod;
-   using DataBits       = USART::DataBits;
-   using BreakDetection = USART::BreakDetection;
-   using StopBits       = USART::StopBits;
-   using Baudrate       = USART::Baudrate;
-   using DataSize       = DMA_stream::DataSize;
-   using Priority       = DMA_stream::Priority;
-   using DataDirection  = DMA_stream::DataDirection;
+   using Parity   = USART_t::Parity;
+   using DataBits = USART_t::DataBits;
+   using StopBits = USART_t::StopBits;
+   using Baudrate = USART_t::Baudrate;
+   struct Settings {
+      bool     parity_enable :1;
+      Parity   parity        :1;
+      DataBits data_bits     :1;
+      StopBits stop_bits     :2;
+      Baudrate baudrate      :3;
+      uint16_t res           :8;
+   };
 
    Net_buffer<buffer_size> buffer;
 
+   template <
+        mcu::Periph usart
+      , class TXpin
+      , class RXpin
+      , class RTSpin
+      , class LEDpin
+   > static auto& make();
+
+   void init (const Settings&);
+   void transmit();
+   void receive();
+   bool is_tx_complete();
+   bool is_IDLE();
+   bool is_receiving() { return buffer.size() < (buffer_size - RXstream.qty_transactions_left()); } 
+   int  modbus_time (Baudrate); // ??
+
+
+
+private:
+   using WakeMethod     = USART_t::WakeMethod;
+   using BreakDetection = USART_t::BreakDetection;
+   using DataSize       = DMA_stream_t::DataSize;
+   using Priority       = DMA_stream_t::Priority;
+   using DataDirection  = DMA_stream_t::DataDirection;
+
+   Pin&          tx;
+   Pin&          rx;
+   Pin&          rts;
+   Pin&          led;
+   USART_t&      usart;
+   DMA_stream_t& TXstream;
+   DMA_stream_t& RXstream;
+   const mcu::Periph uart_periph;
+
    UART_sized (
-        Pin& tx
-      , Pin& rx
-      , Pin& rts
-      , Pin& led
-      , USART& usart
-      , DMA_stream& TXstream
-      , DMA_stream& RXstream
+        Pin&          tx
+      , Pin&          rx
+      , Pin&          rts
+      , Pin&          led
+      , USART_t&      usart
+      , DMA_stream_t& TXstream
+      , DMA_stream_t& RXstream
       , mcu::Periph uart_periph
    )  : tx       {tx}
       , rx       {rx}
@@ -57,32 +80,6 @@ public:
       , RXstream {RXstream}
       , uart_periph {uart_periph}
    {}
-
-   struct Settings {
-      bool     parity_enable :1;
-      Parity   parity        :1;
-      DataBits data_bits     :1;
-      StopBits stop_bits     :2;
-      Baudrate baudrate      :3;
-      uint16_t res           :8;
-   };
-
-   template <
-        mcu::Periph usart
-      , class TXpin
-      , class RXpin
-      , class RTSpin
-      , class LEDpin
-   > static auto& make();
-   void init (const Settings&);
-   void transmit();
-   void receive();
-   bool is_tx_complete();
-   bool is_IDLE();
-   
-   int modbus_time (Baudrate);
-   bool is_receiving() { return buffer.size() < (buffer_size - RXstream.qty_transactions_left()); } 
-
 };
 
 using UART = UART_sized<>;
@@ -122,12 +119,12 @@ template<size_t buffer_size>
 template <mcu::Periph uart_periph, class TXpin, class RXpin, class RTSpin, class LEDpin> 
 auto& UART_sized<buffer_size>::make()
 {
-   USART::pin_static_assert<uart_periph, TXpin, RXpin>();
+   USART_t::pin_static_assert<uart_periph, TXpin, RXpin>();
    
-   constexpr auto TX_stream  = USART::default_stream<TXpin>();
-   constexpr auto RX_stream  = USART::default_stream<RXpin>();
-   constexpr auto TXpin_mode = USART::pin_mode<TXpin>();
-   constexpr auto RXpin_mode = USART::pin_mode<RXpin>();
+   constexpr auto TX_stream  = USART_t::default_stream<TXpin>();
+   constexpr auto RX_stream  = USART_t::default_stream<RXpin>();
+   constexpr auto TXpin_mode = USART_t::pin_mode<TXpin>();
+   constexpr auto RXpin_mode = USART_t::pin_mode<RXpin>();
 
    static UART_sized<buffer_size> uart {
         Pin::make<TXpin, TXpin_mode>()
@@ -148,7 +145,7 @@ auto& UART_sized<buffer_size>::make()
              .DMA_rx_enable()
              .enable_IDLE_interrupt()
              .enable();
-   NS::NVIC_EnableIRQ(uart.usart.IRQn(uart_periph));
+   NVIC_EnableIRQ_t(uart.usart.IRQn(uart_periph));
 
    rcc.clock_enable<TX_stream>();
    uart.TXstream.direction(DataDirection::MemToPer)
@@ -158,7 +155,7 @@ auto& UART_sized<buffer_size>::make()
                 .size_memory(DataSize::byte8)
                 .size_periph(DataSize::byte8)
                 .enable_transfer_complete_interrupt();
-      NS::NVIC_EnableIRQ(uart.TXstream.IRQn(TX_stream));
+      NVIC_EnableIRQ_t(uart.TXstream.IRQn(TX_stream));
 
    uart.RXstream.direction(DataDirection::PerToMem)
             	 .set_memory_adr(size_t(uart.buffer.begin()))

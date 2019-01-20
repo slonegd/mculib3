@@ -1,9 +1,10 @@
 #pragma once
 
 #define USE_MOCK_AFIO
+#include "mock_rcc.h"
 #include "periph_afio.h"
 #include "mock_periph_to_stream.h"
-#include <iostream>
+#include "process.h"
 
 namespace mock {
 
@@ -18,7 +19,7 @@ std::ostream& operator<< (std::ostream& s, mcu::AFIO::SWJ v)
 
 class AFIO : public mcu::AFIO
 {
-   std::ostream* process {nullptr};
+   Process& process { Process::make() };
    AFIO() = default;
 public:
    static AFIO& make()
@@ -26,32 +27,30 @@ public:
       static AFIO afio;
       return afio;
    }
-   void set_stream (std::ostream& s) { process = &s; }
 
    AFIO& set_JTAG (SWJ v)
    {
-      if (process) *process << v << std::endl;
+      process << v << std::endl;
       static_cast<mcu::AFIO*>(this)->set_JTAG(v);
       return *this;
    }
 
    template<mcu::Periph p> AFIO& remap()
    {
-      if (process) *process << "ремапинг " << p << std::endl;
+      process << "ремапинг " << p << std::endl;
       static_cast<mcu::AFIO*>(this)->remap<p>();
       return *this;
    }
 
    template<mcu::Periph p, mcu::AFIO::Remap r> AFIO& remap()
    {
-      if (process) {
-         if constexpr (r == mcu::AFIO::Remap::Full)
-            *process << "полный ремапинг "    << p << std::endl;
-         if constexpr (r == mcu::AFIO::Remap::Partial_1 or r == mcu::AFIO::Remap::Partial_2)
-            *process << "частичный ремапинг " << p << std::endl;
-         if constexpr (r == mcu::AFIO::Remap::No)
-            *process << "отключение ремапа "  << p << std::endl;
-      }
+      if constexpr (r == mcu::AFIO::Remap::Full)
+         process << "полный ремапинг "    << p << std::endl;
+      if constexpr (r == mcu::AFIO::Remap::Partial_1 or r == mcu::AFIO::Remap::Partial_2)
+         process << "частичный ремапинг " << p << std::endl;
+      if constexpr (r == mcu::AFIO::Remap::No)
+         process << "отключение ремапа "  << p << std::endl;
+
       static_cast<mcu::AFIO*>(this)->remap<p,r>();
       return *this;
    }

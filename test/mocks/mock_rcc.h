@@ -3,7 +3,7 @@
 #define USE_MOCK_RCC
 #include "periph_rcc.h"
 #include "mock_periph_to_stream.h"
-#include <iostream>
+#include "process.h"
 
 namespace mock {
 
@@ -59,7 +59,7 @@ std::ostream& operator<< (std::ostream& s, mcu::RCC::PLLsource v)
 
 class RCC : public mcu::RCC
 {
-   std::ostream* process {nullptr};
+   Process& process { Process::make() };
    RCC() = default;
 public:
    static RCC& make()
@@ -67,66 +67,65 @@ public:
       static RCC rcc;
       return rcc;
    }
-   void set_stream (std::ostream& s) { process = &s; }
 
    RCC& set (AHBprescaler v) {
-      if (process) *process << "установка делителя шины AHB " << v << std::endl;
+      process << "установка делителя шины AHB " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set(v);
       return *this;
    }
 
 #if defined(STM32F4) or defined(STM32F7)
    RCC& set_APB1  (APBprescaler v) {
-      if (process) *process << "установка делителя шины APB1 " << v << std::endl;
+      process << "установка делителя шины APB1 " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set_APB1(v);
       return *this;
    }
 
    RCC& set_APB2  (APBprescaler v) {
-      if (process) *process << "установка делителя шины APB2 " << v << std::endl;
+      process << "установка делителя шины APB2 " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set_APB2(v);
       return *this;
    }
 
    RCC& set (PLLPdiv v) {
-      if (process) *process << "установка делителя шины PLL " << v << std::endl;
+      process << "установка делителя шины PLL " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set(v);
       return *this;
    }
 
    template<int v> RCC& set_PLLM() {
-      if (process) *process << "установка M " << v << std::endl;
+      process << "установка M " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set_PLLM<v>();
       return *this;
    }
 
    template<int v> RCC& set_PLLN() {
-      if (process) *process << "установка N " << v << std::endl;
+      process << "установка N " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set_PLLN<v>();
       return *this;
    }
 
    template<int v> RCC& set_PLLQ() {
-      if (process) *process << "установка Q " << v << std::endl;
+      process << "установка Q " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set_PLLQ<v>();
       return *this;
    }
 #elif defined(STM32F0)
    RCC& set (APBprescaler  v) {
-      if (process) *process << "установка делителя шины APB " << v << std::endl;
+      process << "установка делителя шины APB " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set(v);
       return *this;
    }
 
    RCC& set (PLLmultiplier v) {
-      if (process) *process << "установка множителя PLL " << v << std::endl;
+      process << "установка множителя PLL " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set(v);
       return *this;
    }
 #endif
 
    RCC& set (SystemClock v) {
-      if (process) *process << "установка источника тактирования системной шины от " << v << std::endl;
+      process << "установка источника тактирования системной шины от " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set(v);
       return *this;
    }
@@ -134,13 +133,13 @@ public:
 
 
    RCC& set (PLLsource v) {
-      if (process) *process << "установка источника PLL " << v << std::endl;
+      process << "установка источника PLL " << v << std::endl;
       static_cast<mcu::RCC*>(this)->set(v);
       return *this;
    }
 
    RCC& on_HSE() {
-      if (process) *process << "включение тактирования от внешнего источника" << std::endl;
+      process << "включение тактирования от внешнего источника" << std::endl;
       static_cast<mcu::RCC*>(this)->on_HSE();
       return *this;
    }
@@ -148,12 +147,12 @@ public:
    RCC& wait_HSE_ready() {
       if (this->like_CMSIS().CR | RCC_CR_HSEON_Msk) this->like_CMSIS().CR |= RCC_CR_HSERDY;
       static_cast<mcu::RCC*>(this)->wait_HSE_ready();
-      if (process) *process << "ожидание готовности тактирования от внешнего источника" << std::endl;
+      process << "ожидание готовности тактирования от внешнего источника" << std::endl;
       return *this;
    }
 
    RCC& on_PLL() {
-      if (process) *process << "включение PLL" << std::endl;
+      process << "включение PLL" << std::endl;
       static_cast<mcu::RCC*>(this)->on_PLL();
       return *this;
    }
@@ -161,12 +160,12 @@ public:
    RCC& wait_PLL_ready() {
       if (this->like_CMSIS().CR | RCC_CR_PLLON_Msk) this->like_CMSIS().CR |= RCC_CR_PLLRDY;
       static_cast<mcu::RCC*>(this)->wait_PLL_ready();
-      if (process) *process << "ожидание готовности PLL" << std::endl;
+      process << "ожидание готовности PLL" << std::endl;
       return *this;
    }
 
    template<mcu::Periph v> RCC& clock_enable() {
-      if (process) *process << "включение тактирования " << v << std::endl;
+      process << "включение тактирования " << v << std::endl;
       static_cast<mcu::RCC*>(this)->clock_enable<v>();
       return *this;
    }

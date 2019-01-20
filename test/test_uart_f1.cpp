@@ -14,7 +14,6 @@
 #include <type_traits>
 #include <string>
 
-std::stringstream process{};
 auto& rcc   = REF(RCC);
 auto& gpioa = REF(GPIOA);
 auto& gpiob = REF(GPIOB);
@@ -31,30 +30,7 @@ auto& dma1_stream7 = REF(DMA1_stream7);
 auto& afio = REF(AFIO);
 #endif
 
-auto set_stream = [&](){
-      rcc.set_stream (process);
-    gpioa.set_stream (process);
-    gpiob.set_stream (process);
-    gpioc.set_stream (process);
-   usart1.set_stream (process);
-   dma1_stream1.set_stream (process);
-   dma1_stream2.set_stream (process);
-   dma1_stream3.set_stream (process);
-   dma1_stream4.set_stream (process);
-   dma1_stream5.set_stream (process);
-   dma1_stream6.set_stream (process);
-   dma1_stream7.set_stream (process);
-   mock::NVIC_EnableIRQ.process = &process;
-#if defined(STM32F1)
-    afio.set_stream (process);
-#endif
-};
-auto clear_stream = [&](){ process.str(std::string{}); };
-
-
-
-
-
+auto& process = mock::Process::make();
 
 
 
@@ -62,8 +38,7 @@ BOOST_AUTO_TEST_SUITE (test_suite_main)
 
 BOOST_AUTO_TEST_CASE (make)
 {
-   set_stream();
-   clear_stream();
+   process.clear();
 
    auto& uart = UART::make <
         mcu::Periph::USART1
@@ -121,8 +96,7 @@ BOOST_AUTO_TEST_CASE(init)
       , mcu::PA12
    >();
 
-   set_stream();
-   clear_stream();
+   process.clear();
 
    UART::Settings set {
       .parity_enable = false,
@@ -141,7 +115,7 @@ BOOST_AUTO_TEST_CASE(init)
       "USART1: Установлено количество стоп битов: 1\n"
    );
 
-   clear_stream();
+   process.clear();
    set.baudrate = UART::Baudrate::BR14400;
    uart.init(set);
    BOOST_CHECK_EQUAL (process.str(),
@@ -151,7 +125,7 @@ BOOST_AUTO_TEST_CASE(init)
       "USART1: Установлено количество стоп битов: 1\n"
    );
 
-   clear_stream();
+   process.clear();
    set.parity = UART::Parity::odd;
    uart.init(set);
    BOOST_CHECK_EQUAL (process.str(),
@@ -172,8 +146,7 @@ BOOST_AUTO_TEST_CASE(transmit)
       , mcu::PA12
    >();
 
-   set_stream();
-   clear_stream();
+   process.clear();
    
    uart.buffer << uint8_t(1) << uint8_t(2) << uint8_t(3);
    uart.transmit();
@@ -198,8 +171,7 @@ BOOST_AUTO_TEST_CASE(start_receive)
       , mcu::PA12
    >();
 
-   set_stream();
-   clear_stream();
+   process.clear();
 
    uart.receive();
    BOOST_CHECK_EQUAL (process.str(),

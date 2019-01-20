@@ -155,9 +155,8 @@ BOOST_AUTO_TEST_CASE (process)
 {
    erase (Sector::_7);
 
-   std::stringstream process;
-   auto clear_stream = [&](){ process.str(std::string{}); };
-   mcu::make_reference<mcu::Periph::FLASH>().set_stream (process);
+   auto& process = mock::Process::make();
+   process.clear();
 
    Flash<Data, Sector::_7> flash {};
 
@@ -172,7 +171,7 @@ BOOST_AUTO_TEST_CASE (process)
          "разрешение прерывания по окончанию записи\n"
       #endif
       );
-      clear_stream();
+      process.clear();
       // условное время записи от начала 3 мс для теста
       do_every_ms (2_ms, [&](){ BOOST_CHECK_EQUAL (process.str(), ""); });
       wait_ms (1);
@@ -180,7 +179,7 @@ BOOST_AUTO_TEST_CASE (process)
          "сброс флага окончания записи\n"
          "блокировка памяти для записи\n"
       );
-      clear_stream();
+      process.clear();
    };
 
    auto first_write_data_to_flash = [&]() {
@@ -209,7 +208,7 @@ BOOST_AUTO_TEST_CASE (process)
    start_erase = false;
    auto time {0};
    while (not start_erase) {
-      clear_stream();
+      process.clear();
       wait_ms (1);
       if (not (++time % 100)) { // every 100 ms
          flash.d1++;
@@ -220,7 +219,7 @@ BOOST_AUTO_TEST_CASE (process)
       "разблокировка памяти для записи\n"
       "запуск стирания сектора 7\n"
    );
-   clear_stream();
+   process.clear();
 
    do_every_ms (2_ms, [&](){ BOOST_CHECK_EQUAL (process.str(), ""); });
    wait_ms (1);
@@ -228,7 +227,7 @@ BOOST_AUTO_TEST_CASE (process)
       "сброс флага окончания записи\n"
       "блокировка памяти для записи\n"
    );
-   clear_stream();
+   process.clear();
 
    first_write_data_to_flash();
 

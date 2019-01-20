@@ -1,8 +1,8 @@
 #pragma once
 
 #define USE_MOCK_DMA
-// #include "periph_dma.h"
-#include <iostream>
+#include "mock_rcc.h"
+#include "process.h"
 
 namespace mock {
 
@@ -25,100 +25,98 @@ std::ostream& operator<< (std::ostream& s, mcu::DMA_stream::DataSize v)
 
 class DMA_stream : public mcu::DMA_stream
 {
-   std::ostream* process {nullptr};
+   Process& process { Process::make() };
    DMA_stream() = default;
 public:
-   template<mcu::Periph p>
-   static DMA_stream& make()
+   template<mcu::Periph p> static DMA_stream& make()
    {
       static DMA_stream stream;
       return stream;
    }
-   void set_stream (std::ostream& s) { process = &s; }
    friend std::ostream& operator<< (std::ostream& s, const DMA_stream& v);
 
    auto& base() { return *static_cast<mcu::DMA_stream*>(this); }
 
    DMA_stream& enable()
    {
-      if (process) *process << *this << ": Разрешение работы" << std::endl;
+      process << *this << ": Разрешение работы" << std::endl;
       base().enable();
       return *this;     
    }
 
    DMA_stream& disable()
    {
-      if (process) *process << *this << ": Запрет работы" << std::endl;
+      process << *this << ": Запрет работы" << std::endl;
       base().disable();
       return *this;     
    }
 
    DMA_stream& inc_memory()
    {
-      if (process) *process << *this << ": Установка инкремента адреса памяти" << std::endl;
+      process << *this << ": Установка инкремента адреса памяти" << std::endl;
       base().inc_memory();
       return *this;     
    }
 
    DMA_stream& inc_periph()
    {
-      if (process) *process << *this << ": Установка инкремента адреса переферии" << std::endl;
+      process << *this << ": Установка инкремента адреса переферии" << std::endl;
       base().inc_periph();
       return *this;     
    }
 
    DMA_stream& circular_mode()
    {
-      if (process) *process << *this << ": Установка кольцевого режима" << std::endl;
+      process << *this << ": Установка кольцевого режима" << std::endl;
       base().circular_mode();
       return *this;
    }
 
    DMA_stream& set_memory_adr (size_t v)
    {
-      if (process) *process << *this << ": Установка адреса памяти: " << v << std::endl;
+      process << *this << ": Установка адреса памяти: " << v << std::endl;
       base().set_memory_adr(v);
       return *this;
    }
 
    DMA_stream& set_periph_adr (size_t v)
    {
-      if (process) *process << *this << ": Установка адреса переферии: " << v << std::endl;
+      process << *this << ": Установка адреса переферии: " << v << std::endl;
       base().set_periph_adr(v);
       return *this;
    }
 
    DMA_stream& set_qty_transactions (uint16_t v)
    {
-      if (process) *process << *this << ": Установка количества передач данных: " << v << std::endl;
+      process << *this << ": Установка количества передач данных: " << v << std::endl;
       base().set_qty_transactions(v);
       return *this;
    }
 
    DMA_stream& direction (DataDirection v)
    {
-      if (process) *process << *this << ": Установка направления " << v << std::endl;
+      process << *this << ": Установка направления " << v << std::endl;
       base().direction(v);
       return *this;
    }
 
    DMA_stream& size_memory (DataSize v)
    {
-      if (process) *process << *this << ": Установка размера данных в памяти " << v << std::endl;
+      process << *this << ": Установка размера данных в памяти " << v << std::endl;
       base().size_memory(v);
       return *this;
    }
 
    DMA_stream& size_periph (DataSize v)
    {
-      if (process) *process << *this << ": Установка размера данных в переферии " << v << std::endl;
+      process << *this << ": Установка размера данных в переферии " << v << std::endl;
       base().size_memory(v);
       return *this;
    }
 
    DMA_stream& enable_transfer_complete_interrupt()
    {
-      if (process) *process << *this << ": Разрешение прерывания по концу передачи данных" << std::endl;
+      process << *this << ": Разрешение прерывания по концу передачи данных" << std::endl;
       base().enable_transfer_complete_interrupt();
       return *this;
    }

@@ -7,9 +7,9 @@
 #include <cstring>
 
 #if defined(USE_MOCK_UART)
-#define NS mock
+using UART_ = mock::UART;
 #else
-#define NS
+using UART_ = ::UART;
 #endif
 
 
@@ -19,7 +19,7 @@ class Modbus_slave : TickSubscriber
    enum class Function   : uint8_t {read_03 = 0x03, write_16 = 0x10};
    enum class Error_code : uint8_t {wrong_func = 0x01, wrong_reg = 0x02, wrong_value = 0x03};
 
-   NS::UART& uart;
+   UART_& uart;
    Interrupt& interrupt_usart;
    Interrupt& interrupt_DMA_channel;
 
@@ -110,7 +110,7 @@ public:
    
    Modbus_slave (
         uint8_t address
-      , NS::UART& uart
+      , UART_& uart
       , Interrupt& interrupt_usart
       , Interrupt& interrupt_DMA_channel
    ) : uart                  {uart}
@@ -123,19 +123,19 @@ public:
      , arInRegsMax {}
    {}
 
-   template <Periph usart, class TXpin,  class RXpin, class RTSpin, class LEDpin> 
-   static auto& make (uint8_t address, UART::Settings set)
+   template <mcu::Periph usart, class TXpin,  class RXpin, class RTSpin, class LEDpin> 
+   static auto& make (uint8_t address, UART_::Settings set)
    {
-      auto interrupt_usart = usart == Periph::USART1 ? &interrupt_usart1 :
-                             usart == Periph::USART2 ? &interrupt_usart2 :
-                             usart == Periph::USART3 ? &interrupt_usart3 :
+      auto interrupt_usart = usart == mcu::Periph::USART1 ? &interrupt_usart1 :
+                             usart == mcu::Periph::USART2 ? &interrupt_usart2 :
+                             usart == mcu::Periph::USART3 ? &interrupt_usart3 :
                              nullptr;
-      auto interrupt_dma   = usart == Periph::USART1 ? &interrupt_DMA_channel4 :
-                             usart == Periph::USART2 ? &interrupt_DMA_channel7 : 
-                             usart == Periph::USART3 ? &interrupt_DMA_channel2 :
+      auto interrupt_dma   = usart == mcu::Periph::USART1 ? &interrupt_DMA_channel4 :
+                             usart == mcu::Periph::USART2 ? &interrupt_DMA_channel7 : 
+                             usart == mcu::Periph::USART3 ? &interrupt_DMA_channel2 :
                              nullptr;
 
-      auto& uart_ref = NS::UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>();
+      auto& uart_ref = UART_::make<usart, TXpin, RXpin, RTSpin, LEDpin>();
 
       static Modbus_slave<InRegs_t, OutRegs_t> modbus {
            address

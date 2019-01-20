@@ -1,8 +1,12 @@
 #pragma once
 
 #define USE_MOCK_GPIO
+#include "mock_rcc.h"
+#if defined(STM32F1)
+#include "periph_afio.h"
+#endif
 #include "periph_gpio.h"
-#include <iostream>
+#include "process.h"
 
 namespace mock {
 
@@ -44,7 +48,7 @@ std::ostream& operator<< (std::ostream& s, mcu::PinMode v)
 
 class GPIO : public mcu::GPIO
 {
-   std::ostream* process {nullptr};
+   Process& process { Process::make() };
    GPIO() = default;
 public:
    template<mcu::Periph port>
@@ -53,32 +57,30 @@ public:
       static GPIO gpio;
       return gpio;
    }
-   void set_stream (std::ostream& s) { process = &s; }
    friend std::ostream& operator<< (std::ostream&, const GPIO&);
 
    GPIO& set (size_t n) {
-      if (process) *process << "установка вывода " << n << " порта " << *this << std::endl;
+      process << "установка вывода " << n << " порта " << *this << std::endl;
       static_cast<mcu::GPIO*>(this)->set(n);
       return *this;
    }
 
    GPIO& clear (size_t n) {
-      if (process) *process << "сброс вывода " << n << " порта " << *this << std::endl;
+      process << "сброс вывода " << n << " порта " << *this << std::endl;
       static_cast<mcu::GPIO*>(this)->clear(n);
       return *this;
    }
 
    GPIO& toggle (size_t n) {
-      if (process)
-         *process << "переключение вывода " << n << " порта " << *this
-                  << ", а именно " << (this->like_CMSIS().IDR & (1 << n) ? "сброс" : "установка") << std::endl;
+      process << "переключение вывода " << n << " порта " << *this
+              << ", а именно " << (this->like_CMSIS().IDR & (1 << n) ? "сброс" : "установка") << std::endl;
       static_cast<mcu::GPIO*>(this)->toggle(n);
       return *this;
    }
 
    template<class Pin_, mcu::PinMode mode>
    void init() {
-      if (process) *process << "инициализация вывода " << Pin_::n << " порта " << *this << " в режиме " << mode << std::endl;
+      process << "инициализация вывода " << Pin_::n << " порта " << *this << " в режиме " << mode << std::endl;
       static_cast<mcu::GPIO*>(this)->init<Pin_,mode>();
    }
 

@@ -300,21 +300,12 @@ BOOST_AUTO_TEST_CASE (init_input_output)
    );
 }
 
-std::stringstream process;
-void prepare_test()
-{
-   cmsis.CRL = 0;
-   cmsis.CRH = 0;
-   mcu::make_reference<mcu::Periph::RCC>()
-      .set_stream (process);
-   mcu::make_reference<mcu::Periph::AFIO>()
-      .set_stream (process);
-}
-void clear_stream() { process.str (std::string{}); }
-
 BOOST_AUTO_TEST_CASE (init_alternate_usart1)
 {
-   prepare_test();
+   auto& process = mock::Process::make();
+   process.clear();
+   cmsis.CRL = 0;
+   cmsis.CRH = 0;
 
    gpio.init<mcu::PA9, mcu::PinMode::USART1_TX>();
    BOOST_CHECK_EQUAL (cmsis.CRL,
@@ -327,7 +318,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart1)
    BOOST_CHECK_EQUAL (process.str(),
       "включение тактирования AFIO\n"
    );
-   clear_stream();
+   process.clear();
 
    gpio.init<mcu::PB6, mcu::PinMode::USART1_TX>();
    BOOST_CHECK_EQUAL (cmsis.CRL,
@@ -342,7 +333,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart1)
       "включение тактирования AFIO\n"
       "ремапинг USART1\n"
    );
-   clear_stream();
+   process.clear();
 
    auto test1 = [&]() { gpio.init<mcu::PB7, mcu::PinMode::USART1_TX>(); };
    STATIC_ASSERTATION_REQUIRED ( test1(), "USART1_TX возможно только с PA9 или PB6");
@@ -361,7 +352,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart1)
    BOOST_CHECK_EQUAL (process.str(),
       "включение тактирования AFIO\n"
    );
-   clear_stream();
+   process.clear();
 
    gpio.init<mcu::PB7, mcu::PinMode::USART1_RX>();
    BOOST_CHECK_EQUAL (cmsis.CRL,
@@ -380,7 +371,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart1)
       "включение тактирования AFIO\n"
       "ремапинг USART1\n"
    );
-   clear_stream();
+   process.clear();
 
    auto test2 = [&]() { gpio.init<mcu::PB6, mcu::PinMode::USART1_RX>(); };
    STATIC_ASSERTATION_REQUIRED ( test2(), "USART1_RX возможно только с PA10 и PB7");
@@ -388,7 +379,10 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart1)
 
 BOOST_AUTO_TEST_CASE (init_alternate_usart2)
 {
-   prepare_test();
+   auto& process = mock::Process::make();
+   process.clear();
+   cmsis.CRL = 0;
+   cmsis.CRH = 0;
 
    gpio.init<mcu::PA2, mcu::PinMode::USART2_TX>();
    BOOST_CHECK_EQUAL (cmsis.CRL,
@@ -401,7 +395,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart2)
    BOOST_CHECK_EQUAL (process.str(),
       "включение тактирования AFIO\n"
    );
-   clear_stream();
+   process.clear();
 
    gpio.init<mcu::PD5, mcu::PinMode::USART2_TX>();
    BOOST_CHECK_EQUAL (cmsis.CRL,
@@ -417,7 +411,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart2)
       "включение тактирования AFIO\n"
       "ремапинг USART2\n"
    );
-   clear_stream();
+   process.clear();
 
    auto test1 = [&]() { gpio.init<mcu::PD6, mcu::PinMode::USART2_TX>(); };
    STATIC_ASSERTATION_REQUIRED ( test1(), "USART2_TX возможно только с PA2 или PD5");
@@ -437,7 +431,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart2)
    BOOST_CHECK_EQUAL (process.str(),
       "включение тактирования AFIO\n"
    );
-   clear_stream();
+   process.clear();
 
    gpio.init<mcu::PD6, mcu::PinMode::USART2_RX>();
    BOOST_CHECK_EQUAL (cmsis.CRL,
@@ -457,7 +451,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart2)
       "включение тактирования AFIO\n"
       "ремапинг USART2\n"
    );
-   clear_stream();
+   process.clear();
 
    auto test2 = [&]() { gpio.init<mcu::PD5, mcu::PinMode::USART2_RX>(); };
    STATIC_ASSERTATION_REQUIRED ( test2(), "USART2_RX возможно только с PA3 или PD6");
@@ -465,7 +459,10 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart2)
 
 BOOST_AUTO_TEST_CASE (init_alternate_usart3)
 {
-   prepare_test();
+   auto& process = mock::Process::make();
+   process.clear();
+   cmsis.CRL = 0;
+   cmsis.CRH = 0;
 
    gpio.init<mcu::PB10, mcu::PinMode::USART3_TX>();
    BOOST_CHECK_EQUAL (cmsis.CRL,
@@ -478,7 +475,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart3)
    BOOST_CHECK_EQUAL (process.str(),
       "включение тактирования AFIO\n"
    );
-   clear_stream();
+   process.clear();
 
    gpio.init<mcu::PC10, mcu::PinMode::USART3_TX>();
    BOOST_CHECK_EQUAL (cmsis.CRL,
@@ -492,7 +489,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart3)
       "включение тактирования AFIO\n"
       "частичный ремапинг USART3\n"
    );
-   clear_stream();
+   process.clear();
 
    gpio.init<mcu::PD8, mcu::PinMode::USART3_TX>();
    BOOST_CHECK_EQUAL (cmsis.CRL,
@@ -508,7 +505,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart3)
       "включение тактирования AFIO\n"
       "полный ремапинг USART3\n"
    );
-   clear_stream();
+   process.clear();
 
    auto test1 = [&]() { gpio.init<mcu::PA10, mcu::PinMode::USART3_TX>(); };
    STATIC_ASSERTATION_REQUIRED ( test1(), "USART3_TX возможно только с PB10, PC10 или PD8");
@@ -528,7 +525,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart3)
    BOOST_CHECK_EQUAL (process.str(),
       "включение тактирования AFIO\n"
    );
-   clear_stream();
+   process.clear();
 
    gpio.init<mcu::PC11, mcu::PinMode::USART3_RX>();
    BOOST_CHECK_EQUAL (cmsis.CRL,
@@ -546,7 +543,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart3)
       "включение тактирования AFIO\n"
       "частичный ремапинг USART3\n"
    );
-   clear_stream();
+   process.clear();
 
    gpio.init<mcu::PD9, mcu::PinMode::USART3_RX>();
    BOOST_CHECK_EQUAL (cmsis.CRL,
@@ -566,7 +563,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart3)
       "включение тактирования AFIO\n"
       "полный ремапинг USART3\n"
    );
-   clear_stream();
+   process.clear();
 
    auto test2 = [&]() { gpio.init<mcu::PA9, mcu::PinMode::USART3_RX>(); };
    STATIC_ASSERTATION_REQUIRED ( test2(), "USART3_RX возможно только с PB11, PC11 или PD9");
@@ -574,7 +571,8 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart3)
 
 BOOST_AUTO_TEST_CASE (init_jtag_pins)
 {
-   prepare_test();
+   auto& process = mock::Process::make();
+   process.clear();
    cmsis.CRL = 0;
    cmsis.CRH = 0;
 
@@ -589,7 +587,7 @@ BOOST_AUTO_TEST_CASE (init_jtag_pins)
    BOOST_CHECK_EQUAL (cmsis.CRH,
       GPIO_CRH_CNF14_0
    );
-   clear_stream();
+   process.clear();
 
    gpio.init<mcu::PA15, mcu::PinMode::Output>();
    BOOST_CHECK_EQUAL (process.str(),
@@ -603,7 +601,7 @@ BOOST_AUTO_TEST_CASE (init_jtag_pins)
         GPIO_CRH_CNF14_0
       | GPIO_CRH_MODE15_1
    );
-   clear_stream();
+   process.clear();
 
    gpio.init<mcu::PB3, mcu::PinMode::Output>();
    BOOST_CHECK_EQUAL (process.str(),
@@ -617,7 +615,7 @@ BOOST_AUTO_TEST_CASE (init_jtag_pins)
         GPIO_CRH_CNF14_0
       | GPIO_CRH_MODE15_1
    );
-   clear_stream();
+   process.clear();
 
    gpio.init<mcu::PB4, mcu::PinMode::Input>();
    BOOST_CHECK_EQUAL (process.str(),
@@ -632,7 +630,7 @@ BOOST_AUTO_TEST_CASE (init_jtag_pins)
         GPIO_CRH_CNF14_0
       | GPIO_CRH_MODE15_1
    );
-   clear_stream();
+   process.clear();
 }
 #endif // #if defined(STM32F1)
 
