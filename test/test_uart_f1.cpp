@@ -14,24 +14,8 @@
 #include <type_traits>
 #include <string>
 
-auto& rcc   = REF(RCC);
-auto& gpioa = REF(GPIOA);
-auto& gpiob = REF(GPIOB);
-auto& gpioc = REF(GPIOC);
-auto& usart1= REF(USART1);
-auto& dma1_stream1 = REF(DMA1_stream1);
-auto& dma1_stream2 = REF(DMA1_stream2);
-auto& dma1_stream3 = REF(DMA1_stream3);
-auto& dma1_stream4 = REF(DMA1_stream4);
-auto& dma1_stream5 = REF(DMA1_stream5);
-auto& dma1_stream6 = REF(DMA1_stream6);
-auto& dma1_stream7 = REF(DMA1_stream7);
-#if defined(STM32F1)
-auto& afio = REF(AFIO);
-#endif
 
 auto& process = mock::Process::make();
-
 
 
 BOOST_AUTO_TEST_SUITE (test_suite_main)

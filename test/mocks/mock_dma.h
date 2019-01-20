@@ -25,3 +25,7 @@ public:
 namespace mcu {
    SFINAE(DMA1,DMA) make_reference() { return mock::DMA::make(); }
 }
+
+namespace mock {
+   auto& dma1 = REF(DMA1);
+}

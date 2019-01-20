@@ -125,16 +125,33 @@ namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::GPIOB, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
    template<Periph p> std::enable_if_t<p == Periph::GPIOC, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
    template<Periph p> std::enable_if_t<p == Periph::GPIOD, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
-#if defined(STM32F1)
+#if defined(STM32F1) or defined(STM32F4) or defined(STM32F7)
    template<Periph p> std::enable_if_t<p == Periph::GPIOE, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
 #endif
 #if defined(STM32F0) or defined(STM32F4) or defined(STM32F7)
    template<Periph p> std::enable_if_t<p == Periph::GPIOF, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
 #endif
 #if defined(STM32F4) or defined(STM32F7)
-   template<Periph p> std::enable_if_t<p == Periph::GPIOE, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
    template<Periph p> std::enable_if_t<p == Periph::GPIOG, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
    template<Periph p> std::enable_if_t<p == Periph::GPIOH, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
    template<Periph p> std::enable_if_t<p == Periph::GPIOI, mock::GPIO&> make_reference() { return mock::GPIO::make<p>(); }
+#endif
+}
+
+namespace mock {
+   auto& pa = REF(GPIOA);
+   auto& pb = REF(GPIOB);
+   auto& pc = REF(GPIOC);
+   auto& pd = REF(GPIOD);
+#if defined(STM32F1) or defined(STM32F4) or defined(STM32F7)
+   auto& pe = REF(GPIOE);
+#endif
+#if defined(STM32F0) or defined(STM32F4) or defined(STM32F7)
+   auto& pf = REF(GPIOF);
+#endif
+#if defined(STM32F4) or defined(STM32F7)
+   auto& pg = REF(GPIOG);
+   auto& ph = REF(GPIOH);
+   auto& pi = REF(GPIOI);
 #endif
 }

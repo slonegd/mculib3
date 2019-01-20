@@ -176,3 +176,8 @@ public:
 namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::RCC, mock::RCC&> make_reference() { return mock::RCC::make(); }
 }
+
+
+namespace mock {
+   auto& rcc = REF(RCC);
+}

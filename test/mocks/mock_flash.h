@@ -102,3 +102,7 @@ namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::FLASH, mock::FLASH&> make_reference() { return mock::FLASH::make(); }
 }
 #endif
+
+namespace mock {
+   auto& flash = REF(FLASH);
+}

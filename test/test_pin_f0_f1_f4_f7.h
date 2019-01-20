@@ -2,14 +2,6 @@
 
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 
-auto& rcc   = mcu::make_reference<mcu::Periph::RCC>();
-auto& gpioa = mcu::make_reference<mcu::Periph::GPIOA>();
-auto& gpiob = mcu::make_reference<mcu::Periph::GPIOB>();
-auto& gpioc = mcu::make_reference<mcu::Periph::GPIOC>();
-#if defined(STM32F1)
-auto& afio = mcu::make_reference<mcu::Periph::AFIO>();
-#endif
-
 auto& process = mock::Process::make();
 
 BOOST_AUTO_TEST_CASE (make)
@@ -169,15 +161,15 @@ BOOST_AUTO_TEST_CASE (is_set)
    BOOST_CHECK_EQUAL (pa2.is_set(), false);
    BOOST_CHECK_EQUAL (pc3.is_set(), false);
 
-   gpioa.mock.set (2, true);
+   mock::pa.mock.set (2, true);
    BOOST_CHECK_EQUAL (pa2.is_set(), true);
    BOOST_CHECK_EQUAL (pc3.is_set(), false);
 
-   gpioc.mock.set (2, true);
+   mock::pc.mock.set (2, true);
    BOOST_CHECK_EQUAL (pa2.is_set(), true);
    BOOST_CHECK_EQUAL (pc3.is_set(), false);
 
-   gpioc.mock.set (3, true);
+   mock::pc.mock.set (3, true);
    BOOST_CHECK_EQUAL (pa2.is_set(), true);
    BOOST_CHECK_EQUAL (pc3.is_set(), true);
 
@@ -195,7 +187,7 @@ BOOST_AUTO_TEST_CASE (toggle)
    );
    process.clear();
 
-   gpioa.mock.set (3, true);
+   mock::pa.mock.set (3, true);
    pa3.toggle();
    BOOST_CHECK_EQUAL (process.str(), 
       "переключение вывода 3 порта GPIOA, а именно сброс\n"
@@ -235,7 +227,7 @@ BOOST_AUTO_TEST_CASE (bitwise_XOR_assignment_operator)
    BOOST_CHECK_EQUAL (b, true);
    process.clear();
 
-   gpioa.mock.set (0, true);
+   mock::pa.mock.set (0, true);
    b = pa0 ^= true;
    BOOST_CHECK_EQUAL (process.str(), 
       "переключение вывода 0 порта GPIOA, а именно сброс\n"
@@ -248,7 +240,7 @@ BOOST_AUTO_TEST_CASE (bitwise_XOR_assignment_operator)
    BOOST_CHECK_EQUAL (b, true);
    process.clear();
 
-   gpioa.mock.set (0, false);
+   mock::pa.mock.set (0, false);
    b = pa0 ^= false;
    BOOST_CHECK_EQUAL (process.str(), "");
    BOOST_CHECK_EQUAL (b, false);
@@ -263,11 +255,11 @@ BOOST_AUTO_TEST_CASE (bool_operator)
    BOOST_CHECK_EQUAL (bool(pb10), false);
    BOOST_CHECK_EQUAL (bool(pc11), false);
 
-   gpiob.mock.set (10, true);
+   mock::pb.mock.set (10, true);
    BOOST_CHECK_EQUAL (bool(pb10), true);
    BOOST_CHECK_EQUAL (bool(pc11), false);
 
-   gpioc.mock.set (11, true);
+   mock::pc.mock.set (11, true);
    BOOST_CHECK_EQUAL (bool(pb10), true);
    BOOST_CHECK_EQUAL (bool(pc11), true);
    process.clear();

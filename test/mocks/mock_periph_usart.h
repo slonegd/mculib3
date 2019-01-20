@@ -235,3 +235,16 @@ namespace mcu {
    SFINAE(USART6,mock::USART) make_reference() {return mock::USART::make<mcu::Periph::USART6>();}
 #endif
 }
+
+namespace mock {
+   auto& usart1 = REF(USART1);
+#if defined(STM32F1) or defined(STM32F4)
+   auto& usart2 = REF(USART2);
+   auto& usart3 = REF(USART3);
+#endif
+#if defined(STM32F4)
+   auto& usart4 = REF(USART4);
+   auto& usart5 = REF(USART5);
+   auto& usart6 = REF(USART6);
+#endif
+}

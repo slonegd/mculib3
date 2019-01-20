@@ -61,3 +61,7 @@ public:
 namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::AFIO, mock::AFIO&> make_reference() { return mock::AFIO::make(); }
 }
+
+namespace mock {
+   auto& afio = REF(AFIO);
+}

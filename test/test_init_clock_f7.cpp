@@ -19,9 +19,6 @@ BOOST_AUTO_TEST_SUITE (test_suite_main)
 
 BOOST_AUTO_TEST_CASE (init_clock_8_216)
 {
-   auto& rcc   = mcu::make_reference<mcu::Periph::RCC>();
-   auto& flash = mcu::make_reference<mcu::Periph::FLASH>();
-
    process.clear();
 
    auto worker = [&]() { init_clock<8_MHz, F_CPU>(); };
@@ -47,9 +44,6 @@ BOOST_AUTO_TEST_CASE (init_clock_8_216)
 
 BOOST_AUTO_TEST_CASE (init_clock_25_216)
 {
-   auto& rcc   = mcu::make_reference<mcu::Periph::RCC>();
-   auto& flash = mcu::make_reference<mcu::Periph::FLASH>();
-   
    process.clear();
 
    auto worker = [&]() { init_clock<25_MHz, F_CPU>(); };
@@ -75,9 +69,6 @@ BOOST_AUTO_TEST_CASE (init_clock_25_216)
 
 BOOST_AUTO_TEST_CASE (init_clock_216)
 {
-   auto& rcc   = mcu::make_reference<mcu::Periph::RCC>();
-   auto& flash = mcu::make_reference<mcu::Periph::FLASH>();
-   
    process.clear();
 
    auto worker = [&]() { init_clock<F_CPU>(); };

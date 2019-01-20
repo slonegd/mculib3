@@ -173,3 +173,26 @@ namespace mcu {
    SFINAE(DMA2_stream7,mock::DMA_stream) make_reference() {return mock::DMA_stream::make<mcu::Periph::DMA2_stream7>();}
 #endif
 }
+
+namespace mock {
+   auto& dma1_stream1 = REF(DMA1_stream1);
+   auto& dma1_stream2 = REF(DMA1_stream2);
+   auto& dma1_stream3 = REF(DMA1_stream3);
+   auto& dma1_stream4 = REF(DMA1_stream4);
+   auto& dma1_stream5 = REF(DMA1_stream5);
+#if defined(STM32F1) or defined(STM32F4) or defined(STM32F7) 
+   auto& dma1_stream6 = REF(DMA1_stream6);
+   auto& dma1_stream7 = REF(DMA1_stream7);
+#endif
+#if defined(STM32F4) or defined(STM32F7)  
+   auto& dma1_stream0 = REF(DMA1_stream0);
+   auto& dma2_stream0 = REF(DMA2_stream0);
+   auto& dma2_stream1 = REF(DMA2_stream1);
+   auto& dma2_stream2 = REF(DMA2_stream2);
+   auto& dma2_stream3 = REF(DMA2_stream3);
+   auto& dma2_stream4 = REF(DMA2_stream4);
+   auto& dma2_stream5 = REF(DMA2_stream5);
+   auto& dma2_stream6 = REF(DMA2_stream6);
+   auto& dma2_stream7 = REF(DMA2_stream7);
+#endif
+}
