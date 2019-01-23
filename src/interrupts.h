@@ -1,7 +1,7 @@
 #pragma once
 #include "interrupt.h"
-#include "usart.h"
-#include "dma.h"
+#include "periph_usart.h"
+#include "periph_dma.h"
 
 #if defined (STM32F103xB)
 

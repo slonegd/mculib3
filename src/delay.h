@@ -21,11 +21,11 @@ public:
 
    Delay() {first_time_us = first_time_ms = true;}
    
-   bool ms (uint32_t us)
+   bool ms (uint32_t ms)
    {
       if (first_time_ms) {
          first_time_ms = false;
-         timer.start(us);
+         timer.start(ms);
       }
 
       if (not timer.event()){ return true; } 
@@ -84,3 +84,5 @@ public:
    
 
 };
+
+#undef NS

@@ -4,6 +4,13 @@
 #include "meta.h"
 #include "delay.h"
 #include "timers.h"
+#if defined (USE_MOCK_DELAY)
+#define NS mock
+using namespace mock;
+#else
+#define NS
+using namespace mcu;
+#endif
 
 template<class T, class ... Args>
 constexpr bool all_is_same(T& t, Args& ... args)
@@ -11,14 +18,15 @@ constexpr bool all_is_same(T& t, Args& ... args)
     return ((t == args) and ...);
 }
 
+template <class T>
 struct bit_set {
-   int16_t value;
-   constexpr bit_set (int16_t value) : value{value} {}
-   constexpr bool operator[] (int16_t bit)
+   T value;
+   constexpr bit_set (T value) : value{value} {}
+   constexpr bool operator[] (T bit)
    {
       return value & (1 << bit); 
    }
-   constexpr void set (int16_t bit)
+   constexpr void set (T bit)
    {
       value |= (1 << bit);
    }
@@ -38,7 +46,7 @@ public:
    size_t operator++(int) { return table[index++ % 80]; }
 };
 
-static constexpr unsigned char  convert_HD44780[64] =
+constexpr unsigned char  convert_HD44780[64] =
 {
 	0x41,0xA0,0x42,0xA1,0xE0,0x45,0xA3,0xA4,
 	0xA5,0xA6,0x4B,0xA7,0x4D,0x48,0x4F,0xA8,
@@ -51,13 +59,13 @@ static constexpr unsigned char  convert_HD44780[64] =
 };
 
 template<class DB4, class DB5, class DB6, class DB7>
-static constexpr std::pair<uint32_t,uint32_t> BSRR_value (char data)
+constexpr auto BSRR_value (char data)
 {
    data = data > 191 ? convert_HD44780[data - 192] : data;
    
    bit_set d {data};
-   bit_set bsrr_high {0};
-   bit_set bsrr_low  {0};
+   bit_set<uint32_t> bsrr_high {0};
+   bit_set<uint32_t> bsrr_low  {0};
 
    bsrr_low. set (d[0] ? DB4::n : DB4::n+16);
    bsrr_low. set (d[1] ? DB5::n : DB5::n+16);
@@ -68,15 +76,15 @@ static constexpr std::pair<uint32_t,uint32_t> BSRR_value (char data)
    bsrr_high.set (d[6] ? DB6::n : DB6::n+16);
    bsrr_high.set (d[7] ? DB7::n : DB7::n+16);
 
-   return std::pair<uint32_t, uint32_t>{bsrr_high.value, bsrr_low.value};
+   return std::pair{bsrr_high.value, bsrr_low.value};
 }
 
 template<class DB4, class DB5, class DB6, class DB7>
-static constexpr std::pair<uint32_t,uint32_t> BSRR_command (char data)
+constexpr auto BSRR_command (char data)
 {
    bit_set d {data};
-   bit_set bsrr_high {0};
-   bit_set bsrr_low  {0};
+   bit_set<uint32_t> bsrr_high {0};
+   bit_set<uint32_t> bsrr_low  {0};
 
    bsrr_low. set (d[0] ? DB4::n : DB4::n+16);
    bsrr_low. set (d[1] ? DB5::n : DB5::n+16);
@@ -87,7 +95,7 @@ static constexpr std::pair<uint32_t,uint32_t> BSRR_command (char data)
    bsrr_high.set (d[6] ? DB6::n : DB6::n+16);
    bsrr_high.set (d[7] ? DB7::n : DB7::n+16);
 
-   return std::pair<uint32_t, uint32_t>{bsrr_high.value, bsrr_low.value};
+   return std::pair{bsrr_high.value, bsrr_low.value};
 }
 
 class HD44780 : TickSubscriber
@@ -123,25 +131,6 @@ class HD44780 : TickSubscriber
    {}
 
    void init();
-
-   // void strob_e()
-   // { 
-   //    e = false;
-   //    delay.us(100);
-   //    e = true;
-   //    delay.us(100);
-   // }
-
-   // void instruction (uint32_t action)
-   // {
-   //    rs = false;
-   //    port.atomic_write(command[action].first);
-   //    strob_e();
-   //    port.atomic_write(command[action].second);
-   //    strob_e();
-   //    delay.us(50);
-   // }
-
 
 public:
 
@@ -180,7 +169,7 @@ public:
 
 void HD44780::init()
 {
-   Delay delay;
+   NS::Delay delay;
    
    auto strob_e = [&](){
       e = false;
@@ -244,3 +233,5 @@ void HD44780::notify()
       break;
    }
 }
+
+#undef NS

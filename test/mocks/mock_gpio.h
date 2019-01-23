@@ -2,6 +2,7 @@
 
 #define USE_MOCK_GPIO
 #include "periph_gpio.h"
+#include <bitset>
 #include <iostream>
 
 namespace mock {
@@ -89,9 +90,23 @@ public:
 
    void atomic_write (uint32_t v)
    {
-      if (process) *process << "BSRR" << std::endl;
       base().atomic_write(v);
       mock.bsrr_to_idr();
+      std::bitset<32> num(v);
+      if (process) *process << *this << " "
+      << "pins set: ";
+      for (size_t i = 0; i < num.size()/2; ++i) {      
+         if (not num[i]) continue;
+         if (process) *process << i << " ";  
+      }
+    
+      if (process) *process << "pins clear: ";
+      for (size_t i = num.size()/2; i < num.size(); ++i) {      
+         if (not num[i]) continue;
+         if (process) *process << i - 16 << " ";
+
+      }
+      if (process) *process << std::endl;
    }
 
    struct Mock {

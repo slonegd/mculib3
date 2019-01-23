@@ -6,11 +6,15 @@
 #define F_CPU   72000000UL
 #define STM32F103xB
 
+auto process = new std::stringstream;
+
 #include "timeout.h"
 #include "mock_systick.h"
 #include "mock_rcc.h"
 #include "mock_afio.h"
 #include "mock_gpio.h"
+#include "mock_timer.h"
+#include "mock_delay.h"
 #include "hd44780.h"
 
 BOOST_AUTO_TEST_SUITE (test_suite_main)
@@ -23,13 +27,14 @@ using DB5 = mcu::PB5;
 using DB6 = mcu::PB6;
 using DB7 = mcu::PB7;
 
-// void tick (int times)
-// {
-//    while (times) {
-//       SysTick_Handler();
-//       times--;
-//    }
-// }
+
+auto& port = mcu::make_reference<mcu::Periph::GPIOB>(); 
+
+
+auto set_stream = [&](){
+      port.set_stream (*process);
+};
+auto clear_stream = [&](){process->str(std::string{}); };
 
 
 std::array<char, 80> buffer {'H', 'e', 'l', 'l', 'o'};
@@ -38,27 +43,66 @@ auto& rs = Pin::make<RS>();
 auto& rw = Pin::make<RW>();
 
 
-BOOST_AUTO_TEST_CASE(make)
+BOOST_AUTO_TEST_CASE(make_init)
 {
-   // auto& systick = mcu::make_reference<mcu::Periph::SysTick>();
+   set_stream();
+   clear_stream();
    
-   // bool work {false};
-   // std::thread ([&](){
-   //    HD44780::make<RS, RW, E, DB4, DB5, DB6, DB7>(buffer);
-   // }).detach();
-   // // Timeout time {20};
- 
-   // auto begin = systick.now();
-   // // std::thread ([&](){systick.tick();}).detach();
+   HD44780::make<RS, RW, E, DB4, DB5, DB6, DB7>(buffer);
 
-   // while (not e) {systick.tick();}
-   // auto passed_us = systick.microseconds_from(begin);
+   BOOST_CHECK_EQUAL (process->str(), 
+      "инициализация вывода 3 порта GPIOB в режиме Output" "\n"
+      "инициализация вывода 4 порта GPIOB в режиме Output" "\n"
+      "инициализация вывода 5 порта GPIOB в режиме Output" "\n"
+      "инициализация вывода 6 порта GPIOB в режиме Output" "\n"
+      "инициализация вывода 7 порта GPIOB в режиме Output" "\n"
+      "установка задержки 20 миллисекунд"                  "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: 4 5 pins clear: 6 7"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: 4 5 pins clear: 6 7"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: 4 5 pins clear: 6 7"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: 5 pins clear: 4 6 7"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: 5 pins clear: 4 6 7"                "\n" 
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: 7 pins clear: 4 5 6"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: pins clear: 4 5 6 7"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: 6 7 pins clear: 4 5"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: pins clear: 4 5 6 7"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: 5 6 pins clear: 4 7"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: pins clear: 4 5 6 7"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: 4 pins clear: 5 6 7"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: 7 pins clear: 4 5 6"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+      "GPIOB pins set: pins clear: 4 5 6 7"                "\n"
+      "сброс вывода 3 порта GPIOB"                         "\n"
+      "установка вывода 3 порта GPIOB"                     "\n"
+   );
 
-   // BOOST_CHECK (passed_us >= 20'000);
-   // BOOST_CHECK (time_passed >= 20);
-   // BOOST_CHECK_EQUAL (bool(e), false);
-
-   // main_pros.join();
+  
 }
 
 BOOST_AUTO_TEST_SUITE_END()
