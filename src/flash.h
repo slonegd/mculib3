@@ -5,6 +5,8 @@
 #include <iterator>
 #include "periph_flash.h"
 #include "timers.h"
+#include "mock_def.h"
+
 
 template<size_t n, class Int = size_t>
 class SizedInt {
@@ -17,21 +19,15 @@ public:
 };
 
 
-#if defined(USE_PERIPH_MOCK)
-using namespace mock;
-#else
-using namespace mcu;
-#endif
-
 // для STM32F0 sector на самом деле page из refmanual
-template <class Data, mcu::FLASH::Sector sector>
+template <class Data, FLASH_::Sector sector>
 class Flash : public Data, private TickSubscriber
 {
 public:
    Flash();
    ~Flash() { tick_unsubscribe(); }
 private:
-   static constexpr auto sector_size    {FLASH::template size<sector>()};
+   static constexpr auto sector_size    {FLASH_::template size<sector>()};
    struct Pair {
       uint8_t offset; 
       uint8_t value;
@@ -41,9 +37,9 @@ private:
       Pair     pair[sector_size/2];
       uint16_t word[sector_size/2];
    };
-   Memory& memory { *reinterpret_cast<Memory*>(FLASH::template address<sector>()) };
+   Memory& memory { *reinterpret_cast<Memory*>(FLASH_::template address<sector>()) };
 
-   FLASH&          flash   {mcu::make_reference<mcu::Periph::FLASH>()};
+   FLASH_&          flash   {mcu::make_reference<mcu::Periph::FLASH>()};
    uint8_t* const original {reinterpret_cast<uint8_t*>(static_cast<Data*>(this))};
    uint8_t        copy[sizeof(Data)];
 
@@ -79,7 +75,7 @@ private:
 
 
 
-template <class Data, typename FLASH::Sector sector>
+template <class Data, typename FLASH_::Sector sector>
 Flash<Data,sector>::Flash()
 {
    static_assert (
@@ -98,7 +94,7 @@ Flash<Data,sector>::Flash()
 
 
 
-template <class Data, typename FLASH::Sector sector>
+template <class Data, typename FLASH_::Sector sector>
 bool Flash<Data,sector>::is_read()
 {
    // обнуляем буфер перед заполнением
@@ -145,7 +141,7 @@ bool Flash<Data,sector>::is_read()
 
 
 
-template <class Data, FLASH::Sector sector>
+template <class Data, FLASH_::Sector sector>
 void Flash<Data,sector>::notify()
 {
    // реализация автоматом
@@ -163,7 +159,7 @@ void Flash<Data,sector>::notify()
          flash.unlock()
               .set_progMode();
          #if defined(STM32F4) or defined(STM32F7)
-            flash.set (FLASH::ProgSize::x16)
+            flash.set (FLASH_::ProgSize::x16)
                  .en_interrupt_endOfProg(); // без этого не работает
          #endif
          writed_data = original[data_offset];

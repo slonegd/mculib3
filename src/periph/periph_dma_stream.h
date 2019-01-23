@@ -1,6 +1,7 @@
 #pragma once
 
 #include "periph.h"
+#define PERIPH_DMA_STREAM_H_
 
 #if defined(STM32F0) or defined(STM32F1)
    #include "f0_f1_periph_dma_stream.h"

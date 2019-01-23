@@ -6,6 +6,7 @@
 #define TEST
 
 #include "mock_flash.h"
+#include "mock_timer.h"
 #include "flash.h"
 #include <type_traits>
 

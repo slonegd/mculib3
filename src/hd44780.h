@@ -158,7 +158,7 @@ public:
 
 
       screen.init();
-      screen.subscribe();
+      screen.tick_subscribe();
 
       return screen;
    }

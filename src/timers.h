@@ -3,11 +3,8 @@
 #include <cstdint>
 #include "subscriber.h"
 #include "systick.h"
-#ifdef USE_MOCK_SYSTICK
-using namespace mock;
-#else
-using namespace mcu;
-#endif
+#include "mock_def.h"
+
 
 
 
@@ -41,7 +38,7 @@ class Timer : TickSubscriber
 public:
    Timer() = default;
    Timer (uint32_t ms) { start(ms); }
-   ~Timer () {unsubscribe();}
+   ~Timer () {tick_unsubscribe();}
 
    void     start   (uint32_t ms); /// запускает счёт с текущего значения счётчика, устанавливает время
    bool     event();   /// возвращает true, если таймер натикал и перезапускает его

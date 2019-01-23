@@ -2,7 +2,7 @@
 
 #define USE_MOCK_DELAY
 #include "delay.h"
-#include <iostream>
+#include "process.h"
 
 namespace mock {
 
@@ -10,17 +10,17 @@ namespace mock {
 
 class Delay : ::Delay
 {
-
+   Process& process = Process::make();
 public:
 
    bool ms (uint32_t ms) { 
-      if (process) *process << "установка задержки " << ms << " миллисекунд " << std::endl;
+      process << "установка задержки " << ms << " миллисекунд " << std::endl;
       return false;
    }
 
    bool us (uint32_t us)
    {
-      if (process) *process << "установка задержки " << us << " микросекунд " << std::endl;
+      process << "установка задержки " << us << " микросекунд " << std::endl;
       return false;   
    }
 };

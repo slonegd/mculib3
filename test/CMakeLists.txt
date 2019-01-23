@@ -112,7 +112,7 @@ test (STM32F1 test_uart_f1)
 # test (STM32F1 test_button)
 
 
-test (STM32F1 test_hd44780)
+# test (STM32F1 test_hd44780)
 test (STM32F1 test_timers)
 test (STM32F1 test_delay)
 

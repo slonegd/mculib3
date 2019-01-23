@@ -1,6 +1,7 @@
 #pragma once
 
 #define USE_MOCK_TIMER
+#include "mock_systick.h"
 #include "timers.h"
 #include <iostream>
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#define USE_PERIPH_MOCK
+#define USE_MOCK_FLASH
 #include "mock_rcc.h"
 #include "periph_flash.h"
 #include "mock_memory.h"
@@ -97,11 +97,10 @@ public:
 
 } // namespace mock {
 
-#if defined(USE_PERIPH_MOCK)
+
 namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::FLASH, mock::FLASH&> make_reference() { return mock::FLASH::make(); }
 }
-#endif
 
 namespace mock {
    auto& flash = REF(FLASH);

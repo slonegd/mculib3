@@ -6,7 +6,6 @@
 #define F_CPU   72000000UL
 #define STM32F103xB
 
-auto process = new std::stringstream;
 
 #include "timeout.h"
 #include "mock_systick.h"
@@ -16,6 +15,7 @@ auto process = new std::stringstream;
 #include "mock_timer.h"
 #include "mock_delay.h"
 #include "hd44780.h"
+#include "process.h"
 
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 
@@ -27,15 +27,8 @@ using DB5 = mcu::PB5;
 using DB6 = mcu::PB6;
 using DB7 = mcu::PB7;
 
-
+auto& process = mock::Process::make();
 auto& port = mcu::make_reference<mcu::Periph::GPIOB>(); 
-
-
-auto set_stream = [&](){
-      port.set_stream (*process);
-};
-auto clear_stream = [&](){process->str(std::string{}); };
-
 
 std::array<char, 80> buffer {'H', 'e', 'l', 'l', 'o'};
 auto& e = Pin::make<E>();
@@ -45,12 +38,10 @@ auto& rw = Pin::make<RW>();
 
 BOOST_AUTO_TEST_CASE(make_init)
 {
-   set_stream();
-   clear_stream();
-   
+   process.clear();
    HD44780::make<RS, RW, E, DB4, DB5, DB6, DB7>(buffer);
 
-   BOOST_CHECK_EQUAL (process->str(), 
+   BOOST_CHECK_EQUAL (process.str(), 
       "инициализация вывода 3 порта GPIOB в режиме Output" "\n"
       "инициализация вывода 4 порта GPIOB в режиме Output" "\n"
       "инициализация вывода 5 порта GPIOB в режиме Output" "\n"

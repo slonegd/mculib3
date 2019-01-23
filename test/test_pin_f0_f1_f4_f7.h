@@ -237,13 +237,13 @@ BOOST_AUTO_TEST_CASE (bitwise_XOR_assignment_operator)
 
    b = pa0 ^= false;
    BOOST_CHECK_EQUAL (process.str(), "");
-   BOOST_CHECK_EQUAL (b, true);
+   BOOST_CHECK_EQUAL (b, false);
    process.clear();
 
-   mock::pa.mock.set (0, false);
+   mock::pa.mock.set (0, true);
    b = pa0 ^= false;
    BOOST_CHECK_EQUAL (process.str(), "");
-   BOOST_CHECK_EQUAL (b, false);
+   BOOST_CHECK_EQUAL (b, true);
    process.clear();
 }
 

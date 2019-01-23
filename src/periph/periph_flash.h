@@ -1,6 +1,7 @@
 #pragma once
 
 #include "periph.h"
+#define PERIPH_FLASH_H_
 
 #if   defined(STM32F0)
    #include "f0_flash.h"

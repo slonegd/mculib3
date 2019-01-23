@@ -95,20 +95,20 @@ public:
       base().atomic_write(v);
       mock.bsrr_to_idr();
       std::bitset<32> num(v);
-      if (process) *process << *this << " "
+      process << *this << " "
       << "pins set: ";
       for (size_t i = 0; i < num.size()/2; ++i) {      
          if (not num[i]) continue;
-         if (process) *process << i << " ";  
+         process << i << " ";  
       }
     
-      if (process) *process << "pins clear: ";
+      process << "pins clear: ";
       for (size_t i = num.size()/2; i < num.size(); ++i) {      
          if (not num[i]) continue;
-         if (process) *process << i - 16 << " ";
+         process << i - 16 << " ";
 
       }
-      if (process) *process << std::endl;
+      process << std::endl;
    }
 
    struct Mock {
