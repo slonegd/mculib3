@@ -1,15 +1,16 @@
 #pragma once
 
 #define USE_MOCK_DMA
+#include "mock_rcc.h"
 #include "periph_dma.h"
 #include "mock_dma_stream.h"
-#include <iostream>
+#include "process.h"
 
 namespace mock {
 
 class DMA : public mcu::DMA
 {
-   std::ostream* process {nullptr};
+   Process& process { Process::make() };
    DMA() = default;
 public:
    static DMA& make()
@@ -17,12 +18,14 @@ public:
       static DMA dma;
       return dma;
    }
-   void set_stream (std::ostream& s) { process = &s; }
-
 };
 
 } // namespace mock {
 
 namespace mcu {
    SFINAE(DMA1,DMA) make_reference() { return mock::DMA::make(); }
+}
+
+namespace mock {
+   auto& dma1 = REF(DMA1);
 }

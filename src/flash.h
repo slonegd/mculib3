@@ -29,7 +29,7 @@ class Flash : public Data, private TickSubscriber
 {
 public:
    Flash();
-   ~Flash() { unsubscribe(); }
+   ~Flash() { tick_unsubscribe(); }
 private:
    static constexpr auto sector_size    {FLASH::template size<sector>()};
    struct Pair {
@@ -93,7 +93,7 @@ Flash<Data,sector>::Flash()
    // flash.lock(); // check if need
    if (not is_read())
       *static_cast<Data*>(this) = Data{};
-   subscribe();
+   tick_subscribe();
 }
 
 

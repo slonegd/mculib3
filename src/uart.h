@@ -1,61 +1,22 @@
 #pragma once
 
-
 #include <array>
+#include <type_traits>
 #include "periph_usart.h"
 #include "periph_dma.h"
+#include "pin.h"
+#include "net_buffer.h"
 
-#if defined(USE_MOCK_DMA) or defined(USE_MOCK_USART)
-using namespace mock;
-#else
-using namespace mcu;
-#endif
+#include "mock_def.h"
 
 template<size_t buffer_size = 255>
-class UART_
+class UART_sized
 {
-   USART& usart;
-   DMA_stream& TXstream;
-   DMA_stream& RXstream;
-   // Interrupt& interrupt_usart;
-   Pin tx;
-   Pin rx;
-   Pin rts;
-   Pin led;
-   uint8_t buffer[buffer_size];
-   uint8_t begin_ {0};
-   uint8_t end_   {0};
 public:
-
-   using Parity         = USART::Parity;
-   using WakeMethod     = USART::WakeMethod;
-   using DataBits       = USART::DataBits;
-   using BreakDetection = USART::BreakDetection;
-   using StopBits       = USART::StopBits;
-   using Baudrate       = USART::Baudrate;
-   using DataSize       = DMA_stream::DataSize;
-   using Priority       = DMA_stream::Priority;
-   using DataDirection  = DMA_stream::DataDirection;
-
-   UART_ (
-        USART& usart
-      , DMA_stream& TXstream
-      , DMA_stream& RXstream
-      // , Interrupt& interrupt_usart
-      , Pin tx
-      , Pin rx
-      , Pin rts
-      , Pin led
-   )  : usart    {usart}
-      , TXstream {TXstream}
-      , RXstream {RXstream}
-      // , interrupt_usart{interrupt_usart}
-      , tx       {tx}
-      , rx       {rx}
-      , rts      {rts}
-      , led      {led}
-   {}
-
+   using Parity   = USART_t::Parity;
+   using DataBits = USART_t::DataBits;
+   using StopBits = USART_t::StopBits;
+   using Baudrate = USART_t::Baudrate;
    struct Settings {
       bool     parity_enable :1;
       Parity   parity        :1;
@@ -65,52 +26,63 @@ public:
       uint16_t res           :8;
    };
 
-   template <mcu::Periph usart, class TXpin, class RXpin, class RTSpin, class LEDpin> static auto make();
+   Net_buffer<buffer_size> buffer;
+
+   template <
+        mcu::Periph usart
+      , class TXpin
+      , class RXpin
+      , class RTSpin
+      , class LEDpin
+   > static auto& make();
+
    void init (const Settings&);
-   void transmit(uint16_t qty);
-   void start_transmit();
-   void start_receive();
+   void transmit();
+   void receive();
    bool is_tx_complete();
-   uint16_t CNDTR();
    bool is_IDLE();
-   
-   int modbus_time (Baudrate);
-   auto begin         (){return &buffer[0];}
-   auto end           (){return &buffer[end_];}
-   auto message_size  (){return buffer_size - RXstream.qty_transactions_left();}
-   void interrupt     (){end_ = message_size();} 
-   void buffer_clean  (){begin_ = end_ = 0;}
-   UART_&   operator<< (const std::array<uint8_t, 8> &arr){std::copy(arr.begin(), arr.end(), buffer); return *this;}
-   UART_&   operator<< (const uint8_t&);
-   UART_&   operator<< (const uint16_t&);
-   UART_&   operator>> (uint8_t&);
-   UART_&   operator>> (uint16_t&);
-   uint8_t  operator[] (const int index) {return buffer[index];}
-   uint16_t qty_byte(){return buffer_size - RXstream.qty_transactions_left();}
-   uint16_t pop_back();
-   void push_back(const uint16_t&); // метод записывает переставляя старший и младший биты, сейчас не используется
-
-   // using Parent = UART_;
-   // // структура создана потому что не срабатывало NRVO у parent при подписке в make()
-   // struct uart_interrupt : Interrupting
-   // {
-   //    Parent& parent;
-   //    uart_interrupt (Parent& parent) : parent(parent) {
-   //       parent.interrupt_usart.subscribe (this);
-   //    }
-   //    void interrupt() override {parent.interrupt();} 
-   // } uart_ {*this};
+   bool is_receiving() { return buffer.size() < (buffer_size - RXstream.qty_transactions_left()); } 
+   int  modbus_time (Baudrate); // ??
 
 
+
+private:
+   using WakeMethod     = USART_t::WakeMethod;
+   using BreakDetection = USART_t::BreakDetection;
+   using DataSize       = DMA_stream_t::DataSize;
+   using Priority       = DMA_stream_t::Priority;
+   using DataDirection  = DMA_stream_t::DataDirection;
+
+   Pin&          tx;
+   Pin&          rx;
+   Pin&          rts;
+   Pin&          led;
+   USART_t&      usart;
+   DMA_stream_t& TXstream;
+   DMA_stream_t& RXstream;
+   const mcu::Periph uart_periph;
+
+   UART_sized (
+        Pin&          tx
+      , Pin&          rx
+      , Pin&          rts
+      , Pin&          led
+      , USART_t&      usart
+      , DMA_stream_t& TXstream
+      , DMA_stream_t& RXstream
+      , mcu::Periph uart_periph
+   )  : tx       {tx}
+      , rx       {rx}
+      , rts      {rts}
+      , led      {led}
+      , usart    {usart}
+      , TXstream {TXstream}
+      , RXstream {RXstream}
+      , uart_periph {uart_periph}
+   {}
 };
 
-using UART = UART_<>;
-
-
-
-
-
-
+using UART = UART_sized<>;
 
 
 
@@ -144,101 +116,81 @@ using UART = UART_<>;
 
 
 template<size_t buffer_size>
-template <mcu::Periph usart, class TXpin, class RXpin, class RTSpin, class LEDpin> 
-auto UART_<buffer_size>::make()
+template <mcu::Periph uart_periph, class TXpin, class RXpin, class RTSpin, class LEDpin> 
+auto& UART_sized<buffer_size>::make()
 {
-   USART::pin_static_assert<usart, TXpin, RXpin>();
+   USART_t::pin_static_assert<uart_periph, TXpin, RXpin>();
    
-   constexpr auto TX_stream  = USART::default_stream<TXpin>();
-   constexpr auto RX_stream  = USART::default_stream<RXpin>();
-   constexpr auto TXpin_mode = USART::pin_mode<TXpin>();
-   constexpr auto RXpin_mode = USART::pin_mode<RXpin>();
+   constexpr auto TX_stream  = USART_t::default_stream<TXpin>();
+   constexpr auto RX_stream  = USART_t::default_stream<RXpin>();
+   constexpr auto TXpin_mode = USART_t::pin_mode<TXpin>();
+   constexpr auto RXpin_mode = USART_t::pin_mode<RXpin>();
 
-   // auto interrupt_usart = usart == Periph::USART1 ? &interrupt_usart1 :
-   //                        usart == Periph::USART2 ? &interrupt_usart2 :
-   //                        usart == Periph::USART3 ? &interrupt_usart3 :
-   //                        nullptr;
-
-   UART_ uart {
-        mcu::make_reference<usart>()
-      , mcu::make_reference<TX_stream>()
-      , mcu::make_reference<RX_stream>()
-      // , *interrupt_usart
-      , Pin::make<TXpin, TXpin_mode>()
+   static UART_sized<buffer_size> uart {
+        Pin::make<TXpin, TXpin_mode>()
       , Pin::make<RXpin, RXpin_mode>()
       , Pin::make<RTSpin, mcu::PinMode::Output>()
       , Pin::make<LEDpin, mcu::PinMode::Output>()
+      , mcu::make_reference<uart_periph>()
+      , mcu::make_reference<TX_stream>()
+      , mcu::make_reference<RX_stream>()
+      , uart_periph
    };
 
    auto& rcc = REF(RCC);
-   rcc.clock_enable<usart>();
+   rcc.clock_enable<uart_periph>();
    uart.usart.tx_enable()
              .rx_enable()
              .DMA_tx_enable()
              .DMA_rx_enable()
              .enable_IDLE_interrupt()
              .enable();
-   NVIC_EnableIRQ(uart.usart.IRQn(usart));
+   NVIC_EnableIRQ_t(uart.usart.IRQn(uart_periph));
 
    rcc.clock_enable<TX_stream>();
-   uart.TXstream.disable()
-                .direction(DataDirection::MemToPer)
-                .set_memory_adr(reinterpret_cast<size_t>(uart.buffer))
+   uart.TXstream.direction(DataDirection::MemToPer)
+                .set_memory_adr(size_t(uart.buffer.begin()))
                 .set_periph_adr(uart.usart.transmit_data_adr())
                 .inc_memory()
                 .size_memory(DataSize::byte8)
                 .size_periph(DataSize::byte8)
                 .enable_transfer_complete_interrupt();
-      NVIC_EnableIRQ(uart.TXstream.IRQn(TX_stream));
+      NVIC_EnableIRQ_t(uart.TXstream.IRQn(TX_stream));
 
    uart.RXstream.direction(DataDirection::PerToMem)
-           		 .set_memory_adr(reinterpret_cast<size_t>(uart.buffer))
-           		 .set_periph_adr(uart.usart.transmit_data_adr())
-           		 .set_qty_transactions(buffer_size)
-           		 .inc_memory()
-           		 .size_memory(DataSize::byte8)
-           		 .size_periph(DataSize::byte8);
-
-   
-   
-   // interrupt_usart->subscribe(&uart);
+            	 .set_memory_adr(size_t(uart.buffer.begin()))
+            	 .set_periph_adr(uart.usart.transmit_data_adr())
+            	 .set_qty_transactions(buffer_size)
+            	 .inc_memory()
+            	 .size_memory(DataSize::byte8)
+            	 .size_periph(DataSize::byte8);
 
    return uart;
 }
 
 template<size_t buffer_size>
-void UART_<buffer_size>::init (const UART_<buffer_size>::Settings& set) 
+void UART_sized<buffer_size>::init (const UART_sized<buffer_size>::Settings& set) 
 {
-   usart.set(set.baudrate, clock)
+   usart.set(set.baudrate, uart_periph)
         .set(set.parity)
         .set(set.data_bits)
         .set(set.stop_bits);
 }
 
 template<size_t buffer_size>
-void UART_<buffer_size>::transmit(uint16_t qty)
+void UART_sized<buffer_size>::transmit()
 {
    rts = led = true;
    RXstream.disable();
    TXstream.disable()
-           .set_qty_transactions(qty)
+           .set_qty_transactions(buffer.size())
            .enable();
 }
 
 template<size_t buffer_size>
-void UART_<buffer_size>::start_transmit()
+void UART_sized<buffer_size>::receive()
 {
-   rts = led = true;
-   RXstream.disable();
-   TXstream.disable()
-           .set_qty_transactions(end)
-           .enable();
-}
-
-template<size_t buffer_size>
-void UART_<buffer_size>::start_receive()
-{
-   buffer_clean();
+   buffer.clear();
    rts = led = false;
    TXstream.disable();
    RXstream.disable()
@@ -246,7 +198,7 @@ void UART_<buffer_size>::start_receive()
 }
 
 template<size_t buffer_size>
-int UART_<buffer_size>::modbus_time (Baudrate baudrate)
+int UART_sized<buffer_size>::modbus_time (Baudrate baudrate)
 {
    return baudrate == Baudrate::BR9600  ? 4 :
           baudrate == Baudrate::BR14400 ? 3 :
@@ -255,72 +207,18 @@ int UART_<buffer_size>::modbus_time (Baudrate baudrate)
 }
 
 template<size_t buffer_size>
-bool UART_<buffer_size>::is_IDLE()
+bool UART_sized<buffer_size>::is_IDLE()
 {
-   return usart.is_IDLE_interrupt();
+   auto res = usart.is_IDLE_interrupt();
+   if (res)
+      buffer.set_size (buffer_size - RXstream.qty_transactions_left());
+   return res;
 }
 
 template<size_t buffer_size>
-bool UART_<buffer_size>::is_tx_complete()
+bool UART_sized<buffer_size>::is_tx_complete()
 {
    return usart.is_tx_complete();
 }
 
-template<size_t buffer_size>
-uint16_t UART_<buffer_size>::CNDTR()
-{
-   return RXstream.qty_transactions_left();
-}
-
-template<size_t buffer_size>
-UART_<buffer_size>& UART_<buffer_size>::operator<< (const uint8_t& v)
-{
-   buffer [end_++] = v;
-   return *this;
-}
-
-template<size_t buffer_size>
-UART_<buffer_size>& UART_<buffer_size>::operator>> (uint8_t& v)
-{
-   v = buffer[begin_++];
-   if (begin_ == end_) {
-      begin_ = end_ = 0;
-   }
-   return *this;
-}
-
-template<size_t buffer_size>
-UART_<buffer_size>& UART_<buffer_size>::operator<< (const uint16_t& v)
-{
-   uint8_t high, low;
-   high = v >> 8; 
-   low  = static_cast<uint8_t>(v);
-   *this << high << low;
-   return *this;
-}
-
-template<size_t buffer_size>
-UART_<buffer_size>& UART_<buffer_size>::operator>> (uint16_t& v)
-{
-   uint8_t high, low;
-   *this >> high >> low;
-   v = high << 8 | low;
-   return *this;
-}
-
-template<size_t buffer_size>
-uint16_t UART_<buffer_size>::pop_back() 
-{
-   uint8_t v  = buffer[--end_];
-   return v;
-}
-
-template<size_t buffer_size>
-void UART_<buffer_size>::push_back(const uint16_t& v)
-{
-   buffer[end_++] = static_cast<uint8_t>(v);
-   buffer[end_++] = v >> 8;
-}
-
-
-
+#undef NS

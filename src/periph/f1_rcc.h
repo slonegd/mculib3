@@ -66,7 +66,7 @@ public:
          or p == Periph::DMA1_stream6
          or p == Periph::DMA1_stream7
       )
-         AHBENR.DMA1EN = true;
+         clock_enable<Periph::DMA1>();
 
       else if constexpr (p == Periph::TIM4) APB1ENR.TIM4EN = true;
       static_assert (

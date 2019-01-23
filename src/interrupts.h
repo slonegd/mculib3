@@ -44,13 +44,13 @@
    extern "C" void USART2_IRQHandler          () { interrupt_usart2.interrupt(); mcu::make_reference<mcu::Periph::USART2>().clear_interrupt_flags();}
    extern "C" void USART3_IRQHandler          () { interrupt_usart3.interrupt(); mcu::make_reference<mcu::Periph::USART3>().clear_interrupt_flags();}
 
-	extern "C" void DMA1_Channel1_IRQHandler   () { interrupt_DMA_channel1.interrupt(); mcu::make_reference<mcu::Periph::DMA1_stream1>().clear_interrupt_flags(mcu::DMA::Channel::_1);}
-   extern "C" void DMA1_Channel2_IRQHandler   () { interrupt_DMA_channel2.interrupt(); mcu::make_reference<mcu::Periph::DMA1_stream2>().clear_interrupt_flags(mcu::DMA::Channel::_2);}
-   extern "C" void DMA1_Channel3_IRQHandler   () { interrupt_DMA_channel3.interrupt(); mcu::make_reference<mcu::Periph::DMA1_stream3>().clear_interrupt_flags(mcu::DMA::Channel::_3);}
-   extern "C" void DMA1_Channel4_IRQHandler   () { interrupt_DMA_channel4.interrupt(); mcu::make_reference<mcu::Periph::DMA1_stream4>().clear_interrupt_flags(mcu::DMA::Channel::_4);}
-   extern "C" void DMA1_Channel5_IRQHandler   () { interrupt_DMA_channel5.interrupt(); mcu::make_reference<mcu::Periph::DMA1_stream5>().clear_interrupt_flags(mcu::DMA::Channel::_5);}
-   extern "C" void DMA1_Channel6_IRQHandler   () { interrupt_DMA_channel6.interrupt(); mcu::make_reference<mcu::Periph::DMA1_stream6>().clear_interrupt_flags(mcu::DMA::Channel::_6);}
-   extern "C" void DMA1_Channel7_IRQHandler   () { interrupt_DMA_channel7.interrupt(); mcu::make_reference<mcu::Periph::DMA1_stream7>().clear_interrupt_flags(mcu::DMA::Channel::_7);}
+	extern "C" void DMA1_Channel1_IRQHandler   () { interrupt_DMA_channel1.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_1);}
+   extern "C" void DMA1_Channel2_IRQHandler   () { interrupt_DMA_channel2.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_2);}
+   extern "C" void DMA1_Channel3_IRQHandler   () { interrupt_DMA_channel3.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_3);}
+   extern "C" void DMA1_Channel4_IRQHandler   () { interrupt_DMA_channel4.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_4);}
+   extern "C" void DMA1_Channel5_IRQHandler   () { interrupt_DMA_channel5.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_5);}
+   extern "C" void DMA1_Channel6_IRQHandler   () { interrupt_DMA_channel6.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_6);}
+   extern "C" void DMA1_Channel7_IRQHandler   () { interrupt_DMA_channel7.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_7);}
 
 
 #endif

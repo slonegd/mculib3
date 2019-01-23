@@ -30,8 +30,8 @@ class TickSubscriber : Subscriber
 {
 protected:
    bool subscribed {false};
-   void subscribe();
-   void unsubscribe();
+   void tick_subscribe();
+   void tick_unsubscribe();
 public:
    
 };
@@ -76,7 +76,7 @@ void Timer::notify()
 void Timer::start (uint32_t ms)
 {
    timeSet = ms;
-   subscribe();
+   tick_subscribe();
 }
 
 
@@ -104,13 +104,13 @@ void Timer::event (Functor functor)
 void Timer::stop()
 {
    timePassed_ = 0;
-   unsubscribe();
+   tick_unsubscribe();
 }
 
 
 bool     Timer::done()       { return timePassed_ >= timeSet; }
-void     Timer::pause()      { unsubscribe(); }
-void     Timer::start()      { subscribe();  }
+void     Timer::pause()      { tick_unsubscribe(); }
+void     Timer::start()      { tick_subscribe();  }
 bool     Timer::isCount()    { return subscribed; }
 uint32_t Timer::timePassed() { return timePassed_; }
 uint32_t Timer::timeLeft(  ) { return timeSet - timePassed_; }
@@ -118,7 +118,7 @@ bool     Timer::isGreater (uint32_t val) { return timePassed_ > val; }
 
 
 
-void TickSubscriber::unsubscribe()
+void TickSubscriber::tick_unsubscribe()
 {
    if (subscribed) {
       subscribed = false;
@@ -127,7 +127,7 @@ void TickSubscriber::unsubscribe()
 }
 
 
-void TickSubscriber::subscribe()
+void TickSubscriber::tick_subscribe()
 {
    if (not subscribed) {
       subscribed = true;

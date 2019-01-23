@@ -5,8 +5,6 @@
 #include "periph_afio.h"
 #include "pins.h"
 
-
-
 namespace mcu {
 
 enum class PinMode {Input, Output, USART1_TX, USART1_RX, USART2_TX, USART2_RX, USART3_TX, USART3_RX};
@@ -30,7 +28,7 @@ public:
    void clear      (size_t n) { BSRR |= (1 << (n + 16));       }
    bool is_set     (size_t n) { return IDR.reg & (1 << n);     }
    void toggle     (size_t n) { is_set(n) ? clear(n) : set(n); }
-   void atomic_write (uint32_t value) {BSRR = value;}
+   void atomic_write (uint32_t value) { BSRR = value; }
 
    template<class Pin_, PinMode> void init();
 

@@ -6,8 +6,8 @@ namespace mcu {
 
 class DMA 
 {
-   __IO DMA_bits::ISR  ISR;  // DMA interrupt status register     offset: 0x00
-   __IO DMA_bits::IFCR IFCR; // DMA interrupt flag clear register offset: 0x04
+   volatile DMA_bits::ISR  ISR;  // DMA interrupt status register     offset: 0x00
+   volatile DMA_bits::IFCR IFCR; // DMA interrupt flag clear register offset: 0x04
 
 public:
    using CMSIS_type = DMA_TypeDef;

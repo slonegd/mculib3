@@ -126,15 +126,16 @@ USART& USART::set (Baudrate baudrate, Periph p)
 {
    auto clock = REF(RCC).clock(p);
    switch (baudrate) {
-      case BR9600:   BRR = clock/9600  ; return *this;
-      case BR14400:  BRR = clock/14400 ; return *this;
-      case BR19200:  BRR = clock/19200 ; return *this;
-      case BR28800:  BRR = clock/28800 ; return *this;
-      case BR38400:  BRR = clock/38400 ; return *this;
-      case BR57600:  BRR = clock/57600 ; return *this;
-      case BR76800:  BRR = clock/76800 ; return *this;
-      case BR115200: BRR = clock/115200; return *this;
+      case BR9600:   BRR = clock/9600  ; break;
+      case BR14400:  BRR = clock/14400 ; break;
+      case BR19200:  BRR = clock/19200 ; break;
+      case BR28800:  BRR = clock/28800 ; break;
+      case BR38400:  BRR = clock/38400 ; break;
+      case BR57600:  BRR = clock/57600 ; break;
+      case BR76800:  BRR = clock/76800 ; break;
+      case BR115200: BRR = clock/115200; break;
    }
+   return *this;
 }
 
 

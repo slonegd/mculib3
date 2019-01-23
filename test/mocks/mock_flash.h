@@ -1,9 +1,10 @@
 #pragma once
 
 #define USE_PERIPH_MOCK
+#include "mock_rcc.h"
 #include "periph_flash.h"
 #include "mock_memory.h"
-#include <iostream>
+#include "process.h"
 
 namespace mock {
 
@@ -20,7 +21,7 @@ std::ostream& operator<< (std::ostream& s, mcu::FLASH::ProgSize v)
 
 class FLASH : public mcu::FLASH
 {
-   std::ostream* process {nullptr};
+   Process& process { Process::make() };
    FLASH() = default;
    size_t eop_count {0};
    void (*erase) (Sector) {nullptr};
@@ -32,57 +33,56 @@ public:
       flash.CR.LOCK = true;
       return flash;
    }
-   void set_stream (std::ostream& s) { process = &s; }
    void set_erase_function (void (&v) (Sector)) { erase = &v; }
 
    FLASH& set (Latency v) {
-      if (process) *process << "установка задержки чтения памяти " << static_cast<size_t>(v) << std::endl;
+      process << "установка задержки чтения памяти " << static_cast<size_t>(v) << std::endl;
       static_cast<mcu::FLASH*>(this)->set(v);
       return *this;
    }
 
    FLASH& lock() {
-      if (process) *process << "блокировка памяти для записи" << std::endl;
+      process << "блокировка памяти для записи" << std::endl;
       static_cast<mcu::FLASH*>(this)->lock();
       return *this;
    }
 
    FLASH& unlock() {
-      if (process) *process << "разблокировка памяти для записи" << std::endl;
+      process << "разблокировка памяти для записи" << std::endl;
       // static_cast<mcu::FLASH*>(this)->unlock(); // внутренние задержки жутко тормозили тесты
       this->CR.LOCK = false;
       return *this;
    }
 
    FLASH& set_progMode() {
-      if (process) *process << "переключение в режим записи" << std::endl;
+      process << "переключение в режим записи" << std::endl;
       static_cast<mcu::FLASH*>(this)->set_progMode();
       return *this;
    }
 
    FLASH& clear_flag_endOfProg() {
-      if (process) *process << "сброс флага окончания записи" << std::endl;
+      process << "сброс флага окончания записи" << std::endl;
       static_cast<mcu::FLASH*>(this)->clear_flag_endOfProg();
       return *this;
    }
 
 #if defined(STM32F4) or defined(STM32F7)
    FLASH& set (ProgSize v) {
-      if (process) *process << "установка размера записи " << v << std::endl;
+      process << "установка размера записи " << v << std::endl;
       static_cast<mcu::FLASH*>(this)->set(v);
       return *this;
    }
 #endif
 
    FLASH& en_interrupt_endOfProg() {
-      if (process) *process << "разрешение прерывания по окончанию записи" << std::endl;
+      process << "разрешение прерывания по окончанию записи" << std::endl;
       static_cast<mcu::FLASH*>(this)->en_interrupt_endOfProg();
       return *this;
    }
 
    template<Sector v>
    FLASH& start_erase() {
-      if (process) *process << "запуск стирания сектора " << static_cast<size_t>(v) << std::endl;
+      process << "запуск стирания сектора " << static_cast<size_t>(v) << std::endl;
       static_cast<mcu::FLASH*>(this)->start_erase<v>();
       if (erase) erase(v);
       return *this;
@@ -102,3 +102,7 @@ namespace mcu {
    template<Periph p> std::enable_if_t<p == Periph::FLASH, mock::FLASH&> make_reference() { return mock::FLASH::make(); }
 }
 #endif
+
+namespace mock {
+   auto& flash = REF(FLASH);
+}
