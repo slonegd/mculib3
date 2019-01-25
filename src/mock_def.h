@@ -26,8 +26,3 @@ auto& NVIC_EnableIRQ_t = mock::NVIC_EnableIRQ;
 auto& NVIC_EnableIRQ_t = ::NVIC_EnableIRQ;
 #endif
 
-#ifdef USE_MOCK_SYSTICK
-using mock::SysTick;
-#elif defined(PERIPH_SYSTICK_H_)
-using mcu::SysTick;
-#endif

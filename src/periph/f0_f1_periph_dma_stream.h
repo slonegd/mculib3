@@ -41,7 +41,9 @@ public:
 
    uint16_t qty_transactions_left(){return CNDTR;}
 
-   
+   template<Periph stream> static constexpr Periph dma_periph();
+   template<Periph stream> static constexpr Channel channel();
+
 
 };
 
@@ -56,6 +58,24 @@ SFINAE(DMA1_stream6,DMA_stream) make_reference() {return *reinterpret_cast<DMA_s
 SFINAE(DMA1_stream7,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA1_Channel7_BASE);}
 #endif
 #endif
+
+template<Periph stream> constexpr Periph DMA_stream::dma_periph()
+{
+   return Periph::DMA1;
+}
+
+template<Periph stream> constexpr DMA_stream::Channel DMA_stream::channel() 
+{
+   if      constexpr (stream == Periph::DMA1_stream1) return Channel::_1;
+   else if constexpr (stream == Periph::DMA1_stream2) return Channel::_2;
+   else if constexpr (stream == Periph::DMA1_stream3) return Channel::_3;
+   else if constexpr (stream == Periph::DMA1_stream4) return Channel::_4;
+   else if constexpr (stream == Periph::DMA1_stream5) return Channel::_5;
+#if defined(STM32F1)
+   else if constexpr (stream == Periph::DMA1_stream6) return Channel::_6;
+   else if constexpr (stream == Periph::DMA1_stream7) return Channel::_7;
+#endif
+}
 
 
 constexpr IRQn_Type DMA_stream::IRQn(Periph v)

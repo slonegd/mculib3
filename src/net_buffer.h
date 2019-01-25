@@ -74,15 +74,24 @@ public:
 
    Net_buffer& operator>> (uint16_t& v)
    {
-      if (end_i > begin_i + 1)
-         v = from_bytes (pop_front(), pop_front());
+      if (end_i > begin_i + 1) {
+         union {
+            std::array<uint8_t,2> d8;
+            uint16_t d16;
+         } u;
+         auto v1 = pop_front();
+         auto v2 = pop_front();
+         u.d8 = {v2, v1};
+         v = u.d16;
+      }
+         // v = from_bytes (pop_front(), pop_front());
       return *this;
    }
 
    uint8_t pop_back()
    {
       if (end_i > begin_i)
-         return base()[end_i--];
+         return base()[--end_i];
       return 0;
    }
 

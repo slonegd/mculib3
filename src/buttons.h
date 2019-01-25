@@ -38,10 +38,10 @@ public:
    {
       if (inverted) {
          if (not pin) 
-            subscribe();
+            tick_subscribe();
       } else {
          if (pin)
-            subscribe();
+            tick_subscribe();
       }
 
       return time >= 10 and not short_press ? (short_press = true) : false;
@@ -51,10 +51,10 @@ public:
    {
       if (inverted) {
          if (not pin) 
-            subscribe();
+            tick_subscribe();
       } else {
          if (pin)
-            subscribe();
+            tick_subscribe();
       }
 
       return time >= 1000 and not long_press ? (long_press = true) : false;
@@ -92,7 +92,7 @@ public:
    {
       if (inverted) {
          if (pin) {
-            unsubscribe();
+            tick_unsubscribe();
             time = 0;
             short_press = false;
             long_press = false;
@@ -102,7 +102,7 @@ public:
             time++;
       } else {
          if (not pin) {
-            unsubscribe();
+            tick_unsubscribe();
             time = 0;
             short_press = false;
             long_press = false;
@@ -126,8 +126,8 @@ public:
       Some(Button& one, Button& two) : one{one}, two{two} {}
       operator bool () {
          if (one.is_set() and two.is_set()) {
-            one.subscribe();
-            two.subscribe(); 
+            one.tick_subscribe();
+            two.tick_subscribe(); 
          }
          bool result{false};
          result = one.time >= 10 and two.time >= 10 and (not one.short_press or not two.short_press);
@@ -139,8 +139,8 @@ public:
 
       bool push_long() {
          if (one.is_set() and two.is_set()) {
-            one.subscribe();
-            two.subscribe(); 
+            one.tick_subscribe();
+            two.tick_subscribe(); 
          }
          bool result{false};
          result = one.time >= 1000 and two.time >= 1000 and (not one.long_press or not two.long_press);

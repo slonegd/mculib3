@@ -154,7 +154,7 @@ public:
 
 };
 
-
+#define GET_ADR(struct, reg)     (offsetof(struct, reg) / 2)
 
 
 

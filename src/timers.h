@@ -3,7 +3,11 @@
 #include <cstdint>
 #include "subscriber.h"
 #include "systick.h"
-#include "mock_def.h"
+#ifdef USE_MOCK_SYSTICK
+using mock::SysTick;
+#else
+using mcu::SysTick;
+#endif
 
 
 

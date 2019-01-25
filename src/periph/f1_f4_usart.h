@@ -62,6 +62,7 @@ public:
    USART& DMA_rx_enable (){CR3.DMAR = true;  return *this;}
    USART& parity_enable (){CR1.PCE  = true;  return *this;}
    USART& parity_disable(){CR1.PCE  = false; return *this;}
+   USART& parity_enable (bool enable){enable ? parity_enable() : parity_disable(); return *this;}
    // bool   is_ready_read (){return SR.RXNE;} // no test
 
    USART& enable_IDLE_interrupt          (){CR1.IDLEIE = true;  return *this;}
@@ -138,7 +139,6 @@ USART& USART::set (Baudrate baudrate, Periph p)
    return *this;
 }
 
-
 template <class Pin> constexpr PinMode USART::pin_mode()
 {
    static_assert (
@@ -166,7 +166,6 @@ template <class Pin> constexpr PinMode USART::pin_mode()
 #endif
 
 }
-
 
 template<class Pin> constexpr Periph USART::default_stream()
 {

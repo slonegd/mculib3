@@ -5,10 +5,17 @@
 #include "timers.h"
 #include "table_crc.h"
 #include "ring_buffer.h"
-#if not defined (TEST)
-   #include "uart.h"
-   #include "interrupt.h"
-   #include <cstring>
+#include "uart.h"
+#include "interrupt.h"
+#include "vector.h"
+#include <cstring>
+
+
+
+#if defined(USE_MOCK_UART)
+using UART_ = mock::UART;
+#else
+using UART_ = ::UART;
 #endif
 
 namespace mcu {
@@ -24,6 +31,7 @@ public:
 
 using Array = std::array<uint8_t, 8>;
 
+
 struct Register_base {
 
 	enum class Error_code : uint8_t {
@@ -35,24 +43,24 @@ struct Register_base {
 
    virtual       uint8_t  get_adr    () = 0;
    virtual       uint16_t get_adr_reg() = 0;
-   virtual       uint16_t&set_data   () = 0;
-	virtual       uint16_t operator=  (uint16_t v) = 0;
+   virtual       void     set        (uint16_t data) = 0;
+	// virtual       uint16_t operator=  (uint16_t v) = 0;
    virtual const Array get_request   () = 0;
 
 	RingBuffer<10, Error_code> errors;
 };
 
-template<uint8_t address_, uint16_t address_register_, class T>
+template<uint8_t address_, uint16_t address_register_, class T = uint16_t>
 struct Register : Register_base
 {
    static constexpr uint8_t address = address_;
    uint8_t get_adr() override {return address;}
    static constexpr uint16_t address_register = address_register_;
    uint16_t get_adr_reg() override {return address_register_;}
-   T value {0};
+   T value;
    operator T() {return value;}
-	T operator= (uint16_t v) override {this -> value = v; return value;}
-   uint16_t& set_data() override {return *reinterpret_cast<uint16_t*>(&value);}
+	// uint16_t operator= (uint16_t v) override {this -> value = v; return value;}
+   void set(uint16_t data) override {(*reinterpret_cast<uint16_t*>(&value)) = data;}
    static constexpr  uint8_t request_base[]
 		{ address_
 		, 3
@@ -80,13 +88,16 @@ struct Register : Register_base
 template <size_t qty>
 class Modbus_master : TickSubscriber
 {
+	using Baudrate = UART_::Baudrate;
+	
 	enum State {
       wait_answer, request, pause
    } state {State::request};
 	
-	UART uart;
+	UART_& uart;
 	Interrupt& interrupt_usart;
    Interrupt& interrupt_DMA_channel;
+	Vector<Register_base*, qty> arr_register;
 	Register_base* arr_register[qty];
 
 	Auto_reset<qty> current {};
@@ -98,21 +109,23 @@ class Modbus_master : TickSubscriber
 	int modbus_time;
 	int time_pause{0};
 	size_t message_size;
+
+	
 	enum class Function   : uint8_t {read_03 = 0x03, write_16 = 0x10};
 
 	void uartInterrupt()
    {
       if (uart.is_IDLE()) {
 	  		time_end_message = time;
-			message_size = uart.message_size();
-			uart.interrupt();
+			message_size = uart.buffer.size();
 		}
    }
    void dmaInterrupt()
    {
-	   if (uart.is_tx_complete())
-			uart.start_receive();
-			subscribe();
+	   if (uart.is_tx_complete()) {
+			uart.receive();
+			tick_subscribe();
+		}
    }
 
    void notify() override 
@@ -142,10 +155,11 @@ class Modbus_master : TickSubscriber
 
 	void unsubscribe_modbus() {
 		time = 0;
-		unsubscribe();
+		tick_unsubscribe();
 	}
 
 	bool check_CRC();
+	int  set_modbus_time (Baudrate);
 	
 
 public:
@@ -153,25 +167,26 @@ public:
 	size_t time_out; // time-out for master
 
    template<class ... Args>
-   Modbus_master (UART&& uart, Interrupt& interrupt_usart, Interrupt& interrupt_DMA_channel, size_t time_out, UART::Settings set, Args& ... args) 
-		: uart    {std::forward<UART>(uart)}
+   Modbus_master (UART_& uart, Interrupt& interrupt_usart, Interrupt& interrupt_DMA_channel, size_t time_out, UART_::Settings set, Args& ... args) 
+		: uart    {uart}
 		, interrupt_usart {interrupt_usart}
 		, interrupt_DMA_channel {interrupt_DMA_channel}
 		, arr_register {&args...}
+		, modbus_time {set_modbus_time(set.baudrate)}
 		, time_out {time_out}
-		, modbus_time {uart.modbus_time(set.baudrate)}
 		{}
 
 	void operator() ();
 	void get_answer ();
+	auto& get_buffer() {return uart.buffer;}
 };
 
 template<class ... Args>
-Modbus_master (UART&& uart, Interrupt& interrupt_usart, Interrupt& interrupt_DMA_channel, size_t time_out, UART::Settings set, Args& ... args) 
+Modbus_master (UART_& uart, Interrupt& interrupt_usart, Interrupt& interrupt_DMA_channel, size_t time_out, UART_::Settings set, Args& ... args) 
 				-> Modbus_master<sizeof... (args)>;
 
 template <Periph usart, class TXpin,  class RXpin, class RTSpin, class LEDpin, class... Args> 
-auto make (size_t time_out, UART::Settings set, Args&... args)
+auto& make (size_t time_out, UART_::Settings set, Args&... args)
 {
 	auto interrupt_usart = usart == Periph::USART1 ? &interrupt_usart1 :
                           usart == Periph::USART2 ? &interrupt_usart2 :
@@ -182,8 +197,8 @@ auto make (size_t time_out, UART::Settings set, Args&... args)
                           usart == Periph::USART3 ? &interrupt_DMA_channel2 :
                           nullptr;
 	// auto u = UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>();
-	auto modbus = Modbus_master 
-	{UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>(), *interrupt_usart, *interrupt_dma, time_out, set, args...};
+	static Modbus_master modbus
+	{UART_::make<usart, TXpin, RXpin, RTSpin, LEDpin>(), *interrupt_usart, *interrupt_dma, time_out, set, args...};
 
 	return modbus;
 
@@ -194,14 +209,14 @@ void Modbus_master<qty>::operator() ()
 {
 	switch (state) {
 		case request:
-			uart << arr_register[current]->get_request();
-			uart.start_transmit();
+			uart.buffer << arr_register[current]->get_request();
+			uart.transmit();
 			time_end_message = time_out;
 			message_size = 0;
 			state = State::wait_answer;
 		break;
 		case wait_answer:
-			if (message_size < uart.message_size()) {
+			if (message_size < uart.buffer.size()) {
 				time_end_message = time_out;
 			}
 			if (time >= time_out) {
@@ -228,11 +243,10 @@ void Modbus_master<qty>::operator() ()
 template <size_t qty>
 void Modbus_master<qty>::get_answer()
 {
-	uint8_t addr, func, byte_qty, error_code;
+	uint8_t  func, byte_qty, error_code;
 	uint16_t data, crc;
 
-	uart >> addr;
-	if (addr != arr_register[current]->get_adr()) {
+	if (uart.buffer.front() != arr_register[current]->get_adr()) {
 		arr_register[current]->errors.push(Register_base::Error_code::wrong_addr);
 		return;
 	}
@@ -240,32 +254,42 @@ void Modbus_master<qty>::get_answer()
       arr_register[current]->errors.push(Register_base::Error_code::wrong_crc);
 		return;
    }
-	uart >> func;
+	uart.buffer.pop_front(); // adr
+	uart.buffer >> func;
 	if(func != static_cast<uint8_t>(Function::read_03)) {
 		if (is_high_bit(func)) {
-			uart >> error_code;
+			uart.buffer >> error_code;
 			arr_register[current]->errors.push(static_cast<Register_base::Error_code>(error_code));
 		} else
 			arr_register[current]->errors.push(Register_base::Error_code::wrong_func);
 		return;
 	}
-	uart >> byte_qty;
-	uart >> data;
+	uart.buffer >> byte_qty;
+	uart.buffer >> data;
 	if (sizeof(data) != byte_qty) {
 		arr_register[current]->errors.push(Register_base::Error_code::wrong_qty_byte);
 		return;
 	}
 
-	*arr_register[current] = data;
+	arr_register[current]->set(data);
 }
 
 template <size_t qty>
 bool Modbus_master<qty>::check_CRC()
 {
-   uint8_t high = uart.pop_back();
-	uint8_t low  = uart.pop_back();
-   auto [low_, high_] = CRC16(uart.begin(), uart.end());
+   uint8_t high = uart.buffer.pop_back();
+	uint8_t low  = uart.buffer.pop_back();
+   auto [low_, high_] = CRC16(uart.buffer.begin(), uart.buffer.end());
    return (high == high_) and (low == low_);
+}
+
+template<size_t qty>
+int Modbus_master<qty>::set_modbus_time (Baudrate baudrate)
+{
+   return baudrate == Baudrate::BR9600  ? 4 :
+          baudrate == Baudrate::BR14400 ? 3 :
+          baudrate == Baudrate::BR19200 ? 2 :
+          baudrate == Baudrate::BR28800 ? 2 : 1;
 }
 
 } //namespace mcu 

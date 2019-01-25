@@ -5,6 +5,8 @@
 
 namespace mock {
 
+bool go_deeper {false};
+
 class Process {
    Process() = default;
 public:
