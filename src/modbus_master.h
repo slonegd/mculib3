@@ -23,10 +23,13 @@ namespace mcu {
 template<size_t n, class Int = size_t>
 class Auto_reset {
    Int value {0};
+	size_t m {n};
 public:
-   inline Int operator++(int)   { return value = (++value < n) ? value : 0; }
+   inline Int operator++(int)   { return value = (++value < m) ? value : 0; }
    inline operator Int() const  { return value; }
    inline Int operator= (Int v) { return value = v; }
+	inline void change_range(int i){ m = i; }
+	inline bool last() {return value == n ? true : false;}
 };
 
 using Array = std::array<uint8_t, 8>;
@@ -98,7 +101,7 @@ class Modbus_master : TickSubscriber
 	Interrupt& interrupt_usart;
    Interrupt& interrupt_DMA_channel;
 	Vector<Register_base*, qty> arr_register;
-	Register_base* arr_register[qty];
+	// Register_base* arr_register[qty];
 
 	Auto_reset<qty> current {};
 
@@ -109,6 +112,7 @@ class Modbus_master : TickSubscriber
 	int modbus_time;
 	int time_pause{0};
 	size_t message_size;
+	bool search {true};
 
 	
 	enum class Function   : uint8_t {read_03 = 0x03, write_16 = 0x10};
@@ -174,8 +178,9 @@ public:
 		, arr_register {&args...}
 		, modbus_time {set_modbus_time(set.baudrate)}
 		, time_out {time_out}
-		{}
+	{}
 
+	void search_slave();
 	void operator() ();
 	void get_answer ();
 	auto& get_buffer() {return uart.buffer;}
@@ -205,7 +210,7 @@ auto& make (size_t time_out, UART_::Settings set, Args&... args)
 }
 
 template <size_t qty>
-void Modbus_master<qty>::operator() ()
+void Modbus_master<qty>::search_slave()
 {
 	switch (state) {
 		case request:
@@ -220,12 +225,11 @@ void Modbus_master<qty>::operator() ()
 				time_end_message = time_out;
 			}
 			if (time >= time_out) {
-				arr_register[current]->errors.push(Register_base::Error_code::time_out);
+				arr_register.erase(current);
 				time_pause = time;
 				state = State::pause;
 			}
 			if (time - time_end_message >= modbus_time) {
-				get_answer();
 				time_pause = time;
 				state = State::pause;
 			}
@@ -233,11 +237,55 @@ void Modbus_master<qty>::operator() ()
 		case pause:
 			if (time - 10 >= time_pause) {
 				unsubscribe_modbus();
+				if (current.last()) {
+					search = false;
+					current.change_range(arr_register.size());
+				}
 				current++;
 				state = State::request;
 			}
 		break;
 	}
+}
+
+template <size_t qty>
+void Modbus_master<qty>::operator() ()
+{
+	if (search)
+		search_slave();
+	else {
+		switch (state) {
+			case request:
+				uart.buffer << arr_register[current]->get_request();
+				uart.transmit();
+				time_end_message = time_out;
+				message_size = 0;
+				state = State::wait_answer;
+			break;
+			case wait_answer:
+				if (message_size < uart.buffer.size()) {
+					time_end_message = time_out;
+				}
+				if (time >= time_out) {
+					arr_register[current]->errors.push(Register_base::Error_code::time_out);
+					time_pause = time;
+					state = State::pause;
+				}
+				if (time - time_end_message >= modbus_time) {
+					get_answer();
+					time_pause = time;
+					state = State::pause;
+				}
+			break;
+			case pause:
+				if (time - 10 >= time_pause) {
+					unsubscribe_modbus();
+					current++;
+					state = State::request;
+				}
+			break;
+		}
+	} //else
 }
 
 template <size_t qty>

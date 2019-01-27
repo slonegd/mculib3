@@ -108,7 +108,7 @@ endfunction(test)
 # test (STM32F1 test_uart_f1)
 
 # test (STM32F1 test_modbus_slave)
-# test (STM32F1 test_modbus_master)
+test (STM32F1 test_modbus_master)
 # test (STM32F1 test_button)
 
 
