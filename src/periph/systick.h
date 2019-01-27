@@ -2,7 +2,7 @@
 #define PERIPH_SYSTICK_H_
 
 #include "periph.h"
-#include "f0_f4_bits_systick.h"
+#include "bits_systick_f0_f4.h"
 
 
 

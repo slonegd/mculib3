@@ -1,6 +1,6 @@
 #pragma once
 
-#include "f0_bits_flash.h"
+#include "bits_flash_f0.h"
 
 namespace mcu {
 

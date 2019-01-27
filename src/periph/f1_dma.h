@@ -1,6 +1,6 @@
 #pragma once
 
-#include "f1_bits_dma.h"
+#include "bits_dma_f1.h"
 
 namespace mcu {
 

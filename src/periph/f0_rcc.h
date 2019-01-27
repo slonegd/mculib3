@@ -1,6 +1,6 @@
 #pragma once
 
-#include "f0_bits_rcc.h"
+#include "bits_rcc_f0.h"
 
 namespace mcu {
 

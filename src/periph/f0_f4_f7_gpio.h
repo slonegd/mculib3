@@ -1,6 +1,6 @@
 #pragma once
 
-#include "f0_f4_f7_bits_gpio.h"
+#include "bits_gpio_f0_f4_f7.h"
 #include "periph_rcc.h"
 
 

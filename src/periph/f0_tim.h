@@ -1,7 +1,7 @@
 #pragma once
 
 #include "periph.h"
-#include "f0_bits_tim.h"
+#include "bits_tim_f0.h"
 #include "rcc.h"
 #include "pin.h"
 #include <type_traits>

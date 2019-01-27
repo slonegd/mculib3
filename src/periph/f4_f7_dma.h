@@ -1,7 +1,7 @@
 #pragma once
 
-#include "f4_f7_bits_dma.h"
-#include "f4_f7_bits_dma_stream.h"
+#include "bits_dma_f4_f7.h"
+#include "bits_dma_stream_f4_f7.h"
 
 namespace mcu {
 
