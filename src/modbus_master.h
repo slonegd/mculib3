@@ -29,7 +29,7 @@ public:
    inline operator Int() const  { return value; }
    inline Int operator= (Int v) { return value = v; }
 	inline void change_range(int i){ m = i; }
-	inline bool last() {return value == n ? true : false;}
+	inline bool last() {return value == (m - 1) ? true : false;}
 };
 
 using Array = std::array<uint8_t, 8>;

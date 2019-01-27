@@ -70,6 +70,7 @@ BOOST_AUTO_TEST_CASE(search)
     BOOST_CHECK_EQUAL(temp.request[5], buffer[5]);
     BOOST_CHECK_EQUAL(temp.request[6], buffer[6]);
     BOOST_CHECK_EQUAL(temp.request[7], buffer[7]);
+
     DMA1_Channel4_IRQHandler ();
     passed_ms(5);
     USART1_IRQHandler();
@@ -84,9 +85,11 @@ BOOST_AUTO_TEST_CASE(search)
     BOOST_CHECK_EQUAL(uf.request[5], buffer[5]);
     BOOST_CHECK_EQUAL(uf.request[6], buffer[6]);
     BOOST_CHECK_EQUAL(uf.request[7], buffer[7]);
-
-//     buffer.clear();
-
+    
+    DMA1_Channel4_IRQHandler ();
+    passed_ms(5);
+    USART1_IRQHandler();
+    passed_ms(14);
 }
 
 // BOOST_AUTO_TEST_CASE(answer)

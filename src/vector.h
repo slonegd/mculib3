@@ -8,16 +8,15 @@ template <class T, size_t size_>
 class Vector
 {
    std::array<T, size_> vector;
-   size_t begin_i {0};
    size_t end_i   {0};
 public:
     template<class ... Args>
-    Vector (const Args&... args) : vector{args...}{}
-   void clear()  {begin_i = 0; end_i = 0;}
-   auto begin()  {return vector.begin() + begin_i;}
+    Vector (const Args&... args) : vector{args...}{end_i = sizeof... (args);}
+   void clear()  {end_i = 0;}
+   auto begin()  {return vector.begin();}
    auto end  ()  {return vector.begin() + end_i;}
-   auto size ()  {return end_i - begin_i;}
-   void set_size (size_t v) {begin_i = 0; end_i = std::min(v,size_);}
+   auto size ()  {return end_i;}
+   void set_size (size_t v) {end_i = std::min(v,size_);}
    void push_back(const T& value) 
    {
       if (end_i < size_) {
