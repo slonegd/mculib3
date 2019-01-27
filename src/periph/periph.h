@@ -91,6 +91,16 @@ enum class Periph {
     SysTick,
     TIM1, TIM3, TIM4, TIM14, TIM16, TIM17,
     FLASH,
+#if defined(STM32F7)
+    USB_FS_core,
+    USB_HS_core,
+    USB_FS_device,
+    USB_HS_device,
+    USB_FS_IN,
+    USB_HS_IN,
+    USB_FS_OUT,
+    USB_HS_OUT,
+#endif
 
 #if defined(TEST)
     TEST_RCC, TEST_AFIO, TEST_DMA

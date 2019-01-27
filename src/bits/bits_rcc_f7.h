@@ -80,6 +80,17 @@ struct AHB1ENR {
    uint32_t              :1; // Bit 31 Reserved, must be kept at reset value.
 }__attribute__((packed));
 
+struct AHB2ENR {
+   bool     DCMIEN  :1; // Bit 0 DCMIEN: Camera interface enable
+   uint32_t         :3; // Bits 3:1 Reserved, must be kept at reset value.
+   bool     CRYPEN  :1; // Bit 4 CRYPEN: Cryptographic modules clock enable
+   bool     HASHEN  :1; // Bit 5 HASHEN: Hash modules clock enable
+   bool     RNGEN   :1; // Bit 6 RNGEN: Random number generator clock enable
+   bool     OTGFSEN :1; // Bit 7 OTGFSEN: USB OTG FS clock enable
+   uint32_t         :24;// Bits 31:8 Reserved, must be kept at reset value.
+ 
+}__attribute__((packed));
+
 struct APBENR {
    bool     TIM2EN    :1; // Bit 0 TIM2EN: TIM2 clock enable
    bool     TIM3EN    :1; // Bit 1 TIM3EN: TIM3 clock enable

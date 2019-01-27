@@ -9,5 +9,5 @@
 #elif defined(STM32F4)
    #include "f4_rcc.h"
 #elif defined(STM32F7)
-   #include "f7_rcc.h"
+   #include "rcc_f7.h"
 #endif

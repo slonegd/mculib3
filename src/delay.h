@@ -79,10 +79,11 @@ public:
       }
    }
    
-
-
-   
-
 };
+
+void block_delay (volatile size_t cnt)
+{
+   while (cnt--) {}
+}
 
 #undef NS
