@@ -76,15 +76,20 @@ BOOST_AUTO_TEST_CASE (push_back)
 {
    auto vector = Vector<Register_base*, 2>{};
    vector.push_back(&temp);
-   BOOST_CHECK_EQUAL (vector.size(), 1);
+	vector.push_back(&uf);
+	BOOST_CHECK_EQUAL (vector[0], &temp);
+	BOOST_CHECK_EQUAL (vector[1], &uf);
+   BOOST_CHECK_EQUAL (vector.size(), 2);
 }
 
 BOOST_AUTO_TEST_CASE (erase)
 {
    auto vector = Vector<Register_base*, 2>{};
    vector.push_back(&temp);
-   vector.erase(&temp);
-   BOOST_CHECK_EQUAL (vector.size(), 0);
+	vector.push_back(&uf);
+   vector.erase(0);
+	BOOST_CHECK_EQUAL (vector[0], &uf);
+   BOOST_CHECK_EQUAL (vector.size(), 1);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

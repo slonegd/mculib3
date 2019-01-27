@@ -25,13 +25,11 @@ public:
          end_i++;
       }
    }
-   void erase (const T& value) 
+   void erase (const size_t index) 
    {
-      auto index = std::find(begin(), end(), value);
-      std::rotate(begin(), begin() + *index, end());
-      // for (auto i = index + 1; i != end(); i++) {
-      //    begin() + i - 1 = begin() + i;
-      // }
+      for (auto i = index + 1; i < end_i; i++) {
+         base()[i - 1] = base()[i];
+      }
       end_i--;
    }
 
