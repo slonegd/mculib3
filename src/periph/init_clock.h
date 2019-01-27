@@ -3,11 +3,11 @@
 #include "periph.h"
 
 #if   defined(STM32F0)
-   // #include "f0_rcc.h"
+   #error init_clock for STM32F0 not realized
 #elif defined(STM32F1)
-   // #include "f1_rcc.h"
+   #error init_clock for STM32F1 not realized
 #elif defined(STM32F4)
-   // #include "f4_rcc.h"
+   #error init_clock for STM32F4 not realized
 #elif defined(STM32F7)
-   #include "f7_init_clock.h"
+   #include "init_clock_f7.h"
 #endif

@@ -3,12 +3,12 @@
 #include "periph.h"
 
 #if defined(STM32F0)
-   #include "f0_dma.h"
-   #include "f0_f1_periph_dma_stream.h"
+   #include "dma_f0.h"
+   #include "dma_stream_f0_f1.h"
 #elif defined(STM32F1)
-   #include "f1_dma.h"
-   #include "f0_f1_periph_dma_stream.h"
+   #include "dma_f1.h"
+   #include "dma_stream_f0_f1.h"
 #elif defined(STM32F4) or defined(STM32F7)
-   #include "f4_f7_dma.h"
-   #include "f4_f7_periph_dma_stream.h"
+   #include "dma_f4_f7.h"
+   #include "dma_stream_f4_f7.h"
 #endif
