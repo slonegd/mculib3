@@ -68,6 +68,7 @@ endfunction(test)
 # test (STM32F7 test_init_clock_f7)
 
 # test (STM32F0 test_periph_flash_f0)
+# test (STM32F1 test_periph_flash_f1)
 # test (STM32F4 test_periph_flash_f4)
 # test (STM32F7 test_periph_flash_f7)
 
@@ -102,13 +103,14 @@ endfunction(test)
 # test (STM32F7 test_pin_f7)
 
 # test (STM32F0 test_flash_f0)
+test (STM32F1 test_flash_f1)
 # test (STM32F4 test_flash_f4)
 # test (STM32F7 test_flash_f7)
 
 # test (STM32F1 test_uart_f1)
 
 # test (STM32F1 test_modbus_slave)
-test (STM32F1 test_modbus_master)
+# test (STM32F1 test_modbus_master)
 # test (STM32F1 test_button)
 
 
@@ -120,7 +122,7 @@ test (STM32F1 test_modbus_master)
 # test (NULL test_table_crc)
 # test (NULL test_string_buffer)
 # test (NULL test_net_buffer)
-test (NULL test_vector)
+# test (NULL test_vector)
 
 # test (NULL test_)
 

@@ -10,4 +10,4 @@
 #include "flash.h"
 #include <type_traits>
 
-#include "test_flash_f0_f4_f7.h"
+#include "test_flash_f0_f1_f4_f7.h"
