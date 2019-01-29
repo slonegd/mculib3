@@ -144,6 +144,21 @@ BOOST_AUTO_TEST_CASE (address)
    BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_12>(), 0x08003000);
    BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_30>(), 0x08007800);
    BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_31>(), 0x08007C00);
+#if defined(STM32F1)
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_32>(), 0x08008000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_33>(), 0x08008400);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_43>(), 0x0800AC00);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_54>(), 0x0800D800);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_65>(), 0x08010400);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_76>(), 0x08013000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_87>(), 0x08015C00);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_98>(), 0x08018800);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_109>(), 0x0801B400);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_115>(), 0x0801CC00);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_120>(), 0x0801E000);
+   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_127>(), 0x0801FC00);
+   
+#endif
 }
 
 BOOST_AUTO_TEST_CASE (size)
@@ -156,6 +171,13 @@ BOOST_AUTO_TEST_CASE (size)
    // ...
    BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector::_30>(), 1024);
    BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector::_31>(), 1024);
+
+#if defined(STM32F1)
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector::_50>(), 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector::_71>(), 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector::_100>(), 1024);
+   BOOST_CHECK_EQUAL (mcu::FLASH::size<mcu::FLASH::Sector::_121>(), 1024);
+#endif
 }
 
 BOOST_AUTO_TEST_SUITE_END()
