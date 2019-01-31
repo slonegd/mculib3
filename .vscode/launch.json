@@ -233,14 +233,14 @@
          ]
       },
       { 
-			"name": "f4_discovery",
-			"type": "cppdbg",
-			"request": "launch",
+        "name": "f4_discovery",
+        "type": "cppdbg",
+        "request": "launch",
          "miDebuggerPath": "arm-none-eabi-gdb",
          "program": "${workspaceRoot}/test/f4_discovery/build/main.elf",
-			"miDebuggerServerAddress": "localhost:4242",
-			"MIMode": "gdb",
-			"cwd": "${workspaceRoot}"
+        "miDebuggerServerAddress": "localhost:4242",
+        "MIMode": "gdb",
+        "cwd": "${workspaceRoot}"
       },
       { 
 			"name": "f7_discovery",
@@ -251,6 +251,17 @@
 			"miDebuggerServerAddress": "localhost:4242",
 			"MIMode": "gdb",
 			"cwd": "${workspaceRoot}"
+      },
+      {
+        "type": "cortex-debug",
+        "request": "launch",
+        "servertype": "stutil",
+        "cwd": "${workspaceRoot}",
+        "executable": "${workspaceRoot}/test/f4_discovery/build/main.elf",
+        "name": "Debug (ST-Util)",
+        "svdFile": "${workspaceRoot}/STM32F4_files/svd/STM32F429.svd",
+        // "device": "STM32F429",
+        "v1": false
       },
 		{ 
 			"name": "mculib2",
