@@ -1,7 +1,6 @@
 #pragma once
 
 #include "periph.h"
-#define PERIPH_USART_H_
 
 #if defined(STM32F0)
    #include "usart_f0.h"
