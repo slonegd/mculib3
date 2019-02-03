@@ -16,7 +16,7 @@
 
 
 
-   auto uart = mcu::UART::make <
+   decltype(auto) uart = mcu::UART::make <
         mcu::Periph::USART1
       , mcu::TX
       , mcu::RX

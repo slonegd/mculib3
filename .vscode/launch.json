@@ -217,7 +217,7 @@
          "name": "test",
          "type": "cppdbg",
          "request": "launch",
-         "program": "${workspaceRoot}/test/cmake/build/test_flash_f0",
+         "program": "${workspaceRoot}/test/cmake/build/test_net_buffer",
          "args": [],
          "stopAtEntry": true,
          "cwd": "${workspaceRoot}",
