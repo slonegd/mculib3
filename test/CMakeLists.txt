@@ -91,6 +91,8 @@ test (STM32F1 test_periph_usart_f1)
 test (STM32F1 test_periph_usart_2_f1)
 test (STM32F4 test_periph_usart_f4)
 
+test (STM32F0 test_periph_adc_f0)
+
 test (STM32F0 test_make_reference_f0)
 test (STM32F1 test_make_reference_f1)
 test (STM32F4 test_make_reference_f4)

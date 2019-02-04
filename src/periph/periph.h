@@ -111,7 +111,7 @@ enum class Periph {
 };
 
 template<class T>
-auto& like_CMSIS (const T& p)
+auto& like_CMSIS (T& p)
 {
    return *reinterpret_cast<typename T::CMSIS_type*>(&p);
 }
