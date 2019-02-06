@@ -36,11 +36,11 @@ public:
    using CompareMode          = TIM_bits::Output_t::CompareMode;
    // using OnePulseMode         = TIM_bits::CR1::OnePulseMode;
    // using Direction            = TIM_bits::CR1::Direction;
-   // using SlaveMode            = TIM_bits::SMCR::SlaveMode;
+   using SlaveMode            = TIM_bits::SMCR::SlaveMode;
    // using Trigger              = TIM_bits::SMCR::Trigger;
    // using ExtTriggerPolarity   = TIM_bits::SMCR::ExtTriggerPolarity;
-   // using SelectionCompareMode = TIM_bits::SelectionCompareMode;
-   // using Polarity             = TIM_bits::CCER::Polarity;
+   using SelectionCompareMode = TIM_bits::SelectionCompareMode;
+   using Polarity             = TIM_bits::CCER::Polarity;
    enum Channel {_1 = 1, _2, _3, _4, error};
    enum EnableMask { 
       ch1 = TIM_CCER_CC1E_Msk,
@@ -48,53 +48,63 @@ public:
       ch3 = TIM_CCER_CC3E_Msk,
       ch4 = TIM_CCER_CC4E_Msk
    };
+   enum InterruptMask { 
+      ch1 = TIM_DIER_CC1IE_Msk,
+      ch2 = TIM_DIER_CC2IE_Msk,
+      ch3 = TIM_DIER_CC3IE_Msk,
+      ch4 = TIM_DIER_CC4IE_Msk
+   };
+
+   
+   TIM&     counter_enable()                { CR1.CEN = true;     return *this; }
+   TIM&     counter_disable()               { CR1.CEN = false;    return *this; }
+   TIM&     clear_counter()                 { CNT = 0;            return *this; }
+   TIM&     set_counter (uint16_t v)        { CNT = v;            return *this; }
+   TIM&     set_compare (uint16_t v)        { CCR1 = v;           return *this; }
+   TIM&     ext_clock_enable()              { SMCR.ECE = true;    return *this; }
+   TIM&     ext_clock_disable()             { SMCR.ECE = false;   return *this; }
+   TIM&     set_prescaller (uint16_t v)     { PSC = v;            return *this; }
+   TIM&     auto_reload_enable()            { CR1.ARPE = true;    return *this; }
+   TIM&     main_output_enable()            { BDTR.MOE = true;    return *this; }
+   TIM&     set (SlaveMode v)               { SMCR.SMS = v;       return *this; }
+   TIM&     set_auto_reload  (uint16_t v)   { ARR = v;            return *this; }
+   TIM&     compare_enable   (uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&CCER) |=  v; return *this; }
+   TIM&     compare_disable  (uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&CCER) &= ~v; return *this; }
+   TIM&     interrupt_enable (uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&DIER) |=  v; return *this; }
+   TIM&     interrupt_disable(uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&DIER) &= ~v; return *this; }
+
+   bool     is_count()                      { return CR1.CEN; }
+   uint16_t get_counter()                   { return CNT;     }
+
+   template<Channel> TIM& set (Polarity);
+   template<Channel> TIM& set (CompareMode);
+   template<Channel> TIM& set (SelectionCompareMode);
+   template<Channel> TIM& preload_enable ();
+   template<Channel> TIM& preload_disable();
+   template<Channel> TIM& compare_enable ();
+   template<Channel> TIM& compare_disable();
+   template<Channel> TIM& compareToggle  ();
+   template<Channel> TIM& set_compare (uint32_t);
+   template<Channel> __IO uint32_t& get_compare_reference();
 
    template<Periph, class Pin_> static constexpr PinMode pin_mode();
    template<Periph, class Pin_> static constexpr Channel channel();
-   template<Channel>            static constexpr EnableMask enable_mask();
-
-   template<Channel> TIM& set (CompareMode);
-   template<Channel> TIM& preload_enable();
-   template<Channel> TIM& compare_enable();
-   template<Channel> TIM& set_compare (uint32_t);
-   template<Channel> __IO uint32_t& get_compare_reference();
-   TIM&     compare_enable  (uint32_t v)    { *reinterpret_cast<__IO uint32_t*>(&CCER) |=  v; return *this; }
-   TIM&     compare_disable (uint32_t v)    { *reinterpret_cast<__IO uint32_t*>(&CCER) &= ~v; return *this; }
-   TIM&     auto_reload_enable()            { CR1.ARPE = true;    return *this; }
-   TIM&     main_output_enable()            { BDTR.MOE = true;    return *this; }
-   TIM&     counter_enable()                { CR1.CEN = true;     return *this; }
-   TIM&     set_auto_reload (uint16_t v)    { ARR = v;            return *this; }
-
-
-
-   // TIM&     counter_disable()               { CR1.CEN = false;    return *this; }
-   // bool     is_count()                      { return CR1.CEN; }
+   template<Channel>            static constexpr EnableMask    enable_mask();
+   template<Channel>            static constexpr InterruptMask interrupt_mask();
+   
    
    // // static void     clockEnable()                  {RCC::template clockEnable<template_TIM>();}
-   // uint16_t get_counter()                   { return CNT; }
-   // TIM&     clear_counter()                 { CNT = 0;            return *this; }
-   // TIM&     set_counter (uint16_t v)        { CNT = v;            return *this; }
-   // TIM&     set_compare (uint16_t v)        { CCR1 = v;           return *this; }
-   // TIM&     ext_clock_enable()              { SMCR.ECE = true;    return *this; }
-   // TIM&     ext_clock_disable()             { SMCR.ECE = false;   return *this; }
-   // TIM&     set_prescaller (uint16_t v)     { PSC = v;            return *this; }
-   // TIM&     compare_interrupt_enable()      { DIER.CC1IE = true;  return *this; }
-   // TIM&     compare_interrupt_disable()     { DIER.CC1IE = false; return *this; }
+   
+   
+
    // void     clearInterruptFlags()           {}
-   // TIM&     set (SlaveMode v)               { SMCR.SMS = v;       return *this; }
+   // 
    // TIM&     set (Trigger v)                 { SMCR.TS  = v;       return *this; }
    // TIM&     set (OnePulseMode v)            { CR1.OPM  = v;       return *this; }
    // TIM&     set (ExtTriggerPolarity v)      { SMCR.ETP = v;       return *this; }
 
    // template<Channel channel> void preloadEnable  ();
-   // template<Channel channel> void preloadDisable ();
-   // template<Channel channel> void compareDisable ();
-   // template<Channel channel> void compareToggle  ();
    // template<Channel channel> bool isCompareEnable();
-   // 
-   // template<Channel channel> void set (SelectionCompareMode v);
-   // 
-   // template<Channel channel> void set (Polarity v);
 
    // static constexpr IRQn_Type IRQn();
    // template <class PIN> static constexpr Channel channel();
@@ -190,6 +200,14 @@ template<TIM::Channel c> constexpr TIM::EnableMask TIM::enable_mask()
    else if constexpr (c == Channel::_4) return TIM::EnableMask::ch4;
 }
 
+template<TIM::Channel c> constexpr TIM::InterruptMask TIM::interrupt_mask()
+{
+   if      constexpr (c == Channel::_1) return TIM::InterruptMask::ch1;
+   else if constexpr (c == Channel::_2) return TIM::InterruptMask::ch2;
+   else if constexpr (c == Channel::_3) return TIM::InterruptMask::ch3;
+   else if constexpr (c == Channel::_4) return TIM::InterruptMask::ch4;
+}
+
 template<Periph p, class Pin_> constexpr TIM::Channel TIM::channel()
 {
    if      constexpr (p == Periph::TIM1) {
@@ -226,12 +244,73 @@ template<Periph p, class Pin_> constexpr TIM::Channel TIM::channel()
    }
 }
 
+template<TIM::Channel c> TIM& TIM::set (Polarity v)
+{
+   if constexpr (c == Channel::_1) {
+      if constexpr (v == Polarity::rising) {
+         CCER.CC1P  = false;
+         CCER.CC1NP = false;
+      } else if constexpr (v == Polarity::falling) {
+         CCER.CC1P  = true;
+         CCER.CC1NP = false;
+      } else if constexpr (v == Polarity::both) {
+         CCER.CC1P  = true;
+         CCER.CC1NP = true;
+      }
+      return *this;
+   } else if constexpr (c == Channel::_2) {
+      if constexpr (v == Polarity::rising) {
+         CCER.CC2P  = false;
+         CCER.CC2NP = false;
+      } else if constexpr (v == Polarity::falling) {
+         CCER.CC2P  = true;
+         CCER.CC2NP = false;
+      } else if constexpr (v == Polarity::both) {
+         CCER.CC2P  = true;
+         CCER.CC2NP = true;
+      }
+      return *this;
+   } else if constexpr (c == Channel::_3) {
+      if constexpr (v == Polarity::rising) {
+         CCER.CC3P  = false;
+         CCER.CC3NP = false;
+      } else if constexpr (v == Polarity::falling) {
+         CCER.CC3P  = true;
+         CCER.CC3NP = false;
+      } else if constexpr (v == Polarity::both) {
+         CCER.CC3P  = true;
+         CCER.CC3NP = true;
+      }
+      return *this;
+   } else if constexpr (c == Channel::_4) {
+      if constexpr (v == Polarity::rising) {
+         CCER.CC4P  = false;
+         CCER.CC4NP = false;
+      } else if constexpr (v == Polarity::falling) {
+         CCER.CC4P  = true;
+         CCER.CC4NP = false;
+      } else if constexpr (v == Polarity::both) {
+         CCER.CC4P  = true;
+         CCER.CC4NP = true;
+      }
+      return *this;
+   }
+}
+
 template<TIM::Channel c> TIM& TIM::set (CompareMode v)
 {
    if      constexpr (c == Channel::_1) { CCMR.output.OC1M = v; return *this; }
    else if constexpr (c == Channel::_2) { CCMR.output.OC2M = v; return *this; }
    else if constexpr (c == Channel::_3) { CCMR.output.OC3M = v; return *this; }
    else if constexpr (c == Channel::_4) { CCMR.output.OC4M = v; return *this; }
+}
+
+template<TIM::Channel c> TIM& TIM::set (SelectionCompareMode v)
+{
+   if      constexpr (c == Channel::_1) { CCMR.output.CC1S = v; return *this; }
+   else if constexpr (c == Channel::_2) { CCMR.output.CC2S = v; return *this; }
+   else if constexpr (c == Channel::_3) { CCMR.output.CC3S = v; return *this; }
+   else if constexpr (c == Channel::_4) { CCMR.output.CC4S = v; return *this; }
 }
 
 template<TIM::Channel c> TIM& TIM::preload_enable()
