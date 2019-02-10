@@ -6,7 +6,7 @@
 #include "pin.h"
 #include "timers.h"
 #include "periph_dma.h"
-#include "periph_adc.h"
+#include "adc.h"
 
 
 /// эта функция вызываеться первой в startup файле
@@ -28,20 +28,14 @@ extern "C" void init_clock ()
 
 int main()
 {
-   decltype(auto) adc = REF(ADC1);
-   adc.enable()
-      .start();
-
+   example::ADC_average();
 
    auto& pc8 = Pin::make<mcu::PC8, mcu::PinMode::Output>();
    Timer timer {200};
 
-
    while(1) {
 
-      if (timer.event()) {
-         pc8 ^= 1;
-      }
+      pc8 ^= timer.event();
 
    } // while(1) {
 
