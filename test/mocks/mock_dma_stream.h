@@ -6,11 +6,11 @@
 
 namespace mock {
 
-std::ostream& operator<< (std::ostream& s, mcu::DMA_stream::DataDirection v)
+std::ostream& operator<< (std::ostream& s, mcu::DMA_stream::Direction v)
 {
    return
-      v == mcu::DMA_stream::DataDirection::MemToPer ? s << "из памяти в переферию"   :
-      v == mcu::DMA_stream::DataDirection::PerToMem ? s << "из переферии в память" : s;
+      v == mcu::DMA_stream::Direction::to_periph ? s << "из памяти в переферию"   :
+      v == mcu::DMA_stream::Direction::to_memory ? s << "из переферии в память" : s;
 }
 
 std::ostream& operator<< (std::ostream& s, mcu::DMA_stream::DataSize v)
@@ -86,17 +86,17 @@ public:
       return *this;
    }
 
-   DMA_stream& set_qty_transactions (uint16_t v)
+   DMA_stream& set_qty_transactions (uint16_t v) 
    {
       process << *this << ": Установка количества передач данных: " << v << std::endl;
       base().set_qty_transactions(v);
       return *this;
    }
 
-   DMA_stream& direction (DataDirection v)
+   DMA_stream& set (Direction v)
    {
       process << *this << ": Установка направления " << v << std::endl;
-      base().direction(v);
+      base().set (v);
       return *this;
    }
 

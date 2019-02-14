@@ -8,7 +8,7 @@
 namespace mcu {
 
 enum class PinMode {
-   Input, Output, 
+   Input, Output, Analog,
    Alternate_0 , Alternate_1 , Alternate_2 , Alternate_3,
    Alternate_4 , Alternate_5 , Alternate_6 , Alternate_7,
 #if defined(STM32F4) or defined(STM32F7)
@@ -134,6 +134,9 @@ template<class Pin_, PinMode v> void GPIO::init()
 
    } else if constexpr (v == PinMode::Output) {
       set<Pin_::n> (Mode::Output);
+
+   } else if constexpr (v == PinMode::Output) {
+      set<Pin_::n> (Mode::Analog);
 
    } else if constexpr (v == PinMode::Alternate_0) {
       set<Pin_::n> (Mode::Alternate);

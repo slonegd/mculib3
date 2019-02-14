@@ -119,7 +119,7 @@ void TickSubscriber::tick_unsubscribe()
 {
    if (subscribed) {
       subscribed = false;
-      tickUpdater.unsubscribe (this);
+      tickUpdater.unsubscribe (*this);
    }
 }
 
@@ -128,7 +128,7 @@ void TickSubscriber::tick_subscribe()
 {
    if (not subscribed) {
       subscribed = true;
-      tickUpdater.subscribe (this);
+      tickUpdater.subscribe (*this);
    }
 }
 

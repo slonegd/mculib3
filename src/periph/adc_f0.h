@@ -44,11 +44,19 @@ public:
    // template <class PIN> static constexpr uint8_t channel();
    // template <class PIN> static constexpr bool PINenabled();
    // template <class DMA> static constexpr bool DMAenabled();
+   template<Periph> static constexpr auto default_dma() { return Periph::DMA1_stream1; }
 
 };
 
 #if not defined(USE_MOCK_ADC)
 SFINAE(ADC1,ADC) make_reference() {return *reinterpret_cast<ADC*>(ADC1_BASE);}
 #endif
+
+
+
+
+
+
+
 
 } // namespace mcu {

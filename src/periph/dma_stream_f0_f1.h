@@ -12,11 +12,11 @@ class DMA_stream {
    volatile uint32_t      CMAR;  // DMA channel x memory address register     offset: 0x14 + 0d20 × (channel number – 1)
 
 public:
-   using CMSIS_type    = DMA_Channel_TypeDef;
-   using DataSize      = DMA_bits::CCR::DataSize;
-   using Priority      = DMA_bits::CCR::Priority;
-   using DataDirection = DMA_bits::CCR::DataDirection;
-   using Channel       = DMA::Channel;
+   using CMSIS_type = DMA_Channel_TypeDef;
+   using DataSize   = DMA_bits::CCR::DataSize;
+   using Priority   = DMA_bits::CCR::Priority;
+   using Direction  = DMA_bits::CCR::Direction;
+   using Channel    = DMA::Channel;
 
    auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
 
@@ -31,9 +31,9 @@ public:
    DMA_stream& set_periph_adr      (uint32_t v){CPAR  = v; return *this;}
    DMA_stream& set_qty_transactions(uint16_t v){CNDTR = v; return *this;}
 
-   DMA_stream& direction  (DataDirection d){CCR.DIR = d;   return *this;}
-   DMA_stream& size_memory(DataSize d)     {CCR.MSIZE = d; return *this;}
-   DMA_stream& size_periph(DataSize d)     {CCR.PSIZE = d; return *this;}
+   DMA_stream& set (Direction v)       {CCR.DIR   = v; return *this;}
+   DMA_stream& size_memory(DataSize v) {CCR.MSIZE = v; return *this;}
+   DMA_stream& size_periph(DataSize v) {CCR.PSIZE = v; return *this;}
 
    static constexpr IRQn_Type IRQn (Periph);
 

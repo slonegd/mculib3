@@ -527,6 +527,12 @@ BOOST_AUTO_TEST_CASE (clock_enable)
    rcc.clock_enable<mcu::Periph::DMA2>();
    BOOST_CHECK_EQUAL (CMSIS.AHB1ENR, RCC_AHB1ENR_DMA2EN_Msk);
 #endif
+
+#if defined(STM32F0)
+   CMSIS.APB2ENR = 0;
+   rcc.clock_enable<mcu::Periph::ADC1>();
+   BOOST_CHECK_EQUAL (CMSIS.APB2ENR, RCC_APB2ENR_ADCEN_Msk);
+#endif
 }
 
 BOOST_AUTO_TEST_CASE (bad_clock_enable)

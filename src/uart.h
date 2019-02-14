@@ -51,7 +51,7 @@ private:
    using BreakDetection = USART_t::BreakDetection;
    using DataSize       = DMA_stream_t::DataSize;
    using Priority       = DMA_stream_t::Priority;
-   using DataDirection  = DMA_stream_t::DataDirection;
+   using Direction      = DMA_stream_t::Direction;
 
    Pin&          tx;
    Pin&          rx;
@@ -148,7 +148,7 @@ auto& UART_sized<buffer_size>::make()
    NVIC_EnableIRQ_t(uart.usart.IRQn(uart_periph));
 
    rcc.clock_enable<TX_stream>();
-   uart.TXstream.direction(DataDirection::MemToPer)
+   uart.TXstream.set (Direction::to_periph)
                 .set_memory_adr(size_t(uart.buffer.begin()))
                 .set_periph_adr(uart.usart.transmit_data_adr())
                 .inc_memory()
@@ -157,7 +157,7 @@ auto& UART_sized<buffer_size>::make()
                 .enable_transfer_complete_interrupt();
       NVIC_EnableIRQ_t(uart.TXstream.IRQn(TX_stream));
 
-   uart.RXstream.direction(DataDirection::PerToMem)
+   uart.RXstream.set (Direction::to_memory)
             	 .set_memory_adr(size_t(uart.buffer.begin()))
             	 .set_periph_adr(uart.usart.transmit_data_adr())
             	 .set_qty_transactions(buffer_size)
