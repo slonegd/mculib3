@@ -3,9 +3,10 @@
 #define F_CPU   48000000UL
 #include "periph_rcc.h"
 #include "flash.h"
-#include "pin.h"
+// #include "pin.h"
 #include "timers.h"
-#include "periph_dma.h"
+// #include "periph_dma.h"
+#include "pwm_.h"
 
 
 /// эта функция вызываеться первой в startup файле
@@ -27,20 +28,37 @@ extern "C" void init_clock ()
 
 int main()
 {
-   auto& dma = mcu::make_reference<mcu::Periph::DMA1>();
-   dma.clear_interrupt_flags(dma.Channel::_1);
-   dma.is_transfer_complete_interrupt (dma.Channel::_1);
+   decltype(auto) pwm = PWM::make<mcu::Periph::TIM3, mcu::PC8>();
+   pwm.out_enable();
+   decltype(auto) pwm_ = PWM::make<mcu::Periph::TIM3, mcu::PC9>();
+   pwm.freq(20000000);
+   pwm_.freq(20000000);
+   pwm_.out_enable();
+//    auto& dma = mcu::make_reference<mcu::Periph::DMA1>();
+//    dma.clear_interrupt_flags(dma.Channel::_1);
+//    dma.is_transfer_complete_interrupt (dma.Channel::_1);
 
-   auto& pc8 = Pin::make<mcu::PC8, mcu::PinMode::Output>();
-   Timer timer {200};
+//    auto& pc8 = Pin::make<mcu::PC8, mcu::PinMode::Output>();
+   Timer timer {10};
+   Timer timer_ {20};
+   int i {0};
+   int p {100};
 
+//    pwm.duty_cycle(15);
 
    while(1) {
-
-      if (timer.event()) {
-         pc8 ^= 1;
+      while (i < 100) {
+         if (timer.event()) {
+            pwm.duty_cycle(p--);
+            pwm_.duty_cycle(i++);
+         }
       }
-
+      while (i > 0) {
+         if (timer_.event()) {
+            pwm.duty_cycle(p++);
+            pwm_.duty_cycle(i--);
+         }
+      }
    } // while(1) {
 
 }

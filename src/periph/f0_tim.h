@@ -2,7 +2,7 @@
 
 #include "periph.h"
 #include "f0_bits_tim.h"
-#include "rcc.h"
+#include "periph_rcc.h"
 #include "pin.h"
 #include <type_traits>
 
@@ -48,12 +48,12 @@ public:
       ch3 = TIM_CCER_CC3E_Msk,
       ch4 = TIM_CCER_CC4E_Msk
    };
-   enum InterruptMask { 
-      ch1 = TIM_DIER_CC1IE_Msk,
-      ch2 = TIM_DIER_CC2IE_Msk,
-      ch3 = TIM_DIER_CC3IE_Msk,
-      ch4 = TIM_DIER_CC4IE_Msk
-   };
+   // enum InterruptMask { 
+   //    ch1 = TIM_DIER_CC1IE_Msk,
+   //    ch2 = TIM_DIER_CC2IE_Msk,
+   //    ch3 = TIM_DIER_CC3IE_Msk,
+   //    ch4 = TIM_DIER_CC4IE_Msk
+   // };
 
    
    TIM&     counter_enable()                { CR1.CEN = true;     return *this; }
@@ -84,13 +84,13 @@ public:
    template<Channel> TIM& compare_enable ();
    template<Channel> TIM& compare_disable();
    template<Channel> TIM& compareToggle  ();
-   template<Channel> TIM& set_compare (uint32_t);
-   template<Channel> __IO uint32_t& get_compare_reference();
+   TIM& set_compare (Channel, uint16_t);
+   template<Channel>  __IO uint32_t& get_compare_reference();
 
    template<Periph, class Pin_> static constexpr PinMode pin_mode();
    template<Periph, class Pin_> static constexpr Channel channel();
    template<Channel>            static constexpr EnableMask    enable_mask();
-   template<Channel>            static constexpr InterruptMask interrupt_mask();
+   // template<Channel>            static constexpr InterruptMask interrupt_mask();
    
    
    // // static void     clockEnable()                  {RCC::template clockEnable<template_TIM>();}
@@ -200,13 +200,13 @@ template<TIM::Channel c> constexpr TIM::EnableMask TIM::enable_mask()
    else if constexpr (c == Channel::_4) return TIM::EnableMask::ch4;
 }
 
-template<TIM::Channel c> constexpr TIM::InterruptMask TIM::interrupt_mask()
-{
-   if      constexpr (c == Channel::_1) return TIM::InterruptMask::ch1;
-   else if constexpr (c == Channel::_2) return TIM::InterruptMask::ch2;
-   else if constexpr (c == Channel::_3) return TIM::InterruptMask::ch3;
-   else if constexpr (c == Channel::_4) return TIM::InterruptMask::ch4;
-}
+// template<TIM::Channel c> constexpr TIM::InterruptMask TIM::interrupt_mask()
+// {
+//    if      constexpr (c == Channel::_1) return TIM::InterruptMask::ch1;
+//    else if constexpr (c == Channel::_2) return TIM::InterruptMask::ch2;
+//    else if constexpr (c == Channel::_3) return TIM::InterruptMask::ch3;
+//    else if constexpr (c == Channel::_4) return TIM::InterruptMask::ch4;
+// }
 
 template<Periph p, class Pin_> constexpr TIM::Channel TIM::channel()
 {
@@ -224,6 +224,8 @@ template<Periph p, class Pin_> constexpr TIM::Channel TIM::channel()
       else if constexpr (std::is_same_v<Pin_,PB1>) return Channel::_4;
       else if constexpr (std::is_same_v<Pin_,PB4>) return Channel::_1;
       else if constexpr (std::is_same_v<Pin_,PC5>) return Channel::_2;
+      else if constexpr (std::is_same_v<Pin_,PC8>) return Channel::_3;
+      else if constexpr (std::is_same_v<Pin_,PC9>) return Channel::_4;
       else return Channel::error;
 
    } else if constexpr (p == Periph::TIM14) {
@@ -247,49 +249,49 @@ template<Periph p, class Pin_> constexpr TIM::Channel TIM::channel()
 template<TIM::Channel c> TIM& TIM::set (Polarity v)
 {
    if constexpr (c == Channel::_1) {
-      if constexpr (v == Polarity::rising) {
+      if (v == Polarity::rising) {
          CCER.CC1P  = false;
          CCER.CC1NP = false;
-      } else if constexpr (v == Polarity::falling) {
+      } else if (v == Polarity::falling) {
          CCER.CC1P  = true;
          CCER.CC1NP = false;
-      } else if constexpr (v == Polarity::both) {
+      } else if (v == Polarity::both) {
          CCER.CC1P  = true;
          CCER.CC1NP = true;
       }
       return *this;
    } else if constexpr (c == Channel::_2) {
-      if constexpr (v == Polarity::rising) {
+      if (v == Polarity::rising) {
          CCER.CC2P  = false;
          CCER.CC2NP = false;
-      } else if constexpr (v == Polarity::falling) {
+      } else if (v == Polarity::falling) {
          CCER.CC2P  = true;
          CCER.CC2NP = false;
-      } else if constexpr (v == Polarity::both) {
+      } else if (v == Polarity::both) {
          CCER.CC2P  = true;
          CCER.CC2NP = true;
       }
       return *this;
    } else if constexpr (c == Channel::_3) {
-      if constexpr (v == Polarity::rising) {
+      if (v == Polarity::rising) {
          CCER.CC3P  = false;
          CCER.CC3NP = false;
-      } else if constexpr (v == Polarity::falling) {
+      } else if (v == Polarity::falling) {
          CCER.CC3P  = true;
          CCER.CC3NP = false;
-      } else if constexpr (v == Polarity::both) {
+      } else if (v == Polarity::both) {
          CCER.CC3P  = true;
          CCER.CC3NP = true;
       }
       return *this;
    } else if constexpr (c == Channel::_4) {
-      if constexpr (v == Polarity::rising) {
+      if (v == Polarity::rising) {
          CCER.CC4P  = false;
          CCER.CC4NP = false;
-      } else if constexpr (v == Polarity::falling) {
+      } else if (v == Polarity::falling) {
          CCER.CC4P  = true;
          CCER.CC4NP = false;
-      } else if constexpr (v == Polarity::both) {
+      } else if (v == Polarity::both) {
          CCER.CC4P  = true;
          CCER.CC4NP = true;
       }
@@ -330,12 +332,21 @@ template<TIM::Channel c> TIM& TIM::compare_enable()
    return *this;
 }
 
-template<TIM::Channel c> TIM& TIM::set_compare (uint32_t v)
+template<TIM::Channel c> TIM& TIM::compare_disable()
 {
-   if      constexpr (c == Channel::_1) CCR1 = v;
-   else if constexpr (c == Channel::_2) CCR2 = v;
-   else if constexpr (c == Channel::_3) CCR3 = v;
-   else if constexpr (c == Channel::_4) CCR4 = v;
+   if      constexpr (c == Channel::_1) CCER.CC1E = false;
+   else if constexpr (c == Channel::_2) CCER.CC2E = false;
+   else if constexpr (c == Channel::_3) CCER.CC3E = false;
+   else if constexpr (c == Channel::_4) CCER.CC4E = false;
+   return *this;
+}
+
+TIM& TIM::set_compare (Channel c, uint16_t v)
+{
+   if      (c == Channel::_1) CCR1 = v;
+   else if (c == Channel::_2) CCR2 = v;
+   else if (c == Channel::_3) CCR3 = v;
+   else if (c == Channel::_4) CCR4 = v;
    return *this;
 }
 
