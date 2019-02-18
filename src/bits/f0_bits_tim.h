@@ -15,7 +15,7 @@ struct CR1 {
    uint32_t     CMS  :2;  // Bits 6:5 CMS: Center-aligned mode selection
    bool         ARPE :1;  // Bit  7 ARPE: Auto-reload preload enable
    uint32_t     CKD  :2;  // Bits 9:8 CKD: Clock division
-   uint32_t          :6;  // Bits 15:10 Reserved, must be kept at reset value.
+   uint32_t          :22;  // Bits 15:10 Reserved, must be kept at reset value.
 }__attribute__((packed));
 
 struct CR2 {

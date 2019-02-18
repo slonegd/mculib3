@@ -89,7 +89,7 @@ enum class Periph {
     DMA2_stream0, DMA2_stream1, DMA2_stream2, DMA2_stream3, DMA2_stream4, DMA2_stream5, DMA2_stream6, DMA2_stream7,
 #endif
     SysTick,
-    TIM1, TIM3, TIM4, TIM14, TIM16, TIM17,
+    TIM1, TIM2, TIM3, TIM4, TIM14, TIM16, TIM17,
     FLASH,
 
 #if defined(TEST)

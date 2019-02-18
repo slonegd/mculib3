@@ -90,13 +90,17 @@ public:
       else if constexpr (p == Periph::DMA1) AHB1ENR.DMA1EN = true;
       else if constexpr (p == Periph::DMA2) AHB1ENR.DMA2EN = true;
 
+      else if constexpr (p == Periph::TIM2)   APB1ENR.TIM2EN  = true;
+      else if constexpr (p == Periph::TIM3)   APB1ENR.TIM3EN  = true;
+
       static_assert (
             p == Periph::GPIOA  or p == Periph::GPIOB  or p == Periph::GPIOC
          or p == Periph::GPIOD  or p == Periph::GPIOE  or p == Periph::GPIOF
          or p == Periph::GPIOG  or p == Periph::GPIOH  or p == Periph::GPIOI
          or p == Periph::USART1 or p == Periph::USART2 or p == Periph::USART3
          or p == Periph::USART4 or p == Periph::USART5 or p == Periph::USART6
-         or p == Periph::DMA1   or p == Periph::DMA2
+         or p == Periph::DMA1   or p == Periph::DMA2   or p == Periph::TIM2
+         or p == Periph::TIM3
          , "допиши clock_enable"
       );
    }

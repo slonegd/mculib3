@@ -1,7 +1,7 @@
 #pragma once
 
 #include "periph.h"
-#include "f0_bits_tim.h"
+#include "f0_f4_bits_tim.h"
 #include "periph_rcc.h"
 #include "pin.h"
 #include <type_traits>
@@ -9,28 +9,28 @@
 namespace mcu {
 
 class TIM {
-   __IO TIM_bits::CR1  CR1;  // control register 1,                     offset: 0x00
-   __IO TIM_bits::CR2  CR2;  // control register 2,                     offset: 0x04
-   __IO TIM_bits::SMCR SMCR; // slave Mode Control register,            offset: 0x08
-   __IO TIM_bits::DIER DIER; // DMA/interrupt enable register,          offset: 0x0C
-   __IO uint32_t       SR;   // status register,                        offset: 0x10
-   __IO uint32_t       EGR;  // event generation register,              offset: 0x14
-   __IO TIM_bits::CCMR CCMR; // capture/compare mode register,          offset: 0x18
-   __IO TIM_bits::CCER CCER; // capture/compare enable register,        offset: 0x20
-   __IO uint32_t       CNT;  // counter register,                       offset: 0x24
-   __IO uint32_t       PSC;  // prescaler register,                     offset: 0x28
-   __IO uint32_t       ARR;  // auto-reload register,                   offset: 0x2C
-   __IO uint32_t       RCR;  // repetition counter register,            offset: 0x30
-   __IO uint32_t       CCR1; // capture/compare registers 1-4,          offset: 0x34
-   __IO uint32_t       CCR2; // capture/compare register 2,             offset: 0x38
-   __IO uint32_t       CCR3; // capture/compare register 3,             offset: 0x3C
-   __IO uint32_t       CCR4; // capture/compare register 4,             offset: 0x40
-   __IO TIM_bits::BDTR BDTR; // break and dead-time register,           offset: 0x44
-   __IO TIM_bits::DCR  DCR;  // DMA control register,                   offset: 0x48
-   __IO uint32_t       DMAR; // DMA address for full transfer register, offset: 0x4C
-   __IO uint32_t       OR;   // option register,                        offset: 0x50
+   volatile TIM_bits::CR1  CR1;  // control register 1,                     offset: 0x00
+   volatile TIM_bits::CR2  CR2;  // control register 2,                     offset: 0x04
+   volatile TIM_bits::SMCR SMCR; // slave Mode Control register,            offset: 0x08
+   volatile TIM_bits::DIER DIER; // DMA/interrupt enable register,          offset: 0x0C
+   volatile uint32_t       SR;   // status register,                        offset: 0x10
+   volatile uint32_t       EGR;  // event generation register,              offset: 0x14
+   volatile TIM_bits::CCMR CCMR; // capture/compare mode register,          offset: 0x18
+   volatile TIM_bits::CCER CCER; // capture/compare enable register,        offset: 0x20
+   volatile uint32_t       CNT;  // counter register,                       offset: 0x24
+   volatile uint32_t       PSC;  // prescaler register,                     offset: 0x28
+   volatile uint32_t       ARR;  // auto-reload register,                   offset: 0x2C
+   volatile uint32_t       RCR;  // repetition counter register,            offset: 0x30
+   volatile uint32_t       CCR1; // capture/compare registers 1-4,          offset: 0x34
+   volatile uint32_t       CCR2; // capture/compare register 2,             offset: 0x38
+   volatile uint32_t       CCR3; // capture/compare register 3,             offset: 0x3C
+   volatile uint32_t       CCR4; // capture/compare register 4,             offset: 0x40
+   volatile TIM_bits::BDTR BDTR; // break and dead-time register,           offset: 0x44
+   volatile TIM_bits::DCR  DCR;  // DMA control register,                   offset: 0x48
+   volatile uint32_t       DMAR; // DMA address for full transfer register, offset: 0x4C
+   volatile uint32_t       OR;   // option register,                        offset: 0x50
 public:
-   template<Periph, class RCC = RCC> static TIM& make_reference();
+   auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
 
    using CMSIS_type           = TIM_TypeDef;
    using CompareMode          = TIM_bits::Output_t::CompareMode;
@@ -134,15 +134,26 @@ public:
 
 
 
-
-template<Periph p> std::enable_if_t<p==Periph::TIM1 , TIM&> make_reference() { return *reinterpret_cast<TIM*>(TIM1_BASE);  }
-template<Periph p> std::enable_if_t<p==Periph::TIM3 , TIM&> make_reference() { return *reinterpret_cast<TIM*>(TIM3_BASE);  }
-template<Periph p> std::enable_if_t<p==Periph::TIM14, TIM&> make_reference() { return *reinterpret_cast<TIM*>(TIM14_BASE); }
-template<Periph p> std::enable_if_t<p==Periph::TIM16, TIM&> make_reference() { return *reinterpret_cast<TIM*>(TIM16_BASE); }
-template<Periph p> std::enable_if_t<p==Periph::TIM17, TIM&> make_reference() { return *reinterpret_cast<TIM*>(TIM17_BASE); }
+#if not defined(USE_MOCK_TIM)
+SFINAE(TIM1 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM1_BASE);  }
+SFINAE(TIM3 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM3_BASE);  }
+SFINAE(TIM14, TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM14_BASE); }
+#if defined(STM32F0)
+SFINAE(TIM16, TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM16_BASE); }
+SFINAE(TIM17, TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM17_BASE); }
+#elif defined(STM32F4)
+SFINAE(TIM2 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM2_BASE);  }
+SFINAE(TIM4 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM4_BASE);  }
+SFINAE(TIM5 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM5_BASE);  }
+SFINAE(TIM6 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM6_BASE);  }
+SFINAE(TIM7 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM7_BASE);  }
+SFINAE(TIM8 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM8_BASE);  }
+#endif
+#endif
 
 template<Periph p, class Pin_> constexpr PinMode TIM::pin_mode()
 {
+#if defined(STM32F0)
    if      constexpr (p == Periph::TIM1) {
       if      constexpr (std::is_same_v<Pin_,PA6 >) return PinMode::Alternate_2;
       else if constexpr (std::is_same_v<Pin_,PA7 >) return PinMode::Alternate_2;
@@ -190,6 +201,38 @@ template<Periph p, class Pin_> constexpr PinMode TIM::pin_mode()
    } else {
       return PinMode::Input;
    }
+
+#elif defined(STM32F4)
+   if      constexpr (p == Periph::TIM2) {
+      if      constexpr (std::is_same_v<Pin_,PA0 >) return PinMode::Alternate_1;
+      else if constexpr (std::is_same_v<Pin_,PA1 >) return PinMode::Alternate_1;
+      else if constexpr (std::is_same_v<Pin_,PA2 >) return PinMode::Alternate_1;
+      else if constexpr (std::is_same_v<Pin_,PA3 >) return PinMode::Alternate_1;
+      else if constexpr (std::is_same_v<Pin_,PA5 >) return PinMode::Alternate_1;
+      else if constexpr (std::is_same_v<Pin_,PA15>) return PinMode::Alternate_1;
+      else if constexpr (std::is_same_v<Pin_,PB3 >) return PinMode::Alternate_1;
+      else if constexpr (std::is_same_v<Pin_,PB10>) return PinMode::Alternate_1;
+      else if constexpr (std::is_same_v<Pin_,PB11>) return PinMode::Alternate_1;
+      else return PinMode::Input;
+
+   } else if constexpr (p == Periph::TIM3) {
+      if      constexpr (std::is_same_v<Pin_,PA6>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PA7>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PB0>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PB1>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PB4>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PB5>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PC6>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PC7>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PC8>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PC9>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PD2>) return PinMode::Alternate_2;
+      else return PinMode::Input;
+
+   } else {
+      return PinMode::Input;
+   }
+#endif
 }
 
 template<TIM::Channel c> constexpr TIM::EnableMask TIM::enable_mask()
@@ -210,6 +253,7 @@ template<TIM::Channel c> constexpr TIM::EnableMask TIM::enable_mask()
 
 template<Periph p, class Pin_> constexpr TIM::Channel TIM::channel()
 {
+#if defined(STM32F0)
    if      constexpr (p == Periph::TIM1) {
       if      constexpr (std::is_same_v<Pin_,PA8 >) return Channel::_1;
       else if constexpr (std::is_same_v<Pin_,PA9 >) return Channel::_2;
@@ -244,6 +288,37 @@ template<Periph p, class Pin_> constexpr TIM::Channel TIM::channel()
    } else {
       return Channel::error;
    }
+
+#elif defined(STM32F4)
+   if      constexpr (p == Periph::TIM2) {
+      if      constexpr (std::is_same_v<Pin_,PA0 >) return Channel::_1;
+      else if constexpr (std::is_same_v<Pin_,PA1 >) return Channel::_2;
+      else if constexpr (std::is_same_v<Pin_,PA2 >) return Channel::_3;
+      else if constexpr (std::is_same_v<Pin_,PA3 >) return Channel::_4;
+      else if constexpr (std::is_same_v<Pin_,PA5 >) return Channel::_1;
+      else if constexpr (std::is_same_v<Pin_,PA15>) return Channel::_1;
+      else if constexpr (std::is_same_v<Pin_,PB3 >) return Channel::_2;
+      else if constexpr (std::is_same_v<Pin_,PB10>) return Channel::_3;
+      else if constexpr (std::is_same_v<Pin_,PB11>) return Channel::_4;
+      else return Channel::error;
+
+   } else if constexpr (p == Periph::TIM3) {
+      if      constexpr (std::is_same_v<Pin_,PA6>) return Channel::_1;
+      else if constexpr (std::is_same_v<Pin_,PA7>) return Channel::_2;
+      else if constexpr (std::is_same_v<Pin_,PB0>) return Channel::_3;
+      else if constexpr (std::is_same_v<Pin_,PB1>) return Channel::_4;
+      else if constexpr (std::is_same_v<Pin_,PB4>) return Channel::_1;
+      else if constexpr (std::is_same_v<Pin_,PB5>) return Channel::_2;
+      else if constexpr (std::is_same_v<Pin_,PC6>) return Channel::_1;
+      else if constexpr (std::is_same_v<Pin_,PC7>) return Channel::_2;
+      else if constexpr (std::is_same_v<Pin_,PC8>) return Channel::_3;
+      else if constexpr (std::is_same_v<Pin_,PC9>) return Channel::_4;
+      else return Channel::error;
+
+   } else {
+      return Channel::error;
+   }
+#endif
 }
 
 template<TIM::Channel c> TIM& TIM::set (Polarity v)
