@@ -25,7 +25,11 @@ class TIM {
    volatile uint32_t       CCR2; // capture/compare register 2,             offset: 0x38
    volatile uint32_t       CCR3; // capture/compare register 3,             offset: 0x3C
    volatile uint32_t       CCR4; // capture/compare register 4,             offset: 0x40
+#if defined(STM32F0)
    volatile TIM_bits::BDTR BDTR; // break and dead-time register,           offset: 0x44
+#elif defined(STM32F4)
+   volatile uint32_t       res;  // break and dead-time register,           offset: 0x44
+#endif
    volatile TIM_bits::DCR  DCR;  // DMA control register,                   offset: 0x48
    volatile uint32_t       DMAR; // DMA address for full transfer register, offset: 0x4C
    volatile uint32_t       OR;   // option register,                        offset: 0x50
@@ -60,19 +64,21 @@ public:
    TIM&     counter_disable()               { CR1.CEN = false;    return *this; }
    TIM&     clear_counter()                 { CNT = 0;            return *this; }
    TIM&     set_counter (uint16_t v)        { CNT = v;            return *this; }
-   TIM&     set_compare (uint16_t v)        { CCR1 = v;           return *this; }
+   // TIM&     set_compare (uint16_t v)        { CCR1 = v;           return *this; }
    TIM&     ext_clock_enable()              { SMCR.ECE = true;    return *this; }
    TIM&     ext_clock_disable()             { SMCR.ECE = false;   return *this; }
    TIM&     set_prescaller (uint16_t v)     { PSC = v;            return *this; }
    TIM&     auto_reload_enable()            { CR1.ARPE = true;    return *this; }
-   TIM&     main_output_enable()            { BDTR.MOE = true;    return *this; }
    TIM&     set (SlaveMode v)               { SMCR.SMS = v;       return *this; }
    TIM&     set_auto_reload  (uint16_t v)   { ARR = v;            return *this; }
    TIM&     compare_enable   (uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&CCER) |=  v; return *this; }
    TIM&     compare_disable  (uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&CCER) &= ~v; return *this; }
    TIM&     interrupt_enable (uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&DIER) |=  v; return *this; }
    TIM&     interrupt_disable(uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&DIER) &= ~v; return *this; }
-
+#if defined(STM32F0)
+   TIM&     main_output_enable()            { BDTR.MOE = true;    return *this; }
+#endif
+   
    bool     is_count()                      { return CR1.CEN; }
    uint16_t get_counter()                   { return CNT;     }
 
@@ -144,10 +150,6 @@ SFINAE(TIM17, TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM17_BASE)
 #elif defined(STM32F4)
 SFINAE(TIM2 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM2_BASE);  }
 SFINAE(TIM4 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM4_BASE);  }
-SFINAE(TIM5 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM5_BASE);  }
-SFINAE(TIM6 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM6_BASE);  }
-SFINAE(TIM7 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM7_BASE);  }
-SFINAE(TIM8 , TIM) make_reference() { return *reinterpret_cast<TIM*>(TIM8_BASE);  }
 #endif
 #endif
 
@@ -396,6 +398,14 @@ template<TIM::Channel c> TIM& TIM::preload_enable()
    else if constexpr (c == Channel::_2)  { CCMR.output.OC2PE = true; return *this; }
    else if constexpr (c == Channel::_3)  { CCMR.output.OC3PE = true; return *this; }
    else if constexpr (c == Channel::_4)  { CCMR.output.OC4PE = true; return *this; }
+}
+
+template<TIM::Channel c> TIM& TIM::preload_disable()
+{
+   if      constexpr (c == Channel::_1)  { CCMR.output.OC1PE = false; return *this; }
+   else if constexpr (c == Channel::_2)  { CCMR.output.OC2PE = false; return *this; }
+   else if constexpr (c == Channel::_3)  { CCMR.output.OC3PE = false; return *this; }
+   else if constexpr (c == Channel::_4)  { CCMR.output.OC4PE = false; return *this; }
 }
 
 template<TIM::Channel c> TIM& TIM::compare_enable()

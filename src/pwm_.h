@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tim.h"
+#include "periph_tim.h"
 #include "pin.h"
 #include "literals.h"
 

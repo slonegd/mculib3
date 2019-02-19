@@ -49,6 +49,7 @@
 #undef UART8
 #undef SysTick
 #undef TIM1
+#undef TIM2
 #undef TIM3
 #undef TIM4
 #undef TIM14
