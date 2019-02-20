@@ -206,4 +206,37 @@ public:
 
 };
 
+std::ostream& operator<< (std::ostream& s, const TIM& v)
+{
+   return
+      &v == &TIM::make<mcu::Periph::TIM3>() ? s << "TIM3" :
+   #if defined(STM32F0)
+      &v == &TIM::make<mcu::Periph::TIM1>() ? s << "TIM1" :
+   #endif
+   #if defined(STM32F4)
+      &v == &TIM::make<mcu::Periph::TIM1>() ? s << "TIM2" :
+   #endif
+      s;
+}
+
 } //namespace mock
+
+namespace mcu {
+   SFINAE(TIM3,mock::TIM) make_reference() {return mock::TIM::make<mcu::Periph::TIM3>();}
+#if defined(STM32F0)
+   SFINAE(TIM1,mock::TIM) make_reference() {return mock::TIM::make<mcu::Periph::TIM1>();}
+#endif
+#if defined(STM32F4)
+   SFINAE(TIM2,mock::TIM) make_reference() {return mock::TIM::make<mcu::Periph::TIM2>();}
+#endif
+}
+
+namespace mock {
+   auto& tim3 = REF(TIM3);
+#if defined(STM32F0)
+   auto& tim1 = REF(TIM1);
+#endif
+#if defined(STM32F4)
+   auto& tim2 = REF(TIM2);
+#endif
+}
