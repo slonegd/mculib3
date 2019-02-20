@@ -96,6 +96,8 @@ public:
    template<Periph, class Pin_> static constexpr PinMode pin_mode();
    template<Periph, class Pin_> static constexpr Channel channel();
    template<Channel>            static constexpr EnableMask    enable_mask();
+
+   template <Periph tim, class Pin_> static void pin_static_assert();
    // template<Channel>            static constexpr InterruptMask interrupt_mask();
    
    
@@ -269,7 +271,9 @@ template<Periph p, class Pin_> constexpr TIM::Channel TIM::channel()
       else if constexpr (std::is_same_v<Pin_,PB0>) return Channel::_3;
       else if constexpr (std::is_same_v<Pin_,PB1>) return Channel::_4;
       else if constexpr (std::is_same_v<Pin_,PB4>) return Channel::_1;
-      else if constexpr (std::is_same_v<Pin_,PC5>) return Channel::_2;
+      else if constexpr (std::is_same_v<Pin_,PB5>) return Channel::_2;
+      else if constexpr (std::is_same_v<Pin_,PC6>) return Channel::_1;
+      else if constexpr (std::is_same_v<Pin_,PC7>) return Channel::_2;
       else if constexpr (std::is_same_v<Pin_,PC8>) return Channel::_3;
       else if constexpr (std::is_same_v<Pin_,PC9>) return Channel::_4;
       else return Channel::error;
@@ -442,5 +446,37 @@ template<TIM::Channel c> __IO uint32_t& TIM::get_compare_reference()
    else if constexpr (c == Channel::_3) return *reinterpret_cast<__IO uint32_t*>(&CCR3);
    else if constexpr (c == Channel::_4) return *reinterpret_cast<__IO uint32_t*>(&CCR4);
 }
+
+template<Periph tim, class Pin_> void TIM::pin_static_assert()
+{
+   if constexpr (tim == Periph::TIM3) {
+      static_assert (
+         std::is_same_v<Pin_, PA6> or std::is_same_v<Pin_, PA7> or
+         std::is_same_v<Pin_, PB0> or std::is_same_v<Pin_, PB1> or
+         std::is_same_v<Pin_, PB4> or std::is_same_v<Pin_, PB5> or
+         std::is_same_v<Pin_, PC6> or std::is_same_v<Pin_, PC7> or
+         std::is_same_v<Pin_, PC8> or std::is_same_v<Pin_, PC9> or
+         std::is_same_v<Pin_, PD2>, 
+         "\033[7;33mTIM3 of STM32(F0/F4) can only work with these pins: pin(№channel) \
+PA6(1), PA7(2), PB0(3), PB1(4), PB4(1), PB5(2), \
+PC6(1), PC7(2), PC8(3), PC9(4), PD2(ETR)\033[0m"
+      );
+   }
+#if defined (STM32F4)
+   if constexpr (tim == Periph::TIM2) {
+      static_assert (
+         std::is_same_v<Pin_, PA0 > or std::is_same_v<Pin_, PA1 > or
+         std::is_same_v<Pin_, PA2 > or std::is_same_v<Pin_, PA3 > or
+         std::is_same_v<Pin_, PA5 > or std::is_same_v<Pin_, PA15> or
+         std::is_same_v<Pin_, PB3 > or std::is_same_v<Pin_, PB10> or
+         std::is_same_v<Pin_, PB11>, 
+         "\033[7;33mTIM2 of STM32F4 can only work with these pins: pin(№channel) \
+PA0(1_ETR),  PA1(2), PA2(3),  PA3(4), PA5(1_ETR),\
+PA15(1,ETR), PB3(2), PB10(3), PB11(4)\033[0m"
+      );
+   } 
+#endif
+}
+
 
 } // namespace mcu {

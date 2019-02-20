@@ -1,3 +1,5 @@
+// #include <windows>
+// const int NotUsed = system( "color 20" );
 #define STM32F030x6
 #define F_OSC   8000000UL
 #define F_CPU   48000000UL
@@ -31,8 +33,8 @@ int main()
    decltype(auto) pwm = PWM::make<mcu::Periph::TIM3, mcu::PC8>();
    pwm.out_enable();
    decltype(auto) pwm_ = PWM::make<mcu::Periph::TIM3, mcu::PC9>();
-   pwm.freq(20000000);
-   pwm_.freq(20000000);
+   pwm.frequency = 26000;
+   pwm_.frequency = 26000;
    pwm_.out_enable();
 //    auto& dma = mcu::make_reference<mcu::Periph::DMA1>();
 //    dma.clear_interrupt_flags(dma.Channel::_1);
@@ -41,22 +43,22 @@ int main()
 //    auto& pc8 = Pin::make<mcu::PC8, mcu::PinMode::Output>();
    Timer timer {10};
    Timer timer_ {20};
-   int i {0};
+   int i {1};
    int p {100};
 
 //    pwm.duty_cycle(15);
 
    while(1) {
-      while (i < 100) {
+      while (p > 0 ) {
          if (timer.event()) {
-            pwm.duty_cycle(p--);
-            pwm_.duty_cycle(i++);
+            pwm.duty_cycle = p--;
+            pwm_.duty_cycle += i;
          }
       }
-      while (i > 0) {
+      while (p < 100) {
          if (timer_.event()) {
-            pwm.duty_cycle(p++);
-            pwm_.duty_cycle(i--);
+            pwm.duty_cycle = p++;
+            pwm_.duty_cycle += -i;
          }
       }
    } // while(1) {
