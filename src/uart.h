@@ -105,7 +105,7 @@ protected:
       , TX_channel  {TX_channel}
    {}
 
-   UART_sized(const UART_sized&) = delete;
+  //  UART_sized(const UART_sized&) = delete;
    UART_sized& operator= (const UART_sized&) = delete;
 };
 

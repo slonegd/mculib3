@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include "timers.h"
 #include "table_crc.h"
 #include "uart.h"
@@ -154,7 +155,8 @@ public:
    }
 
 
-   template <class function> void operator() (function reaction);
+  //  template <class function>
+   void operator() (std::function<void(uint16_t reg)> reaction);
 
 
 };
@@ -198,8 +200,8 @@ public:
 
 
 template <class InRegs_t, class OutRegs_t>
-template <class function>
-inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (function reaction)
+// template <class function>
+inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (std::function<void(uint16_t reg)> reaction)
 {
    if (uart.is_receiving()) {
       time = 0;
