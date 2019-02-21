@@ -69,7 +69,7 @@ public:
       static TIM tim;
       return tim;
    }
-   friend std::ostream& operator<< (std::ostream&, const GPIO&);
+   friend std::ostream& operator<< (std::ostream&, const TIM&);
 
    auto& base() { return *static_cast<mcu::TIM*>(this); }
 

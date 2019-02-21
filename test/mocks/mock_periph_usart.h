@@ -175,6 +175,11 @@ public:
       return *this;
    }
 
+   USART& parity_enable(bool v)
+   {
+      v ? parity_enable() : parity_disable(); return *this;
+   }
+
    USART& enable_IDLE_interrupt()
    {
       process << *this << ": Разрешение прерывания по простою" << std::endl;

@@ -8,12 +8,13 @@
 
 #include <iostream>
 #include <type_traits>
+#include "mock_systick.h"
 #include "mock_uart.h"
 #include "mock_interrupt.h"
 #include "modbus_slave.h"
 #include "sstream"
 
-std::stringstream result;
+auto& process = mock::Process::make();
 
 int count {0};
 void reaction(uint16_t reg_address){
@@ -24,7 +25,8 @@ BOOST_AUTO_TEST_SUITE (test_suite_main)
 
 BOOST_AUTO_TEST_CASE(make)
 {
-    mock::UART::Settings set;
+    process.clear();
+    ::UART::Settings set;
     
     struct InReg{
         uint16_t a;
@@ -49,7 +51,7 @@ BOOST_AUTO_TEST_CASE(make)
                  ::make<mcu::Periph::USART1, 
                    mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
     
-    BOOST_CHECK_EQUAL(result.str(),
+    BOOST_CHECK_EQUAL(process.str(),
         "Создаем объект UART"                    "\n"
         "Определение время задержки для модбаса" "\n"
         "Инициализация uart"                     "\n"

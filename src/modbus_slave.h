@@ -144,6 +144,11 @@ public:
          , *interrupt_dma
       };
 
+      modbus.modbus_time = set.baudrate == UART_::Baudrate::BR9600  ? 4 :
+                           set.baudrate == UART_::Baudrate::BR14400 ? 3 :
+                           set.baudrate == UART_::Baudrate::BR19200 ? 2 :
+                           set.baudrate == UART_::Baudrate::BR28800 ? 2 : 1;
+
       modbus.uart.init(set);
       return modbus;
    }

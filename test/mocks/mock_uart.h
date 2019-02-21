@@ -3,7 +3,9 @@
 #define USE_MOCK_UART
 #include "mock_dma.h"
 #include "mock_periph_usart.h"
+#if defined (STM32F1)
 #include "mock_afio.h"
+#endif
 #include "mock_gpio.h"
 #include "mock_interrupt.h"
 #include "uart.h"
@@ -13,22 +15,32 @@ namespace mock {
 
 uint16_t CNDTR {255};
 
-template<size_t buffer_size = 255>
-struct UART_sized : ::UART_sized<buffer_size> {
+// template<size_t buffer_size = 255>
+class UART_sized : public ::UART_sized<> {
 
    Process& process {Process::make()};
-   auto& base() { return *static_cast<::UART_sized<buffer_size>*>(this); }
-
+   UART_sized() = default;
+   
+public:
    template <
       mcu::Periph usart
       , class TXpin
       , class RXpin
       , class RTSpin
       , class LEDpin
-   > static UART_sized& make()
+   > static auto& make()
    {
+      // static UART_sized<255> uart; 
+      // return uart;
       return static_cast<UART_sized&>(
-      ::UART_sized<buffer_size>::template make<usart,TXpin,RXpin,RTSpin,LEDpin>());
+      ::UART_sized<>::template make<usart,TXpin,RXpin,RTSpin,LEDpin>());
+   }
+   auto& base() { return *static_cast<::UART_sized<>*>(this); }
+
+   void init(const ::UART_sized<>::Settings& set)
+   {
+      process << "инициализация uart" << std::endl;
+      base().init(set);
    }
 
    // void transmit() 
@@ -44,6 +56,6 @@ struct UART_sized : ::UART_sized<buffer_size> {
 
 };
 
-using UART = UART_sized<>;
+using UART = UART_sized;
 
 } // namespace mock {
