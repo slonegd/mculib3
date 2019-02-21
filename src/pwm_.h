@@ -19,23 +19,21 @@ class PWM
    const TIM_t::Channel channel;
    const TIM_t::EnableMask enable_mask;
 
-   uint16_t frequency_value {0};
-   uint16_t duty_cycle_value{0};
-
    const uint16_t max_duty_cycle;
    constexpr static uint16_t min_frequency {(F_CPU / 0xFFFF) + 1};
 
    class Frequency {
+      uint16_t value {0};
       PWM& parent;
    public:
       Frequency (PWM& parent) : parent {parent} {}
-           operator    uint16_t () {return parent.frequency_value;}
-      void operator+= ( int16_t v) {operator= (parent.frequency_value + v); }
+           operator    uint16_t () {return value;}
+      void operator+= ( int16_t v) {operator= (value + v); }
       void operator=  (uint16_t v)
       {
-         if ((v != parent.frequency_value) and (v >= parent.min_frequency)) {
-            parent.frequency_value = v;
-            parent.CNT = (F_CPU / parent.frequency_value);
+         if ((v != value) and (v >= parent.min_frequency)) {
+            value = v;
+            parent.CNT = (F_CPU / value);
             parent.tim.set_auto_reload(parent.CNT);
             parent.duty_cycle.update();
          }
@@ -43,20 +41,21 @@ class PWM
    };
 
    class Duty_cycle {
+      uint16_t value {0};
       PWM& parent;
    public:
       Duty_cycle (PWM& parent) : parent {parent} {}
-           operator    uint16_t () {return parent.duty_cycle_value;}
-      void operator+= ( int16_t v) {operator= (parent.duty_cycle_value + v); }
+           operator    uint16_t () {return value;}
+      void operator+= ( int16_t v) {operator= (value + v); }
       void operator=  (uint16_t v)
       {
-         if ((v != parent.duty_cycle_value) and (v > 0) and (v <= parent.max_duty_cycle)) {  
-            parent.duty_cycle_value = v;
-            parent.tim.set_compare(parent.channel, parent.CNT * parent.duty_cycle_value/100);
+         if ((v != value) and (v > 0) and (v <= parent.max_duty_cycle)) {  
+            value = v;
+            parent.tim.set_compare(parent.channel, parent.CNT * value/100);
          }
       }
       void update() {
-         parent.tim.set_compare(parent.channel, parent.CNT * parent.duty_cycle_value/100);
+         parent.tim.set_compare(parent.channel, parent.CNT * value/100);
       }
    };
 
