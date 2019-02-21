@@ -22,10 +22,10 @@ std::ostream& operator<< (std::ostream& s, mcu::TIM::SlaveMode v)
 std::ostream& operator<< (std::ostream& s, mcu::TIM::Channel v)
 {
    return
-      v == mcu::TIM::Channel::_1  ? s << "канала №1" :
-      v == mcu::TIM::Channel::_2  ? s << "канала №2" : 
-      v == mcu::TIM::Channel::_3  ? s << "канала №3" : 
-      v == mcu::TIM::Channel::_4  ? s << "канала №4" : s;
+      v == mcu::TIM::Channel::_1  ? s << "канала №1 " :
+      v == mcu::TIM::Channel::_2  ? s << "канала №2 " : 
+      v == mcu::TIM::Channel::_3  ? s << "канала №3 " : 
+      v == mcu::TIM::Channel::_4  ? s << "канала №4 " : s;
 }
 
 std::ostream& operator<< (std::ostream& s, mcu::TIM::Polarity v)
@@ -63,7 +63,7 @@ class TIM : public mcu::TIM
    Process& process { Process::make() };
    TIM() = default;
 public:
-   template<mcu::Periph tim>
+   template<mcu::Periph p>
    static TIM& make()
    {
       static TIM tim;
@@ -124,7 +124,7 @@ public:
 
    TIM& auto_reload_enable()
    {
-      process << *this << ": Предзагрузка разрешена " << std::endl;
+      process << *this << ": Предзагрузка разрешена" << std::endl;
       base().auto_reload_enable();
       return *this; 
    }
@@ -138,7 +138,7 @@ public:
 
    TIM& set_auto_reload (uint16_t v)
    {
-      process << *this << ": ARR =  " << v << std::endl;
+      process << *this << ": ARR = " << v << std::endl;
       base().set_auto_reload(v);
       return *this; 
    }
@@ -162,6 +162,25 @@ public:
       return *this; 
    }
 
+   TIM& compare_disable (uint32_t v)
+   {
+      process << *this;
+
+      if (v == TIM::EnableMask::ch1)
+         process << ": Работа первого канала запрещена";
+      else if (v == TIM::EnableMask::ch2)
+         process << ": Работа второго канала запрещена";
+      else if (v == TIM::EnableMask::ch3)
+         process << ": Работа третьего канала запрещена";
+      else if (v == TIM::EnableMask::ch4)
+         process << ": Работа четвертого канала запрещена";
+
+      process << std::endl;
+
+      base().compare_disable(v);
+      return *this; 
+   }
+
    template<TIM::Channel c> TIM& set (Polarity v)
    {
       process << *this << ": Полярность" << c << v << std::endl;
@@ -171,14 +190,14 @@ public:
 
    template<TIM::Channel c> TIM& set (CompareMode v)
    {
-      process << *this << ": Режим сравнения" << c << v << std::endl;
+      process << *this << ": Режим сравнения " << c << v << std::endl;
       base().set<c>(v);
       return *this; 
    }
 
    template<TIM::Channel c> TIM& set (SelectionCompareMode v)
    {
-      process << *this << ": Режим сравнения" << c << v << std::endl;
+      process << *this << ": Режим сравнения " << c << v << std::endl;
       base().set<c>(v);
       return *this; 
    }
@@ -199,7 +218,7 @@ public:
 
    TIM& set_compare (Channel c, uint16_t v)
    {
-      process << *this << ": Значение сравнения " << c << " = " << std::endl;
+      process << *this << ": Значение сравнения " << c << "= " << v << std::endl;
       base().set_compare(c, v);
       return *this; 
    }

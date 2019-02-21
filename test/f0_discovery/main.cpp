@@ -43,22 +43,24 @@ int main()
 //    auto& pc8 = Pin::make<mcu::PC8, mcu::PinMode::Output>();
    Timer timer {10};
    Timer timer_ {20};
-   int i {1};
-   int p {100};
+   int i {0};
+   int p {0};
 
 //    pwm.duty_cycle(15);
 
    while(1) {
-      while (p > 0 ) {
+      while (i < 100 ) {
          if (timer.event()) {
-            pwm.duty_cycle = p--;
-            pwm_.duty_cycle += i;
+            pwm.duty_cycle = p++;
+            pwm_.duty_cycle = i++;
+            ++i;
+            ++p;
          }
       }
-      while (p < 100) {
+      while (i > 0) {
          if (timer_.event()) {
-            pwm.duty_cycle = p++;
-            pwm_.duty_cycle += -i;
+            pwm.duty_cycle = p--;
+            pwm_.duty_cycle = i--;
          }
       }
    } // while(1) {

@@ -49,6 +49,12 @@ std::ostream& operator<< (std::ostream& s, mcu::Periph v)
    #if defined(STM32F4) or defined(STM32F7)
       v == mcu::Periph::DMA1_stream0 ? s << "DMA1" :
    #endif
+      HELPER (TIM3)
+   #if defined(STM32F0)   
+      HELPER (TIM1)
+   #elif defined(STM32F1)
+      HELPER (TIM2)
+   #endif
       s << "допиши вывод в поток переферии";
       #undef HELPER
 }

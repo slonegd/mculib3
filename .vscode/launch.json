@@ -5,6 +5,25 @@
    "version": "0.2.0",
    "configurations": [
         {
+        "name": "pwm",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/test/cmake/build/test_pwm",
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": false,
+        "MIMode": "gdb",
+        "setupCommands": [
+            {
+                "description": "Enable pretty-printing for gdb",
+                "text": "-enable-pretty-printing",
+                "ignoreFailures": true
+            }
+        ]
+        },
+        {
         "name": "delay",
         "type": "cppdbg",
         "request": "launch",

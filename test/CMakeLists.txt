@@ -120,6 +120,8 @@ test (STM32F4 test_periph_tim_f4)
 # test (STM32F1 test_timers)
 # test (STM32F1 test_delay)
 
+test (STM32F4 test_pwm)
+
 # test (NULL test_reflect)
 # test (NULL test_table_crc)
 # test (NULL test_string_buffer)

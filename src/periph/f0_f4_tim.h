@@ -449,6 +449,13 @@ template<TIM::Channel c> __IO uint32_t& TIM::get_compare_reference()
 
 template<Periph tim, class Pin_> void TIM::pin_static_assert()
 {
+   // static_assert (
+   //    WRAP(meta::position_v<Pin
+   //       ,PA9,PA10,PB6,PB7,PA2,PA3,PD5,PD6,PB10,PB11,PC10,PC11,PD8,PD9
+   // #if defined(STM32F4)
+   //       ,PA0,PA1,PC10,PC11,PC12,PD2,PC6,PC7,PG14,PG9
+   // #endif
+   //    >) != -1,
    if constexpr (tim == Periph::TIM3) {
       static_assert (
          std::is_same_v<Pin_, PA6> or std::is_same_v<Pin_, PA7> or
