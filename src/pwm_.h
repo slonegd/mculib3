@@ -78,7 +78,7 @@ public:
    Duty_cycle duty_cycle{*this};
    
    template <mcu::Periph tim_, class Pin_>
-   static auto make (uint16_t max_duty_cycle = 100)
+   static auto& make (uint16_t max_duty_cycle = 100)
    {
       TIM_t::pin_static_assert<tim_, Pin_>();
       
