@@ -27,6 +27,12 @@ auto& NVIC_EnableIRQ_t = mock::NVIC_EnableIRQ;
 auto& NVIC_EnableIRQ_t = ::NVIC_EnableIRQ;
 #endif
 
+#if defined(USE_MOCK_NET_BUFFER)
+#define NS mock
+#else
+#define NS  
+#endif
+
 template<size_t buffer_size = 255>
 class UART_sized
 {
@@ -44,7 +50,7 @@ public:
       uint16_t res           :8;
    };
 
-   Net_buffer<buffer_size> buffer;
+   NS::Net_buffer <buffer_size> buffer;
 
    template <
         mcu::Periph usart

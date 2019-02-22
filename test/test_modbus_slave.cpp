@@ -21,13 +21,20 @@ void reaction(uint16_t reg_address){
     count++;
 }
 
+::UART::Settings set;
+
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 
 BOOST_AUTO_TEST_CASE(make)
 {
     process.clear();
-    ::UART::Settings set;
-    
+
+    set.parity_enable = false;
+    set.parity    = ::UART::Parity::even;
+    set.data_bits = ::UART::DataBits::_8;
+    set.stop_bits = ::UART::StopBits::_1;
+    set.baudrate  = ::UART::Baudrate::BR9600;
+
     struct InReg{
         uint16_t a;
         uint16_t b;
@@ -47,22 +54,23 @@ BOOST_AUTO_TEST_CASE(make)
     } out_reg;
     
     const uint8_t address = 1;
-    auto& modbus = Modbus_slave<InReg, OutReg>
+    decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
                    mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
     
     BOOST_CHECK_EQUAL(process.str(),
-        "Создаем объект UART"                    "\n"
-        "Определение время задержки для модбаса" "\n"
-        "Инициализация uart"                     "\n"
-        // "Определение время задержки для модбаса" "\n"
+        "Инициализация PA9(TX), PA10(RX), PA10(RTS), USART1"  "\n"
+        "настройка параметров USART1"                         "\n"
+        "USART1: Установлена скорость 9600 бит/с"             "\n"
+        "USART1: Задана проверка на четность"                 "\n"
+        "USART1: Установлен размер пакета 8 бит"              "\n"
+        "USART1: Установлено количество стоп битов: 1"        "\n"
+        "USART1: Отключение проверки на чётность"             "\n"
     );
 }
-/*
+
 BOOST_AUTO_TEST_CASE (read)
 {
-    UART::Settings set;
-    
     struct InReg{
         uint16_t a;
         uint16_t b;
@@ -84,27 +92,28 @@ BOOST_AUTO_TEST_CASE (read)
     interrupt_usart1.clear_subscribe();
     interrupt_DMA_channel4.clear_subscribe();
 
-    result.str("");
+    
     const uint8_t address = 1;
     auto& modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
                   mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
-
-    buffer[0] = 1;
-    buffer[1] = 3;
-    buffer[2] = 0;
-    buffer[3] = 5;
-    buffer[4] = 0;
-    buffer[5] = 1;
+                  
+    process.clear();
+    // buffer[0] = 1;
+    // buffer[1] = 3;
+    // buffer[2] = 0;
+    // buffer[3] = 5;
+    // buffer[4] = 0;
+    // buffer[5] = 1;
 
     uint16_t crc = 0x0B94;
     uint8_t crc_low = static_cast<uint8_t>(crc);
     uint8_t crc_high = crc >> 8;
 
-    buffer[6] = crc_low;
-    buffer[7] = crc_high;
+    // buffer[6] = crc_low;
+    // buffer[7] = crc_high;
 
-    mcu::CNDTR = 247;
+    mock::CNDTR = 247;
 
     USART1_IRQHandler();
 
@@ -120,15 +129,15 @@ BOOST_AUTO_TEST_CASE (read)
     crc_low = static_cast<uint8_t>(crc);
     crc_high = crc >> 8;
 
-    BOOST_CHECK_EQUAL(buffer[0], address);
-    BOOST_CHECK_EQUAL(buffer[1], 3);
-    BOOST_CHECK_EQUAL(buffer[2], sizeof(uint16_t));
-    BOOST_CHECK_EQUAL(buffer[3], out_reg.g >> 8);
-    BOOST_CHECK_EQUAL(buffer[4], out_reg.g);
-    BOOST_CHECK_EQUAL(buffer[5], crc_low);
-    BOOST_CHECK_EQUAL(buffer[6], crc_high);
+    // BOOST_CHECK_EQUAL(buffer[0], address);
+    // BOOST_CHECK_EQUAL(buffer[1], 3);
+    // BOOST_CHECK_EQUAL(buffer[2], sizeof(uint16_t));
+    // BOOST_CHECK_EQUAL(buffer[3], out_reg.g >> 8);
+    // BOOST_CHECK_EQUAL(buffer[4], out_reg.g);
+    // BOOST_CHECK_EQUAL(buffer[5], crc_low);
+    // BOOST_CHECK_EQUAL(buffer[6], crc_high);
 
-    BOOST_CHECK_EQUAL(result.str(),
+    BOOST_CHECK_EQUAL(process.str(),
         "Создаем объект UART"                          "\n"
         "Определение время задержки для модбаса"       "\n"
         "Инициализация uart"                           "\n"
@@ -161,19 +170,19 @@ BOOST_AUTO_TEST_CASE (read)
     );
 
 
-    buffer[0] = 1;
-    buffer[1] = 3;
-    buffer[2] = 0;
-    buffer[3] = 2;
-    buffer[4] = 0;
-    buffer[5] = 3;
+    // buffer[0] = 1;
+    // buffer[1] = 3;
+    // buffer[2] = 0;
+    // buffer[3] = 2;
+    // buffer[4] = 0;
+    // buffer[5] = 3;
 
     crc = 0x0BA4;
     crc_low = static_cast<uint8_t>(crc);
     crc_high = crc >> 8;
 
-    buffer[6] = crc_low;
-    buffer[7] = crc_high;
+    // buffer[6] = crc_low;
+    // buffer[7] = crc_high;
 
     USART1_IRQHandler();
 
@@ -189,31 +198,31 @@ BOOST_AUTO_TEST_CASE (read)
     crc_low = static_cast<uint8_t>(crc);
     crc_high = crc >> 8;
 
-    BOOST_CHECK_EQUAL(buffer[0], address);
-    BOOST_CHECK_EQUAL(buffer[1], 3);
-    BOOST_CHECK_EQUAL(buffer[2], sizeof(uint16_t) * 3);
-    BOOST_CHECK_EQUAL(buffer[3], out_reg.c >> 8);
-    BOOST_CHECK_EQUAL(buffer[4], out_reg.c);
-    BOOST_CHECK_EQUAL(buffer[5], out_reg.d >> 8);
-    BOOST_CHECK_EQUAL(buffer[6], out_reg.d);
-    BOOST_CHECK_EQUAL(buffer[7], out_reg.f >> 8);
-    BOOST_CHECK_EQUAL(buffer[8], out_reg.f);
-    BOOST_CHECK_EQUAL(buffer[9], crc_low);
-    BOOST_CHECK_EQUAL(buffer[10], crc_high);
+    // BOOST_CHECK_EQUAL(buffer[0], address);
+    // BOOST_CHECK_EQUAL(buffer[1], 3);
+    // BOOST_CHECK_EQUAL(buffer[2], sizeof(uint16_t) * 3);
+    // BOOST_CHECK_EQUAL(buffer[3], out_reg.c >> 8);
+    // BOOST_CHECK_EQUAL(buffer[4], out_reg.c);
+    // BOOST_CHECK_EQUAL(buffer[5], out_reg.d >> 8);
+    // BOOST_CHECK_EQUAL(buffer[6], out_reg.d);
+    // BOOST_CHECK_EQUAL(buffer[7], out_reg.f >> 8);
+    // BOOST_CHECK_EQUAL(buffer[8], out_reg.f);
+    // BOOST_CHECK_EQUAL(buffer[9], crc_low);
+    // BOOST_CHECK_EQUAL(buffer[10], crc_high);
 
-    buffer[0] = 1;
-    buffer[1] = 3;
-    buffer[2] = 0;
-    buffer[3] = 1;
-    buffer[4] = 0;
-    buffer[5] = 2;
+    // buffer[0] = 1;
+    // buffer[1] = 3;
+    // buffer[2] = 0;
+    // buffer[3] = 1;
+    // buffer[4] = 0;
+    // buffer[5] = 2;
 
     crc = 0xCB95;
     crc_low = static_cast<uint8_t>(crc);
     crc_high = crc >> 8;
 
-    buffer[6] = crc_low;
-    buffer[7] = crc_high;
+    // buffer[6] = crc_low;
+    // buffer[7] = crc_high;
 
     USART1_IRQHandler();
 
@@ -229,29 +238,29 @@ BOOST_AUTO_TEST_CASE (read)
     crc_low = static_cast<uint8_t>(crc);
     crc_high = crc >> 8;
 
-    BOOST_CHECK_EQUAL(buffer[0], address);
-    BOOST_CHECK_EQUAL(buffer[1], 3);
-    BOOST_CHECK_EQUAL(buffer[2], sizeof(uint16_t) * 2);
-    BOOST_CHECK_EQUAL(buffer[3], out_reg.b >> 8);
-    BOOST_CHECK_EQUAL(buffer[4], static_cast<uint8_t>(out_reg.b));
-    BOOST_CHECK_EQUAL(buffer[5], out_reg.c >> 8);
-    BOOST_CHECK_EQUAL(buffer[6], out_reg.c);
-    BOOST_CHECK_EQUAL(buffer[7], crc_low);
-    BOOST_CHECK_EQUAL(buffer[8], crc_high);
+    // BOOST_CHECK_EQUAL(buffer[0], address);
+    // BOOST_CHECK_EQUAL(buffer[1], 3);
+    // BOOST_CHECK_EQUAL(buffer[2], sizeof(uint16_t) * 2);
+    // BOOST_CHECK_EQUAL(buffer[3], out_reg.b >> 8);
+    // BOOST_CHECK_EQUAL(buffer[4], static_cast<uint8_t>(out_reg.b));
+    // BOOST_CHECK_EQUAL(buffer[5], out_reg.c >> 8);
+    // BOOST_CHECK_EQUAL(buffer[6], out_reg.c);
+    // BOOST_CHECK_EQUAL(buffer[7], crc_low);
+    // BOOST_CHECK_EQUAL(buffer[8], crc_high);
 
-    buffer[0] = 1;
-    buffer[1] = 3;
-    buffer[2] = 0;
-    buffer[3] = 0;
-    buffer[4] = 0;
-    buffer[5] = 1;
+    // buffer[0] = 1;
+    // buffer[1] = 3;
+    // buffer[2] = 0;
+    // buffer[3] = 0;
+    // buffer[4] = 0;
+    // buffer[5] = 1;
 
     crc = 0x0A84;
     crc_low = static_cast<uint8_t>(crc);
     crc_high = crc >> 8;
 
-    buffer[6] = crc_low;
-    buffer[7] = crc_high;
+    // buffer[6] = crc_low;
+    // buffer[7] = crc_high;
 
     
     USART1_IRQHandler();
@@ -268,16 +277,16 @@ BOOST_AUTO_TEST_CASE (read)
     crc_low = static_cast<uint8_t>(crc);
     crc_high = crc >> 8;
 
-    BOOST_CHECK_EQUAL(buffer[0], address);
-    BOOST_CHECK_EQUAL(buffer[1], 3);
-    BOOST_CHECK_EQUAL(buffer[2], sizeof(int16_t));
-    BOOST_CHECK_EQUAL(buffer[3], 255);
-    BOOST_CHECK_EQUAL(buffer[4], 231);
-    BOOST_CHECK_EQUAL(buffer[5], crc_low);
-    BOOST_CHECK_EQUAL(buffer[6], crc_high);
+    // BOOST_CHECK_EQUAL(buffer[0], address);
+    // BOOST_CHECK_EQUAL(buffer[1], 3);
+    // BOOST_CHECK_EQUAL(buffer[2], sizeof(int16_t));
+    // BOOST_CHECK_EQUAL(buffer[3], 255);
+    // BOOST_CHECK_EQUAL(buffer[4], 231);
+    // BOOST_CHECK_EQUAL(buffer[5], crc_low);
+    // BOOST_CHECK_EQUAL(buffer[6], crc_high);
 
 }
-
+/*
 BOOST_AUTO_TEST_CASE (incomplete_message)
 {
     UART::Settings set;
