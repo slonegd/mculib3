@@ -157,6 +157,7 @@ public:
 
   //  template <class function>
    void operator() (std::function<void(uint16_t reg)> reaction);
+   auto& buffer(){return uart.buffer;}
 
 
 };
@@ -250,7 +251,7 @@ template <class InReg, class OutRegs_t>
 bool Modbus_slave<InReg, OutRegs_t>::check_CRC()
 {
    auto high = uart.buffer.pop_back();
-	auto low  = uart.buffer.pop_back();
+	 auto low  = uart.buffer.pop_back();
    auto [low_, high_] = CRC16(uart.buffer.begin(), uart.buffer.end());
    return (high == high_) and (low == low_);
 }
@@ -268,7 +269,7 @@ bool Modbus_slave<InReg, OutRegs_t>::check_reg(uint16_t qty_reg_device)
 template <class InReg, class OutRegs_t>
 void Modbus_slave<InReg, OutRegs_t>::answer_error(Error_code code)
 {
-   uart.buffer.clear();
+   // uart.buffer.clear();
    
    if (code == Error_code::wrong_func)
       uart.buffer << address << set_high_bit(func) << static_cast<uint8_t>(code);
@@ -289,6 +290,7 @@ void Modbus_slave<InReg, OutRegs_t>::answer_03()
       answer_error(Error_code::wrong_reg);
       return;
    }
+   uart.buffer.clear();
    // определить оператор вместо статик каста
    uart.buffer << address << static_cast<uint8_t>(Function::read_03) << qty_byte;
    while(qty_reg--)
@@ -317,7 +319,7 @@ void Modbus_slave<InReg, OutRegs_t>::answer_16(function reaction)
    for (uint16_t i = 0; i < qty_reg; i++) {
       reaction (first_reg + i);
    }
-   
+   uart.buffer.clear();
    uart.buffer << address << func << first_reg << qty_reg;
    auto [low_, high_] = CRC16(uart.buffer.begin(), uart.buffer.end());
    uart.buffer << low_ << high_;

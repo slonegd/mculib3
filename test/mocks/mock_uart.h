@@ -10,6 +10,7 @@
 #endif
 #include "mock_gpio.h"
 #include "mock_interrupt.h"
+// #include "mock_net_buffer.h"
 #include "uart.h"
 #include "process.h"
 
@@ -61,7 +62,10 @@ public:
 
    void transmit() 
    {
-      process << "Включение передачи данных: " << std::endl; // написать что передаётся
+      process << "Передача данных: ";
+      for (int i = 0; i < ::UART_sized<>::buffer.size(); i++)
+         process << std::to_string(::UART_sized<>::buffer[i]) << " ";
+      process << std::endl; // написать что передаётся
       // if (go_deeper) base().transmit();
    }
 

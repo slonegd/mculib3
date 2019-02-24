@@ -97,21 +97,22 @@ BOOST_AUTO_TEST_CASE (read)
     auto& modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
                   mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+
+    decltype(auto) buffer = modbus.buffer();
                   
-    process.clear();
-    // buffer[0] = 1;
-    // buffer[1] = 3;
-    // buffer[2] = 0;
-    // buffer[3] = 5;
-    // buffer[4] = 0;
-    // buffer[5] = 1;
+    buffer << address;
+    buffer << uint8_t(3); // func
+    buffer << uint8_t(0);
+    buffer << uint8_t(5); // reg
+    buffer << uint8_t(0);
+    buffer << uint8_t(1); // qty of req
 
     uint16_t crc = 0x0B94;
     uint8_t crc_low = static_cast<uint8_t>(crc);
     uint8_t crc_high = crc >> 8;
 
-    // buffer[6] = crc_low;
-    // buffer[7] = crc_high;
+    buffer << crc_low;
+    buffer << crc_high;
 
     mock::CNDTR = 247;
 
@@ -123,50 +124,23 @@ BOOST_AUTO_TEST_CASE (read)
     SysTick_Handler();
     SysTick_Handler();
 
+    process.clear();
     modbus(reaction);
 
     crc = 0x4638;
     crc_low = static_cast<uint8_t>(crc);
     crc_high = crc >> 8;
 
-    // BOOST_CHECK_EQUAL(buffer[0], address);
-    // BOOST_CHECK_EQUAL(buffer[1], 3);
-    // BOOST_CHECK_EQUAL(buffer[2], sizeof(uint16_t));
-    // BOOST_CHECK_EQUAL(buffer[3], out_reg.g >> 8);
-    // BOOST_CHECK_EQUAL(buffer[4], out_reg.g);
-    // BOOST_CHECK_EQUAL(buffer[5], crc_low);
-    // BOOST_CHECK_EQUAL(buffer[6], crc_high);
+    BOOST_CHECK_EQUAL(buffer[0], address);
+    BOOST_CHECK_EQUAL(buffer[1], 3);
+    BOOST_CHECK_EQUAL(buffer[2], sizeof(uint16_t));
+    BOOST_CHECK_EQUAL(buffer[3], out_reg.g >> 8);
+    BOOST_CHECK_EQUAL(buffer[4], out_reg.g);
+    BOOST_CHECK_EQUAL(buffer[5], crc_low);
+    BOOST_CHECK_EQUAL(buffer[6], crc_high);
 
     BOOST_CHECK_EQUAL(process.str(),
-        "Создаем объект UART"                          "\n"
-        "Определение время задержки для модбаса"       "\n"
-        "Инициализация uart"                           "\n"
-        "Прерывание uart"                              "\n"
-        "Создали ссылку на переферию usart"            "\n"
-        "Очищаем флаги прерываний uart"                "\n"
-        "Забираем из буфера 8-битный элемент"          "\n"
-        "Получаем значение CRC полученного буфера"     "\n"
-        "Получаем значение CRC полученного буфера"     "\n"
-        "Берем значение end"                           "\n"
-        "Возвращаем указатель на буфер для расчета CRC""\n"
-        "Забираем из буфера 8-битный элемент"          "\n"
-        "Забираем из буфера 16-битный элемент"         "\n"
-        "Забираем из буфера 8-битный элемент"          "\n"
-        "Забираем из буфера 8-битный элемент"          "\n"
-        "Забираем из буфера 16-битный элемент"         "\n"
-        "Забираем из буфера 8-битный элемент"          "\n"
-        "Забираем из буфера 8-битный элемент"          "\n"
-        "Добавляем в буфер новый 8-битный элемент"     "\n"
-        "Добавляем в буфер новый 8-битный элемент"     "\n"
-        "Добавляем в буфер новый 8-битный элемент"     "\n"
-        "Добавляем в буфер новый 16-битный элемент"    "\n"
-        "Добавляем в буфер новый 8-битный элемент"     "\n"
-        "Добавляем в буфер новый 8-битный элемент"     "\n"
-        "Берем значение end"                           "\n"
-        "Возвращаем указатель на буфер для расчета CRC""\n"
-        "Добавляем в буфер новый 8-битный элемент"     "\n"
-        "Добавляем в буфер новый 8-битный элемент"     "\n"
-        "Старт передачи"                               "\n"
+        "Передача данных: 1 3 2 0 6 56 70 " "\n"
     );
 
 
@@ -177,26 +151,26 @@ BOOST_AUTO_TEST_CASE (read)
     // buffer[4] = 0;
     // buffer[5] = 3;
 
-    crc = 0x0BA4;
-    crc_low = static_cast<uint8_t>(crc);
-    crc_high = crc >> 8;
+    // crc = 0x0BA4;
+    // crc_low = static_cast<uint8_t>(crc);
+    // crc_high = crc >> 8;
 
     // buffer[6] = crc_low;
     // buffer[7] = crc_high;
 
-    USART1_IRQHandler();
+    // USART1_IRQHandler();
 
-    SysTick_Handler();
-    SysTick_Handler();
-    SysTick_Handler();
-    SysTick_Handler();
-    SysTick_Handler();
+    // SysTick_Handler();
+    // SysTick_Handler();
+    // SysTick_Handler();
+    // SysTick_Handler();
+    // SysTick_Handler();
 
-    modbus(reaction);
+    // modbus(reaction);
 
-    crc = 0xB7E4;
-    crc_low = static_cast<uint8_t>(crc);
-    crc_high = crc >> 8;
+    // crc = 0xB7E4;
+    // crc_low = static_cast<uint8_t>(crc);
+    // crc_high = crc >> 8;
 
     // BOOST_CHECK_EQUAL(buffer[0], address);
     // BOOST_CHECK_EQUAL(buffer[1], 3);
@@ -217,26 +191,26 @@ BOOST_AUTO_TEST_CASE (read)
     // buffer[4] = 0;
     // buffer[5] = 2;
 
-    crc = 0xCB95;
-    crc_low = static_cast<uint8_t>(crc);
-    crc_high = crc >> 8;
+    // crc = 0xCB95;
+    // crc_low = static_cast<uint8_t>(crc);
+    // crc_high = crc >> 8;
 
     // buffer[6] = crc_low;
     // buffer[7] = crc_high;
 
-    USART1_IRQHandler();
+    // USART1_IRQHandler();
 
-    SysTick_Handler();
-    SysTick_Handler();
-    SysTick_Handler();
-    SysTick_Handler();
-    SysTick_Handler();
+    // SysTick_Handler();
+    // SysTick_Handler();
+    // SysTick_Handler();
+    // SysTick_Handler();
+    // SysTick_Handler();
 
-    modbus(reaction);
+    // modbus(reaction);
 
-    crc = 0x077A;
-    crc_low = static_cast<uint8_t>(crc);
-    crc_high = crc >> 8;
+    // crc = 0x077A;
+    // crc_low = static_cast<uint8_t>(crc);
+    // crc_high = crc >> 8;
 
     // BOOST_CHECK_EQUAL(buffer[0], address);
     // BOOST_CHECK_EQUAL(buffer[1], 3);
@@ -255,27 +229,27 @@ BOOST_AUTO_TEST_CASE (read)
     // buffer[4] = 0;
     // buffer[5] = 1;
 
-    crc = 0x0A84;
-    crc_low = static_cast<uint8_t>(crc);
-    crc_high = crc >> 8;
+    // crc = 0x0A84;
+    // crc_low = static_cast<uint8_t>(crc);
+    // crc_high = crc >> 8;
 
     // buffer[6] = crc_low;
     // buffer[7] = crc_high;
 
     
-    USART1_IRQHandler();
+    // USART1_IRQHandler();
 
-    SysTick_Handler();
-    SysTick_Handler();
-    SysTick_Handler();
-    SysTick_Handler();
-    SysTick_Handler();
+    // SysTick_Handler();
+    // SysTick_Handler();
+    // SysTick_Handler();
+    // SysTick_Handler();
+    // SysTick_Handler();
 
-    modbus(reaction);
+    // modbus(reaction);
 
-    crc =  0xFEB9;
-    crc_low = static_cast<uint8_t>(crc);
-    crc_high = crc >> 8;
+    // crc =  0xFEB9;
+    // crc_low = static_cast<uint8_t>(crc);
+    // crc_high = crc >> 8;
 
     // BOOST_CHECK_EQUAL(buffer[0], address);
     // BOOST_CHECK_EQUAL(buffer[1], 3);
