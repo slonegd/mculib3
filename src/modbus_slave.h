@@ -230,7 +230,8 @@ inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (std::function<void(ui
       return;
    }
    uart.buffer.pop_front(); // adr
-   if (uart.buffer.pop_front() == static_cast<uint8_t>(Function::read_03)) // operator ==
+   func = uart.buffer.pop_front();
+   if (func == static_cast<uint8_t>(Function::read_03)) // operator ==
       answer_03();
    else if (func == static_cast<uint8_t>(Function::write_16))
       answer_16(reaction);
@@ -269,7 +270,7 @@ bool Modbus_slave<InReg, OutRegs_t>::check_reg(uint16_t qty_reg_device)
 template <class InReg, class OutRegs_t>
 void Modbus_slave<InReg, OutRegs_t>::answer_error(Error_code code)
 {
-   // uart.buffer.clear();
+   uart.buffer.clear();
    
    if (code == Error_code::wrong_func)
       uart.buffer << address << set_high_bit(func) << static_cast<uint8_t>(code);
@@ -313,7 +314,7 @@ void Modbus_slave<InReg, OutRegs_t>::answer_16(function reaction)
 
    if (not check_value()) {
       answer_error(Error_code::wrong_value);
-      uart.receive();
+      // uart.receive();
       return;
    }
    for (uint16_t i = 0; i < qty_reg; i++) {

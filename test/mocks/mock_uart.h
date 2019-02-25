@@ -1,6 +1,6 @@
 #pragma once
 
-#include <boost/type_index.hpp> 
+#include <iomanip>
 
 #define USE_MOCK_UART
 #include "mock_dma.h"
@@ -62,16 +62,19 @@ public:
 
    void transmit() 
    {
-      process << "Передача данных: ";
+      process << "Передача данных:";
       for (int i = 0; i < ::UART_sized<>::buffer.size(); i++)
-         process << std::to_string(::UART_sized<>::buffer[i]) << " ";
-      process << std::endl; // написать что передаётся
+         process << " " << std::setfill('0') 
+                 << std::setw(2) << std::hex << std::uppercase
+                 << static_cast<int>(::UART_sized<>::buffer[i]);
+      process << std::endl;
       // if (go_deeper) base().transmit();
    }
 
    void receive()
    {
-      process << "Прием данных: " << std::endl; // что получает?
+      ::UART_sized<>::buffer.clear();
+      process << "Очистка буфера, прием данных" << std::endl; // что получает? we don't know
    }
 
    bool is_tx_complete() {return true;}
