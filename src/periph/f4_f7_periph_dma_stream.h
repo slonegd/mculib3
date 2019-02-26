@@ -43,6 +43,8 @@ public:
 
    uint16_t qty_transactions_left(){return NDTR;}
 
+   template<Periph stream> static constexpr Periph dma_periph();
+   template<Periph usart, Periph stream> static constexpr Channel channel();
    
 
 };
@@ -66,6 +68,44 @@ SFINAE(DMA2_stream6,DMA_stream) make_reference() {return *reinterpret_cast<DMA_s
 SFINAE(DMA2_stream7,DMA_stream) make_reference() {return *reinterpret_cast<DMA_stream*>(DMA2_Stream7_BASE);}
 #endif
 
+template<Periph stream> constexpr Periph DMA_stream::dma_periph()
+{
+   if constexpr (stream == Periph::DMA1_stream0 or
+                 stream == Periph::DMA1_stream1 or
+                 stream == Periph::DMA1_stream2 or
+                 stream == Periph::DMA1_stream3 or
+                 stream == Periph::DMA1_stream4 or
+                 stream == Periph::DMA1_stream5 or
+                 stream == Periph::DMA1_stream6 or
+                 stream == Periph::DMA1_stream7)
+      return Periph::DMA1;
+   else 
+      return Periph::DMA2;
+}
+
+template<Periph usart, Periph stream> constexpr DMA_stream::Channel DMA_stream::channel() 
+{
+   if constexpr (stream == Periph::DMA1_stream0 or
+                 stream == Periph::DMA1_stream1 or
+                 stream == Periph::DMA1_stream2 or
+                 stream == Periph::DMA1_stream3 or
+                 stream == Periph::DMA1_stream4 or
+                 stream == Periph::DMA1_stream5 or
+                 stream == Periph::DMA1_stream6 or
+                 stream == Periph::DMA1_stream7)
+      return Channel::_4;
+   else if constexpr (stream == Periph::DMA2_stream1)
+      return Channel::_5;
+   else if constexpr (stream == Periph::DMA2_stream2 or stream == Periph::DMA2_stream7) {
+      if      constexpr (usart == Periph::USART1)
+         return Channel::_4;
+      else if constexpr (usart == Periph::USART6)
+         return Channel::_5;
+   } else if constexpr (stream == Periph::DMA2_stream5)
+      return Channel::_4;
+   else if constexpr (stream == Periph::DMA2_stream6) 
+      return Channel::_5;
+}
 
 constexpr IRQn_Type DMA_stream::IRQn(Periph v)
 {

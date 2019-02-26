@@ -170,7 +170,7 @@ auto& UART_sized<buffer_size>::make()
       , mcu::make_reference<TX_stream>()
       , mcu::make_reference<RX_stream>()
       , uart_periph
-      , DMA_stream_t::channel<TX_stream>()
+      , DMA_stream_t::channel<uart_periph, TX_stream>()
    };
 
    auto& rcc = REF(RCC);

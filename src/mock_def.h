@@ -20,9 +20,9 @@ using FLASH_ = mcu::FLASH;
 using mcu::FLASH;
 #endif
 
-#if defined(USE_MOCK_NVIC)
-auto& NVIC_EnableIRQ_t = mock::NVIC_EnableIRQ;
-#else
-auto& NVIC_EnableIRQ_t = ::NVIC_EnableIRQ;
-#endif
+// #if defined(USE_MOCK_NVIC)
+// auto& NVIC_EnableIRQ_t = mock::NVIC_EnableIRQ;
+// #else
+// auto& NVIC_EnableIRQ_t = ::NVIC_EnableIRQ;
+// #endif
 

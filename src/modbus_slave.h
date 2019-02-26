@@ -17,6 +17,74 @@ using UART_ = ::UART;
 template <class InRegs_t, class OutRegs_t>
 class Modbus_slave : TickSubscriber
 {
+   enum class Function   : uint8_t {read_03 = 0x03, write_16 = 0x10};
+   enum class Error_code : uint8_t {wrong_func = 0x01, wrong_reg = 0x02, wrong_value = 0x03};
+
+   UART_& uart;
+   Interrupt& interrupt_usart;
+   Interrupt& interrupt_DMA_channel;
+
+   int time {0}; // выдержка времени для модбаса 
+   int modbus_time {0};
+
+   const uint8_t address;
+   uint8_t func;
+   uint16_t first_reg{0};
+   uint16_t last_reg {0};
+   uint16_t qty_reg  {0};
+   uint8_t  qty_byte {0};
+   uint16_t data;
+   uint16_t crc{0};
+   size_t last_message_size;
+
+
+   uint16_t crc16 (uint8_t* data, uint8_t length);
+   uint8_t  set_high_bit (uint8_t);
+
+   bool check_CRC  ();
+   bool check_value();
+   bool check_reg  (uint16_t qty_reg_device);
+
+   void answer_error (Error_code);
+   void answer_03();
+   template <class function> void answer_16 (function reaction);
+
+   void uartInterrupt()
+   {
+      if (uart.is_IDLE()) 
+         tick_subscribe();
+   }
+   void dmaInterrupt()
+   {
+      if (uart.is_tx_complete())
+         uart.receive();
+   }
+
+   void notify() override 
+   {
+      time++;
+   }
+
+   using Parent = Modbus_slave;
+
+   struct uart_interrupt : Interrupting
+   {
+      Parent& parent;
+      uart_interrupt (Parent& parent) : parent(parent) {
+         parent.interrupt_usart.subscribe (this);
+      }
+      void interrupt() override {parent.uartInterrupt();} 
+   } uart_ {*this};
+
+   struct dma_interrupt : Interrupting
+   {
+      Parent& parent;
+      dma_interrupt (Parent& parent) : parent(parent) {
+         parent.interrupt_DMA_channel.subscribe (this);
+      }
+      void interrupt() override {parent.dmaInterrupt();} 
+   } dma_ {*this};
+
 public:
 
    static constexpr uint16_t InRegQty  = sizeof (InRegs_t) / 2;
@@ -90,76 +158,6 @@ public:
   //  template <class function>
    void operator() (std::function<void(uint16_t reg)> reaction);
    auto& buffer(){return uart.buffer;}
-
-private:
-
-   enum class Function   : uint8_t {read_03 = 0x03, write_16 = 0x10};
-   enum class Error_code : uint8_t {wrong_func = 0x01, wrong_reg = 0x02, wrong_value = 0x03};
-
-   UART_& uart;
-   Interrupt& interrupt_usart;
-   Interrupt& interrupt_DMA_channel;
-
-   int time {0}; // выдержка времени для модбаса 
-   int modbus_time {0};
-
-   const uint8_t address;
-   uint8_t func;
-   uint16_t first_reg{0};
-   uint16_t last_reg {0};
-   uint16_t qty_reg  {0};
-   uint8_t  qty_byte {0};
-   uint16_t data;
-   uint16_t crc{0};
-   size_t last_message_size;
-
-
-   uint16_t crc16 (uint8_t* data, uint8_t length);
-   uint8_t  set_high_bit (uint8_t);
-
-   bool check_CRC  ();
-   bool check_value();
-   bool check_reg  (uint16_t qty_reg_device);
-
-   void answer_error (Error_code);
-   void answer_03();
-   template <class function> void answer_16 (function reaction);
-
-   void uartInterrupt()
-   {
-      if (uart.is_IDLE()) 
-         tick_subscribe();
-   }
-   void dmaInterrupt()
-   {
-      if (uart.is_tx_complete())
-         uart.receive();
-   }
-
-   void notify() override 
-   {
-      time++;
-   }
-
-   using Parent = Modbus_slave;
-
-   struct uart_interrupt : Interrupting
-   {
-      Parent& parent;
-      uart_interrupt (Parent& parent) : parent(parent) {
-         parent.interrupt_usart.subscribe (this);
-      }
-      void interrupt() override {parent.uartInterrupt();} 
-   } uart_ {*this};
-
-   struct dma_interrupt : Interrupting
-   {
-      Parent& parent;
-      dma_interrupt (Parent& parent) : parent(parent) {
-         parent.interrupt_DMA_channel.subscribe (this);
-      }
-      void interrupt() override {parent.dmaInterrupt();} 
-   } dma_ {*this};
 
 };
 
