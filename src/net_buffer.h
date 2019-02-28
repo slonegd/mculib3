@@ -6,11 +6,6 @@
 
 template<size_t size_>
 class Net_buffer : public std::array<uint8_t,size_> {
-protected:
-   using Container = std::array<uint8_t,size_>;
-   size_t begin_i {0};
-   size_t end_i   {0};
-   auto& base() { return *static_cast<Container*>(this); }
 public:
    void clear() { begin_i = 0; end_i = 0; }
    auto begin() { return base().begin() + begin_i; }
@@ -31,13 +26,14 @@ public:
 
 
 
-
-private:
+protected:
    using Container = std::array<uint8_t,size_>;
    size_t begin_i {0};
    size_t end_i   {0};
    auto& base() { return *static_cast<Container*>(this); }
 
+   
+private:
    auto to_bytes (uint16_t v)
    {
       union {

@@ -101,10 +101,6 @@ public:
    // template<Channel>            static constexpr InterruptMask interrupt_mask();
    
    
-   // // static void     clockEnable()                  {RCC::template clockEnable<template_TIM>();}
-   
-   
-
    // void     clearInterruptFlags()           {}
    // 
    // TIM&     set (Trigger v)                 { SMCR.TS  = v;       return *this; }

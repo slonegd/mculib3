@@ -236,7 +236,7 @@
          "name": "test",
          "type": "cppdbg",
          "request": "launch",
-         "program": "${workspaceRoot}/test/cmake/build/test_heap_delete",
+         "program": "${workspaceRoot}/test/cmake/build/test_heap_new",
          "args": [],
          "stopAtEntry": true,
          "cwd": "${workspaceRoot}",

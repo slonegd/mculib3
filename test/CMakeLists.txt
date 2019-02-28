@@ -102,11 +102,6 @@ test (STM32F1 test_make_reference_f1)
 test (STM32F4 test_make_reference_f4)
 test (STM32F7 test_make_reference_f7)
 
-test (STM32F0 test_make_reference_f0)
-test (STM32F1 test_make_reference_f1)
-test (STM32F4 test_make_reference_f4)
-test (STM32F7 test_make_reference_f7)
-
 test (STM32F0 test_pin_f0)
 test (STM32F1 test_pin_f1)
 test (STM32F4 test_pin_f4)
@@ -120,11 +115,11 @@ test (STM32F7 test_flash_f7)
 test (STM32F1 test_uart_f1)
 
 test (STM32F1 test_modbus_slave)
-test (STM32F1 test_modbus_master)
-test (STM32F1 test_button)
+# test (STM32F1 test_modbus_master)
+# test (STM32F1 test_button)
 
 
-test (STM32F1 test_hd44780)
+# test (STM32F1 test_hd44780)
 test (STM32F1 test_timers)
 test (STM32F1 test_delay)
 
