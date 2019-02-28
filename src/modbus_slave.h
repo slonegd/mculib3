@@ -124,7 +124,7 @@ public:
      , arInRegsMax {}
    {}
 
-   template <mcu::Periph usart, class TXpin,  class RXpin, class RTSpin, class LEDpin> 
+   template <mcu::Periph usart, class TXpin,  class RXpin, class RTSpin> 
    static auto& make (uint8_t address, UART_::Settings set)
    {
       auto interrupt_usart = usart == mcu::Periph::USART1 ? &interrupt_usart1 :
@@ -136,7 +136,7 @@ public:
                              usart == mcu::Periph::USART3 ? &interrupt_DMA_channel2 :
                              nullptr;
 
-      auto& uart_ref = UART_::make<usart, TXpin, RXpin, RTSpin, LEDpin>();
+      auto& uart_ref = UART_::make<usart, TXpin, RXpin, RTSpin>();
 
       static Modbus_slave<InRegs_t, OutRegs_t> modbus {
            address
@@ -156,7 +156,7 @@ public:
 
 
   //  template <class function>
-   void operator() (std::function<void(uint16_t reg)> reaction);
+   void operator() (std::function<void(size_t reg)> reaction);
    auto& buffer(){return uart.buffer;}
 
 };
@@ -201,7 +201,7 @@ public:
 
 template <class InRegs_t, class OutRegs_t>
 // template <class function>
-inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (std::function<void(uint16_t reg)> reaction)
+inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (std::function<void(size_t reg)> reaction)
 {
    if (uart.is_receiving()) {
       time = 0;

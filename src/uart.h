@@ -57,7 +57,6 @@ public:
       , class TXpin
       , class RXpin
       , class RTSpin
-      , class LEDpin
    > static auto& make();
 
    void init (const Settings&);
@@ -80,7 +79,6 @@ protected:
    Pin&          tx;
    Pin&          rx;
    Pin&          rts;
-   Pin&          led;
    DMA_t&        dma;
    USART_t&      usart;
    DMA_stream_t& TXstream;
@@ -92,7 +90,6 @@ protected:
         Pin&          tx
       , Pin&          rx
       , Pin&          rts
-      , Pin&          led
       , USART_t&      usart
       , DMA_t&        dma
       , DMA_stream_t& TXstream
@@ -102,7 +99,6 @@ protected:
    )  : tx       {tx}
       , rx       {rx}
       , rts      {rts}
-      , led      {led}
       , dma      {dma}
       , usart    {usart}
       , TXstream {TXstream}
@@ -149,7 +145,7 @@ using UART = UART_sized<>;
 
 
 template<size_t buffer_size>
-template <mcu::Periph uart_periph, class TXpin, class RXpin, class RTSpin, class LEDpin> 
+template <mcu::Periph uart_periph, class TXpin, class RXpin, class RTSpin> 
 auto& UART_sized<buffer_size>::make()
 {
    USART_t::pin_static_assert<uart_periph, TXpin, RXpin>();
@@ -164,7 +160,6 @@ auto& UART_sized<buffer_size>::make()
         Pin::make<TXpin, TXpin_mode>()
       , Pin::make<RXpin, RXpin_mode>()
       , Pin::make<RTSpin, mcu::PinMode::Output>()
-      , Pin::make<LEDpin, mcu::PinMode::Output>()
       , mcu::make_reference<uart_periph>()
       , mcu::make_reference<dma_periph>()
       , mcu::make_reference<TX_stream>()
@@ -217,7 +212,7 @@ void UART_sized<buffer_size>::init (const UART_sized<buffer_size>::Settings& set
 template<size_t buffer_size>
 void UART_sized<buffer_size>::transmit()
 {
-   rts = led = true;
+   rts = true;
    RXstream.disable();
    TXstream.disable()
            .set_qty_transactions(buffer.size())
@@ -228,7 +223,7 @@ template<size_t buffer_size>
 void UART_sized<buffer_size>::receive()
 {
    buffer.clear();
-   rts = led = false;
+   rts = false;
    TXstream.disable();
    RXstream.disable()
            .enable();

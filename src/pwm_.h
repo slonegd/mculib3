@@ -97,6 +97,7 @@ public:
              .counter_enable();
 
       pwm.frequency = pwm.min_frequency;
+      // pwm.out_disable();
       return pwm;
    }
 

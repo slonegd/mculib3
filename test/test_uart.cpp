@@ -21,7 +21,6 @@
       , mcu::TX
       , mcu::RX
       , mcu::RTS
-      , mcu::LED
    >();
 
 

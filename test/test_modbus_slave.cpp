@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(make)
     const uint8_t address = 1;
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                   mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                   mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
     
     BOOST_CHECK_EQUAL(process.str(),
         "Инициализация PA9(TX), PA10(RX), PA10(RTS), USART1"  "\n"
@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE (read)
 
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                  mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                  mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
 
     decltype(auto) buffer = modbus.buffer();
                   
@@ -233,7 +233,7 @@ BOOST_AUTO_TEST_CASE (incomplete_message)
     const uint8_t address = 1;
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                   mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                   mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
 
     decltype(auto) buffer = modbus.buffer();
 
@@ -268,7 +268,7 @@ BOOST_AUTO_TEST_CASE (wrong_CRC)
 
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                  mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                  mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
 
     decltype(auto) buffer = modbus.buffer();
                   
@@ -313,7 +313,7 @@ BOOST_AUTO_TEST_CASE (wrong_adr)
 
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                  mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                  mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
 
     decltype(auto) buffer = modbus.buffer();
                   
@@ -358,7 +358,7 @@ BOOST_AUTO_TEST_CASE (wrong_func)
 
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                  mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                  mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
 
     decltype(auto) buffer = modbus.buffer();
                   
@@ -411,7 +411,7 @@ BOOST_AUTO_TEST_CASE (wrong_reg)
 
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                  mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                  mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
 
     decltype(auto) buffer = modbus.buffer();
                   
@@ -469,7 +469,7 @@ BOOST_AUTO_TEST_CASE (write)
 
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                  mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                  mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
 
     decltype(auto) buffer = modbus.buffer();
                   
@@ -581,7 +581,7 @@ BOOST_AUTO_TEST_CASE (check_value)
 
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                  mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                  mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
 
     decltype(auto) buffer = modbus.buffer();
                   
@@ -635,7 +635,7 @@ BOOST_AUTO_TEST_CASE (not_tick)
 
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                  mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                  mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
 
     decltype(auto) buffer = modbus.buffer();
                   
@@ -684,7 +684,7 @@ BOOST_AUTO_TEST_CASE (not_uart_interrupt)
 
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                  mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                  mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
 
     decltype(auto) buffer = modbus.buffer();
                   
@@ -740,7 +740,7 @@ BOOST_AUTO_TEST_CASE (dma_interrupt)
 
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                  mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                  mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
 
     decltype(auto) buffer = modbus.buffer();
                   
@@ -805,7 +805,7 @@ BOOST_AUTO_TEST_CASE(new_message)
 
     decltype(auto) modbus = Modbus_slave<InReg, OutReg>
                  ::make<mcu::Periph::USART1, 
-                  mcu::PA9, mcu::PA10, mcu::PA11, mcu::PA12>(address, set);
+                  mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
 
     decltype(auto) buffer = modbus.buffer();
 

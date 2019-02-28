@@ -29,7 +29,6 @@ BOOST_AUTO_TEST_CASE (make)
       , mcu::PA9
       , mcu::PA10
       , mcu::PA11
-      , mcu::PA12
    >();
 
    BOOST_CHECK_EQUAL ( process.str(),
@@ -41,8 +40,6 @@ BOOST_AUTO_TEST_CASE (make)
       "включение тактирования AFIO\n"
       "включение тактирования GPIOA\n"
       "инициализация вывода 11 порта GPIOA в режиме Output\n"
-      "включение тактирования GPIOA\n"
-      "инициализация вывода 12 порта GPIOA в режиме Output\n"
       "включение тактирования USART1\n"
       "USART1: Разрешение отправки\n"
       "USART1: Разрешение приёма\n"
@@ -77,7 +74,6 @@ BOOST_AUTO_TEST_CASE(init)
       , mcu::PA9
       , mcu::PA10
       , mcu::PA11
-      , mcu::PA12
    >();
 
    process.clear();
@@ -97,6 +93,7 @@ BOOST_AUTO_TEST_CASE(init)
       "USART1: Задана проверка на четность\n"
       "USART1: Установлен размер пакета 8 бит\n"
       "USART1: Установлено количество стоп битов: 1\n"
+      "USART1: Отключение проверки на чётность\n"
    );
 
    process.clear();
@@ -107,6 +104,7 @@ BOOST_AUTO_TEST_CASE(init)
       "USART1: Задана проверка на четность\n"
       "USART1: Установлен размер пакета 8 бит\n"
       "USART1: Установлено количество стоп битов: 1\n"
+      "USART1: Отключение проверки на чётность\n"
    );
 
    process.clear();
@@ -117,6 +115,7 @@ BOOST_AUTO_TEST_CASE(init)
       "USART1: Задана проверка на нечетность\n"
       "USART1: Установлен размер пакета 8 бит\n"
       "USART1: Установлено количество стоп битов: 1\n"
+      "USART1: Отключение проверки на чётность\n"
    );
 }
 
@@ -127,7 +126,6 @@ BOOST_AUTO_TEST_CASE(transmit)
       , mcu::PA9
       , mcu::PA10
       , mcu::PA11
-      , mcu::PA12
    >();
 
    process.clear();
@@ -135,7 +133,6 @@ BOOST_AUTO_TEST_CASE(transmit)
    uart.buffer << uint8_t(1) << uint8_t(2) << uint8_t(3);
    uart.transmit();
    BOOST_CHECK_EQUAL (process.str(),
-      "установка вывода 12 порта GPIOA\n"
       "установка вывода 11 порта GPIOA\n"
       "DMA1_stream5: Запрет работы\n"
       "DMA1_stream4: Запрет работы\n"
@@ -152,14 +149,12 @@ BOOST_AUTO_TEST_CASE(start_receive)
       , mcu::PA9
       , mcu::PA10
       , mcu::PA11
-      , mcu::PA12
    >();
 
    process.clear();
 
    uart.receive();
    BOOST_CHECK_EQUAL (process.str(),
-      "сброс вывода 12 порта GPIOA\n"
       "сброс вывода 11 порта GPIOA\n"
       "DMA1_stream4: Запрет работы\n"
       "DMA1_stream5: Запрет работы\n"

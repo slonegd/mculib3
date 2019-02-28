@@ -32,10 +32,9 @@ public:
       , class TXpin
       , class RXpin
       , class RTSpin
-      , class LEDpin
    > static auto& make()
    {
-      static auto uart = UART_sized(::UART_sized<>::template make<usart,TXpin,RXpin,RTSpin,LEDpin>());
+      static auto uart = UART_sized(::UART_sized<>::template make<usart,TXpin,RXpin,RTSpin>());
       uart.process.clear();
       uart.process << "Инициализация ";
       if (std::is_same_v<TXpin,mcu::PA9>) 
@@ -68,7 +67,11 @@ public:
                  << std::setw(2) << std::hex << std::uppercase
                  << static_cast<int>(::UART_sized<>::buffer[i]);
       process << std::endl;
+
+      // auto[_1,_2,_3 ... ] = buffer; // Structured bindings
+
       // if (go_deeper) base().transmit();
+
    }
 
    void receive()
