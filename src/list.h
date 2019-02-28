@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 
 template<class T> struct Listable
 {
