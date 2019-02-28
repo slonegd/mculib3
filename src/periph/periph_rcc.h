@@ -3,11 +3,11 @@
 #include "periph.h"
 
 #if   defined(STM32F0)
-   #include "f0_rcc.h"
+   #include "rcc_f0.h"
 #elif defined(STM32F1)
-   #include "f1_rcc.h"
+   #include "rcc_f1.h"
 #elif defined(STM32F4)
-   #include "f4_rcc.h"
+   #include "rcc_f4.h"
 #elif defined(STM32F7)
-   #include "f7_rcc.h"
+   #include "rcc_f7.h"
 #endif

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "f0_f4_f7_bits_gpio.h"
+#include "bits_gpio_f0_f4_f7.h"
 #include "periph_rcc.h"
 
 
@@ -8,7 +8,7 @@
 namespace mcu {
 
 enum class PinMode {
-   Input, Output, 
+   Input, Output, Analog,
    Alternate_0 , Alternate_1 , Alternate_2 , Alternate_3,
    Alternate_4 , Alternate_5 , Alternate_6 , Alternate_7,
 #if defined(STM32F4) or defined(STM32F7)
@@ -46,8 +46,8 @@ public:
 
    auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
 
-   void set      (size_t n) { BSRR |= (1 << n);              }
-   void clear    (size_t n) { BSRR |= (1 << (n + 16));       }
+   void set      (size_t n) { BSRR = (1 << n);               }
+   void clear    (size_t n) { BSRR = (1 << (n + 16));        }
    bool is_set   (size_t n) { return IDR.reg & (1 << n);     }
    void toggle   (size_t n) { is_set(n) ? clear(n) : set(n); }
    void atomic_write (uint32_t value) {BSRR = value;}
@@ -134,6 +134,9 @@ template<class Pin_, PinMode v> void GPIO::init()
 
    } else if constexpr (v == PinMode::Output) {
       set<Pin_::n> (Mode::Output);
+
+   } else if constexpr (v == PinMode::Output) {
+      set<Pin_::n> (Mode::Analog);
 
    } else if constexpr (v == PinMode::Alternate_0) {
       set<Pin_::n> (Mode::Alternate);

@@ -2,16 +2,12 @@
 #define F_OSC   8000000UL
 #define F_CPU   168000000UL
 
-// #include <iostream>
-
 #include "periph_rcc.h"
-#include "periph_dma.h"
+#include "periph_flash.h"
 #include "pin.h"
-// #include "buttons.h"
-#include "flash.h"
+#include "timers.h"
 #include "literals.h"
 
-#include "strings.h"
 
 
 /// эта функция вызываеться первой в startup файле
@@ -39,32 +35,13 @@ extern "C" void init_clock ()
 
 int main()
 {
-   auto& dma = mcu::make_reference<mcu::Periph::DMA1>();
-   dma.clear_interrupt_flags(dma.Channel::_1);
-   dma.is_transfer_complete_interrupt (dma.Channel::_1);
+   volatile decltype(auto) led = Pin::make<mcu::PD15, mcu::PinMode::Output>();
 
-   auto led = Pin::make<mcu::PC8, mcu::PinMode::Output>();
-
-   struct Data {
-      size_t d1 {1};
-      size_t d2 {2};
-   };
-
-   Flash<Data, mcu::FLASH::Sector::_11> flash{};
-   Timer timer {1_s};
-
-   volatile auto size1 = sizeof(cp1251);
-   volatile auto size2 = sizeof(utf8);
+   Timer timer {500_ms};
    
    while(1) {
-      
-      timer.event ([&](){
-         led.toggle();
-         flash.d1++;
-      });
-
+      led ^= timer.event();
       __WFI();
-
    } // while(1) {
 
 }

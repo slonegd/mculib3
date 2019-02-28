@@ -11,8 +11,8 @@ struct Subscriber : Listable<Subscriber> {
 struct Publisher : private List<Subscriber>
 {
    void clear(){clear_subscribe();}
-   void subscribe  (Subscriber* p) { push_back(p); }
-   void unsubscribe(Subscriber* p) { remove(p);    }
+   void subscribe  (Subscriber& v) { push_back(v); }
+   void unsubscribe(Subscriber& v) { remove(v);    }
    // ссылка, чтобы не копировал каждый subscriber из *this
    void notify() {
       for (auto& subscriber : *this)

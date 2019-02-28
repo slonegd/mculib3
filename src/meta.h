@@ -73,3 +73,24 @@ static_assert (fibo_example.size() == 6);
 } // namespace {
 
 
+namespace meta {
+
+/// генерирация tuple типа, состоящего из заданного количество типов T
+template<class T, class index_sequence>
+struct tuple_generate_impl;
+
+template<class T, size_t i>
+struct placeholder { using type = T; };
+
+template<class T, size_t ... i>
+struct tuple_generate_impl<T, std::index_sequence<i...>>
+{
+   using type = std::tuple<typename placeholder<T,i>::type...>;
+};
+
+template<class T, size_t n>
+using tuple_generate_t = typename tuple_generate_impl<T, std::make_index_sequence<n>>::type;
+
+} // namespace meta {
+
+

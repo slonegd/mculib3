@@ -58,6 +58,8 @@
 #undef FLASH
 #undef DMA1
 #undef DMA2
+#undef ADC
+#undef ADC1
 
 
 namespace mcu {
@@ -92,11 +94,28 @@ enum class Periph {
     SysTick,
     TIM1, TIM2, TIM3, TIM4, TIM14, TIM16, TIM17,
     FLASH,
+    ADC1,
+#if defined(STM32F7)
+    USB_FS_core,
+    USB_HS_core,
+    USB_FS_device,
+    USB_HS_device,
+    USB_FS_IN,
+    USB_HS_IN,
+    USB_FS_OUT,
+    USB_HS_OUT,
+#endif
 
 #if defined(TEST)
     TEST_RCC, TEST_AFIO, TEST_DMA
 #endif
 };
+
+template<class T>
+auto& like_CMSIS (T& p)
+{
+   return *reinterpret_cast<typename T::CMSIS_type*>(&p);
+}
 
 }
 

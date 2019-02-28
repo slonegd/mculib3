@@ -9,6 +9,8 @@
 #include "timers.h"
 // #include "periph_dma.h"
 #include "pwm_.h"
+#include "periph_dma.h"
+#include "adc.h"
 
 
 /// эта функция вызываеться первой в startup файле
@@ -39,6 +41,7 @@ int main()
 //    auto& dma = mcu::make_reference<mcu::Periph::DMA1>();
 //    dma.clear_interrupt_flags(dma.Channel::_1);
 //    dma.is_transfer_complete_interrupt (dma.Channel::_1);
+   example::ADC_average();
 
 //    auto& pc8 = Pin::make<mcu::PC8, mcu::PinMode::Output>();
    Timer timer {10};
@@ -49,6 +52,7 @@ int main()
 //    pwm.duty_cycle(15);
 
    while(1) {
+      pc8 ^= timer.event();
       while (i < 100 ) {
          if (timer.event()) {
             pwm.duty_cycle = p++;
@@ -63,6 +67,5 @@ int main()
             pwm_.duty_cycle = i--;
          }
       }
-   } // while(1) {
 
 }

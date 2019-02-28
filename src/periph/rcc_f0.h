@@ -1,6 +1,6 @@
 #pragma once
 
-#include "f0_bits_rcc.h"
+#include "bits_rcc_f0.h"
 
 namespace mcu {
 
@@ -68,7 +68,14 @@ public:
       else if constexpr (p == Periph::TIM16)  APB2ENR.TIM16EN = true;
       else if constexpr (p == Periph::TIM17)  APB2ENR.TIM17EN = true;
 
-      else if constexpr (p == Periph::DMA1)   AHBENR.DMAEN = true;
+      else if constexpr (p == Periph::DMA1)         AHBENR.DMAEN = true;
+      else if constexpr (p == Periph::DMA1_stream1) AHBENR.DMAEN = true;
+      else if constexpr (p == Periph::DMA1_stream2) AHBENR.DMAEN = true;
+      else if constexpr (p == Periph::DMA1_stream3) AHBENR.DMAEN = true;
+      else if constexpr (p == Periph::DMA1_stream4) AHBENR.DMAEN = true;
+      else if constexpr (p == Periph::DMA1_stream5) AHBENR.DMAEN = true;
+
+      else if constexpr (p == Periph::ADC1)   APB2ENR.ADC1EN = true;
       static_assert (
             p == Periph::GPIOA  or p == Periph::GPIOB  or p == Periph::GPIOC
          or p == Periph::GPIOD  or p == Periph::GPIOF
@@ -76,6 +83,10 @@ public:
          or p == Periph::TIM1   or p == Periph::TIM3   or p == Periph::TIM14
          or p == Periph::TIM16  or p == Periph::TIM17
          or p == Periph::DMA1
+         or p == Periph::DMA1_stream1 or p == Periph::DMA1_stream2
+         or p == Periph::DMA1_stream3 or p == Periph::DMA1_stream4
+         or p == Periph::DMA1_stream5
+         or p == Periph::ADC1
          , "допиши clock_enable"
       );
    }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <type_traits>
-#include "f0_bits_usart.h"
+#include "bits_usart_f0.h"
 #include "periph_rcc.h"
 #include "pin.h"
 #include "meta.h"

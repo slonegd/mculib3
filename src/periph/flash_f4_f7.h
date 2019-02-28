@@ -1,9 +1,9 @@
 #pragma once
 
 #if   defined(STM32F4)
-   #include "f4_bits_flash.h"
+   #include "bits_flash_f4.h"
 #elif defined(STM32F7)
-   #include "f7_bits_flash.h"
+   #include "bits_flash_f7.h"
 #endif
 
 namespace mcu {

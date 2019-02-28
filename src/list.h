@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 
 template<class T> struct Listable
 {
@@ -12,23 +14,29 @@ template<class T> class List
    T* first {nullptr};
    T* last  {nullptr};
 public:
-   void clear_subscribe(){first = nullptr; last = nullptr;}
-   void push_back  (T*);
-   void push_front (T*);
-   void remove     (T*);
-   
    class Iterator
    {
       T* p {nullptr};
    public:
+      using iterator_category = std::input_iterator_tag;
+      using value_type        = T;
+      using difference_type   = T;
+      using pointer           = const T*;
+      using reference         = T;
       Iterator (T*);
       Iterator() = default;
-
+      operator T*() { return p; }
       T&        operator*  () const;
+      T*        operator-> () const { return p; }
       bool      operator!= (const Iterator&) const;
       Iterator& operator++ ();
    };
 
+   void clear_subscribe(){first = nullptr; last = nullptr;}
+   void push_back  (T&);
+   void push_front (T&);
+   void remove     (T&);
+   void insert  (Iterator, T&);
    Iterator begin();
    Iterator end();
 };
@@ -37,46 +45,64 @@ public:
 
 
 
+
 template<class T>
-void List<T>::push_back (T* p)
+void List<T>::push_back (T& v)
 {
-   p->prev = last;
+   v.prev = last;
    if (last)
-      last->next = p;
-   last = p;
+      last->next = &v;
+   last = &v;
    if (not first)
-      first = p;
+      first = &v;
 }
 
 
 template<class T>
-void List<T>::push_front (T* p)
+void List<T>::push_front (T& v)
 {
    // не реализован
 }
 
 
 template<class T>
-void List<T>::remove (T* p)
+void List<T>::remove (T& v)
 {
-   if (p->prev and p->next) {       // если в серединке
-      p->prev->next = p->next;
-      p->next->prev = p->prev;
-   } else if (p->next) {            // если первый
-      first = p->next;
+   if (v.prev and v.next) {       // если в серединке
+      v.prev->next = v.next;
+      v.next->prev = v.prev;
+   } else if (v.next) {            // если первый
+      first = v.next;
       first->prev = nullptr;
       if (not first) last = nullptr;
-   } else if (p->prev) {            // если последний
-      last = p->prev;
+   } else if (v.prev) {            // если последний
+      last = v.prev;
       last->next = nullptr;
       if (not last) first = nullptr;
    } else {                         // если единственный 
       first = nullptr;
       last  = nullptr;
    }
-   p->prev = nullptr;
-   p->next = nullptr;
+   v.prev = nullptr;
+   v.next = nullptr;
 
+}
+
+
+
+template<class T>
+void List<T>::insert (typename List<T>::Iterator it, T& v)
+{
+   if (it == begin()) {
+      push_front (v);
+   } else if (it == end()) {
+      push_back (v);
+   } else {
+      v.prev = it->prev;
+      v.next = it;
+      it->prev = &v;
+      v.prev->next = &v;
+   }
 }
 
 
@@ -92,9 +118,6 @@ typename List<T>::Iterator List<T>::end()
 {
    return List<T>::Iterator();
 }
-
-
-
 
 
 

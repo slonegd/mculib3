@@ -2,7 +2,7 @@
 
 #include <type_traits>
 #include "periph.h"
-#include "f1_bits_tim.h"
+#include "bits_tim_f1.h"
 #include "rcc.h"
 #include "pin.h"
 

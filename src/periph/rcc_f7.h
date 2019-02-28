@@ -1,6 +1,6 @@
 #pragma once
 
-#include "f7_bits_rcc.h"
+#include "bits_rcc_f7.h"
 
 namespace mcu {
 
@@ -17,7 +17,7 @@ class RCC {
    volatile uint32_t          APB2RSTR;     // APB2 peripheral reset register,                          offset: 0x24
    volatile uint32_t          RESERVED1[2]; // Reserved, 0x28-0x2C                                                              
    volatile RCC_bits::AHB1ENR AHB1ENR;      // AHB1 peripheral clock register,                          offset: 0x30
-   volatile uint32_t          AHB2ENR;      // AHB2 peripheral clock register,                          offset: 0x34
+   volatile RCC_bits::AHB2ENR AHB2ENR;      // AHB2 peripheral clock register,                          offset: 0x34
    volatile uint32_t          AHB3ENR;      // AHB3 peripheral clock register,                          offset: 0x38
    volatile uint32_t          RESERVED2;    // Reserved, 0x3C                                                                   
    volatile RCC_bits::APBENR  APBENR;       // APB peripheral clock enable register,                    offset: 0x40
@@ -91,6 +91,9 @@ public:
       else if constexpr (p == Periph::DMA1) AHB1ENR.DMA1EN = true;
       else if constexpr (p == Periph::DMA2) AHB1ENR.DMA2EN = true;
 
+      else if constexpr (p == Periph::USB_FS_core) AHB2ENR.OTGFSEN = true;
+      else if constexpr (p == Periph::USB_HS_core) AHB1ENR.OTGHSEN = true;
+
       static_assert (
             p == Periph::GPIOA  or p == Periph::GPIOB  or p == Periph::GPIOC
          or p == Periph::GPIOD  or p == Periph::GPIOE  or p == Periph::GPIOF
@@ -99,6 +102,7 @@ public:
          or p == Periph::USART4 or p == Periph::USART5 or p == Periph::USART6
          or p == Periph::USART7 or p == Periph::USART8
          or p == Periph::DMA1   or p == Periph::DMA2
+         or p == Periph::USB_FS_core or p == Periph::USB_HS_core
          , "допиши clock_enable"
       );
 

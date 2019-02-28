@@ -2,9 +2,9 @@
 
 #include <type_traits>
 #if defined(STM32F1)
-#include "f1_bits_usart.h"
+#include "bits_usart_f1.h"
 #elif defined(STM32F4)
-#include "f4_bits_usart.h"
+#include "bits_usart_f4.h"
 #endif
 #include "periph_rcc.h"
 #include "pin.h"

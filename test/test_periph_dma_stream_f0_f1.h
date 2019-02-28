@@ -77,12 +77,12 @@ BOOST_AUTO_TEST_CASE(set_qty_ransactions)
    BOOST_CHECK_EQUAL(CMSIS.CNDTR, 0xFF);
 }
 
-BOOST_AUTO_TEST_CASE(direction)
+BOOST_AUTO_TEST_CASE(set_direction)
 {
    CMSIS.CCR = 0;
-   dma_stream.direction(mcu::DMA_stream::DataDirection::MemToPer);
+   dma_stream.set (mcu::DMA_stream::Direction::to_periph);
    BOOST_CHECK_EQUAL(CMSIS.CCR, DMA_CCR_DIR_Msk);
-   dma_stream.direction(mcu::DMA_stream::DataDirection::PerToMem);
+   dma_stream.set (mcu::DMA_stream::Direction::to_memory);
    BOOST_CHECK_EQUAL(CMSIS.CCR, 0);
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "periph.h"
-#include "f1_bits_afio.h"
+#include "bits_afio_f1.h"
 
 namespace mcu {
 
