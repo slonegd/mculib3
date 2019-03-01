@@ -31,7 +31,7 @@ public:
    DMA_stream& set_periph_adr      (uint32_t v){CPAR  = v; return *this;}
    DMA_stream& set_qty_transactions(uint16_t v){CNDTR = v; return *this;}
 
-   DMA_stream& set (Direction v)       {CCR.DIR   = v; return *this;}
+   DMA_stream& set      (Direction v)  {CCR.DIR   = v; return *this;}
    DMA_stream& size_memory(DataSize v) {CCR.MSIZE = v; return *this;}
    DMA_stream& size_periph(DataSize v) {CCR.PSIZE = v; return *this;}
 

@@ -17,7 +17,7 @@ public:
    using CMSIS_type    = DMA_Stream_TypeDef;
    using DataSize      = DMA_bits::CR::DataSize;
    using Priority      = DMA_bits::CR::Priority;
-   using DataDirection = DMA_bits::CR::DataDirection;
+   using Direction     = DMA_bits::CR::Direction;
    using Channel       = DMA_bits::CR::Channel;
 
    auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
@@ -33,9 +33,9 @@ public:
    DMA_stream& set_periph_adr      (size_t v)  {PAR  = v; return *this;}
    DMA_stream& set_qty_transactions(uint16_t v){NDTR = v; return *this;}
 
-   DMA_stream& direction  (DataDirection d){CR.DIR = d;   return *this;}
-   DMA_stream& size_memory(DataSize d)     {CR.MSIZE = d; return *this;}
-   DMA_stream& size_periph(DataSize d)     {CR.PSIZE = d; return *this;}
+   DMA_stream& set        (Direction d) {CR.DIR = d;   return *this;}
+   DMA_stream& size_memory(DataSize  d) {CR.MSIZE = d; return *this;}
+   DMA_stream& size_periph(DataSize  d) {CR.PSIZE = d; return *this;}
 
    static constexpr IRQn_Type IRQn (Periph);
 

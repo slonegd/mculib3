@@ -17,7 +17,7 @@ using DMA_t = mcu::DMA;
 
 #if defined(USE_MOCK_USART)
 using USART_t = mock::USART;
-#elif defined(PERIPH_USART_H_)
+#else
 using USART_t = mcu::USART;
 #endif
 

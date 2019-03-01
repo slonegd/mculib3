@@ -7,7 +7,7 @@ namespace mcu::DMA_bits {
 struct CR {
    enum DataSize      { byte8 = 0b00, word16, dword32 };
    enum Priority      { low = 0b00, medium, high, veryHi = 0b11 };
-   enum DataDirection { PerToMem = 0b00, MemToPer, MemToMem };
+   enum Direction     { to_memory = 0b0, to_periph };
    enum Channel { _0 = 0b000, _1, _2, _3, _4, _5, _6, _7 };
    bool          EN     :1; // Bit 0 EN: Stream enable / flag stream ready when read low
    bool          DMEIE  :1; // Bit 1 DMEIE: Direct mode error interrupt enable
@@ -15,7 +15,7 @@ struct CR {
    bool          HTIE   :1; // Bit 3 HTIE: Half transfer interrupt enable
    bool          TCIE   :1; // Bit 4 TCIE: Transfer complete interrupt enable
    bool          PFCTRL :1; // Bit 5 PFCTRL: Peripheral flow controller
-   DataDirection DIR    :2; // Bits 7:6 DIR[1:0]: Data transfer direction
+   Direction DIR    :2; // Bits 7:6 DIR[1:0]: Data transfer direction
    bool          CIRC   :1; // Bit 8 CIRC: Circular mode
    bool          PINC   :1; // Bit 9 PINC: Peripheral increment mode
    bool          MINC   :1; // Bit 10 MINC: Memory increment mode

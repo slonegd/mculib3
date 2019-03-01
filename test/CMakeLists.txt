@@ -112,7 +112,7 @@ endfunction(test)
 # test (STM32F4 test_flash_f4)
 # test (STM32F7 test_flash_f7)
 
-# test (STM32F1 test_uart_f1)
+test (STM32F1 test_uart_f1)
 
 # test (STM32F1 test_modbus_slave)
 # test (STM32F1 test_modbus_master)
