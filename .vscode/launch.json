@@ -236,7 +236,7 @@
          "name": "test",
          "type": "cppdbg",
          "request": "launch",
-         "program": "${workspaceRoot}/test/cmake/build/test_heap_new",
+         "program": "${workspaceRoot}/test/cmake/build/test_list",
          "args": [],
          "stopAtEntry": true,
          "cwd": "${workspaceRoot}",
