@@ -46,13 +46,15 @@ class PWM
    public:
       Duty_cycle (PWM& parent) : parent {parent} {}
            operator    uint16_t () {return value;}
-      void operator+= ( int16_t v) {operator= (value + v); }
-      void operator=  (uint16_t v)
+      uint16_t operator+= ( int16_t v) {return operator= (value + v); }
+      uint16_t operator=  (uint16_t v)
       {
          if ((v != value) and (v > 0) and (v <= parent.max_duty_cycle)) {  
             value = v;
             parent.tim.set_compare(parent.channel, parent.CNT * value/100);
          }
+
+         return v;
       }
       void update() {
          parent.tim.set_compare(parent.channel, parent.CNT * value/100);
