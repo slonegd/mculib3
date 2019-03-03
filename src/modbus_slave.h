@@ -22,7 +22,7 @@ class Modbus_slave : TickSubscriber
 
    UART_& uart;
    Interrupt& interrupt_usart;
-   Interrupt& interrupt_DMA_channel;
+   Interrupt& interrupt_DMA_channel; 
 
    int time {0}; // выдержка времени для модбаса 
    int modbus_time {0};
