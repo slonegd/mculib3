@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(make)
                    mcu::PA9, mcu::PA10, mcu::PA11>(address, set);
     
     BOOST_CHECK_EQUAL(process.str(),
-        "Инициализация PA9(TX), PA10(RX), PA10(RTS), USART1"  "\n"
+        "Инициализация PA9(TX), PA10(RX), PA11(RTS), USART1"  "\n"
         "настройка параметров USART1"                         "\n"
         "USART1: Установлена скорость 9600 бит/с"             "\n"
         "USART1: Задана проверка на четность"                 "\n"

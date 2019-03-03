@@ -184,13 +184,14 @@ public:
 	void operator() ();
 	void get_answer ();
 	auto& get_buffer() {return uart.buffer;}
+	auto  qty_slave () {return arr_register.size();}
 };
 
 template<class ... Args>
 Modbus_master (UART_& uart, Interrupt& interrupt_usart, Interrupt& interrupt_DMA_channel, size_t time_out, UART_::Settings set, Args& ... args) 
 				-> Modbus_master<sizeof... (args)>;
 
-template <Periph usart, class TXpin,  class RXpin, class RTSpin, class LEDpin, class... Args> 
+template <Periph usart, class TXpin,  class RXpin, class RTSpin, class... Args> 
 auto& make (size_t time_out, UART_::Settings set, Args&... args)
 {
 	auto interrupt_usart = usart == Periph::USART1 ? &interrupt_usart1 :
@@ -203,7 +204,7 @@ auto& make (size_t time_out, UART_::Settings set, Args&... args)
                           nullptr;
 	// auto u = UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>();
 	static Modbus_master modbus
-	{UART_::make<usart, TXpin, RXpin, RTSpin, LEDpin>(), *interrupt_usart, *interrupt_dma, time_out, set, args...};
+	{UART_::make<usart, TXpin, RXpin, RTSpin>(), *interrupt_usart, *interrupt_dma, time_out, set, args...};
 
 	return modbus;
 
@@ -256,6 +257,7 @@ void Modbus_master<qty>::operator() ()
 	else {
 		switch (state) {
 			case request:
+				uart.buffer.clear();
 				uart.buffer << arr_register[current]->get_request();
 				uart.transmit();
 				time_end_message = time_out;

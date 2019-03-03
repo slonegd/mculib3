@@ -15,18 +15,25 @@
 
 using TX  = mcu::PA9;
 using RX  = mcu::PA10;
-using RTS = mcu::PA15;
-using LED = mcu::PC9;
+using RTS = mcu::PA11;
+
+auto& process = mock::Process::make();
 
 
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 
-mock::UART::Settings set;
+::UART::Settings set {false, ::UART::Parity::even,
+                             ::UART::DataBits::_8,
+                             ::UART::StopBits::_1,
+                             ::UART::Baudrate::BR9600
+};
+
 mcu::Register<1, 2> temp;
 mcu::Register<3, 7> uf;
+mcu::Register<2, 4> time;
 
 decltype(auto) master = mcu::make
-    <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
+    <mcu::Periph::USART1, TX, RX, RTS>(50, set, temp, time, uf);
 
 decltype(auto) buffer = master.get_buffer();
 
@@ -59,586 +66,341 @@ BOOST_AUTO_TEST_CASE(Register)
     BOOST_CHECK_EQUAL(uf.request[7], 0x29);
 }
 
-BOOST_AUTO_TEST_CASE(search)
+BOOST_AUTO_TEST_CASE(make)
 {
-    master();
-    BOOST_CHECK_EQUAL(temp.request[0], buffer[0]);
-    BOOST_CHECK_EQUAL(temp.request[1], buffer[1]);
-    BOOST_CHECK_EQUAL(temp.request[2], buffer[2]);
-    BOOST_CHECK_EQUAL(temp.request[3], buffer[3]);
-    BOOST_CHECK_EQUAL(temp.request[4], buffer[4]);
-    BOOST_CHECK_EQUAL(temp.request[5], buffer[5]);
-    BOOST_CHECK_EQUAL(temp.request[6], buffer[6]);
-    BOOST_CHECK_EQUAL(temp.request[7], buffer[7]);
-
-    DMA1_Channel4_IRQHandler ();
-    passed_ms(5);
-    USART1_IRQHandler();
-    passed_ms(14);
-
-    master();
-    BOOST_CHECK_EQUAL(uf.request[0], buffer[0]);
-    BOOST_CHECK_EQUAL(uf.request[1], buffer[1]);
-    BOOST_CHECK_EQUAL(uf.request[2], buffer[2]);
-    BOOST_CHECK_EQUAL(uf.request[3], buffer[3]);
-    BOOST_CHECK_EQUAL(uf.request[4], buffer[4]);
-    BOOST_CHECK_EQUAL(uf.request[5], buffer[5]);
-    BOOST_CHECK_EQUAL(uf.request[6], buffer[6]);
-    BOOST_CHECK_EQUAL(uf.request[7], buffer[7]);
-    
-    DMA1_Channel4_IRQHandler ();
-    passed_ms(5);
-    USART1_IRQHandler();
-    passed_ms(14);
+    BOOST_CHECK_EQUAL(process.str(),
+        "Инициализация PA9(TX), PA10(RX), PA11(RTS), USART1"      "\n"
+    );
 }
 
-// BOOST_AUTO_TEST_CASE(answer)
-// {
-    
-//     interrupt_usart1.clear_subscribe();
-//     interrupt_DMA_channel4.clear_subscribe();
-
-//     decltype(auto) master = mcu::make
-//     <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
-//     decltype(auto) buffer = master.get_buffer();
-    
-    
-//     master();
-//     DMA1_Channel4_IRQHandler ();
-
-//     uint8_t address = 1;
-//     uint8_t function = 3;
-//     uint8_t qty = 2;
-//     uint16_t data = 40;
-//     buffer << address;
-//     buffer << function;
-//     buffer << qty;
-//     buffer << data;
-
-//     uint16_t crc = 0x5AB8;
-//     uint8_t crc_low = static_cast<uint8_t>(crc);
-//     uint8_t crc_high = crc >> 8;
-
-//     buffer << crc_low;
-//     buffer << crc_high;
-
-//     mock::CNDTR = 248;
-
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
-
-//     BOOST_CHECK_EQUAL(temp.value, 40);
-
-//     master();
-//     DMA1_Channel4_IRQHandler ();
-
-//     address = 3;
-//     function = 3;
-//     qty = 2;
-//     data = 47194;
-
-//     buffer << address;
-//     buffer << function;
-//     buffer << qty;
-//     buffer << data;
-
-//     crc = 0xBF33;
-//     crc_low = static_cast<uint8_t>(crc);
-//     crc_high = crc >> 8;
-
-//     buffer << crc_low;
-//     buffer << crc_high;
-
-//     mock::CNDTR = 248;
-
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
-
-//     BOOST_CHECK_EQUAL(uf.value, 0xB85A);
-// }
-
-// BOOST_AUTO_TEST_CASE(error_addr)
-// {
-//     decltype(auto) master = mcu::make
-//     <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
-//     decltype(auto) buffer = master.get_buffer();
-//     auto passed_ms = [&](int n){while (n--) {SysTick_Handler(); 
-//                                              master();}};
-
-//     master();
-//     DMA1_Channel4_IRQHandler ();
-
-// 	uint8_t address = 2;
-//     uint8_t function = 3;
-//     uint8_t qty = 2;
-//     uint16_t data = 40;
-//     buffer << address;
-//     buffer << function;
-//     buffer << qty;
-//     buffer << data;
-
-//     uint16_t crc = 0x5AB8;
-//     uint8_t crc_low = static_cast<uint8_t>(crc);
-//     uint8_t crc_high = crc >> 8;
-
-//     buffer << crc_low;
-//     buffer << crc_high;
-
-//     mock::CNDTR = 248;
-
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
-
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[0]), 9);
-// }
+BOOST_AUTO_TEST_CASE(search)
+{
+    process.clear();
+    master();
+    DMA1_Channel4_IRQHandler();
+    BOOST_CHECK_EQUAL(process.str(),
+        "Передача данных: 01 03 00 02 00 01 25 CA" "\n"
+        "Очистка буфера, прием данных"             "\n"
+    );
+
+    passed_ms(5);
+    USART1_IRQHandler();
+    passed_ms(14);
+
+    process.clear();
+    master();
+    DMA1_Channel4_IRQHandler ();
+    BOOST_CHECK_EQUAL(process.str(),
+        "Передача данных: 02 03 00 04 00 01 C5 F8" "\n"
+        "Очистка буфера, прием данных"             "\n"
+    );
+    passed_ms(50);//second didn't answer
+    passed_ms(10);//pause
+
+    process.clear();
+    master();
+    DMA1_Channel4_IRQHandler ();
+    BOOST_CHECK_EQUAL(process.str(),
+        "Передача данных: 03 03 00 07 00 01 34 29" "\n"
+        "Очистка буфера, прием данных"             "\n"
+    );
+    passed_ms(5);
+    USART1_IRQHandler();
+    passed_ms(14);
+
+    BOOST_CHECK_EQUAL(master.qty_slave(), 2);
+}
+
+BOOST_AUTO_TEST_CASE(answer)
+{   
+    process.clear();
+    master();
+    DMA1_Channel4_IRQHandler ();
+    BOOST_CHECK_EQUAL(process.str(),
+        "Передача данных: 01 03 00 02 00 01 25 CA" "\n"
+        "Очистка буфера, прием данных"             "\n"
+    );
+
+    uint8_t  address   = 1;
+    uint8_t  function  = 3;
+    uint8_t  qty_byte  = 2;
+    uint16_t data      = 40;
+    buffer << address;
+    buffer << function;
+    buffer << qty_byte;
+    buffer << data;
+
+    uint16_t crc = 0x5AB8;
+    uint8_t crc_low = static_cast<uint8_t>(crc);
+    uint8_t crc_high = crc >> 8;
+
+    buffer << crc_low;
+    buffer << crc_high;
+
+    mock::CNDTR = 248;
+
+    passed_ms(5);
+    USART1_IRQHandler();
+    passed_ms(14);
+
+    BOOST_CHECK_EQUAL(temp.value, 40);
+
+    process.clear();
+    master();
+    DMA1_Channel4_IRQHandler ();
+    BOOST_CHECK_EQUAL(process.str(),
+        "Передача данных: 03 03 00 07 00 01 34 29" "\n"
+        "Очистка буфера, прием данных"             "\n"
+    );
+
+    address  = 3;
+    function = 3;
+    qty_byte = 2;
+    data = 47194;
+
+    buffer << address;
+    buffer << function;
+    buffer << qty_byte;
+    buffer << data;
+
+    crc = 0xBF33;
+    crc_low = static_cast<uint8_t>(crc);
+    crc_high = crc >> 8;
+
+    buffer << crc_low;
+    buffer << crc_high;
+
+    mock::CNDTR = 248;
+
+    passed_ms(5);
+    USART1_IRQHandler();
+    passed_ms(14);
+
+    BOOST_CHECK_EQUAL(uf.value, 0xB85A);
+}
+
+BOOST_AUTO_TEST_CASE(error_addr)
+{
+    master();
+    DMA1_Channel4_IRQHandler ();
+
+	uint8_t address = 2;
+    uint8_t function = 3;
+    uint8_t qty = 2;
+    uint16_t data = 40;
+    buffer << address;
+    buffer << function;
+    buffer << qty;
+    buffer << data;
+
+    uint16_t crc = 0x5AB8;
+    uint8_t crc_low = static_cast<uint8_t>(crc);
+    uint8_t crc_high = crc >> 8;
 
-// BOOST_AUTO_TEST_CASE(error_crc)
-// {
-// 	mock::UART::Settings set; 
-    
-//     mcu::Register<1, 2> temp;
-//     mcu::Register<3, 7> uf;
-
-//     interrupt_usart1.clear_subscribe();
-//     interrupt_DMA_channel4.clear_subscribe();
+    buffer << crc_low;
+    buffer << crc_high;
 
-//     auto master = mcu::make
-//     <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
-//     auto buffer = master.get_buffer();
-//     auto passed_ms = [&](int n){while (n--) {SysTick_Handler(); master();}};
+    mock::CNDTR = 248;
 
-//     master();
-//     DMA1_Channel4_IRQHandler ();
+    passed_ms(5);
+    USART1_IRQHandler();
+    passed_ms(14);
 
-// 	buffer[0] = 1;
-//     buffer[1] = 5;
-//     buffer[2] = 2;
-//     buffer[3] = 0;
-//     buffer[4] = 40;
+    BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[0]), 9);
+}
 
-//     uint16_t crc = 0x5AB8;
-//     uint8_t crc_low = static_cast<uint8_t>(crc);
-//     uint8_t crc_high = crc >> 8;
-
-//     buffer[5] = crc_low;
-//     buffer[6] = crc_high;
-
-//     mock::CNDTR = 248;
+BOOST_AUTO_TEST_CASE(error_crc)
+{
+    master();
+    DMA1_Channel4_IRQHandler ();
 
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
+    uint8_t address  = 3;
+    uint8_t function = 5;
+    uint8_t qty_byte = 2;
+    uint16_t data = 47194;
+
+    buffer << address;
+    buffer << function;
+    buffer << qty_byte;
+    buffer << data;
 
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[0]), 0x10);
-// }
+    uint16_t crc = 0xBF33;
+    uint8_t crc_low = static_cast<uint8_t>(crc);
+    uint8_t crc_high = crc >> 8;
 
-// BOOST_AUTO_TEST_CASE(error_func)
-// {
-// 	mock::UART::Settings set; 
-    
-//     mcu::Register<1, 2> temp;
-//     mcu::Register<3, 7> uf;
-
-//     interrupt_usart1.clear_subscribe();
-//     interrupt_DMA_channel4.clear_subscribe();
+    buffer << crc_low;
+    buffer << crc_high;
 
-//     auto master = mcu::make
-//     <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
-//     auto buffer = master.get_buffer();
-//     auto passed_ms = [&](int n){while (n--) {SysTick_Handler(); master();}};
+    mock::CNDTR = 248;
 
-//     master();
-//     DMA1_Channel4_IRQHandler ();
+    passed_ms(5);
+    USART1_IRQHandler();
+    passed_ms(14);
 
-// 	buffer[0] = 1;
-//     buffer[1] = 5;
-//     buffer[2] = 2;
-//     buffer[3] = 0;
-//     buffer[4] = 40;
+    BOOST_CHECK_EQUAL(static_cast<uint8_t>(uf.errors[0]), 0x10);
+}
 
-//     uint16_t crc = 0xD2B8;
-//     uint8_t crc_low = static_cast<uint8_t>(crc);
-//     uint8_t crc_high = crc >> 8;
+BOOST_AUTO_TEST_CASE(error_func)
+{
+    master();
+    DMA1_Channel4_IRQHandler ();
 
-//     buffer[5] = crc_low;
-//     buffer[6] = crc_high;
+    uint8_t address  = 1;
+    uint8_t function = 5;
+    uint8_t qty_byte = 2;
+    uint16_t data = 40;
 
-//     mock::CNDTR = 248;
+    buffer << address;
+    buffer << function;
+    buffer << qty_byte;
+    buffer << data;
 
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
+    uint16_t crc = 0xD2B8;
+    uint8_t crc_low = static_cast<uint8_t>(crc);
+    uint8_t crc_high = crc >> 8;
 
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[0]), 0x01);
-// }
+    buffer << crc_low;
+    buffer << crc_high;
 
-// BOOST_AUTO_TEST_CASE(error_qty_byte)
-// {
-// 	mock::UART::Settings set; 
-    
-//     mcu::Register<1, 2> temp;
-
-//     mcu::Register<3, 7> uf;
-
-//     interrupt_usart1.clear_subscribe();
-//     interrupt_DMA_channel4.clear_subscribe();
-
-//     auto master = mcu::make
-//     <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
-//     auto buffer = master.get_buffer();
-//     auto passed_ms = [&](int n){while (n--) {SysTick_Handler(); master();}};
+    mock::CNDTR = 248;
 
-//     master();
-//     DMA1_Channel4_IRQHandler ();
+    passed_ms(5);
+    USART1_IRQHandler();
+    passed_ms(14);
 
-// 	buffer[0] = 1;
-//     buffer[1] = 3;
-//     buffer[2] = 4;
-//     buffer[3] = 0;
-//     buffer[4] = 40;
-
-//     uint16_t crc = 0x5B58;
-//     uint8_t crc_low = static_cast<uint8_t>(crc);
-//     uint8_t crc_high = crc >> 8;
+    BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[1]), 0x01);
+}
 
-//     buffer[5] = crc_low;
-//     buffer[6] = crc_high;
-
-//     mock::CNDTR = 248;
+BOOST_AUTO_TEST_CASE(error_qty_byte)
+{
+    master();
+    DMA1_Channel4_IRQHandler ();
 
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
+    uint8_t address  = 3;
+    uint8_t function = 3;
+    uint8_t qty_byte = 3;
+    uint16_t data = 47194;
 
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[0]), 0x11);
-// }
+    buffer << address;
+    buffer << function;
+    buffer << qty_byte;
+    buffer << data;
 
-// BOOST_AUTO_TEST_CASE(error_func_answer)
-// {
-// 	mock::UART::Settings set; 
-    
-//     mcu::Register<1, 2> temp;
-//     mcu::Register<3, 7> uf;
+    uint16_t crc = 0x7F62;
+    uint8_t crc_low = static_cast<uint8_t>(crc);
+    uint8_t crc_high = crc >> 8;
 
-//     interrupt_usart1.clear_subscribe();
-//     interrupt_DMA_channel4.clear_subscribe();
+    buffer << crc_low;
+    buffer << crc_high;
 
-//     auto master = mcu::make
-//     <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
-//     auto buffer = master.get_buffer();
-//     auto passed_ms = [&](int n){while (n--) {SysTick_Handler(); master();}};
+    mock::CNDTR = 248;
 
-//     master();
-//     DMA1_Channel4_IRQHandler ();
+    passed_ms(5);
+    USART1_IRQHandler();
+    passed_ms(14);
 
-// 	buffer[0] = 1;
-//     buffer[1] = 131;
-//     buffer[2] = 1;
-    
+    BOOST_CHECK_EQUAL(static_cast<uint8_t>(uf.errors[1]), 0x11);
+}
 
-//     uint16_t crc = 0xF080;
-//     uint8_t crc_low = static_cast<uint8_t>(crc);
-//     uint8_t crc_high = crc >> 8;
+BOOST_AUTO_TEST_CASE(error_func_answer)
+{
+    master();
+    DMA1_Channel4_IRQHandler ();
 
-//     buffer[3] = crc_low;
-//     buffer[4] = crc_high;
+    uint8_t address  = 1;
+    uint8_t function = 131;
+    uint8_t error_code = 1;
 
-//     mock::CNDTR = 250;
+    buffer << address;
+    buffer << function;
+    buffer << error_code;
 
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
+    uint16_t crc = 0xF080;
+    uint8_t crc_low = static_cast<uint8_t>(crc);
+    uint8_t crc_high = crc >> 8;
 
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[0]), 0x01);
-// }
+    buffer << crc_low;
+    buffer << crc_high;
 
-// BOOST_AUTO_TEST_CASE(error_reg_answer)
-// {
-// 	mock::UART::Settings set; 
-    
-//     mcu::Register<1, 2> temp;
-//     mcu::Register<3, 7> uf;
+    mock::CNDTR = 250;
 
-//     interrupt_usart1.clear_subscribe();
-//     interrupt_DMA_channel4.clear_subscribe();
+    passed_ms(5);
+    USART1_IRQHandler();
+    passed_ms(14);
 
-//     auto master = mcu::make
-//     <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
-//     auto buffer = master.get_buffer();
-//     auto passed_ms = [&](int n){while (n--) {SysTick_Handler(); master();}};
+    BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[2]), 0x01);
+}
 
-//     master();
-//     DMA1_Channel4_IRQHandler ();
+BOOST_AUTO_TEST_CASE(error_reg_answer)
+{
+    master();
+    DMA1_Channel4_IRQHandler ();
 
-// 	buffer[0] = 1;
-//     buffer[1] = 131;
-//     buffer[2] = 3;
-    
-//     uint16_t crc = 0x3101 ;
-//     uint8_t crc_low = static_cast<uint8_t>(crc);
-//     uint8_t crc_high = crc >> 8;
+    uint8_t address  = 3;
+    uint8_t function = 131;
+    uint8_t error_code = 3;
 
-//     buffer[3] = crc_low;
-//     buffer[4] = crc_high;
+    buffer << address;
+    buffer << function;
+    buffer << error_code;
 
-//     mock::CNDTR = 250;
+    uint16_t crc = 0xF1A0;
+    uint8_t crc_low = static_cast<uint8_t>(crc);
+    uint8_t crc_high = crc >> 8;
 
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
+    buffer << crc_low;
+    buffer << crc_high;
 
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[0]), 0x03);
-// }
+    mock::CNDTR = 250;
 
-// BOOST_AUTO_TEST_CASE(error_reg_answer_both)
-// {
-// 	mock::UART::Settings set; 
-    
-//     mcu::Register<1, 2> temp;
-//     mcu::Register<3, 7> uf;
+    passed_ms(5);
+    USART1_IRQHandler();
+    passed_ms(14);
 
-//     interrupt_usart1.clear_subscribe();
-//     interrupt_DMA_channel4.clear_subscribe();
+    BOOST_CHECK_EQUAL(static_cast<uint8_t>(uf.errors[2]), 0x03);
+}
 
-//     auto master = mcu::make
-//     <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
-//     auto buffer = master.get_buffer();
-//     auto passed_ms = [&](int n){while (n--) {SysTick_Handler(); master();}};
+BOOST_AUTO_TEST_CASE(error_time_out)
+{
+    master();
+    DMA1_Channel4_IRQHandler ();
+    passed_ms(60);
 
-//     master();
-//     DMA1_Channel4_IRQHandler ();
+    BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[3]), 0x12);
+}
 
-// 	buffer[0] = 1;
-//     buffer[1] = 131;
-//     buffer[2] = 3;
+BOOST_AUTO_TEST_CASE(new_message)
+{
+    master();
+    DMA1_Channel4_IRQHandler ();
 
-//     uint16_t crc = 0x3101 ;
-//     uint8_t crc_low = static_cast<uint8_t>(crc);
-//     uint8_t crc_high = crc >> 8;
+	uint8_t address  = 3;
+    uint8_t function = 131;
+    uint8_t error_code = 3;
 
-//     buffer[3] = crc_low;
-//     buffer[4] = crc_high;
+    buffer << address;
+    buffer << function;
+    buffer << error_code;
 
-//     mock::CNDTR = 250;
+    mock::CNDTR = 252;
 
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
+    passed_ms(5);
+    USART1_IRQHandler();
+    passed_ms(1);
 
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[0]), 0x03);
+    uint16_t crc = 0xF1A0;
+    uint8_t crc_low = static_cast<uint8_t>(crc);
+    uint8_t crc_high = crc >> 8;
 
-//     master();
-//     DMA1_Channel4_IRQHandler ();
+    buffer << crc_low;
+    buffer << crc_high;
 
-// 	buffer[0] = 3;
-//     buffer[1] = 131;
-//     buffer[2] = 3;
-    
+    mock::CNDTR = 250;
 
-//     crc = 0xF1A0;
-//     crc_low = static_cast<uint8_t>(crc);
-//     crc_high = crc >> 8;
+    USART1_IRQHandler();
+    passed_ms(14);
 
-//     buffer[3] = crc_low;
-//     buffer[4] = crc_high;
-
-//     mock::CNDTR = 250;
-
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
-
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(uf.errors[0]), 0x03);
-// }
-
-// BOOST_AUTO_TEST_CASE(error_reg_func_answer_twice)
-// {
-// 	mock::UART::Settings set; 
-    
-//     mcu::Register<1, 2> temp;
-//     mcu::Register<3, 7> uf;
-
-//     interrupt_usart1.clear_subscribe();
-//     interrupt_DMA_channel4.clear_subscribe();
-
-//     auto master = mcu::make
-//     <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
-//     auto buffer = master.get_buffer();
-//     auto passed_ms = [&](int n){while (n--) {SysTick_Handler(); master();}};
-
-//     master();
-//     DMA1_Channel4_IRQHandler ();
-
-// 	buffer[0] = 1;
-//     buffer[1] = 131;
-//     buffer[2] = 3;
-    
-//     uint16_t crc = 0x3101 ;
-//     uint8_t crc_low = static_cast<uint8_t>(crc);
-//     uint8_t crc_high = crc >> 8;
-
-//     buffer[3] = crc_low;
-//     buffer[4] = crc_high;
-
-//     mock::CNDTR = 250;
-
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
-
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[0]), 0x03);
-
-//     master();
-//     DMA1_Channel4_IRQHandler ();
-
-// 	buffer[0] = 3;
-//     buffer[1] = 131;
-//     buffer[2] = 3;
-    
-
-//     crc = 0xF1A0;
-//     crc_low = static_cast<uint8_t>(crc);
-//     crc_high = crc >> 8;
-
-//     buffer[3] = crc_low;
-//     buffer[4] = crc_high;
-
-//     mock::CNDTR = 250;
-
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
-
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(uf.errors[0]), 0x03);
-
-//     master();
-//     DMA1_Channel4_IRQHandler ();
-
-// 	buffer[0] = 1;
-//     buffer[1] = 131;
-//     buffer[2] = 1;
-    
-//     crc = 0xF080;
-//     crc_low = static_cast<uint8_t>(crc);
-//     crc_high = crc >> 8;
-
-//     buffer[3] = crc_low;
-//     buffer[4] = crc_high;
-
-//     mock::CNDTR = 250;
-
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(14);
-
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[1]), 0x01);
-// }
-
-// BOOST_AUTO_TEST_CASE(error_time_out)
-// {
-// 	mock::UART::Settings set; 
-    
-//     mcu::Register<1, 2> temp;
-//     mcu::Register<3, 7> uf;
-
-//     interrupt_usart1.clear_subscribe();
-//     interrupt_DMA_channel4.clear_subscribe();
-
-//     auto master = mcu::make
-//     <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
-//     auto buffer = master.get_buffer();
-//     auto passed_ms = [&](int n){while (n--) {SysTick_Handler(); master();}};
-
-//     master();
-//     DMA1_Channel4_IRQHandler ();
-//     passed_ms(60);
-
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[0]), 0x12);
-// }
-
-// BOOST_AUTO_TEST_CASE(constantly_new_message)
-// {
-// 	mock::UART::Settings set; 
-    
-//     mcu::Register<1, 2> temp;
-
-//     mcu::Register<3, 7> uf;
-
-//     interrupt_usart1.clear_subscribe();
-//     interrupt_DMA_channel4.clear_subscribe();
-
-//     auto master = mcu::make
-//     <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
-//     auto buffer = master.get_buffer();
-//     auto passed_ms = [&](int n)
-//     {
-//         while (n--) { 
-//         SysTick_Handler(); 
-//         master();
-//         }
-//     };
-
-//     master();
-//     DMA1_Channel4_IRQHandler ();
-//     passed_ms(2);
-//     mock::CNDTR = 240;
-//     passed_ms(58);
-
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[0]), 0x12);
-
-//     mock::CNDTR = 255;
-// }
-
-// BOOST_AUTO_TEST_CASE(new_message)
-// {
-// 	mock::UART::Settings set; 
-    
-//     mcu::Register<1, 2> temp;
-//     mcu::Register<3, 7> uf;
-
-//     interrupt_usart1.clear_subscribe();
-//     interrupt_DMA_channel4.clear_subscribe();
-
-//     auto master = mcu::make
-//     <mcu::Periph::USART1, TX, RX, RTS, LED>(50, set, temp, uf);
-//     auto buffer = master.get_buffer();
-//     auto passed_ms = [&](int n)
-//     {
-//         while (n--) {
-//             SysTick_Handler(); 
-//             master();
-//         }
-//     };
-
-//     master();
-//     DMA1_Channel4_IRQHandler ();
-
-// 	buffer[0] = 1;
-//     buffer[1] = 131;
-//     buffer[2] = 3;
-
-//     mock::CNDTR = 252;
-
-//     passed_ms(5);
-//     USART1_IRQHandler();
-//     passed_ms(1);
-
-//     uint16_t crc = 0x3101 ;
-//     uint8_t crc_low = static_cast<uint8_t>(crc);
-//     uint8_t crc_high = crc >> 8;
-    
-//     buffer[3] = crc_low;
-//     buffer[4] = crc_high;
-
-//     mock::CNDTR = 250;
-
-//     USART1_IRQHandler();
-//     passed_ms(14);
-
-//     BOOST_CHECK_EQUAL(static_cast<uint8_t>(temp.errors[0]), 0x03);
-// }
+    BOOST_CHECK_EQUAL(static_cast<uint8_t>(uf.errors[3]), 0x03);
+}
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -44,7 +44,7 @@ public:
          uart.process << "PA10";
       uart.process << "(RX), ";
       if (std::is_same_v<RTSpin,mcu::PA11>)
-         uart.process << "PA10";
+         uart.process << "PA11";
       uart.process << "(RTS), ";
       uart.process << uart.uart_periph << std::endl;
 
