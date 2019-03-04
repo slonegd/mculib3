@@ -7,6 +7,7 @@
 #include "pin.h"
 #include "timers.h"
 #include "literals.h"
+#include "adc.h"
 
 
 

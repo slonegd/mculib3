@@ -6,6 +6,7 @@
 #include "list.h"
 #include "heap.h"
 #include <algorithm>
+#include <functional>
 
 struct ADC_average;
 
@@ -28,12 +29,14 @@ struct ADC_average : private List<ADC_channel> {
     template<class Pin>
     ADC_channel& add_channel();
     void start();
+    void set_callback (std::function<void()> v) { callback = v; }
 private:
     uint16_t* pbuffer   {nullptr}; // сюда данные по дма
     size_t    size      {0};
     size_t    value_qty {0};       // вроде не нужен
     ADC&        adc;
     DMA_stream& dma;
+    std::function<void()> callback {nullptr};
     ADC_average (
           ADC&        adc
         , DMA_stream& dma
@@ -51,9 +54,12 @@ void ADC_average() {
     auto& adc         = ADC_average::make<mcu::Periph::ADC1>();
     auto& power       = adc.add_channel<PA0>();
     auto& temperature = adc.add_channel<PA1>();
+    auto& alarm       = Pin::make<PB0,PinMode::Output>();
+    adc.set_callback ([&]{
+        alarm = power < 100 or temperature > 50;
+    });
     adc.start();
-    if (power < 100 or temperature < 50)
-        __WFI();
+    __WFI();
 }
 
 } // namespace example {
