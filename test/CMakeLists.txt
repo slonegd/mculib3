@@ -135,6 +135,7 @@ test (NULL test_heap_multinew)
 test (NULL test_heap_delete)
 test (NULL test_heap_fragmentation)
 test (NULL test_list)
+test (NULL test_function)
 
 # test (NULL test_)
 

@@ -1,3 +1,6 @@
+// за основу взял вот это https://habr.com/ru/post/159389/
+// убрал всё, что связано с кучей
+// ТУДУ поддержка методов объектов (но пока не нужна)
 #pragma once
 
 template <class T>
@@ -23,9 +26,9 @@ private:
 
 	template <class Function>
 	class Function_holder : public Holder {
-        const Function& func;
+        Function func;
 	public:
-        Function_holder (const Function& func) : func{func} {}
+        Function_holder (Function func) : func{func} {}
 		virtual Return call(Args ... args) override {
 			return func(args ...);
 		}
