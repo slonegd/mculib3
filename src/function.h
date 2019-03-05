@@ -19,6 +19,8 @@ public:
 	Return operator() (Args ... args) {
 		return functor_pointer->call(args...);
 	}
+
+    operator bool() { return functor_pointer != nullptr; }
 private:
 	struct Holder {
 		virtual Return call(Args ... args) = 0;

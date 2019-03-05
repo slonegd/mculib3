@@ -15,4 +15,6 @@ public:
     }
     auto size() const { return size_; }
     auto address() const { return size_t(pointer); }
+    auto begin() { return pointer; }
+    auto end()   { return pointer + size_; }
 };

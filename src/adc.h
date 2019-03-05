@@ -15,6 +15,8 @@ struct ADC_channel : Listable<ADC_channel> {
     template<class Pin>
     static ADC_channel& make();
     operator const uint32_t() { return v; }
+    uint32_t operator=  (uint32_t v) { return this->v = v;  }
+    uint32_t operator+= (uint32_t v) { return this->v += v; }
     friend ADC_average;
 private:
     uint32_t v;
@@ -53,7 +55,7 @@ private:
         interrupt_.subscribe (this);
     } 
     ADC_average (const ADC_average&) = delete;
-    void interrupt() override {} // placeholder
+    void interrupt() override;
 };
 
 
@@ -172,4 +174,19 @@ void ADC_average::start()
     while ( not adc.is_ready() ) { }
 
     adc.start();
+}
+
+
+void ADC_average::interrupt()
+{
+    int channel_qty = buffer.size() / conversion_qty;
+    int current_channel = 0;
+    for (auto& channel : *this) {
+        channel = 0;
+        for (auto it = buffer.begin() + current_channel; it < buffer.end(); it += channel_qty)
+            channel += *it;
+        current_channel++;
+    }
+
+    if (callback) callback();
 }

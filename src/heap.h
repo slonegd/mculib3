@@ -72,5 +72,6 @@ struct Heap_on_stack_allocated {
     {
         return heap.operator_multidelete (p);
     }
+    operator T() { return value; }
 };
 
