@@ -28,9 +28,9 @@ struct ADC_average : private List<ADC_channel> {
     static ADC_average& make();
     template<class Pin>
     ADC_channel& add_channel();
-    void start();
     template<class Function>
     void set_callback (const Function& v) { callback = v; }
+    void start();
 private:
     Dyn_array<uint16_t> buffer{};  // сюда данные по дма
     size_t    size      {0};

@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE(bad_double_add_size)
     auto address = ar.address();
     BOOST_CHECK (address != 0);
 
-    heap.allocate (1);
+    heap.allocate (1); // defragmentation not allowed
 
     ar.add_size(5);
     BOOST_CHECK (start == mock::alloc_counter); // dont used heap
