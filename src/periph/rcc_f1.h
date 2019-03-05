@@ -1,7 +1,6 @@
 #pragma once
 
 #include "bits_rcc_f1.h"
-#include "meta.h"
 
 namespace mcu {
 
@@ -70,7 +69,7 @@ public:
 			clock_enable<Periph::DMA1>();
 
 		else if constexpr (p == Periph::TIM4) APB1ENR.TIM4EN = true;
-        else static_assert ( meta::always_false_v<decltype(p)>, "допиши clock_enable");
+        else static_assert ( always_false_v<decltype(p)>, "допиши clock_enable");
 	}
 
 	auto clock (Periph p)

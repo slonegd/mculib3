@@ -1,7 +1,6 @@
 #pragma once
 
 #include "bits_rcc_f7.h"
-#include "meta.h"
 
 namespace mcu {
 
@@ -95,7 +94,7 @@ public:
 		else if constexpr (p == Periph::USB_FS_core) AHB2ENR.OTGFSEN = true;
 		else if constexpr (p == Periph::USB_HS_core) AHB1ENR.OTGHSEN = true;
 
-        else static_assert ( meta::always_false_v<decltype(p)>, "допиши clock_enable");
+        else static_assert ( always_false_v<decltype(p)>, "допиши clock_enable");
 
 		return *this;
 	}

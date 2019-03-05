@@ -1,7 +1,6 @@
 #pragma once
 
 #include "bits_rcc_f0.h"
-#include "meta.h"
 
 namespace mcu {
 
@@ -78,7 +77,7 @@ public:
 
 		else if constexpr (p == Periph::ADC1)   APB2ENR.ADC1EN = true;
 		
-        else static_assert ( meta::always_false_v<decltype(p)>, "допиши clock_enable");
+        else static_assert ( always_false_v<decltype(p)>, "допиши clock_enable");
 	}
 
 	auto clock (Periph p) { return get_APB_clock(); }

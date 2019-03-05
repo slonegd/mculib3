@@ -1,7 +1,6 @@
 #pragma once
 
 #include "bits_rcc_f4.h"
-#include "meta.h"
 
 namespace mcu {
 
@@ -94,7 +93,7 @@ public:
 		else if constexpr (p == Periph::TIM2)   APB1ENR.TIM2EN  = true;
 		else if constexpr (p == Periph::TIM3)   APB1ENR.TIM3EN  = true;
 
-        else static_assert ( meta::always_false_v<decltype(p)>, "допиши clock_enable");
+        else static_assert ( always_false_v<decltype(p)>, "допиши clock_enable");
 	}
 
 	auto clock (Periph p)
@@ -112,10 +111,9 @@ private:
 	size_t get_APB_clock (APBprescaler v)
 	{
 		return v == APBprescaler::APBnotdiv ? F_CPU     :
-				 v == APBprescaler::APBdiv2   ? F_CPU / 2 :
-				 v == APBprescaler::APBdiv4   ? F_CPU / 4 :
-				 v == APBprescaler::APBdiv8   ? F_CPU / 8 :
-														  F_CPU / 16;
+			   v == APBprescaler::APBdiv2   ? F_CPU / 2 :
+			   v == APBprescaler::APBdiv4   ? F_CPU / 4 :
+			   v == APBprescaler::APBdiv8   ? F_CPU / 8 : F_CPU / 16;
 	}
 };
 

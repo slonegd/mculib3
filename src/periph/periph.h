@@ -119,6 +119,9 @@ auto& like_CMSIS (T& p)
 
 }
 
+template<class T>
+constexpr auto always_false_v = std::false_type::value;
+
 #define SFINAE(periph,type) template <Periph p> std::enable_if_t<p == Periph::periph, type&>
 #define REF(periph) mcu::make_reference<mcu::Periph::periph>()
 #define WRAP(...) (__VA_ARGS__)
