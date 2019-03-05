@@ -25,4 +25,4 @@ deploy:
     keep-history: true
     local-dir: html
     on:
-      branch: master
+      branch: dvk

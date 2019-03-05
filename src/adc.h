@@ -6,6 +6,7 @@
 #include "list.h"
 #include "dynarray.h"
 #include "function.h"
+#include "interrupt.h"
 #include <algorithm>
 
 struct ADC_average;
@@ -23,9 +24,9 @@ private:
     ADC_channel (const ADC_channel&) = delete;
 };
 
-struct ADC_average : private List<ADC_channel> {
+struct ADC_average : private List<ADC_channel>, Interrupting {
     template<mcu::Periph>
-    static ADC_average& make();
+    static ADC_average& make (size_t conversion_qty);
     template<class Pin>
     ADC_channel& add_channel();
     template<class Function>
@@ -33,18 +34,26 @@ struct ADC_average : private List<ADC_channel> {
     void start();
 private:
     Dyn_array<uint16_t> buffer{};  // сюда данные по дма
-    size_t    size      {0};
-    size_t    value_qty {0};       // вроде не нужен
+    const size_t        conversion_qty;
     ADC&        adc;
     DMA_stream& dma;
+    Interrupt& interrupt_;
     Function<void()> callback {};
     ADC_average (
-          ADC&        adc
+         size_t       conversion_qty
+        , ADC&        adc
         , DMA_stream& dma
-    ) : adc {adc}
-      , dma {dma} 
-    {}
+        , Interrupt&  interrupt_
+        
+    ) : conversion_qty {conversion_qty}
+      , adc            {adc}
+      , dma            {dma}
+      , interrupt_     {interrupt_}
+    {
+        interrupt_.subscribe (this);
+    } 
     ADC_average (const ADC_average&) = delete;
+    void interrupt() override {} // placeholder
 };
 
 
@@ -52,7 +61,8 @@ private:
 namespace example {
 
 void ADC_average() {
-    auto& adc         = ADC_average::make<mcu::Periph::ADC1>();
+    constexpr auto conversion_on_channel {16};
+    auto& adc         = ADC_average::make<mcu::Periph::ADC1>(conversion_on_channel);
     auto& power       = adc.add_channel<PA0>();
     auto& temperature = adc.add_channel<PA1>();
     auto& alarm       = Pin::make<PB0,PinMode::Output>();
@@ -93,12 +103,15 @@ ADC_channel& ADC_channel::make()
 
 
 template<mcu::Periph ADC>
-ADC_average& ADC_average::make()
+ADC_average& ADC_average::make (size_t conversion_qty)
 {
     auto constexpr dma_periph = mcu::ADC::default_dma<ADC>();
+    auto& interrupt = get_interrupt<dma_periph>();
     static auto res = ADC_average {
-          mcu::make_reference<ADC>()
+          conversion_qty
+        , mcu::make_reference<ADC>()
         , mcu::make_reference<dma_periph>()
+        , interrupt
     };
     REF(RCC).clock_enable<ADC>();
     res.adc.set (mcu::ADC::Clock::PCLKdiv4)     // no choice yet
@@ -114,8 +127,10 @@ ADC_average& ADC_average::make()
            .set (mcu::DMA_stream::Direction::to_memory)
            .size_memory (mcu::DMA_stream::DataSize::word16)
            .size_periph (mcu::DMA_stream::DataSize::word16)
-           .inc_memory();
-    // TODO add interrupt
+           .inc_memory()
+           .enable_transfer_complete_interrupt();
+
+    NVIC_EnableIRQ (res.interrupt_.IRQn());
    
     return res;
 }
@@ -137,12 +152,11 @@ ADC_channel& ADC_average::add_channel()
         )
         , value
     );
-    buffer.add_size(16); // placeholder
+    buffer.add_size(conversion_qty);
     this->dma.disable()
              .set_memory_adr (buffer.address())
              .set_qty_transactions (buffer.size())
              .enable();
-    value_qty++; 
     return value;
 }
 
