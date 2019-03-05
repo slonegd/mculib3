@@ -52,7 +52,6 @@ struct generate_impl<f, std::index_sequence<i...>>
 template<auto& f, size_t size>
 constexpr auto generate = generate_impl<f, std::make_index_sequence<size>>::table;
 
-} // namespace meta {
 
 namespace { // test
 
@@ -73,7 +72,6 @@ static_assert (fibo_example.size() == 6);
 } // namespace {
 
 
-namespace meta {
 
 /// генерирация tuple типа, состоящего из заданного количество типов T
 template<class T, class index_sequence>
@@ -91,6 +89,9 @@ struct tuple_generate_impl<T, std::index_sequence<i...>>
 template<class T, size_t n>
 using tuple_generate_t = typename tuple_generate_impl<T, std::make_index_sequence<n>>::type;
 
+
+template<class T>
+constexpr auto always_false_v = std::false_type::value;
 } // namespace meta {
 
 

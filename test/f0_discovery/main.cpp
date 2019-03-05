@@ -29,5 +29,6 @@ extern "C" void init_clock ()
 
 int main()
 {
-   example::ADC_average();
+    REF(RCC).clock_enable<mcu::Periph::TIM1>();
+    example::ADC_average();
 }
