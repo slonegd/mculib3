@@ -236,7 +236,7 @@
          "name": "test",
          "type": "cppdbg",
          "request": "launch",
-         "program": "${workspaceRoot}/test/cmake/build/test_function",
+         "program": "${workspaceRoot}/test/cmake/build/test_dynarray",
          "args": [],
          "stopAtEntry": true,
          "cwd": "${workspaceRoot}",

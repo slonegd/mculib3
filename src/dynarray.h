@@ -19,7 +19,7 @@ class Dyn_array {
     size_t size_ {0};
 public:
     void add_size (size_t v) {
-        if (not pointer)
+        if (pointer)
             delete[] (pointer);
         pointer = new T_wrapper[size_ += v];
     }
