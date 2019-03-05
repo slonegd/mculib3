@@ -4,7 +4,7 @@
 #include "periph_dma.h"
 #include "pin.h"
 #include "list.h"
-#include "heap.h"
+#include "dynarray.h"
 #include "function.h"
 #include <algorithm>
 
@@ -32,7 +32,7 @@ struct ADC_average : private List<ADC_channel> {
     template<class Function>
     void set_callback (const Function& v) { callback = v; }
 private:
-    uint16_t* pbuffer   {nullptr}; // сюда данные по дма
+    Dyn_array<uint16_t> buffer{};  // сюда данные по дма
     size_t    size      {0};
     size_t    value_qty {0};       // вроде не нужен
     ADC&        adc;
@@ -137,11 +137,10 @@ ADC_channel& ADC_average::add_channel()
         )
         , value
     );
-    if (not pbuffer)
-        delete[] pbuffer;
-    pbuffer = new uint16_t[size += 16]; // placeholder
-    this->dma.set_memory_adr (size_t(pbuffer))
-             .set_qty_transactions (size);
+    buffer.add_size(16); // placeholder
+    this->dma.disable()
+             .set_memory_adr (buffer.address())
+             .set_qty_transactions (buffer.size());
     value_qty++; 
     return value;
 }

@@ -1,7 +1,7 @@
 #define BOOST_TEST_MODULE test_function
 #include <boost/test/unit_test.hpp>
 
-#include "newdelete.h"
+#include "newdelete.h" // считает количество аллокаций памяти
 #include "function.h"
 #include <functional>
 
