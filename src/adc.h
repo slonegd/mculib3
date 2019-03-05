@@ -140,7 +140,8 @@ ADC_channel& ADC_average::add_channel()
     buffer.add_size(16); // placeholder
     this->dma.disable()
              .set_memory_adr (buffer.address())
-             .set_qty_transactions (buffer.size());
+             .set_qty_transactions (buffer.size())
+             .enable();
     value_qty++; 
     return value;
 }
@@ -152,7 +153,7 @@ void ADC_average::start()
     
     // maybe need wrap in function
     if (adc.is_ready())
-      adc.set_busy();
+        adc.set_busy();
     adc.enable();
     while ( not adc.is_ready() ) { }
 

@@ -13,26 +13,41 @@
 template<size_t heap_size>
 class Heap
 {
-   std::array<uint8_t, heap_size> memory;
-   size_t free_index {0};
-   bool defragmented {false};
+    std::array<uint8_t, heap_size> memory;
+    size_t free_index {0};
+    bool defragmented {false};
 public:
-   void* allocate (size_t size)
-   {
-      auto p = reinterpret_cast<void*>(memory.begin() + free_index);
-      free_index += size;
-      // если необходимо памяти больше, чем выделено, то тут будет HardFault
-      // что определиться при первой же отладке
-      return (free_index > heap_size or defragmented) ? nullptr : p;
-   }
-   void deallocate (void* p, size_t size)
-   {
-      if (p != memory.begin() + free_index - size) {
-         defragmented = true;
-         return;
-      }
-      free_index -= size;
-   }
+    void* allocate (size_t size)
+    {
+        auto p = reinterpret_cast<void*>(memory.begin() + free_index);
+        free_index += size;
+        // если необходимо памяти больше, чем выделено, то тут будет HardFault
+        // что определиться при первой же отладке
+        return (free_index > heap_size or defragmented) ? nullptr : p;
+    }
+    void deallocate (void* p, size_t size)
+    {
+        if (p != memory.begin() + free_index - size) {
+            defragmented = true;
+            return;
+        }
+        free_index -= size;
+    }
+
+    inline void* operator_multinew (size_t size)
+    {
+            auto p = allocate(size + sizeof(size_t));
+            auto psize = reinterpret_cast<size_t*>(p); 
+            *psize = size;
+            return ++psize;
+    }
+
+    inline void operator_multidelete (void* p)
+    {
+            auto psize = reinterpret_cast<size_t*>(p);
+            psize--;
+            deallocate (psize, *psize + sizeof(size_t)); 
+    }
 };
 
 // выделяем память под динамические объекты
@@ -42,23 +57,3 @@ public:
 
 Heap<HEAP_SIZE> heap {};
 
-// собственный глобальный оператор new, который работает с нашей кучей
-void* operator new (size_t size)
-{
-   return heap.allocate(size);
-}
-
-void* operator new[] (size_t size)
-{
-   auto p = heap.allocate(size + sizeof(size_t));
-   auto psize = reinterpret_cast<size_t*>(p); 
-   *psize = size;
-   return ++psize;
-}
-
-void operator delete[] (void* p)
-{
-   auto psize = reinterpret_cast<size_t*>(p);
-   psize--;
-   heap.deallocate (psize, *psize + sizeof(size_t)); 
-}
