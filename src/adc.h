@@ -5,8 +5,8 @@
 #include "pin.h"
 #include "list.h"
 #include "heap.h"
+#include "function.h"
 #include <algorithm>
-#include <functional>
 
 struct ADC_average;
 
@@ -29,14 +29,15 @@ struct ADC_average : private List<ADC_channel> {
     template<class Pin>
     ADC_channel& add_channel();
     void start();
-    void set_callback (std::function<void()> v) { callback = v; }
+    template<class Function>
+    void set_callback (const Function& v) { callback = v; }
 private:
     uint16_t* pbuffer   {nullptr}; // сюда данные по дма
     size_t    size      {0};
     size_t    value_qty {0};       // вроде не нужен
     ADC&        adc;
     DMA_stream& dma;
-    std::function<void()> callback {nullptr};
+    Function<void()> callback {};
     ADC_average (
           ADC&        adc
         , DMA_stream& dma
