@@ -40,11 +40,11 @@
    extern "C" void RTC_Alarm_IRQHandler       () { while(1) {} }
    extern "C" void USBWakeUp_IRQHandler       () { while(1) {} }
 
-	extern "C" void USART1_IRQHandler          () { interrupt_usart1.interrupt(); mcu::make_reference<mcu::Periph::USART1>().clear_interrupt_flags();}
+   extern "C" void USART1_IRQHandler          () { interrupt_usart1.interrupt(); mcu::make_reference<mcu::Periph::USART1>().clear_interrupt_flags();}
    extern "C" void USART2_IRQHandler          () { interrupt_usart2.interrupt(); mcu::make_reference<mcu::Periph::USART2>().clear_interrupt_flags();}
    extern "C" void USART3_IRQHandler          () { interrupt_usart3.interrupt(); mcu::make_reference<mcu::Periph::USART3>().clear_interrupt_flags();}
 
-	extern "C" void DMA1_Channel1_IRQHandler   () { interrupt_DMA_channel1.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_1);}
+   extern "C" void DMA1_Channel1_IRQHandler   () { interrupt_DMA_channel1.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_1);}
    extern "C" void DMA1_Channel2_IRQHandler   () { interrupt_DMA_channel2.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_2);}
    extern "C" void DMA1_Channel3_IRQHandler   () { interrupt_DMA_channel3.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_3);}
    extern "C" void DMA1_Channel4_IRQHandler   () { interrupt_DMA_channel4.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_4);}
