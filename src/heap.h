@@ -61,3 +61,16 @@ public:
 
 Heap<HEAP_SIZE> heap {};
 
+template<class T>
+struct Heap_on_stack_allocated {
+    T value;
+    inline void* operator new[] (size_t size)
+    {
+        return heap.operator_multinew (size);
+    }
+    inline void operator delete[] (void* p)
+    {
+        return heap.operator_multidelete (p);
+    }
+};
+
