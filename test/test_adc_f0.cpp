@@ -13,9 +13,10 @@
 
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 
+auto& process = mock::Process::make();
+
 BOOST_AUTO_TEST_CASE(make)
 {
-    auto& process = mock::Process::make();
     process.clear();
 
     constexpr auto conversion_on_channel {16};
@@ -24,7 +25,7 @@ BOOST_AUTO_TEST_CASE(make)
     auto adr = std::to_string(size_t(&like_CMSIS(mock::adc1).DR));
     
     BOOST_CHECK_EQUAL(process.str(),
-        "включение тактирования допиши вывод в поток переферии""\n"
+        "включение тактирования ADC1"                                     "\n"
         "ADC1: Установка частоты тактирования: PCLK/4"                    "\n"
         "ADC1: Установка разрешения: 12 бит"                              "\n"
         "ADC1: Установка времени семплирования 239,5 тактов"              "\n"
@@ -41,6 +42,21 @@ BOOST_AUTO_TEST_CASE(make)
         "NVIC: включение прерывания DMA1_Channel1"                        "\n"
 
     );
+}
+
+BOOST_AUTO_TEST_CASE(add_channel)
+{
+    constexpr auto conversion_on_channel {16};
+    auto& adc = ADC_average::make<mcu::Periph::ADC1>(conversion_on_channel);
+
+    process.clear();
+
+    auto& value = adc.add_channel<mcu::PA0>();
+
+    
+    // BOOST_CHECK_EQUAL(process.str(),
+    //     "включение тактирования допиши вывод в поток переферии""\n"
+    // );
 }
 
 

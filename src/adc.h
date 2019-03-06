@@ -59,17 +59,20 @@ private:
     ADC&        adc;
     DMA_stream& dma;
     Interrupt& interrupt_;
+    const mcu::Periph adc_periph;
     Function<void()> callback {};
     ADC_average (
          size_t       conversion_qty
         , ADC&        adc
         , DMA_stream& dma
         , Interrupt&  interrupt_
+        , mcu::Periph adc_periph
         
     ) : conversion_qty {conversion_qty}
       , adc            {adc}
       , dma            {dma}
       , interrupt_     {interrupt_}
+      , adc_periph     {adc_periph}
     {
         interrupt_.subscribe (this);
     } 
@@ -133,6 +136,7 @@ ADC_average& ADC_average::make (size_t conversion_qty)
         , mcu::make_reference<ADC>()
         , mcu::make_reference<dma_periph>()
         , interrupt
+        , ADC
     };
     REF(RCC).clock_enable<ADC>();
     res.adc.set (mcu::ADC::Clock::PCLKdiv4)     // no choice yet
@@ -161,15 +165,13 @@ template<class Pin>
 ADC_channel& ADC_average::add_channel()
 {
     auto& value = ADC_channel::make<Pin>();
-    // определить канал по пину
-    constexpr auto channel = 1; // placeholder
-    // включить нужный канал
+    auto channel = adc.set_channel<Pin>(adc_periph);
     // чтобы каналы располагались в листе в порядке, как они оцифровываются
     this->insert (
         std::find_if (
               this->begin()
             , this->end()
-            , [channel](auto& v){ return v.channel > channel; }
+            , [=](auto& v){ return v.channel > channel; }
         )
         , value
     );
@@ -198,13 +200,13 @@ void ADC_average::start()
 
 void ADC_average::interrupt()
 {
-    int channel_qty = buffer.size() / conversion_qty;
-    int current_channel = 0;
-    for (auto& channel : *this) {
+    for (auto& channel : *this)
         channel = 0;
-        for (auto it = buffer.begin() + current_channel; it < buffer.end(); it += channel_qty)
-            channel += *it;
-        current_channel++;
+    auto it_channel = begin();
+    for (auto v : buffer) {
+        *it_channel += v;
+        if (++it_channel == end())
+            it_channel = begin();
     }
 
     if (callback) callback();

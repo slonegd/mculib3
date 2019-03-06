@@ -117,6 +117,12 @@ auto& like_CMSIS (T& p)
    return *reinterpret_cast<typename T::CMSIS_type*>(&p);
 }
 
+template<class T>
+volatile auto& registr (T& v)
+{
+   return *reinterpret_cast<volatile uint32_t*>(&v);
+}
+
 }
 
 template<class T>
