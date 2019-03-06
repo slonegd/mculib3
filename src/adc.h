@@ -2,12 +2,31 @@
 
 #include "periph_adc.h"
 #include "periph_dma.h"
+#include "periph_rcc.h"
 #include "pin.h"
 #include "list.h"
 #include "dynarray.h"
 #include "function.h"
 #include "interrupt.h"
 #include <algorithm>
+
+#if defined(USE_MOCK_ADC)
+using ADC = mock::ADC;
+#else
+using ADC = mcu::ADC;
+#endif
+
+#if defined(USE_MOCK_DMA)
+using DMA_stream = mock::DMA_stream;
+#else
+using DMA_stream = mcu::DMA_stream;
+#endif
+
+#if defined(USE_MOCK_NVIC)
+auto& NVIC_EnableIRQ_t = mock::NVIC_EnableIRQ;
+#else
+auto& NVIC_EnableIRQ_t = ::NVIC_EnableIRQ;
+#endif
 
 struct ADC_average;
 
@@ -65,14 +84,14 @@ namespace example {
 void ADC_average() {
     constexpr auto conversion_on_channel {16};
     auto& adc         = ADC_average::make<mcu::Periph::ADC1>(conversion_on_channel);
-    auto& power       = adc.add_channel<PA0>();
-    auto& temperature = adc.add_channel<PA1>();
-    auto& alarm       = Pin::make<PB0,PinMode::Output>();
+    auto& power       = adc.add_channel<mcu::PA0>();
+    auto& temperature = adc.add_channel<mcu::PA1>();
+    auto& alarm       = Pin::make<mcu::PB0,mcu::PinMode::Output>();
     adc.set_callback ([&]{
         alarm = power < 100 or temperature > 50;
     });
     adc.start();
-    __WFI();
+    while (1) {}
 }
 
 } // namespace example {
@@ -132,7 +151,7 @@ ADC_average& ADC_average::make (size_t conversion_qty)
            .inc_memory()
            .enable_transfer_complete_interrupt();
 
-    NVIC_EnableIRQ (res.interrupt_.IRQn());
+    NVIC_EnableIRQ_t (res.interrupt_.IRQn());
    
     return res;
 }
