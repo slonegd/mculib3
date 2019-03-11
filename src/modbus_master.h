@@ -164,7 +164,11 @@ class Modbus_master : TickSubscriber
 
 	bool check_CRC();
 	int  set_modbus_time (Baudrate);
-	
+	// Interrupt& set_interrupt_DMA_channel()
+	// {
+   //    if (uart.TX_channel == Channel::channel_4)
+	// 	   return interrupt_DMA_channel4;
+	// }
 
 public:
 
@@ -198,10 +202,25 @@ auto& make (size_t time_out, UART_::Settings set, Args&... args)
                           usart == Periph::USART2 ? &interrupt_usart2 :
                           usart == Periph::USART3 ? &interrupt_usart3 :
                           nullptr;
+#if defined(STM32F0)
+   auto interrupt_dma   = usart == Periph::USART1 ? &interrupt_DMA_channel2 : //тут может быть и 4 ???
+                          usart == Periph::USART2 ? &interrupt_DMA_channel4 : 
+                          usart == Periph::USART3 ? &interrupt_DMA_channel2 :
+                          nullptr;
+#elif defined(STM32F1)
   	auto interrupt_dma   = usart == Periph::USART1 ? &interrupt_DMA_channel4 :
                           usart == Periph::USART2 ? &interrupt_DMA_channel7 : 
                           usart == Periph::USART3 ? &interrupt_DMA_channel2 :
                           nullptr;
+#elif defined(STM32F4)
+   auto interrupt_dma   = usart == Periph::USART1 ? &interrupt_DMA_channel7 :
+                          usart == Periph::USART2 ? &interrupt_DMA_channel6 : 
+                          usart == Periph::USART3 ? &interrupt_DMA_channel3 :
+								  usart == Periph::USART4 ? &interrupt_DMA_channel4 :
+								  usart == Periph::USART5 ? &interrupt_DMA_channel7 :
+								  usart == Periph::USART6 ? &interrupt_DMA_channel6 : //тут может быть и 7 ???
+                          nullptr;
+#endif
 	// auto u = UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>();
 	static Modbus_master modbus
 	{UART_::make<usart, TXpin, RXpin, RTSpin>(), *interrupt_usart, *interrupt_dma, time_out, set, args...};
