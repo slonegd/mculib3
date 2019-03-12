@@ -76,7 +76,6 @@ public:
    size_t transmit_data_adr() {return reinterpret_cast<size_t>(&TDR);}
 
    
-   static constexpr IRQn_Type IRQn(Periph);
    template<class Pin> static constexpr Periph default_stream();
    template<class Pin> static constexpr PinMode pin_mode();
    template<Periph usart, class TXpin, class RXpin> static void pin_static_assert();
@@ -123,30 +122,18 @@ USART& USART::set (Baudrate baudrate, Periph p)
 
 template <class Pin> constexpr PinMode USART::pin_mode()
 {
-   static_assert (
-      WRAP(meta::position_v<Pin,PA9,PA10,PB6,PB7>) != -1,
-      "неверный аргумент шаблона class Pin"
-   );
-   if      constexpr (std::is_same_v<Pin, PA9> or std::is_same_v<Pin, PA10>) return PinMode::Alternate_1; 
+   if      constexpr (std::is_same_v<Pin, PA9> or std::is_same_v<Pin, PA10>) return PinMode::Alternate_1;
    else if constexpr (std::is_same_v<Pin, PB6> or std::is_same_v<Pin, PB7>)  return PinMode::Alternate_0;
+   else if constexpr (std::is_same_v<Pin, PA2> or std::is_same_v<Pin, PA3>)  return PinMode::Alternate_1;
+   else static_assert (always_false_v<Pin>, "неверный аргумент шаблона class Pin");
 }
 
 
 template<class Pin> constexpr Periph USART::default_stream()
 {
-   static_assert (
-      WRAP(meta::position_v<Pin,PA9,PA10,PB6,PB7>) != -1,
-      "неверный аргумент шаблона class Pin"
-   );
-
-   if      constexpr (std::is_same_v<Pin, PA9>  or std::is_same_v<Pin, PB6>) return Periph::DMA1_stream2; 
-   else if constexpr (std::is_same_v<Pin, PA10> or std::is_same_v<Pin, PB7>) return Periph::DMA1_stream3;
-}
-
-
-constexpr IRQn_Type USART::IRQn (Periph usart)
-{
-   return USART1_IRQn;
+   if      constexpr (std::is_same_v<Pin, PA9>  or std::is_same_v<Pin, PB6> or std::is_same_v<Pin, PA2>) return Periph::DMA1_stream2; 
+   else if constexpr (std::is_same_v<Pin, PA10> or std::is_same_v<Pin, PB7> or std::is_same_v<Pin, PA3>) return Periph::DMA1_stream3;
+   else static_assert (always_false_v<Pin>, "неверный аргумент шаблона class Pin");
 }
 
 
@@ -154,9 +141,10 @@ template<Periph usart, class TXpin, class RXpin> void USART::pin_static_assert()
 {
    if constexpr (usart == Periph::USART1) {
       static_assert (
-         (std::is_same_v<TXpin, PA9> and std::is_same_v<RXpin, PA10>) or
-         (std::is_same_v<TXpin, PB6> and std::is_same_v<RXpin, PB7>),
-         "USART1 возможен только с парами пинов TX/PA9, RX/PA10 или TX/PB6, RX/PB7");
+            (std::is_same_v<TXpin, PA9> and std::is_same_v<RXpin, PA10>)
+         or (std::is_same_v<TXpin, PB6> and std::is_same_v<RXpin, PB7 >)
+         or (std::is_same_v<TXpin, PA2> and std::is_same_v<RXpin, PA3 >)
+         , "USART1 возможен только с парами пинов TX/RX: PA2/PA3, PA9/PA10 или PB6/PB7");
    } 
 }
 

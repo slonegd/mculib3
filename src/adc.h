@@ -74,16 +74,11 @@ private:
     } 
     ADC_average (const ADC_average&) = delete;
     void interrupt() override;
-#if defined(USE_MOCK_NVIC)
-    inline static auto NVIC_EnableIRQ_t = mock::NVIC_EnableIRQ;
-#else
-    inline static auto NVIC_EnableIRQ_t = ::NVIC_EnableIRQ;
-#endif
 };
 
 
 
-namespace example {
+namespace mcu::example {
 
 void ADC_average() {
     constexpr auto conversion_on_channel {16};
@@ -98,7 +93,7 @@ void ADC_average() {
     while (1) {}
 }
 
-} // namespace example {
+} // namespace mcu::example {
 
 
 

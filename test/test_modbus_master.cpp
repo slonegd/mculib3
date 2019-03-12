@@ -28,11 +28,11 @@ BOOST_AUTO_TEST_SUITE (test_suite_main)
                              ::UART::Baudrate::BR9600
 };
 
-mcu::Register<1, 2> temp;
-mcu::Register<3, 7> uf;
-mcu::Register<2, 4> time;
+Register<1, 2> temp;
+Register<3, 7> uf;
+Register<2, 4> time;
 
-decltype(auto) master = mcu::make
+decltype(auto) master = make_modbus_master
     <mcu::Periph::USART1, TX, RX, RTS>(50, set, temp, time, uf);
 
 decltype(auto) buffer = master.get_buffer();

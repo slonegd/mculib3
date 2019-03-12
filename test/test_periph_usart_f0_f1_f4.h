@@ -360,20 +360,6 @@ BOOST_AUTO_TEST_CASE (clear_interrupt_flags)
 }
 #endif
 
-BOOST_AUTO_TEST_CASE (IRQn)
-{
-   BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART1), USART1_IRQn);
-#if defined(STM32F1) or defined(STM32F4)
-   BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART2), USART2_IRQn);
-   BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART3), USART3_IRQn);
-#endif
-#if defined(STM32F4)
-   BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART4), UART4_IRQn);
-   BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART5), UART5_IRQn);
-   BOOST_CHECK_EQUAL (usart.IRQn(mcu::Periph::USART6), USART6_IRQn);
-#endif
-}
-
 BOOST_AUTO_TEST_CASE (default_stream)
 {
    STATIC_ASSERTATION_REQUIRED (usart.default_stream<mcu::PA5>(), "неверный аргумент шаблона class Pin");
@@ -461,13 +447,20 @@ BOOST_AUTO_TEST_CASE (pin_mode)
 
 BOOST_AUTO_TEST_CASE (pin_static_assert)
 {
+#if defined(STM32F0)
+   STATIC_ASSERTATION_REQUIRED (
+        WRAP(usart.pin_static_assert<mcu::Periph::USART1, mcu::PB2, mcu::PB3>())
+      , "USART1 возможен только с парами пинов TX/RX: PA2/PA3, PA9/PA10 или PB6/PB7"
+   );
+   usart.pin_static_assert<mcu::Periph::USART1, mcu::PA9, mcu::PA10>();
+
+#elif defined(STM32F1) or defined(STM32F4)
    STATIC_ASSERTATION_REQUIRED (
         WRAP(usart.pin_static_assert<mcu::Periph::USART1, mcu::PB2, mcu::PB3>())
       , "USART1 возможен только с парами пинов TX/PA9, RX/PA10 или TX/PB6, RX/PB7"
    );
    usart.pin_static_assert<mcu::Periph::USART1, mcu::PA9, mcu::PA10>();
-
-#if defined(STM32F1) or defined(STM32F4)
+   
    STATIC_ASSERTATION_REQUIRED (
         WRAP(usart.pin_static_assert<mcu::Periph::USART2, mcu::PA9, mcu::PA10>())
       , "USART2 возможен только с парами пинов TX/PA2, RX/PA3 или TX/PD5, RX/PD6"

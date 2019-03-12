@@ -179,7 +179,7 @@ auto& UART_sized<buffer_size>::make()
                 .size_memory(DataSize::byte8)
                 .size_periph(DataSize::byte8)
                 .enable_transfer_complete_interrupt();
-   get_interrupt<USART::default_stream<TXpin>()>().enable();
+   get_interrupt<TX_stream>().enable();
 
    uart.RXstream.set (Direction::to_memory)
             	 .set_memory_adr(size_t(uart.buffer.begin()))

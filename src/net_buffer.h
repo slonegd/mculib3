@@ -98,6 +98,8 @@ Net_buffer<size_>& Net_buffer<size_>::operator>> (uint8_t& v)
 {
    if (end_i > begin_i)
       v = base()[begin_i++];
+   else 
+      v = 0;
    return *this;
 }
 
@@ -108,6 +110,8 @@ Net_buffer<size_>& Net_buffer<size_>::operator>> (uint16_t& v)
       auto _1 = pop_front();
       auto _2 = pop_front();
       v = from_bytes (_1, _2);
+   } else {
+      v = 0;
    }
       
    return *this;

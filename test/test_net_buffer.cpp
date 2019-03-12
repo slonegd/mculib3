@@ -92,17 +92,19 @@ BOOST_AUTO_TEST_CASE (input_operator)
    BOOST_CHECK_EQUAL (std::distance(buffer.begin(), buffer.end()), 0);
 
    std::fill (buffer.begin(), buffer.end(), 255);
+   v8[0] = 1; v8[1] = 2;
    buffer >> v8[0] >> v8[1];
-   BOOST_CHECK_EQUAL (v8[0], 1);
-   BOOST_CHECK_EQUAL (v8[1], 2);
+   BOOST_CHECK_EQUAL (v8[0], 0);
+   BOOST_CHECK_EQUAL (v8[1], 0);
    BOOST_CHECK_EQUAL (buffer.size(), 0);
    BOOST_CHECK_EQUAL (std::distance(buffer.begin(), buffer.end()), 0);
 
+   v16[0] = 1; v16[1] = 2; v16[2] = 3; v16[3] = 4;
    buffer >> v16[0] >> v16[1] >> v16[2] >> v16[3];
-   BOOST_CHECK_EQUAL (v16[0], 0x0304);
-   BOOST_CHECK_EQUAL (v16[1], 0x0506);
-   BOOST_CHECK_EQUAL (v16[2], 0x0708);
-   BOOST_CHECK_EQUAL (v16[3], 0x090A);
+   BOOST_CHECK_EQUAL (v16[0], 0);
+   BOOST_CHECK_EQUAL (v16[1], 0);
+   BOOST_CHECK_EQUAL (v16[2], 0);
+   BOOST_CHECK_EQUAL (v16[3], 0);
    BOOST_CHECK_EQUAL (buffer.size(), 0);
    BOOST_CHECK_EQUAL (std::distance(buffer.begin(), buffer.end()), 0);
 }
