@@ -112,25 +112,6 @@ BOOST_AUTO_TEST_CASE(size_periph)
    BOOST_CHECK_EQUAL(CMSIS.CCR, 0);
 }
 
-BOOST_AUTO_TEST_CASE(IRQn)
-{
-   constexpr auto irq = dma_stream.IRQn(mcu::Periph::DMA1_stream1);
-   BOOST_CHECK_EQUAL (irq, DMA1_Channel1_IRQn);
-#if defined(STM32F1)
-   BOOST_CHECK_EQUAL (dma_stream.IRQn(mcu::Periph::DMA1_stream2), DMA1_Channel2_IRQn);
-   BOOST_CHECK_EQUAL (dma_stream.IRQn(mcu::Periph::DMA1_stream3), DMA1_Channel3_IRQn);
-   BOOST_CHECK_EQUAL (dma_stream.IRQn(mcu::Periph::DMA1_stream4), DMA1_Channel4_IRQn);
-   BOOST_CHECK_EQUAL (dma_stream.IRQn(mcu::Periph::DMA1_stream5), DMA1_Channel5_IRQn);
-   BOOST_CHECK_EQUAL (dma_stream.IRQn(mcu::Periph::DMA1_stream6), DMA1_Channel6_IRQn);
-   BOOST_CHECK_EQUAL (dma_stream.IRQn(mcu::Periph::DMA1_stream7), DMA1_Channel7_IRQn);
-#elif defined(STM32F0)
-   BOOST_CHECK_EQUAL (dma_stream.IRQn(mcu::Periph::DMA1_stream2), DMA1_Channel2_3_IRQn);
-   BOOST_CHECK_EQUAL (dma_stream.IRQn(mcu::Periph::DMA1_stream3), DMA1_Channel2_3_IRQn);
-   BOOST_CHECK_EQUAL (dma_stream.IRQn(mcu::Periph::DMA1_stream4), DMA1_Channel4_5_6_7_IRQn);
-   BOOST_CHECK_EQUAL (dma_stream.IRQn(mcu::Periph::DMA1_stream5), DMA1_Channel4_5_6_7_IRQn);
-#endif
-}
-
 BOOST_AUTO_TEST_CASE(enable_transfer_complete_interrupt)
 {
    CMSIS.CCR = 0;

@@ -2,6 +2,12 @@
 
 #include "periph.h"
 
+#if defined(USE_MOCK_NVIC)
+    inline static auto NVIC_EnableIRQ_t = mock::NVIC_EnableIRQ;
+#else
+    inline static auto NVIC_EnableIRQ_t = ::NVIC_EnableIRQ;
+#endif
+
 /// интерфейс для подписки на прерывания
 struct Interrupting
 {
@@ -18,6 +24,8 @@ public:
     Interrupt (IRQn_Type irq_n) : irq_n {irq_n} {}
 
     auto IRQn() const { return irq_n; }
+
+    void enable() { NVIC_EnableIRQ_t(irq_n); }
 
     void subscribe(Interrupting* ps)
     {

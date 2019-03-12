@@ -37,8 +37,6 @@ public:
 	DMA_stream& size_memory(DataSize  d) {CR.MSIZE = d; return *this;}
 	DMA_stream& size_periph(DataSize  d) {CR.PSIZE = d; return *this;}
 
-	static constexpr IRQn_Type IRQn (Periph);
-
 	DMA_stream& enable_transfer_complete_interrupt(){CR.TCIE = true; return *this;}
 
 	uint16_t qty_transactions_left(){return NDTR;}
@@ -106,26 +104,5 @@ template<Periph usart, Periph stream> constexpr DMA_stream::Channel DMA_stream::
 		return Channel::_5;
 }
 
-constexpr IRQn_Type DMA_stream::IRQn(Periph v)
-{
-	return
-		v == Periph::DMA1_stream0 ? DMA1_Stream0_IRQn :
-		v == Periph::DMA1_stream1 ? DMA1_Stream1_IRQn :
-		v == Periph::DMA1_stream2 ? DMA1_Stream2_IRQn :
-		v == Periph::DMA1_stream3 ? DMA1_Stream3_IRQn :
-		v == Periph::DMA1_stream4 ? DMA1_Stream4_IRQn :
-		v == Periph::DMA1_stream5 ? DMA1_Stream5_IRQn :
-		v == Periph::DMA1_stream6 ? DMA1_Stream6_IRQn :
-		v == Periph::DMA1_stream7 ? DMA1_Stream7_IRQn :
-		v == Periph::DMA2_stream0 ? DMA2_Stream0_IRQn :
-		v == Periph::DMA2_stream1 ? DMA2_Stream1_IRQn :
-		v == Periph::DMA2_stream2 ? DMA2_Stream2_IRQn :
-		v == Periph::DMA2_stream3 ? DMA2_Stream3_IRQn :
-		v == Periph::DMA2_stream4 ? DMA2_Stream4_IRQn :
-		v == Periph::DMA2_stream5 ? DMA2_Stream5_IRQn :
-		v == Periph::DMA2_stream6 ? DMA2_Stream6_IRQn :
-		v == Periph::DMA2_stream7 ? DMA2_Stream7_IRQn :
-		NonMaskableInt_IRQn;
-}
 
 } //namespace mcu

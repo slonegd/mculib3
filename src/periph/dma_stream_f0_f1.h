@@ -36,8 +36,6 @@ public:
    DMA_stream& size_memory(DataSize v) {CCR.MSIZE = v; return *this;}
    DMA_stream& size_periph(DataSize v) {CCR.PSIZE = v; return *this;}
 
-   static constexpr IRQn_Type IRQn (Periph);
-
    DMA_stream& enable_transfer_complete_interrupt(){CCR.TCIE = true; return *this;}
 
    uint16_t qty_transactions_left(){return CNDTR;}
@@ -76,27 +74,6 @@ template<Periph usart, Periph stream> constexpr DMA_stream::Channel DMA_stream::
    else if constexpr (stream == Periph::DMA1_stream6) return Channel::_6;
    else if constexpr (stream == Periph::DMA1_stream7) return Channel::_7;
 #endif
-}
-
-
-constexpr IRQn_Type DMA_stream::IRQn(Periph v)
-{
-   return
-      v == Periph::DMA1_stream1 ? DMA1_Channel1_IRQn :
-   #if defined(STM32F1)
-      v == Periph::DMA1_stream2 ? DMA1_Channel2_IRQn :
-      v == Periph::DMA1_stream3 ? DMA1_Channel3_IRQn :
-      v == Periph::DMA1_stream4 ? DMA1_Channel4_IRQn :
-      v == Periph::DMA1_stream5 ? DMA1_Channel5_IRQn :
-      v == Periph::DMA1_stream6 ? DMA1_Channel6_IRQn :
-      v == Periph::DMA1_stream7 ? DMA1_Channel7_IRQn :
-   #elif defined(STM32F0)
-         v == Periph::DMA1_stream2 
-      or v == Periph::DMA1_stream3 ? DMA1_Channel2_3_IRQn :
-         v == Periph::DMA1_stream4
-      or v == Periph::DMA1_stream5 ? DMA1_Channel4_5_6_7_IRQn :
-   #endif
-      NonMaskableInt_IRQn;
 }
 
 

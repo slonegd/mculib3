@@ -6,6 +6,7 @@
 #include "periph_dma.h"
 #include "pin.h"
 #include "net_buffer.h"
+#include "interrupt.h"
 
 #if defined(USE_MOCK_DMA)
 using DMA_stream = mock::DMA_stream;
@@ -101,11 +102,6 @@ protected:
 
   //  UART_sized(const UART_sized&) = delete;
    UART_sized& operator= (const UART_sized&) = delete;
-#if defined(USE_MOCK_NVIC)
-    inline static auto NVIC_EnableIRQ_t = mock::NVIC_EnableIRQ;
-#else
-    inline static auto NVIC_EnableIRQ_t = ::NVIC_EnableIRQ;
-#endif
 };
 
 using UART = UART_sized<>;
@@ -173,7 +169,7 @@ auto& UART_sized<buffer_size>::make()
              .DMA_rx_enable()
              .enable_IDLE_interrupt()
              .enable();
-   NVIC_EnableIRQ_t(uart.usart.IRQn(uart_periph));
+   get_interrupt<uart_periph>().enable();
 
    rcc.clock_enable<dma_periph>();
    uart.TXstream.set (Direction::to_periph)
@@ -183,7 +179,7 @@ auto& UART_sized<buffer_size>::make()
                 .size_memory(DataSize::byte8)
                 .size_periph(DataSize::byte8)
                 .enable_transfer_complete_interrupt();
-      NVIC_EnableIRQ_t(uart.TXstream.IRQn(TX_stream));
+   get_interrupt<USART::default_stream<TXpin>()>().enable();
 
    uart.RXstream.set (Direction::to_memory)
             	 .set_memory_adr(size_t(uart.buffer.begin()))
