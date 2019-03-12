@@ -6,7 +6,7 @@
 #define HEAP_SIZE 22
 
 #include <cstddef>
-#include "heap.h"
+#include "global_new.h"
 
 int main()
 {

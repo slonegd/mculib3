@@ -4,20 +4,20 @@
 #include "pin.h"
 #include "literals.h"
 
-#if defined(USE_MOCK_GPIO)
-using TIM_t = mock::TIM;
+#if defined(USE_MOCK_TIM)
+using TIM = mock::TIM;
 #else
-using TIM_t = mcu::TIM;
+using TIM = mcu::TIM;
 #endif
 
 class PWM 
 {
-   TIM_t& tim;
+   TIM& tim;
    Pin& pin;
    uint16_t CNT {0xFFFF};
    
-   const TIM_t::Channel channel;
-   const TIM_t::EnableMask enable_mask;
+   const TIM::Channel channel;
+   const TIM::EnableMask enable_mask;
 
    const uint16_t max_duty_cycle;
    constexpr static uint16_t min_frequency {(F_CPU / 0xFFFF) + 1};
@@ -62,10 +62,10 @@ class PWM
    };
 
 public:
-   PWM (TIM_t& tim
+   PWM (TIM& tim
       , Pin& pin
-      , TIM_t::Channel channel
-      , TIM_t::EnableMask enable_mask
+      , TIM::Channel channel
+      , TIM::EnableMask enable_mask
       , uint16_t max_duty_cycle
    ) 
       : tim{tim}
@@ -81,16 +81,16 @@ public:
    template <mcu::Periph tim_, class Pin_>
    static auto& make (uint16_t max_duty_cycle = 100)
    {
-      TIM_t::pin_static_assert<tim_, Pin_>();
+      TIM::pin_static_assert<tim_, Pin_>();
       
-      constexpr auto pin_mode = TIM_t::pin_mode<tim_, Pin_>();
-      constexpr auto channel_ = TIM_t::channel<tim_, Pin_>();
+      constexpr auto pin_mode = TIM::pin_mode<tim_, Pin_>();
+      constexpr auto channel_ = TIM::channel<tim_, Pin_>();
    
       static PWM pwm {
          mcu::make_reference<tim_>(),
          Pin::make<Pin_, pin_mode>(),
-         TIM_t::channel<tim_, Pin_>(),
-         TIM_t::enable_mask<channel_>(),
+         TIM::channel<tim_, Pin_>(),
+         TIM::enable_mask<channel_>(),
          max_duty_cycle
       };
       mcu::make_reference<mcu::Periph::RCC>().clock_enable<tim_>();

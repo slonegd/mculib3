@@ -1,6 +1,6 @@
 language: cpp
 compiler: gcc
-dist: xenial
+dist: trusty
 
 before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -25,4 +25,4 @@ deploy:
     keep-history: true
     local-dir: html
     on:
-      branch: master
+      branch: dvk

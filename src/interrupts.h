@@ -3,7 +3,12 @@
 #include "periph_usart.h"
 #include "periph_dma.h"
 
-#if defined(STM32F030x6)
+
+#if defined (STM32F0)
+	extern "C" void DMA1_Ch1_IRQHandler() { interrupt_DMA_channel1.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(mcu::DMA::Channel::_1);}
+   extern "C" void DMA1_Channel2_3_IRQHandler()     { while(1) {} }
+   extern "C" void DMA1_Channel4_5_IRQHandler()     { while(1) {} }
+#elif defined (STM32F1)
 
    extern "C" void TIM1_BRK_TIM9_IRQHandler      () { while(1) {} }
    extern "C" void TIM1_CC_IRQHandler            () { while(1) {} }
@@ -16,11 +21,8 @@
    extern "C" void USART2_IRQHandler()              { interrupt_usart2.interrupt(); mcu::make_reference<mcu::Periph::USART2>().clear_interrupt_flags();}
    extern "C" void USART3_IRQHandler()              { interrupt_usart3.interrupt(); mcu::make_reference<mcu::Periph::USART3>().clear_interrupt_flags();}
 
-   extern "C" void DMA1_Channel1_IRQHandler()       { interrupt_DMA_channel1.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_1);}
-   extern "C" void DMA1_Channel2_3_IRQHandler()     { while(1) {} }
-   extern "C" void DMA1_Channel4_5_IRQHandler()     { while(1) {} }
 
-#elif defined (STM32F103xB)
+#elif defined (STM32F1)
 	// список прерываний, которые не описаны
    extern "C" void WWDG_IRQHandler            () { while(1) {} }
    extern "C" void PVD_IRQHandler             () { while(1) {} }
@@ -68,7 +70,7 @@
    extern "C" void DMA1_Channel6_IRQHandler   () { interrupt_DMA_channel6.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_6);}
    extern "C" void DMA1_Channel7_IRQHandler   () { interrupt_DMA_channel7.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(DMA::Channel::_7);}
 
-#elif defined (STM32F405xx)
+#elif defined (STM32F4)
    extern "C" void WWDG_IRQHandler               () { while(1) {} }
    extern "C" void PVD_IRQHandler                () { while(1) {} }
    extern "C" void TAMP_STAMP_IRQHandler         () { while(1) {} }

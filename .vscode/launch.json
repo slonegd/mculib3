@@ -236,7 +236,7 @@
          "name": "test",
          "type": "cppdbg",
          "request": "launch",
-         "program": "${workspaceRoot}/test/cmake/build/test_list",
+         "program": "${workspaceRoot}/test/cmake/build/test_adc_f0",
          "args": [],
          "stopAtEntry": true,
          "cwd": "${workspaceRoot}",
@@ -271,6 +271,16 @@
 			"MIMode": "gdb",
 			"cwd": "${workspaceRoot}"
       },
+      { 
+        "name": "f0_discovery",
+        "type": "cppdbg",
+        "request": "launch",
+     "miDebuggerPath": "arm-none-eabi-gdb",
+     "program": "${workspaceRoot}/test/f0_discovery/build/main.elf",
+        "miDebuggerServerAddress": "localhost:4242",
+        "MIMode": "gdb",
+        "cwd": "${workspaceRoot}"
+  },
       {
         "type": "cortex-debug",
         "request": "launch",

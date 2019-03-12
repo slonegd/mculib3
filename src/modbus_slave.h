@@ -127,14 +127,13 @@ public:
    template <mcu::Periph usart, class TXpin,  class RXpin, class RTSpin> 
    static auto& make (uint8_t address, UART_::Settings set)
    {
-      auto interrupt_usart = usart == mcu::Periph::USART1 ? &interrupt_usart1 :
-                             usart == mcu::Periph::USART2 ? &interrupt_usart2 :
-                             usart == mcu::Periph::USART3 ? &interrupt_usart3 :
-                             nullptr;
     #if defined(STM32F0)
       auto interrupt_dma   = usart == Periph::USART1 ? &interrupt_DMA_channel2 : //тут может быть и 4 ???
                              usart == Periph::USART2 ? &interrupt_DMA_channel4 : 
                              usart == Periph::USART3 ? &interrupt_DMA_channel2 :
+      auto interrupt_dma   = usart == mcu::Periph::USART1 ? &interrupt_DMA_channel4 :
+                             usart == mcu::Periph::USART2 ? &interrupt_DMA_channel7 : 
+                             usart == mcu::Periph::USART3 ? &interrupt_DMA_channel2 :
                              nullptr;
     #elif defined(STM32F1)
   	  auto interrupt_dma   = usart == Periph::USART1 ? &interrupt_DMA_channel4 :
@@ -156,7 +155,7 @@ public:
       static Modbus_slave<InRegs_t, OutRegs_t> modbus {
            address
          , uart_ref
-         , *interrupt_usart
+         , get_interrupt<usart>()
          , *interrupt_dma
       };
 

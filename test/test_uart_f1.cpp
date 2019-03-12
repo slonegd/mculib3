@@ -8,8 +8,8 @@
 #include "mock_rcc.h"
 #include "mock_afio.h"
 #include "mock_gpio.h"
-#include "mock_dma.h"
 #include "mock_periph_usart.h"
+#include "mock_dma.h"
 #include "uart.h"
 #include <type_traits>
 #include <string>
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE (make)
       "включение тактирования DMA1\n"
       "DMA1_stream4: Установка направления из памяти в переферию\n"
       "DMA1_stream4: Установка адреса памяти: " + std::to_string(size_t(uart.buffer.begin())) + "\n"
-      "DMA1_stream4: Установка адреса переферии: " + std::to_string(size_t(&usart1.like_CMSIS().DR)) + "\n"
+      "DMA1_stream4: Установка адреса переферии: " + std::to_string(size_t(&mock::usart1.like_CMSIS().DR)) + "\n"
       "DMA1_stream4: Установка инкремента адреса памяти\n"
       "DMA1_stream4: Установка размера данных в памяти байт (8бит)\n"
       "DMA1_stream4: Установка размера данных в переферии байт (8бит)\n"
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE (make)
       "NVIC: включение прерывания DMA1_Channel4\n"
       "DMA1_stream5: Установка направления из переферии в память\n"
       "DMA1_stream5: Установка адреса памяти: " + std::to_string(size_t(uart.buffer.begin())) + "\n"
-      "DMA1_stream5: Установка адреса переферии: " + std::to_string(size_t(&usart1.like_CMSIS().DR)) + "\n"
+      "DMA1_stream5: Установка адреса переферии: " + std::to_string(size_t(&mock::usart1.like_CMSIS().DR)) + "\n"
       "DMA1_stream5: Установка количества передач данных: 255\n"
       "DMA1_stream5: Установка инкремента адреса памяти\n"
       "DMA1_stream5: Установка размера данных в памяти байт (8бит)\n"

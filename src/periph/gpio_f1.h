@@ -7,7 +7,7 @@
 
 namespace mcu {
 
-enum class PinMode {Input, Output, USART1_TX, USART1_RX, USART2_TX, USART2_RX, USART3_TX, USART3_RX};
+enum class PinMode {Input, Output, Analog, USART1_TX, USART1_RX, USART2_TX, USART2_RX, USART3_TX, USART3_RX};
 
 class GPIO {
   volatile GPIO_bits::CR CR;   // Port configuration register      offset: 0x00

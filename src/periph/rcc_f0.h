@@ -5,93 +5,82 @@
 namespace mcu {
 
 class RCC {
-   __IO RCC_bits::CR      CR;         // clock control register,                offset: 0x00
-   __IO RCC_bits::CFGR    CFGR;       // clock configuration register,          offset: 0x04
-   __IO uint32_t          CIR;        // clock interrupt register,              offset: 0x08
-   __IO uint32_t          APB2RSTR;   // APB2 peripheral reset register,        offset: 0x0C
-   __IO uint32_t          APB1RSTR;   // APB1 peripheral reset register,        offset: 0x10
-   __IO RCC_bits::AHBENR  AHBENR;     // AHB peripheral clock register,         offset: 0x14
-   __IO RCC_bits::APB2ENR APB2ENR;    // APB2 peripheral clock enable register, offset: 0x18
-   __IO RCC_bits::APB1ENR APB1ENR;    // APB1 peripheral clock enable register, offset: 0x1C
-   __IO uint32_t          BDCR;       // Backup domain control register,        offset: 0x20
-   __IO uint32_t          CSR;        // clock control & status register,       offset: 0x24
-   __IO uint32_t          AHBRSTR;    // AHB peripheral reset register,         offset: 0x28
-   __IO uint32_t          CFGR2;      // clock configuration register 2,        offset: 0x2C
-   __IO uint32_t          CFGR3;      // clock configuration register 3,        offset: 0x30
-   __IO uint32_t          CR2;        // clock control register 2,              offset: 0x34
+	volatile RCC_bits::CR      CR;         // clock control register,                offset: 0x00
+	volatile RCC_bits::CFGR    CFGR;       // clock configuration register,          offset: 0x04
+	volatile uint32_t          CIR;        // clock interrupt register,              offset: 0x08
+	volatile uint32_t          APB2RSTR;   // APB2 peripheral reset register,        offset: 0x0C
+	volatile uint32_t          APB1RSTR;   // APB1 peripheral reset register,        offset: 0x10
+	volatile RCC_bits::AHBENR  AHBENR;     // AHB peripheral clock register,         offset: 0x14
+	volatile RCC_bits::APB2ENR APB2ENR;    // APB2 peripheral clock enable register, offset: 0x18
+	volatile RCC_bits::APB1ENR APB1ENR;    // APB1 peripheral clock enable register, offset: 0x1C
+	volatile uint32_t          BDCR;       // Backup domain control register,        offset: 0x20
+	volatile uint32_t          CSR;        // clock control & status register,       offset: 0x24
+	volatile uint32_t          AHBRSTR;    // AHB peripheral reset register,         offset: 0x28
+	volatile uint32_t          CFGR2;      // clock configuration register 2,        offset: 0x2C
+	volatile uint32_t          CFGR3;      // clock configuration register 3,        offset: 0x30
+	volatile uint32_t          CR2;        // clock control register 2,              offset: 0x34
 
 
 public:
-   using CMSIS_type    = RCC_TypeDef;
-   using AHBprescaler  = RCC_bits::CFGR::AHBprescaler;
-   using APBprescaler  = RCC_bits::CFGR::APBprescaler;
-   using SystemClock   = RCC_bits::CFGR::SystemClock;
-   using PLLsource     = RCC_bits::CFGR::PLLsource;
-   using PLLmultiplier = RCC_bits::CFGR::PLLmultiplier;
+	using CMSIS_type    = RCC_TypeDef;
+	using AHBprescaler  = RCC_bits::CFGR::AHBprescaler;
+	using APBprescaler  = RCC_bits::CFGR::APBprescaler;
+	using SystemClock   = RCC_bits::CFGR::SystemClock;
+	using PLLsource     = RCC_bits::CFGR::PLLsource;
+	using PLLmultiplier = RCC_bits::CFGR::PLLmultiplier;
 
-   auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
+	auto& like_CMSIS() { return *reinterpret_cast<CMSIS_type*>(this); }
 
-   RCC& set (AHBprescaler  v) { CFGR.HPRE   = v; return *this; }
-   RCC& set (APBprescaler  v) { CFGR.PPRE   = v; return *this; }
-   RCC& set (SystemClock   v) { CFGR.SW     = v; return *this; }
-   RCC& set (PLLsource     v) { CFGR.PLLSRC = v; return *this; }
-   RCC& set (PLLmultiplier v) { CFGR.PLLMUL = v; return *this; }
+	RCC& set (AHBprescaler  v) { CFGR.HPRE   = v; return *this; }
+	RCC& set (APBprescaler  v) { CFGR.PPRE   = v; return *this; }
+	RCC& set (SystemClock   v) { CFGR.SW     = v; return *this; }
+	RCC& set (PLLsource     v) { CFGR.PLLSRC = v; return *this; }
+	RCC& set (PLLmultiplier v) { CFGR.PLLMUL = v; return *this; }
 
-   RCC& on_HSE        () { CR.HSEON = true;         return *this; }
-   RCC& wait_HSE_ready() { while (not CR.HSERDY) {} return *this; }
-   RCC& on_PLL        () { CR.PLLON = true;         return *this; }
-   RCC& wait_PLL_ready() { while (not CR.PLLRDY) {} return *this; }
+	RCC& on_HSE        () { CR.HSEON = true;         return *this; }
+	RCC& wait_HSE_ready() { while (not CR.HSERDY) {} return *this; }
+	RCC& on_PLL        () { CR.PLLON = true;         return *this; }
+	RCC& wait_PLL_ready() { while (not CR.PLLRDY) {} return *this; }
 
-   size_t get_APB_clock()
-   {
-      auto v = CFGR.PPRE;
-      return v == APBprescaler::APBnotdiv ? F_CPU     :
-             v == APBprescaler::APBdiv2   ? F_CPU / 2 :
-             v == APBprescaler::APBdiv4   ? F_CPU / 4 :
-             v == APBprescaler::APBdiv8   ? F_CPU / 8 :
-                                            F_CPU / 16;
-   }
+	size_t get_APB_clock()
+	{
+		auto v = CFGR.PPRE;
+		return v == APBprescaler::APBnotdiv ? F_CPU     :
+				 v == APBprescaler::APBdiv2   ? F_CPU / 2 :
+				 v == APBprescaler::APBdiv4   ? F_CPU / 4 :
+				 v == APBprescaler::APBdiv8   ? F_CPU / 8 :
+														  F_CPU / 16;
+	}
 
-   template<Periph p> void clock_enable()
-   {
-      if      constexpr (p == Periph::GPIOA)  AHBENR .IOPAEN  = true;
-      else if constexpr (p == Periph::GPIOB)  AHBENR .IOPBEN  = true;
-      else if constexpr (p == Periph::GPIOC)  AHBENR .IOPCEN  = true;
-      else if constexpr (p == Periph::GPIOD)  AHBENR .IOPDEN  = true;
-      else if constexpr (p == Periph::GPIOF)  AHBENR .IOPFEN  = true;
+	template<Periph p> void clock_enable()
+	{
+		if      constexpr (p == Periph::GPIOA)  AHBENR .IOPAEN  = true;
+		else if constexpr (p == Periph::GPIOB)  AHBENR .IOPBEN  = true;
+		else if constexpr (p == Periph::GPIOC)  AHBENR .IOPCEN  = true;
+		else if constexpr (p == Periph::GPIOD)  AHBENR .IOPDEN  = true;
+		else if constexpr (p == Periph::GPIOF)  AHBENR .IOPFEN  = true;
 
-      else if constexpr (p == Periph::USART1) APB2ENR.USART1EN  = true;
+		else if constexpr (p == Periph::USART1) APB2ENR.USART1EN  = true;
 
-      else if constexpr (p == Periph::TIM1)   APB2ENR.TIM1EN  = true;
-      else if constexpr (p == Periph::TIM3)   APB1ENR.TIM3EN  = true;
-      else if constexpr (p == Periph::TIM14)  APB1ENR.TIM14EN = true;
-      else if constexpr (p == Periph::TIM16)  APB2ENR.TIM16EN = true;
-      else if constexpr (p == Periph::TIM17)  APB2ENR.TIM17EN = true;
+		else if constexpr (p == Periph::TIM1)   APB2ENR.TIM1EN  = true;
+		else if constexpr (p == Periph::TIM3)   APB1ENR.TIM3EN  = true;
+		else if constexpr (p == Periph::TIM14)  APB1ENR.TIM14EN = true;
+		else if constexpr (p == Periph::TIM16)  APB2ENR.TIM16EN = true;
+		else if constexpr (p == Periph::TIM17)  APB2ENR.TIM17EN = true;
 
-      else if constexpr (p == Periph::DMA1)         AHBENR.DMAEN = true;
-      else if constexpr (p == Periph::DMA1_stream1) AHBENR.DMAEN = true;
-      else if constexpr (p == Periph::DMA1_stream2) AHBENR.DMAEN = true;
-      else if constexpr (p == Periph::DMA1_stream3) AHBENR.DMAEN = true;
-      else if constexpr (p == Periph::DMA1_stream4) AHBENR.DMAEN = true;
-      else if constexpr (p == Periph::DMA1_stream5) AHBENR.DMAEN = true;
+		else if constexpr (p == Periph::DMA1)         AHBENR.DMAEN = true;
+		else if constexpr (p == Periph::DMA1_stream1) AHBENR.DMAEN = true;
+		else if constexpr (p == Periph::DMA1_stream2) AHBENR.DMAEN = true;
+		else if constexpr (p == Periph::DMA1_stream3) AHBENR.DMAEN = true;
+		else if constexpr (p == Periph::DMA1_stream4) AHBENR.DMAEN = true;
+		else if constexpr (p == Periph::DMA1_stream5) AHBENR.DMAEN = true;
 
-      else if constexpr (p == Periph::ADC1)   APB2ENR.ADC1EN = true;
-      static_assert (
-            p == Periph::GPIOA  or p == Periph::GPIOB  or p == Periph::GPIOC
-         or p == Periph::GPIOD  or p == Periph::GPIOF
-         or p == Periph::USART1 
-         or p == Periph::TIM1   or p == Periph::TIM3   or p == Periph::TIM14
-         or p == Periph::TIM16  or p == Periph::TIM17
-         or p == Periph::DMA1
-         or p == Periph::DMA1_stream1 or p == Periph::DMA1_stream2
-         or p == Periph::DMA1_stream3 or p == Periph::DMA1_stream4
-         or p == Periph::DMA1_stream5
-         or p == Periph::ADC1
-         , "допиши clock_enable"
-      );
-   }
+		else if constexpr (p == Periph::ADC1)   APB2ENR.ADC1EN = true;
+		
+        else static_assert ( always_false_v<decltype(p)>, "допиши clock_enable");
+	}
 
-   auto clock (Periph p) { return get_APB_clock(); }
+	auto clock (Periph p) { return get_APB_clock(); }
 };
 
 #if not defined(USE_MOCK_RCC)

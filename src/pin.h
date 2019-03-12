@@ -4,9 +4,9 @@
 #include "pins.h"
 
 #if defined(USE_MOCK_GPIO)
-using namespace mock;
+using GPIO = mock::GPIO;
 #else
-using namespace mcu;
+using GPIO = mcu::GPIO;
 #endif
 
 class Pin {

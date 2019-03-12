@@ -16,15 +16,9 @@ using DMA_t = mcu::DMA;
 #endif
 
 #if defined(USE_MOCK_USART)
-using USART_t = mock::USART;
+using USART = mock::USART;
 #else
-using USART_t = mcu::USART;
-#endif
-
-#if defined(USE_MOCK_NVIC)
-auto& NVIC_EnableIRQ_t = mock::NVIC_EnableIRQ;
-#else
-auto& NVIC_EnableIRQ_t = ::NVIC_EnableIRQ;
+using USART = mcu::USART;
 #endif
 
 #if defined(USE_MOCK_NET_BUFFER)
@@ -37,10 +31,10 @@ template<size_t buffer_size = 255>
 class UART_sized
 {
 public:
-   using Parity   = USART_t::Parity;
-   using DataBits = USART_t::DataBits;
-   using StopBits = USART_t::StopBits;
-   using Baudrate = USART_t::Baudrate;
+   using Parity   = USART::Parity;
+   using DataBits = USART::DataBits;
+   using StopBits = USART::StopBits;
+   using Baudrate = USART::Baudrate;
    struct Settings {
       bool     parity_enable :1;
       Parity   parity        :1;
@@ -69,8 +63,8 @@ public:
 
 
 protected:
-   using WakeMethod     = USART_t::WakeMethod;
-   using BreakDetection = USART_t::BreakDetection;
+   // using WakeMethod     = USART::WakeMethod;
+   // using BreakDetection = USART::BreakDetection;
    using DataSize       = DMA_stream_t::DataSize;
    using Priority       = DMA_stream_t::Priority;
    using Channel        = DMA_stream_t::Channel;
@@ -80,7 +74,7 @@ protected:
    Pin&          rx;
    Pin&          rts;
    DMA_t&        dma;
-   USART_t&      usart;
+   USART&      usart;
    DMA_stream_t& TXstream;
    DMA_stream_t& RXstream;
    const mcu::Periph uart_periph;
@@ -90,7 +84,7 @@ protected:
         Pin&          tx
       , Pin&          rx
       , Pin&          rts
-      , USART_t&      usart
+      , USART&      usart
       , DMA_t&        dma
       , DMA_stream_t& TXstream
       , DMA_stream_t& RXstream
@@ -109,6 +103,11 @@ protected:
 
   //  UART_sized(const UART_sized&) = delete;
    UART_sized& operator= (const UART_sized&) = delete;
+#if defined(USE_MOCK_NVIC)
+    inline static auto NVIC_EnableIRQ_t = mock::NVIC_EnableIRQ;
+#else
+    inline static auto NVIC_EnableIRQ_t = ::NVIC_EnableIRQ;
+#endif
 };
 
 using UART = UART_sized<>;
@@ -148,13 +147,13 @@ template<size_t buffer_size>
 template <mcu::Periph uart_periph, class TXpin, class RXpin, class RTSpin> 
 auto& UART_sized<buffer_size>::make()
 {
-   USART_t::pin_static_assert<uart_periph, TXpin, RXpin>();
+   USART::pin_static_assert<uart_periph, TXpin, RXpin>();
    
-   constexpr auto TX_stream  = USART_t::default_stream<TXpin>();
-   constexpr auto RX_stream  = USART_t::default_stream<RXpin>();
+   constexpr auto TX_stream  = USART::default_stream<TXpin>();
+   constexpr auto RX_stream  = USART::default_stream<RXpin>();
    constexpr auto dma_periph = DMA_stream_t::dma_periph<TX_stream>();
-   constexpr auto TXpin_mode = USART_t::pin_mode<TXpin>();
-   constexpr auto RXpin_mode = USART_t::pin_mode<RXpin>();
+   constexpr auto TXpin_mode = USART::pin_mode<TXpin>();
+   constexpr auto RXpin_mode = USART::pin_mode<RXpin>();
 
    static UART_sized<buffer_size> uart {
         Pin::make<TXpin, TXpin_mode>()

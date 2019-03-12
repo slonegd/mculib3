@@ -51,7 +51,6 @@ struct generate_impl<f, std::index_sequence<i...>>
 /// генерировать массив функцией f
 template<auto& f, size_t size>
 constexpr auto generate = generate_impl<f, std::make_index_sequence<size>>::table;
-
 } // namespace meta {
 
 namespace { // test
@@ -90,6 +89,7 @@ struct tuple_generate_impl<T, std::index_sequence<i...>>
 
 template<class T, size_t n>
 using tuple_generate_t = typename tuple_generate_impl<T, std::make_index_sequence<n>>::type;
+
 
 } // namespace meta {
 

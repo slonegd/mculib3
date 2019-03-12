@@ -117,7 +117,16 @@ auto& like_CMSIS (T& p)
    return *reinterpret_cast<typename T::CMSIS_type*>(&p);
 }
 
+template<class T>
+volatile auto& registr (T& v)
+{
+   return *reinterpret_cast<volatile uint32_t*>(&v);
 }
+
+}
+
+template<class T>
+constexpr auto always_false_v = std::false_type::value;
 
 #define SFINAE(periph,type) template <Periph p> std::enable_if_t<p == Periph::periph, type&>
 #define REF(periph) mcu::make_reference<mcu::Periph::periph>()
