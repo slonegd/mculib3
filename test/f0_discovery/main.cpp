@@ -8,6 +8,7 @@
 #include "timers.h"
 #include "periph_dma.h"
 #include "adc.h"
+#include "modbus_master.h"
 
 
 /// эта функция вызываеться первой в startup файле
@@ -29,6 +30,6 @@ extern "C" void init_clock ()
 
 int main()
 {
-    REF(RCC).clock_enable<mcu::Periph::TIM1>();
-    example::ADC_average();
+    // REF(RCC).clock_enable<mcu::Periph::TIM1>();
+    // example::ADC_average();
 }

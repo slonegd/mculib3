@@ -22,12 +22,6 @@ using DMA_stream = mock::DMA_stream;
 using DMA_stream = mcu::DMA_stream;
 #endif
 
-#if defined(USE_MOCK_NVIC)
-auto& NVIC_EnableIRQ_t = mock::NVIC_EnableIRQ;
-#else
-auto& NVIC_EnableIRQ_t = ::NVIC_EnableIRQ;
-#endif
-
 struct ADC_average;
 
 struct ADC_channel : Listable<ADC_channel> {
@@ -80,6 +74,11 @@ private:
     } 
     ADC_average (const ADC_average&) = delete;
     void interrupt() override;
+#if defined(USE_MOCK_NVIC)
+    inline static auto NVIC_EnableIRQ_t = mock::NVIC_EnableIRQ;
+#else
+    inline static auto NVIC_EnableIRQ_t = ::NVIC_EnableIRQ;
+#endif
 };
 
 
