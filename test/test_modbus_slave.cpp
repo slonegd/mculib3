@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE (read)
     } out_reg;
 
     interrupt_usart1.clear_subscribe();
-    interrupt_DMA_channel4.clear_subscribe();
+    interrupt_DMA1_channel4.clear_subscribe();
 
     
     const uint8_t  address   = 1;
@@ -227,7 +227,7 @@ BOOST_AUTO_TEST_CASE (incomplete_message)
     struct OutReg{};
 
     interrupt_usart1.clear_subscribe();
-    interrupt_DMA_channel4.clear_subscribe();
+    interrupt_DMA1_channel4.clear_subscribe();
 
     
     const uint8_t address = 1;
@@ -259,7 +259,7 @@ BOOST_AUTO_TEST_CASE (wrong_CRC)
     struct OutReg{};
 
     interrupt_usart1.clear_subscribe();
-    interrupt_DMA_channel4.clear_subscribe();
+    interrupt_DMA1_channel4.clear_subscribe();
 
     const uint8_t  address   = 1;
           uint8_t  function  = 3;
@@ -304,7 +304,7 @@ BOOST_AUTO_TEST_CASE (wrong_adr)
     struct OutReg{};
 
     interrupt_usart1.clear_subscribe();
-    interrupt_DMA_channel4.clear_subscribe();
+    interrupt_DMA1_channel4.clear_subscribe();
 
     const uint8_t  address   = 1;
           uint8_t  function  = 3;
@@ -349,7 +349,7 @@ BOOST_AUTO_TEST_CASE (wrong_func)
     struct OutReg{};
 
     interrupt_usart1.clear_subscribe();
-    interrupt_DMA_channel4.clear_subscribe();
+    interrupt_DMA1_channel4.clear_subscribe();
 
     const uint8_t  address   = 1;
           uint8_t  function  = 9;
@@ -402,7 +402,7 @@ BOOST_AUTO_TEST_CASE (wrong_reg)
     };
 
     interrupt_usart1.clear_subscribe();
-    interrupt_DMA_channel4.clear_subscribe();
+    interrupt_DMA1_channel4.clear_subscribe();
 
     const uint8_t  address   = 3;
           uint8_t  function  = 3;
@@ -458,7 +458,7 @@ BOOST_AUTO_TEST_CASE (write)
     struct OutReg {};
 
     interrupt_usart1.clear_subscribe();
-    interrupt_DMA_channel4.clear_subscribe();
+    interrupt_DMA1_channel4.clear_subscribe();
 
     const uint8_t  address   = 7;
           uint8_t  function  = 16;
@@ -570,7 +570,7 @@ BOOST_AUTO_TEST_CASE (check_value)
     struct OutReg {};
 
     interrupt_usart1.clear_subscribe();
-    interrupt_DMA_channel4.clear_subscribe();
+    interrupt_DMA1_channel4.clear_subscribe();
 
     const uint8_t  address   = 7;
           uint8_t  function  = 16;
@@ -624,7 +624,7 @@ BOOST_AUTO_TEST_CASE (not_tick)
     struct OutReg{};
 
     interrupt_usart1.clear_subscribe();
-    interrupt_DMA_channel4.clear_subscribe();
+    interrupt_DMA1_channel4.clear_subscribe();
 
     const uint8_t  address   = 7;
           uint8_t  function  = 16;
@@ -673,7 +673,7 @@ BOOST_AUTO_TEST_CASE (not_uart_interrupt)
     struct OutReg{};
 
     interrupt_usart1.clear_subscribe();
-    interrupt_DMA_channel4.clear_subscribe();
+    interrupt_DMA1_channel4.clear_subscribe();
 
     const uint8_t  address   = 7;
           uint8_t  function  = 16;
@@ -729,7 +729,7 @@ BOOST_AUTO_TEST_CASE (dma_interrupt)
     struct OutReg {};
 
     interrupt_usart1.clear_subscribe();
-    interrupt_DMA_channel4.clear_subscribe();
+    interrupt_DMA1_channel4.clear_subscribe();
 
     const uint8_t  address   = 7;
           uint8_t  function  = 16;
@@ -796,7 +796,7 @@ BOOST_AUTO_TEST_CASE(new_message)
     } out_reg;
 
     interrupt_usart1.clear_subscribe();
-    interrupt_DMA_channel4.clear_subscribe();
+    interrupt_DMA1_channel4.clear_subscribe();
 
     const uint8_t  address   = 3;
           uint8_t  function  = 3;

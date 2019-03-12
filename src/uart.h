@@ -8,11 +8,11 @@
 #include "net_buffer.h"
 
 #if defined(USE_MOCK_DMA)
-using DMA_stream_t = mock::DMA_stream;
-using DMA_t = mock::DMA;
+using DMA_stream = mock::DMA_stream;
+using DMA = mock::DMA;
 #else
-using DMA_stream_t = mcu::DMA_stream;
-using DMA_t = mcu::DMA;
+using DMA_stream = mcu::DMA_stream;
+using DMA = mcu::DMA;
 #endif
 
 #if defined(USE_MOCK_USART)
@@ -63,20 +63,18 @@ public:
 
 
 protected:
-   // using WakeMethod     = USART::WakeMethod;
-   // using BreakDetection = USART::BreakDetection;
-   using DataSize       = DMA_stream_t::DataSize;
-   using Priority       = DMA_stream_t::Priority;
-   using Channel        = DMA_stream_t::Channel;
-   using Direction      = DMA_stream_t::Direction;
+   using DataSize       = DMA_stream::DataSize;
+   using Priority       = DMA_stream::Priority;
+   using Channel        = DMA_stream::Channel;
+   using Direction      = DMA_stream::Direction;
 
    Pin&          tx;
    Pin&          rx;
    Pin&          rts;
-   DMA_t&        dma;
+   DMA&        dma;
    USART&      usart;
-   DMA_stream_t& TXstream;
-   DMA_stream_t& RXstream;
+   DMA_stream& TXstream;
+   DMA_stream& RXstream;
    const mcu::Periph uart_periph;
    const Channel TX_channel;
 
@@ -85,9 +83,9 @@ protected:
       , Pin&          rx
       , Pin&          rts
       , USART&      usart
-      , DMA_t&        dma
-      , DMA_stream_t& TXstream
-      , DMA_stream_t& RXstream
+      , DMA&        dma
+      , DMA_stream& TXstream
+      , DMA_stream& RXstream
       , mcu::Periph uart_periph
       , Channel TX_channel
    )  : tx       {tx}
@@ -151,7 +149,7 @@ auto& UART_sized<buffer_size>::make()
    
    constexpr auto TX_stream  = USART::default_stream<TXpin>();
    constexpr auto RX_stream  = USART::default_stream<RXpin>();
-   constexpr auto dma_periph = DMA_stream_t::dma_periph<TX_stream>();
+   constexpr auto dma_periph = DMA_stream::dma_periph<TX_stream>();
    constexpr auto TXpin_mode = USART::pin_mode<TXpin>();
    constexpr auto RXpin_mode = USART::pin_mode<RXpin>();
 
@@ -164,7 +162,7 @@ auto& UART_sized<buffer_size>::make()
       , mcu::make_reference<TX_stream>()
       , mcu::make_reference<RX_stream>()
       , uart_periph
-      , DMA_stream_t::channel<uart_periph, TX_stream>()
+      , DMA_stream::channel<uart_periph, TX_stream>()
    };
 
    auto& rcc = REF(RCC);

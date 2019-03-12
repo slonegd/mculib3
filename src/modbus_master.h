@@ -198,32 +198,14 @@ Modbus_master (UART_& uart, Interrupt& interrupt_usart, Interrupt& interrupt_DMA
 template <Periph usart, class TXpin,  class RXpin, class RTSpin, class... Args> 
 auto& make (size_t time_out, UART_::Settings set, Args&... args)
 {
-	auto interrupt_usart = usart == Periph::USART1 ? &interrupt_usart1 :
-                          usart == Periph::USART2 ? &interrupt_usart2 :
-                          usart == Periph::USART3 ? &interrupt_usart3 :
-                          nullptr;
-#if defined(STM32F0)
-   auto interrupt_dma   = usart == Periph::USART1 ? &interrupt_DMA_channel2 : //тут может быть и 4 ???
-                          usart == Periph::USART2 ? &interrupt_DMA_channel4 : 
-                          usart == Periph::USART3 ? &interrupt_DMA_channel2 :
-                          nullptr;
-#elif defined(STM32F1)
-  	auto interrupt_dma   = usart == Periph::USART1 ? &interrupt_DMA_channel4 :
-                          usart == Periph::USART2 ? &interrupt_DMA_channel7 : 
-                          usart == Periph::USART3 ? &interrupt_DMA_channel2 :
-                          nullptr;
-#elif defined(STM32F4)
-   auto interrupt_dma   = usart == Periph::USART1 ? &interrupt_DMA_channel7 :
-                          usart == Periph::USART2 ? &interrupt_DMA_channel6 : 
-                          usart == Periph::USART3 ? &interrupt_DMA_channel3 :
-								  usart == Periph::USART4 ? &interrupt_DMA_channel4 :
-								  usart == Periph::USART5 ? &interrupt_DMA_channel7 :
-								  usart == Periph::USART6 ? &interrupt_DMA_channel6 : //тут может быть и 7 ???
-                          nullptr;
-#endif
-	// auto u = UART::make<usart, TXpin, RXpin, RTSpin, LEDpin>();
-	static Modbus_master modbus
-	{UART_::make<usart, TXpin, RXpin, RTSpin>(), *interrupt_usart, *interrupt_dma, time_out, set, args...};
+	static Modbus_master modbus {
+		  UART_::make<usart, TXpin, RXpin, RTSpin>()
+		, get_interrupt<usart>()
+		, get_interrupt<USART::default_stream<TXpin>()>()
+		, time_out
+		, set
+		, args...
+	};
 
 	return modbus;
 
