@@ -46,7 +46,7 @@ public:
 	// template <class PIN> static constexpr bool PINenabled();
 	// template <class DMA> static constexpr bool DMAenabled();
 	template<Periph> static constexpr auto default_dma() { return Periph::DMA1_stream1; }
-    template <class Pin> constexpr int set_channel(Periph);
+	template <class Pin> constexpr int set_channel(Periph);
 };
 
 #if not defined(USE_MOCK_ADC)
@@ -62,27 +62,27 @@ SFINAE(ADC1,ADC) make_reference() {return *reinterpret_cast<ADC*>(ADC1_BASE);}
 
 template <class Pin> constexpr int ADC::set_channel(Periph p)
 {
-    if (p == Periph::ADC1) {
-        if      constexpr (std::is_same_v<Pin,PA0>) { CHSELR.CHSEL0  = true; return 0;  }
-        else if constexpr (std::is_same_v<Pin,PA1>) { CHSELR.CHSEL1  = true; return 1;  }
-        else if constexpr (std::is_same_v<Pin,PA2>) { CHSELR.CHSEL2  = true; return 2;  }
-        else if constexpr (std::is_same_v<Pin,PA3>) { CHSELR.CHSEL3  = true; return 3;  }
-        else if constexpr (std::is_same_v<Pin,PA4>) { CHSELR.CHSEL4  = true; return 4;  }
-        else if constexpr (std::is_same_v<Pin,PA5>) { CHSELR.CHSEL5  = true; return 5;  }
-        else if constexpr (std::is_same_v<Pin,PA6>) { CHSELR.CHSEL6  = true; return 6;  }
-        else if constexpr (std::is_same_v<Pin,PA7>) { CHSELR.CHSEL7  = true; return 7;  }
-        else if constexpr (std::is_same_v<Pin,PB0>) { CHSELR.CHSEL8  = true; return 8;  }
-        else if constexpr (std::is_same_v<Pin,PB1>) { CHSELR.CHSEL9  = true; return 9;  }
-        else if constexpr (std::is_same_v<Pin,PC0>) { CHSELR.CHSEL10 = true;  return 10; }
-        else if constexpr (std::is_same_v<Pin,PC1>) { CHSELR.CHSEL11 = true;  return 11; }
-        else if constexpr (std::is_same_v<Pin,PC2>) { CHSELR.CHSEL12 = true;  return 12; }
-        else if constexpr (std::is_same_v<Pin,PC3>) { CHSELR.CHSEL13 = true;  return 13; }
-        else if constexpr (std::is_same_v<Pin,PC4>) { CHSELR.CHSEL14 = true;  return 14; }
-        else if constexpr (std::is_same_v<Pin,PC5>) { CHSELR.CHSEL15 = true;  return 15; }
-        else static_assert(always_false_v<Pin>, "Вывод не поддерживает работы с этим АЦП");
-    }
+	 if (p == Periph::ADC1) {
+		  if      constexpr (std::is_same_v<Pin,PA0>) { CHSELR.CHSEL0  = true; return 0;  }
+		  else if constexpr (std::is_same_v<Pin,PA1>) { CHSELR.CHSEL1  = true; return 1;  }
+		  else if constexpr (std::is_same_v<Pin,PA2>) { CHSELR.CHSEL2  = true; return 2;  }
+		  else if constexpr (std::is_same_v<Pin,PA3>) { CHSELR.CHSEL3  = true; return 3;  }
+		  else if constexpr (std::is_same_v<Pin,PA4>) { CHSELR.CHSEL4  = true; return 4;  }
+		  else if constexpr (std::is_same_v<Pin,PA5>) { CHSELR.CHSEL5  = true; return 5;  }
+		  else if constexpr (std::is_same_v<Pin,PA6>) { CHSELR.CHSEL6  = true; return 6;  }
+		  else if constexpr (std::is_same_v<Pin,PA7>) { CHSELR.CHSEL7  = true; return 7;  }
+		  else if constexpr (std::is_same_v<Pin,PB0>) { CHSELR.CHSEL8  = true; return 8;  }
+		  else if constexpr (std::is_same_v<Pin,PB1>) { CHSELR.CHSEL9  = true; return 9;  }
+		  else if constexpr (std::is_same_v<Pin,PC0>) { CHSELR.CHSEL10 = true;  return 10; }
+		  else if constexpr (std::is_same_v<Pin,PC1>) { CHSELR.CHSEL11 = true;  return 11; }
+		  else if constexpr (std::is_same_v<Pin,PC2>) { CHSELR.CHSEL12 = true;  return 12; }
+		  else if constexpr (std::is_same_v<Pin,PC3>) { CHSELR.CHSEL13 = true;  return 13; }
+		  else if constexpr (std::is_same_v<Pin,PC4>) { CHSELR.CHSEL14 = true;  return 14; }
+		  else if constexpr (std::is_same_v<Pin,PC5>) { CHSELR.CHSEL15 = true;  return 15; }
+		  else static_assert(always_false_v<Pin>, "Вывод не поддерживает работы с этим АЦП");
+	 }
 
-    return 0;
+	 return 0;
 }
 
 

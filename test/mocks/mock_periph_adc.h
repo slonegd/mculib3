@@ -18,7 +18,7 @@ std::ostream& operator<< (std::ostream& s, mcu::ADC::Clock v)
 	return
 		v == mcu::ADC::Clock::dedicated_14MHz_clock ? s << "14MHz"  :
 		v == mcu::ADC::Clock::PCLKdiv2              ? s << "PCLK/2" :
-        v == mcu::ADC::Clock::PCLKdiv4              ? s << "PCLK/4" : s;
+		  v == mcu::ADC::Clock::PCLKdiv4              ? s << "PCLK/4" : s;
 }
 
 std::ostream& operator<< (std::ostream& s, mcu::ADC::Resolution v)
@@ -26,8 +26,8 @@ std::ostream& operator<< (std::ostream& s, mcu::ADC::Resolution v)
 	return
 		v == mcu::ADC::Resolution::_12_bit ? s << "12 бит" :
 		v == mcu::ADC::Resolution::_10_bit ? s << "10 бит" :
-        v == mcu::ADC::Resolution::_8_bit  ? s << "8 бит"  :
-        v == mcu::ADC::Resolution::_6_bit  ? s << "6 бит"  : s;
+		  v == mcu::ADC::Resolution::_8_bit  ? s << "8 бит"  :
+		  v == mcu::ADC::Resolution::_6_bit  ? s << "6 бит"  : s;
 }
 
 std::ostream& operator<< (std::ostream& s, mcu::ADC::Sample_time v)
@@ -35,12 +35,12 @@ std::ostream& operator<< (std::ostream& s, mcu::ADC::Sample_time v)
 	return
 		v == mcu::ADC::Sample_time::_1_5_CLK   ? s << "1,5 такта"    :
 		v == mcu::ADC::Sample_time::_7_5_CLK   ? s << "7,5 тактов"   :
-        v == mcu::ADC::Sample_time::_13_5_CLK  ? s << "13,5 тактов"  :
-        v == mcu::ADC::Sample_time::_28_5_CLK  ? s << "28,5 тактов"  : 
-        v == mcu::ADC::Sample_time::_41_5_CLK  ? s << "41,5 такт"    : 
-        v == mcu::ADC::Sample_time::_55_5_CLK  ? s << "55,5 тактов"  : 
-        v == mcu::ADC::Sample_time::_71_5_CLK  ? s << "71,5 тактов"  : 
-        v == mcu::ADC::Sample_time::_239_5_CLK ? s << "239,5 тактов" : s;
+		  v == mcu::ADC::Sample_time::_13_5_CLK  ? s << "13,5 тактов"  :
+		  v == mcu::ADC::Sample_time::_28_5_CLK  ? s << "28,5 тактов"  : 
+		  v == mcu::ADC::Sample_time::_41_5_CLK  ? s << "41,5 такт"    : 
+		  v == mcu::ADC::Sample_time::_55_5_CLK  ? s << "55,5 тактов"  : 
+		  v == mcu::ADC::Sample_time::_71_5_CLK  ? s << "71,5 тактов"  : 
+		  v == mcu::ADC::Sample_time::_239_5_CLK ? s << "239,5 тактов" : s;
 }
 
 
@@ -126,7 +126,7 @@ public:
 
     ADC& set_busy()
 	{
-		process << *this << ": Установить ??????" << std::endl;
+		process << *this << ": Пометить как работающий" << std::endl;
 		base().set_busy();
 		return *this;
 	}
@@ -136,6 +136,14 @@ public:
 		process << *this << ": Остановка преобразования" << std::endl;
 		base().set_busy();
 		return *this;
+	}
+
+    template <class Pin> 
+    int set_channel(mcu::Periph p)
+	{
+        auto res = base().set_channel<Pin>(p);
+		process << *this << ": Включение канала " << res << std::endl;
+		return res;
 	}
 
 

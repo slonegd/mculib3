@@ -276,10 +276,10 @@ BOOST_AUTO_TEST_CASE (set_channel)
     BOOST_CHECK_EQUAL (adc.set_channel<mcu::PC5>(mcu::Periph::ADC1), 15);
     BOOST_CHECK_EQUAL (cmsis.CHSELR, ADC_CHSELR_CHSEL15_Msk);
 
-     STATIC_ASSERTATION_REQUIRED (
+    STATIC_ASSERTATION_REQUIRED (
         adc.set_channel<mcu::PC6>(mcu::Periph::ADC1)
       , "Вывод не поддерживает работы с этим АЦП"
-   );
+    );
 
 }
 

@@ -16,6 +16,7 @@ std::ostream& operator<< (std::ostream& s, mcu::PinMode v)
    return
       v == mcu::PinMode::Input        ? s << "Input"        :
       v == mcu::PinMode::Output       ? s << "Output"       :
+      v == mcu::PinMode::Analog       ? s << "Analog"       :
    #if defined(STM32F0) or defined(STM32F4) or defined(STM32F7)
       v == mcu::PinMode::Alternate_0  ? s << "Alternate 0"  :
       v == mcu::PinMode::Alternate_1  ? s << "Alternate 1"  :
@@ -44,7 +45,7 @@ std::ostream& operator<< (std::ostream& s, mcu::PinMode v)
       v == mcu::PinMode::USART2_TX  ? s << "USART2_TX"  :
       v == mcu::PinMode::USART3_TX  ? s << "USART3_TX"  :
    #endif
-      s;
+      s << "Допиши вывод PinMode";
 }
 
 class GPIO : public mcu::GPIO

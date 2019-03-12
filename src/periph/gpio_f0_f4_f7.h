@@ -1,8 +1,6 @@
 #pragma once
 
 #include "bits_gpio_f0_f4_f7.h"
-#include "periph_rcc.h"
-
 
 
 namespace mcu {

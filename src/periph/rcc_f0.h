@@ -5,20 +5,20 @@
 namespace mcu {
 
 class RCC {
-	__IO RCC_bits::CR      CR;         // clock control register,                offset: 0x00
-	__IO RCC_bits::CFGR    CFGR;       // clock configuration register,          offset: 0x04
-	__IO uint32_t          CIR;        // clock interrupt register,              offset: 0x08
-	__IO uint32_t          APB2RSTR;   // APB2 peripheral reset register,        offset: 0x0C
-	__IO uint32_t          APB1RSTR;   // APB1 peripheral reset register,        offset: 0x10
-	__IO RCC_bits::AHBENR  AHBENR;     // AHB peripheral clock register,         offset: 0x14
-	__IO RCC_bits::APB2ENR APB2ENR;    // APB2 peripheral clock enable register, offset: 0x18
-	__IO RCC_bits::APB1ENR APB1ENR;    // APB1 peripheral clock enable register, offset: 0x1C
-	__IO uint32_t          BDCR;       // Backup domain control register,        offset: 0x20
-	__IO uint32_t          CSR;        // clock control & status register,       offset: 0x24
-	__IO uint32_t          AHBRSTR;    // AHB peripheral reset register,         offset: 0x28
-	__IO uint32_t          CFGR2;      // clock configuration register 2,        offset: 0x2C
-	__IO uint32_t          CFGR3;      // clock configuration register 3,        offset: 0x30
-	__IO uint32_t          CR2;        // clock control register 2,              offset: 0x34
+	volatile RCC_bits::CR      CR;         // clock control register,                offset: 0x00
+	volatile RCC_bits::CFGR    CFGR;       // clock configuration register,          offset: 0x04
+	volatile uint32_t          CIR;        // clock interrupt register,              offset: 0x08
+	volatile uint32_t          APB2RSTR;   // APB2 peripheral reset register,        offset: 0x0C
+	volatile uint32_t          APB1RSTR;   // APB1 peripheral reset register,        offset: 0x10
+	volatile RCC_bits::AHBENR  AHBENR;     // AHB peripheral clock register,         offset: 0x14
+	volatile RCC_bits::APB2ENR APB2ENR;    // APB2 peripheral clock enable register, offset: 0x18
+	volatile RCC_bits::APB1ENR APB1ENR;    // APB1 peripheral clock enable register, offset: 0x1C
+	volatile uint32_t          BDCR;       // Backup domain control register,        offset: 0x20
+	volatile uint32_t          CSR;        // clock control & status register,       offset: 0x24
+	volatile uint32_t          AHBRSTR;    // AHB peripheral reset register,         offset: 0x28
+	volatile uint32_t          CFGR2;      // clock configuration register 2,        offset: 0x2C
+	volatile uint32_t          CFGR3;      // clock configuration register 3,        offset: 0x30
+	volatile uint32_t          CR2;        // clock control register 2,              offset: 0x34
 
 
 public:

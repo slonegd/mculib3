@@ -53,6 +53,8 @@ struct ADC_average : private List<ADC_channel>, Interrupting {
     template<class Function>
     void set_callback (const Function& v) { callback = v; }
     void start();
+    size_t buffer_address() const { return buffer.address(); }
+    void   reset_channels() { clear(); buffer.clear(); }
 private:
     Dyn_array<uint16_t> buffer{};  // сюда данные по дма
     const size_t        conversion_qty;
@@ -166,6 +168,7 @@ ADC_channel& ADC_average::add_channel()
 {
     auto& value = ADC_channel::make<Pin>();
     auto channel = adc.set_channel<Pin>(adc_periph);
+    value.channel = channel;
     // чтобы каналы располагались в листе в порядке, как они оцифровываются
     this->insert (
         std::find_if (

@@ -37,6 +37,7 @@ public:
    void push_front (T&);
    void remove     (T&);
    void insert  (Iterator, T&);
+   void clear();
    Iterator begin();
    Iterator end();
 };
@@ -108,6 +109,17 @@ void List<T>::insert (typename List<T>::Iterator it, T& v)
       it->prev = &v;
       v.prev->next = &v;
    }
+}
+
+template<class T>
+void List<T>::clear()
+{
+   for (auto& v : *this) {
+      v.prev = nullptr;
+      v.next = nullptr;
+   }
+   first = nullptr;
+   last  = nullptr;
 }
 
 

@@ -2,3 +2,4 @@ f0_f4_test_systick
 test_subscriber
 buttons - не закончен
 mock_f1_rcc
+test_adc_f0

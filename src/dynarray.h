@@ -17,4 +17,11 @@ public:
     auto address() const { return size_t(pointer); }
     auto begin() { return pointer; }
     auto end()   { return pointer + size_; }
+    void clear() 
+    {
+        if (pointer)
+            delete[] (pointer);
+        pointer = nullptr;
+        size_ = 0;
+    }
 };

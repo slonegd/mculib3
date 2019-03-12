@@ -3,7 +3,6 @@
 #define USE_MOCK_DMA
 #include "mock_rcc.h"
 #include "periph_dma.h"
-#include "mock_dma_stream.h"
 #include "process.h"
 
 namespace mock {
@@ -54,3 +53,5 @@ namespace mcu {
 // namespace mock {
 //    auto& dma1 = REF(DMA1);
 // }
+
+#include "mock_dma_stream.h"
