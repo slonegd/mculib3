@@ -61,21 +61,26 @@ void List<T>::push_back (T& v)
 template<class T>
 void List<T>::push_front (T& v)
 {
-   // не реализован
+   v.next = first;
+   if (first)
+      first->prev = &v;
+   first = &v;
+   if (not last)
+      last = &v;
 }
 
 
 template<class T>
 void List<T>::remove (T& v)
 {
-   if (v.prev and v.next) {       // если в серединке
+   if (v.prev and v.next) {         // если в серединке
       v.prev->next = v.next;
       v.next->prev = v.prev;
-   } else if (v.next) {            // если первый
+   } else if (v.next) {             // если первый
       first = v.next;
       first->prev = nullptr;
       if (not first) last = nullptr;
-   } else if (v.prev) {            // если последний
+   } else if (v.prev) {             // если последний
       last = v.prev;
       last->next = nullptr;
       if (not last) first = nullptr;

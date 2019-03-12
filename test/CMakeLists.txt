@@ -120,6 +120,11 @@ test (STM32F1 test_modbus_master)
 
 
 # test (STM32F1 test_hd44780)
+# # test (STM32F1 test_modbus_master)
+# # test (STM32F1 test_button)
+
+
+# # test (STM32F1 test_hd44780)
 # test (STM32F1 test_timers)
 # test (STM32F1 test_delay)
 
@@ -134,6 +139,7 @@ test (STM32F1 test_modbus_master)
 # test (NULL test_heap_multinew)
 # test (NULL test_heap_delete)
 # test (NULL test_heap_fragmentation)
+test (NULL test_list)
 
 # test (NULL test_)
 
