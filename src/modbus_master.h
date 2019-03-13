@@ -32,63 +32,55 @@ public:
 	inline bool last() {return value == (m - 1) ? true : false;}
 };
 
-using Array = std::array<uint8_t, 8>;
+using Request = std::array<uint8_t, 8>;
+
+enum class Modbus_error_code : uint8_t {
+	wrong_func = 0x01,  wrong_reg = 0x02, 
+	wrong_value = 0x03, wrong_addr = 0x09, 
+	wrong_crc = 0x10,   wrong_qty_byte = 0x11, 
+	time_out = 0x12
+};
 
 
 struct Register_base {
-
-	enum class Error_code : uint8_t {
-		wrong_func = 0x01,  wrong_reg = 0x02, 
-		wrong_value = 0x03, wrong_addr = 0x09, 
-		wrong_crc = 0x10,   wrong_qty_byte = 0x11, 
-		time_out = 0x12
-	};
-
 	virtual       uint8_t  get_adr    () = 0;
 	virtual       uint16_t get_adr_reg() = 0;
 	virtual       void     set        (uint16_t data) = 0;
-	// virtual       uint16_t operator=  (uint16_t v) = 0;
-	virtual const Array get_request   () = 0;
-
-	RingBuffer<10, Error_code> errors;
+	virtual const Request  get_request   () = 0;
+	RingBuffer<10, Modbus_error_code> errors;
 };
 
 template<uint8_t address_, uint16_t address_register_, class T = uint16_t>
 struct Register : Register_base
 {
-	static constexpr uint8_t address = address_;
-	uint8_t get_adr() override {return address;}
-	static constexpr uint16_t address_register = address_register_;
-	uint16_t get_adr_reg() override {return address_register_;}
 	T value;
 	operator T() {return value;}
-	// uint16_t operator= (uint16_t v) override {this -> value = v; return value;}
-	void set(uint16_t data) override {(*reinterpret_cast<uint16_t*>(&value)) = data;}
-	static constexpr  uint8_t request_base[]
-		{ address_
-		, 3
-		, static_cast<uint8_t>(address_register_ << 8)
-		, static_cast<uint8_t>(address_register_)
-		, 0
-		, 1
-		};
+	T& operator= (T v) {this -> value = v; return value;}
 
-	static constexpr Array request
-		{ address_
-		, 3
-		, static_cast<uint8_t>(address_register_ << 8)
-		, static_cast<uint8_t>(address_register_)
-		, 0
-		, 1
-		, std::get<0>(CRC16(std::cbegin(request_base), std::cend(request_base)))
-		, std::get<1>(CRC16(std::cbegin(request_base), std::cend(request_base)))
-		};
 
-	const Array get_request() override {return request;}
-
+	static constexpr uint8_t address = address_;
+	static constexpr uint16_t address_register = address_register_;
+	static constexpr Request request = [&]{
+        auto res = Static_vector<uint8_t, 8> {
+              address_
+            , uint8_t(3)
+            , static_cast<uint8_t>(address_register_ << 8)
+            , static_cast<uint8_t>(address_register_)
+            , uint8_t(0)
+            , uint8_t(1)
+        };
+        auto crc = CRC16(res.cbegin(), res.cend());
+        res.push_back(std::get<0>(crc));
+        res.push_back(std::get<1>(crc));
+		return res;
+    }();
+	uint8_t  get_adr()      override {return address_;}
+	uint16_t get_adr_reg()  override {return address_register_;}
+	void set(uint16_t data) override {*reinterpret_cast<uint16_t*>(&value) = data;}
+	const Request get_request() override {return request;}
 };
 
-template <size_t qty>
+template <size_t max_regs_qty>
 class Modbus_master : TickSubscriber
 {
 	using Baudrate = UART_::Baudrate;
@@ -100,10 +92,9 @@ class Modbus_master : TickSubscriber
 	UART_& uart;
 	Interrupt& interrupt_usart;
 	Interrupt& interrupt_DMA_channel;
-	Vector<Register_base*, qty> arr_register;
-	// Register_base* arr_register[qty];
+	Static_vector<Register_base*, max_regs_qty> arr_register;
 
-	Auto_reset<qty> current {};
+	Auto_reset<max_regs_qty> current {};
 
 	uint16_t qty_reg{0};
 
@@ -259,8 +250,8 @@ void modbus_master() {
 
 
 
-template <size_t qty>
-void Modbus_master<qty>::search_slave()
+template <size_t max_regs_qty>
+void Modbus_master<max_regs_qty>::search_slave()
 {
 	switch (state) {
 		case request:
@@ -298,8 +289,8 @@ void Modbus_master<qty>::search_slave()
 	}
 }
 
-template <size_t qty>
-void Modbus_master<qty>::operator() ()
+template <size_t max_regs_qty>
+void Modbus_master<max_regs_qty>::operator() ()
 {
 	if (search)
 		search_slave();
@@ -318,7 +309,7 @@ void Modbus_master<qty>::operator() ()
 					time_end_message = time_out;
 				}
 				if (time >= time_out) {
-					arr_register[current]->errors.push(Register_base::Error_code::time_out);
+					arr_register[current]->errors.push(Modbus_error_code::time_out);
 					time_pause = time;
 					state = State::pause;
 				}
@@ -339,18 +330,18 @@ void Modbus_master<qty>::operator() ()
 	} //else
 }
 
-template <size_t qty>
-void Modbus_master<qty>::get_answer()
+template <size_t max_regs_qty>
+void Modbus_master<max_regs_qty>::get_answer()
 {
 	uint8_t  func, byte_qty, error_code;
 	uint16_t data;
 
 	if (uart.buffer.front() != arr_register[current]->get_adr()) {
-		arr_register[current]->errors.push(Register_base::Error_code::wrong_addr);
+		arr_register[current]->errors.push(Modbus_error_code::wrong_addr);
 		return;
 	}
 	if (not check_CRC()) {
-		arr_register[current]->errors.push(Register_base::Error_code::wrong_crc);
+		arr_register[current]->errors.push(Modbus_error_code::wrong_crc);
 		return;
 	}
 	uart.buffer.pop_front(); // adr
@@ -358,23 +349,23 @@ void Modbus_master<qty>::get_answer()
 	if(func != static_cast<uint8_t>(Function::read_03)) {
 		if (is_high_bit(func)) {
 			uart.buffer >> error_code;
-			arr_register[current]->errors.push(static_cast<Register_base::Error_code>(error_code));
+			arr_register[current]->errors.push(static_cast<Modbus_error_code>(error_code));
 		} else
-			arr_register[current]->errors.push(Register_base::Error_code::wrong_func);
+			arr_register[current]->errors.push(Modbus_error_code::wrong_func);
 		return;
 	}
 	uart.buffer >> byte_qty;
 	uart.buffer >> data;
 	if (sizeof(data) != byte_qty) {
-		arr_register[current]->errors.push(Register_base::Error_code::wrong_qty_byte);
+		arr_register[current]->errors.push(Modbus_error_code::wrong_qty_byte);
 		return;
 	}
 
 	arr_register[current]->set(data);
 }
 
-template <size_t qty>
-bool Modbus_master<qty>::check_CRC()
+template <size_t max_regs_qty>
+bool Modbus_master<max_regs_qty>::check_CRC()
 {
 	uint8_t high = uart.buffer.pop_back();
 	uint8_t low  = uart.buffer.pop_back();
@@ -382,8 +373,8 @@ bool Modbus_master<qty>::check_CRC()
 	return (high == high_) and (low == low_);
 }
 
-template<size_t qty>
-int Modbus_master<qty>::set_modbus_time (Baudrate baudrate)
+template<size_t max_regs_qty>
+int Modbus_master<max_regs_qty>::set_modbus_time (Baudrate baudrate)
 {
 	return baudrate == Baudrate::BR9600  ? 4 :
 			 baudrate == Baudrate::BR14400 ? 3 :

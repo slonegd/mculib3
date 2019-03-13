@@ -16,11 +16,11 @@ struct Register_base {
 		time_out = 0x12
 	};
 
-   virtual       uint8_t  get_adr    () = 0;
-   virtual       uint16_t get_adr_reg() = 0;
-   virtual       void     set        (uint16_t data) = 0;
+	virtual       uint8_t  get_adr    () = 0;
+	virtual       uint16_t get_adr_reg() = 0;
+	virtual       void     set        (uint16_t data) = 0;
 	// virtual       uint16_t operator=  (uint16_t v) = 0;
-   virtual const Array get_request   () = 0;
+	virtual const Array get_request   () = 0;
 
 	RingBuffer<10, Error_code> errors;
 };
@@ -28,25 +28,25 @@ struct Register_base {
 template<uint8_t address_, uint16_t address_register_, class T = uint16_t>
 struct Register : Register_base
 {
-   static constexpr uint8_t address = address_;
-   uint8_t get_adr() override {return address;}
-   static constexpr uint16_t address_register = address_register_;
-   uint16_t get_adr_reg() override {return address_register_;}
-   T value;
-   operator T() {return value;}
+	static constexpr uint8_t address = address_;
+	uint8_t get_adr() override {return address;}
+	static constexpr uint16_t address_register = address_register_;
+	uint16_t get_adr_reg() override {return address_register_;}
+	T value;
+	operator T() {return value;}
 	// uint16_t operator= (uint16_t v) override {this -> value = v; return value;}
-   void set(uint16_t data) override {(*reinterpret_cast<uint16_t*>(&value)) = data;}
-   static constexpr  uint8_t request_base[]
-		{ address_
+	void set(uint16_t data) override {(*reinterpret_cast<uint16_t*>(&value)) = data;}
+	static constexpr uint8_t request_base[] { 
+		  address_
 		, 3
 		, static_cast<uint8_t>(address_register_ << 8)
 		, static_cast<uint8_t>(address_register_)
 		, 0
 		, 1
-		};
+	};
 
-	static constexpr Array request
-		{ address_
+	static constexpr Array request {
+          address_
 		, 3
 		, static_cast<uint8_t>(address_register_ << 8)
 		, static_cast<uint8_t>(address_register_)
@@ -54,9 +54,9 @@ struct Register : Register_base
 		, 1
 		, std::get<0>(CRC16(std::cbegin(request_base), std::cend(request_base)))
 		, std::get<1>(CRC16(std::cbegin(request_base), std::cend(request_base)))
-		};
+    };
 
-   const Array get_request() override {return request;}
+	const Array get_request() override {return request;}
 
 };
 
@@ -67,29 +67,29 @@ BOOST_AUTO_TEST_SUITE (test_suite_main)
 
 BOOST_AUTO_TEST_CASE (ctor)
 {
-   auto vector = Vector<Register_base*, 2>{};
-   BOOST_CHECK_EQUAL (vector.size(), 0);
-   BOOST_CHECK_EQUAL (vector.begin(), vector.end());
+	auto vector = Static_vector<Register_base*, 2>{};
+	BOOST_CHECK_EQUAL (vector.size(), 0);
+	BOOST_CHECK_EQUAL (vector.cbegin(), vector.cend());
 }
 
 BOOST_AUTO_TEST_CASE (push_back)
 {
-   auto vector = Vector<Register_base*, 2>{};
-   vector.push_back(&temp);
+	auto vector = Static_vector<Register_base*, 2>{};
+	vector.push_back(&temp);
 	vector.push_back(&uf);
 	BOOST_CHECK_EQUAL (vector[0], &temp);
 	BOOST_CHECK_EQUAL (vector[1], &uf);
-   BOOST_CHECK_EQUAL (vector.size(), 2);
+	BOOST_CHECK_EQUAL (vector.size(), 2);
 }
 
 BOOST_AUTO_TEST_CASE (erase)
 {
-   auto vector = Vector<Register_base*, 2>{};
-   vector.push_back(&temp);
+	auto vector = Static_vector<Register_base*, 2>{};
+	vector.push_back(&temp);
 	vector.push_back(&uf);
-   vector.erase(0);
+	vector.erase(0);
 	BOOST_CHECK_EQUAL (vector[0], &uf);
-   BOOST_CHECK_EQUAL (vector.size(), 1);
+	BOOST_CHECK_EQUAL (vector.size(), 1);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
