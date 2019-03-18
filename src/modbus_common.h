@@ -1,8 +1,9 @@
 #pragma once
 
 enum class Modbus_function : uint8_t {
-      read_03  = 0x03
-    , write_16 = 0x10
+      read_03       = 0x03
+    , force_coil_05 = 0x05
+    , write_16      = 0x10
 };
 
 enum class Modbus_error_code : uint8_t {
