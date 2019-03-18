@@ -2,6 +2,7 @@
 
 #include "periph_gpio.h"
 #include "pins.h"
+#include "meta.h"
 
 #if defined(USE_MOCK_GPIO)
 using GPIO = mock::GPIO;
@@ -38,3 +39,9 @@ public:
    }
    operator bool() { return is_set(); }
 };
+
+template<mcu::PinMode mode, class ... Pins>
+meta::tuple_generate_t<Pin&, sizeof...(Pins)> make_pins ()
+{
+   return std::tie(Pin::make<Pins, mode>()...);
+}
