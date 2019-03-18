@@ -5,6 +5,7 @@
 #include "table_crc.h"
 #include "uart.h"
 #include "interrupt.h"
+#include "modbus_common.h"
 #include <cstring>
 
 #if defined(USE_MOCK_UART)
@@ -17,9 +18,6 @@ using UART_ = ::UART;
 template <class InRegs_t, class OutRegs_t>
 class Modbus_slave : TickSubscriber
 {
-	enum class Function   : uint8_t {read_03 = 0x03, write_16 = 0x10};
-	enum class Error_code : uint8_t {wrong_func = 0x01, wrong_reg = 0x02, wrong_value = 0x03};
-
 	UART_& uart;
 	Interrupt& interrupt_usart;
 	Interrupt& interrupt_DMA_channel; 
@@ -45,7 +43,7 @@ class Modbus_slave : TickSubscriber
 	bool check_value();
 	bool check_reg  (uint16_t qty_reg_device);
 
-	void answer_error (Error_code);
+	void answer_error (Modbus_error_code);
 	void answer_03();
 	template <class function> void answer_16 (function reaction);
 
@@ -221,12 +219,12 @@ inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (std::function<void(si
 	}
 	uart.buffer.pop_front(); // adr
 	func = uart.buffer.pop_front();
-	if (func == static_cast<uint8_t>(Function::read_03)) // operator ==
+	if (func == static_cast<uint8_t>(Modbus_function::read_03)) // operator ==
 		answer_03();
-	else if (func == static_cast<uint8_t>(Function::write_16))
+	else if (func == static_cast<uint8_t>(Modbus_function::write_16))
 		answer_16(reaction);
 	else 
-		answer_error (Error_code::wrong_func);
+		answer_error (Modbus_error_code::wrong_func);
 }
 
 
@@ -258,15 +256,15 @@ bool Modbus_slave<InReg, OutRegs_t>::check_reg(uint16_t qty_reg_device)
 }
 
 template <class InReg, class OutRegs_t>
-void Modbus_slave<InReg, OutRegs_t>::answer_error(Error_code code)
+void Modbus_slave<InReg, OutRegs_t>::answer_error(Modbus_error_code code)
 {
 	uart.buffer.clear();
 	
-	if (code == Error_code::wrong_func)
+	if (code == Modbus_error_code::wrong_func)
 		uart.buffer << address << set_high_bit(func) << static_cast<uint8_t>(code);
-	else if (code == Error_code::wrong_reg)
+	else if (code == Modbus_error_code::wrong_reg)
 		uart.buffer << address << func << static_cast<uint8_t>(code);
-	else if (code == Error_code::wrong_value)
+	else if (code == Modbus_error_code::wrong_value)
 		uart.buffer << address << func << static_cast<uint8_t>(code);
 		
 	auto [low_, high_] = CRC16(uart.buffer.begin(), uart.buffer.end());
@@ -278,12 +276,12 @@ template <class InReg, class OutRegs_t>
 void Modbus_slave<InReg, OutRegs_t>::answer_03()
 {
 	if (not check_reg(OutRegQty)) {
-		answer_error(Error_code::wrong_reg);
+		answer_error(Modbus_error_code::wrong_reg);
 		return;
 	}
 	uart.buffer.clear();
 	// определить оператор вместо статик каста
-	uart.buffer << address << static_cast<uint8_t>(Function::read_03) << qty_byte;
+	uart.buffer << address << static_cast<uint8_t>(Modbus_function::read_03) << qty_byte;
 	while(qty_reg--)
 		uart.buffer << arOutRegs[first_reg++];
 	auto [low_, high_] = CRC16(uart.buffer.begin(), uart.buffer.end());
@@ -296,14 +294,14 @@ template <class function>
 void Modbus_slave<InReg, OutRegs_t>::answer_16(function reaction)
 {
 	if (not check_reg(InRegQty)) {
-		answer_error(Error_code::wrong_reg);
+		answer_error(Modbus_error_code::wrong_reg);
 		return;
 	}
 
 	uart.buffer >> qty_byte;
 
 	if (not check_value()) {
-		answer_error(Error_code::wrong_value);
+		answer_error(Modbus_error_code::wrong_value);
 		// uart.receive();
 		return;
 	}

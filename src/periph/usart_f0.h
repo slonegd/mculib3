@@ -57,8 +57,9 @@ public:
    USART& DMA_rx_enable (){CR3.DMAR = true;  return *this;}
    USART& parity_enable (){CR1.PCE  = true;  return *this;}
    USART& parity_disable(){CR1.PCE  = false; return *this;}
+   USART& parity_enable (bool enable){enable ? parity_enable() : parity_disable(); return *this;}
 
-   USART& enable_IDLE_interrupt          (){CR1.IDLEIE = true;  return *this;}
+   USART& enable_IDLE_interrupt (bool v = true) {CR1.IDLEIE = v;  return *this;}
    bool   is_IDLE_interrupt              (){return ISR.IDLE;}
    USART& enable_tx_complete_interrupt   (){CR1.TCIE   = true;  return *this;}
    USART& disable_tx_complete_interrupt  (){CR1.TCIE   = false; return *this;}

@@ -1,7 +1,7 @@
 #define BOOST_TEST_MODULE test_net_buffer
 #include <boost/test/unit_test.hpp>
 
-#include "vector.h"
+#include "static_vector.h"
 #include "ring_buffer.h"
 #include "table_crc.h"
 

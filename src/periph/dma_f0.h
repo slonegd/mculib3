@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bits_dma_f0.h"
+#include  <cstring>
 
 namespace mcu {
 
@@ -20,8 +21,10 @@ public:
 };
 
 #if not defined(USE_MOCK_DMA)
-template <Periph dma> std::enable_if_t<dma == Periph::DMA1, DMA&> make_reference() {return *reinterpret_cast<DMA*>(DMA1_BASE);}
+// template <Periph dma> std::enable_if_t<dma == Periph::DMA1, DMA&> make_reference() {return *reinterpret_cast<DMA*>(DMA1_BASE);}
+template <Periph dma> std::enable_if_t<dma == Periph::DMA1, DMA&> make_reference() {return *new((void*)DMA1_BASE) DMA;}
 #endif
+
 
 
 
@@ -40,12 +43,14 @@ void DMA::clear_interrupt_flags(Channel v)
 
 bool DMA::is_transfer_complete_interrupt(Channel v)
 {
-   if      (v == Channel::_1) return ISR.TCIF1;
-   else if (v == Channel::_2) return ISR.TCIF2;
-   else if (v == Channel::_3) return ISR.TCIF3;
-   else if (v == Channel::_4) return ISR.TCIF4;
-   else if (v == Channel::_5) return ISR.TCIF5;
-   else return false;
+   // -fno-strict-volatile-bitfields dosent work
+   // if      (v == Channel::_1) return ISR.TCIF1;
+   // else if (v == Channel::_2) return ISR.TCIF2;
+   // else if (v == Channel::_3) return ISR.TCIF3;
+   // else if (v == Channel::_4) return ISR.TCIF4;
+   // else if (v == Channel::_5) return ISR.TCIF5;
+   // else return false;
+   return registr(ISR) & (1 << (1 + (static_cast<uint8_t>(v) - 1)*4));
 }
 
 } // namespace mcu {

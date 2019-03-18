@@ -6,7 +6,10 @@
 
 #if defined (STM32F0)
 	extern "C" void DMA1_Ch1_IRQHandler() { interrupt_DMA1_channel1.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(mcu::DMA::Channel::_1);}
-   extern "C" void DMA1_Channel2_3_IRQHandler()     { while(1) {} }
+   extern "C" void DMA1_Channel2_3_IRQHandler()     { 
+      interrupt_DMA1_channel2.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(mcu::DMA::Channel::_2); 
+      interrupt_DMA1_channel3.interrupt(); mcu::make_reference<mcu::Periph::DMA1>().clear_interrupt_flags(mcu::DMA::Channel::_3); 
+   }
    extern "C" void DMA1_Channel4_5_IRQHandler()     { while(1) {} }
 
    extern "C" void TIM1_BRK_TIM9_IRQHandler      () { while(1) {} }
