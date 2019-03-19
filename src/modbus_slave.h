@@ -49,7 +49,7 @@ class Modbus_slave : TickSubscriber
 
 	void uartInterrupt()
 	{
-		if (uart.is_IDLE()) 
+		if (uart.is_rx_IDLE()) 
 			tick_subscribe();
 	}
 	void dmaInterrupt()

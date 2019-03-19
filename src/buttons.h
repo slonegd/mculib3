@@ -19,6 +19,7 @@ class Button : TickSubscriber
    bool long_press {false};
    bool increment  {false};
    bool inverted   {false};
+   bool click_     {false};
    int  inc {1};
    int  value{0};
    int  tmp{0};
@@ -59,6 +60,20 @@ public:
 
       return time >= 1000 and not long_press ? (long_press = true) : false;
    }
+
+   // bool click()
+   // {
+   //    if (inverted) {
+   //       if (not pin) 
+   //          tick_subscribe();
+   //    } else {
+   //       if (pin)
+   //          tick_subscribe();
+   //    }
+   //    if (time > 10 and time < 1000)
+   //       click_ = true;
+   //    return not pin and click_ ? (not (click_ = false)) : false;
+   // }
 
    operator int()
    {
@@ -107,6 +122,7 @@ public:
             short_press = false;
             long_press = false;
             increment  = false;
+            click_     = false;
             inc        = 1;
          } else 
             time++;
@@ -130,12 +146,26 @@ public:
             two.tick_subscribe(); 
          }
          bool result{false};
-         result = one.time >= 10 and two.time >= 10 and (not one.short_press or not two.short_press);
+         result = not one.pin and not two.pin and (not one.short_press or not two.short_press);
          if (result)
             one.short_press = two.short_press = true;
          return result;
-      }
+      }                  
 
+      bool click()
+      {
+         if (one.is_set() and two.is_set()) {
+            one.tick_subscribe();
+            two.tick_subscribe(); 
+         }
+         bool result{false};
+         if (one.time > 100 and one.time < 200 and two.time > 100 and two.time < 200)
+            one.click_ = two.click_ = true;
+         result = not one.is_set() and not two.is_set() and (one.click_ or two.click_) and not  one.long_press and not two.long_press;
+         if (result)
+            one.click_ = two.click_ = false;
+         return result;
+      }                          
 
       bool push_long() {
          if (one.is_set() and two.is_set()) {

@@ -6,10 +6,10 @@
 
 class String_buffer
 {
-   size_t number_line{0};
-   size_t width_size {0};
-   size_t position   {0};
-   bool   align  {false};
+   size_t  number_line{0};
+   size_t  width_size {0};
+   size_t  position   {0};
+   bool    align  {false};
 
    std::array<char, 80> screen;
    static constexpr size_t line_size = 20;
@@ -27,13 +27,12 @@ public:
    String_buffer& width  (size_t width );
    String_buffer& cursor (size_t cursor);
    String_buffer& center ();
-   auto& get_buffer() {return screen;}
-   auto begin()       {return screen.begin();}
-   auto end  ()       {return screen.end()  ;}
+   auto& get_buffer (){return screen;}
+   auto begin       (){return screen.begin();}
+   auto end         (){return screen.end()  ;}
    auto get_position(){return position;}
    auto get_line    (){return number_line;}
-
-   
+   void clear       (){screen.fill(' ');}
 
 };
 
