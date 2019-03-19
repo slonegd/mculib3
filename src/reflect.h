@@ -51,36 +51,42 @@ namespace reflect {
 
   
 
-   namespace detail {
 
-      #define HELPER(n,...) \
-         template <class T> \
-         constexpr auto as_tuple (std::enable_if_t<reflect::member_count<T>() == n, size_t> = n) \
-         { \
-            constexpr T t{}; \
-            auto [__VA_ARGS__] = t; \
-            return std::tuple {__VA_ARGS__}; \
-         }
+   #define HELPER(n,...) \
+      template <class T> \
+      constexpr auto as_tuple (const T& t, std::enable_if_t<reflect::member_count<T>() == n, size_t> = n) \
+      { \
+         auto [__VA_ARGS__] = t; \
+         return std::tuple {__VA_ARGS__}; \
+      } \
+      template <class T> \
+      constexpr auto make_tie (T& t, std::enable_if_t<reflect::member_count<T>() == n, size_t> = n) \
+      { \
+         auto& [__VA_ARGS__] = t; \
+         return std::tie (__VA_ARGS__); \
+      }
 
-      HELPER( 1,n1)
-      HELPER( 2,n1,n2)
-      HELPER( 3,n1,n2,n3)
-      HELPER( 4,n1,n2,n3,n4)
-      HELPER( 5,n1,n2,n3,n4,n5)
-      HELPER( 6,n1,n2,n3,n4,n5,n6)
-      HELPER( 7,n1,n2,n3,n4,n5,n6,n7)
-      HELPER( 8,n1,n2,n3,n4,n5,n6,n7,n8)
-      HELPER( 9,n1,n2,n3,n4,n5,n6,n7,n8,n9)
-      HELPER(10,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10)
+   HELPER( 1,n1)
+   HELPER( 2,n1,n2)
+   HELPER( 3,n1,n2,n3)
+   HELPER( 4,n1,n2,n3,n4)
+   HELPER( 5,n1,n2,n3,n4,n5)
+   HELPER( 6,n1,n2,n3,n4,n5,n6)
+   HELPER( 7,n1,n2,n3,n4,n5,n6,n7)
+   HELPER( 8,n1,n2,n3,n4,n5,n6,n7,n8)
+   HELPER( 9,n1,n2,n3,n4,n5,n6,n7,n8,n9)
+   HELPER(10,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10)
 
-      #undef HELPER
-
-      template<size_t i, class T>
-      struct get { using type = std::tuple_element_t<i, decltype(as_tuple<T>())>; };
-   } // namespace detail {
+   #undef HELPER
 
    template<size_t i, class T>
-   using get_t = typename detail::get<i,T>::type;
+   struct get { using type = std::tuple_element_t<i, decltype(as_tuple(T{}))>; };
+
+
+   template<size_t i, class T>
+   using get_t = typename get<i,T>::type;
+
+
 
 
 

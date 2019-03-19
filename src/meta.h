@@ -16,17 +16,17 @@ namespace meta {
 // возвращает -1 если такого нет
 template<int n, class T, class U, class ... Types>
 struct PositionIterator {
-   static const int value =
-      std::is_same<T,U>::value ? n : PositionIterator<n + 1, T, Types...>::value;
+    static const int value =
+        std::is_same<T,U>::value ? n : PositionIterator<n + 1, T, Types...>::value;
 };
 template<int n, class T, class U>
 struct PositionIterator<n, T, U> {
-   static const int value =
-      std::is_same<T,U>::value ? n : -1;
+    static const int value =
+        std::is_same<T,U>::value ? n : -1;
 };
 template<class T, class U, class ... Types> struct Position {
-   static const int value =
-      PositionIterator<1, T, U, Types...>::value;
+    static const int value =
+        PositionIterator<1, T, U, Types...>::value;
 };
 
 template<class T, class ... Ts>
@@ -43,9 +43,9 @@ struct generate_impl;
 template<auto& f, size_t ... i>
 struct generate_impl<f, std::index_sequence<i...>>
 {
-   using type = decltype(f(0));
-   static constexpr auto size = sizeof...(i);
-   static constexpr std::array<type,size> table {f(i)...};
+    using type = decltype(f(0));
+    static constexpr auto size = sizeof...(i);
+    static constexpr std::array<type,size> table {f(i)...};
 };
 
 /// генерировать массив функцией f
@@ -84,11 +84,40 @@ struct placeholder { using type = T; };
 template<class T, size_t ... i>
 struct tuple_generate_impl<T, std::index_sequence<i...>>
 {
-   using type = std::tuple<typename placeholder<T,i>::type...>;
+    using type = std::tuple<typename placeholder<T,i>::type...>;
 };
 
 template<class T, size_t n>
 using tuple_generate_t = typename tuple_generate_impl<T, std::make_index_sequence<n>>::type;
+
+
+
+/// метаструктура, проходящая в операторе() по элементам tuple
+template<size_t index, class Base, class function, class ... T>
+struct tuple_foreach_impl
+{
+    void operator () (std::tuple<T...>& t, function f)
+    {
+        const size_t i = sizeof...(T) - index;
+        f(static_cast<Base*>(&std::get<i>(t)));
+        tuple_foreach_impl<index - 1, Base, function, T...>() (t,f);
+    }
+};
+/// для конца рекурсии
+template<class function, class Base, class ... T>
+struct tuple_foreach_impl<0, Base, function, T...>
+{
+    void operator () (std::tuple<T...>& t, function f)
+    {
+    }
+};
+
+template<class Base, class function, class ... T>
+void tuple_foreach (std::tuple<T...>& t, function f)
+{
+     tuple_foreach_impl<sizeof...(T), Base, function, T...>() (t,f);
+}
+
 
 
 } // namespace meta {
