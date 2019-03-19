@@ -25,11 +25,12 @@ struct Register_base {
     byte address;
     word register_n;
     Modbus_function function;
-    Register_base (byte address, word register_n, Modbus_function function)
-        : address{address}, register_n{register_n}, function{function}
+    word& data;
+    Register_base (byte address, word register_n, Modbus_function function, word& data)
+        : address{address}, register_n{register_n}, function{function}, data{data}
     {}
-    virtual       void set (word data)   = 0;
-    virtual const Raw_data get_request() = 0;
+    // virtual       void set (word data)   = 0;
+    virtual const std::tuple<byte,byte> get_crc(bool = false) = 0;
     RingBuffer<10, Modbus_error_code> errors;
 };
 
@@ -42,19 +43,22 @@ template <
 >
 struct Register : Register_base
 {
-    Register() : Register_base{address_, register_n_, f} {}
-    T value {};
+    Register() : Register_base{address_, register_n_, f, data} {}
+    union {
+        T value;
+        uint16_t data{};
+    };
     operator T() {return value;}
     T& operator= (T v) {this -> value = v; return value;}
 
     static constexpr auto function = f;
 
     template<bool on = false>
-    static const auto request() {
+    static constexpr const std::tuple<byte,byte> crc() {
         if constexpr (function == Modbus_function::read_03 or function == Modbus_function::force_coil_05) {
             byte by = function == Modbus_function::force_coil_05 and on ? 0x55 :
                       function == Modbus_function::read_03              ? 1 : 0;
-            static auto res = Static_vector<byte, 8> {
+            auto res = Static_vector<byte, 8> {
                   address_
                 , byte(function)
                 , static_cast<byte>(register_n_ << 8)
@@ -62,21 +66,7 @@ struct Register : Register_base
                 , byte(0)
                 , by
             };
-            auto [crc_lo, crc_hi] = CRC16(res.cbegin(), res.cend());
-            res.push_back(crc_lo);
-            res.push_back(crc_hi);
-            return static_cast<std::array<byte,8>>(res);
-        } else if constexpr (function == Modbus_function::write_16) {
-             static auto res = Static_vector<byte, 11> {
-                  address_
-                , byte(function)
-                , static_cast<byte>(register_n_ << 8)
-                , static_cast<byte>(register_n_)
-                , byte(0)
-                , byte(1)
-                , byte(1)
-            };
-            return static_cast<std::array<byte,11>>(res);
+            return CRC16(res.cbegin(), res.cend());
         } else {
             static_assert(always_false_v<decltype(function)>, "Допиши функцию модбас");
         }
@@ -84,27 +74,15 @@ struct Register : Register_base
 
 
 
-    void set(word data) override {*reinterpret_cast<word*>(&value) = data;}
-    const Raw_data get_request() override
+    // void set(word data) override {*reinterpret_cast<word*>(&value) = data;}
+    const std::tuple<byte,byte> get_crc (bool ) override
     {
         if constexpr (function == Modbus_function::read_03) {
-            auto r = request<>();
-            return {r.data(), r.size()};
+            return crc();
         } else if constexpr (function == Modbus_function::force_coil_05) {
-            auto r = bool(value) ? request<true>() : request<false>();
-            return {r.data(), r.size()};
-        } else if constexpr (function == Modbus_function::write_16) {
-            auto r = request<>();
-            auto data = *reinterpret_cast<word*>(&value);
-            auto index {6};
-            r[index++] = static_cast<byte>(data << 8);
-            r[index++] = static_cast<byte>(data);
-            auto [crc_lo, crc_hi] = CRC16(r.cbegin(), r.cbegin() + index);
-            r[index++] = crc_lo;
-            r[index]   = crc_hi;
-            return {r.data(), r.size()};
+            return bool(value) ? crc<true>() : crc<false>();
         } else {
-            static_assert(always_false_v<decltype(function)>, "Допиши функцию модбас");
+            return std::tuple<byte,byte>{};
         }
     }
 };
@@ -113,6 +91,8 @@ template <size_t max_regs_qty>
 class Modbus_master : TickSubscriber
 {
 public:
+    using byte = uint8_t;
+    using word = uint16_t;
     Static_vector<Register_base*, max_regs_qty> arr_register;
     template<class Regs>
     Modbus_master (
@@ -139,7 +119,6 @@ public:
     void operator() ();
     auto& get_buffer() const {return uart.buffer;}
     auto qty_slave () {return arr_register.size();}
-    void search_slave();
     void get_answer ();
 
 
@@ -279,16 +258,36 @@ void modbus_master() {
 
 
 
-
-
-
 template <size_t max_regs_qty>
-void Modbus_master<max_regs_qty>::search_slave()
+void Modbus_master<max_regs_qty>::operator() ()
 {
+    auto reg = arr_register[current];
     switch (state) {
         case request:
             uart.buffer.clear();
-            uart.buffer << arr_register[current]->get_request();
+            uart.buffer << reg->address;
+            uart.buffer << static_cast<byte>(reg->function);
+            uart.buffer << static_cast<byte>(reg->register_n << 8);
+            uart.buffer << static_cast<byte>(reg->register_n);
+            uart.buffer << byte(0);
+            if (reg->function == Modbus_function::read_03 or reg->function == Modbus_function::write_16) {
+                uart.buffer << byte(1);
+            } else if (reg->function == Modbus_function::force_coil_05) {
+                uart.buffer << (bool(reg->data) ? byte(0x55) : byte(0));
+            }
+            if (reg->function == Modbus_function::write_16) {
+                uart.buffer << static_cast<byte>(reg->data << 8) << static_cast<byte>(reg->data);
+            }
+            if (reg->function == Modbus_function::read_03) {
+                auto [crc_lo, crc_hi] = reg->get_crc();
+                uart.buffer << crc_lo << crc_hi;
+            } else if (reg->function == Modbus_function::force_coil_05) {
+                auto [crc_lo, crc_hi] = reg->get_crc(bool(reg->data));
+                uart.buffer << crc_lo << crc_hi;
+            } else if (reg->function == Modbus_function::write_16) {
+                auto [crc_lo, crc_hi] = CRC16(uart.buffer.begin(), uart.buffer.end());
+                uart.buffer << crc_lo << crc_hi;
+            }
             uart.transmit();
             time_end_message = time_out;
             message_size = 0;
@@ -299,69 +298,24 @@ void Modbus_master<max_regs_qty>::search_slave()
                 time_end_message = time_out;
             }
             if (time >= time_out) {
-                arr_register.erase(current);
+                arr_register[current]->errors.push(Modbus_error_code::time_out);
                 time_pause = time;
                 state = State::pause;
             }
             if (time - time_end_message >= modbus_time) {
+                get_answer();
                 time_pause = time;
                 state = State::pause;
-                
+            }
         break;
         case pause:
             if (time - 10 >= time_pause) {
                 unsubscribe_modbus();
-                if (current.last()) {
-                    search = false;
-                    current.change_limit(arr_register.size());
-                }
-            }
                 current++;
                 state = State::request;
             }
         break;
     }
-}
-
-template <size_t max_regs_qty>
-void Modbus_master<max_regs_qty>::operator() ()
-{
-    if (search)
-        search_slave();
-    else {
-        switch (state) {
-            case request:
-                uart.buffer.clear();
-                uart.buffer << arr_register[current]->get_request();
-                uart.transmit();
-                time_end_message = time_out;
-                message_size = 0;
-                state = State::wait_answer;
-            break;
-            case wait_answer:
-                if (message_size < uart.buffer.size()) {
-                    time_end_message = time_out;
-                }
-                if (time >= time_out) {
-                    arr_register[current]->errors.push(Modbus_error_code::time_out);
-                    time_pause = time;
-                    state = State::pause;
-                }
-                if (time - time_end_message >= modbus_time) {
-                    get_answer();
-                    time_pause = time;
-                    state = State::pause;
-                }
-            break;
-            case pause:
-                if (time - 10 >= time_pause) {
-                    unsubscribe_modbus();
-                    current++;
-                    state = State::request;
-                }
-            break;
-        }
-    } //else
 }
 
 template <size_t max_regs_qty>
@@ -389,14 +343,8 @@ void Modbus_master<max_regs_qty>::get_answer()
 
     if (arr_register[current]->function == Modbus_function::read_03) {
         uint8_t  byte_qty;
-        uint16_t data;
         uart.buffer >> byte_qty;
-        uart.buffer >> data;
-        if (sizeof(data) != byte_qty) {
-            arr_register[current]->errors.push(Modbus_error_code::wrong_qty_byte);
-            return;
-        }
-        arr_register[current]->set(data);
+        uart.buffer >> arr_register[current]->data;
     }
 }
 
