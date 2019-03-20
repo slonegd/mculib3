@@ -144,8 +144,8 @@ public:
 	}
 
 
-  //  template <class function>
-	void operator() (std::function<void(size_t reg)> reaction);
+   template <class function>
+	void operator() (function reaction);
 	auto& buffer(){return uart.buffer;}
 
 };
@@ -189,8 +189,8 @@ public:
 
 
 template <class InRegs_t, class OutRegs_t>
-// template <class function>
-inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (std::function<void(size_t reg)> reaction)
+template <class function>
+inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (function reaction)
 {
 	if (uart.is_receiving()) {
 		time = 0;
