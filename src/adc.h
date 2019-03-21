@@ -151,7 +151,7 @@ ADC_average& ADC_average::make (size_t conversion_qty)
            .inc_memory()
            .enable_transfer_complete_interrupt();
 
-    NVIC_EnableIRQ_t (res.interrupt_.IRQn());
+    res.interrupt_.enable();
    
     return res;
 }
@@ -174,9 +174,9 @@ ADC_channel& ADC_average::add_channel()
     );
     buffer.add_size(conversion_qty);
     this->dma.disable()
-             .set_memory_adr (buffer.address())
-             .set_qty_transactions (buffer.size())
-             .enable();
+         .set_memory_adr (buffer.address())
+         .set_qty_transactions (buffer.size())
+         .enable();
     return value;
 }
 

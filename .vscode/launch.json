@@ -236,7 +236,7 @@
          "name": "test",
          "type": "cppdbg",
          "request": "launch",
-         "program": "${workspaceRoot}/test/cmake/build/test_uart_f1",
+         "program": "${workspaceRoot}/test/cmake/build/test_adc_f0",
          "args": [],
          "stopAtEntry": true,
          "cwd": "${workspaceRoot}",
