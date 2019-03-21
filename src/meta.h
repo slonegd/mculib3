@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <iterator>
 #include <array>
+#include <tuple>
 
 
 namespace meta {
