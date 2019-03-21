@@ -5,3 +5,4 @@ test/f1_EO81/build/
 test/f4_discovery/build/
 test/f7_discovery/build/
 mculib2_compare/f0_discovery/build/
+.vscode/ipch

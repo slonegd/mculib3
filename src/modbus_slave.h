@@ -140,6 +140,7 @@ public:
                                     set.baudrate == UART_::Baudrate::BR28800 ? 2 : 1;
 
         modbus.uart.init(set);
+        modbus.uart.receive();
         return modbus;
     }
 
