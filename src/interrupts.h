@@ -19,7 +19,9 @@
    extern "C" void TIM16_IRQHandler              () { while(1) {} }
    extern "C" void TIM17_IRQHandler              () { while(1) {} }
 
-   extern "C" void USART1_IRQHandler() { interrupt_usart1.interrupt(); mcu::make_reference<mcu::Periph::USART1>().clear_interrupt_flags();} 
+   extern "C" void USART1_IRQHandler() { 
+      interrupt_usart1.interrupt(); 
+      mcu::make_reference<mcu::Periph::USART1>().clear_interrupt_flags();} 
 
 
 #elif defined (STM32F1)
