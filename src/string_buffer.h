@@ -38,7 +38,9 @@ public:
 
 String_buffer& next_line (String_buffer& s) 
 {
-   s.position = (++s.number_line) * s.line_size;
+   while (s.position % s.line_size) // method
+      s << ' ';
+   // s.position = (++s.number_line) * s.line_size;
    return s;
 }
 
