@@ -60,7 +60,7 @@ FLASH& FLASH::unlock()
    constexpr uint32_t Key2 = 0xCDEF89AB;
    if (is_lock()) {
       KEYR = Key1;
-      IF_TEST_WAIT_MS(100);
+      IF_TEST_WAIT_MS(10);
       KEYR = Key2;
    }
    return *this;
