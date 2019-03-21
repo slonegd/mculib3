@@ -167,7 +167,8 @@ auto& UART_sized<buffer_size>::make()
              .rx_enable()
              .DMA_tx_enable()
              .DMA_rx_enable()
-             .enable_IDLE_interrupt();
+             .enable_IDLE_interrupt()
+             .enable();
    get_interrupt<uart_periph>().enable();
 
    rcc.clock_enable<dma_periph>();
@@ -205,15 +206,11 @@ void UART_sized<buffer_size>::init (const UART_sized<buffer_size>::Settings& set
 template<size_t buffer_size>
 void UART_sized<buffer_size>::transmit()
 {
-   
-   // usart.disable()
-   //      .enable_IDLE_interrupt(false);
    rts = true;
    RXstream.disable();
    TXstream.disable();
    // +2 потому что теряется последние 2 байта (какой то глюк)
    TXstream.set_qty_transactions(buffer.size() + 2);
-   // usart.enable();
    TXstream.enable();
 }
 
@@ -222,12 +219,9 @@ void UART_sized<buffer_size>::receive()
 {
    buffer.clear();
    rts = false;
-   // usart.disable()
-   //      .enable_IDLE_interrupt();
-   // TXstream.disable();
+   TXstream.disable();
    RXstream.disable()
            .set_qty_transactions(buffer_size);
-   usart.enable();
    RXstream.enable();
 }
 

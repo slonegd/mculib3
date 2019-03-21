@@ -8,7 +8,7 @@ namespace mcu {
 class DMA
 {
    volatile DMA_bits::ISR  ISR;  // DMA interrupt status register     offset: 0x00
-   volatile DMA_bits::ISR  IFCR; // DMA interrupt flag clear register offset: 0x04
+   volatile DMA_bits::IFCR  IFCR; // DMA interrupt flag clear register offset: 0x04
 
 public:
    using CMSIS_type = DMA_TypeDef;
@@ -34,11 +34,13 @@ template <Periph dma> std::enable_if_t<dma == Periph::DMA1, DMA&> make_reference
 
 void DMA::clear_interrupt_flags(Channel v)
 {
-   if      (v == Channel::_1) IFCR.GIF1 = true;
-   else if (v == Channel::_2) IFCR.GIF2 = true;
-   else if (v == Channel::_3) IFCR.GIF3 = true;
-   else if (v == Channel::_4) IFCR.GIF4 = true;
-   else if (v == Channel::_5) IFCR.GIF5 = true;
+   registr(IFCR) = (1 << (1 + (static_cast<uint8_t>(v) - 1)*4));
+   
+   // if      (v == Channel::_1) IFCR.CTCIF1 = true;
+   // else if (v == Channel::_2) IFCR.CTCIF2 = true;
+   // else if (v == Channel::_3) IFCR.CTCIF3 = true;
+   // else if (v == Channel::_4) IFCR.CTCIF4 = true;
+   // else if (v == Channel::_5) IFCR.CTCIF5 = true;
 }
 
 bool DMA::is_transfer_complete_interrupt(Channel v)
