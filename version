@@ -1,0 +1,8 @@
+v 1.00
+    используется в 
+        EO101_NO470
+        EO94_10DI-8DO_TEST
+    работа с
+        pin
+        modbus_slave
+        modbus_master
