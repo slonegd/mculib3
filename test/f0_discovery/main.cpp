@@ -7,8 +7,8 @@
 #include "flash.h"
 #include "timers.h"
 #include "periph_dma.h"
-#include "adc.h"
-#include "modbus_master.h"
+#include "example/example_adc.h"
+#include "example/example_modbus_master.h"
 #include "literals.h"
 
 
@@ -33,6 +33,6 @@ extern "C" void init_clock ()
 int main()
 {
     // REF(RCC).clock_enable<mcu::Periph::TIM1>();
-    // mcu::example::ADC_average();
+    mcu::example::adc_average();
     mcu::example::modbus_master();
 }

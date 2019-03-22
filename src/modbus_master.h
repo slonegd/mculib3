@@ -46,7 +46,7 @@ struct Register : Register_base
 {
     Register() : Register_base{address_, register_n_, f, data} {}
 
-    operator T() {return value;}
+    operator T&() {return value;}
     T& operator= (T v) {value = v; return value;}
     const std::tuple<byte,byte> get_crc() override;
 
@@ -118,6 +118,8 @@ private:
     int time_pause{0};
     size_t message_size;
     bool search {false};
+    volatile size_t errors_count    {0};
+    volatile size_t transfers_count {0};
 
     void uartInterrupt();
     void dmaInterrupt();
@@ -170,52 +172,6 @@ auto& make_modbus_master (int time_out, UART_::Settings set, Regs& regs)
 
     return modbus;
 }
-
-
-
-/*/////////////////////////////////////////////////////////////////////////////
- *
- *  example
- *
- */////////////////////////////////////////////////////////////////////////////
-namespace mcu::example {
-
-void modbus_master() {
-    constexpr bool parity_enable {true};
-    constexpr int timeout {50}; // ms
-    UART::Settings set {
-          not parity_enable
-        , UART::Parity::even
-        , UART::DataBits::_8
-        , UART::StopBits::_1
-        , UART::Baudrate::BR9600
-    };
-
-    struct Regs {
-        Register<1, Modbus_function::read_03      , 2> temp;
-        Register<3, Modbus_function::force_coil_05, 7> uf;
-        Register<2, Modbus_function::write_16     , 4> time;
-    } regs;
-
-    decltype(auto) master = make_modbus_master <
-          mcu::Periph::USART1
-        , mcu::PA9
-        , mcu::PA10
-        , mcu::PB1
-    > (timeout, set, regs);
-
-    regs.uf = true;
-
-    while (1) {
-        master();
-    }
-}
-    
-} // namespace example {
-
-
-
-
 
 
 
@@ -312,6 +268,7 @@ void Modbus_master<max_regs_qty>::operator() ()
                 }
                 time_end_message = time_out;
                 message_size = 0;
+                transfers_count++;
                 uart.transmit();
                 state = State::wait_answer;
             break;
@@ -322,6 +279,7 @@ void Modbus_master<max_regs_qty>::operator() ()
             }
             if (time >= time_out) {
                 (*current)->errors.push(Modbus_error_code::time_out);
+                errors_count++;
                 time_pause = time;
                 state = State::pause;
             }
@@ -347,11 +305,13 @@ void Modbus_master<max_regs_qty>::get_answer()
     auto reg = *current;
     if (uart.buffer.front() != reg->address) {
         reg->errors.push (Modbus_error_code::wrong_addr);
+        errors_count++;
         return;
     }
 
     if (not check_CRC()) {
         reg->errors.push (Modbus_error_code::wrong_crc);
+        errors_count++;
         return;
     }
 
@@ -362,6 +322,7 @@ void Modbus_master<max_regs_qty>::get_answer()
         uint8_t error_code;
         uart.buffer >> error_code;
         reg->errors.push (static_cast<Modbus_error_code>(error_code));
+        errors_count++;
         return;
     }
 
@@ -375,10 +336,15 @@ void Modbus_master<max_regs_qty>::get_answer()
 template <size_t max_regs_qty>
 bool Modbus_master<max_regs_qty>::check_CRC()
 {
-    uint8_t high = uart.buffer.pop_back();
-    uint8_t low  = uart.buffer.pop_back();
-    auto [low_, high_] = CRC16(uart.buffer.begin(), uart.buffer.end());
-    return (high == high_) and (low == low_);
+    if (uart.buffer.size() > 2) {
+        uint8_t high = uart.buffer.pop_back();
+        uint8_t low  = uart.buffer.pop_back();
+        auto [low_, high_] = CRC16(uart.buffer.begin(), uart.buffer.end());
+        return (high == high_) and (low == low_);
+    } else {
+        return false;
+    }
+    
 }
 
 template <size_t max_regs_qty>

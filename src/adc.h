@@ -78,22 +78,7 @@ private:
 
 
 
-namespace mcu::example {
 
-void ADC_average() {
-    constexpr auto conversion_on_channel {16};
-    auto& adc         = ADC_average::make<mcu::Periph::ADC1>(conversion_on_channel);
-    auto& power       = adc.add_channel<mcu::PA0>();
-    auto& temperature = adc.add_channel<mcu::PA1>();
-    auto& alarm       = Pin::make<mcu::PB0,mcu::PinMode::Output>();
-    adc.set_callback ([&]{
-        alarm = power < 100 or temperature > 50;
-    });
-    adc.start();
-    while (1) {}
-}
-
-} // namespace mcu::example {
 
 
 
