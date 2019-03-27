@@ -60,6 +60,8 @@
 #undef DMA2
 #undef ADC
 #undef ADC1
+#undef ADC2
+#undef ADC3
 
 
 namespace mcu {
@@ -94,7 +96,7 @@ enum class Periph {
     SysTick,
     TIM1, TIM2, TIM3, TIM4, TIM14, TIM16, TIM17,
     FLASH,
-    ADC1,
+    ADC1, ADC2, ADC3, ADCC
 #if defined(STM32F7)
     USB_FS_core,
     USB_HS_core,

@@ -80,7 +80,7 @@ template<Periph stream> constexpr Periph DMA_stream::dma_periph()
 		return Periph::DMA2;
 }
 
-template<Periph usart, Periph stream> constexpr DMA_stream::Channel DMA_stream::channel() 
+template<Periph periph, Periph stream> constexpr DMA_stream::Channel DMA_stream::channel() 
 {
 	if constexpr (stream == Periph::DMA1_stream0 or
 					  stream == Periph::DMA1_stream1 or
@@ -94,14 +94,25 @@ template<Periph usart, Periph stream> constexpr DMA_stream::Channel DMA_stream::
 	else if constexpr (stream == Periph::DMA2_stream1)
 		return Channel::_5;
 	else if constexpr (stream == Periph::DMA2_stream2 or stream == Periph::DMA2_stream7) {
-		if      constexpr (usart == Periph::USART1)
+		if      constexpr (periph == Periph::USART1)
 			return Channel::_4;
-		else if constexpr (usart == Periph::USART6)
+		else if constexpr (periph == Periph::USART6)
 			return Channel::_5;
 	} else if constexpr (stream == Periph::DMA2_stream5)
 		return Channel::_4;
 	else if constexpr (stream == Periph::DMA2_stream6) 
 		return Channel::_5;
+
+	//adc
+	else if constexpr (stream == Periph::DMA2_stream0 or stream == Periph::DMA2_stream1 or 
+							 stream == Periph::DMA2_stream2 or stream == Periph::DMA2_stream3 or
+							 stream == Periph::DMA2_stream4)
+		if constexpr (periph == Periph::ADC1)
+			return Channel::_0;
+		else if constexpr (periph == Periph::ADC2)
+			return Channel::_1;
+		else if constexpr (periph == Periph::ADC2)
+			return Channel::_2;
 }
 
 
