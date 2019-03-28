@@ -5,10 +5,10 @@
    "version": "0.2.0",
    "configurations": [
         {
-        "name": "pwm",
+        "name": "adcf4",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/test/cmake/build/test_pwm",
+        "program": "${workspaceFolder}/test/cmake/build/test_periph_adc_f4",
         "args": [],
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",

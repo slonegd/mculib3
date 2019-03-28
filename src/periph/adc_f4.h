@@ -32,21 +32,21 @@ public:
    using Resolution  = ADC_bits::CR1::Resolution;
    using Sample_time = ADC_bits::SMPR::Sample_time;
    // using Channel     = DMA::Channel;
-   using Sample_time = ADC_bits::SMPR::Sample_time;
 
    ADC& enable()              {CR2.ADON    = true;  return *this;}
+   bool is_enable()           {return CR2.ADON;}
    ADC& disable()             {CR2.ADON    = false; return *this;}
    ADC& start()               {CR2.SWSTART = true;  return *this;}
+   ADC& dma_enable()          {CR2.DMA     = true;  return *this;}
    ADC& set (Resolution v)    {CR1.RES     = v;     return *this;}
    ADC& set_scan_mode()       {CR1.SCAN    = true;  return *this;}
    ADC& set_continuous_mode() {CR2.CONT    = true;  return *this;}
    // ADC& set (Clock v)         {                     return *this;}
-   ADC& DMA_enable()          {CR2.DMA     = true;  return *this;}
-   ADC& set_circular_DMA()    {CR2.DDS     = true;  return *this;}
+   ADC& set_circular_dma()    {CR2.DDS     = true;  return *this;}
 
    template <uint8_t channel> ADC& set (Sample_time);
-   template <size_t order, uint8_t channel> static constexpr ADC& set_regular_sequence_order();
-   template <size_t length> static constexpr ADC& set_regular_sequence_length();
+   template <size_t order, uint8_t channel>  ADC& set_regular_sequence_order ();
+   template <size_t length>                  ADC& set_regular_sequence_length();
    // template <Periph adc> static constexpr Channel DMA_channel();
 };
 
@@ -81,10 +81,12 @@ ADC& ADC::set (ADC::Sample_time v)
    else if constexpr (channel == 16) SMPR.SMP16 = v;
    else if constexpr (channel == 17) SMPR.SMP17 = v;
    else if constexpr (channel == 18) SMPR.SMP18 = v;
+
+   return *this;
 }
 
 template <size_t order, uint8_t channel> // n - номер по порядку (1 - 16)
-constexpr ADC& ADC::set_regular_sequence_order()
+ADC& ADC::set_regular_sequence_order()
 {
    static_assert (order >= 1 and order <= 16);
    static_assert (channel >= 0 and channel <= 18);
@@ -104,13 +106,17 @@ constexpr ADC& ADC::set_regular_sequence_order()
    else if constexpr (order == 14) SQR.SQ14 = channel;
    else if constexpr (order == 15) SQR.SQ15 = channel;
    else if constexpr (order == 16) SQR.SQ16 = channel;
+
+   return *this;
 }
 
 template <size_t length>
-constexpr ADC& ADC::set_regular_sequence_length()
+ADC& ADC::set_regular_sequence_length()
 {
    static_assert (length >= 1 and length <= 16);
    SQR.L = length - 1;
+
+   return *this;
 }
 
 // template<Periph adc> 

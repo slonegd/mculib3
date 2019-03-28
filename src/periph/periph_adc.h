@@ -7,7 +7,7 @@
 #elif defined(STM32F1)
    #error adc for STM32F1 not realized
 #elif defined(STM32F4)
-   #error adc for STM32F4 not realized
+   #include "adc_f4.h"
 #elif defined(STM32F7)
    #error adc for STM32F7 not realized
 #endif

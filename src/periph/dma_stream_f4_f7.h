@@ -106,13 +106,14 @@ template<Periph periph, Periph stream> constexpr DMA_stream::Channel DMA_stream:
 	//adc
 	else if constexpr (stream == Periph::DMA2_stream0 or stream == Periph::DMA2_stream1 or 
 							 stream == Periph::DMA2_stream2 or stream == Periph::DMA2_stream3 or
-							 stream == Periph::DMA2_stream4)
+							 stream == Periph::DMA2_stream4) {
 		if constexpr (periph == Periph::ADC1)
 			return Channel::_0;
 		else if constexpr (periph == Periph::ADC2)
 			return Channel::_1;
 		else if constexpr (periph == Periph::ADC2)
 			return Channel::_2;
+	}
 }
 
 
