@@ -33,16 +33,18 @@ public:
 	DMA_stream& set_periph_adr      (size_t v)  {PAR  = v; return *this;}
 	DMA_stream& set_qty_transactions(uint16_t v){NDTR = v; return *this;}
 
-	DMA_stream& set        (Direction d) {CR.DIR = d;   return *this;}
-	DMA_stream& size_memory(DataSize  d) {CR.MSIZE = d; return *this;}
-	DMA_stream& size_periph(DataSize  d) {CR.PSIZE = d; return *this;}
+	DMA_stream& set         (Direction d) {CR.DIR = d;   return *this;}
+	DMA_stream& size_memory (DataSize  d) {CR.MSIZE = d; return *this;}
+	DMA_stream& size_periph (DataSize  d) {CR.PSIZE = d; return *this;}
+	DMA_stream& select_channel(Channel v) {CR.CHSEL = v; return *this;}
 
 	DMA_stream& enable_transfer_complete_interrupt(){CR.TCIE = true; return *this;}
 
 	uint16_t qty_transactions_left(){return NDTR;}
 
 	template<Periph stream> static constexpr Periph dma_periph();
-	template<Periph usart, Periph stream> static constexpr Channel channel();
+	template<Periph usart, Periph stream> static constexpr Channel select_channel();
+	template<Periph usart, Periph stream_> static constexpr Channel channel();
 
 };
 
@@ -80,7 +82,12 @@ template<Periph stream> constexpr Periph DMA_stream::dma_periph()
 		return Periph::DMA2;
 }
 
-template<Periph periph, Periph stream> constexpr DMA_stream::Channel DMA_stream::channel() 
+template<Periph periph, Periph stream_> constexpr DMA_stream::Channel DMA_stream::channel() 
+{
+	if constexpr (stream_ == Periph::DMA2_stream7) return Channel::_7;
+}
+
+template<Periph periph, Periph stream> constexpr DMA_stream::Channel DMA_stream::select_channel() 
 {
 	if constexpr (stream == Periph::DMA1_stream0 or
 					  stream == Periph::DMA1_stream1 or

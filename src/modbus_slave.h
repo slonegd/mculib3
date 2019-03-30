@@ -287,6 +287,7 @@ void Modbus_slave<InReg, OutRegs_t>::answer_03()
         uart.buffer << arOutRegs[first_reg++];
     auto [low_, high_] = CRC16(uart.buffer.begin(), uart.buffer.end());
     uart.buffer << low_ << high_;
+
     uart.transmit();
 }
 

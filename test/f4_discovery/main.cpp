@@ -7,9 +7,7 @@
 #include "pin.h"
 #include "timers.h"
 #include "literals.h"
-#include "adc.h"
-
-
+// #include "adc.h"
 
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock ()
@@ -37,11 +35,14 @@ extern "C" void init_clock ()
 int main()
 {
    volatile decltype(auto) led = Pin::make<mcu::PD15, mcu::PinMode::Output>();
+   // volatile decltype(auto) led1 = Pin::make<mcu::PA15, mcu::PinMode::Output>();
 
    Timer timer {500_ms};
+   // Timer timer1 {100_ms};
    
    while(1) {
       led ^= timer.event();
+      // led1 ^= timer1.event();
       __WFI();
    } // while(1) {
 

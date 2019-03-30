@@ -86,14 +86,14 @@ Interrupt interrupt_DMA1_channel5 {DMA1_Stream5_IRQn};
 Interrupt interrupt_DMA1_channel6 {DMA1_Stream6_IRQn};
 Interrupt interrupt_DMA1_channel7 {DMA1_Stream7_IRQn};
 
-Interrupt interrupt_DMA2_channel0 {DMA1_Stream0_IRQn};
-Interrupt interrupt_DMA2_channel1 {DMA1_Stream1_IRQn};
-Interrupt interrupt_DMA2_channel2 {DMA1_Stream2_IRQn};
-Interrupt interrupt_DMA2_channel3 {DMA1_Stream3_IRQn};
-Interrupt interrupt_DMA2_channel4 {DMA1_Stream4_IRQn};
-Interrupt interrupt_DMA2_channel5 {DMA1_Stream5_IRQn};
-Interrupt interrupt_DMA2_channel6 {DMA1_Stream6_IRQn};
-Interrupt interrupt_DMA2_channel7 {DMA1_Stream7_IRQn};
+Interrupt interrupt_DMA2_channel0 {DMA2_Stream0_IRQn};
+Interrupt interrupt_DMA2_channel1 {DMA2_Stream1_IRQn};
+Interrupt interrupt_DMA2_channel2 {DMA2_Stream2_IRQn};
+Interrupt interrupt_DMA2_channel3 {DMA2_Stream3_IRQn};
+Interrupt interrupt_DMA2_channel4 {DMA2_Stream4_IRQn};
+Interrupt interrupt_DMA2_channel5 {DMA2_Stream5_IRQn};
+Interrupt interrupt_DMA2_channel6 {DMA2_Stream6_IRQn};
+Interrupt interrupt_DMA2_channel7 {DMA2_Stream7_IRQn};
 #endif
 
 template<mcu::Periph v>

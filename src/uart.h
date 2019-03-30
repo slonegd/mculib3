@@ -74,10 +74,12 @@ class UART_sized
    DMA_stream &RXstream;
    const mcu::Periph uart_periph;
    const Channel TX_channel;
+   // const Channel RX_channel;
 
    UART_sized(
        Pin &tx, Pin &rx, Pin &rts, USART &usart, DMA &dma, DMA_stream &TXstream, DMA_stream &RXstream, mcu::Periph uart_periph, Channel TX_channel) : tx{tx}, rx{rx}, rts{rts}, dma{dma}, usart{usart}, TXstream{TXstream}, RXstream{RXstream}, uart_periph{uart_periph}, TX_channel{TX_channel}
-   {
+   { 
+   
    }
 
    //  UART_sized(const UART_sized&) = delete;
@@ -128,6 +130,11 @@ auto &UART_sized<buffer_size>::make()
        .size_periph(DataSize::byte8)
        .circular_mode();
 
+   #if defined(STM32F405xx)
+      uart.RXstream.select_channel(DMA_stream::select_channel<uart_periph, RX_stream>());
+      uart.TXstream.select_channel(DMA_stream::select_channel<uart_periph, TX_stream>());
+   #endif
+   
    return uart;
 }
 
