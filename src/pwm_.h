@@ -20,7 +20,7 @@ class PWM
    const TIM::EnableMask enable_mask;
 
    const uint16_t max_duty_cycle;
-   constexpr static uint16_t min_frequency {(F_CPU / 0xFFFF) + 1};
+   constexpr static uint16_t min_frequency {F_CPU / 0xFFFF};
 
    class Frequency {
       uint16_t value {0};
@@ -33,7 +33,7 @@ class PWM
       {
          if ((v != value) and (v >= parent.min_frequency)) {
             value = v;
-            parent.CNT = (F_CPU / value);
+            parent.CNT = (F_CPU / value - 1)/2;
             parent.tim.set_auto_reload(parent.CNT);
             parent.duty_cycle.update();
          }
@@ -95,6 +95,7 @@ public:
       };
       mcu::make_reference<mcu::Periph::RCC>().clock_enable<tim_>();
       pwm.tim.template set<channel_> (TIM::CompareMode::PWMmode)
+             .template preload_enable<channel_>()
              .auto_reload_enable()
              .counter_enable();
 

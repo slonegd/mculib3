@@ -25,7 +25,7 @@ extern "C" void init_clock ()
       .set_PLLM<4>()
       .set_PLLN<168>()
       .set      (mcu::RCC::     PLLPdiv::_2)
-      // .set_PLLQ<4>()
+      // .set_PLLQ<7>()
       .set      (mcu::RCC::   PLLsource::HSE)
       .on_PLL()
       .wait_PLL_ready();
