@@ -100,10 +100,16 @@ template<mcu::Periph v>
 auto& get_interrupt()
 {
     if      constexpr (v == mcu::Periph::USART1)       return interrupt_usart1;
+    else if constexpr (v == mcu::Periph::DMA1_stream1) return interrupt_DMA1_channel1;
+    else if constexpr (v == mcu::Periph::DMA1_stream2) return interrupt_DMA1_channel2;
+    else if constexpr (v == mcu::Periph::DMA1_stream3) return interrupt_DMA1_channel3;
+    else if constexpr (v == mcu::Periph::DMA1_stream4) return interrupt_DMA1_channel4;
+    else if constexpr (v == mcu::Periph::DMA1_stream5) return interrupt_DMA1_channel5;
 #if defined(STM32F1) 
     else if constexpr (v == mcu::Periph::USART2)       return interrupt_usart2;
     else if constexpr (v == mcu::Periph::USART3)       return interrupt_usart3;
 #endif
+
 #if defined(STM32F4) 
     else if constexpr (v == mcu::Periph::USART2)       return interrupt_usart2;
     else if constexpr (v == mcu::Periph::USART3)       return interrupt_usart3;
@@ -127,6 +133,11 @@ auto& get_interrupt()
     else if constexpr (v == mcu::Periph::DMA2_stream7) return interrupt_DMA2_channel7;
 #endif
 #if defined(STM32F1)
+    else if constexpr (v == mcu::Periph::DMA1_stream1) return interrupt_DMA1_channel1;
+    else if constexpr (v == mcu::Periph::DMA1_stream2) return interrupt_DMA1_channel2;
+    else if constexpr (v == mcu::Periph::DMA1_stream3) return interrupt_DMA1_channel3;
+    else if constexpr (v == mcu::Periph::DMA1_stream4) return interrupt_DMA1_channel4;
+    else if constexpr (v == mcu::Periph::DMA1_stream5) return interrupt_DMA1_channel5;
     else if constexpr (v == mcu::Periph::DMA1_stream6) return interrupt_DMA1_channel6;
     else if constexpr (v == mcu::Periph::DMA1_stream7) return interrupt_DMA1_channel7;
 #endif
