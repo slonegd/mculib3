@@ -133,7 +133,7 @@ template<class Pin_, PinMode v> void GPIO::init()
    } else if constexpr (v == PinMode::Output) {
       set<Pin_::n> (Mode::Output);
 
-   } else if constexpr (v == PinMode::Output) {
+   } else if constexpr (v == PinMode::Analog) {
       set<Pin_::n> (Mode::Analog);
 
    } else if constexpr (v == PinMode::Alternate_0) {

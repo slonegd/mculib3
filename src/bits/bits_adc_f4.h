@@ -15,7 +15,7 @@ struct SR {
 }__attribute__((packed));
 
 struct CR1 {
-   enum Resolution { _12bits  = 0b00, _10bits, _8bits, _6bits };
+   enum Resolution { _12_bit  = 0b00, _10_bit, _8_bit, _6_bit };
    uint32_t   AWDCH   :5; // Bits 4:0 AWDCH[4:0]: Analog watchdog channel select bits
    bool       EOCIE   :1; // Bit 5 EOCIE: Interrupt enable for EOC
    bool       AWDIE   :1; // Bit 6 AWDIE: Analog watchdog interrupt enable
@@ -46,6 +46,7 @@ struct CR2 {
       iEXTI15
    };
    enum TriggerEn { Disable = 0b00, RisingEdge, FallingEdge, BothEdge };
+   enum DMA_mode  { one_shot = 0b0, circular };
    enum EventsRegular {
       rTimer1CC1 = 0b0000,
       rTimer1CC2, rTimer1CC3,
@@ -60,7 +61,7 @@ struct CR2 {
    bool           CONT     :1; // Bit 1 CONT: Continuous conversion
    uint32_t                :6; // Bits 7:2 Reserved, must be kept at reset value.
    bool           DMA      :1; // Bit 8 DMA: Direct memory access mode (for single ADC mode)
-   bool           DDS      :1; // Bit 9 DDS: DMA disable selection (for single ADC mode)
+   DMA_mode       DDS      :1; // Bit 9 DDS: DMA disable selection (for single ADC mode)
    bool           EOCS     :1; // Bit 10 EOCS: End of conversion selection
    uint32_t       ALIGN    :1; // Bit 11 ALIGN: Data alignment
    uint32_t                :4; // Bits 15:12 Reserved, must be kept at reset value.

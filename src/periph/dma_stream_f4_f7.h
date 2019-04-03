@@ -36,7 +36,7 @@ public:
 	DMA_stream& set         (Direction d) {CR.DIR = d;   return *this;}
 	DMA_stream& size_memory (DataSize  d) {CR.MSIZE = d; return *this;}
 	DMA_stream& size_periph (DataSize  d) {CR.PSIZE = d; return *this;}
-	DMA_stream& select_channel(Channel v) {CR.CHSEL = v; return *this;}
+	DMA_stream& set_channel (Channel v)   {CR.CHSEL = v; return *this;}
 
 	DMA_stream& enable_transfer_complete_interrupt(){CR.TCIE = true; return *this;}
 

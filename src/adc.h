@@ -52,6 +52,7 @@ struct ADC_average : private List<ADC_channel>, Interrupting {
 private:
     Dyn_array<uint16_t> buffer{};  // сюда данные по дма
     const size_t        conversion_qty;
+    size_t order{0};
     ADC&        adc;
     DMA_stream& dma;
     Interrupt& interrupt_;
@@ -120,13 +121,16 @@ ADC_average& ADC_average::make (size_t conversion_qty)
         , ADC
     };
     REF(RCC).clock_enable<ADC>();
-    res.adc.set (mcu::ADC::Clock::PCLKdiv4)     // no choice yet
-           .set (mcu::ADC::Resolution::_12_bit) // no choice yet
-           .set (mcu::ADC::Sample_time::Default)// no choice yet
+    res.adc.set (mcu::ADC::Resolution::_12_bit)
            .set_continuous()
            .dma_enable()
-           .set (mcu::ADC::DMA_mode::circular);
-
+           .set (mcu::ADC::DMA_mode::circular); // no choice yet
+#if defined (STM32F0)
+    res.adc.set (mcu::ADC::Clock::PCLKdiv4)      // no choice yet
+           .set (mcu::ADC::Sample_time::Default);// no choice yet
+#elif defined (STM32F4)
+    res.adc.set_scan_mode();
+#endif
     REF(RCC).clock_enable<dma_periph>();
     auto periph_adr = size_t(&res.adc.data());
     res.dma.set_periph_adr (periph_adr)
@@ -135,12 +139,14 @@ ADC_average& ADC_average::make (size_t conversion_qty)
            .size_periph (mcu::DMA_stream::DataSize::word16)
            .inc_memory()
            .enable_transfer_complete_interrupt();
-
+#if defined (STM32F4)
+    res.dma.circular_mode();
+    res.dma.set_channel(DMA_stream::select_channel<ADC, dma_periph>());
+#endif
     res.interrupt_.enable();
    
     return res;
 }
-
 
 template<class Pin>
 ADC_channel& ADC_average::add_channel()
@@ -148,6 +154,11 @@ ADC_channel& ADC_average::add_channel()
     auto& value = ADC_channel::make<Pin>();
     auto channel = adc.set_channel<Pin>(adc_periph);
     value.channel = channel;
+#if defined (STM32F4)
+    adc.set(channel, mcu::ADC::Sample_time::Default);
+    adc.set_regular_sequence_order(++order, channel);
+    adc.set_regular_sequence_length(order);
+#endif
     // чтобы каналы располагались в листе в порядке, как они оцифровываются
     this->insert (
         std::find_if (
@@ -162,6 +173,8 @@ ADC_channel& ADC_average::add_channel()
          .set_memory_adr (buffer.address())
          .set_qty_transactions (buffer.size())
          .enable();
+
+
     return value;
 }
 
@@ -169,12 +182,16 @@ ADC_channel& ADC_average::add_channel()
 void ADC_average::start()
 {
     dma.enable();
-    
+#if defined (STM32F0)
     // maybe need wrap in function
     if (adc.is_ready())
         adc.set_busy();
     adc.enable();
     while ( not adc.is_ready() ) { }
+#elif defined (STM32F4)
+    adc.enable();
+    while ( not adc.is_enable() ) { }
+#endif
 
     adc.start();
 }

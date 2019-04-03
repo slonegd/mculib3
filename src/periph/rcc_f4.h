@@ -87,8 +87,24 @@ public:
 		else if constexpr (p == Periph::USART5) APB1ENR.UART5EN  = true;
 		else if constexpr (p == Periph::USART6) APB2ENR.USART6EN = true;
 
-		else if constexpr (p == Periph::DMA1) AHB1ENR.DMA1EN = true;
-		else if constexpr (p == Periph::DMA2) AHB1ENR.DMA2EN = true;
+		else if constexpr (p == Periph::DMA1) AHB1ENR.DMA1EN         = true;
+		else if constexpr (p == Periph::DMA2) AHB1ENR.DMA2EN         = true;
+		else if constexpr (p == Periph::DMA1_stream0) AHB1ENR.DMA1EN = true;
+		else if constexpr (p == Periph::DMA1_stream1) AHB1ENR.DMA1EN = true;
+		else if constexpr (p == Periph::DMA1_stream2) AHB1ENR.DMA1EN = true;
+		else if constexpr (p == Periph::DMA1_stream3) AHB1ENR.DMA1EN = true;
+		else if constexpr (p == Periph::DMA1_stream4) AHB1ENR.DMA1EN = true;
+		else if constexpr (p == Periph::DMA1_stream5) AHB1ENR.DMA1EN = true;
+		else if constexpr (p == Periph::DMA1_stream6) AHB1ENR.DMA1EN = true;
+		else if constexpr (p == Periph::DMA1_stream7) AHB1ENR.DMA1EN = true;
+		else if constexpr (p == Periph::DMA2_stream0) AHB1ENR.DMA2EN = true;
+		else if constexpr (p == Periph::DMA2_stream1) AHB1ENR.DMA2EN = true;
+		else if constexpr (p == Periph::DMA2_stream2) AHB1ENR.DMA2EN = true;
+		else if constexpr (p == Periph::DMA2_stream3) AHB1ENR.DMA2EN = true;
+		else if constexpr (p == Periph::DMA2_stream4) AHB1ENR.DMA2EN = true;
+		else if constexpr (p == Periph::DMA2_stream5) AHB1ENR.DMA2EN = true;
+		else if constexpr (p == Periph::DMA2_stream6) AHB1ENR.DMA2EN = true;
+		else if constexpr (p == Periph::DMA2_stream7) AHB1ENR.DMA2EN = true;
 
 		else if constexpr (p == Periph::TIM2) APB1ENR.TIM2EN  = true;
 		else if constexpr (p == Periph::TIM3) APB1ENR.TIM3EN  = true;
