@@ -51,13 +51,13 @@ class PWM
       {
          if ((v != value) and (v > 0) and (v <= parent.max_duty_cycle)) {  
             value = v;
-            parent.tim.set_compare(parent.channel, parent.CNT * value/100);
+            parent.tim.set_compare(parent.channel, parent.CNT * value/1000);
          }
 
          return v;
       }
       void update() {
-         parent.tim.set_compare(parent.channel, parent.CNT * value/100);
+         parent.tim.set_compare(parent.channel, parent.CNT * value/1000);
       }
    };
 
@@ -79,7 +79,7 @@ public:
    Duty_cycle duty_cycle{*this};
    
    template <mcu::Periph tim_, class Pin_>
-   static auto& make (uint16_t max_duty_cycle = 100)
+   static auto& make (uint16_t max_duty_cycle = 500)
    {
       TIM::pin_static_assert<tim_, Pin_>();
       

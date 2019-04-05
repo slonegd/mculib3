@@ -41,7 +41,7 @@ int main()
    constexpr auto _2V {2 * 16 * 4095/2.9}; 
     struct {
         ADC_average& control     = ADC_average::make<mcu::Periph::ADC1>(conversion_on_channel);
-        ADC_channel& voltage     = control.add_channel<mcu::PA1>();
+        ADC_channel& voltage     = control.add_channel<mcu::PA2>();
         // ADC_channel& temperature = control.add_channel<mcu::PA1>();
     } adc{};
 

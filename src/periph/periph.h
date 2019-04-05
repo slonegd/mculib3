@@ -93,10 +93,15 @@ enum class Periph {
     DMA1_stream0, DMA1_stream1, DMA1_stream2, DMA1_stream3, DMA1_stream4, DMA1_stream5, DMA1_stream6, DMA1_stream7,
     DMA2_stream0, DMA2_stream1, DMA2_stream2, DMA2_stream3, DMA2_stream4, DMA2_stream5, DMA2_stream6, DMA2_stream7,
 #endif
+#if defined(STM32F0)
+   ADC1,
+#elif defined(STM32F4) 
+    ADC1, ADC2, ADC3,
+#endif
     SysTick,
     TIM1, TIM2, TIM3, TIM4, TIM14, TIM16, TIM17,
     FLASH,
-    ADC1, ADC2, ADC3, ADCC
+    ADCC
 #if defined(STM32F7)
     USB_FS_core,
     USB_HS_core,

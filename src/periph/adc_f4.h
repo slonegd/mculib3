@@ -138,25 +138,26 @@ template <class Pin> int ADC::set_channel(Periph p)
         else if constexpr (std::is_same_v<Pin,PC4>) return 14;
         else if constexpr (std::is_same_v<Pin,PC5>) return 15;
         else static_assert(always_false_v<Pin>, "Вывод не поддерживает работы с АЦП1/2");
-    } else if (p == Periph::ADC3) {
-        if      constexpr (std::is_same_v<Pin,PA0>) return 0;
-        else if constexpr (std::is_same_v<Pin,PA1>) return 1;
-        else if constexpr (std::is_same_v<Pin,PA2>) return 2;
-        else if constexpr (std::is_same_v<Pin,PA3>) return 3;
-        else if constexpr (std::is_same_v<Pin,PF6>) return 4; 
-        else if constexpr (std::is_same_v<Pin,PF7>) return 5; 
-        else if constexpr (std::is_same_v<Pin,PF8>) return 6; 
-        else if constexpr (std::is_same_v<Pin,PF9>) return 7; 
-        else if constexpr (std::is_same_v<Pin,PF10>) return 8; 
-        else if constexpr (std::is_same_v<Pin,PF3>) return 9; 
-        else if constexpr (std::is_same_v<Pin,PC0>) return 10;
-        else if constexpr (std::is_same_v<Pin,PC1>) return 11;
-        else if constexpr (std::is_same_v<Pin,PC2>) return 12;
-        else if constexpr (std::is_same_v<Pin,PC3>) return 13;
-        else if constexpr (std::is_same_v<Pin,PF4>) return 14;
-        else if constexpr (std::is_same_v<Pin,PF5>) return 15;
-        else static_assert(always_false_v<Pin>, "Вывод не поддерживает работы c АЦП3");
-    }
+    } 
+    // else if (p == Periph::ADC3) {
+    //     if      constexpr (std::is_same_v<Pin,PA0>) return 0;
+    //     else if constexpr (std::is_same_v<Pin,PA1>) return 1;
+    //     else if constexpr (std::is_same_v<Pin,PA2>) return 2;
+    //     else if constexpr (std::is_same_v<Pin,PA3>) return 3;
+    //     else if constexpr (std::is_same_v<Pin,PF6>) return 4; 
+    //     else if constexpr (std::is_same_v<Pin,PF7>) return 5; 
+    //     else if constexpr (std::is_same_v<Pin,PF8>) return 6; 
+    //     else if constexpr (std::is_same_v<Pin,PF9>) return 7; 
+    //     else if constexpr (std::is_same_v<Pin,PF10>) return 8; 
+    //     else if constexpr (std::is_same_v<Pin,PF3>) return 9; 
+    //     else if constexpr (std::is_same_v<Pin,PC0>) return 10;
+    //     else if constexpr (std::is_same_v<Pin,PC1>) return 11;
+    //     else if constexpr (std::is_same_v<Pin,PC2>) return 12;
+    //     else if constexpr (std::is_same_v<Pin,PC3>) return 13;
+    //     else if constexpr (std::is_same_v<Pin,PF4>) return 14;
+    //     else if constexpr (std::is_same_v<Pin,PF5>) return 15;
+    //     else static_assert(always_false_v<Pin>, "Вывод не поддерживает работы c АЦП3");
+    // }
     return 0;
 }
 
