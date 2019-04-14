@@ -46,9 +46,9 @@ public:
    // ADC& set (Clock v)         {                     return *this;}
    volatile const uint32_t& data() {return DR;}
 
-   ADC& set (uint8_t channel, Sample_time);
-   ADC& set_regular_sequence_order (size_t order, uint8_t channel);
-   ADC& set_regular_sequence_length(size_t length);
+   ADC& set (uint8_t channel, Sample_time); // TODO channel без ограничений, нужно перечисление
+   ADC& set_regular_sequence_order (size_t order, uint8_t channel); // TODO channel order без ограничений, нужно перечисление
+   ADC& set_regular_sequence_length(size_t length); // TODO length без ограничений, нужно перечисление
    template <class Pin> int set_channel(Periph);
    template<Periph> static constexpr Periph default_dma();
    // template <Periph adc> static constexpr Channel DMA_channel();

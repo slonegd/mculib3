@@ -130,7 +130,7 @@ auto &UART_sized<buffer_size>::make()
        .size_periph(DataSize::byte8)
        .circular_mode();
 
-   #if defined(STM32F4) or defined(STM32F1)
+   #if defined(STM32F4) // or defined(STM32F1) FIX у STM32F1 нет метода set_channel
       uart.RXstream.set_channel(DMA_stream::select_channel<uart_periph, RX_stream>());
       uart.TXstream.set_channel(DMA_stream::select_channel<uart_periph, TX_stream>());
    #endif

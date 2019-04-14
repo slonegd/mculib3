@@ -30,12 +30,7 @@ BOOST_AUTO_TEST_CASE (clear_interrupt_flags)
 
    dma.clear_interrupt_flags(mcu::DMA::Channel::_2);
    BOOST_CHECK_EQUAL (CMSIS.LIFCR,
-        DMA_LIFCR_CFEIF0_Msk
-      | DMA_LIFCR_CDMEIF0_Msk
-      | DMA_LIFCR_CTEIF0_Msk
-      | DMA_LIFCR_CHTIF0_Msk
-      | DMA_LIFCR_CTCIF0_Msk
-      | DMA_LIFCR_CFEIF2_Msk
+        DMA_LIFCR_CFEIF2_Msk
       | DMA_LIFCR_CDMEIF2_Msk
       | DMA_LIFCR_CTEIF2_Msk
       | DMA_LIFCR_CHTIF2_Msk
@@ -46,18 +41,6 @@ BOOST_AUTO_TEST_CASE (clear_interrupt_flags)
    );
 
    dma.clear_interrupt_flags(mcu::DMA::Channel::_4);
-   BOOST_CHECK_EQUAL (CMSIS.LIFCR,
-        DMA_LIFCR_CFEIF0_Msk
-      | DMA_LIFCR_CDMEIF0_Msk
-      | DMA_LIFCR_CTEIF0_Msk
-      | DMA_LIFCR_CHTIF0_Msk
-      | DMA_LIFCR_CTCIF0_Msk
-      | DMA_LIFCR_CFEIF2_Msk
-      | DMA_LIFCR_CDMEIF2_Msk
-      | DMA_LIFCR_CTEIF2_Msk
-      | DMA_LIFCR_CHTIF2_Msk
-      | DMA_LIFCR_CTCIF2_Msk
-   );
    BOOST_CHECK_EQUAL (CMSIS.HIFCR,
         DMA_HIFCR_CFEIF4_Msk
       | DMA_HIFCR_CDMEIF4_Msk

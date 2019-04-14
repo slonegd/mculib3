@@ -35,7 +35,6 @@ auto& e = Pin::make<E>();
 auto& rs = Pin::make<RS>();
 auto& rw = Pin::make<RW>();
 
-
 BOOST_AUTO_TEST_CASE(make_init)
 {
    process.clear();
