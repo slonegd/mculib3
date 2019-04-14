@@ -17,19 +17,68 @@ using namespace mcu;
 #endif
 
 
-constexpr size_t symbol_n_function (size_t i)
+class HD44780 : TickSubscriber
 {
-    return i < 20 ? i      :
-           i < 40 ? i + 20 :
-           i < 60 ? i - 20 : i;
-}
-
-class Symbol_n {
-    static constexpr auto table = meta::generate<symbol_n_function,80>;
-    size_t index {0};
 public:
-    size_t operator++(int) { return table[index++ % 80]; }
+    template <class RS, class RW, class E, class DB4, class DB5, class DB6, class DB7>
+    static HD44780& make(const std::array<char, 80>& buffer);
+
+
+
+private:
+    using BSRR = std::pair<uint32_t, uint32_t>;
+
+    enum Step {_1, _2, _3} step {Step::_1};
+
+    Pin& rs;
+    Pin& rw;
+    Pin& e;
+    GPIO& port;
+    const std::array<char, 80 >& buffer;
+    const std::array<BSRR, 256>& chars;
+    const std::array<BSRR, 256>& command;
+    uint32_t second;
+
+    class Symbol_n {
+    public:
+        size_t operator++(int) { return table[index++ % 80]; }
+    private:
+        static constexpr auto symbol_n_function = [](size_t i) {
+            return i < 20 ? i      :
+                   i < 40 ? i + 20 :
+                   i < 60 ? i - 20 : i;
+        };
+        static constexpr auto table = meta::generate<symbol_n_function,80>;
+        size_t index {0};
+    } index{};
+
+    HD44780 (
+        Pin& rs, Pin& rw, Pin& e, GPIO& port
+        , const std::array<char, 80 >& buffer
+        , const std::array<BSRR, 256>& chars
+        , const std::array<BSRR, 256>& command
+    ) : rs      {rs}
+      , rw      {rw}
+      , e       {e}
+      , port    {port}
+      , buffer  {buffer}
+      , chars   {chars}
+      , command {command}
+    {}
+
+    void init();
+    void notify() override;
 };
+
+
+
+
+
+
+
+
+
+
 
 constexpr unsigned char convert_HD44780[64] =
 {
@@ -69,10 +118,41 @@ constexpr auto BSRR_value (char data)
     return BSRR_command<DB4, DB5, DB6, DB7>(data);
 }
 
-class HD44780 : TickSubscriber
+
+
+
+
+
+
+template <class RS, class RW, class E, class DB4, class DB5, class DB6, class DB7>
+HD44780& HD44780::make(const std::array<char, 80>& buffer)
 {
-    using BSRR = std::pair<uint32_t, uint32_t>;
-    
+    static_assert (
+        meta::all_is_same(DB4::periph, DB5::periph, DB6::periph, DB7::periph)
+        , "Пины для шины экрана должны быть на одном порту"
+    );
+
+    static auto screen = HD44780 {
+        Pin::template make<RS, mcu::PinMode::Output>(),
+        Pin::template make<RW, mcu::PinMode::Output>(),
+        Pin::template make<E,  mcu::PinMode::Output>(),
+        mcu::make_reference<DB4::periph>(),
+        buffer,
+        meta::generate<BSRR_value<DB4, DB5, DB6, DB7>, 256>,
+        meta::generate<BSRR_command<DB4, DB5, DB6, DB7>, 256>
+    };
+
+    make_pins<mcu::PinMode::Output, DB4, DB5, DB6, DB7>();
+
+    screen.init();
+    screen.tick_subscribe();
+
+    return screen;
+}
+
+
+void HD44780::init()
+{
     enum Set {
           _4_bit_mode     = 0x28
         , display_on      = 0x0C
@@ -81,68 +161,6 @@ class HD44780 : TickSubscriber
         , set_to_zero     = 0x80
     };
 
-    enum Step {_1, _2, _3} step {Step::_1};
-
-    Pin& rs;
-    Pin& rw;
-    Pin& e;
-    GPIO& port;
-    Symbol_n index{};
-    const std::array<char, 80 >& buffer;
-    const std::array<BSRR, 256>& chars;
-    const std::array<BSRR, 256>& command;
-    uint32_t second;
-
-    HD44780(
-        Pin& rs, Pin& rw, Pin& e, GPIO& port
-        , const std::array<char, 80 >& buffer
-        , const std::array<BSRR, 256>& chars
-        , const std::array<BSRR, 256>& command
-    ) : rs      {rs}
-      , rw      {rw}
-      , e       {e}
-      , port    {port}
-      , buffer  {buffer}
-      , chars   {chars}
-      , command {command}
-    {}
-
-    void init();
-
-public:
-
-    template <class RS, class RW, class E, class DB4, class DB5, class DB6, class DB7>
-    static auto& make(const std::array<char, 80>& buffer)
-    {
-        static_assert (
-            meta::all_is_same(DB4::periph, DB5::periph, DB6::periph, DB7::periph)
-            , "Пины для шины экрана должны быть на одном порту"
-        );
-
-        static auto screen = HD44780 {
-            Pin::template make<RS, mcu::PinMode::Output>(),
-            Pin::template make<RW, mcu::PinMode::Output>(),
-            Pin::template make<E,  mcu::PinMode::Output>(),
-            mcu::make_reference<DB4::periph>(),
-            buffer,
-            meta::generate<BSRR_value<DB4, DB5, DB6, DB7>, 256>,
-            meta::generate<BSRR_command<DB4, DB5, DB6, DB7>, 256>
-        };
-
-        make_pins<mcu::PinMode::Output, DB4, DB5, DB6, DB7>();
-
-        screen.init();
-        screen.tick_subscribe();
-
-        return screen;
-    }
-
-    void notify() override;
-};
-
-
-void HD44780::init()
-{
     NS::Delay delay;
     
     auto strob_e = [&](){
