@@ -121,6 +121,11 @@ void tuple_foreach (std::tuple<T...>& t, function f)
 
 
 
+constexpr auto all_is_same = [](auto...vs) {
+    auto v = *std::initializer_list{vs...}.begin();
+    return ((v == vs) and ...);
+};
+
 } // namespace meta {
 
 

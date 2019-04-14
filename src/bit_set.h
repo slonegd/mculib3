@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 
+// не помню зачем этот класс создавался
 template<uint16_t qty_bit>
 struct Bit_set
 {
@@ -34,4 +35,19 @@ struct Bit_set
 
    auto& get_bin() {return bits;}
 
+};
+
+// этот класс создавался для заполнения метатаблицы (понятная работа с битами)
+template <class T>
+struct bit_set {
+    T value;
+    constexpr bit_set (T value) : value{value} {}
+    constexpr bool operator[] (T bit)
+    {
+        return value & (1 << bit); 
+    }
+    constexpr void set (T bit)
+    {
+        value |= (1 << bit);
+    }
 };
