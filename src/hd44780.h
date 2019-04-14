@@ -72,8 +72,6 @@ constexpr auto BSRR_value (char data)
 class HD44780 : TickSubscriber
 {
     using BSRR = std::pair<uint32_t, uint32_t>;
-
-    char symbol;
     
     enum Set {
           _4_bit_mode     = 0x28
@@ -93,6 +91,7 @@ class HD44780 : TickSubscriber
     const std::array<char, 80 >& buffer;
     const std::array<BSRR, 256>& chars;
     const std::array<BSRR, 256>& command;
+    uint32_t second;
 
     HD44780(
         Pin& rs, Pin& rw, Pin& e, GPIO& port
@@ -188,17 +187,20 @@ void HD44780::init()
 void HD44780::notify()
 {
     switch (step) {
-        case _1:
+        case _1: {
             rw = false;
             rs = true;
-            symbol = buffer[index++];
-            port.atomic_write(chars[symbol].first);
+            auto symbol = buffer[index++];
+            auto [first, second] = chars[symbol];
+            port.atomic_write(first);
+            this->second = second;
             step = Step::_2;
         break;
+        }
         case _2:
             e = true;
             e = false;
-            port.atomic_write(chars[symbol].second);
+            port.atomic_write(second);
             step = Step::_3;
         break;
         case _3:
