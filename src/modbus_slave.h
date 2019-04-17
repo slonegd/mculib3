@@ -18,12 +18,14 @@ using UART_ = ::UART;
 template <class InRegs_t, class OutRegs_t>
 class Modbus_slave : TickSubscriber
 {
+    // enum class State {receiving, wait, check_size, check_addr, check_CRC, pause, answer} state = State::receiving;
     UART_& uart;
     Interrupt& interrupt_usart;
     Interrupt& interrupt_DMA_channel; 
 
     int time {0}; // выдержка времени для модбаса 
     int modbus_time {0};
+    // int time_pause {1};
 
     const uint8_t address;
     uint8_t func;
@@ -193,6 +195,71 @@ template <class InRegs_t, class OutRegs_t>
 template <class function>
 inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (function reaction)
 {
+    // switch (state) {
+    //     case State::receiving:
+    //         if (uart.is_receiving()) {
+    //             time = 0;
+    //             tick_unsubscribe();
+    //             state = State::receiving;
+    //         } else 
+    //             state = State::wait;
+    //     break;
+    //     case State::wait:
+    //         if (time < modbus_time) 
+    //             state = State::wait;
+    //         else {
+    //             time = 0;
+    //             tick_unsubscribe();
+    //             state = State::check_size;
+    //         }
+    //     break;
+    //     case State::check_size:
+    //         if (uart.buffer.size() < 8) {
+    //             uart.receive();
+    //             state = State::receiving;
+    //         } else 
+    //             state = State::check_addr;
+    //     break;
+    //     case State::check_addr:
+    //         if (uart.buffer.front() != address) {
+    //             uart.receive();
+    //             state = State::receiving;
+    //         } else 
+    //             state = State::check_CRC;
+    //     break;
+    //     case State::check_CRC:
+    //         if (not check_CRC()) {
+    //             uart.receive();
+    //             state = State::receiving;
+    //         } else {
+    //             tick_subscribe();
+    //             state = State::pause;
+    //         }
+    //     break;
+    //     case State::pause:
+    //         if (time < time_pause)
+    //             state = State::pause;
+    //         else {
+    //             time = 0;
+    //             tick_unsubscribe();
+    //             state = State::answer;
+    //         }
+    //     break;
+    //     case State::answer:
+    //         uart.buffer.pop_front(); // adr
+    //         func = uart.buffer.pop_front();
+    //         if (func == static_cast<uint8_t>(Modbus_function::read_03)) // operator ==
+    //             answer_03();
+    //         else if (func == static_cast<uint8_t>(Modbus_function::write_16))
+    //             answer_16(reaction);
+    //         else 
+    //             answer_error (Modbus_error_code::wrong_func);
+            
+    //         state = State::receiving;
+    //     break;
+    // }
+
+    
     if (uart.is_receiving()) {
         time = 0;
         tick_unsubscribe();
