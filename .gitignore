@@ -6,3 +6,11 @@ test/f4_discovery/build/
 test/f7_discovery/build/
 mculib2_compare/f0_discovery/build/
 .vscode/ipch
+test/f1_EO81/build/main.map
+test/f1_EO81/build/main.bin
+test/f1_EO81/build/main.d
+test/f1_EO81/build/main.elf
+test/f1_EO81/build/main.hex
+test/f1_EO81/build/main.lst
+test/f1_EO81/build/main.o
+test/f1_EO81/build/startup_stm32f103xb.o

@@ -18,22 +18,23 @@ protected:
 public:
     using Clock = SysTick_bits::CTRL::Clock;
     
-    void load (uint32_t v)   { LOAD = v; }
-    void clear()             { VAL = 0; }
-    void setSource (Clock v) { CTRL.CLKSOURCE = v; }
-    void enableInterrupt()   { CTRL.TICKINT = true; }
-    void enable()            { CTRL.ENABLE = true; }
-    uint32_t get()           { return VAL; }
-    uint32_t get_load()      { return LOAD; }
+    void load (uint32_t v)     { LOAD = v; }
+    void clear()               { VAL = 0; }
+    void setSource (Clock v)   { CTRL.CLKSOURCE = v; }
+    void enableInterrupt()     { CTRL.TICKINT = true; }
+    void enable(bool v = true) { CTRL.ENABLE = v; }
+    uint32_t get()             { return VAL; }
+    uint32_t get_load()        { return LOAD; }
 
 
     template <uint16_t us> void initInterrupt()
     {
-        constexpr uint32_t val = F_CPU / (us) - 1;
+        constexpr uint32_t val = F_CPU / 1000 / (1000/us) - 1;
         static_assert (
             val <= 0xFFFFFF,
             "число должно быть 24-битное"
         );
+        enable(false);
         load (val);
         clear();
         setSource (Clock::processor);

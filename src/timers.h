@@ -24,7 +24,7 @@ extern "C" void SysTick_Handler()
 }
 
 enum Faster {
-    x2 = 2, x4 = 4, x5 = 5, x10 = 10,
+    x2 = 2, x4 = 4, x5 = 5, x8 = 8, x10 = 10,
 };
 
 class TickSubscriber : Subscriber

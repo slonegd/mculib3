@@ -144,7 +144,7 @@ HD44780& HD44780::make(const std::array<char, 80>& buffer)
     make_pins<mcu::PinMode::Output, DB4, DB5, DB6, DB7>();
 
     screen.init();
-    screen.tick_subscribe<Faster::x2>();
+    screen.tick_subscribe<Faster::x10>();
 
     return screen;
 }
@@ -199,6 +199,7 @@ void HD44780::init()
     instruction (dir_shift_right);
     instruction (display_clear);
     instruction (set_to_zero);
+    while(delay.ms(1)) {}
 }
 
 void HD44780::notify()
