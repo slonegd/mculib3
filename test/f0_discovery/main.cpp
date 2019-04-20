@@ -10,6 +10,7 @@
 #include "example/example_adc.h"
 #include "example/example_modbus_master.h"
 #include "literals.h"
+#include "pwm_.h"
 
 
 /// эта функция вызываеться первой в startup файле
@@ -33,6 +34,36 @@ extern "C" void init_clock ()
 int main()
 {
     // REF(RCC).clock_enable<mcu::Periph::TIM1>();
-    mcu::example::adc_average();
-    mcu::example::modbus_master();
+    // mcu::example::adc_average();
+    // mcu::example::modbus_master();
+
+    auto& pwm = PWM::make<mcu::Periph::TIM3, mcu::PC8>();
+   pwm.out_enable();
+   decltype(auto) pwm_ = PWM::make<mcu::Periph::TIM3, mcu::PC9>();
+   pwm.frequency = 26000;
+   pwm_.frequency = 26000;
+   pwm_.out_enable();
+
+
+   Timer timer {10};
+   Timer timer_ {20};
+   int i {0};
+   int p {0};
+
+   while(1) {
+      while (i < 100 ) {
+         if (timer.event()) {
+            pwm.duty_cycle = p++;
+            pwm_.duty_cycle = i++;
+            ++i;
+            ++p;
+         }
+      }
+      while (i > 0) {
+         if (timer_.event()) {
+            pwm.duty_cycle = p--;
+            pwm_.duty_cycle = i--;
+         }
+      }
+} // while(1) {
 }
