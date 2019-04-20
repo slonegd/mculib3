@@ -5,7 +5,6 @@
 #include "delay.h"
 #include "timers.h"
 #include "bit_set.h"
-#include "meta.h"
 #include <initializer_list>
 		
 #if defined (USE_MOCK_DELAY)

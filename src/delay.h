@@ -1,4 +1,5 @@
 #pragma once
+#include "timers.h"
 
 #if defined (USE_MOCK_SYSTICK) or defined (USE_MOCK_TIMER)
 #define NS mock
