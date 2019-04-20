@@ -15,10 +15,7 @@ using mcu::SysTick;
 
 struct TickUpdater : Publisher
 {
-// #if not defined(TEST) 
-   TickUpdater() { mcu::make_reference<mcu::Periph::SysTick>().initInterrupt<1>(); }
-// #endif
-   // using List::clear_subscribe;
+   TickUpdater() { REF(SysTick).initInterrupt<1000>(); }
 } tickUpdater;
 
 extern "C" void SysTick_Handler()
@@ -26,6 +23,9 @@ extern "C" void SysTick_Handler()
    tickUpdater.notify();
 }
 
+enum Faster {
+    x2 = 2, x4 = 4, x5 = 5, x10 = 10,
+};
 
 class TickSubscriber : Subscriber
 {
@@ -33,6 +33,7 @@ protected:
    bool subscribed {false};
    void tick_subscribe();
    void tick_unsubscribe();
+   template<Faster x> void tick_subscribe();
 public:
    
 };
@@ -133,6 +134,16 @@ void TickSubscriber::tick_subscribe()
    if (not subscribed) {
       subscribed = true;
       tickUpdater.subscribe (*this);
+   }
+}
+
+
+template<Faster x> // на сколько быстрее
+void TickSubscriber::tick_subscribe()
+{
+   if (not subscribed) {
+      subscribed = true;
+      tickUpdater.subscribe<x> (*this);
    }
 }
 

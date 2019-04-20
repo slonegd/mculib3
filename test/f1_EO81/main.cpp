@@ -24,7 +24,11 @@ int main()
         EO81::Up, EO81::Down
     >();
 
+    volatile auto& sys = REF(SysTick);
+
     while(1){
         __WFI();
     }
 }
+
+                                                           
