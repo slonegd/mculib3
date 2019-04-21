@@ -62,6 +62,9 @@
 #undef ADC1
 #undef ADC2
 #undef ADC3
+#undef SPI1
+#undef SPI2
+#undef SPI3
 
 
 namespace mcu {
@@ -100,6 +103,7 @@ enum class Periph {
 #endif
     SysTick,
     TIM1, TIM2, TIM3, TIM4, TIM14, TIM16, TIM17,
+    SPI1, SPI2, SPI3,
     FLASH,
     ADCC,
 #if defined(STM32F7)

@@ -6,15 +6,18 @@ namespace mcu::SPI_bits {
 
    struct CR1 {
       enum Mode {slave = 0b0, master = 0b1};
+      enum Polarity {low_level = 0b0, high_level = 0b1};
+      enum Edge {front = 0b0, rear = 0b1};
+      enum First_bit {high = 0b0, low = 0b1};
       enum Data_size {_8bits = 0b0, _16bits};
       enum Prescaler {div2 = 0b000, div4, div8, div16, div32, div64, div128, div256};
 
       bool      CPHA     :1;  // Bit 0 CPHA: Clock phase
-      bool      CPOL     :1;  // Bit 1 CPOL: Clock polarity
+      Polarity  CPOL     :1;  // Bit 1 CPOL: Clock polarity
       Mode      MSTR     :1;  // Bit 2 MSTR: Master selection
       Prescaler BR       :3;  // Bits 5:3 BR[2:0]: Baud rate control
       bool      SPE      :1;  // Bit 6 SPE: SPI enable
-      bool      LSBFIRST :1;  // Bit 7 LSBFIRST: Frame format
+      First_bit LSBFIRST :1;  // Bit 7 LSBFIRST: Frame format
       bool      SSI      :1;  // Bit 8 SSI: Internal slave select
       bool      SSM      :1;  // Bit 9 SSM: Software slave management
       bool      RXONLY   :1;  // Bit 10 RXONLY: Receive only

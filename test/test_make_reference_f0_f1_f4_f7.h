@@ -207,6 +207,25 @@ BOOST_AUTO_TEST_CASE (DMA1_stream##n) \
    BOOST_CHECK_EQUAL (same, true); \
 }
 
+#if defined(STM32F4)
+#define SPI_TEST(n) \
+BOOST_AUTO_TEST_CASE (SPI##n) \
+{ \
+   auto& spi {mcu::make_reference<mcu::Periph::SPI##n>()}; \
+   auto address = reinterpret_cast<size_t>(&spi); \
+   auto size = sizeof(spi); \
+   auto same = std::is_same_v<std::remove_reference_t<decltype(spi)>, mcu::SPI>; \
+   BOOST_CHECK_EQUAL (address, SPI##n##_BASE); \
+   BOOST_CHECK_EQUAL (size, sizeof(mcu::SPI::CMSIS_type)); \
+   BOOST_CHECK_EQUAL (same, true); \
+}
+
+SPI_TEST(1);
+SPI_TEST(2);
+SPI_TEST(3);
+
+#endif
+
 DMA_STREAM_TEST(1);
 DMA_STREAM_TEST(2);
 DMA_STREAM_TEST(3);
