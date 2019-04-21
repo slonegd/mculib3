@@ -229,6 +229,11 @@ template<Periph p, class Pin_> constexpr PinMode TIM::pin_mode()
       else if constexpr (std::is_same_v<Pin_,PD2>) return PinMode::Alternate_2;
       else return PinMode::Input;
 
+   } else if constexpr (p == Periph::TIM4) {
+      if      constexpr (std::is_same_v<Pin_,PD12>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PD13>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PD14>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PD15>) return PinMode::Alternate_2;
    } else {
       return PinMode::Input;
    }
@@ -317,6 +322,11 @@ template<Periph p, class Pin_> constexpr TIM::Channel TIM::channel()
       else if constexpr (std::is_same_v<Pin_,PC9>) return Channel::_4;
       else return Channel::error;
 
+   } else if constexpr (p == Periph::TIM4) {
+      if      constexpr (std::is_same_v<Pin_,PD12>) return Channel::_1;
+      else if constexpr (std::is_same_v<Pin_,PD13>) return Channel::_2;
+      else if constexpr (std::is_same_v<Pin_,PD14>) return Channel::_3;
+      else if constexpr (std::is_same_v<Pin_,PD15>) return Channel::_4;
    } else {
       return Channel::error;
    }

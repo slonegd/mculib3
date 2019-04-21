@@ -3,7 +3,7 @@
 #include "periph.h"
 
 #if defined(STM32F0)
-   #include "f0_bits_tim.h"
+   #include "bits_tim_f0.h"
 #elif defined(STM32F4)
    #include "f4_bits_tim.h"
 #endif
