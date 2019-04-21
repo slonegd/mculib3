@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bits_spi_f4.h"
+#include "pin.h"
 
 namespace mcu {
 
@@ -47,10 +48,48 @@ public:
    bool is_tx_complete() {return SR.TXE;}
    bool is_rx_complete() {return SR.RXNE;}
 
+   template<class Pin> static constexpr PinMode pin_mode();
+   template<Periph spi> static constexpr Periph TX_stream();
+   template<Periph spi> static constexpr Periph RX_stream();
+
 };
 
+#if not defined(USE_MOCK_SPI)
 SFINAE(SPI1,SPI) make_reference() {return *reinterpret_cast<SPI*>(SPI1_BASE);}
 SFINAE(SPI2,SPI) make_reference() {return *reinterpret_cast<SPI*>(SPI2_BASE);}
 SFINAE(SPI3,SPI) make_reference() {return *reinterpret_cast<SPI*>(SPI3_BASE);}
+#endif
+
+
+
+
+template <class Pin> constexpr PinMode SPI::pin_mode()
+{
+   if constexpr (std::is_same_v<Pin, PA4>  or std::is_same_v<Pin, PA5>  or
+                 std::is_same_v<Pin, PA5>  or std::is_same_v<Pin, PA7>  or
+                 std::is_same_v<Pin, PA15> or std::is_same_v<Pin, PB3>  or
+                 std::is_same_v<Pin, PB4>  or std::is_same_v<Pin, PB5>  or
+                 std::is_same_v<Pin, PA15> or std::is_same_v<Pin, PB3>  or
+                 std::is_same_v<Pin, PB4>  or std::is_same_v<Pin, PB5>  or
+                 std::is_same_v<Pin, PB9>  or std::is_same_v<Pin, PB10> or
+                 std::is_same_v<Pin, PB12> or std::is_same_v<Pin, PB13> or
+                 std::is_same_v<Pin, PB14> or std::is_same_v<Pin, PB15> or
+                 std::is_same_v<Pin, PC2>  or std::is_same_v<Pin, PC3>) return PinMode::Alternate_5;
+   else static_assert (always_false_v<Pin>, "неверный аргумент шаблона class Pin");
+}
+
+template<Periph spi> constexpr Periph SPI::TX_stream()
+{
+   if      constexpr (spi == Periph::SPI1) return Periph::DMA2_stream3;
+   else if constexpr (spi == Periph::SPI2) return Periph::DMA1_stream4;
+   else if constexpr (spi == Periph::SPI3) return Periph::DMA1_stream5;
+}
+
+template<Periph spi> constexpr Periph SPI::RX_stream()
+{
+   if      constexpr (spi == Periph::SPI1) return Periph::DMA2_stream0;
+   else if constexpr (spi == Periph::SPI2) return Periph::DMA1_stream0;
+   else if constexpr (spi == Periph::SPI3) return Periph::DMA1_stream3;
+}
 
 } // namespace mcu

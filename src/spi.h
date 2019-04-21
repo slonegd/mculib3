@@ -7,3 +7,9 @@
 #include "pin.h"
 #include "net_buffer.h"
 #include "interrupt.h"
+
+template <size_t buffer_size = 255>
+class SPI
+{
+   
+};
