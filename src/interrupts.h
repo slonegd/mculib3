@@ -2,6 +2,7 @@
 #include "interrupt.h"
 #include "periph_usart.h"
 #include "periph_dma.h"
+#include "periph_spi.h"
 
 
 #if defined (STM32F0)
@@ -94,14 +95,11 @@
    extern "C" void I2C1_ER_IRQHandler            () { while(1) {} }
    extern "C" void I2C2_EV_IRQHandler            () { while(1) {} }
    extern "C" void I2C2_ER_IRQHandler            () { while(1) {} }
-   extern "C" void SPI1_IRQHandler               () { while(1) {} }
-   extern "C" void SPI2_IRQHandler               () { while(1) {} }
    extern "C" void EXTI15_10_IRQHandler          () { while(1) {} }
    extern "C" void RTC_Alarm_IRQHandler          () { while(1) {} }
    extern "C" void OTG_FS_WKUP_IRQHandler        () { while(1) {} }
    extern "C" void FSMC_IRQHandler               () { while(1) {} }
    extern "C" void SDIO_IRQHandler               () { while(1) {} }
-   extern "C" void SPI3_IRQHandler               () { while(1) {} }
    extern "C" void UART4_IRQHandler              () { while(1) {} }
    extern "C" void UART5_IRQHandler              () { while(1) {} }
    extern "C" void CAN2_TX_IRQHandler            () { while(1) {} }
@@ -155,4 +153,8 @@
    extern "C" void DMA2_Stream5_IRQHandler() { interrupt_DMA2_channel5.interrupt(); mcu::make_reference<mcu::Periph::DMA2>().clear_interrupt_flags(mcu::DMA::Channel::_5); }
    extern "C" void DMA2_Stream6_IRQHandler() { interrupt_DMA2_channel6.interrupt(); mcu::make_reference<mcu::Periph::DMA2>().clear_interrupt_flags(mcu::DMA::Channel::_6); }
    extern "C" void DMA2_Stream7_IRQHandler() { interrupt_DMA2_channel7.interrupt(); mcu::make_reference<mcu::Periph::DMA2>().clear_interrupt_flags(mcu::DMA::Channel::_7); }
+
+   extern "C" void SPI1_IRQHandler() { interrupt_spi1.interrupt(); }
+   extern "C" void SPI2_IRQHandler() { interrupt_spi2.interrupt(); }
+   extern "C" void SPI3_IRQHandler() { interrupt_spi3.interrupt(); }
    #endif
