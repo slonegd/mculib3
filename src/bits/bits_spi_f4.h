@@ -14,7 +14,7 @@ namespace mcu::SPI_bits {
 
       bool      CPHA     :1;  // Bit 0 CPHA: Clock phase
       Polarity  CPOL     :1;  // Bit 1 CPOL: Clock polarity
-      Mode      MSTR     :1;  // Bit 2 MSTR: Master selection
+      bool      MSTR     :1;  // Bit 2 MSTR: Master selection
       Prescaler BR       :3;  // Bits 5:3 BR[2:0]: Baud rate control
       bool      SPE      :1;  // Bit 6 SPE: SPI enable
       First_bit LSBFIRST :1;  // Bit 7 LSBFIRST: Frame format

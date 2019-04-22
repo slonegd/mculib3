@@ -11,6 +11,7 @@
 #include "delay.h"
 #include "pwm_.h"
 #include "buttons.h"
+#include "spi.h"
 
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock ()
@@ -37,68 +38,89 @@ extern "C" void init_clock ()
 
 int main()
 {
-   volatile decltype (auto) led_blue   = Pin::make<mcu::PD15, mcu::PinMode::Output>();
-   volatile decltype (auto) led_orange = Pin::make<mcu::PD13, mcu::PinMode::Output>();
-   volatile decltype (auto) led_red    = Pin::make<mcu::PD14, mcu::PinMode::Output>();
-   volatile decltype (auto) led_green  = Pin::make<mcu::PD12, mcu::PinMode::Output>();
-//    Timer timer{500};
+   decltype(auto) spi = SPI_::make<mcu::Periph::SPI1, mcu::PA7, mcu::PA6, mcu::PA5, mcu::PA4, true>();
+   // volatile decltype (auto) MOSI = Pin::make<mcu::PA7, mcu::PinMode::Alternate_5>();
+   // volatile decltype (auto) MISO = Pin::make<mcu::PA6, mcu::PinMode::Alternate_5>();
+   // volatile decltype (auto) CSK = Pin::make<mcu::PA5, mcu::PinMode::Alternate_5>();
    
-   constexpr auto conversion_on_channel {16};
-   constexpr auto _2V {2 * 16 * 4095/2.9}; 
-    struct {
-        ADC_average& control     = ADC_average::make<mcu::Periph::ADC1>(conversion_on_channel);
-        ADC_channel& voltage     = control.add_channel<mcu::PA2>();
-        // ADC_channel& temperature = control.add_channel<mcu::PA1>();
-    } adc{};
+   // auto &rcc = REF(RCC);
+   // rcc.clock_enable<mcu::Periph::SPI1>();
+   // auto &spi = REF(SPI1);
+   // spi.set_mode(true)
+   //    .set(mcu::SPI::Data_size::_8bits)
+   //    .NSS_soft()
+   //    .NSS_high()
+   //    .set(SPI::Prescaler::div32)
+   //    .enable();
 
-    auto& alarm       = Pin::make<mcu::PB0,mcu::PinMode::Output>();
+   while (1) {
 
-    adc.control.set_callback ([&]{
-        // led = adc.voltage < _2V;
-    });
-    adc.control.start();
+      spi.send(0x4);
+      // while (not spi.is_tx_complete()) {}
+   }
 
-    Delay delay{};
-    auto& button = Button::make<mcu::PA0>();
-    // int i {0};
+//    volatile decltype (auto) led_blue   = Pin::make<mcu::PD15, mcu::PinMode::Output>();
+//    volatile decltype (auto) led_orange = Pin::make<mcu::PD13, mcu::PinMode::Output>();
+//    volatile decltype (auto) led_red    = Pin::make<mcu::PD14, mcu::PinMode::Output>();
+//    volatile decltype (auto) led_green  = Pin::make<mcu::PD12, mcu::PinMode::Output>();
+// //    Timer timer{500};
+   
+//    constexpr auto conversion_on_channel {16};
+//    constexpr auto _2V {2 * 16 * 4095/2.9}; 
+//     struct {
+//         ADC_average& control     = ADC_average::make<mcu::Periph::ADC1>(conversion_on_channel);
+//         ADC_channel& voltage     = control.add_channel<mcu::PA2>();
+//         // ADC_channel& temperature = control.add_channel<mcu::PA1>();
+//     } adc{};
+
+//     auto& alarm       = Pin::make<mcu::PB0,mcu::PinMode::Output>();
+
+//     adc.control.set_callback ([&]{
+//         // led = adc.voltage < _2V;
+//     });
+//     adc.control.start();
+
+//     Delay delay{};
+//     auto& button = Button::make<mcu::PA0>();
+//     // int i {0};
     
-   decltype(auto) pwm_blue = PWM::make<mcu::Periph::TIM4, mcu::PD15>();
-   pwm_blue.out_enable();
-   decltype(auto) pwm_green = PWM::make<mcu::Periph::TIM4, mcu::PD12>();
-   pwm_blue.frequency = 26000;
-   pwm_green.frequency = 26000;
-   pwm_green.out_enable();
+//    decltype(auto) pwm_blue = PWM::make<mcu::Periph::TIM4, mcu::PD15>();
+//    pwm_blue.out_enable();
+//    decltype(auto) pwm_green = PWM::make<mcu::Periph::TIM4, mcu::PD12>();
+//    pwm_blue.frequency = 26000;
+//    pwm_green.frequency = 26000;
+//    pwm_green.out_enable();
 
-   decltype(auto) pwm_red = PWM::make<mcu::Periph::TIM4, mcu::PD14>();
-   pwm_red.frequency = 26000;
-   pwm_red.out_enable();
+//    decltype(auto) pwm_red = PWM::make<mcu::Periph::TIM4, mcu::PD14>();
+//    pwm_red.frequency = 26000;
+//    pwm_red.out_enable();
 
-   decltype(auto) pwm_orange = PWM::make<mcu::Periph::TIM4, mcu::PD13>();
-   pwm_orange.frequency = 26000;
-   pwm_orange.out_enable();
+//    decltype(auto) pwm_orange = PWM::make<mcu::Periph::TIM4, mcu::PD13>();
+//    pwm_orange.frequency = 26000;
+//    pwm_orange.out_enable();
 
 
-   Timer timer {10};
-   Timer timer_ {20};
-   int i {0};
-   int p {0};
+//    Timer timer {10};
+//    Timer timer_ {20};
+//    int i {0};
+//    int p {0};
 
-   while(1) {
-      while (i < 100 ) {
-         if (timer.event()) {
-            pwm_red.duty_cycle = pwm_orange.duty_cycle = p++;
-            pwm_green.duty_cycle = pwm_blue.duty_cycle = i++;
-            ++i;
-            ++p;
-         }
-      }
-      while (i > 0) {
-         if (timer_.event()) {
-            pwm_red.duty_cycle = pwm_orange.duty_cycle = p--;
-            pwm_green.duty_cycle = pwm_blue.duty_cycle = i--;
-         }
-      }
-} // while(1) {
+//    while(1) {
+//       while (i < 100 ) {
+//          if (timer.event()) {
+//             pwm_red.duty_cycle = pwm_orange.duty_cycle = p++;
+//             pwm_green.duty_cycle = pwm_blue.duty_cycle = i++;
+//             ++i;
+//             ++p;
+//          }
+//       }
+//       while (i > 0) {
+//          if (timer_.event()) {
+//             pwm_red.duty_cycle = pwm_orange.duty_cycle = p--;
+//             pwm_green.duty_cycle = pwm_blue.duty_cycle = i--;
+//          }
+//       }
+// } // while(1) {
 
    //  while (1) {
 

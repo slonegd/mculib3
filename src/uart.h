@@ -38,12 +38,12 @@ class UART_sized
    using Baudrate = USART::Baudrate;
    struct Settings
    {
-      bool parity_enable : 1;
-      Parity parity : 1;
-      DataBits data_bits : 1;
-      StopBits stop_bits : 2;
-      Baudrate baudrate : 3;
-      uint16_t res : 8;
+      bool parity_enable :1;
+      Parity parity      :1;
+      DataBits data_bits :1;
+      StopBits stop_bits :2;
+      Baudrate baudrate  :3;
+      uint16_t res       :8;
    };
 
    NS::Net_buffer<buffer_size> buffer;
@@ -112,7 +112,7 @@ auto &UART_sized<buffer_size>::make()
        mcu::make_reference<TX_stream>(), 
        mcu::make_reference<RX_stream>(), 
        uart_periph, 
-       DMA_stream::channel<uart_periph, TX_stream>()};
+       DMA_stream::channel<TX_stream>()};
 
    auto &rcc = REF(RCC);
    rcc.clock_enable<uart_periph>();
@@ -142,8 +142,8 @@ auto &UART_sized<buffer_size>::make()
        .circular_mode();
 
    #if defined(STM32F4) // or defined(STM32F1) FIX у STM32F1 нет метода set_channel
-      uart.RXstream.set_channel(DMA_stream::select_channel<uart_periph, RX_stream>());
-      uart.TXstream.set_channel(DMA_stream::select_channel<uart_periph, TX_stream>());
+      uart.RXstream.set_channel(DMA_stream::select_channel<uart_periph>());
+      uart.TXstream.set_channel(DMA_stream::select_channel<uart_periph>());
    #endif
    
    return uart;

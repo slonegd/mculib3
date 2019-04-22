@@ -42,9 +42,9 @@ public:
 
 	uint16_t qty_transactions_left(){return NDTR;}
 
+	template<Periph stream> static constexpr Channel channel();
 	template<Periph stream> static constexpr Periph dma_periph();
-	template<Periph usart, Periph stream> static constexpr Channel select_channel();
-	template<Periph usart, Periph stream_> static constexpr Channel channel();
+	template<Periph periph> static constexpr Channel select_channel();
 
 };
 
@@ -82,13 +82,29 @@ template<Periph stream> constexpr Periph DMA_stream::dma_periph()
 		return Periph::DMA2;
 }
 
-template<Periph periph, Periph stream_> constexpr DMA_stream::Channel DMA_stream::channel() 
+// stream number 
+template<Periph stream> constexpr DMA_stream::Channel DMA_stream::channel() 
 {
-	if constexpr (stream_ == Periph::DMA2_stream7) return Channel::_7;
+	if      constexpr (stream == Periph::DMA1_stream0) return Channel::_0;
+	else if constexpr (stream == Periph::DMA1_stream1) return Channel::_1;
+	else if constexpr (stream == Periph::DMA1_stream2) return Channel::_2;
+	else if constexpr (stream == Periph::DMA1_stream3) return Channel::_3;
+	else if constexpr (stream == Periph::DMA1_stream4) return Channel::_4;
+	else if constexpr (stream == Periph::DMA1_stream5) return Channel::_5;
+	else if constexpr (stream == Periph::DMA1_stream6) return Channel::_6;
+	else if constexpr (stream == Periph::DMA1_stream7) return Channel::_7;
+	
+	else if constexpr (stream == Periph::DMA2_stream0) return Channel::_0;
+	else if constexpr (stream == Periph::DMA2_stream1) return Channel::_1;
+	else if constexpr (stream == Periph::DMA2_stream2) return Channel::_2;
+	else if constexpr (stream == Periph::DMA2_stream3) return Channel::_3;
+	else if constexpr (stream == Periph::DMA2_stream4) return Channel::_4;
+	else if constexpr (stream == Periph::DMA2_stream5) return Channel::_5;
+	else if constexpr (stream == Periph::DMA2_stream6) return Channel::_6;
+	else if constexpr (stream == Periph::DMA2_stream7) return Channel::_7;
 }
 
-// template stream is needed to delete
-template<Periph periph, Periph stream> constexpr DMA_stream::Channel DMA_stream::select_channel() 
+template<Periph periph> constexpr DMA_stream::Channel DMA_stream::select_channel() 
 {
 	// spi
 	if      constexpr (periph == Periph::SPI1) return Channel::_3;

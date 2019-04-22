@@ -31,12 +31,16 @@ public:
    SPI& DMA_tx_enable()     {CR2.TXDMAEN = true; return *this;}
    SPI& DMA_rx_enable()     {CR2.RXDMAEN = true; return *this;}
    SPI& Bidirection_enable(){CR1.BIDIMODE = true;return *this;}
-   SPI& set(Mode mode)      {CR1.MSTR = mode;    return *this;}
+   SPI& NSS_soft()          {CR1.SSM = true;     return *this;}
+   SPI& NSS_high()          {CR1.SSI = true;     return *this;}
+   SPI& set_mode(bool mode) {CR1.MSTR = mode;    return *this;}
    SPI& set(Data_size size) {CR1.DFF = size;     return *this;}
    SPI& set(Prescaler div)  {CR1.BR = div;       return *this;}
    SPI& set(Polarity p)     {CR1.CPOL = p;       return *this;}
    SPI& set(Edge edge)      {CR1.CPHA = edge;    return *this;}
    SPI& set(First_bit bit)  {CR1.LSBFIRST = bit; return *this;}
+
+   SPI& send(uint8_t data)  {DR = data; return *this;}
 
    SPI& enable_tx_complete_interrupt () {CR2.TXEIE  = true;  return *this;}
    SPI& disable_tx_complete_interrupt() {CR2.TXEIE  = false; return *this;}
@@ -47,6 +51,9 @@ public:
 
    bool is_tx_complete() {return SR.TXE;}
    bool is_rx_complete() {return SR.RXNE;}
+
+   size_t receive_data_adr () {return reinterpret_cast<size_t>(&DR);}
+   size_t transmit_data_adr() {return reinterpret_cast<size_t>(&DR);}
 
    template<class Pin> static constexpr PinMode pin_mode();
    template<Periph spi> static constexpr Periph TX_stream();
@@ -66,7 +73,7 @@ SFINAE(SPI3,SPI) make_reference() {return *reinterpret_cast<SPI*>(SPI3_BASE);}
 template <class Pin> constexpr PinMode SPI::pin_mode()
 {
    if constexpr (std::is_same_v<Pin, PA4>  or std::is_same_v<Pin, PA5>  or
-                 std::is_same_v<Pin, PA5>  or std::is_same_v<Pin, PA7>  or
+                 std::is_same_v<Pin, PA6>  or std::is_same_v<Pin, PA7>  or
                  std::is_same_v<Pin, PA15> or std::is_same_v<Pin, PB3>  or
                  std::is_same_v<Pin, PB4>  or std::is_same_v<Pin, PB5>  or
                  std::is_same_v<Pin, PA15> or std::is_same_v<Pin, PB3>  or
