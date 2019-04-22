@@ -6,3 +6,10 @@ v 1.00
         pin
         modbus_slave
         modbus_master
+v 1.01
+    используется в 
+        EO97_AP17E2
+    работа для STM32F4 с 
+        modbus_slave
+        adc
+        pwm
