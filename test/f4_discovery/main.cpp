@@ -13,6 +13,7 @@
 #include "buttons.h"
 #include "spi.h"
 
+
 /// эта функция вызываеться первой в startup файле
 extern "C" void init_clock ()
 {
@@ -38,6 +39,8 @@ extern "C" void init_clock ()
 
 int main()
 {
+   
+   
    decltype(auto) spi = SPI_::make<mcu::Periph::SPI1, mcu::PA7, mcu::PA6, mcu::PA5, mcu::PA4, true>();
    // volatile decltype (auto) MOSI = Pin::make<mcu::PA7, mcu::PinMode::Alternate_5>();
    // volatile decltype (auto) MISO = Pin::make<mcu::PA6, mcu::PinMode::Alternate_5>();
@@ -54,7 +57,7 @@ int main()
    //    .enable();
 
    while (1) {
-
+      
       spi.send(0x4);
       // while (not spi.is_tx_complete()) {}
    }

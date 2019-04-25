@@ -52,8 +52,10 @@ public:
 };
 
 Interrupt interrupt_spi1 {SPI1_IRQn};
+#if defined(STM32F4)
 Interrupt interrupt_spi2 {SPI2_IRQn};
 Interrupt interrupt_spi3 {SPI3_IRQn};
+#endif
 
 Interrupt interrupt_usart1 {USART1_IRQn};
 #if defined(STM32F1)
@@ -146,8 +148,10 @@ auto& get_interrupt()
     else if constexpr (v == mcu::Periph::DMA1_stream7) return interrupt_DMA1_channel7;
 #endif
     else if constexpr (v == mcu::Periph::SPI1) return interrupt_spi1;
+#if defined(STM32F4)
     else if constexpr (v == mcu::Periph::SPI2) return interrupt_spi2;
     else if constexpr (v == mcu::Periph::SPI3) return interrupt_spi3;
+#endif
 } 
 
 

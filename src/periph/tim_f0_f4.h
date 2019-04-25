@@ -64,7 +64,6 @@ public:
    TIM&     counter_disable()               { CR1.CEN = false;    return *this; }
    TIM&     clear_counter()                 { CNT = 0;            return *this; }
    TIM&     set_counter (uint16_t v)        { CNT = v;            return *this; }
-   // TIM&     set_compare (uint16_t v)        { CCR1 = v;           return *this; }
    TIM&     ext_clock_enable()              { SMCR.ECE = true;    return *this; }
    TIM&     ext_clock_disable()             { SMCR.ECE = false;   return *this; }
    TIM&     set_prescaller (uint16_t v)     { PSC = v;            return *this; }
@@ -396,10 +395,11 @@ template<TIM::Channel c> TIM& TIM::set (CompareMode v)
 
 template<TIM::Channel c> TIM& TIM::set (SelectionCompareMode v)
 {
-   if      constexpr (c == Channel::_1) { CCMR.output.CC1S = v; return *this; }
-   else if constexpr (c == Channel::_2) { CCMR.output.CC2S = v; return *this; }
-   else if constexpr (c == Channel::_3) { CCMR.output.CC3S = v; return *this; }
-   else if constexpr (c == Channel::_4) { CCMR.output.CC4S = v; return *this; }
+   if      constexpr (c == Channel::_1) CCMR.output.CC1S = v;
+   else if constexpr (c == Channel::_2) CCMR.output.CC2S = v;
+   else if constexpr (c == Channel::_3) CCMR.output.CC3S = v;
+   else if constexpr (c == Channel::_4) CCMR.output.CC4S = v;
+   return *this;
 }
 
 template<TIM::Channel c> TIM& TIM::preload_enable()
