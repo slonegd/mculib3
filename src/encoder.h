@@ -35,9 +35,7 @@ public:
 
       mcu::make_reference<mcu::Periph::RCC>().clock_enable<tim_>();
 
-      encoder.tim.template compare_enable<TIM::Channel::_3>()
-                 .set(TIM::SlaveMode::Encoder3)
-                 .template set<TIM::Channel::_3>(TIM::CompareMode::ActiveOnMatch)
+      encoder.tim.set(TIM::SlaveMode::Encoder3)
                  .template set<channel_a>(TIM::SelectionCompareMode::Input)
                  .template set<channel_b>(TIM::SelectionCompareMode::Input)
                  .clear_counter()
@@ -45,14 +43,7 @@ public:
 
       return encoder;
    }
-   void set_compare(int16_t);
-   int16_t operator=   (int16_t);
-   int16_t operator!=  (int16_t);
-   int16_t operator+   (int16_t);
-   int16_t operator-   (int16_t);
-   bool    operator>   (int16_t);
-   bool    operator<   (int16_t);
-   bool    operator>=  (int16_t);
-   bool    operator<=  (int16_t);
-           operator    int16_t(){return static_cast<int16_t>(tim.get_counter());}
+
+   int16_t operator= (int16_t v){tim.set_counter(v); return *this;}
+           operator  int16_t()  {return static_cast<int16_t>(tim.get_counter());}
 };
