@@ -41,7 +41,7 @@ public:
    uint16_t qty_transactions_left(){return CNDTR;}
 
    template<Periph stream> static constexpr Periph dma_periph();
-   template<Periph usart, Periph stream> static constexpr Channel channel();
+   template<Periph stream> static constexpr Channel channel();
 
 
 };
@@ -63,7 +63,7 @@ template<Periph stream> constexpr Periph DMA_stream::dma_periph()
    return Periph::DMA1;
 }
 
-template<Periph usart, Periph stream> constexpr DMA_stream::Channel DMA_stream::channel() 
+template<Periph stream> constexpr DMA_stream::Channel DMA_stream::channel() 
 {
    if      constexpr (stream == Periph::DMA1_stream1) return Channel::_1;
    else if constexpr (stream == Periph::DMA1_stream2) return Channel::_2;

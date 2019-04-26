@@ -22,6 +22,8 @@ C_INCLUDES += -I$(CMSIS_PATH)/CMSIS
 C_INCLUDES += -I$(LIBRARY_PATH)/src
 C_INCLUDES += -I$(LIBRARY_PATH)/src/periph
 C_INCLUDES += -I$(LIBRARY_PATH)/src/bits
+C_INCLUDES += -I$(LIBRARY_PATH)/src/example
+C_INCLUDES += -I$(LIBRARY_PATH)/src/middleware
 
 
 #######################################
@@ -55,7 +57,7 @@ MCU_F1 = $(CPU_F1) -mthumb $(FPU_F1) $(FLOAT-ABI_F1)
 ASFLAGS_F1 = $(MCU_F1) $(OPT) -Wall -fdata-sections -ffunction-sections
 
 CFLAGS_F1  = $(MCU_F1) $(C_DEFS_F1) $(C_INCLUDES) $(C_INCLUDES_F1) $(OPT)
-CFLAGS_F1 += -Wall -Wno-register -Wno-strict-aliasing -fdata-sections -ffunction-sections -fno-exceptions -fno-strict-volatile-bitfields
+CFLAGS_F1 += -Wall -Wno-register -Wno-strict-aliasing -fdata-sections -ffunction-sections -fno-exceptions -fno-strict-volatile-bitfields -fexec-charset=cp1251
 CFLAGS_F1 += -g -gdwarf-2 
 
 

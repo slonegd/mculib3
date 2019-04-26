@@ -119,6 +119,7 @@ String_buffer& String_buffer::line(size_t string)
     return *this;
 }
 
+// FIX dont work
 String_buffer& String_buffer::width(size_t width)
 {
     width_size = width;

@@ -64,7 +64,6 @@ public:
    TIM&     counter_disable()               { CR1.CEN = false;    return *this; }
    TIM&     clear_counter()                 { CNT = 0;            return *this; }
    TIM&     set_counter (uint16_t v)        { CNT = v;            return *this; }
-   // TIM&     set_compare (uint16_t v)        { CCR1 = v;           return *this; }
    TIM&     ext_clock_enable()              { SMCR.ECE = true;    return *this; }
    TIM&     ext_clock_disable()             { SMCR.ECE = false;   return *this; }
    TIM&     set_prescaller (uint16_t v)     { PSC = v;            return *this; }
@@ -95,26 +94,9 @@ public:
 
    template<Periph, class Pin_> static constexpr PinMode pin_mode();
    template<Periph, class Pin_> static constexpr Channel channel();
-   template<Channel>            static constexpr EnableMask    enable_mask();
+   template<Channel>            static constexpr EnableMask enable_mask();
 
    template <Periph tim, class Pin_> static void pin_static_assert();
-   // template<Channel>            static constexpr InterruptMask interrupt_mask();
-   
-   
-   // void     clearInterruptFlags()           {}
-   // 
-   // TIM&     set (Trigger v)                 { SMCR.TS  = v;       return *this; }
-   // TIM&     set (OnePulseMode v)            { CR1.OPM  = v;       return *this; }
-   // TIM&     set (ExtTriggerPolarity v)      { SMCR.ETP = v;       return *this; }
-
-   // template<Channel channel> void preloadEnable  ();
-   // template<Channel channel> bool isCompareEnable();
-
-   // static constexpr IRQn_Type IRQn();
-   // template <class PIN> static constexpr Channel channel();
-   // template <class PIN> static constexpr GPIO::AF AltFunc();
-
-
 };
 
 
@@ -229,6 +211,11 @@ template<Periph p, class Pin_> constexpr PinMode TIM::pin_mode()
       else if constexpr (std::is_same_v<Pin_,PD2>) return PinMode::Alternate_2;
       else return PinMode::Input;
 
+   } else if constexpr (p == Periph::TIM4) {
+      if      constexpr (std::is_same_v<Pin_,PD12>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PD13>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PD14>) return PinMode::Alternate_2;
+      else if constexpr (std::is_same_v<Pin_,PD15>) return PinMode::Alternate_2;
    } else {
       return PinMode::Input;
    }
@@ -317,6 +304,11 @@ template<Periph p, class Pin_> constexpr TIM::Channel TIM::channel()
       else if constexpr (std::is_same_v<Pin_,PC9>) return Channel::_4;
       else return Channel::error;
 
+   } else if constexpr (p == Periph::TIM4) {
+      if      constexpr (std::is_same_v<Pin_,PD12>) return Channel::_1;
+      else if constexpr (std::is_same_v<Pin_,PD13>) return Channel::_2;
+      else if constexpr (std::is_same_v<Pin_,PD14>) return Channel::_3;
+      else if constexpr (std::is_same_v<Pin_,PD15>) return Channel::_4;
    } else {
       return Channel::error;
    }
@@ -378,34 +370,38 @@ template<TIM::Channel c> TIM& TIM::set (Polarity v)
 
 template<TIM::Channel c> TIM& TIM::set (CompareMode v)
 {
-   if      constexpr (c == Channel::_1) { CCMR.output.OC1M = v; return *this; }
-   else if constexpr (c == Channel::_2) { CCMR.output.OC2M = v; return *this; }
-   else if constexpr (c == Channel::_3) { CCMR.output.OC3M = v; return *this; }
-   else if constexpr (c == Channel::_4) { CCMR.output.OC4M = v; return *this; }
+   if      constexpr (c == Channel::_1) CCMR.output.OC1M = v;
+   else if constexpr (c == Channel::_2) CCMR.output.OC2M = v;
+   else if constexpr (c == Channel::_3) CCMR.output.OC3M = v;
+   else if constexpr (c == Channel::_4) CCMR.output.OC4M = v;
+   return *this;
 }
 
 template<TIM::Channel c> TIM& TIM::set (SelectionCompareMode v)
 {
-   if      constexpr (c == Channel::_1) { CCMR.output.CC1S = v; return *this; }
-   else if constexpr (c == Channel::_2) { CCMR.output.CC2S = v; return *this; }
-   else if constexpr (c == Channel::_3) { CCMR.output.CC3S = v; return *this; }
-   else if constexpr (c == Channel::_4) { CCMR.output.CC4S = v; return *this; }
+   if      constexpr (c == Channel::_1) CCMR.output.CC1S = v;
+   else if constexpr (c == Channel::_2) CCMR.output.CC2S = v;
+   else if constexpr (c == Channel::_3) CCMR.output.CC3S = v;
+   else if constexpr (c == Channel::_4) CCMR.output.CC4S = v;
+   return *this;
 }
 
 template<TIM::Channel c> TIM& TIM::preload_enable()
 {
-   if      constexpr (c == Channel::_1)  { CCMR.output.OC1PE = true; return *this; }
-   else if constexpr (c == Channel::_2)  { CCMR.output.OC2PE = true; return *this; }
-   else if constexpr (c == Channel::_3)  { CCMR.output.OC3PE = true; return *this; }
-   else if constexpr (c == Channel::_4)  { CCMR.output.OC4PE = true; return *this; }
+   if      constexpr (c == Channel::_1) CCMR.output.OC1PE = true;
+   else if constexpr (c == Channel::_2) CCMR.output.OC2PE = true;
+   else if constexpr (c == Channel::_3) CCMR.output.OC3PE = true;
+   else if constexpr (c == Channel::_4) CCMR.output.OC4PE = true;
+   return *this;
 }
 
 template<TIM::Channel c> TIM& TIM::preload_disable()
 {
-   if      constexpr (c == Channel::_1)  { CCMR.output.OC1PE = false; return *this; }
-   else if constexpr (c == Channel::_2)  { CCMR.output.OC2PE = false; return *this; }
-   else if constexpr (c == Channel::_3)  { CCMR.output.OC3PE = false; return *this; }
-   else if constexpr (c == Channel::_4)  { CCMR.output.OC4PE = false; return *this; }
+   if      constexpr (c == Channel::_1) CCMR.output.OC1PE = false;
+   else if constexpr (c == Channel::_2) CCMR.output.OC2PE = false;
+   else if constexpr (c == Channel::_3) CCMR.output.OC3PE = false;
+   else if constexpr (c == Channel::_4) CCMR.output.OC4PE = false;
+   return *this; 
 }
 
 template<TIM::Channel c> TIM& TIM::compare_enable()

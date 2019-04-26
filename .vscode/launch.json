@@ -1,11 +1,11 @@
 {
-   // Используйте IntelliSense, чтобы узнать о возможных атрибутах.
-   // Наведите указатель мыши, чтобы просмотреть описания существующих атрибутов.
-   // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
-   "version": "0.2.0",
-   "configurations": [
-        {
-        "name": "adcf4",
+// Используйте IntelliSense, чтобы узнать о возможных атрибутах.
+// Наведите указатель мыши, чтобы просмотреть описания существующих атрибутов.
+// Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
+"version": "0.2.0",
+"configurations": [
+    {
+        "name": "test_on_pc",
         "type": "cppdbg",
         "request": "launch",
         "program": "${workspaceFolder}/test/cmake/build/test_periph_adc_f4",
@@ -22,266 +22,48 @@
                 "ignoreFailures": true
             }
         ]
-        },
-        {
-        "name": "delay",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/test/cmake/build/test_delay",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": false,
-        "MIMode": "gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            }
-        ]
-        },
-        {
-        "name": "timers",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/test/cmake/build/test_timers",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": false,
-        "MIMode": "gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            }
-        ]
-        },
-        {
-        "name": "hd44780",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/test/cmake/build/test_hd44780",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": false,
-        "MIMode": "gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            }
-        ]
-        },
-        {
-        "name": "string_buffer",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/test/cmake/build/test_string_buffer",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": false,
-        "MIMode": "gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            }
-        ]
-        },
-        {
-        "name": "afio",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/test/build/f1_test_afio",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": false,
-        "MIMode": "gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            }
-        ]
-        },
-        {
-        "name": "button",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/test/cmake/build/test_button",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": true,
-        "MIMode": "gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            }
-        ]
-        },
-        {
-        "name": "rcc",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/test/cmake/build/f0_test_rcc",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": true,
-        "MIMode": "gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            }
-        ]
-        },
-        {
-        "name": "modbus_master",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/test/cmake/build/test_modbus_master",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": true,
-        "MIMode": "gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            }
-        ]
-        },
-       {
-           "name": "modbus_slave",
-           "type": "cppdbg",
-           "request": "launch",
-           "program": "${workspaceFolder}/test/cmake/build/test_modbus_slave",
-           "args": [],
-           "stopAtEntry": false,
-           "cwd": "${workspaceFolder}",
-           "environment": [],
-           "externalConsole": true,
-           "MIMode": "gdb",
-           "setupCommands": [
-               {
-                   "description": "Enable pretty-printing for gdb",
-                   "text": "-enable-pretty-printing",
-                   "ignoreFailures": true
-               }
-           ]
-       },
-       {
-           "name": "uart",
-           "type": "cppdbg",
-           "request": "launch",
-           "program": " ${workspaceFolder}/test/cmake/build/test_uart",
-           "args": [],
-           "stopAtEntry": false,
-           "cwd": "${workspaceFolder}",
-           "environment": [],
-           "externalConsole": true,
-           "MIMode": "gdb",
-           "setupCommands": [
-               {
-                   "description": "Enable pretty-printing for gdb",
-                   "text": "-enable-pretty-printing",
-                   "ignoreFailures": true
-               }
-           ]
-       },
-       {
-           "name": "fifo",
-           "type": "cppdbg",
-           "request": "launch",
-           "program": "${workspaceFolder}/fifo/a.out",
-           "args": [],
-           "stopAtEntry": false,
-           "cwd": "${workspaceFolder}",
-           "environment": [],
-           "externalConsole": true,
-           "MIMode": "gdb",
-           "setupCommands": [
-               {
-                   "description": "Enable pretty-printing for gdb",
-                   "text": "-enable-pretty-printing",
-                   "ignoreFailures": true
-               }
-           ]
-       },
-      {
-         "name": "test",
-         "type": "cppdbg",
-         "request": "launch",
-         "program": "${workspaceRoot}/test/cmake/build/test_uart_f1",
-         "args": [],
-         "stopAtEntry": true,
-         "cwd": "${workspaceRoot}",
-         "environment": [],
-         "externalConsole": false,
-         "MIMode": "gdb",
-         "setupCommands": [
-            {
-                  "description": "Enable pretty-printing for gdb",
-                  "text": "-enable-pretty-printing",
-                  "ignoreFailures": true
-            }
-         ]
-      },
-      { 
+    },
+       { 
         "name": "f4_discovery",
         "type": "cppdbg",
         "request": "launch",
-         "miDebuggerPath": "arm-none-eabi-gdb",
-         "program": "${workspaceRoot}/test/f4_discovery/build/main.elf",
+        "miDebuggerPath": "arm-none-eabi-gdb",
+        "program": "${workspaceRoot}/test/f4_discovery/build/main.elf",
         "miDebuggerServerAddress": "localhost:4242",
         "MIMode": "gdb",
         "cwd": "${workspaceRoot}"
-      },
-      { 
-			"name": "f7_discovery",
-			"type": "cppdbg",
-			"request": "launch",
-         "miDebuggerPath": "arm-none-eabi-gdb",
-         "program": "${workspaceRoot}/test/f7_discovery/build/main.elf",
-			"miDebuggerServerAddress": "localhost:4242",
-			"MIMode": "gdb",
-			"cwd": "${workspaceRoot}"
-      },
-      { 
+    },
+    { 
+        "name": "f7_discovery",
+        "type": "cppdbg",
+        "request": "launch",
+        "miDebuggerPath": "arm-none-eabi-gdb",
+        "program": "${workspaceRoot}/test/f7_discovery/build/main.elf",
+        "miDebuggerServerAddress": "localhost:4242",
+        "MIMode": "gdb",
+        "cwd": "${workspaceRoot}"
+    },
+    { 
         "name": "f0_discovery",
         "type": "cppdbg",
         "request": "launch",
-     "miDebuggerPath": "arm-none-eabi-gdb",
-     "program": "${workspaceRoot}/test/f0_discovery/build/main.elf",
+        "miDebuggerPath": "arm-none-eabi-gdb",
+        "program": "${workspaceRoot}/test/f0_discovery/build/main.elf",
         "miDebuggerServerAddress": "localhost:4242",
         "MIMode": "gdb",
         "cwd": "${workspaceRoot}"
-  },
-      {
+    },
+    { 
+        "name": "f1_EO81",
+        "type": "cppdbg",
+        "request": "launch",
+        "miDebuggerPath": "arm-none-eabi-gdb",
+        "program": "${workspaceRoot}/test/f1_EO81/build/main.elf",
+        "miDebuggerServerAddress": "localhost:4242",
+        "MIMode": "gdb",
+        "cwd": "${workspaceRoot}"
+    },
+    {
         "type": "cortex-debug",
         "request": "launch",
         "servertype": "stutil",
@@ -291,16 +73,6 @@
         "svdFile": "${workspaceRoot}/STM32F4_files/svd/STM32F429.svd",
         // "device": "STM32F429",
         "v1": false
-      },
-		{ 
-			"name": "mculib2",
-			"type": "cppdbg",
-			"request": "launch",
-         "miDebuggerPath": "arm-none-eabi-gdb",
-         "program": "${workspaceRoot}/mculib2_compare/f0_discovery/build/main.elf",
-			"miDebuggerServerAddress": "localhost:4242",
-			"MIMode": "gdb",
-			"cwd": "${workspaceRoot}"
-		}
-   ]
+    }
+]   
 }

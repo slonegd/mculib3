@@ -106,12 +106,17 @@ public:
 		else if constexpr (p == Periph::DMA2_stream6) AHB1ENR.DMA2EN = true;
 		else if constexpr (p == Periph::DMA2_stream7) AHB1ENR.DMA2EN = true;
 
-		else if constexpr (p == Periph::TIM2) APB1ENR.TIM2EN  = true;
-		else if constexpr (p == Periph::TIM3) APB1ENR.TIM3EN  = true;
+		else if constexpr (p == Periph::TIM2) APB1ENR.TIM2EN = true;
+		else if constexpr (p == Periph::TIM3) APB1ENR.TIM3EN = true;
+		else if constexpr (p == Periph::TIM4) APB1ENR.TIM4EN = true;
 
-		else if constexpr (p == Periph::ADC1) APB2ENR.ADC1EN  = true;
-		else if constexpr (p == Periph::ADC2) APB2ENR.ADC2EN  = true;
-		else if constexpr (p == Periph::ADC3) APB2ENR.ADC3EN  = true;
+		else if constexpr (p == Periph::ADC1) APB2ENR.ADC1EN = true;
+		else if constexpr (p == Periph::ADC2) APB2ENR.ADC2EN = true;
+		else if constexpr (p == Periph::ADC3) APB2ENR.ADC3EN = true;
+		
+		else if constexpr (p == Periph::SPI1) APB2ENR.SPI1EN = true;
+		else if constexpr (p == Periph::SPI2) APB1ENR.SPI2EN = true;
+		else if constexpr (p == Periph::SPI3) APB1ENR.SPI3EN = true;
 
         else static_assert ( always_false_v<decltype(p)>, "допиши clock_enable");
 	}

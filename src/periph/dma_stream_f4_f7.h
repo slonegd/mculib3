@@ -42,9 +42,9 @@ public:
 
 	uint16_t qty_transactions_left(){return NDTR;}
 
+	template<Periph stream> static constexpr Channel channel();
 	template<Periph stream> static constexpr Periph dma_periph();
-	template<Periph usart, Periph stream> static constexpr Channel select_channel();
-	template<Periph usart, Periph stream_> static constexpr Channel channel();
+	template<Periph periph> static constexpr Channel select_channel();
 
 };
 
@@ -82,45 +82,48 @@ template<Periph stream> constexpr Periph DMA_stream::dma_periph()
 		return Periph::DMA2;
 }
 
-template<Periph periph, Periph stream_> constexpr DMA_stream::Channel DMA_stream::channel() 
+// stream number 
+template<Periph stream> constexpr DMA_stream::Channel DMA_stream::channel() 
 {
-	if constexpr (stream_ == Periph::DMA2_stream7) return Channel::_7;
+	if      constexpr (stream == Periph::DMA1_stream0) return Channel::_0;
+	else if constexpr (stream == Periph::DMA1_stream1) return Channel::_1;
+	else if constexpr (stream == Periph::DMA1_stream2) return Channel::_2;
+	else if constexpr (stream == Periph::DMA1_stream3) return Channel::_3;
+	else if constexpr (stream == Periph::DMA1_stream4) return Channel::_4;
+	else if constexpr (stream == Periph::DMA1_stream5) return Channel::_5;
+	else if constexpr (stream == Periph::DMA1_stream6) return Channel::_6;
+	else if constexpr (stream == Periph::DMA1_stream7) return Channel::_7;
+	
+	else if constexpr (stream == Periph::DMA2_stream0) return Channel::_0;
+	else if constexpr (stream == Periph::DMA2_stream1) return Channel::_1;
+	else if constexpr (stream == Periph::DMA2_stream2) return Channel::_2;
+	else if constexpr (stream == Periph::DMA2_stream3) return Channel::_3;
+	else if constexpr (stream == Periph::DMA2_stream4) return Channel::_4;
+	else if constexpr (stream == Periph::DMA2_stream5) return Channel::_5;
+	else if constexpr (stream == Periph::DMA2_stream6) return Channel::_6;
+	else if constexpr (stream == Periph::DMA2_stream7) return Channel::_7;
 }
 
-template<Periph periph, Periph stream> constexpr DMA_stream::Channel DMA_stream::select_channel() 
+template<Periph periph> constexpr DMA_stream::Channel DMA_stream::select_channel() 
 {
-	if constexpr (stream == Periph::DMA1_stream0 or
-					  stream == Periph::DMA1_stream1 or
-					  stream == Periph::DMA1_stream2 or
-					  stream == Periph::DMA1_stream3 or
-					  stream == Periph::DMA1_stream4 or
-					  stream == Periph::DMA1_stream5 or
-					  stream == Periph::DMA1_stream6 or
-					  stream == Periph::DMA1_stream7)
-		return Channel::_4;
-	else if constexpr (stream == Periph::DMA2_stream1)
-		return Channel::_5;
-	else if constexpr (stream == Periph::DMA2_stream2 or stream == Periph::DMA2_stream7) {
-		if      constexpr (periph == Periph::USART1)
-			return Channel::_4;
-		else if constexpr (periph == Periph::USART6)
-			return Channel::_5;
-	} else if constexpr (stream == Periph::DMA2_stream5)
-		return Channel::_4;
-	else if constexpr (stream == Periph::DMA2_stream6) 
-		return Channel::_5;
+	// spi
+	if      constexpr (periph == Periph::SPI1) return Channel::_3;
+	else if constexpr (periph == Periph::SPI2 
+	                or periph == Periph::SPI3) return Channel::_0;
+
+	// usart
+	else if constexpr (periph == Periph::USART1 or
+							 periph == Periph::USART2 or
+							 periph == Periph::USART3 or
+							 periph == Periph::USART4 or
+							 periph == Periph::USART5) return Channel::_4;
+	else if constexpr (periph == Periph::USART6) return Channel::_5;
 
 	//adc
-	else if constexpr (stream == Periph::DMA2_stream0 or stream == Periph::DMA2_stream1 or 
-							 stream == Periph::DMA2_stream2 or stream == Periph::DMA2_stream3 or
-							 stream == Periph::DMA2_stream4) {
-		if constexpr (periph == Periph::ADC1)
-			return Channel::_0;
-		else if constexpr (periph == Periph::ADC2)
-			return Channel::_1;
-		else if constexpr (periph == Periph::ADC2)
-			return Channel::_2;
-	}
+	if      constexpr (periph == Periph::ADC1) return Channel::_0;
+	else if constexpr (periph == Periph::ADC2) return Channel::_1;
+	else if constexpr (periph == Periph::ADC2) return Channel::_2;
+
 }
 
 

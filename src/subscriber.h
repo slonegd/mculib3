@@ -1,21 +1,21 @@
 #pragma once
 
-#pragma once
-
 #include "list.h"
+#include "systick.h"
 
 struct Subscriber : Listable<Subscriber> {
-   virtual void notify() = 0;
+    virtual void notify() = 0;
 };
 
 struct Publisher : private List<Subscriber>
 {
-   void clear(){clear_subscribe();}
-   void subscribe  (Subscriber& v) { push_back(v); }
-   void unsubscribe(Subscriber& v) { remove(v);    }
-   // ссылка, чтобы не копировал каждый subscriber из *this
-   void notify() {
-      for (auto& subscriber : *this)
-         subscriber.notify();
-      }
+    
+    void clear(){clear_subscribe();}
+    void subscribe  (Subscriber& v) { push_back(v); }
+    void unsubscribe(Subscriber& v) { remove(v);    }
+    // ссылка, чтобы не копировал каждый subscriber из *this
+    void notify() {
+        for (auto& subscriber : *this)
+            subscriber.notify();
+    }
 };

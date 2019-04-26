@@ -38,12 +38,12 @@ class UART_sized
    using Baudrate = USART::Baudrate;
    struct Settings
    {
-      bool parity_enable : 1;
-      Parity parity : 1;
-      DataBits data_bits : 1;
-      StopBits stop_bits : 2;
-      Baudrate baudrate : 3;
-      uint16_t res : 8;
+      bool parity_enable :1;
+      Parity parity      :1;
+      DataBits data_bits :1;
+      StopBits stop_bits :2;
+      Baudrate baudrate  :3;
+      uint16_t res       :8;
    };
 
    NS::Net_buffer<buffer_size> buffer;
@@ -77,7 +77,10 @@ class UART_sized
    // const Channel RX_channel;
 
    UART_sized(
-       Pin &tx, Pin &rx, Pin &rts, USART &usart, DMA &dma, DMA_stream &TXstream, DMA_stream &RXstream, mcu::Periph uart_periph, Channel TX_channel) : tx{tx}, rx{rx}, rts{rts}, dma{dma}, usart{usart}, TXstream{TXstream}, RXstream{RXstream}, uart_periph{uart_periph}, TX_channel{TX_channel}
+       Pin &tx, Pin &rx, Pin &rts, USART &usart, DMA &dma, DMA_stream &TXstream, 
+       DMA_stream &RXstream, mcu::Periph uart_periph, Channel TX_channel) 
+       : tx{tx}, rx{rx}, rts{rts}, dma{dma}, usart{usart}, TXstream{TXstream}, 
+       RXstream{RXstream}, uart_periph{uart_periph}, TX_channel{TX_channel}
    { 
    
    }
@@ -101,7 +104,15 @@ auto &UART_sized<buffer_size>::make()
    constexpr auto RXpin_mode = USART::pin_mode<RXpin>();
 
    static UART_sized<buffer_size> uart{
-       Pin::make<TXpin, TXpin_mode>(), Pin::make<RXpin, RXpin_mode>(), Pin::make<RTSpin, mcu::PinMode::Output>(), mcu::make_reference<uart_periph>(), mcu::make_reference<dma_periph>(), mcu::make_reference<TX_stream>(), mcu::make_reference<RX_stream>(), uart_periph, DMA_stream::channel<uart_periph, TX_stream>()};
+       Pin::make<TXpin, TXpin_mode>(), 
+       Pin::make<RXpin, RXpin_mode>(), 
+       Pin::make<RTSpin, mcu::PinMode::Output>(), 
+       mcu::make_reference<uart_periph>(), 
+       mcu::make_reference<dma_periph>(), 
+       mcu::make_reference<TX_stream>(), 
+       mcu::make_reference<RX_stream>(), 
+       uart_periph, 
+       DMA_stream::channel<TX_stream>()};
 
    auto &rcc = REF(RCC);
    rcc.clock_enable<uart_periph>();
@@ -131,8 +142,8 @@ auto &UART_sized<buffer_size>::make()
        .circular_mode();
 
    #if defined(STM32F4) // or defined(STM32F1) FIX у STM32F1 нет метода set_channel
-      uart.RXstream.set_channel(DMA_stream::select_channel<uart_periph, RX_stream>());
-      uart.TXstream.set_channel(DMA_stream::select_channel<uart_periph, TX_stream>());
+      uart.RXstream.set_channel(DMA_stream::select_channel<uart_periph>());
+      uart.TXstream.set_channel(DMA_stream::select_channel<uart_periph>());
    #endif
    
    return uart;
