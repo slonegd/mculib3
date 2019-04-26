@@ -64,7 +64,7 @@ endfunction(test)
 
 # test (STM32F0 test_periph_rcc_f0)
 # test (STM32F1 test_periph_rcc_f1)
-test (STM32F4 test_periph_rcc_f4)
+# test (STM32F4 test_periph_rcc_f4)
 # test (STM32F7 test_periph_rcc_f7)
 
 # test (STM32F7 test_init_clock_f7)
@@ -99,11 +99,11 @@ test (STM32F4 test_periph_rcc_f4)
 # test (STM32F0 test_periph_adc_f0)
 # test (STM32F4 test_periph_adc_f4)
 
-test (STM32F4 test_periph_spi_f4)
+# test (STM32F4 test_periph_spi_f4)
 
 # test (STM32F0 test_make_reference_f0)
 # test (STM32F1 test_make_reference_f1)
-test (STM32F4 test_make_reference_f4)
+# test (STM32F4 test_make_reference_f4)
 # test (STM32F7 test_make_reference_f7)
 
 # test (STM32F0 test_pin_f0)
@@ -125,6 +125,7 @@ test (STM32F4 test_make_reference_f4)
 # test (STM32F1 test_button) # FIX
 # test (STM32F4 test_pwm) # FIX
 # test (STM32F1 test_hd44780) # FIX
+test (STM32F0 test_encoder)
 
 # test (STM32F1 test_timers)
 # test (STM32F1 test_delay)

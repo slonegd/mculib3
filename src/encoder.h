@@ -4,6 +4,12 @@
 #include "periph_rcc.h"
 #include "pin.h"
 
+#if defined(USE_MOCK_TIM)
+using TIM = mock::TIM;
+#else
+using TIM = mcu::TIM;
+#endif
+
 class Encoder
 {
    Pin& pin_a;
