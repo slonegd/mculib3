@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccL2hyXk.s 			page 1
+ARM GAS  /tmp/ccCYtDPO.s 			page 1
 
 
    1              		.cpu cortex-m0
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   31:../../src/timers.h ****     size_t subtick_cnt {0};
   32:../../src/timers.h ****     size_t subtick_qty {1};
   33:../../src/timers.h **** } tickUpdater{};
-ARM GAS  /tmp/ccL2hyXk.s 			page 2
+ARM GAS  /tmp/ccCYtDPO.s 			page 2
 
 
   34:../../src/timers.h **** 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   32              		.loc 1 81 0
   33 0000 4369     		ldr	r3, [r0, #20]
   34              		@ sp needed
-ARM GAS  /tmp/ccL2hyXk.s 			page 3
+ARM GAS  /tmp/ccCYtDPO.s 			page 3
 
 
   35 0002 0133     		adds	r3, r3, #1
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   57              	.LVL1:
   35:../../src/function.h **** 			return func(args ...);
   36:../../src/function.h **** 		}
-ARM GAS  /tmp/ccL2hyXk.s 			page 4
+ARM GAS  /tmp/ccCYtDPO.s 			page 4
 
 
   58              		.loc 2 36 0
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  116              	_ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEEN
  117              	.LFB3352:
   34:../../src/function.h **** 			return func(args ...);
-ARM GAS  /tmp/ccL2hyXk.s 			page 5
+ARM GAS  /tmp/ccCYtDPO.s 			page 5
 
 
  118              		.loc 2 34 0
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  175              		.align	1
  176              		.weak	_ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3EL
  177              		.syntax unified
-ARM GAS  /tmp/ccL2hyXk.s 			page 6
+ARM GAS  /tmp/ccCYtDPO.s 			page 6
 
 
  178              		.code	16
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   29:../../src/delay.h ****          timer.start(ms);
   30:../../src/delay.h ****       }
   31:../../src/delay.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 7
+ARM GAS  /tmp/ccCYtDPO.s 			page 7
 
 
   32:../../src/delay.h ****       if (not timer.event()){ return true; } 
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  237              		.file 4 "../../src/periph/systick.h"
    1:../../src/periph/systick.h **** #pragma once
    2:../../src/periph/systick.h **** #define PERIPH_SYSTICK_H_
-ARM GAS  /tmp/ccL2hyXk.s 			page 8
+ARM GAS  /tmp/ccCYtDPO.s 			page 8
 
 
    3:../../src/periph/systick.h **** 
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  259 0024 08D8     		bhi	.L12
  260              	.LVL13:
  261              	.LBB862:
-ARM GAS  /tmp/ccL2hyXk.s 			page 9
+ARM GAS  /tmp/ccCYtDPO.s 			page 9
 
 
  262              	.LBB863:
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  293 0038 9168     		ldr	r1, [r2, #8]
  294              	.LVL17:
  295              	.LBE865:
-ARM GAS  /tmp/ccL2hyXk.s 			page 10
+ARM GAS  /tmp/ccCYtDPO.s 			page 10
 
 
  296              	.LBE864:
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
    7:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** // terms of the GNU General Public License as published by the
    8:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** // Free Software Foundation; either version 3, or (at your option)
    9:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** // any later version.
-ARM GAS  /tmp/ccL2hyXk.s 			page 11
+ARM GAS  /tmp/ccCYtDPO.s 			page 11
 
 
   10:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   64:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** #include <bits/stl_pair.h>
   65:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** #include <bits/stl_iterator_base_types.h>
   66:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** #include <bits/stl_iterator_base_funcs.h>
-ARM GAS  /tmp/ccL2hyXk.s 			page 12
+ARM GAS  /tmp/ccCYtDPO.s 			page 12
 
 
   67:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** #include <bits/stl_iterator.h>
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  121:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     {
  122:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****       // concept requirements
  123:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_Mutable_ForwardIteratorConcept<
-ARM GAS  /tmp/ccL2hyXk.s 			page 13
+ARM GAS  /tmp/ccCYtDPO.s 			page 13
 
 
  124:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 				  _ForwardIterator1>)
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  178:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****       return __first2;
  179:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     }
  180:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 14
+ARM GAS  /tmp/ccCYtDPO.s 			page 14
 
 
  181:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****   /**
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  235:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****    *  @return   The lesser of the parameters.
  236:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****    *
  237:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****    *  This will work on temporary expressions, since they are only evaluated
-ARM GAS  /tmp/ccL2hyXk.s 			page 15
+ARM GAS  /tmp/ccCYtDPO.s 			page 15
 
 
  238:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****    *  once, unlike a preprocessor macro.
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  292:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****         {
  293:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 	  for (; __first != __last; ++__result, (void)++__first)
  294:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 	    *__result = *__first;
-ARM GAS  /tmp/ccL2hyXk.s 			page 16
+ARM GAS  /tmp/ccCYtDPO.s 			page 16
 
 
  295:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 	  return __result;
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  349:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     };
  350:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** #endif
  351:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 17
+ARM GAS  /tmp/ccCYtDPO.s 			page 17
 
 
  352:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****   template<bool _IsMove>
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  406:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****   template<bool _IsMove, typename _CharT>
  407:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     typename __gnu_cxx::__enable_if<__is_char<_CharT>::__value, 
  408:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 	     ostreambuf_iterator<_CharT, char_traits<_CharT> > >::__type
-ARM GAS  /tmp/ccL2hyXk.s 			page 18
+ARM GAS  /tmp/ccCYtDPO.s 			page 18
 
 
  409:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     __copy_move_a2(const _CharT*, const _CharT*,
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  463:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****    *  @param  __first  An input iterator.
  464:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****    *  @param  __last   An input iterator.
  465:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****    *  @param  __result An output iterator.
-ARM GAS  /tmp/ccL2hyXk.s 			page 19
+ARM GAS  /tmp/ccCYtDPO.s 			page 19
 
 
  466:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****    *  @return   result + (first - last)
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  520:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 	}
  521:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     };
  522:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** #endif
-ARM GAS  /tmp/ccL2hyXk.s 			page 20
+ARM GAS  /tmp/ccCYtDPO.s 			page 20
 
 
  523:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  577:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     __copy_move_backward_a(_BI1 __first, _BI1 __last, _BI2 __result)
  578:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     {
  579:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****       typedef typename iterator_traits<_BI1>::value_type _ValueType1;
-ARM GAS  /tmp/ccL2hyXk.s 			page 21
+ARM GAS  /tmp/ccCYtDPO.s 			page 21
 
 
  580:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****       typedef typename iterator_traits<_BI2>::value_type _ValueType2;
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  634:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 	       __result));
  635:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     }
  636:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 22
+ARM GAS  /tmp/ccCYtDPO.s 			page 22
 
 
  637:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** #if __cplusplus >= 201103L
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  691:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     __fill_a(_ForwardIterator __first, _ForwardIterator __last,
  692:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h **** 	     const _Tp& __value)
  693:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     {
-ARM GAS  /tmp/ccL2hyXk.s 			page 23
+ARM GAS  /tmp/ccCYtDPO.s 			page 23
 
 
  694:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****       const _Tp __tmp = __value;
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
    3:../../src/periph/flash_f1.h **** #include "bits_flash_f1.h"
    4:../../src/periph/flash_f1.h **** 
    5:../../src/periph/flash_f1.h **** namespace mcu {
-ARM GAS  /tmp/ccL2hyXk.s 			page 24
+ARM GAS  /tmp/ccCYtDPO.s 			page 24
 
 
    6:../../src/periph/flash_f1.h **** 
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   60:../../src/periph/flash_f1.h **** 
   61:../../src/periph/flash_f1.h **** 
   62:../../src/periph/flash_f1.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 25
+ARM GAS  /tmp/ccCYtDPO.s 			page 25
 
 
   63:../../src/periph/flash_f1.h **** FLASH& FLASH::unlock()
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
    1:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h **** // Character Traits for use by standard string and iostream -*- C++ -*-
    2:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h **** 
    3:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h **** // Copyright (C) 1997-2017 Free Software Foundation, Inc.
-ARM GAS  /tmp/ccL2hyXk.s 			page 26
+ARM GAS  /tmp/ccCYtDPO.s 			page 26
 
 
    4:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h **** //
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   58:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****    *  types, but who don't need to change the definitions of any function
   59:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****    *  defined in char_traits, can specialize __gnu_cxx::_Char_types
   60:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****    *  while leaving __gnu_cxx::char_traits alone. */
-ARM GAS  /tmp/ccL2hyXk.s 			page 27
+ARM GAS  /tmp/ccCYtDPO.s 			page 27
 
 
   61:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****   template<typename _CharT>
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  115:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h **** 
  116:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****       static char_type*
  117:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****       move(char_type* __s1, const char_type* __s2, std::size_t __n);
-ARM GAS  /tmp/ccL2hyXk.s 			page 28
+ARM GAS  /tmp/ccCYtDPO.s 			page 28
 
 
  118:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h **** 
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  172:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****     char_traits<_CharT>::
  173:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****     find(const char_type* __s, std::size_t __n, const char_type& __a)
  174:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****     {
-ARM GAS  /tmp/ccL2hyXk.s 			page 29
+ARM GAS  /tmp/ccCYtDPO.s 			page 29
 
 
  175:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****       for (std::size_t __i = 0; __i < __n; ++__i)
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  229:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****     __constant_string_p(const _CharT* __s)
  230:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****     {
  231:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****       while (__builtin_constant_p(*__s) && *__s)
-ARM GAS  /tmp/ccL2hyXk.s 			page 30
+ARM GAS  /tmp/ccCYtDPO.s 			page 30
 
 
  232:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h **** 	__s++;
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  286:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h **** 
  287:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****       static _GLIBCXX_CONSTEXPR bool
  288:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****       eq(const char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT
-ARM GAS  /tmp/ccL2hyXk.s 			page 31
+ARM GAS  /tmp/ccCYtDPO.s 			page 31
 
 
  289:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/char_traits.h ****       { return __c1 == __c2; }
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  446              		.syntax unified
  447              		.code	16
  448              		.thumb_func
-ARM GAS  /tmp/ccL2hyXk.s 			page 32
+ARM GAS  /tmp/ccCYtDPO.s 			page 32
 
 
  449              		.fpu softvfp
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   14:../../src/periph/gpio_f1.h ****   volatile GPIO_bits::DR IDR;  // Port input data register         offset: 0x08
   15:../../src/periph/gpio_f1.h ****   volatile uint32_t      ODR;  // Port output data register        offset: 0x0C
   16:../../src/periph/gpio_f1.h ****   volatile uint32_t      BSRR; // Port bit set/reset register      offset: 0x10
-ARM GAS  /tmp/ccL2hyXk.s 			page 33
+ARM GAS  /tmp/ccCYtDPO.s 			page 33
 
 
   17:../../src/periph/gpio_f1.h ****   volatile uint32_t      BRR;  // Port bit reset register          offset: 0x14
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  506 0000 0123     		movs	r3, #1
  507 0002 4268     		ldr	r2, [r0, #4]
  508              	.LBE886:
-ARM GAS  /tmp/ccL2hyXk.s 			page 34
+ARM GAS  /tmp/ccCYtDPO.s 			page 34
 
 
  509              	.LBE885:
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   15:../../src/hd44780.h **** using namespace mcu;
   16:../../src/hd44780.h **** #endif
   17:../../src/hd44780.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 35
+ARM GAS  /tmp/ccCYtDPO.s 			page 35
 
 
   18:../../src/hd44780.h **** 
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   72:../../src/hd44780.h **** 
   73:../../src/hd44780.h **** 
   74:../../src/hd44780.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 36
+ARM GAS  /tmp/ccCYtDPO.s 			page 36
 
 
   75:../../src/hd44780.h **** 
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  129:../../src/hd44780.h ****     static_assert (
  130:../../src/hd44780.h ****         meta::all_is_same(DB4::periph, DB5::periph, DB6::periph, DB7::periph)
  131:../../src/hd44780.h ****         , "Пины для шины экрана должны быть на одном порту"
-ARM GAS  /tmp/ccL2hyXk.s 			page 37
+ARM GAS  /tmp/ccCYtDPO.s 			page 37
 
 
  132:../../src/hd44780.h ****     );
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   30:../../src/pin.h ****    bool is_set()    { return port.is_set(n);   }
   31:../../src/pin.h ****    void toggle()    { port.toggle(n);          }
   32:../../src/pin.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 38
+ARM GAS  /tmp/ccCYtDPO.s 			page 38
 
 
   33:../../src/pin.h ****    bool operator=  (bool v) { v ? set() : clear(); return v; }
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  618              		.align	1
  619              		.syntax unified
  620              		.code	16
-ARM GAS  /tmp/ccL2hyXk.s 			page 39
+ARM GAS  /tmp/ccCYtDPO.s 			page 39
 
 
  621              		.thumb_func
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  666 001a 1361     		str	r3, [r2, #16]
  667              	.LVL47:
  668              	.LBE902:
-ARM GAS  /tmp/ccL2hyXk.s 			page 40
+ARM GAS  /tmp/ccCYtDPO.s 			page 40
 
 
  669              	.LBE901:
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  718              		.thumb_func
  719              		.fpu softvfp
  721              	_ZN7HD447806notifyEv:
-ARM GAS  /tmp/ccL2hyXk.s 			page 41
+ARM GAS  /tmp/ccCYtDPO.s 			page 41
 
 
  722              	.LFB2584:
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  747 000e 022B     		cmp	r3, #2
  748 0010 27D0     		beq	.L49
  749              	.LVL55:
-ARM GAS  /tmp/ccL2hyXk.s 			page 42
+ARM GAS  /tmp/ccCYtDPO.s 			page 42
 
 
  750              	.L45:
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  780 0020 206B     		ldr	r0, [r4, #48]
  781 0022 5021     		movs	r1, #80
  782 0024 431C     		adds	r3, r0, #1
-ARM GAS  /tmp/ccL2hyXk.s 			page 43
+ARM GAS  /tmp/ccCYtDPO.s 			page 43
 
 
  783 0026 2363     		str	r3, [r4, #48]
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  829              	.LBB957:
  227:../../src/hd44780.h ****         break;
  830              		.loc 10 227 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 44
+ARM GAS  /tmp/ccCYtDPO.s 			page 44
 
 
  831 0048 6373     		strb	r3, [r4, #13]
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  883 0068 A069     		ldr	r0, [r4, #24]
  884 006a FFF7FEFF 		bl	_ZN3Pin5clearEv
  885              	.LVL76:
-ARM GAS  /tmp/ccL2hyXk.s 			page 45
+ARM GAS  /tmp/ccCYtDPO.s 			page 45
 
 
  886              	.LBE967:
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  936 000c 431E     		subs	r3, r0, #1
  937 000e 9841     		sbcs	r0, r0, r3
  938              	.LBE987:
-ARM GAS  /tmp/ccL2hyXk.s 			page 46
+ARM GAS  /tmp/ccCYtDPO.s 			page 46
 
 
  939              	.LBE988:
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  975              		.loc 11 19 0 is_stmt 1
  976 0008 2368     		ldr	r3, [r4]
  977 000a 2000     		movs	r0, r4
-ARM GAS  /tmp/ccL2hyXk.s 			page 47
+ARM GAS  /tmp/ccCYtDPO.s 			page 47
 
 
  978 000c 1B68     		ldr	r3, [r3]
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   49:../../src/list.h **** 
   50:../../src/list.h **** template<class T>
   51:../../src/list.h **** void List<T>::push_back (T& v)
-ARM GAS  /tmp/ccL2hyXk.s 			page 48
+ARM GAS  /tmp/ccCYtDPO.s 			page 48
 
 
   52:../../src/list.h **** {
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  106:../../src/list.h ****    } else {
  107:../../src/list.h ****       v.prev = it->prev;
  108:../../src/list.h ****       v.next = it;
-ARM GAS  /tmp/ccL2hyXk.s 			page 49
+ARM GAS  /tmp/ccCYtDPO.s 			page 49
 
 
  109:../../src/list.h ****       it->prev = &v;
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  986              	.LVL84:
  987 0012 F7E7     		b	.L56
  988              	.LVL85:
-ARM GAS  /tmp/ccL2hyXk.s 			page 50
+ARM GAS  /tmp/ccCYtDPO.s 			page 50
 
 
  989              	.L54:
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1014              	.LVL87:
  1015 0000 10B5     		push	{r4, lr}
  1016              	.LCFI8:
-ARM GAS  /tmp/ccL2hyXk.s 			page 51
+ARM GAS  /tmp/ccCYtDPO.s 			page 51
 
 
  1017              		.cfi_def_cfa_offset 8
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   38:../../src/timers.h ****     tickUpdater.interrupt();
  1067              		.loc 1 38 0
  1068              		.cfi_startproc
-ARM GAS  /tmp/ccL2hyXk.s 			page 52
+ARM GAS  /tmp/ccCYtDPO.s 			page 52
 
 
  1069              		@ args = 0, pretend = 0, frame = 0
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1109 0004 0023     		movs	r3, #0
  1110 0006 9142     		cmp	r1, r2
  1111 0008 01D3     		bcc	.L63
-ARM GAS  /tmp/ccL2hyXk.s 			page 53
+ARM GAS  /tmp/ccCYtDPO.s 			page 53
 
 
  131:../../src/timers.h ****         timePassed_ = 0;
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1139              		@ link register save eliminated.
  1140              	.LVL97:
  1141              		.loc 1 159 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 54
+ARM GAS  /tmp/ccCYtDPO.s 			page 54
 
 
  1142 0000 4269     		ldr	r2, [r0, #20]
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1196              	.LVL102:
  1197              		@ sp needed
  1198 0002 7047     		bx	lr
-ARM GAS  /tmp/ccL2hyXk.s 			page 55
+ARM GAS  /tmp/ccCYtDPO.s 			page 55
 
 
  1199              		.cfi_endproc
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1256              		.align	1
  1257              		.global	_ZN14TickSubscriber16tick_unsubscribeEv
  1258              		.syntax unified
-ARM GAS  /tmp/ccL2hyXk.s 			page 56
+ARM GAS  /tmp/ccCYtDPO.s 			page 56
 
 
  1259              		.code	16
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1303 0018 8368     		ldr	r3, [r0, #8]
  1304              	.L81:
   82:../../src/list.h ****       if (not first) last = nullptr;
-ARM GAS  /tmp/ccL2hyXk.s 			page 57
+ARM GAS  /tmp/ccCYtDPO.s 			page 57
 
 
  1305              		.loc 12 82 0
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   90:../../src/list.h ****    }
  1348              		.loc 12 90 0
  1349 0038 4B60     		str	r3, [r1, #4]
-ARM GAS  /tmp/ccL2hyXk.s 			page 58
+ARM GAS  /tmp/ccCYtDPO.s 			page 58
 
 
  1350 003a EFE7     		b	.L74
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   33:../../src/buttons.h ****    {
   34:../../src/buttons.h ****       static auto button = Button {Pin::template make<Pin_, PinMode::Input>(), inverted};
   35:../../src/buttons.h ****       return button;
-ARM GAS  /tmp/ccL2hyXk.s 			page 59
+ARM GAS  /tmp/ccCYtDPO.s 			page 59
 
 
   36:../../src/buttons.h ****    }
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   90:../../src/buttons.h ****             value = (time >= tmp + 25 ) ? tmp = time, inc : 0;
   91:../../src/buttons.h ****             inc += (time % 1000) == 0;
   92:../../src/buttons.h ****          }
-ARM GAS  /tmp/ccL2hyXk.s 			page 60
+ARM GAS  /tmp/ccCYtDPO.s 			page 60
 
 
   93:../../src/buttons.h ****          
@@ -3598,7 +3598,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1404 0012 17D0     		beq	.L88
  110:../../src/buttons.h ****             tick_unsubscribe();
  1405              		.loc 13 110 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 61
+ARM GAS  /tmp/ccCYtDPO.s 			page 61
 
 
  1406 0014 2000     		movs	r0, r4
@@ -3658,7 +3658,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1440              	.LBE1034:
  119:../../src/buttons.h ****             tick_unsubscribe();
  1441              		.loc 13 119 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 62
+ARM GAS  /tmp/ccCYtDPO.s 			page 62
 
 
  1442 0030 08D1     		bne	.L88
@@ -3718,7 +3718,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1489              		.loc 1 153 0
  1490 0000 0023     		movs	r3, #0
  152:../../src/timers.h ****     timePassed_ = 0;
-ARM GAS  /tmp/ccL2hyXk.s 			page 63
+ARM GAS  /tmp/ccCYtDPO.s 			page 63
 
 
  1491              		.loc 1 152 0
@@ -3778,7 +3778,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1544              	_ZN14TickSubscriber14tick_subscribeEv:
  1545              	.LFB2543:
  176:../../src/timers.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 64
+ARM GAS  /tmp/ccCYtDPO.s 			page 64
 
 
  177:../../src/timers.h **** 
@@ -3838,7 +3838,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1587              	.LBE1047:
  1588              	.LBE1046:
  1589              	.LBE1045:
-ARM GAS  /tmp/ccL2hyXk.s 			page 65
+ARM GAS  /tmp/ccCYtDPO.s 			page 65
 
 
  1590              	.LBE1044:
@@ -3898,7 +3898,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1641              	_ZN5Timer5startEv:
  1642              	.LFB2537:
  161:../../src/timers.h **** bool     Timer::isCount()    { return subscribed; }
-ARM GAS  /tmp/ccL2hyXk.s 			page 66
+ARM GAS  /tmp/ccCYtDPO.s 			page 66
 
 
  1643              		.loc 1 161 0
@@ -3958,7 +3958,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1693 000e 0023     		movs	r3, #0
  1694              	.LBB1048:
  1695              	.LBB1049:
-ARM GAS  /tmp/ccL2hyXk.s 			page 67
+ARM GAS  /tmp/ccCYtDPO.s 			page 67
 
 
  122:../../src/timers.h ****     tick_subscribe();
@@ -4018,7 +4018,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1743              		.thumb_func
  1744              		.fpu softvfp
  1746              	_Z11block_delayj:
-ARM GAS  /tmp/ccL2hyXk.s 			page 68
+ARM GAS  /tmp/ccCYtDPO.s 			page 68
 
 
  1747              	.LFB2553:
@@ -4078,7 +4078,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1795              	.LBB1088:
  1796              	.LBB1089:
  1797              	.LBB1090:
-ARM GAS  /tmp/ccL2hyXk.s 			page 69
+ARM GAS  /tmp/ccCYtDPO.s 			page 69
 
 
   23:../../src/delay.h ****    
@@ -4138,7 +4138,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1845 0020 354F     		ldr	r7, .L128
  1846 0022 E661     		str	r6, [r4, #28]
  1847 0024 E760     		str	r7, [r4, #12]
-ARM GAS  /tmp/ccL2hyXk.s 			page 70
+ARM GAS  /tmp/ccCYtDPO.s 			page 70
 
 
  1848 0026 2662     		str	r6, [r4, #32]
@@ -4198,7 +4198,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1897              	.LVL155:
  186:../../src/hd44780.h ****     while(delay.ms(5)) {}
  1898              		.loc 10 186 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 71
+ARM GAS  /tmp/ccCYtDPO.s 			page 71
 
 
  1899 0056 6846     		mov	r0, sp
@@ -4258,7 +4258,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  191:../../src/hd44780.h ****     strob_e();
  1947              		.loc 10 191 0
  1948 0084 AA6A     		ldr	r2, [r5, #40]
-ARM GAS  /tmp/ccL2hyXk.s 			page 72
+ARM GAS  /tmp/ccCYtDPO.s 			page 72
 
 
  1949 0086 EB69     		ldr	r3, [r5, #28]
@@ -4318,7 +4318,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  1997 00ae 2000     		movs	r0, r4
  1998 00b0 FFF7FEFF 		bl	_ZN5Delay2usEm.part.9
  1999              	.LVL170:
-ARM GAS  /tmp/ccL2hyXk.s 			page 73
+ARM GAS  /tmp/ccCYtDPO.s 			page 73
 
 
  2000              	.LBE1121:
@@ -4378,7 +4378,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2046 00f0 FFF7FEFF 		bl	_ZN14TickSubscriber16tick_unsubscribeEv
  2047              	.LVL179:
  2048              	.LBE1124:
-ARM GAS  /tmp/ccL2hyXk.s 			page 74
+ARM GAS  /tmp/ccCYtDPO.s 			page 74
 
 
  2049              	.LBE1123:
@@ -4438,7 +4438,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2100 0010 0028     		cmp	r0, #0
  2101 0012 02D1     		bne	.L133
  2102              	.L132:
-ARM GAS  /tmp/ccL2hyXk.s 			page 75
+ARM GAS  /tmp/ccCYtDPO.s 			page 75
 
 
   42:../../src/buttons.h ****       } else {
@@ -4498,7 +4498,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2151              		.loc 13 132 0
  2152              		.cfi_startproc
  2153              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 76
+ARM GAS  /tmp/ccCYtDPO.s 			page 76
 
 
  2154              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -4558,7 +4558,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2204              		.thumb_func
  2205              		.fpu softvfp
  2207              	_ZN3mcu6Button4Some5clickEv:
-ARM GAS  /tmp/ccL2hyXk.s 			page 77
+ARM GAS  /tmp/ccCYtDPO.s 			page 77
 
 
  2208              	.LFB2606:
@@ -4618,7 +4618,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2239 001e 6068     		ldr	r0, [r4, #4]
  2240 0020 FFF7FEFF 		bl	_ZN14TickSubscriber14tick_subscribeEv
  2241              	.LVL200:
-ARM GAS  /tmp/ccL2hyXk.s 			page 78
+ARM GAS  /tmp/ccCYtDPO.s 			page 78
 
 
  2242              	.L146:
@@ -4678,7 +4678,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2285 0056 1A7F     		ldrb	r2, [r3, #28]
  2286 0058 002A     		cmp	r2, #0
  2287 005a 03D1     		bne	.L152
-ARM GAS  /tmp/ccL2hyXk.s 			page 79
+ARM GAS  /tmp/ccCYtDPO.s 			page 79
 
 
  2288 005c 6268     		ldr	r2, [r4, #4]
@@ -4738,7 +4738,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   18:../../src/string_buffer.h ****     using String_buffer_ref = String_buffer&(&) (String_buffer& string_buffer);
   19:../../src/string_buffer.h ****     friend String_buffer& next_line (String_buffer& s);
   20:../../src/string_buffer.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 80
+ARM GAS  /tmp/ccCYtDPO.s 			page 80
 
 
   21:../../src/string_buffer.h **** public:
@@ -4798,7 +4798,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   75:../../src/string_buffer.h ****             position += string_size;
   76:../../src/string_buffer.h ****         } else {
   77:../../src/string_buffer.h ****             std::copy(string.begin(), string.begin() + (screen_size - position), screen.begin() + p
-ARM GAS  /tmp/ccL2hyXk.s 			page 81
+ARM GAS  /tmp/ccCYtDPO.s 			page 81
 
 
   78:../../src/string_buffer.h ****             size_t rest_string = string_size - (screen_size - position);
@@ -4858,7 +4858,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2343              		.section	.text._ZN13String_buffer4lineEj,"ax",%progbits
  2344              		.align	1
  2345              		.global	_ZN13String_buffer4lineEj
-ARM GAS  /tmp/ccL2hyXk.s 			page 82
+ARM GAS  /tmp/ccCYtDPO.s 			page 82
 
 
  2346              		.syntax unified
@@ -4918,7 +4918,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2390              	.LVL211:
  125:../../src/string_buffer.h ****     width_size = width;
  2391              		.loc 14 125 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 83
+ARM GAS  /tmp/ccCYtDPO.s 			page 83
 
 
  2392 0000 4160     		str	r1, [r0, #4]
@@ -4978,7 +4978,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2438              	.LVL216:
  2439              		.loc 14 133 0
  2440 0016 10BD     		pop	{r4, pc}
-ARM GAS  /tmp/ccL2hyXk.s 			page 84
+ARM GAS  /tmp/ccCYtDPO.s 			page 84
 
 
  2441              		.cfi_endproc
@@ -5038,7 +5038,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2483              		@ frame_needed = 0, uses_anonymous_args = 0
  2484              		@ link register save eliminated.
  2485              	.LBB1163:
-ARM GAS  /tmp/ccL2hyXk.s 			page 85
+ARM GAS  /tmp/ccCYtDPO.s 			page 85
 
 
  2486              	.LBB1164:
@@ -5098,7 +5098,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   14:../../src/periph/rcc_f1.h **** 	__IO RCC_bits::APB2ENR APB2ENR;  // RCC APB2 peripheral clock enable register, offset: 0x18
   15:../../src/periph/rcc_f1.h **** 	__IO RCC_bits::APB1ENR APB1ENR;  // RCC APB1 peripheral clock enable register, offset: 0x1C
   16:../../src/periph/rcc_f1.h **** 	__IO uint32_t          BDCR;     // RCC Backup domain control register,        offset: 0x20
-ARM GAS  /tmp/ccL2hyXk.s 			page 86
+ARM GAS  /tmp/ccCYtDPO.s 			page 86
 
 
   17:../../src/periph/rcc_f1.h **** 	__IO uint32_t          CSR;      // RCC clock control & status register,       offset: 0x24
@@ -5158,7 +5158,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2553              	.LBB1179:
   31:../../src/periph/rcc_f1.h **** 	RCC& set_APB2  (APBprescaler  v) { CFGR.PPRE2  = v; return *this; } //
  2554              		.loc 16 31 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 87
+ARM GAS  /tmp/ccCYtDPO.s 			page 87
 
 
  2555 0032 5A68     		ldr	r2, [r3, #4]
@@ -5218,7 +5218,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2605 0066 0A43     		orrs	r2, r1
  2606 0068 1A60     		str	r2, [r3]
  2607              	.L166:
-ARM GAS  /tmp/ccL2hyXk.s 			page 88
+ARM GAS  /tmp/ccCYtDPO.s 			page 88
 
 
  2608              	.LBE1187:
@@ -5278,7 +5278,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2660              		.thumb_func
  2661              		.fpu softvfp
  2663              	_ZSt4copyIPKcPcET0_T_S4_S3_:
-ARM GAS  /tmp/ccL2hyXk.s 			page 89
+ARM GAS  /tmp/ccCYtDPO.s 			page 89
 
 
  2664              	.LFB2919:
@@ -5338,7 +5338,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2711              	.LFE2919:
  2713              		.section	.text._ZN13String_bufferlsESt17basic_string_viewIcSt11char_traitsIcEE,"ax",%progbits
  2714              		.align	1
-ARM GAS  /tmp/ccL2hyXk.s 			page 90
+ARM GAS  /tmp/ccCYtDPO.s 			page 90
 
 
  2715              		.global	_ZN13String_bufferlsESt17basic_string_viewIcSt11char_traitsIcEE
@@ -5398,7 +5398,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   38:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array **** #include <utility>
   39:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array **** #include <stdexcept>
   40:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array **** #include <bits/stl_algobase.h>
-ARM GAS  /tmp/ccL2hyXk.s 			page 91
+ARM GAS  /tmp/ccCYtDPO.s 			page 91
 
 
   41:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array **** #include <bits/range_access.h>
@@ -5458,7 +5458,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   95:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array ****     {
   96:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array ****       typedef _Tp 	    			      value_type;
   97:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array ****       typedef value_type*			      pointer;
-ARM GAS  /tmp/ccL2hyXk.s 			page 92
+ARM GAS  /tmp/ccCYtDPO.s 			page 92
 
 
   98:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array ****       typedef const value_type*                       const_pointer;
@@ -5518,7 +5518,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  152:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array **** 
  153:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array ****       _GLIBCXX17_CONSTEXPR const_reverse_iterator
  154:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array ****       rend() const noexcept
-ARM GAS  /tmp/ccL2hyXk.s 			page 93
+ARM GAS  /tmp/ccCYtDPO.s 			page 93
 
 
  155:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array ****       { return const_reverse_iterator(begin()); }
@@ -5578,7 +5578,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  209:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array **** 					       ">= _Nm (which is %zu)"),
  210:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array **** 					   __n, _Nm),
  211:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array **** 	     _AT_Type::_S_ref(_M_elems, 0));
-ARM GAS  /tmp/ccL2hyXk.s 			page 94
+ARM GAS  /tmp/ccCYtDPO.s 			page 94
 
 
  212:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/array ****       }
@@ -5638,7 +5638,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2760              	.LBB1209:
  2761              		.loc 17 235 0
  2762 0008 0193     		str	r3, [sp, #4]
-ARM GAS  /tmp/ccL2hyXk.s 			page 95
+ARM GAS  /tmp/ccCYtDPO.s 			page 95
 
 
  2763              	.LBE1209:
@@ -5698,7 +5698,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  714:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****    *  @param  __last   A forward iterator.
  715:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****    *  @param  __value  A reference-to-const of arbitrary type.
  716:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****    *  @return   Nothing.
-ARM GAS  /tmp/ccL2hyXk.s 			page 96
+ARM GAS  /tmp/ccCYtDPO.s 			page 96
 
 
  717:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****    *
@@ -5758,7 +5758,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   20:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/string_view **** // You should have received a copy of the GNU General Public License and
   21:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/string_view **** // a copy of the GCC Runtime Library Exception along with this program;
   22:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/string_view **** // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
-ARM GAS  /tmp/ccL2hyXk.s 			page 97
+ARM GAS  /tmp/ccCYtDPO.s 			page 97
 
 
   23:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/string_view **** // <http://www.gnu.org/licenses/>.
@@ -5818,7 +5818,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   77:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/string_view ****       using value_type = _CharT;
   78:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/string_view ****       using pointer = const _CharT*;
   79:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/string_view ****       using const_pointer = const _CharT*;
-ARM GAS  /tmp/ccL2hyXk.s 			page 98
+ARM GAS  /tmp/ccCYtDPO.s 			page 98
 
 
   80:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/string_view ****       using reference = const _CharT&;
@@ -5878,7 +5878,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2836              	.LBE1237:
   52:../../src/string_buffer.h ****     auto end_line      = screen.begin() + number_line * line_size + line_size;
  2837              		.loc 14 52 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 99
+ARM GAS  /tmp/ccCYtDPO.s 			page 99
 
 
  2838 0044 0299     		ldr	r1, [sp, #8]
@@ -5938,7 +5938,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   66:../../src/string_buffer.h ****             auto end_string   = begin_string + line_size;
  2888              		.loc 14 66 0
  2889 006c 0100     		movs	r1, r0
-ARM GAS  /tmp/ccL2hyXk.s 			page 100
+ARM GAS  /tmp/ccCYtDPO.s 			page 100
 
 
  2890 006e 1431     		adds	r1, r1, #20
@@ -5998,7 +5998,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2937 00a4 503F     		subs	r7, r7, #80
  2938 00a6 FF18     		adds	r7, r7, r3
  2939              	.LVL256:
-ARM GAS  /tmp/ccL2hyXk.s 			page 101
+ARM GAS  /tmp/ccCYtDPO.s 			page 101
 
 
  2940 00a8 E41B     		subs	r4, r4, r7
@@ -6058,7 +6058,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  2989              	.LFB2624:
   41:../../src/string_buffer.h **** {
  2990              		.loc 14 41 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 102
+ARM GAS  /tmp/ccCYtDPO.s 			page 102
 
 
  2991              		.cfi_startproc
@@ -6118,7 +6118,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3040              	.LBE1253:
  3041              	.LBE1254:
   43:../../src/string_buffer.h ****         s << " ";
-ARM GAS  /tmp/ccL2hyXk.s 			page 103
+ARM GAS  /tmp/ccCYtDPO.s 			page 103
 
 
  3042              		.loc 14 43 0
@@ -6178,7 +6178,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3093              	.LVL273:
  3094 000c FFF7FEFF 		bl	sprintf
  3095              	.LVL274:
-ARM GAS  /tmp/ccL2hyXk.s 			page 104
+ARM GAS  /tmp/ccCYtDPO.s 			page 104
 
 
  3096              	.LBB1270:
@@ -6238,7 +6238,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  100:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/string_view **** 	_M_str{__str}
  3143              		.loc 18 100 0
  3144 002a 0100     		movs	r1, r0
-ARM GAS  /tmp/ccL2hyXk.s 			page 105
+ARM GAS  /tmp/ccCYtDPO.s 			page 105
 
 
  3145              	.LVL282:
@@ -6298,7 +6298,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3190 004a 6B60     		str	r3, [r5, #4]
  108:../../src/string_buffer.h **** }
  3191              		.loc 14 108 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 106
+ARM GAS  /tmp/ccCYtDPO.s 			page 106
 
 
  3192 004c 06B0     		add	sp, sp, #24
@@ -6358,7 +6358,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3242 000e 0CD4     		bmi	.L200
  3243 0010 2000     		movs	r0, r4
  3244              	.LVL292:
-ARM GAS  /tmp/ccL2hyXk.s 			page 107
+ARM GAS  /tmp/ccCYtDPO.s 			page 107
 
 
  3245 0012 FFF7FEFF 		bl	__cxa_guard_acquire
@@ -6418,7 +6418,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   52:../../src/periph/rcc_f1.h **** 		else if constexpr (p == Periph::GPIOE) APB2ENR.IOPEEN = true;
   53:../../src/periph/rcc_f1.h **** 		else if constexpr (p == Periph::AFIO ) APB2ENR.AFIOEN = true;
  3285              		.loc 16 53 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 108
+ARM GAS  /tmp/ccCYtDPO.s 			page 108
 
 
  3286 002c 0121     		movs	r1, #1
@@ -6478,7 +6478,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3314 0038 3E4B     		ldr	r3, .L223+8
  3315              	.LBB1377:
  3316              	.LBB1367:
-ARM GAS  /tmp/ccL2hyXk.s 			page 109
+ARM GAS  /tmp/ccCYtDPO.s 			page 109
 
 
  3317              	.LBB1365:
@@ -6538,7 +6538,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   52:../../src/periph/gpio_f1.h **** 
   53:../../src/periph/gpio_f1.h **** 
   54:../../src/periph/gpio_f1.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 110
+ARM GAS  /tmp/ccCYtDPO.s 			page 110
 
 
   55:../../src/periph/gpio_f1.h **** 
@@ -6598,7 +6598,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3384 0060 3378     		ldrb	r3, [r6]
  3385 0062 BFF35B8F 		dmb	ish
  3386 0066 0B42     		tst	r3, r1
-ARM GAS  /tmp/ccL2hyXk.s 			page 111
+ARM GAS  /tmp/ccCYtDPO.s 			page 111
 
 
  3387 0068 0CD1     		bne	.L203
@@ -6658,7 +6658,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3435              	.LBB1419:
  3436              	.LBB1402:
  3437              	.LBB1394:
-ARM GAS  /tmp/ccL2hyXk.s 			page 112
+ARM GAS  /tmp/ccCYtDPO.s 			page 112
 
 
  3438              	.LBB1393:
@@ -6718,7 +6718,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3487              	.LBB1407:
  3488              	.LBB1408:
  3489              	.LBB1409:
-ARM GAS  /tmp/ccL2hyXk.s 			page 113
+ARM GAS  /tmp/ccCYtDPO.s 			page 113
 
 
   17:../../src/pin.h **** 
@@ -6778,7 +6778,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3537              	.LBE1416:
  3538              	.LBE1415:
  3539              	.LBE1418:
-ARM GAS  /tmp/ccL2hyXk.s 			page 114
+ARM GAS  /tmp/ccCYtDPO.s 			page 114
 
 
  3540              	.LBE1420:
@@ -6838,7 +6838,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3588              	.LBB1434:
  3589              	.LBB1435:
   75:../../src/periph/gpio_f1.h ****    else if constexpr (n == 7)  { CR.CNF_MODE7  = v; return *this; }
-ARM GAS  /tmp/ccL2hyXk.s 			page 115
+ARM GAS  /tmp/ccCYtDPO.s 			page 115
 
 
  3590              		.loc 9 75 0
@@ -6898,7 +6898,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3638              	.LBB1448:
  3639              	.LBB1446:
  3640              	.LBB1441:
-ARM GAS  /tmp/ccL2hyXk.s 			page 116
+ARM GAS  /tmp/ccCYtDPO.s 			page 116
 
 
  3641              	.LBB1438:
@@ -6958,7 +6958,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   36:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/tuple **** #else
   37:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/tuple **** 
   38:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/tuple **** #include <utility>
-ARM GAS  /tmp/ccL2hyXk.s 			page 117
+ARM GAS  /tmp/ccCYtDPO.s 			page 117
 
 
   39:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/tuple **** #include <array>
@@ -7018,7 +7018,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   93:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/tuple **** 	_Head_base(allocator_arg_t, __uses_alloc1<_Alloc> __a)
   94:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/tuple **** 	: _Head(allocator_arg, *__a._M_a) { }
   95:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/tuple **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 118
+ARM GAS  /tmp/ccCYtDPO.s 			page 118
 
 
   96:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/tuple ****       template<typename _Alloc>
@@ -7078,7 +7078,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3683              	.LBE1467:
  3684              	.LBE1466:
  3685              	.LBB1469:
-ARM GAS  /tmp/ccL2hyXk.s 			page 119
+ARM GAS  /tmp/ccCYtDPO.s 			page 119
 
 
  3686              	.LBB1465:
@@ -7138,7 +7138,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3741              		.cfi_startproc
  3742              		@ args = 0, pretend = 0, frame = 24
  3743              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 120
+ARM GAS  /tmp/ccCYtDPO.s 			page 120
 
 
  3744              	.LVL323:
@@ -7198,7 +7198,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3792 003a 06D0     		beq	.L230
  3793              	.LVL327:
  3794              	.LBB1539:
-ARM GAS  /tmp/ccL2hyXk.s 			page 121
+ARM GAS  /tmp/ccCYtDPO.s 			page 121
 
 
  3795              	.LBB1540:
@@ -7258,7 +7258,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3838 0058 4B68     		ldr	r3, [r1, #4]
  3839 005a 1A40     		ands	r2, r3
  3840 005c 8023     		movs	r3, #128
-ARM GAS  /tmp/ccL2hyXk.s 			page 122
+ARM GAS  /tmp/ccCYtDPO.s 			page 122
 
 
  3841 005e 9B02     		lsls	r3, r3, #10
@@ -7318,7 +7318,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3890              	.LBB1558:
  3891              	.LBB1559:
   51:../../src/periph/rcc_f1.h **** 		else if constexpr (p == Periph::GPIOE) APB2ENR.IOPEEN = true;
-ARM GAS  /tmp/ccL2hyXk.s 			page 123
+ARM GAS  /tmp/ccCYtDPO.s 			page 123
 
 
  3892              		.loc 16 51 0
@@ -7378,7 +7378,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3941 00aa DB07     		lsls	r3, r3, #31
  3942 00ac 0BD4     		bmi	.L236
  3943 00ae 3000     		movs	r0, r6
-ARM GAS  /tmp/ccL2hyXk.s 			page 124
+ARM GAS  /tmp/ccCYtDPO.s 			page 124
 
 
  3944 00b0 FFF7FEFF 		bl	__cxa_guard_acquire
@@ -7438,7 +7438,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  3991              	.LBB1580:
  3992              	.LBB1581:
  3993              		.loc 16 53 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 125
+ARM GAS  /tmp/ccCYtDPO.s 			page 125
 
 
  3994 00d0 0123     		movs	r3, #1
@@ -7498,7 +7498,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4046              	.LBE1591:
  4047              	.LBE1590:
  4048              	.LBE1592:
-ARM GAS  /tmp/ccL2hyXk.s 			page 126
+ARM GAS  /tmp/ccCYtDPO.s 			page 126
 
 
  4049              	.LBE1593:
@@ -7558,7 +7558,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4097              		.loc 10 65 0
  4098 0106 6261     		str	r2, [r4, #20]
  4099 0108 2C4A     		ldr	r2, .L256+52
-ARM GAS  /tmp/ccL2hyXk.s 			page 127
+ARM GAS  /tmp/ccCYtDPO.s 			page 127
 
 
  4100              	.LBB1615:
@@ -7618,7 +7618,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  187:../../src/timers.h **** 
  188:../../src/timers.h **** 
  189:../../src/timers.h **** template<Faster x> // на сколько быстрее
-ARM GAS  /tmp/ccL2hyXk.s 			page 128
+ARM GAS  /tmp/ccCYtDPO.s 			page 128
 
 
  190:../../src/timers.h **** void TickSubscriber::tick_subscribe()
@@ -7678,7 +7678,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4188              	.LBB1627:
  4189              	.LBB1628:
  4190              	.LBB1629:
-ARM GAS  /tmp/ccL2hyXk.s 			page 129
+ARM GAS  /tmp/ccCYtDPO.s 			page 129
 
 
   25:../../src/periph/systick.h ****     uint32_t get()             { return VAL; }
@@ -7738,7 +7738,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4239 017a 1968     		ldr	r1, [r3]
  4240 017c 0A43     		orrs	r2, r1
  4241 017e 1A60     		str	r2, [r3]
-ARM GAS  /tmp/ccL2hyXk.s 			page 130
+ARM GAS  /tmp/ccCYtDPO.s 			page 130
 
 
  4242              	.LVL361:
@@ -7798,7 +7798,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
    1:../../src/example/example_select_screen.h **** #pragma once
    2:../../src/example/example_select_screen.h **** #include "hd44780.h"
    3:../../src/example/example_select_screen.h **** // #include "string_buffer.h"
-ARM GAS  /tmp/ccL2hyXk.s 			page 131
+ARM GAS  /tmp/ccCYtDPO.s 			page 131
 
 
    4:../../src/example/example_select_screen.h **** #include "timers.h"
@@ -7858,7 +7858,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4308              	.LCFI33:
  4309              		.cfi_def_cfa_offset 20
  4310              		.cfi_offset 4, -20
-ARM GAS  /tmp/ccL2hyXk.s 			page 132
+ARM GAS  /tmp/ccCYtDPO.s 			page 132
 
 
  4311              		.cfi_offset 5, -16
@@ -7918,7 +7918,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  746:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****   template<typename _OutputIterator, typename _Size, typename _Tp>
  747:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     inline typename
  748:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     __gnu_cxx::__enable_if<__is_scalar<_Tp>::__value, _OutputIterator>::__type
-ARM GAS  /tmp/ccL2hyXk.s 			page 133
+ARM GAS  /tmp/ccCYtDPO.s 			page 133
 
 
  749:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/bits/stl_algobase.h ****     __fill_n_a(_OutputIterator __first, _Size __n, const _Tp& __value)
@@ -7978,7 +7978,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4387 0014 0373     		strb	r3, [r0, #12]
  4388              	.LVL364:
  4389              	.LBE1801:
-ARM GAS  /tmp/ccL2hyXk.s 			page 134
+ARM GAS  /tmp/ccCYtDPO.s 			page 134
 
 
  4390              	.LBE1804:
@@ -8038,7 +8038,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4441              	.LBE1787:
  4442              	.LBE1792:
  4443              	.LBE1807:
-ARM GAS  /tmp/ccL2hyXk.s 			page 135
+ARM GAS  /tmp/ccCYtDPO.s 			page 135
 
 
   34:../../src/example/example_select_screen.h ****         , up   { mcu::Button::make<Up>()   }
@@ -8098,7 +8098,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4493              	.LBE1816:
  4494              	.LBE1815:
  4495              	.LBE1814:
-ARM GAS  /tmp/ccL2hyXk.s 			page 136
+ARM GAS  /tmp/ccCYtDPO.s 			page 136
 
 
   21:../../src/pin.h ****       mcu::make_reference<mcu::Periph::RCC>()
@@ -8158,7 +8158,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4542              		.loc 8 24 0
  4543 0086 2968     		ldr	r1, [r5]
  4544              	.LVL374:
-ARM GAS  /tmp/ccL2hyXk.s 			page 137
+ARM GAS  /tmp/ccCYtDPO.s 			page 137
 
 
  4545              	.LBB1831:
@@ -8218,7 +8218,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   27:../../src/buttons.h **** 
  4595              		.loc 13 27 0
  4596 0098 2260     		str	r2, [r4]
-ARM GAS  /tmp/ccL2hyXk.s 			page 138
+ARM GAS  /tmp/ccCYtDPO.s 			page 138
 
 
  4597 009a 0122     		movs	r2, #1
@@ -8278,7 +8278,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4647              	.LBB1900:
   34:../../src/buttons.h ****       return button;
  4648              		.loc 13 34 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 139
+ARM GAS  /tmp/ccCYtDPO.s 			page 139
 
 
  4649 00c0 1B78     		ldrb	r3, [r3]
@@ -8338,7 +8338,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4698              		.loc 8 21 0
  4699 00fa FFF7FEFF 		bl	__cxa_guard_release
  4700              	.LVL384:
-ARM GAS  /tmp/ccL2hyXk.s 			page 140
+ARM GAS  /tmp/ccCYtDPO.s 			page 140
 
 
  4701              	.L269:
@@ -8398,7 +8398,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4749              	.LBB1884:
  4750              	.LBB1885:
   27:../../src/buttons.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 141
+ARM GAS  /tmp/ccCYtDPO.s 			page 141
 
 
  4751              		.loc 13 27 0
@@ -8458,7 +8458,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4800 0126 2373     		strb	r3, [r4, #12]
  4801              	.LVL388:
  4802              	.LBE1894:
-ARM GAS  /tmp/ccL2hyXk.s 			page 142
+ARM GAS  /tmp/ccCYtDPO.s 			page 142
 
 
  4803              	.LBE1895:
@@ -8518,7 +8518,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4852              	.LBE1902:
  4853              		.loc 21 45 0
  4854 0146 B467     		str	r4, [r6, #120]
-ARM GAS  /tmp/ccL2hyXk.s 			page 143
+ARM GAS  /tmp/ccCYtDPO.s 			page 143
 
 
  4855              	.LVL391:
@@ -8578,7 +8578,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4903              	.LBE1921:
  4904              	.LBE1922:
  4905              		.loc 21 45 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 144
+ARM GAS  /tmp/ccCYtDPO.s 			page 144
 
 
  4906 016a 736F     		ldr	r3, [r6, #116]
@@ -8638,7 +8638,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  4954              	.L272:
  4955              	.LBE1931:
  4956              	.LBE1932:
-ARM GAS  /tmp/ccL2hyXk.s 			page 145
+ARM GAS  /tmp/ccCYtDPO.s 			page 145
 
 
  4957              	.LBB1933:
@@ -8698,7 +8698,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5007 01ca 0028     		cmp	r0, #0
  5008 01cc 04D0     		beq	.L278
  5009              	.LVL407:
-ARM GAS  /tmp/ccL2hyXk.s 			page 146
+ARM GAS  /tmp/ccCYtDPO.s 			page 146
 
 
  5010              	.LBB1943:
@@ -8758,7 +8758,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5058 01f2 2000     		movs	r0, r4
  5059              	.LBB1956:
  5060              	.LBB1955:
-ARM GAS  /tmp/ccL2hyXk.s 			page 147
+ARM GAS  /tmp/ccCYtDPO.s 			page 147
 
 
  5061              	.LBB1954:
@@ -8818,7 +8818,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5109              	.LVL417:
  5110              	.L284:
  5111              	.LBE1958:
-ARM GAS  /tmp/ccL2hyXk.s 			page 148
+ARM GAS  /tmp/ccCYtDPO.s 			page 148
 
 
  5112              	.LBE1957:
@@ -8878,7 +8878,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
    8:../../src/middleware/select_screen.h ****     std::string_view name;
    9:../../src/middleware/select_screen.h ****     Function<void()> callback;
   10:../../src/middleware/select_screen.h **** };
-ARM GAS  /tmp/ccL2hyXk.s 			page 149
+ARM GAS  /tmp/ccCYtDPO.s 			page 149
 
 
   11:../../src/middleware/select_screen.h **** 
@@ -8938,7 +8938,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5195 028c 4462     		str	r4, [r0, #36]
  5196 028e 224C     		ldr	r4, .L319+104
  5197 0290 4560     		str	r5, [r0, #4]
-ARM GAS  /tmp/ccL2hyXk.s 			page 150
+ARM GAS  /tmp/ccCYtDPO.s 			page 150
 
 
  5198 0292 0761     		str	r7, [r0, #16]
@@ -8998,7 +8998,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5249 02fc 00000000 		.word	_ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_IL
  5250 0300 00000000 		.word	_ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7
  5251 0304 08000000 		.word	_ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3
-ARM GAS  /tmp/ccL2hyXk.s 			page 151
+ARM GAS  /tmp/ccCYtDPO.s 			page 151
 
 
  5252 0308 00000000 		.word	_ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_IL
@@ -9058,7 +9058,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5293              		.loc 15 25 0
  5294 0004 6846     		mov	r0, sp
  5295 0006 FFF7FEFF 		bl	_ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEE
-ARM GAS  /tmp/ccL2hyXk.s 			page 152
+ARM GAS  /tmp/ccCYtDPO.s 			page 152
 
 
  5296              	.LVL425:
@@ -9118,7 +9118,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
   50:../../STM32F1_files/CMSIS/cmsis_gcc.h ****   @{
   51:../../STM32F1_files/CMSIS/cmsis_gcc.h ****  */
   52:../../STM32F1_files/CMSIS/cmsis_gcc.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 153
+ARM GAS  /tmp/ccCYtDPO.s 			page 153
 
 
   53:../../STM32F1_files/CMSIS/cmsis_gcc.h **** /**
@@ -9178,7 +9178,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  107:../../STM32F1_files/CMSIS/cmsis_gcc.h ****   uint32_t result;
  108:../../STM32F1_files/CMSIS/cmsis_gcc.h **** 
  109:../../STM32F1_files/CMSIS/cmsis_gcc.h ****   __ASM volatile ("MRS %0, ipsr" : "=r" (result) );
-ARM GAS  /tmp/ccL2hyXk.s 			page 154
+ARM GAS  /tmp/ccCYtDPO.s 			page 154
 
 
  110:../../STM32F1_files/CMSIS/cmsis_gcc.h ****   return(result);
@@ -9238,7 +9238,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  164:../../STM32F1_files/CMSIS/cmsis_gcc.h ****   __ASM volatile ("MSR psp, %0\n" : : "r" (topOfProcStack) : "sp");
  165:../../STM32F1_files/CMSIS/cmsis_gcc.h **** }
  166:../../STM32F1_files/CMSIS/cmsis_gcc.h **** 
-ARM GAS  /tmp/ccL2hyXk.s 			page 155
+ARM GAS  /tmp/ccCYtDPO.s 			page 155
 
 
  167:../../STM32F1_files/CMSIS/cmsis_gcc.h **** 
@@ -9298,7 +9298,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  221:../../STM32F1_files/CMSIS/cmsis_gcc.h **** /**
  222:../../STM32F1_files/CMSIS/cmsis_gcc.h ****   \brief   Enable FIQ
  223:../../STM32F1_files/CMSIS/cmsis_gcc.h ****   \details Enables FIQ interrupts by clearing the F-bit in the CPSR.
-ARM GAS  /tmp/ccL2hyXk.s 			page 156
+ARM GAS  /tmp/ccCYtDPO.s 			page 156
 
 
  224:../../STM32F1_files/CMSIS/cmsis_gcc.h ****            Can only be executed in Privileged modes.
@@ -9358,7 +9358,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  278:../../STM32F1_files/CMSIS/cmsis_gcc.h **** 
  279:../../STM32F1_files/CMSIS/cmsis_gcc.h **** 
  280:../../STM32F1_files/CMSIS/cmsis_gcc.h **** /**
-ARM GAS  /tmp/ccL2hyXk.s 			page 157
+ARM GAS  /tmp/ccCYtDPO.s 			page 157
 
 
  281:../../STM32F1_files/CMSIS/cmsis_gcc.h ****   \brief   Get Fault Mask
@@ -9418,7 +9418,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  335:../../STM32F1_files/CMSIS/cmsis_gcc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
  336:../../STM32F1_files/CMSIS/cmsis_gcc.h **** {
  337:../../STM32F1_files/CMSIS/cmsis_gcc.h **** #if (__FPU_PRESENT == 1U) && (__FPU_USED == 1U)
-ARM GAS  /tmp/ccL2hyXk.s 			page 158
+ARM GAS  /tmp/ccCYtDPO.s 			page 158
 
 
  338:../../STM32F1_files/CMSIS/cmsis_gcc.h ****   /* Empty asm statement works as a scheduling barrier */
@@ -9478,7 +9478,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5307              		.syntax unified
  5308 000c FDE7     		b	.L322
  5309              	.LBE1980:
-ARM GAS  /tmp/ccL2hyXk.s 			page 159
+ARM GAS  /tmp/ccCYtDPO.s 			page 159
 
 
  5310              	.LBE1979:
@@ -9538,7 +9538,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5360              		.cfi_startproc
  5361              		@ args = 0, pretend = 0, frame = 16
  5362              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 160
+ARM GAS  /tmp/ccCYtDPO.s 			page 160
 
 
  5363              	.LVL429:
@@ -9598,7 +9598,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5413              	.LBE2033:
  5414              	.LBB2044:
  5415              	.LBB2045:
-ARM GAS  /tmp/ccL2hyXk.s 			page 161
+ARM GAS  /tmp/ccCYtDPO.s 			page 161
 
 
   30:../../src/middleware/select_screen.h **** 
@@ -9658,7 +9658,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5450 0030 FFF7FEFF 		bl	_ZN13String_bufferlsESt17basic_string_viewIcSt11char_traitsIcEE
  5451              	.LVL437:
   47:../../src/middleware/select_screen.h ****                 lcd.line(i).cursor(19) << " ";
-ARM GAS  /tmp/ccL2hyXk.s 			page 162
+ARM GAS  /tmp/ccCYtDPO.s 			page 162
 
 
  5452              		.loc 22 47 0
@@ -9718,7 +9718,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5500 004a 3800     		movs	r0, r7
  5501              	.LBB2066:
  5502              	.LBB2061:
-ARM GAS  /tmp/ccL2hyXk.s 			page 163
+ARM GAS  /tmp/ccCYtDPO.s 			page 163
 
 
  5503              	.LBB2058:
@@ -9778,7 +9778,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5550              	.LBB2070:
  100:/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/c++/7.3.1/string_view **** 	_M_str{__str}
  5551              		.loc 18 100 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 164
+ARM GAS  /tmp/ccCYtDPO.s 			page 164
 
 
  5552 0062 3000     		movs	r0, r6
@@ -9838,7 +9838,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5598 0086 636E     		ldr	r3, [r4, #100]
   54:../../src/middleware/select_screen.h ****                 scroll--;
  5599              		.loc 22 54 0
-ARM GAS  /tmp/ccL2hyXk.s 			page 165
+ARM GAS  /tmp/ccCYtDPO.s 			page 165
 
 
  5600 0088 A26E     		ldr	r2, [r4, #104]
@@ -9898,7 +9898,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5641 00b6 6068     		ldr	r0, [r4, #4]
  5642 00b8 FFF7FEFF 		bl	_ZN3mcu6Button4pushEv
  5643              	.LVL451:
-ARM GAS  /tmp/ccL2hyXk.s 			page 166
+ARM GAS  /tmp/ccCYtDPO.s 			page 166
 
 
  5644 00bc 0028     		cmp	r0, #0
@@ -9958,7 +9958,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5685 00ee 2366     		str	r3, [r4, #96]
  5686              	.L334:
  5687              	.LVL452:
-ARM GAS  /tmp/ccL2hyXk.s 			page 167
+ARM GAS  /tmp/ccCYtDPO.s 			page 167
 
 
  5688              	.LBE2044:
@@ -10018,7 +10018,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  118:../../src/middleware/select_screen.h **** 
  119:../../src/middleware/select_screen.h ****         if (next())
  120:../../src/middleware/select_screen.h ****             lines[carriage_v].callback();
-ARM GAS  /tmp/ccL2hyXk.s 			page 168
+ARM GAS  /tmp/ccCYtDPO.s 			page 168
 
 
  121:../../src/middleware/select_screen.h ****         if (back()) {
@@ -10078,7 +10078,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5733              	.L339:
  5734              	.LBB2095:
  5735              	.LBB2096:
-ARM GAS  /tmp/ccL2hyXk.s 			page 169
+ARM GAS  /tmp/ccCYtDPO.s 			page 169
 
 
  138:../../src/middleware/select_screen.h ****     bool next(){return (up and down).click();}
@@ -10138,7 +10138,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5779 014e 0123     		movs	r3, #1
  5780              	.LBE2098:
  5781              	.LBE2097:
-ARM GAS  /tmp/ccL2hyXk.s 			page 170
+ARM GAS  /tmp/ccCYtDPO.s 			page 170
 
 
  5782              	.LBE2096:
@@ -10198,7 +10198,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5829              		.cfi_endproc
  5830              	.LFE3362:
  5832              		.section	.text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_I
-ARM GAS  /tmp/ccL2hyXk.s 			page 171
+ARM GAS  /tmp/ccCYtDPO.s 			page 171
 
 
  5833              		.align	1
@@ -10258,7 +10258,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5881 0014 BFF35B8F 		dmb	ish
  5882 0018 094E     		ldr	r6, .L372+4
  5883 001a DB07     		lsls	r3, r3, #31
-ARM GAS  /tmp/ccL2hyXk.s 			page 172
+ARM GAS  /tmp/ccCYtDPO.s 			page 172
 
 
  5884 001c 09D4     		bmi	.L364
@@ -10318,7 +10318,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5933 0044 08000000 		.word	_ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3
  5934              		.cfi_endproc
  5935              	.LFE3355:
-ARM GAS  /tmp/ccL2hyXk.s 			page 173
+ARM GAS  /tmp/ccCYtDPO.s 			page 173
 
 
  5937              		.section	.text.startup._GLOBAL__sub_I__ZN3mcu5FLASH6unlockEv,"ax",%progbits
@@ -10378,7 +10378,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  5984              	.LBB2181:
  5985              	.LBB2180:
  5986              	.LBB2179:
-ARM GAS  /tmp/ccL2hyXk.s 			page 174
+ARM GAS  /tmp/ccCYtDPO.s 			page 174
 
 
  5987              	.LBB2164:
@@ -10438,7 +10438,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6035 0024 0243     		orrs	r2, r0
  6036 0026 1A60     		str	r2, [r3]
  6037              	.LVL482:
-ARM GAS  /tmp/ccL2hyXk.s 			page 175
+ARM GAS  /tmp/ccCYtDPO.s 			page 175
 
 
  6038              	.LBE2174:
@@ -10498,7 +10498,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6095 0000 00000000 		.space	4
  6096              		.weak	_ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7
  6097              		.section	.bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEE
-ARM GAS  /tmp/ccL2hyXk.s 			page 176
+ARM GAS  /tmp/ccCYtDPO.s 			page 176
 
 
  6098              		.align	2
@@ -10558,7 +10558,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6167              		.weak	_ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3
  6168              		.section	.rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS
  6169              		.align	2
-ARM GAS  /tmp/ccL2hyXk.s 			page 177
+ARM GAS  /tmp/ccCYtDPO.s 			page 177
 
 
  6172              	_ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EE
@@ -10618,7 +10618,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6240      00000000 
  6241              		.weak	_ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_IL
  6242              		.section	.bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12E
-ARM GAS  /tmp/ccL2hyXk.s 			page 178
+ARM GAS  /tmp/ccCYtDPO.s 			page 178
 
 
  6243              		.align	2
@@ -10678,7 +10678,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6312              		.section	.bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12E
  6313              		.align	2
  6316              	_ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi
-ARM GAS  /tmp/ccL2hyXk.s 			page 179
+ARM GAS  /tmp/ccCYtDPO.s 			page 179
 
 
  6317 0000 00000000 		.space	4
@@ -10738,7 +10738,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6381              		.weak	_ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button
  6382              		.section	.bss._ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button,"awG",%nobits
  6383              		.align	2
-ARM GAS  /tmp/ccL2hyXk.s 			page 180
+ARM GAS  /tmp/ccCYtDPO.s 			page 180
 
 
  6386              	_ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button:
@@ -10798,7 +10798,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6446 000c 03000000 		.word	3
  6447 0010 04000000 		.word	4
  6448 0014 05000000 		.word	5
-ARM GAS  /tmp/ccL2hyXk.s 			page 181
+ARM GAS  /tmp/ccCYtDPO.s 			page 181
 
 
  6449 0018 06000000 		.word	6
@@ -10858,7 +10858,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6503 00f0 3C000000 		.word	60
  6504 00f4 3D000000 		.word	61
  6505 00f8 3E000000 		.word	62
-ARM GAS  /tmp/ccL2hyXk.s 			page 182
+ARM GAS  /tmp/ccCYtDPO.s 			page 182
 
 
  6506 00fc 3F000000 		.word	63
@@ -10918,7 +10918,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6548              		.section	.rodata._ZN4metaL8generateIL_Z10BSRR_valueIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5
  6549              		.align	2
  6552              	_ZN4metaL8generateIL_Z10BSRR_valueIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6E
-ARM GAS  /tmp/ccL2hyXk.s 			page 183
+ARM GAS  /tmp/ccCYtDPO.s 			page 183
 
 
  6553 0000 0000F000 		.word	15728640
@@ -10978,7 +10978,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6607 00d8 1000E000 		.word	14680080
  6608 00dc B0004000 		.word	4194480
  6609 00e0 1000E000 		.word	14680080
-ARM GAS  /tmp/ccL2hyXk.s 			page 184
+ARM GAS  /tmp/ccCYtDPO.s 			page 184
 
 
  6610 00e4 C0003000 		.word	3145920
@@ -11038,7 +11038,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6664 01bc 70008000 		.word	8388720
  6665 01c0 3000C000 		.word	12582960
  6666 01c4 80007000 		.word	7340160
-ARM GAS  /tmp/ccL2hyXk.s 			page 185
+ARM GAS  /tmp/ccCYtDPO.s 			page 185
 
 
  6667 01c8 3000C000 		.word	12582960
@@ -11098,7 +11098,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6721 02a0 5000A000 		.word	10485840
  6722 02a4 4000B000 		.word	11534400
  6723 02a8 5000A000 		.word	10485840
-ARM GAS  /tmp/ccL2hyXk.s 			page 186
+ARM GAS  /tmp/ccCYtDPO.s 			page 186
 
 
  6724 02ac 5000A000 		.word	10485840
@@ -11158,7 +11158,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6778 0384 0000F000 		.word	15728640
  6779 0388 70008000 		.word	8388720
  6780 038c 1000E000 		.word	14680080
-ARM GAS  /tmp/ccL2hyXk.s 			page 187
+ARM GAS  /tmp/ccCYtDPO.s 			page 187
 
 
  6781 0390 70008000 		.word	8388720
@@ -11218,7 +11218,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6835 0468 80007000 		.word	7340160
  6836 046c D0002000 		.word	2097360
  6837 0470 80007000 		.word	7340160
-ARM GAS  /tmp/ccL2hyXk.s 			page 188
+ARM GAS  /tmp/ccCYtDPO.s 			page 188
 
 
  6838 0474 E0001000 		.word	1048800
@@ -11278,7 +11278,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6892 054c 90006000 		.word	6291600
  6893 0550 A0005000 		.word	5243040
  6894 0554 A0005000 		.word	5243040
-ARM GAS  /tmp/ccL2hyXk.s 			page 189
+ARM GAS  /tmp/ccCYtDPO.s 			page 189
 
 
  6895 0558 A0005000 		.word	5243040
@@ -11338,7 +11338,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  6949 0630 A0005000 		.word	5243040
  6950 0634 3000C000 		.word	12582960
  6951 0638 A0005000 		.word	5243040
-ARM GAS  /tmp/ccL2hyXk.s 			page 190
+ARM GAS  /tmp/ccCYtDPO.s 			page 190
 
 
  6952 063c 4000B000 		.word	11534400
@@ -11398,7 +11398,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7006 0714 3000C000 		.word	12582960
  7007 0718 B0004000 		.word	4194480
  7008 071c 4000B000 		.word	11534400
-ARM GAS  /tmp/ccL2hyXk.s 			page 191
+ARM GAS  /tmp/ccCYtDPO.s 			page 191
 
 
  7009 0720 E0001000 		.word	1048800
@@ -11458,7 +11458,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7063 07f8 C0003000 		.word	3145920
  7064 07fc 70008000 		.word	8388720
  7065              		.section	.rodata._ZN4metaL8generateIL_Z12BSRR_commandIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2EL
-ARM GAS  /tmp/ccL2hyXk.s 			page 192
+ARM GAS  /tmp/ccCYtDPO.s 			page 192
 
 
  7066              		.align	2
@@ -11518,7 +11518,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7122 00d0 1000E000 		.word	14680080
  7123 00d4 A0005000 		.word	5243040
  7124 00d8 1000E000 		.word	14680080
-ARM GAS  /tmp/ccL2hyXk.s 			page 193
+ARM GAS  /tmp/ccCYtDPO.s 			page 193
 
 
  7125 00dc B0004000 		.word	4194480
@@ -11578,7 +11578,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7179 01b4 60009000 		.word	9437280
  7180 01b8 3000C000 		.word	12582960
  7181 01bc 70008000 		.word	8388720
-ARM GAS  /tmp/ccL2hyXk.s 			page 194
+ARM GAS  /tmp/ccCYtDPO.s 			page 194
 
 
  7182 01c0 3000C000 		.word	12582960
@@ -11638,7 +11638,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7236 0298 5000A000 		.word	10485840
  7237 029c 3000C000 		.word	12582960
  7238 02a0 5000A000 		.word	10485840
-ARM GAS  /tmp/ccL2hyXk.s 			page 195
+ARM GAS  /tmp/ccCYtDPO.s 			page 195
 
 
  7239 02a4 4000B000 		.word	11534400
@@ -11698,7 +11698,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7293 037c F0000000 		.word	240
  7294 0380 70008000 		.word	8388720
  7295 0384 0000F000 		.word	15728640
-ARM GAS  /tmp/ccL2hyXk.s 			page 196
+ARM GAS  /tmp/ccCYtDPO.s 			page 196
 
 
  7296 0388 70008000 		.word	8388720
@@ -11758,7 +11758,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7350 0460 80007000 		.word	7340160
  7351 0464 C0003000 		.word	3145920
  7352 0468 80007000 		.word	7340160
-ARM GAS  /tmp/ccL2hyXk.s 			page 197
+ARM GAS  /tmp/ccCYtDPO.s 			page 197
 
 
  7353 046c D0002000 		.word	2097360
@@ -11818,7 +11818,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7407 0544 80007000 		.word	7340160
  7408 0548 A0005000 		.word	5243040
  7409 054c 90006000 		.word	6291600
-ARM GAS  /tmp/ccL2hyXk.s 			page 198
+ARM GAS  /tmp/ccCYtDPO.s 			page 198
 
 
  7410 0550 A0005000 		.word	5243040
@@ -11878,7 +11878,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7464 0628 C0003000 		.word	3145920
  7465 062c 5000A000 		.word	10485840
  7466 0630 C0003000 		.word	3145920
-ARM GAS  /tmp/ccL2hyXk.s 			page 199
+ARM GAS  /tmp/ccCYtDPO.s 			page 199
 
 
  7467 0634 60009000 		.word	9437280
@@ -11938,7 +11938,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7521 070c 1000E000 		.word	14680080
  7522 0710 E0001000 		.word	1048800
  7523 0714 2000D000 		.word	13631520
-ARM GAS  /tmp/ccL2hyXk.s 			page 200
+ARM GAS  /tmp/ccCYtDPO.s 			page 200
 
 
  7524 0718 E0001000 		.word	1048800
@@ -11998,7 +11998,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7578 07f0 F0000000 		.word	240
  7579 07f4 E0001000 		.word	1048800
  7580 07f8 F0000000 		.word	240
-ARM GAS  /tmp/ccL2hyXk.s 			page 201
+ARM GAS  /tmp/ccCYtDPO.s 			page 201
 
 
  7581 07fc F0000000 		.word	240
@@ -12058,7 +12058,7 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7637              		.file 65 "/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/lock.h"
  7638              		.file 66 "/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/_types.h
  7639              		.file 67 "/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/sys/reent.h"
-ARM GAS  /tmp/ccL2hyXk.s 			page 202
+ARM GAS  /tmp/ccCYtDPO.s 			page 202
 
 
  7640              		.file 68 "../../STM32F1_files/CMSIS/core_cm3.h"
@@ -12073,264 +12073,264 @@ ARM GAS  /tmp/ccL2hyXk.s 			page 1
  7649              		.file 77 "../../src/meta.h"
  7650              		.file 78 "/home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/arm-none-eabi/include/string.h"
  7651              		.file 79 "../../src/periph/init_clock_f1.h"
-ARM GAS  /tmp/ccL2hyXk.s 			page 203
+ARM GAS  /tmp/ccCYtDPO.s 			page 203
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.cpp
-     /tmp/ccL2hyXk.s:16     .text._ZN5Timer6notifyEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:23     .text._ZN5Timer6notifyEv:0000000000000000 _ZN5Timer6notifyEv
-     /tmp/ccL2hyXk.s:42     .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_E4callEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:49     .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_E4callEv
-     /tmp/ccL2hyXk.s:65     .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_E4callEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:72     .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_E4callEv
-     /tmp/ccL2hyXk.s:87     .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_E4callEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:94     .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_E4callEv
-     /tmp/ccL2hyXk.s:109    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_E4callEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:116    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_E4callEv
-     /tmp/ccL2hyXk.s:131    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_E4callEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:138    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_E4callEv
-     /tmp/ccL2hyXk.s:153    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_E4callEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:160    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_E4callEv
-     /tmp/ccL2hyXk.s:175    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_E4callEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:182    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_E4callEv
-     /tmp/ccL2hyXk.s:197    .text._ZN5Delay2usEm.part.9:0000000000000000 $t
-     /tmp/ccL2hyXk.s:203    .text._ZN5Delay2usEm.part.9:0000000000000000 _ZN5Delay2usEm.part.9
-     /tmp/ccL2hyXk.s:326    .text._ZN5Delay2usEm.part.9:0000000000000050 $d
-     /tmp/ccL2hyXk.s:332    .text._ZSt8__fill_aIcEN9__gnu_cxx11__enable_ifIXsrSt9__is_byteIT_E7__valueEvE6__typeEPS3_S7_RKS3_.isra.14.constprop.23:0000000000000000 $t
-     /tmp/ccL2hyXk.s:338    .text._ZSt8__fill_aIcEN9__gnu_cxx11__enable_ifIXsrSt9__is_byteIT_E7__valueEvE6__typeEPS3_S7_RKS3_.isra.14.constprop.23:0000000000000000 _ZSt8__fill_aIcEN9__gnu_cxx11__enable_ifIXsrSt9__is_byteIT_E7__valueEvE6__typeEPS3_S7_RKS3_.isra.14.constprop.23
-     /tmp/ccL2hyXk.s:370    .text._ZN3mcu5FLASH6unlockEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:377    .text._ZN3mcu5FLASH6unlockEv:0000000000000000 _ZN3mcu5FLASH6unlockEv
-     /tmp/ccL2hyXk.s:408    .text._ZN3mcu5FLASH6unlockEv:0000000000000010 $d
-     /tmp/ccL2hyXk.s:414    .text._ZNSt11char_traitsIcE6lengthEPKc:0000000000000000 $t
-     /tmp/ccL2hyXk.s:421    .text._ZNSt11char_traitsIcE6lengthEPKc:0000000000000000 _ZNSt11char_traitsIcE6lengthEPKc
-     /tmp/ccL2hyXk.s:444    .text._ZN3Pin3setEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:451    .text._ZN3Pin3setEv:0000000000000000 _ZN3Pin3setEv
-     /tmp/ccL2hyXk.s:489    .text._ZN3Pin5clearEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:496    .text._ZN3Pin5clearEv:0000000000000000 _ZN3Pin5clearEv
-     /tmp/ccL2hyXk.s:542    .text._ZZN7HD447804initEvENKUlvE_clEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:548    .text._ZZN7HD447804initEvENKUlvE_clEv:0000000000000000 _ZZN7HD447804initEvENKUlvE_clEv
-     /tmp/ccL2hyXk.s:618    .text._ZZN7HD447804initEvENKUlmE0_clEm:0000000000000000 $t
-     /tmp/ccL2hyXk.s:624    .text._ZZN7HD447804initEvENKUlmE0_clEm:0000000000000000 _ZZN7HD447804initEvENKUlmE0_clEm
-     /tmp/ccL2hyXk.s:714    .text._ZN7HD447806notifyEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:721    .text._ZN7HD447806notifyEv:0000000000000000 _ZN7HD447806notifyEv
-     /tmp/ccL2hyXk.s:894    .text._ZN7HD447806notifyEv:0000000000000074 $d
-     /tmp/ccL2hyXk.s:6442   .rodata._ZN7HD447808Symbol_n5tableE:0000000000000000 _ZN7HD447808Symbol_n5tableE
-     /tmp/ccL2hyXk.s:901    .text._ZN3Pin6is_setEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:908    .text._ZN3Pin6is_setEv:0000000000000000 _ZN3Pin6is_setEv
-     /tmp/ccL2hyXk.s:947    .text._ZN9Publisher6notifyEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:954    .text._ZN9Publisher6notifyEv:0000000000000000 _ZN9Publisher6notifyEv
-     /tmp/ccL2hyXk.s:1001   .text._ZN11TickUpdater9interruptEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1008   .text._ZN11TickUpdater9interruptEv:0000000000000000 _ZN11TickUpdater9interruptEv
-     /tmp/ccL2hyXk.s:1058   .text.SysTick_Handler:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1065   .text.SysTick_Handler:0000000000000000 SysTick_Handler
-     /tmp/ccL2hyXk.s:1086   .text.SysTick_Handler:000000000000000c $d
-     /tmp/ccL2hyXk.s:1091   .text._ZN5Timer5eventEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1098   .text._ZN5Timer5eventEv:0000000000000000 _ZN5Timer5eventEv
-     /tmp/ccL2hyXk.s:1126   .text._ZN5Timer4doneEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1133   .text._ZN5Timer4doneEv:0000000000000000 _ZN5Timer4doneEv
-     /tmp/ccL2hyXk.s:1155   .text._ZN5Timer7isCountEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1162   .text._ZN5Timer7isCountEv:0000000000000000 _ZN5Timer7isCountEv
-     /tmp/ccL2hyXk.s:1179   .text._ZN5Timer10timePassedEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1186   .text._ZN5Timer10timePassedEv:0000000000000000 _ZN5Timer10timePassedEv
-ARM GAS  /tmp/ccL2hyXk.s 			page 204
+     /tmp/ccCYtDPO.s:16     .text._ZN5Timer6notifyEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:23     .text._ZN5Timer6notifyEv:0000000000000000 _ZN5Timer6notifyEv
+     /tmp/ccCYtDPO.s:42     .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_E4callEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:49     .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_E4callEv
+     /tmp/ccCYtDPO.s:65     .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_E4callEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:72     .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_E4callEv
+     /tmp/ccCYtDPO.s:87     .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_E4callEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:94     .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_E4callEv
+     /tmp/ccCYtDPO.s:109    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_E4callEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:116    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_E4callEv
+     /tmp/ccCYtDPO.s:131    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_E4callEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:138    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_E4callEv
+     /tmp/ccCYtDPO.s:153    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_E4callEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:160    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_E4callEv
+     /tmp/ccCYtDPO.s:175    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_E4callEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:182    .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_E4callEv:0000000000000000 _ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_E4callEv
+     /tmp/ccCYtDPO.s:197    .text._ZN5Delay2usEm.part.9:0000000000000000 $t
+     /tmp/ccCYtDPO.s:203    .text._ZN5Delay2usEm.part.9:0000000000000000 _ZN5Delay2usEm.part.9
+     /tmp/ccCYtDPO.s:326    .text._ZN5Delay2usEm.part.9:0000000000000050 $d
+     /tmp/ccCYtDPO.s:332    .text._ZSt8__fill_aIcEN9__gnu_cxx11__enable_ifIXsrSt9__is_byteIT_E7__valueEvE6__typeEPS3_S7_RKS3_.isra.14.constprop.23:0000000000000000 $t
+     /tmp/ccCYtDPO.s:338    .text._ZSt8__fill_aIcEN9__gnu_cxx11__enable_ifIXsrSt9__is_byteIT_E7__valueEvE6__typeEPS3_S7_RKS3_.isra.14.constprop.23:0000000000000000 _ZSt8__fill_aIcEN9__gnu_cxx11__enable_ifIXsrSt9__is_byteIT_E7__valueEvE6__typeEPS3_S7_RKS3_.isra.14.constprop.23
+     /tmp/ccCYtDPO.s:370    .text._ZN3mcu5FLASH6unlockEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:377    .text._ZN3mcu5FLASH6unlockEv:0000000000000000 _ZN3mcu5FLASH6unlockEv
+     /tmp/ccCYtDPO.s:408    .text._ZN3mcu5FLASH6unlockEv:0000000000000010 $d
+     /tmp/ccCYtDPO.s:414    .text._ZNSt11char_traitsIcE6lengthEPKc:0000000000000000 $t
+     /tmp/ccCYtDPO.s:421    .text._ZNSt11char_traitsIcE6lengthEPKc:0000000000000000 _ZNSt11char_traitsIcE6lengthEPKc
+     /tmp/ccCYtDPO.s:444    .text._ZN3Pin3setEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:451    .text._ZN3Pin3setEv:0000000000000000 _ZN3Pin3setEv
+     /tmp/ccCYtDPO.s:489    .text._ZN3Pin5clearEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:496    .text._ZN3Pin5clearEv:0000000000000000 _ZN3Pin5clearEv
+     /tmp/ccCYtDPO.s:542    .text._ZZN7HD447804initEvENKUlvE_clEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:548    .text._ZZN7HD447804initEvENKUlvE_clEv:0000000000000000 _ZZN7HD447804initEvENKUlvE_clEv
+     /tmp/ccCYtDPO.s:618    .text._ZZN7HD447804initEvENKUlmE0_clEm:0000000000000000 $t
+     /tmp/ccCYtDPO.s:624    .text._ZZN7HD447804initEvENKUlmE0_clEm:0000000000000000 _ZZN7HD447804initEvENKUlmE0_clEm
+     /tmp/ccCYtDPO.s:714    .text._ZN7HD447806notifyEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:721    .text._ZN7HD447806notifyEv:0000000000000000 _ZN7HD447806notifyEv
+     /tmp/ccCYtDPO.s:894    .text._ZN7HD447806notifyEv:0000000000000074 $d
+     /tmp/ccCYtDPO.s:6442   .rodata._ZN7HD447808Symbol_n5tableE:0000000000000000 _ZN7HD447808Symbol_n5tableE
+     /tmp/ccCYtDPO.s:901    .text._ZN3Pin6is_setEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:908    .text._ZN3Pin6is_setEv:0000000000000000 _ZN3Pin6is_setEv
+     /tmp/ccCYtDPO.s:947    .text._ZN9Publisher6notifyEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:954    .text._ZN9Publisher6notifyEv:0000000000000000 _ZN9Publisher6notifyEv
+     /tmp/ccCYtDPO.s:1001   .text._ZN11TickUpdater9interruptEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1008   .text._ZN11TickUpdater9interruptEv:0000000000000000 _ZN11TickUpdater9interruptEv
+     /tmp/ccCYtDPO.s:1058   .text.SysTick_Handler:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1065   .text.SysTick_Handler:0000000000000000 SysTick_Handler
+     /tmp/ccCYtDPO.s:1086   .text.SysTick_Handler:000000000000000c $d
+     /tmp/ccCYtDPO.s:1091   .text._ZN5Timer5eventEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1098   .text._ZN5Timer5eventEv:0000000000000000 _ZN5Timer5eventEv
+     /tmp/ccCYtDPO.s:1126   .text._ZN5Timer4doneEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1133   .text._ZN5Timer4doneEv:0000000000000000 _ZN5Timer4doneEv
+     /tmp/ccCYtDPO.s:1155   .text._ZN5Timer7isCountEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1162   .text._ZN5Timer7isCountEv:0000000000000000 _ZN5Timer7isCountEv
+     /tmp/ccCYtDPO.s:1179   .text._ZN5Timer10timePassedEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1186   .text._ZN5Timer10timePassedEv:0000000000000000 _ZN5Timer10timePassedEv
+ARM GAS  /tmp/ccCYtDPO.s 			page 204
 
 
-     /tmp/ccL2hyXk.s:1203   .text._ZN5Timer8timeLeftEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1210   .text._ZN5Timer8timeLeftEv:0000000000000000 _ZN5Timer8timeLeftEv
-     /tmp/ccL2hyXk.s:1229   .text._ZN5Timer9isGreaterEm:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1236   .text._ZN5Timer9isGreaterEm:0000000000000000 _ZN5Timer9isGreaterEm
-     /tmp/ccL2hyXk.s:1256   .text._ZN14TickSubscriber16tick_unsubscribeEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1263   .text._ZN14TickSubscriber16tick_unsubscribeEv:0000000000000000 _ZN14TickSubscriber16tick_unsubscribeEv
-     /tmp/ccL2hyXk.s:1354   .text._ZN14TickSubscriber16tick_unsubscribeEv:000000000000003c $d
-     /tmp/ccL2hyXk.s:1364   .text._ZN3mcu6Button6notifyEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1371   .text._ZN3mcu6Button6notifyEv:0000000000000000 _ZN3mcu6Button6notifyEv
-     /tmp/ccL2hyXk.s:1475   .text._ZN5Timer4stopEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1482   .text._ZN5Timer4stopEv:0000000000000000 _ZN5Timer4stopEv
-     /tmp/ccL2hyXk.s:1509   .text._ZN5Timer5pauseEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1516   .text._ZN5Timer5pauseEv:0000000000000000 _ZN5Timer5pauseEv
-     /tmp/ccL2hyXk.s:1537   .text._ZN14TickSubscriber14tick_subscribeEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1544   .text._ZN14TickSubscriber14tick_subscribeEv:0000000000000000 _ZN14TickSubscriber14tick_subscribeEv
-     /tmp/ccL2hyXk.s:1598   .text._ZN14TickSubscriber14tick_subscribeEv:0000000000000024 $d
-     /tmp/ccL2hyXk.s:1603   .text._ZN5Timer5startEm:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1610   .text._ZN5Timer5startEm:0000000000000000 _ZN5Timer5startEm
-     /tmp/ccL2hyXk.s:1634   .text._ZN5Timer5startEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1641   .text._ZN5Timer5startEv:0000000000000000 _ZN5Timer5startEv
-     /tmp/ccL2hyXk.s:1662   .text._ZN5Delay2msEm:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1669   .text._ZN5Delay2msEm:0000000000000000 _ZN5Delay2msEm
-     /tmp/ccL2hyXk.s:1739   .text._Z11block_delayj:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1746   .text._Z11block_delayj:0000000000000000 _Z11block_delayj
-     /tmp/ccL2hyXk.s:1773   .text._ZN7HD447804initEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:1780   .text._ZN7HD447804initEv:0000000000000000 _ZN7HD447804initEv
-     /tmp/ccL2hyXk.s:2059   .text._ZN7HD447804initEv:00000000000000f8 $d
-     /tmp/ccL2hyXk.s:6108   .rodata._ZTV5Timer:0000000000000000 _ZTV5Timer
-     /tmp/ccL2hyXk.s:2064   .text._ZN3mcu6Button4pushEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:2071   .text._ZN3mcu6Button4pushEv:0000000000000000 _ZN3mcu6Button4pushEv
-     /tmp/ccL2hyXk.s:2142   .text._ZN3mcu6Button6is_setEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:2149   .text._ZN3mcu6Button6is_setEv:0000000000000000 _ZN3mcu6Button6is_setEv
-     /tmp/ccL2hyXk.s:2200   .text._ZN3mcu6Button4Some5clickEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:2207   .text._ZN3mcu6Button4Some5clickEv:0000000000000000 _ZN3mcu6Button4Some5clickEv
-     /tmp/ccL2hyXk.s:2314   .text._ZN13String_bufferlsERFRS_S0_E:0000000000000000 $t
-     /tmp/ccL2hyXk.s:2321   .text._ZN13String_bufferlsERFRS_S0_E:0000000000000000 _ZN13String_bufferlsERFRS_S0_E
-     /tmp/ccL2hyXk.s:2344   .text._ZN13String_buffer4lineEj:0000000000000000 $t
-     /tmp/ccL2hyXk.s:2351   .text._ZN13String_buffer4lineEj:0000000000000000 _ZN13String_buffer4lineEj
-     /tmp/ccL2hyXk.s:2376   .text._ZN13String_buffer5widthEj:0000000000000000 $t
-     /tmp/ccL2hyXk.s:2383   .text._ZN13String_buffer5widthEj:0000000000000000 _ZN13String_buffer5widthEj
-     /tmp/ccL2hyXk.s:2400   .text._ZN13String_buffer6cursorEj:0000000000000000 $t
-     /tmp/ccL2hyXk.s:2407   .text._ZN13String_buffer6cursorEj:0000000000000000 _ZN13String_buffer6cursorEj
-     /tmp/ccL2hyXk.s:2445   .text._ZN13String_buffer6centerEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:2452   .text._ZN13String_buffer6centerEv:0000000000000000 _ZN13String_buffer6centerEv
-     /tmp/ccL2hyXk.s:2470   .text.init_clock:0000000000000000 $t
-     /tmp/ccL2hyXk.s:2477   .text.init_clock:0000000000000000 init_clock
-     /tmp/ccL2hyXk.s:2647   .text.init_clock:0000000000000080 $d
-     /tmp/ccL2hyXk.s:2656   .text._ZSt4copyIPKcPcET0_T_S4_S3_:0000000000000000 $t
-     /tmp/ccL2hyXk.s:2663   .text._ZSt4copyIPKcPcET0_T_S4_S3_:0000000000000000 _ZSt4copyIPKcPcET0_T_S4_S3_
-     /tmp/ccL2hyXk.s:2714   .text._ZN13String_bufferlsESt17basic_string_viewIcSt11char_traitsIcEE:0000000000000000 $t
-     /tmp/ccL2hyXk.s:2721   .text._ZN13String_bufferlsESt17basic_string_viewIcSt11char_traitsIcEE:0000000000000000 _ZN13String_bufferlsESt17basic_string_viewIcSt11char_traitsIcEE
-     /tmp/ccL2hyXk.s:2981   .text._Z9next_lineR13String_buffer:0000000000000000 $t
-     /tmp/ccL2hyXk.s:2988   .text._Z9next_lineR13String_buffer:0000000000000000 _Z9next_lineR13String_buffer
-     /tmp/ccL2hyXk.s:3057   .text._Z9next_lineR13String_buffer:0000000000000028 $d
-     /tmp/ccL2hyXk.s:3062   .text._ZN13String_bufferlsEi:0000000000000000 $t
-     /tmp/ccL2hyXk.s:3069   .text._ZN13String_bufferlsEi:0000000000000000 _ZN13String_bufferlsEi
-     /tmp/ccL2hyXk.s:3199   .text._ZN13String_bufferlsEi:0000000000000050 $d
-ARM GAS  /tmp/ccL2hyXk.s 			page 205
+     /tmp/ccCYtDPO.s:1203   .text._ZN5Timer8timeLeftEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1210   .text._ZN5Timer8timeLeftEv:0000000000000000 _ZN5Timer8timeLeftEv
+     /tmp/ccCYtDPO.s:1229   .text._ZN5Timer9isGreaterEm:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1236   .text._ZN5Timer9isGreaterEm:0000000000000000 _ZN5Timer9isGreaterEm
+     /tmp/ccCYtDPO.s:1256   .text._ZN14TickSubscriber16tick_unsubscribeEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1263   .text._ZN14TickSubscriber16tick_unsubscribeEv:0000000000000000 _ZN14TickSubscriber16tick_unsubscribeEv
+     /tmp/ccCYtDPO.s:1354   .text._ZN14TickSubscriber16tick_unsubscribeEv:000000000000003c $d
+     /tmp/ccCYtDPO.s:1364   .text._ZN3mcu6Button6notifyEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1371   .text._ZN3mcu6Button6notifyEv:0000000000000000 _ZN3mcu6Button6notifyEv
+     /tmp/ccCYtDPO.s:1475   .text._ZN5Timer4stopEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1482   .text._ZN5Timer4stopEv:0000000000000000 _ZN5Timer4stopEv
+     /tmp/ccCYtDPO.s:1509   .text._ZN5Timer5pauseEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1516   .text._ZN5Timer5pauseEv:0000000000000000 _ZN5Timer5pauseEv
+     /tmp/ccCYtDPO.s:1537   .text._ZN14TickSubscriber14tick_subscribeEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1544   .text._ZN14TickSubscriber14tick_subscribeEv:0000000000000000 _ZN14TickSubscriber14tick_subscribeEv
+     /tmp/ccCYtDPO.s:1598   .text._ZN14TickSubscriber14tick_subscribeEv:0000000000000024 $d
+     /tmp/ccCYtDPO.s:1603   .text._ZN5Timer5startEm:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1610   .text._ZN5Timer5startEm:0000000000000000 _ZN5Timer5startEm
+     /tmp/ccCYtDPO.s:1634   .text._ZN5Timer5startEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1641   .text._ZN5Timer5startEv:0000000000000000 _ZN5Timer5startEv
+     /tmp/ccCYtDPO.s:1662   .text._ZN5Delay2msEm:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1669   .text._ZN5Delay2msEm:0000000000000000 _ZN5Delay2msEm
+     /tmp/ccCYtDPO.s:1739   .text._Z11block_delayj:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1746   .text._Z11block_delayj:0000000000000000 _Z11block_delayj
+     /tmp/ccCYtDPO.s:1773   .text._ZN7HD447804initEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:1780   .text._ZN7HD447804initEv:0000000000000000 _ZN7HD447804initEv
+     /tmp/ccCYtDPO.s:2059   .text._ZN7HD447804initEv:00000000000000f8 $d
+     /tmp/ccCYtDPO.s:6108   .rodata._ZTV5Timer:0000000000000000 _ZTV5Timer
+     /tmp/ccCYtDPO.s:2064   .text._ZN3mcu6Button4pushEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:2071   .text._ZN3mcu6Button4pushEv:0000000000000000 _ZN3mcu6Button4pushEv
+     /tmp/ccCYtDPO.s:2142   .text._ZN3mcu6Button6is_setEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:2149   .text._ZN3mcu6Button6is_setEv:0000000000000000 _ZN3mcu6Button6is_setEv
+     /tmp/ccCYtDPO.s:2200   .text._ZN3mcu6Button4Some5clickEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:2207   .text._ZN3mcu6Button4Some5clickEv:0000000000000000 _ZN3mcu6Button4Some5clickEv
+     /tmp/ccCYtDPO.s:2314   .text._ZN13String_bufferlsERFRS_S0_E:0000000000000000 $t
+     /tmp/ccCYtDPO.s:2321   .text._ZN13String_bufferlsERFRS_S0_E:0000000000000000 _ZN13String_bufferlsERFRS_S0_E
+     /tmp/ccCYtDPO.s:2344   .text._ZN13String_buffer4lineEj:0000000000000000 $t
+     /tmp/ccCYtDPO.s:2351   .text._ZN13String_buffer4lineEj:0000000000000000 _ZN13String_buffer4lineEj
+     /tmp/ccCYtDPO.s:2376   .text._ZN13String_buffer5widthEj:0000000000000000 $t
+     /tmp/ccCYtDPO.s:2383   .text._ZN13String_buffer5widthEj:0000000000000000 _ZN13String_buffer5widthEj
+     /tmp/ccCYtDPO.s:2400   .text._ZN13String_buffer6cursorEj:0000000000000000 $t
+     /tmp/ccCYtDPO.s:2407   .text._ZN13String_buffer6cursorEj:0000000000000000 _ZN13String_buffer6cursorEj
+     /tmp/ccCYtDPO.s:2445   .text._ZN13String_buffer6centerEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:2452   .text._ZN13String_buffer6centerEv:0000000000000000 _ZN13String_buffer6centerEv
+     /tmp/ccCYtDPO.s:2470   .text.init_clock:0000000000000000 $t
+     /tmp/ccCYtDPO.s:2477   .text.init_clock:0000000000000000 init_clock
+     /tmp/ccCYtDPO.s:2647   .text.init_clock:0000000000000080 $d
+     /tmp/ccCYtDPO.s:2656   .text._ZSt4copyIPKcPcET0_T_S4_S3_:0000000000000000 $t
+     /tmp/ccCYtDPO.s:2663   .text._ZSt4copyIPKcPcET0_T_S4_S3_:0000000000000000 _ZSt4copyIPKcPcET0_T_S4_S3_
+     /tmp/ccCYtDPO.s:2714   .text._ZN13String_bufferlsESt17basic_string_viewIcSt11char_traitsIcEE:0000000000000000 $t
+     /tmp/ccCYtDPO.s:2721   .text._ZN13String_bufferlsESt17basic_string_viewIcSt11char_traitsIcEE:0000000000000000 _ZN13String_bufferlsESt17basic_string_viewIcSt11char_traitsIcEE
+     /tmp/ccCYtDPO.s:2981   .text._Z9next_lineR13String_buffer:0000000000000000 $t
+     /tmp/ccCYtDPO.s:2988   .text._Z9next_lineR13String_buffer:0000000000000000 _Z9next_lineR13String_buffer
+     /tmp/ccCYtDPO.s:3057   .text._Z9next_lineR13String_buffer:0000000000000028 $d
+     /tmp/ccCYtDPO.s:3062   .text._ZN13String_bufferlsEi:0000000000000000 $t
+     /tmp/ccCYtDPO.s:3069   .text._ZN13String_bufferlsEi:0000000000000000 _ZN13String_bufferlsEi
+     /tmp/ccCYtDPO.s:3199   .text._ZN13String_bufferlsEi:0000000000000050 $d
+ARM GAS  /tmp/ccCYtDPO.s 			page 205
 
 
-     /tmp/ccL2hyXk.s:3205   .text._Z9make_pinsILN3mcu7PinModeE1EJNS0_4Pin_ILNS0_6PeriphE2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEEN4meta19tuple_generate_implIR3PinNSt22_Make_integer_sequenceIjXsZT0_ENSt18_Build_index_tupleIXsZT0_EE6__typeEE6__typeEE4typeEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:3212   .text._Z9make_pinsILN3mcu7PinModeE1EJNS0_4Pin_ILNS0_6PeriphE2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEEN4meta19tuple_generate_implIR3PinNSt22_Make_integer_sequenceIjXsZT0_ENSt18_Build_index_tupleIXsZT0_EE6__typeEE6__typeEE4typeEv:0000000000000000 _Z9make_pinsILN3mcu7PinModeE1EJNS0_4Pin_ILNS0_6PeriphE2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEEN4meta19tuple_generate_implIR3PinNSt22_Make_integer_sequenceIjXsZT0_ENSt18_Build_index_tupleIXsZT0_EE6__typeEE6__typeEE4typeEv
-     /tmp/ccL2hyXk.s:3710   .text._Z9make_pinsILN3mcu7PinModeE1EJNS0_4Pin_ILNS0_6PeriphE2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEEN4meta19tuple_generate_implIR3PinNSt22_Make_integer_sequenceIjXsZT0_ENSt18_Build_index_tupleIXsZT0_EE6__typeEE6__typeEE4typeEv:000000000000012c $d
-     /tmp/ccL2hyXk.s:6232   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6239   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6218   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6225   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6204   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6211   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6190   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6197   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:3212   .text._Z9make_pinsILN3mcu7PinModeE1EJNS0_4Pin_ILNS0_6PeriphE2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEEN4meta19tuple_generate_implIR3PinNSt22_Make_integer_sequenceIjXsZT0_ENSt18_Build_index_tupleIXsZT0_EE6__typeEE6__typeEE4typeEv:0000000000000000 _Z9make_pinsILN3mcu7PinModeE1EJNS0_4Pin_ILNS0_6PeriphE2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEEN4meta19tuple_generate_implIR3PinNSt22_Make_integer_sequenceIjXstDpT0_ENSt18_Build_index_tupleIXstSE_EE6__typeEE6__typeEE4typeEv
-     /tmp/ccL2hyXk.s:3731   .text._ZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EE:0000000000000000 $t
-     /tmp/ccL2hyXk.s:3738   .text._ZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EE:0000000000000000 _ZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EE
-     /tmp/ccL2hyXk.s:4260   .text._ZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EE:0000000000000188 $d
-     /tmp/ccL2hyXk.s:6330   .bss._ZGVZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen:0000000000000000 _ZGVZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen
-     /tmp/ccL2hyXk.s:6337   .bss._ZZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen:0000000000000000 _ZZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen
-     /tmp/ccL2hyXk.s:6372   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6379   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6358   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE4ELi2EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE4ELi2EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6365   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE4ELi2EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE4ELi2EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6344   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi3EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi3EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6351   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi3EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi3EEELNS1_7PinModeE1EEERDavE3pin
-     /tmp/ccL2hyXk.s:6552   .rodata._ZN4metaL8generateIL_Z10BSRR_valueIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE:0000000000000000 _ZN4metaL8generateIL_Z10BSRR_valueIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE
-     /tmp/ccL2hyXk.s:7069   .rodata._ZN4metaL8generateIL_Z12BSRR_commandIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE:0000000000000000 _ZN4metaL8generateIL_Z12BSRR_commandIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE
-     /tmp/ccL2hyXk.s:4287   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC2Ev:0000000000000000 $t
-     /tmp/ccL2hyXk.s:4294   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC2Ev:0000000000000000 _ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC2Ev
-     /tmp/ccL2hyXk.s:5230   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC2Ev:00000000000002b0 $d
-     /tmp/ccL2hyXk.s:6127   .rodata._ZTVN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEE:0000000000000000 _ZTVN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEE
-     /tmp/ccL2hyXk.s:6414   .bss._ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi8EEELb0EEERDavE6button:0000000000000000 _ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi8EEELb0EEERDavE6button
-     /tmp/ccL2hyXk.s:6421   .bss._ZZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi8EEELb0EEERDavE6button:0000000000000000 _ZZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi8EEELb0EEERDavE6button
-     /tmp/ccL2hyXk.s:6428   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi8EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi8EEELNS1_7PinModeE0EEERDavE3pin
-     /tmp/ccL2hyXk.s:6435   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi8EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi8EEELNS1_7PinModeE0EEERDavE3pin
-     /tmp/ccL2hyXk.s:6118   .rodata._ZTVN3mcu6ButtonE:0000000000000000 _ZTVN3mcu6ButtonE
-     /tmp/ccL2hyXk.s:6386   .bss._ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button:0000000000000000 _ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button
-     /tmp/ccL2hyXk.s:6393   .bss._ZZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button:0000000000000000 _ZZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button
-     /tmp/ccL2hyXk.s:6400   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi9EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi9EEELNS1_7PinModeE0EEERDavE3pin
-     /tmp/ccL2hyXk.s:6407   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi9EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi9EEELNS1_7PinModeE0EEERDavE3pin
-     /tmp/ccL2hyXk.s:6316   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder
-     /tmp/ccL2hyXk.s:6136   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EE
-     /tmp/ccL2hyXk.s:6323   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder
-     /tmp/ccL2hyXk.s:6302   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder
-     /tmp/ccL2hyXk.s:6309   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder
-     /tmp/ccL2hyXk.s:6145   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EE
-     /tmp/ccL2hyXk.s:6288   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder
-     /tmp/ccL2hyXk.s:6295   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder
-     /tmp/ccL2hyXk.s:6154   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EE
-     /tmp/ccL2hyXk.s:6274   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder
-     /tmp/ccL2hyXk.s:6281   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder
-     /tmp/ccL2hyXk.s:6163   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EE
-     /tmp/ccL2hyXk.s:6260   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder
-     /tmp/ccL2hyXk.s:6267   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder
-     /tmp/ccL2hyXk.s:6172   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EE
-     /tmp/ccL2hyXk.s:6246   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder
-     /tmp/ccL2hyXk.s:6253   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder
-     /tmp/ccL2hyXk.s:6181   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EE
-     /tmp/ccL2hyXk.s:4294   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC2Ev:0000000000000000 _ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC1Ev
-ARM GAS  /tmp/ccL2hyXk.s 			page 206
+     /tmp/ccCYtDPO.s:3205   .text._Z9make_pinsILN3mcu7PinModeE1EJNS0_4Pin_ILNS0_6PeriphE2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEEN4meta19tuple_generate_implIR3PinNSt22_Make_integer_sequenceIjXsZT0_ENSt18_Build_index_tupleIXsZT0_EE6__typeEE6__typeEE4typeEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:3212   .text._Z9make_pinsILN3mcu7PinModeE1EJNS0_4Pin_ILNS0_6PeriphE2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEEN4meta19tuple_generate_implIR3PinNSt22_Make_integer_sequenceIjXsZT0_ENSt18_Build_index_tupleIXsZT0_EE6__typeEE6__typeEE4typeEv:0000000000000000 _Z9make_pinsILN3mcu7PinModeE1EJNS0_4Pin_ILNS0_6PeriphE2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEEN4meta19tuple_generate_implIR3PinNSt22_Make_integer_sequenceIjXsZT0_ENSt18_Build_index_tupleIXsZT0_EE6__typeEE6__typeEE4typeEv
+     /tmp/ccCYtDPO.s:3710   .text._Z9make_pinsILN3mcu7PinModeE1EJNS0_4Pin_ILNS0_6PeriphE2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEEN4meta19tuple_generate_implIR3PinNSt22_Make_integer_sequenceIjXsZT0_ENSt18_Build_index_tupleIXsZT0_EE6__typeEE6__typeEE4typeEv:000000000000012c $d
+     /tmp/ccCYtDPO.s:6232   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6239   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6218   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6225   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6204   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6211   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6190   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6197   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:3212   .text._Z9make_pinsILN3mcu7PinModeE1EJNS0_4Pin_ILNS0_6PeriphE2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEEN4meta19tuple_generate_implIR3PinNSt22_Make_integer_sequenceIjXsZT0_ENSt18_Build_index_tupleIXsZT0_EE6__typeEE6__typeEE4typeEv:0000000000000000 _Z9make_pinsILN3mcu7PinModeE1EJNS0_4Pin_ILNS0_6PeriphE2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEEN4meta19tuple_generate_implIR3PinNSt22_Make_integer_sequenceIjXstDpT0_ENSt18_Build_index_tupleIXstSE_EE6__typeEE6__typeEE4typeEv
+     /tmp/ccCYtDPO.s:3731   .text._ZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EE:0000000000000000 $t
+     /tmp/ccCYtDPO.s:3738   .text._ZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EE:0000000000000000 _ZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EE
+     /tmp/ccCYtDPO.s:4260   .text._ZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EE:0000000000000188 $d
+     /tmp/ccCYtDPO.s:6330   .bss._ZGVZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen:0000000000000000 _ZGVZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen
+     /tmp/ccCYtDPO.s:6337   .bss._ZZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen:0000000000000000 _ZZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen
+     /tmp/ccCYtDPO.s:6372   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6379   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6358   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE4ELi2EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE4ELi2EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6365   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE4ELi2EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE4ELi2EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6344   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi3EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi3EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6351   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi3EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi3EEELNS1_7PinModeE1EEERDavE3pin
+     /tmp/ccCYtDPO.s:6552   .rodata._ZN4metaL8generateIL_Z10BSRR_valueIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE:0000000000000000 _ZN4metaL8generateIL_Z10BSRR_valueIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE
+     /tmp/ccCYtDPO.s:7069   .rodata._ZN4metaL8generateIL_Z12BSRR_commandIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE:0000000000000000 _ZN4metaL8generateIL_Z12BSRR_commandIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE
+     /tmp/ccCYtDPO.s:4287   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC2Ev:0000000000000000 $t
+     /tmp/ccCYtDPO.s:4294   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC2Ev:0000000000000000 _ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC2Ev
+     /tmp/ccCYtDPO.s:5230   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC2Ev:00000000000002b0 $d
+     /tmp/ccCYtDPO.s:6127   .rodata._ZTVN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEE:0000000000000000 _ZTVN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEE
+     /tmp/ccCYtDPO.s:6414   .bss._ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi8EEELb0EEERDavE6button:0000000000000000 _ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi8EEELb0EEERDavE6button
+     /tmp/ccCYtDPO.s:6421   .bss._ZZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi8EEELb0EEERDavE6button:0000000000000000 _ZZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi8EEELb0EEERDavE6button
+     /tmp/ccCYtDPO.s:6428   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi8EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi8EEELNS1_7PinModeE0EEERDavE3pin
+     /tmp/ccCYtDPO.s:6435   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi8EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi8EEELNS1_7PinModeE0EEERDavE3pin
+     /tmp/ccCYtDPO.s:6118   .rodata._ZTVN3mcu6ButtonE:0000000000000000 _ZTVN3mcu6ButtonE
+     /tmp/ccCYtDPO.s:6386   .bss._ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button:0000000000000000 _ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button
+     /tmp/ccCYtDPO.s:6393   .bss._ZZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button:0000000000000000 _ZZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button
+     /tmp/ccCYtDPO.s:6400   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi9EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 _ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi9EEELNS1_7PinModeE0EEERDavE3pin
+     /tmp/ccCYtDPO.s:6407   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi9EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 _ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi9EEELNS1_7PinModeE0EEERDavE3pin
+     /tmp/ccCYtDPO.s:6316   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder
+     /tmp/ccCYtDPO.s:6136   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EE
+     /tmp/ccCYtDPO.s:6323   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder
+     /tmp/ccCYtDPO.s:6302   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder
+     /tmp/ccCYtDPO.s:6309   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder
+     /tmp/ccCYtDPO.s:6145   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EE
+     /tmp/ccCYtDPO.s:6288   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder
+     /tmp/ccCYtDPO.s:6295   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder
+     /tmp/ccCYtDPO.s:6154   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EE
+     /tmp/ccCYtDPO.s:6274   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder
+     /tmp/ccCYtDPO.s:6281   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder
+     /tmp/ccCYtDPO.s:6163   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EE
+     /tmp/ccCYtDPO.s:6260   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder
+     /tmp/ccCYtDPO.s:6267   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder
+     /tmp/ccCYtDPO.s:6172   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EE
+     /tmp/ccCYtDPO.s:6246   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder
+     /tmp/ccCYtDPO.s:6253   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder
+     /tmp/ccCYtDPO.s:6181   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EE
+     /tmp/ccCYtDPO.s:4294   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC2Ev:0000000000000000 _ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC1Ev
+ARM GAS  /tmp/ccCYtDPO.s 			page 206
 
 
-     /tmp/ccL2hyXk.s:5272   .text.startup.main:0000000000000000 $t
-     /tmp/ccL2hyXk.s:5279   .text.startup.main:0000000000000000 main
-     /tmp/ccL2hyXk.s:5315   .text._ZN8FunctionIFvvEEclEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:5322   .text._ZN8FunctionIFvvEEclEv:0000000000000000 _ZN8FunctionIFvvEEclEv
-     /tmp/ccL2hyXk.s:5350   .text._ZN6ScreenILi6EEclE8FunctionIFvvEE:0000000000000000 $t
-     /tmp/ccL2hyXk.s:5357   .text._ZN6ScreenILi6EEclE8FunctionIFvvEE:0000000000000000 _ZN6ScreenILi6EEclE8FunctionIFvvEE
-     /tmp/ccL2hyXk.s:5825   .text._ZN6ScreenILi6EEclE8FunctionIFvvEE:000000000000016c $d
-     /tmp/ccL2hyXk.s:5833   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEE6notifyEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:5840   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEE6notifyEv:0000000000000000 _ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEE6notifyEv
-     /tmp/ccL2hyXk.s:5931   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEE6notifyEv:000000000000003c $d
-     /tmp/ccL2hyXk.s:6094   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder
-     /tmp/ccL2hyXk.s:6101   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder
-     /tmp/ccL2hyXk.s:6085   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EE
-     /tmp/ccL2hyXk.s:5938   .text.startup._GLOBAL__sub_I__ZN3mcu5FLASH6unlockEv:0000000000000000 $t
-     /tmp/ccL2hyXk.s:5944   .text.startup._GLOBAL__sub_I__ZN3mcu5FLASH6unlockEv:0000000000000000 _GLOBAL__sub_I__ZN3mcu5FLASH6unlockEv
-     /tmp/ccL2hyXk.s:6071   .text.startup._GLOBAL__sub_I__ZN3mcu5FLASH6unlockEv:0000000000000038 $d
-     /tmp/ccL2hyXk.s:6078   .init_array:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6082   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EE:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6091   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6098   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6105   .rodata._ZTV5Timer:0000000000000000 $d
-     /tmp/ccL2hyXk.s:7590   .rodata._ZTV7HD44780:0000000000000000 _ZTV7HD44780
-     /tmp/ccL2hyXk.s:6115   .rodata._ZTVN3mcu6ButtonE:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6124   .rodata._ZTVN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEE:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6133   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EE:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6142   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EE:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6151   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EE:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6160   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EE:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6169   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EE:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6178   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EE:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6187   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6194   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6201   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6208   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6215   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6222   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6229   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6236   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6243   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6250   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6257   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6264   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6271   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6278   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6285   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6292   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6299   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6306   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6313   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6320   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6327   .bss._ZGVZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6334   .bss._ZZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6341   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi3EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6348   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi3EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6355   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE4ELi2EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6362   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE4ELi2EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6369   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-ARM GAS  /tmp/ccL2hyXk.s 			page 207
+     /tmp/ccCYtDPO.s:5272   .text.startup.main:0000000000000000 $t
+     /tmp/ccCYtDPO.s:5279   .text.startup.main:0000000000000000 main
+     /tmp/ccCYtDPO.s:5315   .text._ZN8FunctionIFvvEEclEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:5322   .text._ZN8FunctionIFvvEEclEv:0000000000000000 _ZN8FunctionIFvvEEclEv
+     /tmp/ccCYtDPO.s:5350   .text._ZN6ScreenILi6EEclE8FunctionIFvvEE:0000000000000000 $t
+     /tmp/ccCYtDPO.s:5357   .text._ZN6ScreenILi6EEclE8FunctionIFvvEE:0000000000000000 _ZN6ScreenILi6EEclE8FunctionIFvvEE
+     /tmp/ccCYtDPO.s:5825   .text._ZN6ScreenILi6EEclE8FunctionIFvvEE:000000000000016c $d
+     /tmp/ccCYtDPO.s:5833   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEE6notifyEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:5840   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEE6notifyEv:0000000000000000 _ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEE6notifyEv
+     /tmp/ccCYtDPO.s:5931   .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEE6notifyEv:000000000000003c $d
+     /tmp/ccCYtDPO.s:6094   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder:0000000000000000 _ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder
+     /tmp/ccCYtDPO.s:6101   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder:0000000000000000 _ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder
+     /tmp/ccCYtDPO.s:6085   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EE:0000000000000000 _ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EE
+     /tmp/ccCYtDPO.s:5938   .text.startup._GLOBAL__sub_I__ZN3mcu5FLASH6unlockEv:0000000000000000 $t
+     /tmp/ccCYtDPO.s:5944   .text.startup._GLOBAL__sub_I__ZN3mcu5FLASH6unlockEv:0000000000000000 _GLOBAL__sub_I__ZN3mcu5FLASH6unlockEv
+     /tmp/ccCYtDPO.s:6071   .text.startup._GLOBAL__sub_I__ZN3mcu5FLASH6unlockEv:0000000000000038 $d
+     /tmp/ccCYtDPO.s:6078   .init_array:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6082   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EE:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6091   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6098   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6105   .rodata._ZTV5Timer:0000000000000000 $d
+     /tmp/ccCYtDPO.s:7590   .rodata._ZTV7HD44780:0000000000000000 _ZTV7HD44780
+     /tmp/ccCYtDPO.s:6115   .rodata._ZTVN3mcu6ButtonE:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6124   .rodata._ZTVN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEE:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6133   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EE:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6142   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EE:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6151   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EE:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6160   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EE:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6169   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EE:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6178   .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EE:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6187   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6194   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6201   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6208   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6215   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6222   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6229   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6236   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6243   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6250   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6257   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6264   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6271   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6278   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6285   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6292   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6299   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6306   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6313   .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6320   .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6327   .bss._ZGVZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6334   .bss._ZZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6341   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi3EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6348   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi3EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6355   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE4ELi2EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6362   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE4ELi2EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6369   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+ARM GAS  /tmp/ccCYtDPO.s 			page 207
 
 
-     /tmp/ccL2hyXk.s:6376   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6383   .bss._ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6390   .bss._ZZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6397   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi9EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6404   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi9EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6411   .bss._ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi8EEELb0EEERDavE6button:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6418   .bss._ZZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi8EEELb0EEERDavE6button:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6425   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi8EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6432   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi8EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6439   .rodata._ZN7HD447808Symbol_n5tableE:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6529   .bss.tickUpdater:0000000000000000 tickUpdater
-     /tmp/ccL2hyXk.s:6525   .bss.tickUpdater:0000000000000000 $d
-     /tmp/ccL2hyXk.s:6549   .rodata._ZN4metaL8generateIL_Z10BSRR_valueIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE:0000000000000000 $d
-     /tmp/ccL2hyXk.s:7066   .rodata._ZN4metaL8generateIL_Z12BSRR_commandIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE:0000000000000000 $d
-     /tmp/ccL2hyXk.s:7586   .rodata._ZTV7HD44780:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6376   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEELNS1_7PinModeE1EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6383   .bss._ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6390   .bss._ZZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi9EEELb0EEERDavE6button:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6397   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi9EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6404   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi9EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6411   .bss._ZGVZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi8EEELb0EEERDavE6button:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6418   .bss._ZZN3mcu6Button4makeINS_4Pin_ILNS_6PeriphE2ELi8EEELb0EEERDavE6button:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6425   .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi8EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6432   .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi8EEELNS1_7PinModeE0EEERDavE3pin:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6439   .rodata._ZN7HD447808Symbol_n5tableE:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6529   .bss.tickUpdater:0000000000000000 tickUpdater
+     /tmp/ccCYtDPO.s:6525   .bss.tickUpdater:0000000000000000 $d
+     /tmp/ccCYtDPO.s:6549   .rodata._ZN4metaL8generateIL_Z10BSRR_valueIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE:0000000000000000 $d
+     /tmp/ccCYtDPO.s:7066   .rodata._ZN4metaL8generateIL_Z12BSRR_commandIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE:0000000000000000 $d
+     /tmp/ccCYtDPO.s:7586   .rodata._ZTV7HD44780:0000000000000000 $d
                            .group:0000000000000000 _ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC5Ev
 
 UNDEFINED SYMBOLS
