@@ -4,6 +4,18 @@
 #include "function.h"
 #include "string_buffer.h"
 
+template<class T, size_t n = 0> // n for unique with same T
+struct Construct_wrapper {
+    using type = T;
+    T value;
+    explicit Construct_wrapper (T value) : value{value} {}
+};
+
+template<class...Args>
+using Callback = Function<void(Args...)>;
+
+using Out_callback = Construct_wrapper<Callback<>>;
+
 struct Screen {
     virtual void init() = 0; // первичная отрисовка
     virtual void draw() = 0; // текущие данные 
@@ -11,7 +23,7 @@ struct Screen {
 
 struct Line {
     std::string_view name;
-    Function<void()> callback;
+    Callback<> callback;
 };
 
 template <int qty>
@@ -22,18 +34,29 @@ public:
           Button& up
         , Button& down
         , String_buffer& lcd
-        , Function<void()> out_callback 
+        , Out_callback out_callback 
         , Line ... lines
     ) : up           {up}
       , down         {down}
       , lcd          {lcd}
-      , out_callback {out_callback}
+      , out_callback {out_callback.value}
       , lines        {lines...}
     {}
 
     void init() override {}
     void draw() override
     {
+        if (next()) {
+            lines[carriage_v].callback();
+            return;
+        }
+        if (back()) {
+            carriage = 0;
+            carriage_v = 0;
+            out_callback();
+            return;
+        }
+
         lcd.clear();
 
         if (qty <= 4) {
@@ -88,14 +111,7 @@ public:
 
 
 
-        if (next())
-            lines[carriage_v].callback();
-        if (back()) {
-            carriage = 0;
-            carriage_v = 0;
-        }
 
-        out_callback();
 
     }
 private:

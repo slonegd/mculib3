@@ -116,7 +116,7 @@ public:
 
         Proxy_buttons(Button& one, Button& two) : one{one}, two{two} {}
 
-        operator bool () {
+        operator bool() {
             if (one.is_push()) one.tick_subscribe(); 
             if (two.is_push()) two.tick_subscribe();
             auto result =
