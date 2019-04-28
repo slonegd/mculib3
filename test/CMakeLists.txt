@@ -122,7 +122,7 @@ test (STM32F1 test_uart_f1)
 
 # test (STM32F1 test_modbus_slave) # FIX
 # test (STM32F1 test_modbus_master) # FIX
-# test (STM32F1 test_button) # FIX
+test (STM32F1 test_button)
 # test (STM32F4 test_pwm) # FIX
 # test (STM32F1 test_hd44780) # FIX
 test (STM32F0 test_encoder)
