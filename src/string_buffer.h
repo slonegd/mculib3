@@ -37,6 +37,7 @@ public:
 
 };
 
+// FIX зависает на 79 позиции
 String_buffer& next_line (String_buffer& s) 
 {
     while (not s.in_begin_line())

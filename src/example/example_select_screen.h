@@ -27,7 +27,7 @@ struct select_screen : TickSubscriber {
     Button& down;
     Timer timer{50_ms};
     
-    Screen<6> screen;
+    Select_screen<6> screen;
 
     select_screen()
         : lcd  {}
@@ -36,6 +36,7 @@ struct select_screen : TickSubscriber {
         , down { mcu::Button::make<Down>() }
         , screen {
               up, down, lcd
+            , []{}
             , Line {"Аварии"      ,[]{}}
             , Line {"Наработка"   ,[]{}}
             , Line {"Конфигурация",[]{}}
@@ -44,13 +45,14 @@ struct select_screen : TickSubscriber {
             , Line {"Наработка"   ,[]{}}
         }
     {
+        screen.init();
         tick_subscribe();
     }
 
     void notify() override
     {
         if (timer.event())
-            screen([]{});
+            screen.draw();
     }
 
 };

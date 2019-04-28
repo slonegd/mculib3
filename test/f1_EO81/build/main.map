@@ -73,6 +73,7 @@ Discarded input sections
  .group         0x0000000000000000        0x8 build/main.o
  .group         0x0000000000000000        0x8 build/main.o
  .group         0x0000000000000000        0x8 build/main.o
+ .group         0x0000000000000000        0x8 build/main.o
  .group         0x0000000000000000        0xc build/main.o
  .group         0x0000000000000000        0x8 build/main.o
  .group         0x0000000000000000        0x8 build/main.o
@@ -91,17 +92,18 @@ Discarded input sections
  .group         0x0000000000000000        0xc build/main.o
  .group         0x0000000000000000        0xc build/main.o
  .group         0x0000000000000000        0xc build/main.o
+ .group         0x0000000000000000        0xc build/main.o
+ .group         0x0000000000000000        0xc build/main.o
+ .group         0x0000000000000000        0xc build/main.o
+ .group         0x0000000000000000        0xc build/main.o
+ .group         0x0000000000000000        0xc build/main.o
+ .group         0x0000000000000000        0xc build/main.o
+ .group         0x0000000000000000        0xc build/main.o
+ .group         0x0000000000000000        0xc build/main.o
+ .group         0x0000000000000000        0xc build/main.o
+ .group         0x0000000000000000        0xc build/main.o
  .group         0x0000000000000000        0x8 build/main.o
  .group         0x0000000000000000        0x8 build/main.o
- .group         0x0000000000000000        0xc build/main.o
- .group         0x0000000000000000        0xc build/main.o
- .group         0x0000000000000000        0xc build/main.o
- .group         0x0000000000000000        0xc build/main.o
- .group         0x0000000000000000        0xc build/main.o
- .group         0x0000000000000000        0xc build/main.o
- .group         0x0000000000000000        0xc build/main.o
- .group         0x0000000000000000        0xc build/main.o
- .group         0x0000000000000000        0xc build/main.o
  .group         0x0000000000000000        0x8 build/main.o
  .group         0x0000000000000000        0x8 build/main.o
  .group         0x0000000000000000        0x8 build/main.o
@@ -402,7 +404,7 @@ LOAD /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-no
                 0x0000000008000000                g_pfnVectors
                 0x000000000800010c                . = ALIGN (0x4)
 
-.text           0x000000000800010c     0x1158
+.text           0x000000000800010c     0x1164
                 0x000000000800010c                . = ALIGN (0x4)
  *(.text)
  .text          0x000000000800010c       0x48 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
@@ -420,28 +422,30 @@ LOAD /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-no
  .text._ZN5Timer6notifyEv
                 0x000000000800027c        0x8 build/main.o
                 0x000000000800027c                Timer::notify()
- .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_E4callEv
+ .text._ZN13Select_screenILi6EE4initEv
                 0x0000000008000284        0x2 build/main.o
-                0x0000000008000284                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6}>::call()
- .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_E4callEv
-                0x0000000008000286        0x2 build/main.o
-                0x0000000008000286                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5}>::call()
- .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_E4callEv
-                0x0000000008000288        0x2 build/main.o
-                0x0000000008000288                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4}>::call()
- .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_E4callEv
-                0x000000000800028a        0x2 build/main.o
-                0x000000000800028a                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3}>::call()
- .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_E4callEv
-                0x000000000800028c        0x2 build/main.o
-                0x000000000800028c                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2}>::call()
+                0x0000000008000284                Select_screen<6>::init()
  .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_E4callEv
+                0x0000000008000286        0x2 build/main.o
+                0x0000000008000286                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1}>::call()
+ .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE5_E4callEv
+                0x0000000008000288        0x2 build/main.o
+                0x0000000008000288                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#7}>::call()
+ .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_E4callEv
+                0x000000000800028a        0x2 build/main.o
+                0x000000000800028a                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6}>::call()
+ .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_E4callEv
+                0x000000000800028c        0x2 build/main.o
+                0x000000000800028c                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5}>::call()
+ .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_E4callEv
                 0x000000000800028e        0x2 build/main.o
-                0x000000000800028e                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1}>::call()
- .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_E4callEv
+                0x000000000800028e                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4}>::call()
+ .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_E4callEv
                 0x0000000008000290        0x2 build/main.o
-                0x0000000008000290                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()::{lambda()#1}>::call()
- *fill*         0x0000000008000292        0x2 
+                0x0000000008000290                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3}>::call()
+ .text._ZN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_E4callEv
+                0x0000000008000292        0x2 build/main.o
+                0x0000000008000292                Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2}>::call()
  .text._ZN5Delay2usEm.part.9
                 0x0000000008000294       0x54 build/main.o
  .text._ZSt8__fill_aIcEN9__gnu_cxx11__enable_ifIXsrSt9__is_byteIT_E7__valueEvE6__typeEPS3_S7_RKS3_.isra.14.constprop.23
@@ -523,209 +527,211 @@ LOAD /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-no
                 0x0000000008000a1c      0x1e4 build/main.o
                 0x0000000008000a1c                HD44780& HD44780::make<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7> >(std::array<char, 80u> const&)
  .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC2Ev
-                0x0000000008000c00      0x340 build/main.o
+                0x0000000008000c00      0x37c build/main.o
                 0x0000000008000c00                mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()
                 0x0000000008000c00                mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()
  .text.startup.main
-                0x0000000008000f40        0xe build/main.o
-                0x0000000008000f40                main
+                0x0000000008000f7c        0xe build/main.o
+                0x0000000008000f7c                main
  .text._ZN8FunctionIFvvEEclEv
-                0x0000000008000f4e        0xc build/main.o
-                0x0000000008000f4e                Function<void ()>::operator()()
- *fill*         0x0000000008000f5a        0x2 
- .text._ZN6ScreenILi6EEclE8FunctionIFvvEE
-                0x0000000008000f5c      0x178 build/main.o
-                0x0000000008000f5c                Screen<6>::operator()(Function<void ()>)
+                0x0000000008000f8a        0xc build/main.o
+                0x0000000008000f8a                Function<void ()>::operator()()
+ *fill*         0x0000000008000f96        0x2 
+ .text._ZN13Select_screenILi6EE4drawEv
+                0x0000000008000f98      0x178 build/main.o
+                0x0000000008000f98                Select_screen<6>::draw()
  .text._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEE6notifyEv
-                0x00000000080010d4       0x48 build/main.o
-                0x00000000080010d4                mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()
+                0x0000000008001110       0x18 build/main.o
+                0x0000000008001110                mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()
  .text.startup._GLOBAL__sub_I__ZN3mcu5FLASH6unlockEv
-                0x000000000800111c       0x44 build/main.o
+                0x0000000008001128       0x44 build/main.o
  .text.Reset_Handler
-                0x0000000008001160       0x48 build/startup_stm32f103xb.o
-                0x0000000008001160                Reset_Handler
+                0x000000000800116c       0x48 build/startup_stm32f103xb.o
+                0x000000000800116c                Reset_Handler
  .text.Default_Handler
-                0x00000000080011a8        0x2 build/startup_stm32f103xb.o
-                0x00000000080011a8                RTC_Alarm_IRQHandler
-                0x00000000080011a8                EXTI2_IRQHandler
-                0x00000000080011a8                DebugMon_Handler
-                0x00000000080011a8                TIM1_CC_IRQHandler
-                0x00000000080011a8                HardFault_Handler
-                0x00000000080011a8                PVD_IRQHandler
-                0x00000000080011a8                PendSV_Handler
-                0x00000000080011a8                NMI_Handler
-                0x00000000080011a8                EXTI3_IRQHandler
-                0x00000000080011a8                EXTI0_IRQHandler
-                0x00000000080011a8                I2C2_EV_IRQHandler
-                0x00000000080011a8                UsageFault_Handler
-                0x00000000080011a8                ADC1_2_IRQHandler
-                0x00000000080011a8                SPI1_IRQHandler
-                0x00000000080011a8                TAMPER_IRQHandler
-                0x00000000080011a8                DMA1_Channel4_IRQHandler
-                0x00000000080011a8                USART3_IRQHandler
-                0x00000000080011a8                RTC_IRQHandler
-                0x00000000080011a8                DMA1_Channel7_IRQHandler
-                0x00000000080011a8                CAN1_RX1_IRQHandler
-                0x00000000080011a8                TIM4_IRQHandler
-                0x00000000080011a8                I2C1_EV_IRQHandler
-                0x00000000080011a8                DMA1_Channel6_IRQHandler
-                0x00000000080011a8                TIM3_IRQHandler
-                0x00000000080011a8                RCC_IRQHandler
-                0x00000000080011a8                TIM1_TRG_COM_IRQHandler
-                0x00000000080011a8                DMA1_Channel1_IRQHandler
-                0x00000000080011a8                Default_Handler
-                0x00000000080011a8                EXTI15_10_IRQHandler
-                0x00000000080011a8                EXTI9_5_IRQHandler
-                0x00000000080011a8                SPI2_IRQHandler
-                0x00000000080011a8                MemManage_Handler
-                0x00000000080011a8                SVC_Handler
-                0x00000000080011a8                DMA1_Channel5_IRQHandler
-                0x00000000080011a8                EXTI4_IRQHandler
-                0x00000000080011a8                USB_LP_CAN1_RX0_IRQHandler
-                0x00000000080011a8                USB_HP_CAN1_TX_IRQHandler
-                0x00000000080011a8                DMA1_Channel3_IRQHandler
-                0x00000000080011a8                TIM1_UP_IRQHandler
-                0x00000000080011a8                WWDG_IRQHandler
-                0x00000000080011a8                TIM2_IRQHandler
-                0x00000000080011a8                TIM1_BRK_IRQHandler
-                0x00000000080011a8                EXTI1_IRQHandler
-                0x00000000080011a8                USART2_IRQHandler
-                0x00000000080011a8                I2C2_ER_IRQHandler
-                0x00000000080011a8                DMA1_Channel2_IRQHandler
-                0x00000000080011a8                CAN1_SCE_IRQHandler
-                0x00000000080011a8                FLASH_IRQHandler
-                0x00000000080011a8                BusFault_Handler
-                0x00000000080011a8                USART1_IRQHandler
-                0x00000000080011a8                I2C1_ER_IRQHandler
-                0x00000000080011a8                USBWakeUp_IRQHandler
+                0x00000000080011b4        0x2 build/startup_stm32f103xb.o
+                0x00000000080011b4                RTC_Alarm_IRQHandler
+                0x00000000080011b4                EXTI2_IRQHandler
+                0x00000000080011b4                DebugMon_Handler
+                0x00000000080011b4                TIM1_CC_IRQHandler
+                0x00000000080011b4                HardFault_Handler
+                0x00000000080011b4                PVD_IRQHandler
+                0x00000000080011b4                PendSV_Handler
+                0x00000000080011b4                NMI_Handler
+                0x00000000080011b4                EXTI3_IRQHandler
+                0x00000000080011b4                EXTI0_IRQHandler
+                0x00000000080011b4                I2C2_EV_IRQHandler
+                0x00000000080011b4                UsageFault_Handler
+                0x00000000080011b4                ADC1_2_IRQHandler
+                0x00000000080011b4                SPI1_IRQHandler
+                0x00000000080011b4                TAMPER_IRQHandler
+                0x00000000080011b4                DMA1_Channel4_IRQHandler
+                0x00000000080011b4                USART3_IRQHandler
+                0x00000000080011b4                RTC_IRQHandler
+                0x00000000080011b4                DMA1_Channel7_IRQHandler
+                0x00000000080011b4                CAN1_RX1_IRQHandler
+                0x00000000080011b4                TIM4_IRQHandler
+                0x00000000080011b4                I2C1_EV_IRQHandler
+                0x00000000080011b4                DMA1_Channel6_IRQHandler
+                0x00000000080011b4                TIM3_IRQHandler
+                0x00000000080011b4                RCC_IRQHandler
+                0x00000000080011b4                TIM1_TRG_COM_IRQHandler
+                0x00000000080011b4                DMA1_Channel1_IRQHandler
+                0x00000000080011b4                Default_Handler
+                0x00000000080011b4                EXTI15_10_IRQHandler
+                0x00000000080011b4                EXTI9_5_IRQHandler
+                0x00000000080011b4                SPI2_IRQHandler
+                0x00000000080011b4                MemManage_Handler
+                0x00000000080011b4                SVC_Handler
+                0x00000000080011b4                DMA1_Channel5_IRQHandler
+                0x00000000080011b4                EXTI4_IRQHandler
+                0x00000000080011b4                USB_LP_CAN1_RX0_IRQHandler
+                0x00000000080011b4                USB_HP_CAN1_TX_IRQHandler
+                0x00000000080011b4                DMA1_Channel3_IRQHandler
+                0x00000000080011b4                TIM1_UP_IRQHandler
+                0x00000000080011b4                WWDG_IRQHandler
+                0x00000000080011b4                TIM2_IRQHandler
+                0x00000000080011b4                TIM1_BRK_IRQHandler
+                0x00000000080011b4                EXTI1_IRQHandler
+                0x00000000080011b4                USART2_IRQHandler
+                0x00000000080011b4                I2C2_ER_IRQHandler
+                0x00000000080011b4                DMA1_Channel2_IRQHandler
+                0x00000000080011b4                CAN1_SCE_IRQHandler
+                0x00000000080011b4                FLASH_IRQHandler
+                0x00000000080011b4                BusFault_Handler
+                0x00000000080011b4                USART1_IRQHandler
+                0x00000000080011b4                I2C1_ER_IRQHandler
+                0x00000000080011b4                USBWakeUp_IRQHandler
  .text.__cxa_guard_acquire
-                0x00000000080011aa       0x1a /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libstdc++_nano.a(guard.o)
-                0x00000000080011aa                __cxa_guard_acquire
+                0x00000000080011b6       0x1a /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libstdc++_nano.a(guard.o)
+                0x00000000080011b6                __cxa_guard_acquire
  .text.__cxa_guard_release
-                0x00000000080011c4        0x6 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libstdc++_nano.a(guard.o)
-                0x00000000080011c4                __cxa_guard_release
- *fill*         0x00000000080011ca        0x2 
+                0x00000000080011d0        0x6 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libstdc++_nano.a(guard.o)
+                0x00000000080011d0                __cxa_guard_release
+ *fill*         0x00000000080011d6        0x2 
  .text.__libc_init_array
-                0x00000000080011cc       0x48 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-init.o)
-                0x00000000080011cc                __libc_init_array
- .text.memmove  0x0000000008001214       0x26 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-memmove.o)
-                0x0000000008001214                memmove
- .text.memset   0x000000000800123a       0x10 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-memset.o)
-                0x000000000800123a                memset
+                0x00000000080011d8       0x48 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-init.o)
+                0x00000000080011d8                __libc_init_array
+ .text.memmove  0x0000000008001220       0x26 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-memmove.o)
+                0x0000000008001220                memmove
+ .text.memset   0x0000000008001246       0x10 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-memset.o)
+                0x0000000008001246                memset
  *(.glue_7)
- .glue_7        0x000000000800124a        0x0 linker stubs
+ .glue_7        0x0000000008001256        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x000000000800124a        0x0 linker stubs
+ .glue_7t       0x0000000008001256        0x0 linker stubs
  *(.eh_frame)
- *fill*         0x000000000800124a        0x2 
- .eh_frame      0x000000000800124c        0x0 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+ *fill*         0x0000000008001256        0x2 
+ .eh_frame      0x0000000008001258        0x0 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
  *(.init)
- .init          0x000000000800124c        0x4 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crti.o
-                0x000000000800124c                _init
- .init          0x0000000008001250        0x8 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtn.o
+ .init          0x0000000008001258        0x4 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crti.o
+                0x0000000008001258                _init
+ .init          0x000000000800125c        0x8 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtn.o
  *(.fini)
- .fini          0x0000000008001258        0x4 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crti.o
-                0x0000000008001258                _fini
- .fini          0x000000000800125c        0x8 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtn.o
-                0x0000000008001264                . = ALIGN (0x4)
-                0x0000000008001264                _etext = .
+ .fini          0x0000000008001264        0x4 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crti.o
+                0x0000000008001264                _fini
+ .fini          0x0000000008001268        0x8 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtn.o
+                0x0000000008001270                . = ALIGN (0x4)
+                0x0000000008001270                _etext = .
 
-.vfp11_veneer   0x0000000008001264        0x0
- .vfp11_veneer  0x0000000008001264        0x0 linker stubs
+.vfp11_veneer   0x0000000008001270        0x0
+ .vfp11_veneer  0x0000000008001270        0x0 linker stubs
 
-.v4_bx          0x0000000008001264        0x0
- .v4_bx         0x0000000008001264        0x0 linker stubs
+.v4_bx          0x0000000008001270        0x0
+ .v4_bx         0x0000000008001270        0x0 linker stubs
 
-.iplt           0x0000000008001264        0x0
- .iplt          0x0000000008001264        0x0 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+.iplt           0x0000000008001270        0x0
+ .iplt          0x0000000008001270        0x0 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
 
-.rodata         0x0000000008001264     0x1200
-                0x0000000008001264                . = ALIGN (0x4)
+.rodata         0x0000000008001270     0x120c
+                0x0000000008001270                . = ALIGN (0x4)
  *(.rodata)
  *(.rodata*)
- .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EE
-                0x0000000008001264        0xc build/main.o
-                0x0000000008001264                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()::{lambda()#1}>
  .rodata._ZTV5Timer
                 0x0000000008001270        0xc build/main.o
                 0x0000000008001270                vtable for Timer
  .rodata._ZTVN3mcu6ButtonE
                 0x000000000800127c        0xc build/main.o
                 0x000000000800127c                vtable for mcu::Button
+ .rodata._ZTV13Select_screenILi6EE
+                0x0000000008001288       0x10 build/main.o
+                0x0000000008001288                vtable for Select_screen<6>
  .rodata._ZTVN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEE
-                0x0000000008001288        0xc build/main.o
-                0x0000000008001288                vtable for mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >
- .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EE
-                0x0000000008001294        0xc build/main.o
-                0x0000000008001294                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1}>
+                0x0000000008001298        0xc build/main.o
+                0x0000000008001298                vtable for mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >
  .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EE
-                0x00000000080012a0        0xc build/main.o
-                0x00000000080012a0                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2}>
+                0x00000000080012a4        0xc build/main.o
+                0x00000000080012a4                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2}>
  .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EE
-                0x00000000080012ac        0xc build/main.o
-                0x00000000080012ac                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3}>
+                0x00000000080012b0        0xc build/main.o
+                0x00000000080012b0                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3}>
  .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EE
-                0x00000000080012b8        0xc build/main.o
-                0x00000000080012b8                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4}>
+                0x00000000080012bc        0xc build/main.o
+                0x00000000080012bc                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4}>
  .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EE
-                0x00000000080012c4        0xc build/main.o
-                0x00000000080012c4                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5}>
+                0x00000000080012c8        0xc build/main.o
+                0x00000000080012c8                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5}>
  .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EE
-                0x00000000080012d0        0xc build/main.o
-                0x00000000080012d0                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6}>
+                0x00000000080012d4        0xc build/main.o
+                0x00000000080012d4                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6}>
+ .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE5_EE
+                0x00000000080012e0        0xc build/main.o
+                0x00000000080012e0                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#7}>
+ .rodata._ZTVN8FunctionIFvvEE15Function_holderIZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EE
+                0x00000000080012ec        0xc build/main.o
+                0x00000000080012ec                vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1}>
  .rodata._ZN7HD447808Symbol_n5tableE
-                0x00000000080012dc      0x140 build/main.o
-                0x00000000080012dc                HD44780::Symbol_n::table
+                0x00000000080012f8      0x140 build/main.o
+                0x00000000080012f8                HD44780::Symbol_n::table
  .rodata._Z9next_lineR13String_buffer.str1.1
-                0x000000000800141c        0x2 build/main.o
+                0x0000000008001438        0x2 build/main.o
+ .rodata._ZN13Select_screenILi6EE4drawEv.str1.1
+                0x000000000800143a        0x2 build/main.o
  .rodata._ZN3mcu7example13select_screenINS_4Pin_ILNS_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEENS2_ILS3_2ELi8EEENS2_ILS3_2ELi9EEEEC2Ev.str1.1
-                0x000000000800141e       0x33 build/main.o
- *fill*         0x0000000008001451        0x3 
+                0x000000000800143c       0x33 build/main.o
+ *fill*         0x000000000800146f        0x1 
  .rodata._ZN4metaL8generateIL_Z10BSRR_valueIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE
-                0x0000000008001454      0x800 build/main.o
+                0x0000000008001470      0x800 build/main.o
  .rodata._ZN4metaL8generateIL_Z12BSRR_commandIN3mcu4Pin_ILNS2_6PeriphE2ELi4EEENS3_ILS4_2ELi5EEENS3_ILS4_2ELi6EEENS3_ILS4_2ELi7EEEEDacELj256EEE
-                0x0000000008001c54      0x800 build/main.o
- .rodata._ZN6ScreenILi6EEclE8FunctionIFvvEE.str1.1
-                0x0000000008002454        0x2 build/main.o
- *fill*         0x0000000008002456        0x2 
+                0x0000000008001c70      0x800 build/main.o
  .rodata._ZTV7HD44780
-                0x0000000008002458        0xc build/main.o
-                0x0000000008002458                vtable for HD44780
-                0x0000000008002464                . = ALIGN (0x4)
+                0x0000000008002470        0xc build/main.o
+                0x0000000008002470                vtable for HD44780
+                0x000000000800247c                . = ALIGN (0x4)
 
-.rel.dyn        0x0000000008002464        0x0
- .rel.iplt      0x0000000008002464        0x0 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+.rel.dyn        0x000000000800247c        0x0
+ .rel.iplt      0x000000000800247c        0x0 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x0000000008002464        0x0
-                0x0000000008002464                __exidx_start = .
+.ARM            0x000000000800247c        0x0
+                0x000000000800247c                __exidx_start = .
  *(.ARM.exidx*)
-                0x0000000008002464                __exidx_end = .
+                0x000000000800247c                __exidx_end = .
 
-.preinit_array  0x0000000008002464        0x0
-                0x0000000008002464                PROVIDE (__preinit_array_start = .)
+.preinit_array  0x000000000800247c        0x0
+                0x000000000800247c                PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x0000000008002464                PROVIDE (__preinit_array_end = .)
+                0x000000000800247c                PROVIDE (__preinit_array_end = .)
 
-.init_array     0x0000000008002464        0x8
-                0x0000000008002464                PROVIDE (__init_array_start = .)
+.init_array     0x000000000800247c        0x8
+                0x000000000800247c                PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array*)
- .init_array    0x0000000008002464        0x4 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
- .init_array    0x0000000008002468        0x4 build/main.o
-                0x000000000800246c                PROVIDE (__init_array_end = .)
+ .init_array    0x000000000800247c        0x4 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+ .init_array    0x0000000008002480        0x4 build/main.o
+                0x0000000008002484                PROVIDE (__init_array_end = .)
 
-.fini_array     0x000000000800246c        0x4
+.fini_array     0x0000000008002484        0x4
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x000000000800246c        0x4 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+ .fini_array    0x0000000008002484        0x4 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
                 [!provide]                        PROVIDE (__fini_array_end = .)
-                0x0000000008002470                _sidata = LOADADDR (.data)
+                0x0000000008002488                _sidata = LOADADDR (.data)
 
-.data           0x0000000020000000        0x0 load address 0x0000000008002470
+.data           0x0000000020000000        0x0 load address 0x0000000008002488
                 0x0000000020000000                . = ALIGN (0x4)
                 0x0000000020000000                _sdata = .
  *(.data)
@@ -733,82 +739,82 @@ LOAD /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-no
                 0x0000000020000000                . = ALIGN (0x4)
                 0x0000000020000000                _edata = .
 
-.igot.plt       0x0000000020000000        0x0 load address 0x0000000008002470
+.igot.plt       0x0000000020000000        0x0 load address 0x0000000008002488
  .igot.plt      0x0000000020000000        0x0 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
                 0x0000000020000000                . = ALIGN (0x4)
 
-.bss            0x0000000020000000      0x18c load address 0x0000000008002470
+.bss            0x0000000020000000      0x18c load address 0x0000000008002488
                 0x0000000020000000                _sbss = .
                 0x0000000020000000                __bss_start__ = _sbss
  *(.bss)
  .bss           0x0000000020000000       0x1c /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
  *(.bss*)
- .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder
-                0x000000002000001c        0x4 build/main.o
-                0x000000002000001c                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()::{lambda()#1}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()::{lambda()#1})::holder
- .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEE6notifyEvEUlvE_EET_E6holder
-                0x0000000020000020        0x8 build/main.o
-                0x0000000020000020                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()::{lambda()#1}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()::{lambda()#1})::holder
  .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin
-                0x0000000020000028        0x4 build/main.o
-                0x0000000020000028                guard variable for Pin::make<mcu::Pin_<(mcu::Periph)2, 7>, (mcu::PinMode)1>()::pin
+                0x000000002000001c        0x4 build/main.o
+                0x000000002000001c                guard variable for Pin::make<mcu::Pin_<(mcu::Periph)2, 7>, (mcu::PinMode)1>()::pin
  .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi7EEELNS1_7PinModeE1EEERDavE3pin
-                0x000000002000002c        0x8 build/main.o
-                0x000000002000002c                Pin::make<mcu::Pin_<(mcu::Periph)2, 7>, (mcu::PinMode)1>()::pin
+                0x0000000020000020        0x8 build/main.o
+                0x0000000020000020                Pin::make<mcu::Pin_<(mcu::Periph)2, 7>, (mcu::PinMode)1>()::pin
  .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin
-                0x0000000020000034        0x4 build/main.o
-                0x0000000020000034                guard variable for Pin::make<mcu::Pin_<(mcu::Periph)2, 6>, (mcu::PinMode)1>()::pin
+                0x0000000020000028        0x4 build/main.o
+                0x0000000020000028                guard variable for Pin::make<mcu::Pin_<(mcu::Periph)2, 6>, (mcu::PinMode)1>()::pin
  .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi6EEELNS1_7PinModeE1EEERDavE3pin
-                0x0000000020000038        0x8 build/main.o
-                0x0000000020000038                Pin::make<mcu::Pin_<(mcu::Periph)2, 6>, (mcu::PinMode)1>()::pin
+                0x000000002000002c        0x8 build/main.o
+                0x000000002000002c                Pin::make<mcu::Pin_<(mcu::Periph)2, 6>, (mcu::PinMode)1>()::pin
  .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin
-                0x0000000020000040        0x4 build/main.o
-                0x0000000020000040                guard variable for Pin::make<mcu::Pin_<(mcu::Periph)2, 5>, (mcu::PinMode)1>()::pin
+                0x0000000020000034        0x4 build/main.o
+                0x0000000020000034                guard variable for Pin::make<mcu::Pin_<(mcu::Periph)2, 5>, (mcu::PinMode)1>()::pin
  .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi5EEELNS1_7PinModeE1EEERDavE3pin
-                0x0000000020000044        0x8 build/main.o
-                0x0000000020000044                Pin::make<mcu::Pin_<(mcu::Periph)2, 5>, (mcu::PinMode)1>()::pin
+                0x0000000020000038        0x8 build/main.o
+                0x0000000020000038                Pin::make<mcu::Pin_<(mcu::Periph)2, 5>, (mcu::PinMode)1>()::pin
  .bss._ZGVZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin
-                0x000000002000004c        0x4 build/main.o
-                0x000000002000004c                guard variable for Pin::make<mcu::Pin_<(mcu::Periph)2, 4>, (mcu::PinMode)1>()::pin
+                0x0000000020000040        0x4 build/main.o
+                0x0000000020000040                guard variable for Pin::make<mcu::Pin_<(mcu::Periph)2, 4>, (mcu::PinMode)1>()::pin
  .bss._ZZN3Pin4makeIN3mcu4Pin_ILNS1_6PeriphE2ELi4EEELNS1_7PinModeE1EEERDavE3pin
-                0x0000000020000050        0x8 build/main.o
-                0x0000000020000050                Pin::make<mcu::Pin_<(mcu::Periph)2, 4>, (mcu::PinMode)1>()::pin
- .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder
-                0x0000000020000058        0x4 build/main.o
-                0x0000000020000058                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6})::holder
- .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder
-                0x000000002000005c        0x8 build/main.o
-                0x000000002000005c                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6})::holder
- .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder
-                0x0000000020000064        0x4 build/main.o
-                0x0000000020000064                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5})::holder
- .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder
-                0x0000000020000068        0x8 build/main.o
-                0x0000000020000068                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5})::holder
- .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder
-                0x0000000020000070        0x4 build/main.o
-                0x0000000020000070                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4})::holder
- .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder
-                0x0000000020000074        0x8 build/main.o
-                0x0000000020000074                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4})::holder
- .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder
-                0x000000002000007c        0x4 build/main.o
-                0x000000002000007c                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3})::holder
- .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder
-                0x0000000020000080        0x8 build/main.o
-                0x0000000020000080                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3})::holder
- .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder
-                0x0000000020000088        0x4 build/main.o
-                0x0000000020000088                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2})::holder
- .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder
-                0x000000002000008c        0x8 build/main.o
-                0x000000002000008c                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2})::holder
+                0x0000000020000044        0x8 build/main.o
+                0x0000000020000044                Pin::make<mcu::Pin_<(mcu::Periph)2, 4>, (mcu::PinMode)1>()::pin
  .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder
-                0x0000000020000094        0x4 build/main.o
-                0x0000000020000094                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1})::holder
+                0x000000002000004c        0x4 build/main.o
+                0x000000002000004c                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1})::holder
  .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE_EET_E6holder
+                0x0000000020000050        0x8 build/main.o
+                0x0000000020000050                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1})::holder
+ .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE5_EET_E6holder
+                0x0000000020000058        0x4 build/main.o
+                0x0000000020000058                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#7}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#7})::holder
+ .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE5_EET_E6holder
+                0x000000002000005c        0x8 build/main.o
+                0x000000002000005c                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#7}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#7})::holder
+ .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder
+                0x0000000020000064        0x4 build/main.o
+                0x0000000020000064                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6})::holder
+ .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE4_EET_E6holder
+                0x0000000020000068        0x8 build/main.o
+                0x0000000020000068                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6})::holder
+ .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder
+                0x0000000020000070        0x4 build/main.o
+                0x0000000020000070                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5})::holder
+ .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE3_EET_E6holder
+                0x0000000020000074        0x8 build/main.o
+                0x0000000020000074                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5})::holder
+ .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder
+                0x000000002000007c        0x4 build/main.o
+                0x000000002000007c                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4})::holder
+ .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE2_EET_E6holder
+                0x0000000020000080        0x8 build/main.o
+                0x0000000020000080                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4})::holder
+ .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder
+                0x0000000020000088        0x4 build/main.o
+                0x0000000020000088                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3})::holder
+ .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE1_EET_E6holder
+                0x000000002000008c        0x8 build/main.o
+                0x000000002000008c                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3})::holder
+ .bss._ZGVZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder
+                0x0000000020000094        0x4 build/main.o
+                0x0000000020000094                guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2})::holder
+ .bss._ZZN8FunctionIFvvEEC4IZN3mcu7example13select_screenINS3_4Pin_ILNS3_6PeriphE3ELi12EEENS6_ILS7_4ELi2EEENS6_ILS7_2ELi3EEENS6_ILS7_2ELi4EEENS6_ILS7_2ELi5EEENS6_ILS7_2ELi6EEENS6_ILS7_2ELi7EEENS6_ILS7_2ELi8EEENS6_ILS7_2ELi9EEEEC4EvEUlvE0_EET_E6holder
                 0x0000000020000098        0x8 build/main.o
-                0x0000000020000098                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1})::holder
+                0x0000000020000098                Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2})::holder
  .bss._ZGVZN7HD447804makeIN3mcu4Pin_ILNS1_6PeriphE3ELi12EEENS2_ILS3_4ELi2EEENS2_ILS3_2ELi3EEENS2_ILS3_2ELi4EEENS2_ILS3_2ELi5EEENS2_ILS3_2ELi6EEENS2_ILS3_2ELi7EEEEERS_RKSt5arrayIcLj80EEE6screen
                 0x00000000200000a0        0x4 build/main.o
                 0x00000000200000a0                guard variable for HD44780::make<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7> >(std::array<char, 80u> const&)::screen
@@ -866,7 +872,7 @@ LOAD /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-no
                 0x000000002000018c                __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x000000002000018c      0x604 load address 0x0000000008002470
+                0x000000002000018c      0x604 load address 0x0000000008002488
                 0x0000000020000190                . = ALIGN (0x8)
  *fill*         0x000000002000018c        0x4 
                 0x0000000020000190                PROVIDE (end = .)
@@ -911,48 +917,48 @@ LOAD /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-no
                 0x00000000000001a4       0x1e /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtn.o
 OUTPUT(build/main.elf elf32-littlearm)
 
-.debug_info     0x0000000000000000    0x1a15c
- .debug_info    0x0000000000000000    0x1a13a build/main.o
- .debug_info    0x000000000001a13a       0x22 build/startup_stm32f103xb.o
+.debug_info     0x0000000000000000    0x1a3bf
+ .debug_info    0x0000000000000000    0x1a39d build/main.o
+ .debug_info    0x000000000001a39d       0x22 build/startup_stm32f103xb.o
 
 .debug_abbrev   0x0000000000000000     0x1192
  .debug_abbrev  0x0000000000000000     0x1180 build/main.o
  .debug_abbrev  0x0000000000001180       0x12 build/startup_stm32f103xb.o
 
-.debug_loc      0x0000000000000000     0x2665
- .debug_loc     0x0000000000000000     0x2665 build/main.o
+.debug_loc      0x0000000000000000     0x2657
+ .debug_loc     0x0000000000000000     0x2657 build/main.o
 
-.debug_aranges  0x0000000000000000      0x210
+.debug_aranges  0x0000000000000000      0x218
  .debug_aranges
-                0x0000000000000000      0x1e8 build/main.o
+                0x0000000000000000      0x1f0 build/main.o
  .debug_aranges
-                0x00000000000001e8       0x28 build/startup_stm32f103xb.o
+                0x00000000000001f0       0x28 build/startup_stm32f103xb.o
 
-.debug_ranges   0x0000000000000000      0xcd8
- .debug_ranges  0x0000000000000000      0xcb8 build/main.o
- .debug_ranges  0x0000000000000cb8       0x20 build/startup_stm32f103xb.o
+.debug_ranges   0x0000000000000000      0xc80
+ .debug_ranges  0x0000000000000000      0xc60 build/main.o
+ .debug_ranges  0x0000000000000c60       0x20 build/startup_stm32f103xb.o
 
-.debug_line     0x0000000000000000     0x14dd
- .debug_line    0x0000000000000000     0x1457 build/main.o
- .debug_line    0x0000000000001457       0x86 build/startup_stm32f103xb.o
+.debug_line     0x0000000000000000     0x14d8
+ .debug_line    0x0000000000000000     0x1452 build/main.o
+ .debug_line    0x0000000000001452       0x86 build/startup_stm32f103xb.o
 
-.debug_str      0x0000000000000000    0x1d7af
- .debug_str     0x0000000000000000    0x1d777 build/main.o
-                                      0x1dd5d (size before relaxing)
- .debug_str     0x000000000001d777       0x38 build/startup_stm32f103xb.o
+.debug_str      0x0000000000000000    0x1d589
+ .debug_str     0x0000000000000000    0x1d551 build/main.o
+                                      0x1db55 (size before relaxing)
+ .debug_str     0x000000000001d551       0x38 build/startup_stm32f103xb.o
                                          0x60 (size before relaxing)
 
 .comment        0x0000000000000000       0x7f
  .comment       0x0000000000000000       0x7f build/main.o
                                          0x80 (size before relaxing)
 
-.debug_frame    0x0000000000000000      0x688
- .debug_frame   0x0000000000000000      0x5b4 build/main.o
- .debug_frame   0x00000000000005b4       0x40 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libstdc++_nano.a(guard.o)
- .debug_frame   0x00000000000005f4       0x2c /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-init.o)
- .debug_frame   0x0000000000000620       0x28 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-memmove.o)
- .debug_frame   0x0000000000000648       0x20 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-memset.o)
- .debug_frame   0x0000000000000668       0x20 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/libgcc.a(_udivsi3.o)
+.debug_frame    0x0000000000000000      0x694
+ .debug_frame   0x0000000000000000      0x5c0 build/main.o
+ .debug_frame   0x00000000000005c0       0x40 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libstdc++_nano.a(guard.o)
+ .debug_frame   0x0000000000000600       0x2c /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-init.o)
+ .debug_frame   0x000000000000062c       0x28 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-memmove.o)
+ .debug_frame   0x0000000000000654       0x20 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-memset.o)
+ .debug_frame   0x0000000000000674       0x20 /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/libgcc.a(_udivsi3.o)
 
 Cross Reference Table
 
@@ -979,20 +985,20 @@ EXTI3_IRQHandler                                  build/startup_stm32f103xb.o
 EXTI4_IRQHandler                                  build/startup_stm32f103xb.o
 EXTI9_5_IRQHandler                                build/startup_stm32f103xb.o
 FLASH_IRQHandler                                  build/startup_stm32f103xb.o
-Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()::{lambda()#1}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()::{lambda()#1})::holder build/main.o
 Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1})::holder build/main.o
 Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2})::holder build/main.o
 Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3})::holder build/main.o
 Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4})::holder build/main.o
 Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5})::holder build/main.o
 Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6})::holder build/main.o
-Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()::{lambda()#1}>::call() build/main.o
+Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#7}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#7})::holder build/main.o
 Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1}>::call() build/main.o
 Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2}>::call() build/main.o
 Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3}>::call() build/main.o
 Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4}>::call() build/main.o
 Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5}>::call() build/main.o
 Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6}>::call() build/main.o
+Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#7}>::call() build/main.o
 Function<void ()>::operator()()                   build/main.o
 HD44780& HD44780::make<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7> >(std::array<char, 80u> const&) build/main.o
 HD44780::Symbol_n::table                          build/main.o
@@ -1028,7 +1034,8 @@ Reset_Handler                                     build/startup_stm32f103xb.o
 SPI1_IRQHandler                                   build/startup_stm32f103xb.o
 SPI2_IRQHandler                                   build/startup_stm32f103xb.o
 SVC_Handler                                       build/startup_stm32f103xb.o
-Screen<6>::operator()(Function<void ()>)          build/main.o
+Select_screen<6>::draw()                          build/main.o
+Select_screen<6>::init()                          build/main.o
 String_buffer::center()                           build/main.o
 String_buffer::cursor(unsigned int)               build/main.o
 String_buffer::line(unsigned int)                 build/main.o
@@ -1162,13 +1169,13 @@ errno                                             /home/slonegd/code/gcc-arm-non
 exit                                              /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-exit.o)
                                                   /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o
 g_pfnVectors                                      build/startup_stm32f103xb.o
-guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()::{lambda()#1}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()::{lambda()#1})::holder build/main.o
 guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1})::holder build/main.o
 guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2})::holder build/main.o
 guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3})::holder build/main.o
 guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4})::holder build/main.o
 guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5})::holder build/main.o
 guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6})::holder build/main.o
+guard variable for Function<void ()>::Function<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#7}>(mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#7})::holder build/main.o
 guard variable for HD44780::make<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7> >(std::array<char, 80u> const&)::screen build/main.o
 guard variable for Pin::make<mcu::Pin_<(mcu::Periph)2, 3>, (mcu::PinMode)1>()::pin build/main.o
 guard variable for Pin::make<mcu::Pin_<(mcu::Periph)2, 4>, (mcu::PinMode)1>()::pin build/main.o
@@ -1220,14 +1227,15 @@ std::char_traits<char>::length(char const*)       build/main.o
 strlen                                            /home/slonegd/code/gcc-arm-none-eabi-7-2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/libc_nano.a(lib_a-strlen.o)
                                                   build/main.o
 tickUpdater                                       build/main.o
-vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::notify()::{lambda()#1}> build/main.o
 vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#1}> build/main.o
 vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#2}> build/main.o
 vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#3}> build/main.o
 vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#4}> build/main.o
 vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#5}> build/main.o
 vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#6}> build/main.o
+vtable for Function<void ()>::Function_holder<mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> >::select_screen()::{lambda()#7}> build/main.o
 vtable for HD44780                                build/main.o
+vtable for Select_screen<6>                       build/main.o
 vtable for Timer                                  build/main.o
 vtable for mcu::Button                            build/main.o
 vtable for mcu::example::select_screen<mcu::Pin_<(mcu::Periph)3, 12>, mcu::Pin_<(mcu::Periph)4, 2>, mcu::Pin_<(mcu::Periph)2, 3>, mcu::Pin_<(mcu::Periph)2, 4>, mcu::Pin_<(mcu::Periph)2, 5>, mcu::Pin_<(mcu::Periph)2, 6>, mcu::Pin_<(mcu::Periph)2, 7>, mcu::Pin_<(mcu::Periph)2, 8>, mcu::Pin_<(mcu::Periph)2, 9> > build/main.o
