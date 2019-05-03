@@ -5,7 +5,7 @@
 #include "init_clock.h"
 // #include "example_hd44780.h"
 #include "example_select_screen.h"
-#include "periph_exti.h"
+#include "buttons_new.h"
 
 /// эта функция вызывается первой в startup файле
 extern "C" void init_clock() { init_clock<F_OSC, F_CPU>(); }
@@ -25,7 +25,7 @@ int main()
         EO81::Up, EO81::Down
     >();
 
-    REF(EXTI);
+    auto& button = Button_new::make<EO81::Up>();
 
     while(1){
         __WFI();

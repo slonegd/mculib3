@@ -38,3 +38,6 @@ private:
 
 	Holder* functor_pointer {nullptr};
 };
+
+template<class...Args>
+using Callback = Function<void(Args...)>;

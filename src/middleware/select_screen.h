@@ -11,9 +11,6 @@ struct Construct_wrapper {
     explicit Construct_wrapper (T value) : value{value} {}
 };
 
-template<class...Args>
-using Callback = Function<void(Args...)>;
-
 using Out_callback = Construct_wrapper<Callback<>>;
 
 struct Screen {
