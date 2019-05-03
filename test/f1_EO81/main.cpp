@@ -5,6 +5,7 @@
 #include "init_clock.h"
 // #include "example_hd44780.h"
 #include "example_select_screen.h"
+#include "periph_exti.h"
 
 /// эта функция вызывается первой в startup файле
 extern "C" void init_clock() { init_clock<F_OSC, F_CPU>(); }
@@ -23,6 +24,8 @@ int main()
         EO81::DB4, EO81::DB5, EO81::DB6, EO81::DB7,
         EO81::Up, EO81::Down
     >();
+
+    REF(EXTI);
 
     while(1){
         __WFI();

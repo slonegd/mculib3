@@ -36,7 +36,7 @@ struct select_screen : TickSubscriber {
         , down { mcu::Button::make<Down>() }
         , screen {
               up, down, lcd
-            , []{}
+            , Out_callback {       []{}}
             , Line {"Аварии"      ,[]{}}
             , Line {"Наработка"   ,[]{}}
             , Line {"Конфигурация",[]{}}
