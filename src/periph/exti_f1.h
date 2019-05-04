@@ -20,8 +20,10 @@ public:
     EXTI& set_trigger    (Edge, int n, bool v = true);
     EXTI& toggle_trigger (Edge, int n);
     EXTI& enable_interrupt (int n) { registr(IMR) |= 1 << n; return *this; }
+    bool is_interrupt      (int n) { return registr(PR) & 1 << n; } 
     template<int first, int last = 0>
     EXTI& clear_interrupt_flags();
+
 
 
 };
@@ -65,6 +67,7 @@ EXTI& EXTI::toggle_trigger(Edge edge, int n)
     
     return *this;
 }
+
 
 template<int first, int last = 0>
 EXTI& EXTI::clear_interrupt_flags()

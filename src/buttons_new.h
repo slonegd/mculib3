@@ -69,6 +69,7 @@ private:
 
     void notify() override { 
         tick_cnt++;
+        
         if (is_unpush()) {
             if (down_executed)
                 execute (up_callback);
@@ -82,12 +83,14 @@ private:
             long_push_executed = false;
             return;
         }
+
         if (tick_cnt >= 10_ms and not down_executed) {
             down_executed = true;
             execute (down_callback);
             execute (increment_callback, 1); 
             return;
         }
+        
         if (tick_cnt >= 1_s and not long_push_executed) {
             long_push_executed = true;
             execute (long_push_callback);
