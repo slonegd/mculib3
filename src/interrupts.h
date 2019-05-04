@@ -3,6 +3,7 @@
 #include "periph_usart.h"
 #include "periph_dma.h"
 #include "periph_spi.h"
+#include "periph_exti.h"
 
 
 #if defined (STM32F0)
@@ -33,17 +34,17 @@
    extern "C" void RTC_IRQHandler             () { while(1) {} }
    extern "C" void FLASH_IRQHandler           () { while(1) {} }
    extern "C" void RCC_IRQHandler             () { while(1) {} }
-   extern "C" void EXTI0_IRQHandler           () { while(1) {} }
-   extern "C" void EXTI1_IRQHandler           () { while(1) {} }
-   extern "C" void EXTI2_IRQHandler           () { while(1) {} }
-   extern "C" void EXTI3_IRQHandler           () { while(1) {} }
-   extern "C" void EXTI4_IRQHandler           () { while(1) {} }
+   extern "C" void EXTI0_IRQHandler           () { interrupt_EXTI0.interrupt(); REF(EXTI).clear_interrupt_flags<0>(); }
+   extern "C" void EXTI1_IRQHandler           () { interrupt_EXTI1.interrupt(); REF(EXTI).clear_interrupt_flags<1>(); }
+   extern "C" void EXTI2_IRQHandler           () { interrupt_EXTI2.interrupt(); REF(EXTI).clear_interrupt_flags<2>(); }
+   extern "C" void EXTI3_IRQHandler           () { interrupt_EXTI3.interrupt(); REF(EXTI).clear_interrupt_flags<3>(); }
+   extern "C" void EXTI4_IRQHandler           () { interrupt_EXTI4.interrupt(); REF(EXTI).clear_interrupt_flags<4>(); }
    extern "C" void ADC1_2_IRQHandler          () { while(1) {} }
    extern "C" void USB_HP_CAN1_TX_IRQHandler  () { while(1) {} }
    extern "C" void USB_LP_CAN1_RX0_IRQHandler () { while(1) {} }
    extern "C" void CAN1_RX1_IRQHandler        () { while(1) {} }
    extern "C" void CAN1_SCE_IRQHandler        () { while(1) {} }
-   extern "C" void EXTI9_5_IRQHandler         () { while(1) {} }
+   extern "C" void EXTI9_5_IRQHandler         () { interrupt_EXTI9_5.interrupt(); REF(EXTI).clear_interrupt_flags<5,9>(); }
    extern "C" void TIM1_BRK_IRQHandler        () { while(1) {} }
    extern "C" void TIM1_UP_IRQHandler         () { while(1) {} }
    extern "C" void TIM1_TRG_COM_IRQHandler    () { while(1) {} }
@@ -57,7 +58,7 @@
    extern "C" void I2C2_ER_IRQHandler         () { while(1) {} }
    extern "C" void SPI1_IRQHandler            () { while(1) {} }
    extern "C" void SPI2_IRQHandler            () { while(1) {} }
-   extern "C" void EXTI15_10_IRQHandler       () { while(1) {} }
+   extern "C" void EXTI15_10_IRQHandler       () { interrupt_EXTI15_10.interrupt(); REF(EXTI).clear_interrupt_flags<10,15>(); }
    extern "C" void RTC_Alarm_IRQHandler       () { while(1) {} }
    extern "C" void USBWakeUp_IRQHandler       () { while(1) {} }
 

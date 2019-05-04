@@ -6,6 +6,7 @@
 #include "pin.h"
 #include "interrupt.h"
 #include "periph_exti.h"
+#include "periph_rcc.h"
 
 
 // суть
@@ -26,6 +27,7 @@ struct Button_event {
 
 namespace mcu {
 
+template<class Pin_, bool inverted = false>
 class Button_new : Button_event, TickSubscriber, Interrupting {
 public:
     void set_down_callback      (Callback<> v)    override { down_callback      = v; }
@@ -34,52 +36,60 @@ public:
     void set_long_push_callback (Callback<> v)    override { long_push_callback = v; }
     void set_increment_callback (Callback<int> v) override { increment_callback = v; }
 
-    template<class Pin_, bool inverted = false>
-    static Button_new& make() {
-        static auto button = Button_new (Pin::make<Pin_,mcu::PinMode::Input>());
-        // TODO настроить внешние прерывания
-        // TODO разрешить прерывания
-        return button;
+    Button_new() 
+        : pin        {Pin::make<Pin_,mcu::PinMode::Input>()}
+        , interrupt_ {get_external_interrupt(Pin_::n)}
+    {
+        REF(RCC).clock_enable<Periph::AFIO>();
+        REF(AFIO).set_external_interrupt<Pin_>();
+        if constexpr (inverted)
+            REF(EXTI).set_trigger (EXTI::Edge::rising, Pin_::n);
+        else
+            REF(EXTI).set_trigger (EXTI::Edge::falling, Pin_::n);
+        REF(EXTI).enable_interrupt (Pin_::n);
+
+        interrupt_.subscribe(this);
+        interrupt_.enable();
     }
 
+
 private:
-    Callback<> down_callback;
-    Callback<> up_callback;
-    Callback<> click_callback;
-    Callback<> long_push_callback;
+    Callback<>    down_callback;
+    Callback<>    up_callback;
+    Callback<>    click_callback;
+    Callback<>    long_push_callback;
     Callback<int> increment_callback;
     Pin& pin;
+    Interrupt& interrupt_;
     size_t tick_cnt {0};
     bool long_push_executed {false};
-
-    Button_new(Pin& pin) : pin {pin} {}
 
     void notify() override { 
         tick_cnt++;
         if (tick_cnt >= 1_s and not long_push_executed) {
             long_push_executed = true;
-            long_push_callback(); 
+            execute (long_push_callback); 
         }
         // TODO increment_callback
     }
-    
+
     void interrupt() override {
-        if (is_down()) { // кнопку нажали TODO преварить коммент в функцию
+        if (is_downing()) {
             execute (down_callback);
             execute (increment_callback, 1);
             tick_subscribe();
-            // TODO переписать прерывание на другой фронт
+            REF(EXTI).toggle_trigger (EXTI::Edge::both, Pin_::n);
             return;
         }
         execute (up_callback);
         execute (click_callback);
         tick_unsubscribe();
-        // TODO переписать прерывание на другой фронт
+        REF(EXTI).toggle_trigger (EXTI::Edge::both, Pin_::n);
         tick_cnt = 0;
         long_push_executed = false;
     }
 
-    bool is_down() { return not subscribed; } // потому что подписываемся при нажатии
+    bool is_downing() { return not subscribed; } // потому что подписываемся при нажатии
 
 };
 

@@ -119,7 +119,7 @@ enum class Periph {
 #endif
 
 #if defined(STM32F1)
-    EXTI
+    EXTI,
 #endif
 
 #if defined(TEST)

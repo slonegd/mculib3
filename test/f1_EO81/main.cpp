@@ -25,7 +25,9 @@ int main()
         EO81::Up, EO81::Down
     >();
 
-    auto& button = Button_new::make<EO81::Up>();
+    volatile auto i {0};
+    auto button = Button_new<EO81::Up>();
+    button.set_down_callback([&]{ i++; });
 
     while(1){
         __WFI();
