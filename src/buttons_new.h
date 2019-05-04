@@ -41,12 +41,12 @@ public:
         , interrupt_ {get_external_interrupt(Pin_::n)}
     {
         REF(RCC).clock_enable<Periph::AFIO>();
-        REF(AFIO).set_external_interrupt<Pin_>();
+        afio.set_external_interrupt<Pin_>();
         if constexpr (inverted)
-            REF(EXTI).set_trigger (EXTI::Edge::rising, Pin_::n);
+            exti.set_trigger (EXTI::Edge::rising, Pin_::n);
         else
-            REF(EXTI).set_trigger (EXTI::Edge::falling, Pin_::n);
-        REF(EXTI).enable_interrupt (Pin_::n);
+            exti.set_trigger (EXTI::Edge::falling, Pin_::n);
+        exti.enable_interrupt (Pin_::n);
 
         interrupt_.subscribe(this);
         interrupt_.enable();
@@ -61,36 +61,44 @@ private:
     Callback<int> increment_callback;
     Pin& pin;
     Interrupt& interrupt_;
+    AFIO& afio {REF(AFIO)};
+    EXTI& exti {REF(EXTI)};
     size_t tick_cnt {0};
+    bool down_executed     {false};
     bool long_push_executed {false};
 
     void notify() override { 
         tick_cnt++;
+        if (is_unpush()) {
+            if (down_executed)
+                execute (up_callback);
+
+            if (not long_push_executed)
+                execute (click_callback);
+
+            tick_unsubscribe();
+            tick_cnt = 0;
+            down_executed      = false;
+            long_push_executed = false;
+            return;
+        }
+        if (tick_cnt >= 10_ms and not down_executed) {
+            down_executed = true;
+            execute (down_callback);
+            execute (increment_callback, 1); 
+            return;
+        }
         if (tick_cnt >= 1_s and not long_push_executed) {
             long_push_executed = true;
-            execute (long_push_callback); 
+            execute (long_push_callback);
+            return;
         }
         // TODO increment_callback
     }
 
-    void interrupt() override {
-        if (is_downing()) {
-            execute (down_callback);
-            execute (increment_callback, 1);
-            tick_subscribe();
-            REF(EXTI).toggle_trigger (EXTI::Edge::both, Pin_::n);
-            return;
-        }
-        execute (up_callback);
-        execute (click_callback);
-        tick_unsubscribe();
-        REF(EXTI).toggle_trigger (EXTI::Edge::both, Pin_::n);
-        tick_cnt = 0;
-        long_push_executed = false;
-    }
+    void interrupt() override { tick_subscribe(); }
 
-    bool is_downing() { return not subscribed; } // потому что подписываемся при нажатии
-
+    bool is_unpush() { return inverted ? pin.is_set() : not pin.is_set(); }
 };
 
 } //namespace mcu

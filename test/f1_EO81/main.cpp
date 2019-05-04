@@ -27,7 +27,8 @@ int main()
 
     volatile auto i {0};
     auto button = Button_new<EO81::Up>();
-    button.set_down_callback([&]{ i++; });
+    button.set_click_callback    ([&]{ i++;    });
+    button.set_long_push_callback([&]{ i+=100; });
 
     while(1){
         __WFI();
