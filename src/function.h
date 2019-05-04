@@ -41,3 +41,9 @@ private:
 
 template<class...Args>
 using Callback = Function<void(Args...)>;
+
+template<class Function, class...Args>
+void execute (Function f, Args...args) {
+    if (f)
+        f(args...);
+}
