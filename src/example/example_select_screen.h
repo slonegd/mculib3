@@ -48,7 +48,7 @@ struct select_screen : TickSubscriber {
             , Line {"Конфигурация",[]{}}
             , Line {"Лог работы"  ,[]{}}
             , Line {"Настройки"   ,[]{}}
-            , Line {"Наработка"   ,[]{}}
+            , Line {"Что-то ещё"  ,[]{}}
         }
     {
         screen.init();

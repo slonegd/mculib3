@@ -49,8 +49,8 @@ public:
     {}
 
     void init() override {
-        up_publisher    ([this]{ up(); });
-        down_publisher  ([this]{ down(); });
+        up_publisher    ([this]{ up();    });
+        down_publisher  ([this]{ down();  });
         enter_publisher ([this]{ enter(); });
         out_publisher   ([this]{ out();   });
     }
@@ -65,13 +65,9 @@ public:
     }
 
     void up() {
-        if (qty <= 4) {
-            carriage_v = carriage = carriage < 1 ? qty - 1 : carriage - 1;
-            return;
-        }
-
         carriage_v--;
         scroll--;
+
         if (scroll < 0) {
             carriage--; 
             if (carriage < 0)
@@ -84,11 +80,6 @@ public:
     }
 
     void down() {
-        if (qty <= 4) {
-            carriage_v = carriage = carriage >= qty - 1 ? 0 : carriage + 1;
-            return;
-        }
-
         carriage_v++;
         scroll++;
         
@@ -103,26 +94,18 @@ public:
         if (carriage > 3) carriage = 0;
     }
 
+    // FIX нет смысла чистить экран, если ничего не изменилось
+    // возможно надо добавить флаг, на перерисовку
+    // либо перерисовывать прямо в методах up и down
     void draw() override
     {
         lcd.clear();
-
-        if (qty <= 4) {
-            for (int i = 0; i < qty; i++) {
-                lcd.line(i) << lines[i].name;
-                lcd.line(i).cursor(19) << " ";
-                if (i == carriage)
-                    lcd.line(i).cursor(19) << "~";
-            }
-
-        } else {
-            
-            for (int i = 0; i < 4; i++) {
-                lcd.line(i) << lines[scroll + i].name;
-                lcd.line(i).cursor(19) << " ";
-                if (i == carriage)
-                    lcd.line(i).cursor(19) << "~";
-            }
+          
+        for (int i = 0; i < 4; i++) {
+            lcd.line(i) << lines[scroll + i].name;
+            lcd.line(i).cursor(19) << " ";
+            if (i == carriage)
+                lcd.line(i).cursor(19) << "~";
         }
     }
 private:
