@@ -3,7 +3,9 @@
 #include "periph_usart.h"
 #include "periph_dma.h"
 #include "periph_spi.h"
+#if defined(STM32F1)
 #include "periph_exti.h"
+#endif
 
 
 #if defined (STM32F0)
