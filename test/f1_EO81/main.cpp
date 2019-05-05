@@ -25,17 +25,17 @@ int main()
         EO81::Up, EO81::Down
     >();
 
-    volatile auto tmp {0};
-    volatile auto mem {0};
-    auto up   = Button_new<EO81::Up>();
-    auto down = Button_new<EO81::Down>();
-      up.set_click_callback    ([&]{ tmp++;    });
-      up.set_long_push_callback([&]{ tmp+=100; });
-    down.set_click_callback    ([&]{ tmp--;    });
-    down.set_long_push_callback([&]{ tmp-=100; });
+    // volatile auto tmp {0};
+    // volatile auto mem {0};
+    // auto up   = Button_new<EO81::Up>();
+    // auto down = Button_new<EO81::Down>();
+    //   up.set_click_callback    ([&]{ tmp++;    });
+    //   up.set_long_push_callback([&]{ tmp+=100; });
+    // down.set_click_callback    ([&]{ tmp--;    });
+    // down.set_long_push_callback([&]{ tmp-=100; });
 
-    Buttons enter(up, down);
-    enter.set_long_push_callback ([&]{ mem = tmp; });
+    // Buttons enter(up, down);
+    // enter.set_long_push_callback ([&]{ mem = tmp; });
 
     while(1){
         __WFI();

@@ -21,10 +21,11 @@ namespace mcu::example {
 template<class RS, class RW, class E, class DB4, class DB5, class DB6, class DB7, class Up, class Down>
 struct select_screen : TickSubscriber {
 
-    String_buffer lcd;
+    String_buffer lcd{};
     HD44780& _;
-    Button& up;
-    Button& down;
+    Button<Up> up{};
+    Button<Down> down{};
+    Buttons<Up,false,Down,false> enter = Buttons<Up,false,Down,false>(up, down);
     Timer timer{50_ms};
     
     Select_screen<6> screen;
@@ -32,10 +33,15 @@ struct select_screen : TickSubscriber {
     select_screen()
         : lcd  {}
         , _    { HD44780::make<RS, RW, E, DB4, DB5, DB6, DB7>(lcd.get_buffer()) }
-        , up   { mcu::Button::make<Up>()   }
-        , down { mcu::Button::make<Down>() }
         , screen {
-              up, down, lcd
+              lcd
+            // TODO пришлосб обрамлять лямбдой, потому что мой Function не работает с методами
+            // доработать Function, чтоб можно было писать
+            // Up_publisher   {up.set_click_callback}
+            , Up_publisher    { [this](auto c){   up.set_click_callback(c);}     }
+            , Down_publisher  { [this](auto c){ down.set_click_callback(c);}     }
+            , Enter_publisher { [this](auto c){enter.set_click_callback(c);}     }
+            , Out_publisher   { [this](auto c){enter.set_long_push_callback(c);} }
             , Out_callback {       []{}}
             , Line {"Аварии"      ,[]{}}
             , Line {"Наработка"   ,[]{}}

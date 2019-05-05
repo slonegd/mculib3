@@ -1,6 +1,6 @@
 #pragma once
 #include <utility>
-#include "button_old.h"
+#include "button.h"
 #include "function.h"
 #include "string_buffer.h"
 
@@ -11,7 +11,11 @@ struct Construct_wrapper {
     explicit Construct_wrapper (T value) : value{value} {}
 };
 
-using Out_callback = Construct_wrapper<Callback<>>;
+using Up_publisher    = Construct_wrapper<Function<void(Callback<>)>>;
+using Down_publisher  = Construct_wrapper<Function<void(Callback<>)>, 1>;
+using Enter_publisher = Construct_wrapper<Function<void(Callback<>)>, 2>;
+using Out_publisher   = Construct_wrapper<Function<void(Callback<>)>, 3>;
+using Out_callback    = Construct_wrapper<Callback<>>;
 
 struct Screen {
     virtual void init() = 0; // первичная отрисовка
@@ -28,32 +32,79 @@ class Select_screen : public Screen
 {
 public:
     template <class...Line> Select_screen (
-          Button& up
-        , Button& down
-        , String_buffer& lcd
-        , Out_callback out_callback 
+          String_buffer&  lcd
+        , Up_publisher    up_publisher
+        , Down_publisher  down_publisher
+        , Enter_publisher enter_publisher
+        , Out_publisher   out_publisher
+        , Out_callback    out_callback
         , Line ... lines
-    ) : up           {up}
-      , down         {down}
-      , lcd          {lcd}
-      , out_callback {out_callback.value}
-      , lines        {lines...}
+    ) : lcd             {lcd} 
+      , up_publisher    {up_publisher.value}
+      , down_publisher  {down_publisher.value}
+      , enter_publisher {enter_publisher.value}
+      , out_publisher   {out_publisher.value}
+      , out_callback    {out_callback.value}
+      , lines           {lines...}
     {}
 
-    void init() override {}
-    void draw() override
-    {
-        if (next()) {
-            lines[carriage_v].callback();
-            return;
-        }
-        if (back()) {
-            carriage = 0;
-            carriage_v = 0;
-            out_callback();
+    void init() override {
+        up_publisher    ([this]{ up(); });
+        down_publisher  ([this]{ down(); });
+        enter_publisher ([this]{ enter(); });
+        out_publisher   ([this]{ out();   });
+    }
+
+    void enter() { lines[carriage_v].callback(); }
+
+    void out() { 
+        carriage = 0;
+        carriage_v = 0;
+        out_callback();
+        return;
+    }
+
+    void up() {
+        if (qty <= 4) {
+            carriage_v = carriage = carriage < 1 ? qty - 1 : carriage - 1;
             return;
         }
 
+        carriage_v--;
+        scroll--;
+        if (scroll < 0) {
+            carriage--; 
+            if (carriage < 0)
+                scroll = qty - 4;
+            else 
+                scroll = 0;
+        }
+        if (carriage < 0) carriage = 3;
+        if (carriage_v < 0) carriage_v = qty -1;
+    }
+
+    void down() {
+        if (qty <= 4) {
+            carriage_v = carriage = carriage >= qty - 1 ? 0 : carriage + 1;
+            return;
+        }
+
+        carriage_v++;
+        scroll++;
+        
+        if (carriage_v >= qty) carriage_v = 0;
+        if (scroll > qty - 4) {
+            carriage++;
+            if (carriage > 3)
+                scroll = 0; 
+            else 
+                scroll = qty - 4; 
+        }
+        if (carriage > 3) carriage = 0;
+    }
+
+    void draw() override
+    {
         lcd.clear();
 
         if (qty <= 4) {
@@ -64,10 +115,6 @@ public:
                     lcd.line(i).cursor(19) << "~";
             }
 
-            carriage_v = carriage =
-                up.push()   ? carriage < 1        ? qty - 1  : carriage - 1 :
-                down.push() ? carriage >= qty - 1 ? 0        : carriage + 1 : carriage;
-
         } else {
             
             for (int i = 0; i < 4; i++) {
@@ -76,56 +123,21 @@ public:
                 if (i == carriage)
                     lcd.line(i).cursor(19) << "~";
             }
-            
-            if (up.push()) {
-                carriage_v--;
-                scroll--;
-                if (scroll < 0) {
-                    carriage--; 
-                    if (carriage < 0)
-                        scroll = qty - 4;
-                    else 
-                        scroll = 0;
-                }
-                if (carriage < 0) carriage = 3;
-                if (carriage_v < 0) carriage_v = qty -1;
-            }
-            if (down.push()) {
-                carriage_v++;
-                scroll++;
-                
-                if (carriage_v >= qty) carriage_v = 0;
-                if (scroll > qty - 4) {
-                    carriage++;
-                    if (carriage > 3)
-                        scroll = 0; 
-                    else 
-                        scroll = qty - 4; 
-                }
-                if (carriage > 3) carriage = 0;
-            }
         }
-
-
-
-
-
     }
 private:
-    Button&               up;
-    Button&               down;
     String_buffer&        lcd;
-    Function<void()>      out_callback;
+    Function<void(Callback<>)>    up_publisher;
+    Function<void(Callback<>)>  down_publisher;
+    Function<void(Callback<>)> enter_publisher;
+    Function<void(Callback<>)>   out_publisher;
+    Callback<> out_callback;
     std::array<Line, qty> lines;
-    std::array<int, 3>    n;
+
+    std::array<int, 3> n;
     int carriage   {0};
     int carriage_v {0};
     int scroll     {0};
-
-    bool back(){return (up and down).push_long();}
-    bool next(){return (up and down).click();}
-    
-
 };
 
 
