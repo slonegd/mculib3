@@ -19,7 +19,6 @@
 // для двух кнопок
 // не реагируем, если связанная кнопка нажата
 
-
 // Для истории
 // Выяснилось при отладке, что из-за дребезга контактов
 // прерывание вызывается несколько раз, что можно поправить отключением прерываний
@@ -29,6 +28,9 @@
 // поскольку прерывание одно на номер пина.
 // Поэтому решено отказаться от привязки к внешним прерываниям
 // для кнопок это совсем не критично
+
+// TODO уж больно тут копипастный метод notify в обоих классах
+// стоит посмотреть как вынести общий алгоритм в будущем
 
 struct Button_event {
     virtual void set_down_callback      (Callback<>)    = 0;
@@ -41,10 +43,8 @@ struct Button_event {
 
 
 
-namespace mcu {
-
 template<class Pin_, bool inverted = false>
-class Button_new : Button_event, TickSubscriber {
+class Button : Button_event, TickSubscriber {
 public:
     void set_down_callback      (Callback<> v)    override { down_callback      = v; }
     void set_up_callback        (Callback<> v)    override { up_callback        = v; }
@@ -54,7 +54,7 @@ public:
 
     bool tied {false};
 
-    Button_new() { tick_subscribe(); }
+    Button() { tick_subscribe(); }
 
     bool is_push() { return inverted ? not pin.is_set() : pin.is_set(); }
 
@@ -113,8 +113,8 @@ public:
     void set_increment_callback (Callback<int> v) override { increment_callback = v; }
 
     Buttons (
-          Button_new<Pin1, inverted1>& button1
-        , Button_new<Pin2, inverted2>& button2
+          Button<Pin1, inverted1>& button1
+        , Button<Pin2, inverted2>& button2
     ) : button1 {button1}
       , button2 {button2}
     {
@@ -130,8 +130,8 @@ private:
     bool down_executed      {false};
     bool long_push_executed {false};
 
-    Button_new<Pin1, inverted1>& button1;
-    Button_new<Pin2, inverted2>& button2;
+    Button<Pin1, inverted1>& button1;
+    Button<Pin2, inverted2>& button2;
 
 
     void notify() override {
@@ -168,5 +168,5 @@ private:
     }
 };
 
-} //namespace mcu
+
 

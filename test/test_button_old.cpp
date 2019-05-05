@@ -6,7 +6,7 @@
 
 #include "mock_gpio.h"
 #include "mock_systick.h"
-#include "buttons.h"
+#include "button_old.h"
 
 BOOST_AUTO_TEST_SUITE (test_suite_main)
 
