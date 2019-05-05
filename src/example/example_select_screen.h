@@ -3,6 +3,7 @@
 // #include "string_buffer.h"
 #include "timers.h"
 #include "select_screen.h"
+#include "button.h"
 
 namespace EO81 {
     using E    = mcu::PB3;       
