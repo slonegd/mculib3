@@ -17,8 +17,9 @@ using Out_publisher   = Construct_wrapper<Function<void(Callback<>)>, 3>;
 using Out_callback    = Construct_wrapper<Callback<>>;
 
 struct Screen {
-    virtual void init() = 0; // первичная отрисовка
-    virtual void draw() = 0; // текущие данные 
+    virtual void init()   = 0; // первичная отрисовка + инит кнопок
+    virtual void draw()   = 0; // текущие данные 
+    virtual void deinit() = 0; // деинит кнопок
 };
 
 struct Line {
@@ -52,45 +53,61 @@ public:
         down_publisher  ([this]{ down();  });
         enter_publisher ([this]{ enter(); });
         out_publisher   ([this]{ out();   });
+
+        // отрисовка
+        auto begin_line = lines.begin() + line_n;
+        auto end_line   = std::min(begin_line + 4, lines.end());
+        lcd.line(0);
+        std::for_each (
+              begin_line
+            , end_line
+            , [&] (auto& line) mutable {
+                lcd << line.name << next_line;
+        });
+        for (auto i{lcd.get_line()}; i < 4; i++)
+            lcd.line(i) << ' ' << next_line;
+        lcd.line(carriage_line).cursor(19) << "~";
     }
 
-    void enter() { lines[carriage_v].callback(); }
-
-    void out() { 
-        carriage = 0;
-        carriage_v = 0;
-        out_callback();
-        return;
+    void deinit() override {
+        up_publisher    ([]{});
+        down_publisher  ([]{});
+        enter_publisher ([]{});
+        out_publisher   ([]{});
     }
+
+    void enter() { lines[line_n].callback(); }
+    void out()   { out_callback(); }
 
     void up() {
-        carriage_v--;
-        scroll--;
 
-        if (scroll < 0) {
-            carriage--; 
-            if (carriage < 0)
-                scroll = qty - 4;
-            else 
-                scroll = 0;
-        }
-        if (carriage < 0) carriage = 3;
-        if (carriage_v < 0) carriage_v = qty -1;
+        // carriage_v--;
+        // scroll--;
+
+        // if (scroll < 0) {
+        //     carriage--; 
+        //     if (carriage < 0)
+        //         scroll = qty - 4;
+        //     else 
+        //         scroll = 0;
+        // }
+        // if (carriage < 0) carriage = 3;
+        // if (carriage_v < 0) carriage_v = qty -1;
     }
 
     void down() {
-        carriage_v++;
-        scroll++;
+        // carriage_v++;
+        // scroll++;
         
-        if (carriage_v >= qty) carriage_v = 0;
-        if (scroll > qty - 4) {
-            carriage++;
-            if (carriage > 3)
-                scroll = 0; 
-            else 
-                scroll = qty - 4; 
-        }
-        if (carriage > 3) carriage = 0;
+        // if (carriage_v >= qty) carriage_v = 0;
+        // if (scroll > qty - 4) {
+        //     carriage++;
+        //     if (carriage > 3)
+        //         scroll = 0; 
+        //     else 
+        //         scroll = qty - 4; 
+        // }
+        // if (carriage > 3) carriage = 0;
     }
 
     // FIX нет смысла чистить экран, если ничего не изменилось
@@ -98,14 +115,22 @@ public:
     // либо перерисовывать прямо в методах up и down
     void draw() override
     {
-        lcd.clear();
+        // lcd.clear();
+
+        // std::for_each (lines.begin(), lines.end(), [&,i=0](auto& line)mutable{
+        //     lcd.line(i) << line.name << next_line;
+        //     if (i == carriage)
+        //         lcd.line(i).cursor(19) << "~";
+        //     i++;
+        // });
           
-        for (int i = 0; i < 4; i++) {
-            lcd.line(i) << lines[scroll + i].name;
-            lcd.line(i).cursor(19) << " ";
-            if (i == carriage)
-                lcd.line(i).cursor(19) << "~";
-        }
+        // for (auto i {0}; i < 4; i++) {
+        //     if (scroll + i < int(lines.size()))
+        //         lcd.line(i) << lines[scroll + i].name;
+        //     lcd.line(i).cursor(19) << " ";
+        //     if (i == carriage)
+        //         lcd.line(i).cursor(19) << "~";
+        // }
     }
 private:
     String_buffer&        lcd;
@@ -116,10 +141,9 @@ private:
     Callback<> out_callback;
     std::array<Line, qty> lines;
 
-    std::array<int, 3> n;
-    int carriage   {0};
-    int carriage_v {0};
-    int scroll     {0};
+    int carriage_line   {0};
+    int line_n          {0};
+    // int scroll          {0};
 };
 
 

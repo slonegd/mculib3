@@ -44,7 +44,7 @@ struct Button_event {
 
 
 template<class Pin_, bool inverted = false>
-class Button : Button_event, TickSubscriber {
+class Button : public Button_event, private TickSubscriber {
 public:
     void set_down_callback      (Callback<> v)    override { down_callback      = v; }
     void set_up_callback        (Callback<> v)    override { up_callback        = v; }
@@ -104,7 +104,7 @@ private:
 
 
 template<class Pin1, bool inverted1, class Pin2, bool inverted2>
-class Buttons : Button_event, TickSubscriber {
+class Buttons : public Button_event, private TickSubscriber {
 public:
     void set_down_callback      (Callback<> v)    override { down_callback      = v; }
     void set_up_callback        (Callback<> v)    override { up_callback        = v; }
