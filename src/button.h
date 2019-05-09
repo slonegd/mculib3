@@ -150,6 +150,8 @@ private:
             return;
         }
 
+        button1.tied = button2.tied = button1.is_push() and button2.is_push();
+
         tick_cnt++;
 
         if (tick_cnt >= 10_ms and not down_executed) {

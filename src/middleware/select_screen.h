@@ -53,9 +53,66 @@ public:
         down_publisher  ([this]{ down();  });
         enter_publisher ([this]{ enter(); });
         out_publisher   ([this]{ out();   });
+        redraw();
+    }
 
-        // отрисовка
-        auto begin_line = lines.begin() + line_n;
+    void deinit() override {
+        up_publisher    (null_function);
+        down_publisher  (null_function);
+        enter_publisher (null_function);
+        out_publisher   (null_function);
+    }
+
+    void enter() { lines[line_n].callback(); }
+    void out()   { out_callback(); }
+
+    void up() {
+        if (line_n == 0)
+            return;
+
+        --line_n;
+
+        if (
+            lines.size() <= 4             // каретка двигается всегда
+            or carriage_line > 1          // не двигается только на первой
+            or line_n == 0                // двигается на первую линию
+        ) {
+            lcd.line(carriage_line).cursor(19) << " ";
+            --carriage_line;
+            lcd.line(carriage_line).cursor(19) << "~";
+            return;
+        }
+
+        // если не двигается каретка то двигается список
+        redraw();
+    }
+
+    void down() {
+        if (line_n == lines.size() - 1)
+            return;
+
+        ++line_n;
+
+        if (
+            lines.size() <= 4             // каретка двигается всегда
+            or carriage_line < 2          // не двигается только на третьей
+            or line_n == lines.size() - 1 // двигается на последнюю линию
+        ) {
+            lcd.line(carriage_line).cursor(19) << " ";
+            ++carriage_line;
+            lcd.line(carriage_line).cursor(19) << "~";
+            return;
+        }
+
+        // если не двигается каретка то двигается список
+        redraw();
+    }
+
+    void draw() override {}
+
+    void redraw()
+    {
+        auto begin_line = lines.begin() + line_n - carriage_line;
         auto end_line   = std::min(begin_line + 4, lines.end());
         lcd.line(0);
         std::for_each (
@@ -68,70 +125,6 @@ public:
             lcd.line(i) << ' ' << next_line;
         lcd.line(carriage_line).cursor(19) << "~";
     }
-
-    void deinit() override {
-        up_publisher    ([]{});
-        down_publisher  ([]{});
-        enter_publisher ([]{});
-        out_publisher   ([]{});
-    }
-
-    void enter() { lines[line_n].callback(); }
-    void out()   { out_callback(); }
-
-    void up() {
-
-        // carriage_v--;
-        // scroll--;
-
-        // if (scroll < 0) {
-        //     carriage--; 
-        //     if (carriage < 0)
-        //         scroll = qty - 4;
-        //     else 
-        //         scroll = 0;
-        // }
-        // if (carriage < 0) carriage = 3;
-        // if (carriage_v < 0) carriage_v = qty -1;
-    }
-
-    void down() {
-        // carriage_v++;
-        // scroll++;
-        
-        // if (carriage_v >= qty) carriage_v = 0;
-        // if (scroll > qty - 4) {
-        //     carriage++;
-        //     if (carriage > 3)
-        //         scroll = 0; 
-        //     else 
-        //         scroll = qty - 4; 
-        // }
-        // if (carriage > 3) carriage = 0;
-    }
-
-    // FIX нет смысла чистить экран, если ничего не изменилось
-    // возможно надо добавить флаг, на перерисовку
-    // либо перерисовывать прямо в методах up и down
-    void draw() override
-    {
-        // lcd.clear();
-
-        // std::for_each (lines.begin(), lines.end(), [&,i=0](auto& line)mutable{
-        //     lcd.line(i) << line.name << next_line;
-        //     if (i == carriage)
-        //         lcd.line(i).cursor(19) << "~";
-        //     i++;
-        // });
-          
-        // for (auto i {0}; i < 4; i++) {
-        //     if (scroll + i < int(lines.size()))
-        //         lcd.line(i) << lines[scroll + i].name;
-        //     lcd.line(i).cursor(19) << " ";
-        //     if (i == carriage)
-        //         lcd.line(i).cursor(19) << "~";
-        // }
-    }
 private:
     String_buffer&        lcd;
     Function<void(Callback<>)>    up_publisher;
@@ -143,7 +136,6 @@ private:
 
     int carriage_line   {0};
     int line_n          {0};
-    // int scroll          {0};
 };
 
 

@@ -53,3 +53,5 @@ void execute_if (bool condition, Function f, Args...args) {
     if (condition)
         execute (f, args...);
 }
+
+void null_function() {}
