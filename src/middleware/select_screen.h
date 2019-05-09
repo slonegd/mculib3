@@ -51,8 +51,8 @@ public:
     void init() override {
         up_publisher    ([this]{ up();    });
         down_publisher  ([this]{ down();  });
-        enter_publisher ([this]{ enter(); });
-        out_publisher   ([this]{ out();   });
+        enter_publisher ([this]{ lines[line_n].callback(); });
+        out_publisher   ([this]{ out_callback(); });
         redraw();
     }
 
@@ -63,68 +63,8 @@ public:
         out_publisher   (null_function);
     }
 
-    void enter() { lines[line_n].callback(); }
-    void out()   { out_callback(); }
-
-    void up() {
-        if (line_n == 0)
-            return;
-
-        --line_n;
-
-        if (
-            lines.size() <= 4             // каретка двигается всегда
-            or carriage_line > 1          // не двигается только на первой
-            or line_n == 0                // двигается на первую линию
-        ) {
-            lcd.line(carriage_line).cursor(19) << " ";
-            --carriage_line;
-            lcd.line(carriage_line).cursor(19) << "~";
-            return;
-        }
-
-        // если не двигается каретка то двигается список
-        redraw();
-    }
-
-    void down() {
-        if (line_n == lines.size() - 1)
-            return;
-
-        ++line_n;
-
-        if (
-            lines.size() <= 4             // каретка двигается всегда
-            or carriage_line < 2          // не двигается только на третьей
-            or line_n == lines.size() - 1 // двигается на последнюю линию
-        ) {
-            lcd.line(carriage_line).cursor(19) << " ";
-            ++carriage_line;
-            lcd.line(carriage_line).cursor(19) << "~";
-            return;
-        }
-
-        // если не двигается каретка то двигается список
-        redraw();
-    }
-
     void draw() override {}
 
-    void redraw()
-    {
-        auto begin_line = lines.begin() + line_n - carriage_line;
-        auto end_line   = std::min(begin_line + 4, lines.end());
-        lcd.line(0);
-        std::for_each (
-              begin_line
-            , end_line
-            , [&] (auto& line) mutable {
-                lcd << line.name << next_line;
-        });
-        for (auto i{lcd.get_line()}; i < 4; i++)
-            lcd.line(i) << ' ' << next_line;
-        lcd.line(carriage_line).cursor(19) << "~";
-    }
 private:
     String_buffer&        lcd;
     Function<void(Callback<>)>    up_publisher;
@@ -136,6 +76,76 @@ private:
 
     int carriage_line   {0};
     int line_n          {0};
+
+    void down();
+    void up();
+    void redraw();
 };
 
 
+
+
+template <int qty>
+void Select_screen<qty>::down()
+{
+    if (line_n == int(lines.size() - 1))
+        return;
+
+    ++line_n;
+
+    if (
+        lines.size() <= 4                  // каретка двигается всегда
+        or carriage_line < 2               // не двигается только на третьей
+        or line_n == int(lines.size() - 1) // двигается на последнюю линию
+    ) {
+        lcd.line(carriage_line).cursor(19) << " ";
+        ++carriage_line;
+        lcd.line(carriage_line).cursor(19) << "~";
+        return;
+    }
+
+    // если не двигается каретка то двигается список
+    redraw();
+}
+
+
+template <int qty>
+void Select_screen<qty>::up()
+{
+    if (line_n == 0)
+        return;
+
+    --line_n;
+
+    if (
+        lines.size() <= 4             // каретка двигается всегда
+        or carriage_line > 1          // не двигается только на первой
+        or line_n == 0                // двигается на первую линию
+    ) {
+        lcd.line(carriage_line).cursor(19) << " ";
+        --carriage_line;
+        lcd.line(carriage_line).cursor(19) << "~";
+        return;
+    }
+
+    // если не двигается каретка то двигается список
+    redraw();
+}
+
+
+template <int qty>
+void Select_screen<qty>::redraw()
+{
+    auto begin_line = lines.begin() + line_n - carriage_line;
+    auto end_line   = std::min(begin_line + 4, lines.end());
+    lcd.line(0);
+    std::for_each (
+            begin_line
+        , end_line
+        , [&] (auto& line) mutable {
+            lcd << line.name << next_line;
+    });
+    for (auto i{lcd.get_line()}; i < 4; i++)
+        lcd.line(i) << ' ' << next_line;
+    lcd.line(carriage_line).cursor(19) << "~";
+}
