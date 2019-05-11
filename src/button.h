@@ -104,7 +104,7 @@ private:
 
 
 template<class Pin1, bool inverted1, class Pin2, bool inverted2>
-class Buttons : public Button_event, private TickSubscriber {
+class Tied_buttons : public Button_event, private TickSubscriber {
 public:
     void set_down_callback      (Callback<> v)    override { down_callback      = v; }
     void set_up_callback        (Callback<> v)    override { up_callback        = v; }
@@ -112,7 +112,7 @@ public:
     void set_long_push_callback (Callback<> v)    override { long_push_callback = v; }
     void set_increment_callback (Callback<int> v) override { increment_callback = v; }
 
-    Buttons (
+    Tied_buttons (
           Button<Pin1, inverted1>& button1
         , Button<Pin2, inverted2>& button2
     ) : button1 {button1}

@@ -1,26 +1,9 @@
 #pragma once
 #include <utility>
-#include "function.h"
 #include "string_buffer.h"
+#include "screen_common.h"
 
-template<class T, size_t n = 0> // n for unique with same T
-struct Construct_wrapper {
-    using type = T;
-    T value;
-    explicit Construct_wrapper (T value) : value{value} {}
-};
 
-using Up_publisher    = Construct_wrapper<Function<void(Callback<>)>>;
-using Down_publisher  = Construct_wrapper<Function<void(Callback<>)>, 1>;
-using Enter_publisher = Construct_wrapper<Function<void(Callback<>)>, 2>;
-using Out_publisher   = Construct_wrapper<Function<void(Callback<>)>, 3>;
-using Out_callback    = Construct_wrapper<Callback<>>;
-
-struct Screen {
-    virtual void init()   = 0; // первичная отрисовка + инит кнопок
-    virtual void draw()   = 0; // текущие данные 
-    virtual void deinit() = 0; // деинит кнопок
-};
 
 struct Line {
     std::string_view name;
@@ -33,44 +16,44 @@ class Select_screen : public Screen
 public:
     template <class...Line> Select_screen (
           String_buffer&  lcd
-        , Up_publisher    up_publisher
-        , Down_publisher  down_publisher
-        , Enter_publisher enter_publisher
-        , Out_publisher   out_publisher
+        , Up_event    up_event
+        , Down_event  down_event
+        , Enter_event enter_event
+        , Out_event   out_event
         , Out_callback    out_callback
         , Line ... lines
     ) : lcd             {lcd} 
-      , up_publisher    {up_publisher.value}
-      , down_publisher  {down_publisher.value}
-      , enter_publisher {enter_publisher.value}
-      , out_publisher   {out_publisher.value}
+      , up_event    {up_event.value}
+      , down_event  {down_event.value}
+      , enter_event {enter_event.value}
+      , out_event   {out_event.value}
       , out_callback    {out_callback.value}
       , lines           {lines...}
     {}
 
     void init() override {
-        up_publisher    ([this]{ up();    });
-        down_publisher  ([this]{ down();  });
-        enter_publisher ([this]{ lines[line_n].callback(); });
-        out_publisher   ([this]{ out_callback(); });
+        up_event    ([this]{ up();    });
+        down_event  ([this]{ down();  });
+        enter_event ([this]{ lines[line_n].callback(); });
+        out_event   ([this]{ out_callback(); });
         redraw();
     }
 
     void deinit() override {
-        up_publisher    (null_function);
-        down_publisher  (null_function);
-        enter_publisher (null_function);
-        out_publisher   (null_function);
+        up_event    (null_function);
+        down_event  (null_function);
+        enter_event (null_function);
+        out_event   (null_function);
     }
 
     void draw() override {}
 
 private:
     String_buffer&        lcd;
-    Function<void(Callback<>)>    up_publisher;
-    Function<void(Callback<>)>  down_publisher;
-    Function<void(Callback<>)> enter_publisher;
-    Function<void(Callback<>)>   out_publisher;
+    Eventer    up_event;
+    Eventer  down_event;
+    Eventer enter_event;
+    Eventer   out_event;
     Callback<> out_callback;
     std::array<Line, qty> lines;
 
