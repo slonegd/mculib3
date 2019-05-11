@@ -15,12 +15,6 @@ struct Construct_wrapper {
     explicit Construct_wrapper (T value) : value{value} {}
 };
 
-// struct Eventer {
-//     Function<void(Callback<>)> event;
-//     void set_callback (Callback<> v) { event(v); }
-//     void clear_callback() {event = nullptr;}
-// };
-
 using Eventer = Function<void(Callback<>)>;
 
 using Up_event     = Construct_wrapper<Eventer>;
