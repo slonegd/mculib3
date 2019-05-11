@@ -19,8 +19,8 @@ struct Callable {
         return i2;
     }
 
-    int i3 {2};
-    auto foo() {
+    int i3 {3};
+    auto bar() {
         return i3;
     }
 
@@ -41,9 +41,18 @@ BOOST_AUTO_TEST_CASE(callable)
 
 BOOST_AUTO_TEST_CASE(lambda)
 {
-    int i3 {3};
-    Function<int()> f {[&]{return i3;}};
+    int i4 {4};
+    Function<int()> f {[&]{return i4;}};
+    BOOST_CHECK_EQUAL(f(), 4);
+}
+
+BOOST_AUTO_TEST_CASE(method)
+{
+    Callable callable;
+    auto start = mock::alloc_counter;
+    Function<int()> f {std::bind(&Callable::bar, &callable)};
     BOOST_CHECK_EQUAL(f(), 3);
+    BOOST_CHECK (start == mock::alloc_counter); // dont used heap
 }
 
 BOOST_AUTO_TEST_CASE(no_heap)

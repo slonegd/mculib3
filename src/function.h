@@ -16,6 +16,13 @@ public:
         functor_pointer = &holder;
     }
 
+    template <class Function_, class Class>
+	Function(Function_ Class::* f) {
+        static Method_holder<Function_, Args...> holder (f);
+		// : mInvoker(new Method_holder<Function_, Args ...>(f))
+        functor_pointer = &holder;
+    }
+
 	Return operator() (Args ... args) {
 		return functor_pointer->call(args...);
 	}
@@ -33,6 +40,16 @@ private:
         Function_holder (Function func) : func{func} {}
 		virtual Return call(Args ... args) override {
 			return func(args ...);
+		}
+	};
+
+    template <class Method, class Class, class ... Args_>
+	class Method_holder : public Holder {
+        Method Class::* func;
+	public:
+        Method_holder (Method Class::* func) : func{func} {}
+		virtual Return call(Class object, Args_ ... args) override {
+			return (object.*func)(args ...);
 		}
 	};
 
@@ -55,3 +72,4 @@ void execute_if (bool condition, Function f, Args...args) {
 }
 
 void null_function() {}
+

@@ -4,9 +4,8 @@
 #include "mock_rcc.h"
 #include "periph_dma_stream.h"
 #include "process.h"
+#include "function.h"
 #include "interrupt.h" // из-за него куча ошибок инклудов
-
-void null_function() {};
 
 namespace mock {
 
