@@ -1,6 +1,7 @@
 #pragma once
 
 #include "function.h"
+#include <functional>
 
 struct Screen {
     virtual void init()   = 0; // первичная отрисовка + инит кнопок
@@ -15,7 +16,7 @@ struct Construct_wrapper {
     explicit Construct_wrapper (T value) : value{value} {}
 };
 
-using Eventer = Function<void(Callback<>)>;
+using Eventer = std::function<void(Callback<>)>;
 
 using Up_event     = Construct_wrapper<Eventer>;
 using Down_event   = Construct_wrapper<Eventer, 1>;
