@@ -8,6 +8,7 @@
 // как предполагается
 // с std::function всё работает и утечек нет
 // Вывод: круче чем в стандартной библиотеке не написать
+// TODO https://www.youtube.com/watch?v=hbx0WCc5_-w 
 #pragma once
 
 #include <functional>
