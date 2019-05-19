@@ -4,8 +4,10 @@
 #include "screen_common.h"
 #include <limits>
 
+constexpr std::string_view null_to_string (int i) {return std::string_view{};}
+
 // to_string - функция, преобразующая объект типа T в строку для отображения на экране
-template<class T, auto to_string = null_function>
+template<class T, auto to_string = null_to_string>
 class Set_screen : public Screen
 {
 public:
@@ -71,7 +73,7 @@ private:
         --tmp;
         if (tmp < min)
             tmp = max;
-        if constexpr (to_string != null_function) {
+        if (to_string != null_to_string) {
             lcd.line(1) << to_string(tmp) << next_line;
             return;
         }
@@ -83,7 +85,7 @@ private:
         ++tmp;
         if (tmp > max)
             tmp = min;
-        if constexpr (to_string != null_function) {
+        if (to_string != null_to_string) {
             lcd.line(1) << to_string(tmp) << next_line;
             return;
         }
