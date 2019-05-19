@@ -17,6 +17,8 @@ public:
         , Out_callback    out_callback
         , std::string_view name
         , T& var
+        , T  min
+        , T  max
     ) : lcd          {lcd} 
       , up_event     {up_event.value}
       , down_event   {down_event.value}
@@ -26,6 +28,8 @@ public:
       , name         {name}
       , var          {var}
       , tmp          {var}
+      , min          {min}
+      , max          {max}
     {}
 
     void init() override {
@@ -58,9 +62,11 @@ private:
     const std::string_view name;
     T& var;
     T tmp;
+    T min;
+    T max;
 
-    void down() { lcd.line(1) << --tmp << next_line; }
-    void up()   { lcd.line(1) << ++tmp << next_line; }
+    void down() { lcd.line(1) << (--tmp < min ? max : tmp) << next_line; }
+    void up()   { lcd.line(1) << (++tmp > max ? min : tmp) << next_line; }
 };
 
 
