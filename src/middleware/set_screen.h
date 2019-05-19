@@ -2,9 +2,10 @@
 #include <utility>
 #include "string_buffer.h"
 #include "screen_common.h"
+#include <limits>
 
-
-template<class T>
+// to_string - функция, преобразующая объект типа T в строку для отображения на экране
+template<class T, auto to_string = null_function>
 class Set_screen : public Screen
 {
 public:
@@ -17,8 +18,8 @@ public:
         , Out_callback    out_callback
         , std::string_view name
         , T& var
-        , T  min
-        , T  max
+        , T  min = std::numeric_limits<T>::min
+        , T  max = std::numeric_limits<T>::max
     ) : lcd          {lcd} 
       , up_event     {up_event.value}
       , down_event   {down_event.value}
@@ -65,8 +66,30 @@ private:
     T min;
     T max;
 
-    void down() { lcd.line(1) << (--tmp < min ? max : tmp) << next_line; }
-    void up()   { lcd.line(1) << (++tmp > max ? min : tmp) << next_line; }
+    void down() 
+    {
+        --tmp;
+        if (tmp < min)
+            tmp = max;
+        if constexpr (to_string != null_function) {
+            lcd.line(1) << to_string(tmp) << next_line;
+            return;
+        }
+        lcd.line(1) << tmp << next_line;
+    }
+
+    void up() 
+    {
+        ++tmp;
+        if (tmp > max)
+            tmp = min;
+        if constexpr (to_string != null_function) {
+            lcd.line(1) << to_string(tmp) << next_line;
+            return;
+        }
+        lcd.line(1) << tmp << next_line;
+    }
+
 };
 
 
