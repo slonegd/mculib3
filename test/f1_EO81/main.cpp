@@ -4,7 +4,8 @@
 // #include <iostream>
 #include "init_clock.h"
 // #include "example_hd44780.h"
-#include "example_select_screen.h"
+// #include "example_select_screen.h"
+#include "example_flash.h"
 #include "button.h"
 
 /// эта функция вызывается первой в startup файле
@@ -19,11 +20,11 @@ int main()
     // >();
 
     // value dont need
-    auto _ = mcu::example::select_screen<
-        EO81::RS , EO81::RW , EO81::E,
-        EO81::DB4, EO81::DB5, EO81::DB6, EO81::DB7,
-        EO81::Up, EO81::Down
-    >();
+    // auto _ = mcu::example::select_screen<
+    //     EO81::RS , EO81::RW , EO81::E,
+    //     EO81::DB4, EO81::DB5, EO81::DB6, EO81::DB7,
+    //     EO81::Up, EO81::Down
+    // >();
 
     // volatile auto tmp {0};
     // volatile auto mem {0};
@@ -37,9 +38,11 @@ int main()
     // Buttons enter(up, down);
     // enter.set_long_push_callback ([&]{ mem = tmp; });
 
-    while(1){
-        __WFI();
-    }
+    mcu::example::flash();
+
+    // while(1){
+    //     __WFI();
+    // }
 }
 
                                                            
