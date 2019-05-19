@@ -42,7 +42,9 @@ namespace reflect {
     template<class T> constexpr size_t member_count()
     {
         // +64 - для битовых полей
-        return detail::member_count<T> (std::make_index_sequence<sizeof(T) + 64>{});
+        // пока костыль, для больштх sizeof fatal error: template instantiation depth exceeds maximum of 900
+        // return detail::member_count<T> (std::make_index_sequence<sizeof(T) + 64>{});
+        return detail::member_count<T> (std::make_index_sequence<64>{});
     }
     template<class T> constexpr size_t member_count(T&)
     {
@@ -76,6 +78,32 @@ namespace reflect {
     HELPER( 8,n1,n2,n3,n4,n5,n6,n7,n8)
     HELPER( 9,n1,n2,n3,n4,n5,n6,n7,n8,n9)
     HELPER(10,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10)
+    HELPER(11,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11)
+    HELPER(12,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12)
+    HELPER(13,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13)
+    HELPER(14,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14)
+    HELPER(15,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15)
+    HELPER(16,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16)
+    HELPER(17,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17)
+    HELPER(18,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18)
+    HELPER(19,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19)
+    HELPER(20,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20)
+    HELPER(21,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21)
+    HELPER(22,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22)
+    HELPER(23,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22,n23)
+    HELPER(24,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22,n23,n24)
+    HELPER(25,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22,n23,n24,n25)
+    HELPER(26,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22,n23,n24,n25,n26)
+    HELPER(27,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22,n23,n24,n25,n26,n27)
+    HELPER(28,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22,n23,n24,n25,n26,n27,n28)
+    HELPER(29,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22,n23,n24,n25,n26,n27,n28,n29)
+    HELPER(30,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22,n23,n24,n25,n26,n27,n28,n29,n30)
+    HELPER(31,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22,n23,n24,n25,n26,n27,n28,n29,n30,n31)
+    HELPER(32,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22,n23,n24,n25,n26,n27,n28,n29,n30,n31,n32)
+    HELPER(33,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22,n23,n24,n25,n26,n27,n28,n29,n30,n31,n32,n33)
+    HELPER(34,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,n21,n22,n23,n24,n25,n26,n27,n28,n29,n30,n31,n32,n33,n34)
+
+
 
     #undef HELPER
 
