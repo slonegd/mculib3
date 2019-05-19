@@ -15,12 +15,25 @@ using namespace mock;
 using namespace mcu;
 #endif
 
+// helper, чтоб срабатывал template argument deduction в конструкторах
+template<class RS_, class RW_, class E_, class DB4_, class DB5_, class DB6_, class DB7_>
+struct HD44780_pins {
+    using RS  = RS_;
+    using RW  = RW_;
+    using E   = E_;
+    using DB4 = DB4_;
+    using DB5 = DB5_;
+    using DB6 = DB6_;
+    using DB7 = DB7_;
+    constexpr HD44780_pins() = default;
+};
+
 
 class HD44780 : TickSubscriber
 {
 public:
-    template <class RS, class RW, class E, class DB4, class DB5, class DB6, class DB7>
-    static HD44780& make(const std::array<char, 80>& buffer);
+    template <class HD44780_pins>
+    static HD44780& make(HD44780_pins pins, const std::array<char, 80>& buffer);
 
 
 
@@ -123,25 +136,46 @@ constexpr auto BSRR_value (char data)
 
 
 
-template <class RS, class RW, class E, class DB4, class DB5, class DB6, class DB7>
-HD44780& HD44780::make(const std::array<char, 80>& buffer)
+template <class HD44780_pins>
+HD44780& HD44780::make(HD44780_pins pins, const std::array<char, 80>& buffer)
 {
     static_assert (
-        meta::all_is_same(DB4::periph, DB5::periph, DB6::periph, DB7::periph)
+        meta::all_is_same(
+              HD44780_pins::DB4::periph
+            , HD44780_pins::DB5::periph
+            , HD44780_pins::DB6::periph
+            , HD44780_pins::DB7::periph
+        )
         , "Пины для шины экрана должны быть на одном порту"
     );
 
     static auto screen = HD44780 {
-        Pin::template make<RS, mcu::PinMode::Output>(),
-        Pin::template make<RW, mcu::PinMode::Output>(),
-        Pin::template make<E,  mcu::PinMode::Output>(),
-        mcu::make_reference<DB4::periph>(),
+        Pin::template make<typename HD44780_pins::RS, mcu::PinMode::Output>(),
+        Pin::template make<typename HD44780_pins::RW, mcu::PinMode::Output>(),
+        Pin::template make<typename HD44780_pins::E,  mcu::PinMode::Output>(),
+        mcu::make_reference<HD44780_pins::DB4::periph>(),
         buffer,
-        meta::generate<BSRR_value<DB4, DB5, DB6, DB7>, 256>,
-        meta::generate<BSRR_command<DB4, DB5, DB6, DB7>, 256>
+        meta::generate<BSRR_value<
+              typename HD44780_pins::DB4
+            , typename HD44780_pins::DB5
+            , typename HD44780_pins::DB6
+            , typename HD44780_pins::DB7
+        >, 256>,
+        meta::generate<BSRR_command<
+              typename HD44780_pins::DB4
+            , typename HD44780_pins::DB5
+            , typename HD44780_pins::DB6
+            , typename HD44780_pins::DB7
+        >, 256>
     };
 
-    make_pins<mcu::PinMode::Output, DB4, DB5, DB6, DB7>();
+    make_pins<
+          mcu::PinMode::Output
+        , typename HD44780_pins::DB4
+        , typename HD44780_pins::DB5
+        , typename HD44780_pins::DB6
+        , typename HD44780_pins::DB7
+    >();
 
     screen.init();
     screen.tick_subscribe<Faster::x10>();

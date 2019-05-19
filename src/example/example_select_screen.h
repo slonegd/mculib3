@@ -33,6 +33,7 @@ struct select_screen : TickSubscriber {
 
     select_screen()
         : lcd  {}
+                 // FIX
         , _    { HD44780::make<RS, RW, E, DB4, DB5, DB6, DB7>(lcd.get_buffer()) }
         , screen {
               lcd

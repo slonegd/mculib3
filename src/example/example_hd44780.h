@@ -24,6 +24,7 @@ struct hd44780 : TickSubscriber {
     Timer timer{100_s};
 
     hd44780() {
+        // FIX
         HD44780::make<RS, RW, E, DB4, DB5, DB6, DB7>(lcd.get_buffer());
         lcd.center() << "Привет";
         lcd.line(2) << "счет: " << next_line;
