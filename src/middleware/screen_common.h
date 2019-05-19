@@ -23,3 +23,21 @@ using Down_event   = Construct_wrapper<Eventer, 1>;
 using Enter_event  = Construct_wrapper<Eventer, 2>;
 using Out_event    = Construct_wrapper<Eventer, 3>;
 using Out_callback = Construct_wrapper<Callback<>>;
+
+struct Buttons_events {
+    Eventer up;
+    Eventer down;
+    Eventer enter;
+    Eventer out;
+
+    Buttons_events (
+          Up_event    up
+        , Down_event  down
+        , Enter_event enter
+        , Out_event   out
+    ) : up    {up.value}
+      , down  {down.value}
+      , enter {enter.value}
+      , out   {out.value}
+    {}
+};

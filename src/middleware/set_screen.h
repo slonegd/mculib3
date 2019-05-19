@@ -12,21 +12,15 @@ class Set_screen : public Screen
 {
 public:
     Set_screen (
-          String_buffer&  lcd
-        , Up_event    up_event
-        , Down_event  down_event
-        , Enter_event enter_event
-        , Out_event   out_event
-        , Out_callback    out_callback
+          String_buffer&   lcd
+        , Buttons_events   eventers
+        , Out_callback     out_callback
         , std::string_view name
         , T& var
         , T  min = std::numeric_limits<T>::min
         , T  max = std::numeric_limits<T>::max
     ) : lcd          {lcd} 
-      , up_event     {up_event.value}
-      , down_event   {down_event.value}
-      , enter_event  {enter_event.value}
-      , out_event    {out_event.value}
+      , eventers     {eventers}
       , out_callback {out_callback.value}
       , name         {name}
       , var          {var}
@@ -36,10 +30,10 @@ public:
     {}
 
     void init() override {
-        up_event    ([this]{ up();    });
-        down_event  ([this]{ down();  });
-        enter_event ([this]{ var = tmp; });
-        out_event   ([this]{ out_callback(); });
+        eventers.up    ([this]{ up();    });
+        eventers.down  ([this]{ down();  });
+        eventers.enter ([this]{ var = tmp; });
+        eventers.out   ([this]{ out_callback(); });
         lcd.line(0) << name << next_line;
         lcd << tmp << next_line;
         lcd << "Нажатие   " << "~" << "Сохран." << next_line;
@@ -47,21 +41,18 @@ public:
     }
 
     void deinit() override {
-        up_event    (null_function);
-        down_event  (null_function);
-        enter_event (null_function);
-        out_event   (null_function);
+        eventers.up    (null_function);
+        eventers.down  (null_function);
+        eventers.enter (null_function);
+        eventers.out   (null_function);
     }
 
     void draw() override {}
 
 private:
-    String_buffer&        lcd;
-    Eventer    up_event;
-    Eventer  down_event;
-    Eventer enter_event;
-    Eventer   out_event;
-    Callback<> out_callback;
+    String_buffer& lcd;
+    Buttons_events eventers;
+    Callback<>     out_callback;
     const std::string_view name;
     T& var;
     T tmp;

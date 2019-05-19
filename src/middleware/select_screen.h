@@ -16,44 +16,35 @@ class Select_screen : public Screen
 public:
     template <class...Line> Select_screen (
           String_buffer&  lcd
-        , Up_event    up_event
-        , Down_event  down_event
-        , Enter_event enter_event
-        , Out_event   out_event
+        , Buttons_events eventers
         , Out_callback    out_callback
         , Line ... lines
     ) : lcd             {lcd} 
-      , up_event    {up_event.value}
-      , down_event  {down_event.value}
-      , enter_event {enter_event.value}
-      , out_event   {out_event.value}
+      , eventers        {eventers}
       , out_callback    {out_callback.value}
       , lines           {lines...}
     {}
 
     void init() override {
-        up_event    ([this]{ up();    });
-        down_event  ([this]{ down();  });
-        enter_event ([this]{ lines[line_n].callback(); });
-        out_event   ([this]{ out_callback(); });
+        eventers.up    ([this]{ up();    });
+        eventers.down  ([this]{ down();  });
+        eventers.enter ([this]{ lines[line_n].callback(); });
+        eventers.out   ([this]{ out_callback(); });
         redraw();
     }
 
     void deinit() override {
-        up_event    (null_function);
-        down_event  (null_function);
-        enter_event (null_function);
-        out_event   (null_function);
+        eventers.up    (null_function);
+        eventers.down  (null_function);
+        eventers.enter (null_function);
+        eventers.out   (null_function);
     }
 
     void draw() override {}
 
 private:
     String_buffer&        lcd;
-    Eventer    up_event;
-    Eventer  down_event;
-    Eventer enter_event;
-    Eventer   out_event;
+    Buttons_events eventers;
     Callback<> out_callback;
     std::array<Line, qty> lines;
 
