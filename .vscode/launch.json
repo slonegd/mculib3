@@ -8,7 +8,7 @@
         "name": "test_on_pc",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/test/cmake/build/test_periph_adc_f4",
+        "program": "${workspaceFolder}/test/cmake/build/test_button",
         "args": [],
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",

@@ -26,7 +26,7 @@ struct Register_base {
     const Modbus_function function;
     word& data;
     bool disable {false};
-    RingBuffer<10, Modbus_error_code> errors;
+    RingBuffer<3, Modbus_error_code> errors;
 
     Register_base (byte address, word register_n, Modbus_function function, word& data)
         : address{address}, register_n{register_n}, function{function}, data{data}

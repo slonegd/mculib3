@@ -57,7 +57,7 @@ private:
     DMA_stream& dma;
     Interrupt& interrupt_;
     const mcu::Periph adc_periph;
-    Function<void()> callback {};
+    Callback<> callback {};
     ADC_average (
          size_t       conversion_qty
         , ADC&        adc

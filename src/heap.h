@@ -36,21 +36,21 @@ public:
 
     inline void* operator_multinew (size_t size)
     {
-            auto p = allocate(size + sizeof(size_t));
-            if (p) {
-                auto psize = reinterpret_cast<size_t*>(p); 
-                *psize = size;
-                return ++psize;
-            } else {
-                return nullptr;
-            }
+        auto p = allocate(size + sizeof(size_t));
+        if (p) {
+            auto psize = reinterpret_cast<size_t*>(p); 
+            *psize = size;
+            return ++psize;
+        } else {
+            return nullptr;
+        }
     }
 
     inline void operator_multidelete (void* p)
     {
-            auto psize = reinterpret_cast<size_t*>(p);
-            psize--;
-            deallocate (psize, *psize + sizeof(size_t)); 
+        auto psize = reinterpret_cast<size_t*>(p);
+        psize--;
+        deallocate (psize, *psize + sizeof(size_t)); 
     }
 };
 

@@ -65,6 +65,7 @@
 #undef SPI1
 #undef SPI2
 #undef SPI3
+#undef EXTI
 
 
 namespace mcu {
@@ -115,6 +116,10 @@ enum class Periph {
     USB_HS_IN,
     USB_FS_OUT,
     USB_HS_OUT,
+#endif
+
+#if defined(STM32F1)
+    EXTI,
 #endif
 
 #if defined(TEST)

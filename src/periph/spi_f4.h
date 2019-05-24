@@ -33,7 +33,7 @@ public:
    SPI& Bidirection_enable(){CR1.BIDIMODE = true;return *this;}
    SPI& NSS_soft()          {CR1.SSM = true;     return *this;}
    SPI& NSS_high()          {CR1.SSI = true;     return *this;}
-   SPI& set_mode(bool mode) {CR1.MSTR = mode;    return *this;}
+   SPI& set(Mode mode)      {CR1.MSTR = mode;    return *this;}
    SPI& set(Data_size size) {CR1.DFF = size;     return *this;}
    SPI& set(Prescaler div)  {CR1.BR = div;       return *this;}
    SPI& set(Polarity p)     {CR1.CPOL = p;       return *this;}

@@ -4,7 +4,7 @@
 
 namespace mcu::AFIO_bits {
 
-enum Port{ PA = 0b000, PB, PC, PD, PE};
+enum Port {PA = 0b000, PB, PC, PD, PE, PF, PG};
 struct EVCR {
    enum Pin {_0 = 0b0000, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15 };
    Pin PIN      :4;  // Bits 3:0 PIN[3:0]: Pin selection

@@ -10,6 +10,7 @@ template <Periph p, int n_>
 struct Pin_ {
    static constexpr Periph periph {p};
    static constexpr int    n      {n_};
+   constexpr Pin_() = default;
 };
 
 using PA0  = Pin_<Periph::GPIOA,  0>;
