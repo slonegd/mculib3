@@ -141,7 +141,7 @@ ADC_average& ADC_average::make (size_t conversion_qty)
            .enable_transfer_complete_interrupt();
 #if defined (STM32F4)
     res.dma.circular_mode();
-    res.dma.set_channel(DMA_stream::select_channel<ADC, dma_periph>());
+    res.dma.set_channel(DMA_stream::select_channel<ADC>());
 #endif
     res.interrupt_.enable();
    

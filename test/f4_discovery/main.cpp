@@ -10,8 +10,8 @@
 #include "adc.h"
 #include "delay.h"
 #include "pwm_.h"
-#include "buttons.h"
-#include "spi.h"
+// #include "buttons.h"
+// #include "spi.h"
 
 
 /// эта функция вызываеться первой в startup файле
@@ -39,9 +39,38 @@ extern "C" void init_clock ()
 
 int main()
 {
+   // volatile decltype (auto) led_blue   = Pin::make<mcu::PD15, mcu::PinMode::Output>();
+   // volatile decltype (auto) led_orange = Pin::make<mcu::PD13, mcu::PinMode::Output>();
+//    volatile decltype (auto) led_red    = Pin::make<mcu::PD14, mcu::PinMode::Output>();
+//    volatile decltype (auto) led_green  = Pin::make<mcu::PD12, mcu::PinMode::Output>();
+   Timer timer{10};
+   uint16_t value;
    
+   constexpr auto conversion_on_channel {16};
+   constexpr auto _2V {2 * 16 * 4095/2.9}; 
+    struct {
+        ADC_average& control     = ADC_average::make<mcu::Periph::ADC1>(conversion_on_channel);
+        ADC_channel& voltage     = control.add_channel<mcu::PA2>();
+    } adc{};
+
+   decltype(auto) pwm = PWM::make<mcu::Periph::TIM4, mcu::PD15>(999);
+   pwm.out_enable();
+
+    adc.control.set_callback ([&]{
+      //   pwm.duty_cycle = adc.voltage / 60;
+      //   led_blue = adc.voltage < _2V;
+    });
+    adc.control.start();
+
+   while(1){
+      pwm.duty_cycle += timer.event() ? 1 : 0;
+      value = pwm.duty_cycle;
+      // pwm.duty_cycle = value >=  ? 0 : value;
+      if (value >= 999)
+         pwm.duty_cycle = 1;
+   }
    
-   decltype(auto) spi = SPI_::make<mcu::Periph::SPI1, mcu::PA7, mcu::PA6, mcu::PA5, mcu::PA4, true>();
+   // decltype(auto) spi = SPI_::make<mcu::Periph::SPI1, mcu::PA7, mcu::PA6, mcu::PA5, mcu::PA4, true>();
    // volatile decltype (auto) MOSI = Pin::make<mcu::PA7, mcu::PinMode::Alternate_5>();
    // volatile decltype (auto) MISO = Pin::make<mcu::PA6, mcu::PinMode::Alternate_5>();
    // volatile decltype (auto) CSK = Pin::make<mcu::PA5, mcu::PinMode::Alternate_5>();
@@ -56,11 +85,11 @@ int main()
    //    .set(SPI::Prescaler::div32)
    //    .enable();
 
-   while (1) {
+   // while (1) {
       
-      spi.send(0x4);
+      // spi.send(0x4);
       // while (not spi.is_tx_complete()) {}
-   }
+   // }
 
 //    volatile decltype (auto) led_blue   = Pin::make<mcu::PD15, mcu::PinMode::Output>();
 //    volatile decltype (auto) led_orange = Pin::make<mcu::PD13, mcu::PinMode::Output>();
