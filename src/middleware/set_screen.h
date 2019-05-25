@@ -32,7 +32,7 @@ public:
     void init() override {
         eventers.up    ([this]{ up();    });
         eventers.down  ([this]{ down();  });
-        eventers.enter ([this]{ var = tmp; });
+        eventers.enter ([this]{ var = tmp; out_callback(); });
         eventers.out   ([this]{ out_callback(); });
         lcd.line(0) << name << next_line;
         if (to_string != null_to_string)
