@@ -6,11 +6,11 @@
 
 namespace mock {
 
-    std::size_t alloc_counter = 0;
+    volatile std::size_t alloc_counter = 0;
 
     void* malloc(std::size_t size)
     {
-        void* p = std::malloc(size);
+        void* p = malloc(size);
         ++alloc_counter;
         return p;
     }
@@ -18,7 +18,7 @@ namespace mock {
     void free(void* p) noexcept
     {
         --alloc_counter;
-        std::free(p);
+        free(p);
         return;
     }
 }

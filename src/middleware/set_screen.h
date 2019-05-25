@@ -35,7 +35,10 @@ public:
         eventers.enter ([this]{ var = tmp; });
         eventers.out   ([this]{ out_callback(); });
         lcd.line(0) << name << next_line;
-        lcd << tmp << next_line;
+        if (to_string != null_to_string)
+            lcd.line(1) << to_string(tmp) << next_line;
+        else
+            lcd << tmp << next_line;
         lcd << "Нажатие   " << "~" << "Сохран." << next_line;
         lcd << "Удержание " << "~" << "Отмена"  << next_line;
     }
