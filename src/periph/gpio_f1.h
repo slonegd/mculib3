@@ -122,7 +122,7 @@ template<class Pin_, PinMode mode> void GPIO::init()
       );
       make_reference<Periph::RCC>()
          .template clock_enable<Periph::AFIO>();
-      set<Pin_::n>(Mode::Out2MHz_push_pull_alt);
+      set<Pin_::n>(Mode::In_floating);
       if (std::is_same_v<Pin_, PB7>)
          make_reference<Periph::AFIO>()
             .template remap<Periph::USART1>();
@@ -148,7 +148,7 @@ template<class Pin_, PinMode mode> void GPIO::init()
       );
       make_reference<Periph::RCC>()
          .template clock_enable<Periph::AFIO>();
-      set<Pin_::n>(Mode::Out2MHz_push_pull_alt);
+      set<Pin_::n>(Mode::In_floating);
       if (std::is_same_v<Pin_, PD6>)
          make_reference<Periph::AFIO>()
             .template remap<Periph::USART2>();
@@ -177,7 +177,7 @@ template<class Pin_, PinMode mode> void GPIO::init()
       );
       make_reference<Periph::RCC>()
          .template clock_enable<Periph::AFIO>();
-      set<Pin_::n>(Mode::Out2MHz_push_pull_alt);
+      set<Pin_::n>(Mode::In_floating);
       if (std::is_same_v<Pin_, PC11>)
          make_reference<Periph::AFIO>()
             .template remap<Periph::USART3, Remap::Partial_1>();

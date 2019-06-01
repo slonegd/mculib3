@@ -346,8 +346,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart1)
    BOOST_CHECK_EQUAL (cmsis.CRH,
         GPIO_CRH_CNF9_1
       | GPIO_CRH_MODE9_1
-      | GPIO_CRH_CNF10_1
-      | GPIO_CRH_MODE10_1
+      | GPIO_CRH_CNF10_0
    );
    BOOST_CHECK_EQUAL (process.str(),
       "включение тактирования AFIO\n"
@@ -358,14 +357,12 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart1)
    BOOST_CHECK_EQUAL (cmsis.CRL,
         GPIO_CRL_CNF6_1
       | GPIO_CRL_MODE6_1
-      | GPIO_CRL_CNF7_1
-      | GPIO_CRL_MODE7_1
+      | GPIO_CRL_CNF7_0
    );
    BOOST_CHECK_EQUAL (cmsis.CRH,
         GPIO_CRH_CNF9_1
       | GPIO_CRH_MODE9_1
-      | GPIO_CRH_CNF10_1
-      | GPIO_CRH_MODE10_1
+      | GPIO_CRH_CNF10_0
    );
    BOOST_CHECK_EQUAL (process.str(),
       "включение тактирования AFIO\n"
@@ -420,8 +417,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart2)
    BOOST_CHECK_EQUAL (cmsis.CRL,
         GPIO_CRL_CNF2_1
       | GPIO_CRL_MODE2_1
-      | GPIO_CRL_CNF3_1
-      | GPIO_CRL_MODE3_1
+      | GPIO_CRL_CNF3_0
       | GPIO_CRL_CNF5_1
       | GPIO_CRL_MODE5_1
    );
@@ -437,12 +433,10 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart2)
    BOOST_CHECK_EQUAL (cmsis.CRL,
         GPIO_CRL_CNF2_1
       | GPIO_CRL_MODE2_1
-      | GPIO_CRL_CNF3_1
-      | GPIO_CRL_MODE3_1
+      | GPIO_CRL_CNF3_0
       | GPIO_CRL_CNF5_1
       | GPIO_CRL_MODE5_1
-      | GPIO_CRL_CNF6_1
-      | GPIO_CRL_MODE6_1
+      | GPIO_CRL_CNF6_0
    );
    BOOST_CHECK_EQUAL (cmsis.CRH,
         0
@@ -519,8 +513,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart3)
       | GPIO_CRH_MODE8_1
       | GPIO_CRH_CNF10_1
       | GPIO_CRH_MODE10_1
-      | GPIO_CRH_CNF11_1
-      | GPIO_CRH_MODE11_1
+      | GPIO_CRH_CNF11_0
    );
    BOOST_CHECK_EQUAL (process.str(),
       "включение тактирования AFIO\n"
@@ -536,8 +529,7 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart3)
       | GPIO_CRH_MODE8_1
       | GPIO_CRH_CNF10_1
       | GPIO_CRH_MODE10_1
-      | GPIO_CRH_CNF11_1
-      | GPIO_CRH_MODE11_1
+      | GPIO_CRH_CNF11_0
    );
    BOOST_CHECK_EQUAL (process.str(),
       "включение тактирования AFIO\n"
@@ -552,12 +544,10 @@ BOOST_AUTO_TEST_CASE (init_alternate_usart3)
    BOOST_CHECK_EQUAL (cmsis.CRH,
         GPIO_CRH_CNF8_1
       | GPIO_CRH_MODE8_1
-      | GPIO_CRH_CNF9_1
-      | GPIO_CRH_MODE9_1
+      | GPIO_CRH_CNF9_0
       | GPIO_CRH_CNF10_1
       | GPIO_CRH_MODE10_1
-      | GPIO_CRH_CNF11_1
-      | GPIO_CRH_MODE11_1
+      | GPIO_CRH_CNF11_0
    );
    BOOST_CHECK_EQUAL (process.str(),
       "включение тактирования AFIO\n"
