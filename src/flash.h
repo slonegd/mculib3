@@ -5,7 +5,14 @@
 #include <iterator>
 #include "periph_flash.h"
 #include "timers.h"
-#include "mock_def.h"
+
+#if defined(USE_MOCK_FLASH)
+using FLASH_ = mock::FLASH;
+using mock::FLASH;
+#elif defined(PERIPH_FLASH_H_)
+using FLASH_ = mcu::FLASH;
+using mcu::FLASH;
+#endif
 
 
 template<size_t n, class Int = size_t>
@@ -39,7 +46,7 @@ private:
    };
    Memory& memory { *reinterpret_cast<Memory*>(FLASH_::template address<sector>()) };
 
-   FLASH_&          flash   {mcu::make_reference<mcu::Periph::FLASH>()};
+   FLASH_&        flash   {mcu::make_reference<mcu::Periph::FLASH>()};
    uint8_t* const original {reinterpret_cast<uint8_t*>(static_cast<Data*>(this))};
    uint8_t        copy[sizeof(Data)];
 

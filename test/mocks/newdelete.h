@@ -10,7 +10,7 @@ namespace mock {
 
     void* malloc(std::size_t size)
     {
-        void* p = malloc(size);
+        void* p = std::malloc(size);
         ++alloc_counter;
         return p;
     }
@@ -18,7 +18,7 @@ namespace mock {
     void free(void* p) noexcept
     {
         --alloc_counter;
-        free(p);
+        std::free(p);
         return;
     }
 }
