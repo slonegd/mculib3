@@ -40,6 +40,7 @@ struct Traits {
         uint16_t word[sector_size/2];
     };
     static constexpr Memory& memory { *reinterpret_cast<Memory*>(FLASH_::template address<sector>()) };
+    static SizedInt<Traits<sector>::words_in_sector>  memory_offset;
 };
 
 
@@ -56,7 +57,7 @@ private:
     uint8_t        copy[sizeof(Data)];
     static constexpr auto sectors {std::array{sector...}} ;
 
-    SizedInt<Traits<sectors[0]>::words_in_sector>  memory_offset {};
+    
     enum State {
       check_changes,
       start_write,
@@ -99,6 +100,7 @@ Flash<Data,sector...>::Flash()
       std::is_trivially_copyable_v<Data>,
       "Можно сохранять только тривиально копируемую структуру"
     );
+    Traits<sectors[0]>::memory_offset = 0;
     // flash.lock(); // check if need
     if (not is_read())
       *static_cast<Data*>(this) = Data{};
@@ -116,39 +118,39 @@ bool Flash<Data,sector...>::is_read()
     // чтение данных в копию data в виде массива
     bool byte_readed[sizeof(Data)] {};
     for (auto& pair : Traits<sectors[0]>::memory.pair) {
-      memory_offset++;
-      if (pair.offset < sizeof(Data)) {
-         copy[pair.offset] = pair.value;
-         byte_readed[pair.offset] = true;
-      } else if (pair.offset == 0xFF) {
-         memory_offset--;
-         break;
-      }
+        Traits<sectors[0]>::memory_offset++;
+        if (pair.offset < sizeof(Data)) {
+            copy[pair.offset] = pair.value;
+            byte_readed[pair.offset] = true;
+        } else if (pair.offset == 0xFF) {
+            Traits<sectors[0]>::memory_offset--;
+            break;
+        }
     }
 
-    if (memory_offset == 0) {
+    if (Traits<sectors[0]>::memory_offset == 0) {
       state = start_write;
       return_state = rewrite;
       return false;
     }
 
     auto other_memory_cleared = std::all_of (
-        std::begin(Traits<sectors[0]>::memory.word) + memory_offset
-      , std::end(Traits<sectors[0]>::memory.word)
-      , [](auto& word){ return word == 0xFFFF; }
+          std::begin(Traits<sectors[0]>::memory.word) + Traits<sectors[0]>::memory_offset
+        , std::end(Traits<sectors[0]>::memory.word)
+        , [](auto& word){ return word == 0xFFFF; }
     );
     if (not other_memory_cleared) {
-      state = erase;
-      return false;
+        state = erase;
+        return false;
     }
 
     auto all_readed = std::all_of (std::begin(byte_readed), std::end(byte_readed), [](auto& v){return v;});
     if (all_readed) {
-      std::memcpy (original, copy, sizeof(copy));
-      return true;
+        std::memcpy (original, copy, sizeof(copy));
+        return true;
     } else {
-      state = erase;
-      return false;
+        state = erase;
+        return false;
     }
 }
 
@@ -176,7 +178,7 @@ void Flash<Data,sector...>::notify()
                  .en_interrupt_endOfProg(); // без этого не работает
          #endif
          writed_data = original[data_offset];
-         Traits<sectors[0]>::memory.word[memory_offset] = Pair{data_offset, writed_data};
+         Traits<sectors[0]>::memory.word[Traits<sectors[0]>::memory_offset] = Pair{data_offset, writed_data};
          state = check_write;
       }
       break;
@@ -186,8 +188,8 @@ void Flash<Data,sector...>::notify()
          flash.clear_flag_endOfProg()
               .lock();
          copy[data_offset] = writed_data;
-         memory_offset++;
-         if (memory_offset)
+         Traits<sectors[0]>::memory_offset++;
+         if (Traits<sectors[0]>::memory_offset)
             state = return_state;
          else
             state = erase;
@@ -208,7 +210,7 @@ void Flash<Data,sector...>::notify()
          flash.clear_flag_endOfProg()
               .lock();
          memset (copy, 0xFF, sizeof(copy));
-         memory_offset = 0;
+         Traits<sectors[0]>::memory_offset = 0;
          data_offset   = 0;
          state = start_write;
          return_state = rewrite;
