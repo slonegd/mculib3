@@ -91,7 +91,7 @@ public:
    // моделирование задержки записи в 3 мс
    bool is_endOfProg() { return not ((eop_count += 1) %= 3); }
 
-   template<Sector s> static size_t address() { return reinterpret_cast<size_t>(&memory<s>); }
+   template<Sector s> static constexpr size_t address() { return reinterpret_cast<size_t>(&memory<s>); }
 
 };
 

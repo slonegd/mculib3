@@ -17,12 +17,29 @@ using mcu::FLASH;
 
 template<size_t n, class Int = size_t>
 class SizedInt {
-   Int value {0};
+    Int value {0};
 public:
-   inline Int operator++(int)   { return value = (++value < n) ? value : 0; }
-   inline Int operator--(int)   { return value = (value == 0) ? n : value - 1; }
-   inline operator Int() const  { return value; }
-   inline Int operator= (Int v) { return value = v; }
+    inline Int operator++(int)   { return value = (++value < n) ? value : 0; }
+    inline Int operator--(int)   { return value = (value == 0) ? n : value - 1; }
+    inline operator Int() const  { return value; }
+    inline Int operator= (Int v) { return value = v; }
+};
+
+struct Pair {
+    uint8_t offset; 
+    uint8_t value;
+    operator uint16_t() { return uint16_t(value) << 8 | offset; }
+};
+
+template<FLASH_::Sector sector>
+struct Traits {
+    static constexpr auto sector_size     {FLASH_::template size<sector>()};
+    static constexpr auto words_in_sector {sector_size / sizeof(uint16_t)};
+    union Memory {
+        Pair     pair[sector_size/2];
+        uint16_t word[sector_size/2];
+    };
+    static constexpr Memory& memory { *reinterpret_cast<Memory*>(FLASH_::template address<sector>()) };
 };
 
 
@@ -31,43 +48,31 @@ template <class Data, FLASH_::Sector sector>
 class Flash : public Data, private TickSubscriber
 {
 public:
-   Flash();
-   ~Flash() { tick_unsubscribe(); }
+    Flash();
+    ~Flash() { tick_unsubscribe(); }
 private:
-   static constexpr auto sector_size    {FLASH_::template size<sector>()};
-   struct Pair {
-      uint8_t offset; 
-      uint8_t value;
-      operator uint16_t() { return uint16_t(value) << 8 | offset; }
-   };
-   union Memory {
-      Pair     pair[sector_size/2];
-      uint16_t word[sector_size/2];
-   };
-   Memory& memory { *reinterpret_cast<Memory*>(FLASH_::template address<sector>()) };
+    FLASH_&        flash   {mcu::make_reference<mcu::Periph::FLASH>()};
+    uint8_t* const original {reinterpret_cast<uint8_t*>(static_cast<Data*>(this))};
+    uint8_t        copy[sizeof(Data)];
 
-   FLASH_&        flash   {mcu::make_reference<mcu::Periph::FLASH>()};
-   uint8_t* const original {reinterpret_cast<uint8_t*>(static_cast<Data*>(this))};
-   uint8_t        copy[sizeof(Data)];
-
-   SizedInt<sector_size / sizeof(Pair)>  memory_offset {};
-   enum State {
+    SizedInt<Traits<sector>::words_in_sector>  memory_offset {};
+    enum State {
       check_changes,
       start_write,
       check_write,
       erase,
       check_erase,
       rewrite
-   };
-   State state {check_changes};
-   State return_state {check_changes};
-   volatile uint8_t writed_data; // TODO: проверить без volatile
-   SizedInt<sizeof(Data), uint8_t> data_offset {};
+    };
+    State state {check_changes};
+    State return_state {check_changes};
+    volatile uint8_t writed_data; // TODO: проверить без volatile
+    SizedInt<sizeof(Data), uint8_t> data_offset {};
 
-   // возвращает true , если данные прочитаны
-   //            false, если нет или данные не полные
-   bool is_read();
-   void notify() override;
+    // возвращает true , если данные прочитаны
+    //            false, если нет или данные не полные
+    bool is_read();
+    void notify() override;
 };
 
 
@@ -85,18 +90,18 @@ private:
 template <class Data, typename FLASH_::Sector sector>
 Flash<Data,sector>::Flash()
 {
-   static_assert (
+    static_assert (
       sizeof(Data) < 255,
       "Размер сохраняемой структуры должен быть менее 255 байт"
-   );
-   static_assert (
+    );
+    static_assert (
       std::is_trivially_copyable_v<Data>,
       "Можно сохранять только тривиально копируемую структуру"
-   );
-   // flash.lock(); // check if need
-   if (not is_read())
+    );
+    // flash.lock(); // check if need
+    if (not is_read())
       *static_cast<Data*>(this) = Data{};
-   tick_subscribe();
+    tick_subscribe();
 }
 
 
@@ -104,12 +109,12 @@ Flash<Data,sector>::Flash()
 template <class Data, typename FLASH_::Sector sector>
 bool Flash<Data,sector>::is_read()
 {
-   // обнуляем буфер перед заполнением
-   std::fill (std::begin(copy), std::end(copy), 0xFF);
+    // обнуляем буфер перед заполнением
+    std::fill (std::begin(copy), std::end(copy), 0xFF);
 
-   // чтение данных в копию data в виде массива
-   bool byte_readed[sizeof(Data)] {};
-   for (auto& pair : memory.pair) {
+    // чтение данных в копию data в виде массива
+    bool byte_readed[sizeof(Data)] {};
+    for (auto& pair : Traits<sector>::memory.pair) {
       memory_offset++;
       if (pair.offset < sizeof(Data)) {
          copy[pair.offset] = pair.value;
@@ -118,32 +123,32 @@ bool Flash<Data,sector>::is_read()
          memory_offset--;
          break;
       }
-   }
+    }
 
-   if (memory_offset == 0) {
+    if (memory_offset == 0) {
       state = start_write;
       return_state = rewrite;
       return false;
-   }
+    }
 
-   auto other_memory_cleared = std::all_of (
-        std::begin(memory.word) + memory_offset
-      , std::end(memory.word)
+    auto other_memory_cleared = std::all_of (
+        std::begin(Traits<sector>::memory.word) + memory_offset
+      , std::end(Traits<sector>::memory.word)
       , [](auto& word){ return word == 0xFFFF; }
-   );
-   if (not other_memory_cleared) {
+    );
+    if (not other_memory_cleared) {
       state = erase;
       return false;
-   }
+    }
 
-   auto all_readed = std::all_of (std::begin(byte_readed), std::end(byte_readed), [](auto& v){return v;});
-   if (all_readed) {
+    auto all_readed = std::all_of (std::begin(byte_readed), std::end(byte_readed), [](auto& v){return v;});
+    if (all_readed) {
       std::memcpy (original, copy, sizeof(copy));
       return true;
-   } else {
+    } else {
       state = erase;
       return false;
-   }
+    }
 }
 
 
@@ -151,17 +156,17 @@ bool Flash<Data,sector>::is_read()
 template <class Data, FLASH_::Sector sector>
 void Flash<Data,sector>::notify()
 {
-   // реализация автоматом
-   switch (state) {
+    // реализация автоматом
+    switch (state) {
 
-   case check_changes:
+    case check_changes:
       if (original[data_offset] == copy[data_offset]) 
          data_offset++;
       else
          state = start_write;
       break;
 
-   case start_write:
+    case start_write:
       if ( not flash.is_busy() and flash.is_lock() ) {
          flash.unlock()
               .set_progMode();
@@ -170,12 +175,12 @@ void Flash<Data,sector>::notify()
                  .en_interrupt_endOfProg(); // без этого не работает
          #endif
          writed_data = original[data_offset];
-         memory.word[memory_offset] = Pair{data_offset, writed_data};
+         Traits<sector>::memory.word[memory_offset] = Pair{data_offset, writed_data};
          state = check_write;
       }
       break;
 
-   case check_write:
+    case check_write:
       if ( flash.is_endOfProg() ) {
          flash.clear_flag_endOfProg()
               .lock();
@@ -189,7 +194,7 @@ void Flash<Data,sector>::notify()
       }
       break;
 
-   case erase:
+    case erase:
       if ( not flash.is_busy() and flash.is_lock() ) {
          flash.unlock()
               .start_erase<sector>();
@@ -197,7 +202,7 @@ void Flash<Data,sector>::notify()
       }
       break;
 
-   case check_erase:
+    case check_erase:
       if ( flash.is_endOfProg() ) {
          flash.clear_flag_endOfProg()
               .lock();
@@ -209,7 +214,7 @@ void Flash<Data,sector>::notify()
       }
       break;
 
-   case rewrite:
+    case rewrite:
       if (data_offset++) {
          state = start_write;
       } else {
@@ -217,7 +222,7 @@ void Flash<Data,sector>::notify()
          return_state = check_changes;
       }
       break;
-   } // switch
+    } // switch
 }
 
 
