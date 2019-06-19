@@ -52,6 +52,7 @@
 #undef TIM2
 #undef TIM3
 #undef TIM4
+#undef TIM8
 #undef TIM14
 #undef TIM16
 #undef TIM17
@@ -103,7 +104,7 @@ enum class Periph {
     ADC1, ADC2, ADC3,
 #endif
     SysTick,
-    TIM1, TIM2, TIM3, TIM4, TIM14, TIM16, TIM17,
+    TIM1, TIM2, TIM3, TIM4, TIM14, TIM16, TIM17, TIM8,
     SPI1, SPI2, SPI3,
     FLASH,
     ADCC,
