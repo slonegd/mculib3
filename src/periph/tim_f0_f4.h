@@ -74,6 +74,9 @@ public:
    TIM&     compare_disable  (uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&CCER) &= ~v; return *this; }
    TIM&     interrupt_enable (uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&DIER) |=  v; return *this; }
    TIM&     interrupt_disable(uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&DIER) &= ~v; return *this; }
+   TIM&     compare_enable (Channel);
+   TIM&     compare_disable(Channel);
+   bool     is_compare (Channel);
 #if defined(STM32F0)
    TIM&     main_output_enable()            { BDTR.MOE = true;    return *this; }
 #endif
@@ -86,8 +89,6 @@ public:
    template<Channel> TIM& set (SelectionCompareMode);
    template<Channel> TIM& preload_enable ();
    template<Channel> TIM& preload_disable();
-   template<Channel> TIM& compare_enable ();
-   template<Channel> TIM& compare_disable();
    template<Channel> TIM& compareToggle  ();
    TIM& set_compare (Channel, uint16_t);
    template<Channel>  __IO uint32_t& get_compare_reference();
@@ -421,22 +422,31 @@ template<TIM::Channel c> TIM& TIM::preload_disable()
    return *this; 
 }
 
-template<TIM::Channel c> TIM& TIM::compare_enable()
+TIM& TIM::compare_enable(TIM::Channel c)
 {
-   if      constexpr (c == Channel::_1) CCER.CC1E = true;
-   else if constexpr (c == Channel::_2) CCER.CC2E = true;
-   else if constexpr (c == Channel::_3) CCER.CC3E = true;
-   else if constexpr (c == Channel::_4) CCER.CC4E = true;
+   if      (c == Channel::_1) CCER.CC1E = true;
+   else if (c == Channel::_2) CCER.CC2E = true;
+   else if (c == Channel::_3) CCER.CC3E = true;
+   else if (c == Channel::_4) CCER.CC4E = true;
    return *this;
 }
 
-template<TIM::Channel c> TIM& TIM::compare_disable()
+TIM& TIM::compare_disable(TIM::Channel c)
 {
-   if      constexpr (c == Channel::_1) CCER.CC1E = false;
-   else if constexpr (c == Channel::_2) CCER.CC2E = false;
-   else if constexpr (c == Channel::_3) CCER.CC3E = false;
-   else if constexpr (c == Channel::_4) CCER.CC4E = false;
+   if      (c == Channel::_1) CCER.CC1E = false;
+   else if (c == Channel::_2) CCER.CC2E = false;
+   else if (c == Channel::_3) CCER.CC3E = false;
+   else if (c == Channel::_4) CCER.CC4E = false;
    return *this;
+}
+
+bool TIM::is_compare (TIM::Channel c)
+{
+   if      (c == Channel::_1) return CCER.CC1E;
+   else if (c == Channel::_2) return CCER.CC2E;
+   else if (c == Channel::_3) return CCER.CC3E;
+   else if (c == Channel::_4) return CCER.CC4E;
+   else return false;
 }
 
 TIM& TIM::set_compare (Channel c, uint16_t v)

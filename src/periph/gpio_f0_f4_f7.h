@@ -148,6 +148,10 @@ template<class Pin_, PinMode v> void GPIO::init()
       set<Pin_::n> (Mode::Alternate);
       set<Pin_::n>   (AF::_2);
 
+   } else if constexpr (v == PinMode::Alternate_3) {
+      set<Pin_::n> (Mode::Alternate);
+      set<Pin_::n>   (AF::_3);
+
    } else if constexpr (v == PinMode::Alternate_4) {
       set<Pin_::n> (Mode::Alternate);
       set<Pin_::n>   (AF::_4);

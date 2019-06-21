@@ -10,6 +10,8 @@
 #include "adc.h"
 #include "delay.h"
 #include "pwm_.h"
+#include "button_old.h"
+#include "encoder.h"
 // #include "buttons.h"
 // #include "spi.h"
 
@@ -39,31 +41,43 @@ extern "C" void init_clock ()
 
 int main()
 {
-   volatile decltype (auto) led_blue   = Pin::make<mcu::PD15, mcu::PinMode::Output>();
+   decltype(auto) encoder = Encoder::make<mcu::Periph::TIM8, mcu::PC6, mcu::PC7, true>();
+   decltype(auto) pwm = PWM::make<mcu::Periph::TIM3, mcu::PC9>(490);
+   // pwm.out_enable(); 
+   pwm.duty_cycle = 400;
+   // volatile decltype (auto) led_blue   = Pin::make<mcu::PD15, mcu::PinMode::Output>();
    // volatile decltype (auto) led_orange = Pin::make<mcu::PD13, mcu::PinMode::Output>();
-//    volatile decltype (auto) led_red    = Pin::make<mcu::PD14, mcu::PinMode::Output>();
-//    volatile decltype (auto) led_green  = Pin::make<mcu::PD12, mcu::PinMode::Output>();
+   volatile decltype (auto) enter      = mcu::Button::make<mcu::PA8>(); 
+   volatile decltype (auto) led_red    = Pin::make<mcu::PA15, mcu::PinMode::Output>();
+   volatile decltype (auto) led_green  = Pin::make<mcu::PC10, mcu::PinMode::Output>();
+
    Timer timer{100};
-   uint16_t value;
+   int16_t value;
    
-   constexpr auto conversion_on_channel {16};
-   constexpr auto _2V {2 * 16 * 4095/3.3}; 
-   auto step_pwm {10};
-    struct {
-        ADC_average& control     = ADC_average::make<mcu::Periph::ADC1>(conversion_on_channel);
-        ADC_channel& voltage     = control.add_channel<mcu::PA2>();
-    } adc{};
+   // constexpr auto conversion_on_channel {16};
+   // constexpr auto _2V {2 * 16 * 4095/3.3}; 
+   // auto step_pwm {10};
+   //  struct {
+   //      ADC_average& control     = ADC_average::make<mcu::Periph::ADC1>(conversion_on_channel);
+   //      ADC_channel& voltage     = control.add_channel<mcu::PA2>();
+   //  } adc{};
 
    // decltype(auto) pwm = PWM::make<mcu::Periph::TIM4, mcu::PD15>(999);
    // pwm.out_enable();
 
-    adc.control.set_callback ([&]{
+   //  adc.control.set_callback ([&]{
       //   pwm.duty_cycle = adc.voltage / 60;
-        led_blue = adc.voltage < _2V;
-    });
-    adc.control.start();
-
+      //   led_blue = adc.voltage < _2V;
+   //  });
+   //  adc.control.start();
+   encoder = 18000;
    while(1){
+      led_red = pwm ^= enter; 
+      pwm.frequency = encoder;
+      value = encoder;
+      // led_green ^= timer.event();
+      // led_red   ^= enter;
+      led_green = value > 200 ? true : false;
       // pwm.duty_cycle += timer.event() ? step_pwm : 0;
       // step_pwm = (pwm.duty_cycle >= 990 or pwm.duty_cycle <= 10) ? -step_pwm : step_pwm;
       // value = pwm.duty_cycle;

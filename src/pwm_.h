@@ -106,4 +106,13 @@ public:
    // void freq (uint16_t v){CNT = F_CPU / v; tim.set_auto_reload(CNT);}
    void out_enable() { tim.compare_enable(enable_mask); }
    void out_disable() { tim.compare_disable(enable_mask); }
+
+   void out_enable(bool v) { v ? tim.compare_enable(channel) : tim.compare_disable(channel);}
+
+   bool operator^= (bool v) 
+   {
+      auto tmp {tim.is_compare(channel)};
+      if (v) tmp ? tim.compare_disable(channel) : tim.compare_enable(channel);
+      return tmp ^ v;
+   }
 };

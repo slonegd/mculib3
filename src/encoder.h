@@ -21,7 +21,7 @@ class Encoder
       , tim{tim}
    {}
 public:
-   template <mcu::Periph tim_, class Pin_a, class Pin_b>
+   template <mcu::Periph tim_, class Pin_a, class Pin_b, bool inverted = false>
    static auto& make ()
    {
       TIM::pin_static_assert<tim_, Pin_a>();
@@ -43,13 +43,16 @@ public:
 
       encoder.tim.set(TIM::SlaveMode::Encoder3)
                  .template set<channel_a>(TIM::SelectionCompareMode::Input)
-                 .template set<channel_b>(TIM::SelectionCompareMode::Input)
-                 .clear_counter()
+                 .template set<channel_b>(TIM::SelectionCompareMode::Input);
+      if (inverted)
+         encoder.tim.template set<channel_a>(TIM::Polarity::falling);
+      encoder.tim.clear_counter()
                  .counter_enable();
 
       return encoder;
    }
 
    int16_t operator= (int16_t v){tim.set_counter(v); return *this;}
-           operator  int16_t()  {return static_cast<int16_t>(tim.get_counter());}
+           operator  uint16_t()  {return tim.get_counter();}
+   bool    operator> (int16_t v){return static_cast<int16_t> (tim.get_counter()) > v;}
 };
