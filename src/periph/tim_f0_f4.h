@@ -13,7 +13,7 @@ class TIM {
    volatile TIM_bits::CR2  CR2;  // control register 2,                     offset: 0x04
    volatile TIM_bits::SMCR SMCR; // slave Mode Control register,            offset: 0x08
    volatile TIM_bits::DIER DIER; // DMA/interrupt enable register,          offset: 0x0C
-   volatile uint32_t       SR;   // status register,                        offset: 0x10
+   volatile TIM_bits::SR   SR;   // status register,                        offset: 0x10
    volatile uint32_t       EGR;  // event generation register,              offset: 0x14
    volatile TIM_bits::CCMR CCMR; // capture/compare mode register,          offset: 0x18
    volatile TIM_bits::CCER CCER; // capture/compare enable register,        offset: 0x20
@@ -41,10 +41,11 @@ public:
    // using OnePulseMode         = TIM_bits::CR1::OnePulseMode;
    // using Direction            = TIM_bits::CR1::Direction;
    using SlaveMode            = TIM_bits::SMCR::SlaveMode;
-   // using Trigger              = TIM_bits::SMCR::Trigger;
+   using Trigger              = TIM_bits::SMCR::Trigger;
    // using ExtTriggerPolarity   = TIM_bits::SMCR::ExtTriggerPolarity;
    using SelectionCompareMode = TIM_bits::SelectionCompareMode;
    using Polarity             = TIM_bits::CCER::Polarity;
+   using Filter               = TIM_bits::Filter;
    enum Channel {_1 = 1, _2, _3, _4, error};
    enum EnableMask { 
       ch1 = TIM_CCER_CC1E_Msk,
@@ -69,13 +70,16 @@ public:
    TIM&     set_prescaller (uint16_t v)     { PSC = v;            return *this; }
    TIM&     auto_reload_enable()            { CR1.ARPE = true;    return *this; }
    TIM&     set (SlaveMode v)               { SMCR.SMS = v;       return *this; }
+   TIM&     set (Trigger v)                 { SMCR.TS  = v;       return *this; }
    TIM&     set_auto_reload  (uint16_t v)   { ARR = v;            return *this; }
+   TIM&     update_interrupt_enable()       { DIER.UIE = true;    return *this; }
    TIM&     compare_enable   (uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&CCER) |=  v; return *this; }
    TIM&     compare_disable  (uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&CCER) &= ~v; return *this; }
    TIM&     interrupt_enable (uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&DIER) |=  v; return *this; }
    TIM&     interrupt_disable(uint32_t v)   { *reinterpret_cast<__IO uint32_t*>(&DIER) &= ~v; return *this; }
    TIM&     compare_enable (Channel);
    TIM&     compare_disable(Channel);
+   TIM&     interrupt_enable (Channel);
    bool     is_compare (Channel);
 #if defined(STM32F0)
    TIM&     main_output_enable()            { BDTR.MOE = true;    return *this; }
@@ -84,6 +88,10 @@ public:
    bool     is_count()                      { return CR1.CEN; }
    uint16_t get_counter()                   { return CNT;     }
 
+   void clear_interrupt_flags() {SR.UIF = false;}
+   bool update_interrupt() {return SR.UIF;}
+
+   template<Channel> TIM& set (Filter);
    template<Channel> TIM& set (Polarity);
    template<Channel> TIM& set (CompareMode);
    template<Channel> TIM& set (SelectionCompareMode);
@@ -386,6 +394,15 @@ template<TIM::Channel c> TIM& TIM::set (Polarity v)
    }
 }
 
+template<TIM::Channel c> TIM& TIM::set (Filter f)
+{
+   if      constexpr (c == Channel::_1) CCMR.input.IC1F = f;
+   else if constexpr (c == Channel::_2) CCMR.input.IC2F = f;
+   else if constexpr (c == Channel::_3) CCMR.input.IC3F = f;
+   else if constexpr (c == Channel::_4) CCMR.input.IC4F = f;
+   return *this;
+}
+
 template<TIM::Channel c> TIM& TIM::set (CompareMode v)
 {
    if      constexpr (c == Channel::_1) CCMR.output.OC1M = v;
@@ -437,6 +454,15 @@ TIM& TIM::compare_disable(TIM::Channel c)
    else if (c == Channel::_2) CCER.CC2E = false;
    else if (c == Channel::_3) CCER.CC3E = false;
    else if (c == Channel::_4) CCER.CC4E = false;
+   return *this;
+}
+
+TIM& TIM::interrupt_enable(TIM::Channel c)
+{
+   if      (c == Channel::_1) DIER.CC1IE = true;
+   else if (c == Channel::_2) DIER.CC2IE = true;
+   else if (c == Channel::_3) DIER.CC3IE = true;
+   else if (c == Channel::_4) DIER.CC4IE = true;
    return *this;
 }
 

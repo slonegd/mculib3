@@ -67,6 +67,9 @@ Interrupt interrupt_usart2 {USART2_IRQn};
 Interrupt interrupt_usart3 {USART3_IRQn};
 #endif
 
+Interrupt interrupt_tim1 {TIM1_BRK_UP_TRG_COM_IRQn};
+Interrupt interrupt_tim3 {TIM3_IRQn};
+
 
 #if defined(STM32F0)
 Interrupt interrupt_DMA1_channel1 {DMA1_Channel1_IRQn};
@@ -124,7 +127,9 @@ Interrupt interrupt_EXTI15    {EXTI15_10_IRQn};
 template<mcu::Periph v>
 auto& get_interrupt()
 {
-    if      constexpr (v == mcu::Periph::USART1)       return interrupt_usart1;
+    if      constexpr (v == mcu::Periph::TIM1)         return interrupt_tim1;
+    else if constexpr (v == mcu::Periph::TIM3)         return interrupt_tim3;
+    else if constexpr (v == mcu::Periph::USART1)       return interrupt_usart1;
     else if constexpr (v == mcu::Periph::DMA1_stream1) return interrupt_DMA1_channel1;
     else if constexpr (v == mcu::Periph::DMA1_stream2) return interrupt_DMA1_channel2;
     else if constexpr (v == mcu::Periph::DMA1_stream3) return interrupt_DMA1_channel3;

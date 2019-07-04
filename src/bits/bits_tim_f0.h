@@ -69,7 +69,28 @@ struct DIER {
    uint32_t       :17; // Bit 15 Reserved, must be kept at reset value.
 }__attribute__((packed));
 
-enum SelectionCompareMode { Output = 0b00, Input, InputALT, InputTRC }; 
+struct SR {
+   bool     UIF   :1; // Bit 0 UIF: Update interrupt flag
+   bool     CC1IF :1; // Bit 1 CC1IF: Capture/Compare 1 interrupt flag
+   bool     CC2IF :1; // Bit 2 CC2IF: Capture/Compare 2 interrupt flag
+   bool     CC3IF :1; // Bit 3 CC3IF: Capture/Compare 3 interrupt flag
+   bool     CC4IF :1; // Bit 4 CC4IF: Capture/Compare 4 interrupt flag
+   bool     COMIF :1; // Bit 5 COMIF: COM interrupt flag
+   bool     TIF   :1; // Bit 6 TIF: Trigger interrupt flag
+   bool     BIF   :1; // Bit 7 BIF: Break interrupt flag
+   uint32_t       :1; // Bit 8 Reserved, must be kept at reset value.
+   bool     CC1OF :1; // Bit 9 CC1OF: Capture/Compare 1 overcapture flag
+   bool     CC2OF :1; // Bit 10 CC2OF: Capture/Compare 2 overcapture flag
+   bool     CC3OF :1; // Bit 11 CC3OF: Capture/Compare 3 overcapture flag
+   bool     CC4OF :1; // Bit 12 CC4OF: Capture/Compare 4 overcapture flag
+   uint32_t       :3; // Bit 15-13 Reserved, must be kept at reset value.
+}__attribute__((packed));
+
+enum SelectionCompareMode { Output = 0b00, Input, InputALT, InputTRC };
+enum Filter { No_filter = 0b0000, Div_0_N_2, Div_0_N_4,  Div_0_N_8
+                     , Div_2_N_6, Div_2_N_8, Div_4_N_6,  Div_4_N_8
+                     , Div_8_N_6, Div_8_N_8, Div_16_N_5, Div_16_N_6, Div_16_N_8
+                                           , Div_32_N_5, Div_32_N_6, Div_32_N_8};
 
 struct Output_t {
    enum CompareMode { Off = 0b000, ActiveOnMatch, InactiveOnMatch, ToggleOnMatch,
@@ -101,17 +122,17 @@ struct Output_t {
 struct Input_t { 
    SelectionCompareMode CC1S     :2; // Bits 1:0 CC1S: Capture/Compare 1 selection
    uint32_t             IC1PSC   :2; // Bits 3:2 IC1PSC: Input capture 1 prescaler
-   uint32_t             IC1F     :4; // Bits 7:4 IC1F[3:0]: Input capture 1 filter
+   Filter               IC1F     :4; // Bits 7:4 IC1F[3:0]: Input capture 1 filter
    SelectionCompareMode CC2S     :2; // Bits 9:8 CC2S: Capture/Compare 2 selection
    uint32_t             IC2PSC   :2; // Bits 11:10 IC2PSC[1:0]: Input capture 2 prescaler
-   uint32_t             IC2F     :4; // Bits 15:12 IC2F: Input capture 2 filter
+   Filter               IC2F     :4; // Bits 15:12 IC2F: Input capture 2 filter
    uint32_t                      :16;
    SelectionCompareMode CC3S     :2;
    uint32_t             IC3PSC   :2;
-   uint32_t             IC3F     :4;
+   Filter               IC3F     :4;
    SelectionCompareMode CC4S     :2;
    uint32_t             IC4PSC   :2;
-   uint32_t             IC4F     :4; 
+   Filter               IC4F     :4; 
    uint32_t                      :16;
 
 }__attribute__((packed));
