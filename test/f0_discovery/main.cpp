@@ -38,10 +38,12 @@ int main()
    
    Timer timer {200_ms};
    
-   decltype(auto) counter = Counter::make<mcu::Periph::TIM1, mcu::PA9>(10);
+   decltype(auto) counter = Counter::make<mcu::Periph::TIM1, mcu::PA8>(10);
+   decltype(auto) counter1 = Counter::make<mcu::Periph::TIM3, mcu::PA6>(10);
    
    // decltype(auto) encoder = Encoder::make<mcu::Periph::TIM1, mcu::PA8, mcu::PA9>();
    uint16_t v{0};
+   uint16_t v1{0};
    bool save{false};
 
     // REF(RCC).clock_enable<mcu::Periph::TIM1>();
@@ -57,6 +59,7 @@ int main()
    
    // decltype(auto) pwm_ = PWM::make<mcu::Periph::TIM3, mcu::PB1>(1000);
    decltype (auto) led_blue = Pin::make<mcu::PC8, mcu::PinMode::Output>();
+   decltype (auto) led_green = Pin::make<mcu::PC9, mcu::PinMode::Output>();
    // led_blue = true;
    // pwm.frequency = 26000;
    // pwm_.frequency = 26000;
@@ -72,7 +75,7 @@ int main()
 
    while(1) {
 
-      led_blue ^= timer.event();
+      led_green = led_blue ^= timer.event();
       // if (led_blue and not save) {
       //    v++;
       //    save = true;
@@ -83,6 +86,7 @@ int main()
       // }
       
       v = counter;
+      v1 = counter1;
    //    // v = encoder;
    //    while (i < 1000 ) {
    //       if (timer.event()) {

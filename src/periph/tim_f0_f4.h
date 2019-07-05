@@ -92,6 +92,7 @@ public:
    bool update_interrupt() {return SR.UIF;}
 
    template<Channel> TIM& set (Filter);
+   template<Channel> TIM& set_trigger();
    template<Channel> TIM& set (Polarity);
    template<Channel> TIM& set (CompareMode);
    template<Channel> TIM& set (SelectionCompareMode);
@@ -394,6 +395,12 @@ template<TIM::Channel c> TIM& TIM::set (Polarity v)
    }
 }
 
+template<TIM::Channel c> TIM& TIM::set_trigger()
+{
+   if      constexpr (c == Channel::_1) SMCR.TS = TIM::Trigger::FiltrTI1;
+   else if constexpr (c == Channel::_2) SMCR.TS = TIM::Trigger::FiltrTI2;
+   return *this;
+}
 template<TIM::Channel c> TIM& TIM::set (Filter f)
 {
    if      constexpr (c == Channel::_1) CCMR.input.IC1F = f;

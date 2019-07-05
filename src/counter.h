@@ -69,8 +69,8 @@ public:
       counter.tim.template set<channel_>(TIM::SelectionCompareMode::Input)
                  .template set<channel_>(TIM::Filter::Div_0_N_8)
                  .template set<channel_>(TIM::Polarity::rising)
+                 .template set_trigger<channel_>()
                  .set(TIM::SlaveMode::ExternalClock)
-                 .set(TIM::Trigger::FiltrTI2)
                  .set_auto_reload(pulse_per_value);
                  
                  
