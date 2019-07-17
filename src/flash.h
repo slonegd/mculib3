@@ -44,6 +44,33 @@ struct Sector {
         :  pointer {pointer}
         ,  size {size}
     {}
+
+    class Iterator {
+        Word* p {nullptr};
+    public:
+        using iterator_category = std::input_iterator_tag;
+        using value_type        = Word;
+        using difference_type   = size_t;
+        using pointer           = const Word*;
+        using reference         = Word;
+        Iterator (Word* p) : p{} {}
+        Iterator() = default;
+        operator Word*() { return p; }
+        Word&        operator*  () const { return *p; }
+        Word*        operator-> () const { return p; }
+        bool         operator!= (const Iterator& other) const {return p != other.p; }
+        Iterator& operator++ () {
+            p++;
+            return *this;
+        }
+        Iterator& operator+ (int v) {
+            p += v;
+            return *this;
+        }
+    };
+
+    Iterator begin() {return Iterator{pointer};}
+    Iterator end()   {return Iterator{pointer + size};}
 };
 
 template<FLASH_::Sector sector>
@@ -149,28 +176,32 @@ bool Flash<Data,sector...>::is_read()
     std::fill (std::begin(copy), std::end(copy), 0xFF);
 
     // чтение данных в копию data в виде массива
+    size_t memory_offset{0};
     bool byte_readed[sizeof(Data)] {};
-    for (auto& pair : Traits<sectors[0]>::memory.pair) {
-        Traits<sectors[0]>::memory_offset++;
+    for (auto& word : new_sectors[0]) {
+        auto& pair = word.pair;
         if (pair.offset < sizeof(Data)) {
             copy[pair.offset] = pair.value;
             byte_readed[pair.offset] = true;
         } else if (pair.offset == 0xFF) {
-            Traits<sectors[0]>::memory_offset--;
+            memory_offset = std::distance(new_sectors[0].begin(), Sector::Iterator(&word));
             break;
         }
     }
 
-    if (Traits<sectors[0]>::memory_offset == 0) {
+    // TODO удалить в будущем
+    Traits<sectors[0]>::memory_offset = memory_offset;
+
+    if (memory_offset == 0) {
       state = start_write;
       return_state = rewrite;
       return false;
     }
 
     auto other_memory_cleared = std::all_of (
-          std::begin(Traits<sectors[0]>::memory.word) + Traits<sectors[0]>::memory_offset
-        , std::end(Traits<sectors[0]>::memory.word)
-        , [](auto& word){ return word == 0xFFFF; }
+          std::begin(new_sectors[0]) + memory_offset
+        , std::end(new_sectors[0])
+        , [](auto& word){ return word.data == 0xFFFF; }
     );
     if (not other_memory_cleared) {
         state = erase;
