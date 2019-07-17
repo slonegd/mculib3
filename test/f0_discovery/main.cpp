@@ -7,11 +7,12 @@
 #include "flash.h"
 #include "timers.h"
 #include "periph_dma.h"
-#include "example/example_adc.h"
-#include "example/example_modbus_master.h"
+// #include "example/example_adc.h"
+// #include "example/example_modbus_master.h"
 #include "literals.h"
 #include "pwm_.h"
-#include "encoder.h"
+#include "counter.h"
+// #include "encoder.h"
 
 
 /// эта функция вызываеться первой в startup файле
@@ -34,40 +35,73 @@ extern "C" void init_clock ()
 
 int main()
 {
-   decltype(auto) encoder = Encoder::make<mcu::Periph::TIM1, mcu::PA8, mcu::PA9>();
-   int16_t v;
+   
+   Timer timer {200_ms};
+   
+   decltype(auto) counter = Counter::make<mcu::Periph::TIM1, mcu::PA8>(10);
+   decltype(auto) counter1 = Counter::make<mcu::Periph::TIM3, mcu::PA6>(10);
+   
+   // decltype(auto) encoder = Encoder::make<mcu::Periph::TIM1, mcu::PA8, mcu::PA9>();
+   uint16_t v{0};
+   uint16_t v1{0};
+   bool save{false};
+
     // REF(RCC).clock_enable<mcu::Periph::TIM1>();
     // mcu::example::adc_average();
     // mcu::example::modbus_master();
 
-   //  auto& pwm = PWM::make<mcu::Periph::TIM3, mcu::PC8>();
+   // auto& pwm = PWM::make<mcu::Periph::TIM3, mcu::PB0>(1000);
+   // pwm.frequency = 5_kHz;
+   // pwm.duty_cycle = 500;
    // pwm.out_enable();
-   // decltype(auto) pwm_ = PWM::make<mcu::Periph::TIM3, mcu::PC9>();
+
+
+   
+   // decltype(auto) pwm_ = PWM::make<mcu::Periph::TIM3, mcu::PB1>(1000);
+   decltype (auto) led_blue = Pin::make<mcu::PC8, mcu::PinMode::Output>();
+   decltype (auto) led_green = Pin::make<mcu::PC9, mcu::PinMode::Output>();
+   // led_blue = true;
    // pwm.frequency = 26000;
    // pwm_.frequency = 26000;
    // pwm_.out_enable();
 
 
-   // Timer timer {10};
-   // Timer timer_ {20};
+   // Timer timer {50};
+   // Timer timer_ {50};
    // int i {0};
    // int p {0};
+   // pwm.duty_cycle = 50;
+   // pwm_.duty_cycle = 606;
 
    while(1) {
-      v = encoder;
-      // while (i < 100 ) {
-      //    if (timer.event()) {
-      //       pwm.duty_cycle = p++;
-      //       pwm_.duty_cycle = i++;
-      //       ++i;
-      //       ++p;
-      //    }
+
+      led_green = led_blue ^= timer.event();
+      // if (led_blue and not save) {
+      //    v++;
+      //    save = true;
       // }
-      // while (i > 0) {
-      //    if (timer_.event()) {
-      //       pwm.duty_cycle = p--;
-      //       pwm_.duty_cycle = i--;
-      //    }
+      // else if (not led_blue)
+      // {
+      //    save = false;
       // }
+      
+      v = counter;
+      v1 = counter1;
+   //    // v = encoder;
+   //    while (i < 1000 ) {
+   //       if (timer.event()) {
+   //          pwm.duty_cycle = p++;
+   //          pwm_.duty_cycle = i++;
+   //          ++i;
+   //          ++p;
+   //       }
+   //    }
+   //    while (i > 0) {
+   //       if (timer_.event()) {
+   //          pwm.duty_cycle = p--;
+   //          pwm_.duty_cycle = i--;
+   //          // i--;
+   //       }
+   //    }
    } // while(1) {
 }

@@ -3,6 +3,7 @@
 #include "periph_usart.h"
 #include "periph_dma.h"
 #include "periph_spi.h"
+#include "periph_tim.h"
 #if defined(STM32F1)
 #include "periph_exti.h"
 #endif
@@ -16,9 +17,9 @@
     }
     extern "C" void DMA1_Channel4_5_IRQHandler()     { while(1) {} }
 
-    extern "C" void TIM1_BRK_TIM9_IRQHandler      () { while(1) {} }
-    extern "C" void TIM1_CC_IRQHandler            () { while(1) {} }
-    extern "C" void TIM3_IRQHandler               () { while(1) {} }
+    extern "C" void TIM1_BRK_UP_TRG_COM_IRQHandler() { interrupt_tim1.interrupt(); REF(TIM1).clear_interrupt_flags(); }
+    extern "C" void TIM1_CC_IRQHandler            () { interrupt_tim1.interrupt(); REF(TIM1).clear_interrupt_flags(); }
+    extern "C" void TIM3_IRQHandler               () { interrupt_tim3.interrupt(); REF(TIM3).clear_interrupt_flags(); }
     extern "C" void TIM14_IRQHandler              () { while(1) {} }
     extern "C" void TIM16_IRQHandler              () { while(1) {} }
     extern "C" void TIM17_IRQHandler              () { while(1) {} }
