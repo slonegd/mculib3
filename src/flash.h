@@ -36,11 +36,10 @@ union Word {
     uint16_t data;
 };
 
-struct Sector {
+struct Memory {
     Word*  pointer;
-    size_t offset {0};
     size_t size;
-    Sector (Word* pointer, size_t size)
+    Memory (Word* pointer, size_t size)
         :  pointer {pointer}
         ,  size {size}
     {}
@@ -53,7 +52,7 @@ struct Sector {
         using difference_type   = size_t;
         using pointer           = const Word*;
         using reference         = Word;
-        Iterator (Word* p) : p{} {}
+        Iterator (Word* p) : p{p} {}
         Iterator() = default;
         operator Word*() { return p; }
         Word&        operator*  () const { return *p; }
@@ -74,21 +73,9 @@ struct Sector {
 };
 
 template<FLASH_::Sector sector>
-struct New_Traits {
+struct Traits {
     static constexpr Word* pointer { reinterpret_cast<Word*>(FLASH_::template address<sector>()) };
     static constexpr auto  size    {FLASH_::template size<sector>()};
-};
-
-template<FLASH_::Sector sector>
-struct Traits {
-    static constexpr auto sector_size     {FLASH_::template size<sector>()};
-    static constexpr auto words_in_sector {sector_size / sizeof(uint16_t)};
-    union Memory {
-        Pair     pair[sector_size/2];
-        uint16_t word[sector_size/2];
-    };
-    static constexpr Memory& memory { *reinterpret_cast<Memory*>(FLASH_::template address<sector>()) };
-    static inline SizedInt<Traits<sector>::words_in_sector>  memory_offset{};
 };
 
 
@@ -108,14 +95,8 @@ private:
     uint8_t* const original {reinterpret_cast<uint8_t*>(static_cast<Data*>(this))};
     uint8_t        copy[sizeof(Data)];
     static constexpr auto sectors {std::array{sector...}} ;
-    static inline auto new_sectors {
-        std::array{
-            Sector(
-                  New_Traits<sector>::pointer
-                , New_Traits<sector>::size
-            )...
-        }
-    };
+    std::array<Memory, sizeof...(sector)> memory;
+    Memory::Iterator memory_offset;
 
     
     enum State {
@@ -151,6 +132,13 @@ private:
 
 template <class Data, typename FLASH_::Sector ... sector>
 Flash<Data,sector...>::Flash()
+    : memory { std::array{
+        Memory (
+              Traits<sector>::pointer
+            , Traits<sector>::size / 2
+        )...
+    }}
+    , memory_offset {memory[0].begin()}
 {
     static_assert (
       sizeof(Data) < 255,
@@ -160,7 +148,6 @@ Flash<Data,sector...>::Flash()
       std::is_trivially_copyable_v<Data>,
       "Можно сохранять только тривиально копируемую структуру"
     );
-    Traits<sectors[0]>::memory_offset = 0;
     // flash.lock(); // check if need
     if (not is_read())
       *static_cast<Data*>(this) = Data{};
@@ -177,7 +164,7 @@ bool Flash<Data,sector...>::is_read()
 
     // чтение данных в копию data в виде массива
     bool byte_readed[sizeof(Data)] {};
-    auto offset = std::find_if(new_sectors[0].begin(), new_sectors[0].end()
+    auto memory_offset = std::find_if(memory[0].begin(), memory[0].end()
         , [&](auto& word) bool {
             auto& pair = word.pair;
             if (pair.offset < sizeof(Data)) {
@@ -189,21 +176,16 @@ bool Flash<Data,sector...>::is_read()
         }
     );
 
-    size_t memory_offset = std::distance(new_sectors[0].begin(), offset);
-
-    // TODO удалить в будущем
-    Traits<sectors[0]>::memory_offset = memory_offset;
-
-    if (memory_offset == 0) {
+    if (memory_offset == memory[0].begin()) {
       state = start_write;
       return_state = rewrite;
       return false;
     }
 
-    auto other_memory_cleared = std::all_of (offset, std::end(new_sectors[0])
+    auto is_other_memory_clear = std::all_of (memory_offset, memory[0].end()
         , [](auto& word){ return word.data == 0xFFFF; }
     );
-    if (not other_memory_cleared) {
+    if (not is_other_memory_clear) {
         state = erase;
         return false;
     }
@@ -234,32 +216,32 @@ void Flash<Data,sector...>::notify()
       break;
 
     case start_write:
-      if ( not flash.is_busy() and flash.is_lock() ) {
-         flash.unlock()
-              .set_progMode();
-         #if defined(STM32F4) or defined(STM32F7)
-            flash.set (FLASH_::ProgSize::x16)
-                 .en_interrupt_endOfProg(); // без этого не работает
-         #endif
-         writed_data = original[data_offset];
-         Traits<sectors[0]>::memory.word[Traits<sectors[0]>::memory_offset] = Pair{data_offset, writed_data};
-         state = check_write;
-      }
-      break;
+        if ( not flash.is_busy() and flash.is_lock() ) {
+            flash.unlock()
+                .set_progMode();
+            #if defined(STM32F4) or defined(STM32F7)
+                flash.set (FLASH_::ProgSize::x16)
+                    .en_interrupt_endOfProg(); // без этого не работает
+            #endif
+            writed_data = original[data_offset];
+            memory_offset->pair = Pair{data_offset, writed_data};
+            state = check_write;
+        }
+        break;
 
     case check_write:
-      if ( flash.is_endOfProg() ) {
-         flash.clear_flag_endOfProg()
-              .lock();
-         copy[data_offset] = writed_data;
-         Traits<sectors[0]>::memory_offset++;
-         if (Traits<sectors[0]>::memory_offset)
-            state = return_state;
-         else
-            state = erase;
-            
-      }
-      break;
+        if ( flash.is_endOfProg() ) {
+            flash.clear_flag_endOfProg()
+                .lock();
+            copy[data_offset] = writed_data;
+            ++memory_offset;
+            if (memory_offset != memory[0].end())
+                state = return_state;
+            else
+                state = erase;
+                
+        }
+        break;
 
     case erase:
       if ( not flash.is_busy() and flash.is_lock() ) {
@@ -274,7 +256,7 @@ void Flash<Data,sector...>::notify()
          flash.clear_flag_endOfProg()
               .lock();
          memset (copy, 0xFF, sizeof(copy));
-         Traits<sectors[0]>::memory_offset = 0;
+         memory_offset = memory[0].begin();
          data_offset   = 0;
          state = start_write;
          return_state = rewrite;
