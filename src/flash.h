@@ -176,18 +176,20 @@ bool Flash<Data,sector...>::is_read()
     std::fill (std::begin(copy), std::end(copy), 0xFF);
 
     // чтение данных в копию data в виде массива
-    size_t memory_offset{0};
     bool byte_readed[sizeof(Data)] {};
-    for (auto& word : new_sectors[0]) {
-        auto& pair = word.pair;
-        if (pair.offset < sizeof(Data)) {
-            copy[pair.offset] = pair.value;
-            byte_readed[pair.offset] = true;
-        } else if (pair.offset == 0xFF) {
-            memory_offset = std::distance(new_sectors[0].begin(), Sector::Iterator(&word));
-            break;
+    auto offset = std::find_if(new_sectors[0].begin(), new_sectors[0].end()
+        , [&](auto& word) bool {
+            auto& pair = word.pair;
+            if (pair.offset < sizeof(Data)) {
+                copy[pair.offset] = pair.value;
+                byte_readed[pair.offset] = true;
+                return false;
+            }
+            return pair.offset == 0xFF;
         }
-    }
+    );
+
+    size_t memory_offset = std::distance(new_sectors[0].begin(), offset);
 
     // TODO удалить в будущем
     Traits<sectors[0]>::memory_offset = memory_offset;
@@ -198,9 +200,7 @@ bool Flash<Data,sector...>::is_read()
       return false;
     }
 
-    auto other_memory_cleared = std::all_of (
-          std::begin(new_sectors[0]) + memory_offset
-        , std::end(new_sectors[0])
+    auto other_memory_cleared = std::all_of (offset, std::end(new_sectors[0])
         , [](auto& word){ return word.data == 0xFFFF; }
     );
     if (not other_memory_cleared) {
