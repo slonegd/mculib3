@@ -31,6 +31,27 @@ struct Pair {
     operator uint16_t() { return uint16_t(value) << 8 | offset; }
 };
 
+union Word {
+    Pair     pair;
+    uint16_t data;
+};
+
+struct Sector {
+    Word*  pointer;
+    size_t offset {0};
+    size_t size;
+    Sector (Word* pointer, size_t size)
+        :  pointer {pointer}
+        ,  size {size}
+    {}
+};
+
+template<FLASH_::Sector sector>
+struct New_Traits {
+    static constexpr Word* pointer { reinterpret_cast<Word*>(FLASH_::template address<sector>()) };
+    static constexpr auto  size    {FLASH_::template size<sector>()};
+};
+
 template<FLASH_::Sector sector>
 struct Traits {
     static constexpr auto sector_size     {FLASH_::template size<sector>()};
@@ -40,8 +61,12 @@ struct Traits {
         uint16_t word[sector_size/2];
     };
     static constexpr Memory& memory { *reinterpret_cast<Memory*>(FLASH_::template address<sector>()) };
-    static SizedInt<Traits<sector>::words_in_sector>  memory_offset;
+    static inline SizedInt<Traits<sector>::words_in_sector>  memory_offset{};
 };
+
+
+
+
 
 
 // для STM32F0 sector на самом деле page из refmanual
@@ -56,6 +81,14 @@ private:
     uint8_t* const original {reinterpret_cast<uint8_t*>(static_cast<Data*>(this))};
     uint8_t        copy[sizeof(Data)];
     static constexpr auto sectors {std::array{sector...}} ;
+    static inline auto new_sectors {
+        std::array{
+            Sector(
+                  New_Traits<sector>::pointer
+                , New_Traits<sector>::size
+            )...
+        }
+    };
 
     
     enum State {
