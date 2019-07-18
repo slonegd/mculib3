@@ -159,7 +159,9 @@ bool Flash<Data,sector...>::is_read()
 
     // чтение данных в копию data в виде массива и поиск пустой ячейки
     bool byte_readed[sizeof(Data)] {};
-    bool is_clean[memory.size()] {};
+    auto is_all_readed = [&]{ 
+        return std::all_of (std::begin(byte_readed), std::end(byte_readed), [](auto& v){return v;});
+    };
     for (auto i{0}; i < memory.size(); i++) {
         memory_offset = std::find_if(memory[i].begin(), memory[i].end()
             , [&](auto& word) bool {
@@ -178,7 +180,8 @@ bool Flash<Data,sector...>::is_read()
         }
         if (memory_offset != memory[i].end()) {
             current = i;
-            break;
+            if (is_all_readed())
+                break;
         } else {
             need_erase[i] = true;
         }
@@ -191,7 +194,7 @@ bool Flash<Data,sector...>::is_read()
         memory_offset = memory[current].begin();
     }
 
-    auto all_readed = std::all_of (std::begin(byte_readed), std::end(byte_readed), [](auto& v){return v;});
+    auto all_readed = is_all_readed();
     if (all_readed) {
         std::memcpy (original, copy, sizeof(copy));
         return_state = check_changes;
