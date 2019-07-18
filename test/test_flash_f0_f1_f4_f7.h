@@ -20,26 +20,28 @@ void do_every_ms (size_t ms, Function f)
 BOOST_AUTO_TEST_CASE (ctor)
 {
    mock::erase (mock::Sector::_7);
-   Flash<Data, mock::Sector::_7> flash {};
+   mock::erase (mock::Sector::_6);
+   Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
 
    wait_ms (100);
 
    BOOST_CHECK_EQUAL (flash.d1, 1);
    BOOST_CHECK_EQUAL (flash.d2, 2);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[0], 0);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[1], 1);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[2], 1);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[3], 0);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[4], 2);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[5], 2);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[6], 3);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[7], 0);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[0], 0);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[1], 1);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[2], 1);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[3], 0);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[4], 2);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[5], 2);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[6], 3);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[7], 0);
 }
 
 BOOST_AUTO_TEST_CASE (change)
 {
    mock::erase (mock::Sector::_7);
-   Flash<Data, mock::Sector::_7> flash {};
+   mock::erase (mock::Sector::_6);
+   Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
    wait_ms (100);
 
    flash.d1 = 0x0301;
@@ -47,65 +49,78 @@ BOOST_AUTO_TEST_CASE (change)
 
    BOOST_CHECK_EQUAL (flash.d1, 0x0301);
    BOOST_CHECK_EQUAL (flash.d2, 2);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[0], 0);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[1], 1);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[2], 1);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[3], 0);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[4], 2);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[5], 2);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[6], 3);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[7], 0);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[8], 1);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[9], 3);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[0], 0);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[1], 1);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[2], 1);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[3], 0);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[4], 2);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[5], 2);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[6], 3);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[7], 0);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[8], 1);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[9], 3);
 }
 
 BOOST_AUTO_TEST_CASE (ctor_after_change)
 {
    {
       mock::erase (mock::Sector::_7);
-      Flash<Data, mock::Sector::_7> flash {};
+      mock::erase (mock::Sector::_6);
+      Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
       wait_ms (100);
       flash.d1 = 0x0301;
       wait_ms (100);
    }
 
-   Flash<Data, mock::Sector::_7> flash {};
+   Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
 
    wait_ms (100);
 
    BOOST_CHECK_EQUAL (flash.d1, 0x0301);
    BOOST_CHECK_EQUAL (flash.d2, 2);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[0], 0);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[1], 1);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[2], 1);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[3], 0);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[4], 2);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[5], 2);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[6], 3);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[7], 0);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[8], 1);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[9], 3);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[0], 0);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[1], 1);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[2], 1);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[3], 0);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[4], 2);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[5], 2);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[6], 3);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[7], 0);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[8], 1);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[9], 3);
 }
 
-// /// если сектор кончается, то запись начинается с начала памяти
-// BOOST_AUTO_TEST_CASE (end_of_sector)
-// {
-//    auto& periph_flash = mcu::make_reference<mcu::Periph::FLASH>();
-//    periph_flash.set_erase_function (mock::erase);
-//    {
-//       Flash<Data, mock::Sector::_7> flash {};
-//       auto qty {mock::sector_size<mock::Sector::_7> + 1};
-//       while (qty--) {
-//          flash.d2++;
-
-//          wait_ms (20);
-
-//       }
-//    } // отключили питание
-//    Flash<Data, mock::Sector::_7> flash {};
-//    BOOST_CHECK_EQUAL (flash.d1, 0x0301);
-//    BOOST_CHECK_EQUAL (flash.d2, (2 + mock::sector_size<mock::Sector::_7> + 1) % (UINT16_MAX + 1));
-// }
+/// если сектор кончается, то запись начинается с другого сектора
+BOOST_AUTO_TEST_CASE (end_of_sector)
+{
+   struct Data {
+      uint16_t d1 {1};
+      uint8_t  d2 {2};
+   };
+   {
+      mock::erase (mock::Sector::_7);
+      mock::erase (mock::Sector::_6);
+      Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
+      wait_ms (100);
+      flash.d1 = 0x0301;
+      wait_ms (100);
+   }
+   auto& periph_flash = mcu::make_reference<mcu::Periph::FLASH>();
+   periph_flash.set_erase_function (mock::erase);
+   auto qty {mock::sector_size<mock::Sector::_6> / 2 + 1};
+   {
+      Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
+      for (auto i = qty; i; i--) {
+         flash.d2++;
+         wait_ms (30);
+      }
+   } // отключили питание
+   Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
+   BOOST_CHECK_EQUAL (flash.d1, 0x0301);
+   BOOST_CHECK_EQUAL (flash.d2, (2 + qty) % (UINT8_MAX + 1));
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[0], 0xFF);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[1], 0xFF);
+}
 
 // /// плохой вариант, потеря данных при отключеии питания при стирании сектора
 // BOOST_AUTO_TEST_CASE (off_when_erase)
@@ -113,12 +128,13 @@ BOOST_AUTO_TEST_CASE (ctor_after_change)
 //    auto& periph_flash = mcu::make_reference<mcu::Periph::FLASH>();
 //    periph_flash.set_erase_function (mock::erase);
 //    mock::erase (mock::Sector::_7);
+//    mock::erase (mock::Sector::_6);
 
 //    uint16_t copy_d1;
 
 //    {
 //       mock::start_erase = false;
-//       Flash<Data, mock::Sector::_7> flash {};
+//       Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
 
 //       copy_d1 = flash.d1;
 
@@ -134,7 +150,7 @@ BOOST_AUTO_TEST_CASE (ctor_after_change)
 //       }
 //       BOOST_CHECK_EQUAL (flash.d1, copy_d1);
 //    } // отключили питание
-//    Flash<Data, mock::Sector::_7> flash {};
+//    Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
 //    BOOST_CHECK_EQUAL (flash.d1, 1);
 //    BOOST_CHECK (flash.d1 != copy_d1);
 // }
@@ -142,7 +158,7 @@ BOOST_AUTO_TEST_CASE (ctor_after_change)
 // BOOST_AUTO_TEST_CASE (new_data)
 // {
 //    {
-//       Flash<Data, mock::Sector::_7> flash {};
+//       Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
 //       flash.d2 = 100;
 //       wait_ms (100);
 //    } // изменение программы, перепрошивка на устройстве
@@ -164,11 +180,12 @@ BOOST_AUTO_TEST_CASE (ctor_after_change)
 // BOOST_AUTO_TEST_CASE (process)
 // {
 //    mock::erase (mock::Sector::_7);
+//    mock::erase (mock::Sector::_6);
 
 //    auto& process = mock::Process::make();
 //    process.clear();
 
-//    Flash<Data, mock::Sector::_7> flash {};
+//    Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
 
 //    BOOST_CHECK_EQUAL (process.str(), "");
 

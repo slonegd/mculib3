@@ -19,7 +19,8 @@ template<size_t n, class Int = size_t>
 class SizedInt {
     Int value {0};
 public:
-    inline Int operator++(int)   { return value = (++value < n) ? value : 0; }
+    inline Int operator++(int)   { auto v = value; value = (++value < n) ? value : 0; return v; }
+    inline Int operator++()      { return value = (++value < n) ? value : 0; }
     inline Int operator--(int)   { return value = (value == 0) ? n : value - 1; }
     inline operator Int() const  { return value; }
     inline Int operator= (Int v) { return value = v; }
@@ -256,9 +257,10 @@ void Flash<Data,sector...>::notify()
                 need_erase[current] = true;
                 current++;
                 memory_offset = memory[current].begin();
-                state = rewrite;
+                data_offset = 0;
+                state = start_write;
+                return_state = rewrite;
             }
-                
         }
         break;
 
@@ -286,7 +288,7 @@ void Flash<Data,sector...>::notify()
     break;
 
     case rewrite:
-        if (data_offset++) {
+        if (++data_offset) {
             state = start_write;
         } else {
             state = is_need_erase() ? erase : check_changes;
