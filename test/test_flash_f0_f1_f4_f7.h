@@ -141,6 +141,35 @@ BOOST_AUTO_TEST_CASE (ctor_bad_sector)
    BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_7>[0], 0xFF);
 }
 
+BOOST_AUTO_TEST_CASE (ctor_bad_other_sector)
+{
+   mock::erase (mock::Sector::_7);
+   mock::erase (mock::Sector::_6);
+   mock::memory<mock::Sector::_7>[0] = 0;
+   mock::memory<mock::Sector::_7>[1] = 1;
+   mock::memory<mock::Sector::_7>[2] = 1;
+   mock::memory<mock::Sector::_7>[3] = 0;
+   mock::memory<mock::Sector::_7>[4] = 2;
+   mock::memory<mock::Sector::_7>[5] = 2;
+   mock::memory<mock::Sector::_7>[6] = 3;
+   mock::memory<mock::Sector::_7>[7] = 0;
+   mock::memory<mock::Sector::_7>[8] = 1;
+   mock::memory<mock::Sector::_7>[9] = 3;
+
+   mock::memory<mock::Sector::_6>[0] = 10;
+
+   auto& periph_flash = mcu::make_reference<mcu::Periph::FLASH>();
+   periph_flash.set_erase_function (mock::erase);
+
+   Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
+
+   BOOST_CHECK_EQUAL (flash.d1, 0x0301);
+   BOOST_CHECK_EQUAL (flash.d2, 2);
+
+   wait_ms (50);
+   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[0], 0xFF);
+}
+
 /// если сектор кончается, то запись начинается с другого сектора
 BOOST_AUTO_TEST_CASE (end_of_sector)
 {
