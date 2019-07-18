@@ -242,27 +242,27 @@ BOOST_AUTO_TEST_CASE (end_of_sector)
 //    BOOST_CHECK (flash.d1 != copy_d1);
 // }
 
-// BOOST_AUTO_TEST_CASE (new_data)
-// {
-//    {
-//       Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
-//       flash.d2 = 100;
-//       wait_ms (100);
-//    } // изменение программы, перепрошивка на устройстве
+BOOST_AUTO_TEST_CASE (new_data)
+{
+   {
+      Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
+      flash.d2 = 100;
+      wait_ms (100);
+   } // изменение программы, перепрошивка на устройстве
 
-//    struct NewData {
-//       uint16_t d1 {1};
-//       uint16_t d2 {2};
-//       uint16_t d3 {0};
-//    };
-//    Flash<NewData, mock::Sector::_7> flash {};
+   struct NewData {
+      uint16_t d1 {1};
+      uint16_t d2 {2};
+      uint16_t d3 {0};
+   };
+   Flash<NewData, mock::Sector::_7> flash {};
 
-//    wait_ms (100);
+   wait_ms (100);
 
-//    BOOST_CHECK_EQUAL (flash.d1, 1);
-//    BOOST_CHECK_EQUAL (flash.d2, 2);
-//    BOOST_CHECK_EQUAL (flash.d3, 0);
-// }
+   BOOST_CHECK_EQUAL (flash.d1, 1);
+   BOOST_CHECK_EQUAL (flash.d2, 2);
+   BOOST_CHECK_EQUAL (flash.d3, 0);
+}
 
 // BOOST_AUTO_TEST_CASE (process)
 // {
