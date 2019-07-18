@@ -72,15 +72,6 @@ struct Memory {
     Iterator end()   {return Iterator{pointer + size};}
 };
 
-template<FLASH_::Sector sector>
-struct Traits {
-    static constexpr Word* pointer { reinterpret_cast<Word*>(FLASH_::template address<sector>()) };
-    static constexpr auto  size    {FLASH_::template size<sector>()};
-};
-
-
-
-
 
 
 // для STM32F0 sector на самом деле page из refmanual
@@ -137,8 +128,8 @@ template <class Data, typename FLASH_::Sector ... sector>
 Flash<Data,sector...>::Flash()
     : memory { std::array{
         Memory (
-              Traits<sector>::pointer
-            , Traits<sector>::size / 2
+              reinterpret_cast<Word*>(FLASH_::template address<sector>())
+            , FLASH_::template size<sector>() / 2
         )...
     }}
     , memory_offset {memory[0].begin()}
