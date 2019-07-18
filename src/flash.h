@@ -95,6 +95,8 @@ private:
     uint8_t* const original {reinterpret_cast<uint8_t*>(static_cast<Data*>(this))};
     uint8_t        copy[sizeof(Data)];
     static constexpr auto sectors {std::array{sector...}} ;
+    int current {0};
+    bool need_erase[sizeof...(sector)] {};
     std::array<Memory, sizeof...(sector)> memory;
     Memory::Iterator memory_offset;
 
@@ -162,42 +164,64 @@ bool Flash<Data,sector...>::is_read()
     // обнуляем буфер перед заполнением
     std::fill (std::begin(copy), std::end(copy), 0xFF);
 
-    // чтение данных в копию data в виде массива
+    // чтение данных в копию data в виде массива и поиск пустой ячейки
     bool byte_readed[sizeof(Data)] {};
-    auto memory_offset = std::find_if(memory[0].begin(), memory[0].end()
-        , [&](auto& word) bool {
-            auto& pair = word.pair;
-            if (pair.offset < sizeof(Data)) {
-                copy[pair.offset] = pair.value;
-                byte_readed[pair.offset] = true;
-                return false;
+    bool is_clean[memory.size()] {};
+    for (auto i{0}; i < memory.size(); i++) {
+        memory_offset = std::find_if(memory[i].begin(), memory[i].end()
+            , [&](auto& word) bool {
+                auto& pair = word.pair;
+                if (pair.offset < sizeof(Data)) {
+                    copy[pair.offset] = pair.value;
+                    byte_readed[pair.offset] = true;
+                    return false;
+                }
+                return word.data == 0xFFFF;
             }
-            return pair.offset == 0xFF;
+        );
+        if (memory_offset == memory[i].begin()) {
+            current = i;
+            continue;
         }
-    );
-
-    if (memory_offset == memory[0].begin()) {
-      state = start_write;
-      return_state = rewrite;
-      return false;
+        if (memory_offset != memory[i].end()) {
+            current = i;
+            break;
+        } else {
+            need_erase[i] = true;
+        }
     }
 
-    auto is_other_memory_clear = std::all_of (memory_offset, memory[0].end()
-        , [](auto& word){ return word.data == 0xFFFF; }
-    );
-    if (not is_other_memory_clear) {
-        state = erase;
-        return false;
+    // прочитали всё но так и не нашли пустую ячейку
+    if (memory_offset == memory[current].end()) {
+        need_erase[current] = true;
+        current = 0;
+        memory_offset = memory[current].begin();
     }
 
     auto all_readed = std::all_of (std::begin(byte_readed), std::end(byte_readed), [](auto& v){return v;});
     if (all_readed) {
         std::memcpy (original, copy, sizeof(copy));
-        return true;
+        return_state = check_changes;
     } else {
-        state = erase;
-        return false;
+        need_erase[current] = true;
+        return_state = rewrite;
     }
+
+    // проверить все пустые страницы, что они действительно пустые
+    for (auto i{0}; i < memory.size(); i++) {
+        if (not need_erase[i] and i != current) {
+            need_erase[i] = std::any_of (memory[i].begin(), memory[i].end()
+                , [](auto& word){ return word.data != 0xFFFF; }
+            );
+        }
+        
+    }
+
+    if (std::any_of(std::begin(need_erase), std::end(need_erase), [](auto& v){return v;})) {
+        state = erase;
+    }
+
+    return all_readed;
 }
 
 
@@ -234,8 +258,7 @@ void Flash<Data,sector...>::notify()
             flash.clear_flag_endOfProg()
                 .lock();
             copy[data_offset] = writed_data;
-            ++memory_offset;
-            if (memory_offset != memory[0].end())
+            if (++memory_offset != memory[0].end())
                 state = return_state;
             else
                 state = erase;

@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE (off_when_erase)
       auto time {0};
       while (not mock::start_erase) {
          tickUpdater.notify();
-         if (not (++time % 100)) { // every 100 ms
+         if (not (++time % 90)) { // every 100 ms
             flash.d1++;
             copy_d1++;
          }

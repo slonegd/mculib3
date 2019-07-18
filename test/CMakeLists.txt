@@ -112,9 +112,9 @@ test (STM32F7 test_periph_flash_f7)
 # test (STM32F7 test_pin_f7)
 
 test (STM32F0 test_flash_f0)
-test (STM32F1 test_flash_f1)
-test (STM32F4 test_flash_f4)
-test (STM32F7 test_flash_f7)
+# test (STM32F1 test_flash_f1)
+# test (STM32F4 test_flash_f4)
+# test (STM32F7 test_flash_f7)
 
 # test (STM32F0 test_adc_f0)
 
