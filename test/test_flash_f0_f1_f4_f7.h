@@ -177,14 +177,20 @@ BOOST_AUTO_TEST_CASE (end_of_sector)
       uint16_t d1 {1};
       uint8_t  d2 {2};
    };
-   {
-      mock::erase (mock::Sector::_7);
-      mock::erase (mock::Sector::_6);
-      Flash<Data, mock::Sector::_7, mock::Sector::_6> flash {};
-      wait_ms (100);
-      flash.d1 = 0x0301;
-      wait_ms (100);
-   }
+
+   mock::erase (mock::Sector::_7);
+   mock::erase (mock::Sector::_6);
+   mock::memory<mock::Sector::_6>[0] = 0;
+   mock::memory<mock::Sector::_6>[1] = 1;
+   mock::memory<mock::Sector::_6>[2] = 1;
+   mock::memory<mock::Sector::_6>[3] = 0;
+   mock::memory<mock::Sector::_6>[4] = 2;
+   mock::memory<mock::Sector::_6>[5] = 2;
+   mock::memory<mock::Sector::_6>[6] = 3;
+   mock::memory<mock::Sector::_6>[7] = 0;
+   mock::memory<mock::Sector::_6>[8] = 1;
+   mock::memory<mock::Sector::_6>[9] = 3;
+
    auto& periph_flash = mcu::make_reference<mcu::Periph::FLASH>();
    periph_flash.set_erase_function (mock::erase);
    auto qty {mock::sector_size<mock::Sector::_6> / 2 + 1};
@@ -200,6 +206,7 @@ BOOST_AUTO_TEST_CASE (end_of_sector)
    BOOST_CHECK_EQUAL (flash.d2, (2 + qty) % (UINT8_MAX + 1));
    BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[0], 0xFF);
    BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[1], 0xFF);
+   BOOST_CHECK_NE    (mock::memory<mock::Sector::_7>[0], 0xFF);
 }
 
 // /// плохой вариант, потеря данных при отключеии питания при стирании сектора
