@@ -35,6 +35,7 @@ public:
    bool   is_busy()                  { return SR.BSY;                    }
    FLASH& set (ProgSize v)           { CR.PSIZE    = v;    return *this; }
    FLASH& en_interrupt_endOfProg()   { CR.EOPIE    = true; return *this; }
+   FLASH& start_erase(Sector);
 
    template<Sector> FLASH& start_erase();
 
@@ -68,6 +69,16 @@ FLASH& FLASH::unlock()
 
 template<FLASH::Sector s>
 FLASH& FLASH::start_erase()
+{
+   CR.SER  = true;
+   IF_TEST_WAIT_MS(10);
+   CR.SNB  = s;
+   IF_TEST_WAIT_MS(10);
+   CR.STRT = true;
+   return *this;
+}
+
+FLASH& FLASH::start_erase(FLASH::Sector s)
 {
    CR.SER  = true;
    IF_TEST_WAIT_MS(10);

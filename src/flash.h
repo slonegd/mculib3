@@ -95,7 +95,7 @@ private:
     uint8_t* const original {reinterpret_cast<uint8_t*>(static_cast<Data*>(this))};
     uint8_t        copy[sizeof(Data)];
     static constexpr auto sectors {std::array{sector...}} ;
-    int current {0};
+    SizedInt<sizeof...(sector)> current {};
     bool need_erase[sizeof...(sector)] {};
     std::array<Memory, sizeof...(sector)> memory;
     Memory::Iterator memory_offset;
@@ -118,6 +118,7 @@ private:
     //            false, если нет или данные не полные
     bool is_read();
     void notify() override;
+    bool is_need_erase();
 };
 
 
@@ -233,11 +234,11 @@ void Flash<Data,sector...>::notify()
     switch (state) {
 
     case check_changes:
-      if (original[data_offset] == copy[data_offset]) 
-         data_offset++;
-      else
-         state = start_write;
-      break;
+        if (original[data_offset] == copy[data_offset]) 
+            data_offset++;
+        else
+            state = start_write;
+        break;
 
     case start_write:
         if ( not flash.is_busy() and flash.is_lock() ) {
@@ -258,48 +259,58 @@ void Flash<Data,sector...>::notify()
             flash.clear_flag_endOfProg()
                 .lock();
             copy[data_offset] = writed_data;
-            if (++memory_offset != memory[0].end())
+            if (++memory_offset != memory[current].end()) {
                 state = return_state;
-            else
-                state = erase;
+            } else {
+                need_erase[current] = true;
+                current++;
+                memory_offset = memory[current].begin();
+                state = rewrite;
+            }
                 
         }
         break;
 
     case erase:
-      if ( not flash.is_busy() and flash.is_lock() ) {
-         flash.unlock()
-              .start_erase<sectors[0]>();
-         state = check_erase;
-      }
-      break;
+        if ( not flash.is_busy() and flash.is_lock() ) {
+            auto it = std::find(std::begin(need_erase), std::end(need_erase), true);
+            if (it == std::end(need_erase)) {
+                state = return_state;
+                break;
+            }
+            auto i = std::distance(std::begin(need_erase), it);
+            flash.unlock()
+                .start_erase(sectors[i]);
+            need_erase[i] = false;
+            state = check_erase;
+        }
+    break;
 
     case check_erase:
-      if ( flash.is_endOfProg() ) {
-         flash.clear_flag_endOfProg()
-              .lock();
-         memset (copy, 0xFF, sizeof(copy));
-         memory_offset = memory[0].begin();
-         data_offset   = 0;
-         state = start_write;
-         return_state = rewrite;
-      }
-      break;
+        if ( flash.is_endOfProg() ) {
+            flash.clear_flag_endOfProg()
+                 .lock();
+            state = is_need_erase() ? erase : check_changes;
+        }
+    break;
 
     case rewrite:
-      if (data_offset++) {
-         state = start_write;
-      } else {
-         state = check_changes;
-         return_state = check_changes;
-      }
-      break;
+        if (data_offset++) {
+            state = start_write;
+        } else {
+            state = is_need_erase() ? erase : check_changes;
+            return_state = check_changes;
+        }
+    break;
     } // switch
 }
 
 
 
-
+template <class Data, FLASH_::Sector ... sector>
+bool Flash<Data,sector...>::is_need_erase() {
+    return std::any_of(std::begin(need_erase), std::end(need_erase), [](auto& v){return v;});
+}
 
 
 
