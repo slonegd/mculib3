@@ -244,7 +244,7 @@ void Flash<Data,sector...>::notify()
                     .en_interrupt_endOfProg(); // без этого не работает
             #endif
             writed_data = original[data_offset];
-            memory_offset->pair = Pair{data_offset, writed_data};
+            memory_offset->data = Pair{data_offset, writed_data};
             state = check_write;
         }
         break;
