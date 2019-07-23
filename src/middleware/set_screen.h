@@ -6,6 +6,12 @@
 
 constexpr std::string_view null_to_string (int i) {return std::string_view{};}
 
+template<class T>
+using Max = Construct_wrapper<T>;
+
+template<class T>
+using Min = Construct_wrapper<T, 1>;
+
 // to_string - функция, преобразующая объект типа T в строку для отображения на экране
 template<class T, auto to_string = null_to_string>
 class Set_screen : public Screen
@@ -17,16 +23,16 @@ public:
         , Out_callback     out_callback
         , std::string_view name
         , T& var
-        , T  min = std::numeric_limits<T>::min
-        , T  max = std::numeric_limits<T>::max
+        , Min<T> min = Min<T>{std::numeric_limits<T>::min}
+        , Max<T> max = Max<T>{std::numeric_limits<T>::max}
     ) : lcd          {lcd} 
       , eventers     {eventers}
       , out_callback {out_callback.value}
       , name         {name}
       , var          {var}
       , tmp          {var}
-      , min          {min}
-      , max          {max}
+      , min          {min.value}
+      , max          {max.value}
     {}
 
     void init() override {
