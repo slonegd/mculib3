@@ -90,7 +90,7 @@ private:
     SizedInt<sizeof...(sector)> current {};
     bool need_erase[sizeof...(sector)] {};
     std::array<Memory, sizeof...(sector)> memory;
-    Memory::Iterator memory_offset;
+    Memory::Iterator memory_offset{nullptr};
 
     
     enum State {
@@ -237,8 +237,8 @@ void Flash<Data,sector...>::notify()
 
     case start_write:
         if ( not flash.is_busy() and flash.is_lock() ) {
-            flash.unlock()
-                .set_progMode();
+            flash.unlock();
+                flash.set_progMode();
             #if defined(STM32F4) or defined(STM32F7)
                 flash.set (FLASH_::ProgSize::x16)
                     .en_interrupt_endOfProg(); // без этого не работает

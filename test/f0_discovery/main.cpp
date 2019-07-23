@@ -4,14 +4,15 @@
 #define F_OSC   8000000UL
 #define F_CPU   48000000UL
 #include "periph_rcc.h"
-#include "flash.h"
-#include "timers.h"
-#include "periph_dma.h"
-#include "example/example_adc.h"
-#include "example/example_modbus_master.h"
-#include "literals.h"
-#include "pwm_.h"
-#include "encoder.h"
+// #include "flash.h"
+// #include "timers.h"
+// #include "periph_dma.h"
+// #include "example/example_adc.h"
+// #include "example/example_modbus_master.h"
+#include "example_flash.h"
+// #include "literals.h"
+// #include "pwm_.h"
+// #include "encoder.h"
 
 
 /// эта функция вызываеться первой в startup файле
@@ -34,8 +35,9 @@ extern "C" void init_clock ()
 
 int main()
 {
-   decltype(auto) encoder = Encoder::make<mcu::Periph::TIM1, mcu::PA8, mcu::PA9>();
-   int16_t v;
+   mcu::example::flash();
+   // decltype(auto) encoder = Encoder::make<mcu::Periph::TIM1, mcu::PA8, mcu::PA9>();
+   // int16_t v;
     // REF(RCC).clock_enable<mcu::Periph::TIM1>();
     // mcu::example::adc_average();
     // mcu::example::modbus_master();
@@ -53,8 +55,8 @@ int main()
    // int i {0};
    // int p {0};
 
-   while(1) {
-      v = encoder;
+   // while(1) {
+   //    v = encoder;
       // while (i < 100 ) {
       //    if (timer.event()) {
       //       pwm.duty_cycle = p++;
@@ -69,5 +71,5 @@ int main()
       //       pwm_.duty_cycle = i--;
       //    }
       // }
-   } // while(1) {
+   // } // while(1) {
 }
