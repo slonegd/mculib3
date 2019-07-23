@@ -66,7 +66,10 @@ Interrupt interrupt_usart3 {USART3_IRQn};
 Interrupt interrupt_usart2 {USART2_IRQn};
 Interrupt interrupt_usart3 {USART3_IRQn};
 #endif
-
+#if defined(STM32F0)
+Interrupt interrupt_tim1 {TIM1_BRK_UP_TRG_COM_IRQn};
+Interrupt interrupt_tim3 {TIM3_IRQn};
+#endif
 
 #if defined(STM32F0)
 Interrupt interrupt_DMA1_channel1 {DMA1_Channel1_IRQn};
@@ -133,6 +136,10 @@ auto& get_interrupt()
 #if defined(STM32F1) 
     else if constexpr (v == mcu::Periph::USART2)       return interrupt_usart2;
     else if constexpr (v == mcu::Periph::USART3)       return interrupt_usart3;
+#endif
+#if defined(STM32F0)
+    else if constexpr (v == mcu::Periph::TIM1)         return interrupt_tim1;
+    else if constexpr (v == mcu::Periph::TIM3)         return interrupt_tim3;
 #endif
 
 #if defined(STM32F4) 

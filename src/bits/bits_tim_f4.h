@@ -60,7 +60,28 @@ struct DIER {
    uint32_t       :17; // Bit 15 Reserved, must be kept at reset value.
 }__attribute__((packed));
 
+struct SR {
+   bool     UIF   :1; // Bit 0 UIF: Update interrupt flag
+   bool     CC1IF :1; // Bit 1 CC1IF: Capture/Compare 1 interrupt flag
+   bool     CC2IF :1; // Bit 2 CC2IF: Capture/Compare 2 interrupt flag
+   bool     CC3IF :1; // Bit 3 CC3IF: Capture/Compare 3 interrupt flag
+   bool     CC4IF :1; // Bit 4 CC4IF: Capture/Compare 4 interrupt flag
+   bool     COMIF :1; // Bit 5 COMIF: COM interrupt flag
+   bool     TIF   :1; // Bit 6 TIF: Trigger interrupt flag
+   bool     BIF   :1; // Bit 7 BIF: Break interrupt flag
+   uint32_t       :1; // Bit 8 Reserved, must be kept at reset value.
+   bool     CC1OF :1; // Bit 9 CC1OF: Capture/Compare 1 overcapture flag
+   bool     CC2OF :1; // Bit 10 CC2OF: Capture/Compare 2 overcapture flag
+   bool     CC3OF :1; // Bit 11 CC3OF: Capture/Compare 3 overcapture flag
+   bool     CC4OF :1; // Bit 12 CC4OF: Capture/Compare 4 overcapture flag
+   uint32_t       :3; // Bit 15-13 Reserved, must be kept at reset value.
+}__attribute__((packed));
+
 enum SelectionCompareMode { Output = 0b00, Input, InputALT, InputTRC }; 
+enum Filter { No_filter = 0b0000, Div_0_N_2, Div_0_N_4,  Div_0_N_8
+                     , Div_2_N_6, Div_2_N_8, Div_4_N_6,  Div_4_N_8
+                     , Div_8_N_6, Div_8_N_8, Div_16_N_5, Div_16_N_6, Div_16_N_8
+                                           , Div_32_N_5, Div_32_N_6, Div_32_N_8};
 
 struct Output_t {
    enum CompareMode { Off = 0b000, ActiveOnMatch, InactiveOnMatch, ToggleOnMatch,
