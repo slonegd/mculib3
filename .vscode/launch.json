@@ -8,7 +8,7 @@
         "name": "test_on_pc",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/test/cmake/build/test_dynarray",
+        "program": "${workspaceFolder}/test/cmake/build/test_flash_f0",
         "args": [],
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",

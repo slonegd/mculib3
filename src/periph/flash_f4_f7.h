@@ -29,15 +29,17 @@ public:
    FLASH& lock()                     { CR.LOCK     = true; return *this; }
    bool   is_lock()                  { return CR.LOCK;                   }
    FLASH& unlock();
-   FLASH& set_progMode()             { CR.PG       = true; return *this; }
+   FLASH& set_progMode()             { CR.SER = false; CR.PG = true; return *this; }
    bool   is_endOfProg()             { return SR.EOP;                    }
    FLASH& clear_flag_endOfProg()     { SR.EOP      = true; return *this; }
    bool   is_busy()                  { return SR.BSY;                    }
    FLASH& set (ProgSize v)           { CR.PSIZE    = v;    return *this; }
    FLASH& en_interrupt_endOfProg()   { CR.EOPIE    = true; return *this; }
+   FLASH& start_erase(Sector);
 
    template<Sector> FLASH& start_erase();
 
+   static constexpr size_t address(Sector);
    template<Sector> static constexpr size_t address();
    template<Sector> static constexpr size_t size();
 };
@@ -69,6 +71,18 @@ FLASH& FLASH::unlock()
 template<FLASH::Sector s>
 FLASH& FLASH::start_erase()
 {
+   CR.PG = false;
+   CR.SER  = true;
+   IF_TEST_WAIT_MS(10);
+   CR.SNB  = s;
+   IF_TEST_WAIT_MS(10);
+   CR.STRT = true;
+   return *this;
+}
+
+FLASH& FLASH::start_erase(FLASH::Sector s)
+{
+   CR.PG = false;
    CR.SER  = true;
    IF_TEST_WAIT_MS(10);
    CR.SNB  = s;
@@ -78,7 +92,28 @@ FLASH& FLASH::start_erase()
 }
 
 
-template <FLASH::Sector v> constexpr size_t FLASH::address()
+constexpr size_t FLASH::address(FLASH::Sector v)
+{
+   return 
+      v == Sector::_0  ? 0x08000000 :
+      v == Sector::_1  ? 0x08004000 :
+      v == Sector::_2  ? 0x08008000 :
+      v == Sector::_3  ? 0x0800C000 :
+      v == Sector::_4  ? 0x08010000 :
+      v == Sector::_5  ? 0x08020000 :
+      v == Sector::_6  ? 0x08040000 :
+      v == Sector::_7  ? 0x08060000 :
+      #if defined (STM32F4)
+      v == Sector::_8  ? 0x08080000 :
+      v == Sector::_9  ? 0x080A0000 :
+      v == Sector::_10 ? 0x080C0000 :
+      v == Sector::_11 ? 0x080E0000 :
+      #endif
+      0; // такого не может быть
+}
+
+template <FLASH::Sector v>
+constexpr size_t FLASH::address()
 {
    return 
       v == Sector::_0  ? 0x08000000 :

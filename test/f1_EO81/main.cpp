@@ -6,7 +6,7 @@
 // #include "example_hd44780.h"
 // #include "example_select_screen.h"
 #include "example_flash.h"
-#include "button.h"
+// #include "button.h"
 
 /// эта функция вызывается первой в startup файле
 extern "C" void init_clock() { init_clock<F_OSC, F_CPU>(); }

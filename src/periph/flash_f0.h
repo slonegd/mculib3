@@ -31,11 +31,13 @@ public:
    FLASH& lock()                     { CR.LOCK     = true; return *this; }
    bool   is_lock()                  { return CR.LOCK;                   }
    FLASH& unlock();
-   FLASH& set_progMode()             { CR.PG       = true; return *this; }
+   FLASH& set_progMode()             { CR.PER = false; CR.PG = true; return *this; }
    bool   is_endOfProg()             { return SR.EOP;                    }
    FLASH& clear_flag_endOfProg()     { SR.EOP      = true; return *this; }
    bool   is_busy()                  { return SR.BSY;                    }
    FLASH& en_interrupt_endOfProg()   { CR.EOPIE    = true; return *this; }
+   FLASH& start_erase(Sector);
+   static constexpr size_t address(Sector s) { return 0x08000000 + 1024 * s; }
 
    template<Sector> FLASH& start_erase();
 
@@ -70,9 +72,21 @@ FLASH& FLASH::unlock()
 template<FLASH::Sector s>
 FLASH& FLASH::start_erase()
 {
+   CR.PG   = false;
    CR.PER  = true;
    IF_TEST_WAIT_MS(1);
    AR = address<s>();
+   IF_TEST_WAIT_MS(1);
+   CR.STRT = true;
+   return *this;
+}
+
+FLASH& FLASH::start_erase(FLASH::Sector s)
+{
+   CR.PG   = false;
+   CR.PER  = true;
+   IF_TEST_WAIT_MS(1);
+   AR = address(s);
    IF_TEST_WAIT_MS(1);
    CR.STRT = true;
    return *this;

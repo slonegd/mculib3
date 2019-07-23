@@ -137,11 +137,14 @@ test (NULL test_table_crc)
 test (NULL test_string_buffer)
 test (NULL test_net_buffer)
 test (NULL test_vector)
-# test (NULL test_heap_new)             # dont work on work pc
-# test (NULL test_heap_multinew)        # dont work on work pc
-# test (NULL test_heap_delete)          # dont work on work pc
-# test (NULL test_heap_fragmentation)   # dont work on work pc
 test (NULL test_list)
+
+
+# не работают на рабочем компе (в ci и дома норм)
+# test (NULL test_heap_new)
+# test (NULL test_heap_multinew)
+# test (NULL test_heap_delete)
+# test (NULL test_heap_fragmentation)
 # test (NULL test_dynarray)             # dont work on work pc
 
 # test (NULL test_)
