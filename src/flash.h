@@ -101,8 +101,8 @@ private:
       check_erase,
       rewrite
     };
-    State state {check_changes};
-    State return_state {check_changes};
+    volatile State state {check_changes};
+    volatile State return_state {check_changes};
     volatile uint8_t writed_data; // TODO: проверить без volatile
     SizedInt<sizeof(Data), uint8_t> data_offset {};
 
@@ -162,6 +162,7 @@ bool Flash<Data,sector...>::is_read()
     auto is_all_readed = [&]{ 
         return std::all_of (std::begin(byte_readed), std::end(byte_readed), [](auto& v){return v;});
     };
+    flash.unlock();
     for (size_t i{0}; i < memory.size(); i++) {
         memory_offset = std::find_if(memory[i].begin(), memory[i].end()
             , [&](auto& word) bool {
@@ -217,6 +218,7 @@ bool Flash<Data,sector...>::is_read()
         state = erase;
     }
 
+    flash.lock();
     return all_readed;
 }
 

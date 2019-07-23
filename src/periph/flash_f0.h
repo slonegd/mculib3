@@ -31,7 +31,7 @@ public:
    FLASH& lock()                     { CR.LOCK     = true; return *this; }
    bool   is_lock()                  { return CR.LOCK;                   }
    FLASH& unlock();
-   FLASH& set_progMode()             { CR.PG       = true; return *this; }
+   FLASH& set_progMode()             { CR.PER = false; CR.PG = true; return *this; }
    bool   is_endOfProg()             { return SR.EOP;                    }
    FLASH& clear_flag_endOfProg()     { SR.EOP      = true; return *this; }
    bool   is_busy()                  { return SR.BSY;                    }
@@ -82,6 +82,7 @@ FLASH& FLASH::start_erase()
 
 FLASH& FLASH::start_erase(FLASH::Sector s)
 {
+   CR.PG   = false;
    CR.PER  = true;
    IF_TEST_WAIT_MS(1);
    AR = address(s);
