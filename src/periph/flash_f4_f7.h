@@ -39,6 +39,7 @@ public:
 
    template<Sector> FLASH& start_erase();
 
+   static constexpr size_t address(Sector);
    template<Sector> static constexpr size_t address();
    template<Sector> static constexpr size_t size();
 };
@@ -89,7 +90,28 @@ FLASH& FLASH::start_erase(FLASH::Sector s)
 }
 
 
-template <FLASH::Sector v> constexpr size_t FLASH::address()
+constexpr size_t FLASH::address(FLASH::Sector v)
+{
+   return 
+      v == Sector::_0  ? 0x08000000 :
+      v == Sector::_1  ? 0x08004000 :
+      v == Sector::_2  ? 0x08008000 :
+      v == Sector::_3  ? 0x0800C000 :
+      v == Sector::_4  ? 0x08010000 :
+      v == Sector::_5  ? 0x08020000 :
+      v == Sector::_6  ? 0x08040000 :
+      v == Sector::_7  ? 0x08060000 :
+      #if defined (STM32F4)
+      v == Sector::_8  ? 0x08080000 :
+      v == Sector::_9  ? 0x080A0000 :
+      v == Sector::_10 ? 0x080C0000 :
+      v == Sector::_11 ? 0x080E0000 :
+      #endif
+      0; // такого не может быть
+}
+
+template <FLASH::Sector v>
+constexpr size_t FLASH::address()
 {
    return 
       v == Sector::_0  ? 0x08000000 :

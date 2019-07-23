@@ -98,7 +98,7 @@ auto test = [&]() {
    cmsis.CR = 0;
    std::thread { [&](){flash.start_erase<s>();} }.detach();
 
-   auto address = mcu::FLASH::address<s>();
+   auto address = mcu::FLASH::address(s);
    
    Timeout timeout {100_ms};
    while (not(cmsis.CR & FLASH_CR_PER_Msk) and not timeout) { }
@@ -129,34 +129,36 @@ BOOST_AUTO_TEST_CASE (start_erase_sector)
 
 BOOST_AUTO_TEST_CASE (address)
 {
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _0>(), 0x08000000);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _1>(), 0x08000400);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _2>(), 0x08000800);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _3>(), 0x08000C00);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _4>(), 0x08001000);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _5>(), 0x08001400);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _6>(), 0x08001800);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _7>(), 0x08001C00);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _8>(), 0x08002000);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector:: _9>(), 0x08002400);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_10>(), 0x08002800);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_11>(), 0x08002C00);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_12>(), 0x08003000);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_30>(), 0x08007800);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_31>(), 0x08007C00);
+   using flash = mcu::FLASH;
+   using sector = mcu::FLASH::Sector;
+   BOOST_CHECK_EQUAL (flash::address(sector:: _0), 0x08000000);
+   BOOST_CHECK_EQUAL (flash::address(sector:: _1), 0x08000400);
+   BOOST_CHECK_EQUAL (flash::address(sector:: _2), 0x08000800);
+   BOOST_CHECK_EQUAL (flash::address(sector:: _3), 0x08000C00);
+   BOOST_CHECK_EQUAL (flash::address(sector:: _4), 0x08001000);
+   BOOST_CHECK_EQUAL (flash::address(sector:: _5), 0x08001400);
+   BOOST_CHECK_EQUAL (flash::address(sector:: _6), 0x08001800);
+   BOOST_CHECK_EQUAL (flash::address(sector:: _7), 0x08001C00);
+   BOOST_CHECK_EQUAL (flash::address(sector:: _8), 0x08002000);
+   BOOST_CHECK_EQUAL (flash::address(sector:: _9), 0x08002400);
+   BOOST_CHECK_EQUAL (flash::address(sector::_10), 0x08002800);
+   BOOST_CHECK_EQUAL (flash::address(sector::_11), 0x08002C00);
+   BOOST_CHECK_EQUAL (flash::address(sector::_12), 0x08003000);
+   BOOST_CHECK_EQUAL (flash::address(sector::_30), 0x08007800);
+   BOOST_CHECK_EQUAL (flash::address(sector::_31), 0x08007C00);
 #if defined(STM32F1)
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_32>(), 0x08008000);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_33>(), 0x08008400);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_43>(), 0x0800AC00);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_54>(), 0x0800D800);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_65>(), 0x08010400);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_76>(), 0x08013000);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_87>(), 0x08015C00);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_98>(), 0x08018800);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_109>(), 0x0801B400);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_115>(), 0x0801CC00);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_120>(), 0x0801E000);
-   BOOST_CHECK_EQUAL (mcu::FLASH::address<mcu::FLASH::Sector::_127>(), 0x0801FC00);
+   BOOST_CHECK_EQUAL (flash::address(sector::_32), 0x08008000);
+   BOOST_CHECK_EQUAL (flash::address(sector::_33), 0x08008400);
+   BOOST_CHECK_EQUAL (flash::address(sector::_43), 0x0800AC00);
+   BOOST_CHECK_EQUAL (flash::address(sector::_54), 0x0800D800);
+   BOOST_CHECK_EQUAL (flash::address(sector::_65), 0x08010400);
+   BOOST_CHECK_EQUAL (flash::address(sector::_76), 0x08013000);
+   BOOST_CHECK_EQUAL (flash::address(sector::_87), 0x08015C00);
+   BOOST_CHECK_EQUAL (flash::address(sector::_98), 0x08018800);
+   BOOST_CHECK_EQUAL (flash::address(sector::_109), 0x0801B400);
+   BOOST_CHECK_EQUAL (flash::address(sector::_115), 0x0801CC00);
+   BOOST_CHECK_EQUAL (flash::address(sector::_120), 0x0801E000);
+   BOOST_CHECK_EQUAL (flash::address(sector::_127), 0x0801FC00);
    
 #endif
 }

@@ -209,6 +209,8 @@ BOOST_AUTO_TEST_CASE (end_of_sector)
    BOOST_CHECK_NE    (mock::memory<mock::Sector::_7>[0], 0xFF);
 }
 
+// TODO написать тест на проверку сохранения данных при отключении питания при стирании
+// пока закоменчен тест со старым односекторным вариантом
 // /// плохой вариант, потеря данных при отключеии питания при стирании сектора
 // BOOST_AUTO_TEST_CASE (off_when_erase)
 // {
@@ -264,6 +266,11 @@ BOOST_AUTO_TEST_CASE (new_data)
    BOOST_CHECK_EQUAL (flash.d3, 0);
 }
 
+// TODO добавить тест на более 2 секторов
+// TODO добавить тест на несколько объектов на разных секторах
+// по идее lock должен отработать
+
+// TODO добавить тест на process, чтобы было больше понимание что делает класс
 // BOOST_AUTO_TEST_CASE (process)
 // {
 //    mock::erase (mock::Sector::_7);
