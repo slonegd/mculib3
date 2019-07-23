@@ -162,7 +162,7 @@ bool Flash<Data,sector...>::is_read()
     auto is_all_readed = [&]{ 
         return std::all_of (std::begin(byte_readed), std::end(byte_readed), [](auto& v){return v;});
     };
-    for (auto i{0}; i < memory.size(); i++) {
+    for (size_t i{0}; i < memory.size(); i++) {
         memory_offset = std::find_if(memory[i].begin(), memory[i].end()
             , [&](auto& word) bool {
                 auto& pair = word.pair;
@@ -204,7 +204,7 @@ bool Flash<Data,sector...>::is_read()
     }
 
     // проверить все пустые страницы, что они действительно пустые
-    for (auto i{0}; i < memory.size(); i++) {
+    for (size_t i{0}; i < memory.size(); i++) {
         if (not need_erase[i] and i != current) {
             need_erase[i] = std::any_of (memory[i].begin(), memory[i].end()
                 , [](auto& word){ return word.data != 0xFFFF; }
