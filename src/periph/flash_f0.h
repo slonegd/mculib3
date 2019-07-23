@@ -72,6 +72,7 @@ FLASH& FLASH::unlock()
 template<FLASH::Sector s>
 FLASH& FLASH::start_erase()
 {
+   CR.PG   = false;
    CR.PER  = true;
    IF_TEST_WAIT_MS(1);
    AR = address<s>();

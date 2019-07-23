@@ -29,7 +29,7 @@ public:
    FLASH& lock()                     { CR.LOCK     = true; return *this; }
    bool   is_lock()                  { return CR.LOCK;                   }
    FLASH& unlock();
-   FLASH& set_progMode()             { CR.PG       = true; return *this; }
+   FLASH& set_progMode()             { CR.SER = false; CR.PG = true; return *this; }
    bool   is_endOfProg()             { return SR.EOP;                    }
    FLASH& clear_flag_endOfProg()     { SR.EOP      = true; return *this; }
    bool   is_busy()                  { return SR.BSY;                    }
@@ -71,6 +71,7 @@ FLASH& FLASH::unlock()
 template<FLASH::Sector s>
 FLASH& FLASH::start_erase()
 {
+   CR.PG = false;
    CR.SER  = true;
    IF_TEST_WAIT_MS(10);
    CR.SNB  = s;
@@ -81,6 +82,7 @@ FLASH& FLASH::start_erase()
 
 FLASH& FLASH::start_erase(FLASH::Sector s)
 {
+   CR.PG = false;
    CR.SER  = true;
    IF_TEST_WAIT_MS(10);
    CR.SNB  = s;
