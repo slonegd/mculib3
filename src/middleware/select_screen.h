@@ -120,7 +120,7 @@ void Select_screen<qty>::redraw()
             lcd << line.name << next_line;
     });
     auto line_n {lcd.get_line()};
-    if (line_n == 0)  // на сдучай когда все 4 строки заполнены
+    if (line_n == 0)  // на случай когда все 4 строки заполнены
         line_n = 4;
     for (auto i{line_n}; i < 4; i++)
         lcd.line(i) << next_line;
