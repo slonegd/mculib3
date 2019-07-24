@@ -45,8 +45,8 @@ public:
             lcd.line(1) << to_string(tmp) << next_line;
         else
             lcd << tmp << next_line;
-        lcd << "Нажатие   " << "~" << "Сохран." << next_line;
-        lcd << "Удержание " << "~" << "Отмена"  << next_line;
+        lcd << "Нажатие   " << '~' << "Сохран." << next_line;
+        lcd << "Удержание " << '~' << "Отмена"  << next_line;
     }
 
     void deinit() override {

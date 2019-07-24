@@ -72,9 +72,9 @@ void Select_screen<qty>::down()
         or carriage_line < 2               // не двигается только на третьей
         or line_n == int(lines.size() - 1) // двигается на последнюю линию
     ) {
-        lcd.line(carriage_line).cursor(19) << " ";
+        lcd.line(carriage_line).cursor(19) << ' ';
         ++carriage_line;
-        lcd.line(carriage_line).cursor(19) << "~";
+        lcd.line(carriage_line).cursor(19) << '~';
         return;
     }
 
@@ -96,9 +96,9 @@ void Select_screen<qty>::up()
         or carriage_line > 1          // не двигается только на первой
         or line_n == 0                // двигается на первую линию
     ) {
-        lcd.line(carriage_line).cursor(19) << " ";
+        lcd.line(carriage_line).cursor(19) << ' ';
         --carriage_line;
-        lcd.line(carriage_line).cursor(19) << "~";
+        lcd.line(carriage_line).cursor(19) << '~';
         return;
     }
 
@@ -119,7 +119,10 @@ void Select_screen<qty>::redraw()
         , [&] (auto& line) mutable {
             lcd << line.name << next_line;
     });
-    for (auto i{lcd.get_line()}; i < 4; i++)
-        lcd.line(i) << ' ' << next_line;
-    lcd.line(carriage_line).cursor(19) << "~";
+    auto line_n {lcd.get_line()};
+    if (line_n == 0)  // на сдучай когда все 4 строки заполнены
+        line_n = 4;
+    for (auto i{line_n}; i < 4; i++)
+        lcd.line(i) << next_line;
+    lcd.line(carriage_line).cursor(19) << '~';
 }

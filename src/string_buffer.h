@@ -19,6 +19,7 @@ class String_buffer
 
     using String_buffer_ref = String_buffer&(&) (String_buffer& string_buffer);
     friend String_buffer& next_line (String_buffer& s);
+    friend String_buffer& clear_after (String_buffer& s);
 
 public:
     String_buffer (){screen.fill(' ');}
@@ -42,7 +43,16 @@ public:
 
 String_buffer& next_line (String_buffer& s) 
 {
+    if (s.in_begin_line())
+        s << ' ';
     while (not s.in_begin_line())
+        s << ' ';
+    return s;
+}
+
+String_buffer& clear_after (String_buffer& s) 
+{
+    while (s.position)
         s << ' ';
     return s;
 }
@@ -50,6 +60,7 @@ String_buffer& next_line (String_buffer& s)
 String_buffer& String_buffer::operator<< (char v)
 {
     *(screen.begin() + position++) = v;
+    position %= screen_size;
     return *this;
 }
 

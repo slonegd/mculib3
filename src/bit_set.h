@@ -11,9 +11,14 @@ struct Bit_set
    int num{0};
    int i  {0};
 
-   bool operator[] (size_t n)
+   bool operator[] (size_t n) const
    {
       return n < qty_bit ? bits[n] : true;
+   }
+
+   bool& operator[] (size_t n)
+   {
+      return bits[n];
    }
 
    Bit_set<qty_bit> operator= (uint16_t n)
