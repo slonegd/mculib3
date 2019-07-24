@@ -20,25 +20,35 @@ public:
     Set_screen (
           String_buffer&   lcd
         , Buttons_events   eventers
-        , Out_callback     out_callback
         , std::string_view name
         , T& var
-        , Min<T> min = Min<T>{std::numeric_limits<T>::min}
-        , Max<T> max = Max<T>{std::numeric_limits<T>::max}
-    ) : lcd          {lcd} 
-      , eventers     {eventers}
-      , out_callback {out_callback.value}
-      , name         {name}
-      , var          {var}
-      , tmp          {var}
-      , min          {min.value}
-      , max          {max.value}
+        , Min<T> min
+        , Max<T> max
+        , Out_callback     out_callback
+        , Enter_callback   enter_callback = Enter_callback{nullptr}
+    ) : min            {min.value}
+      , max            {max.value}
+      , lcd            {lcd} 
+      , eventers       {eventers}
+      , out_callback   {out_callback.value}
+      , enter_callback {enter_callback.value}
+      , name           {name}
+      , var            {var}
+      , tmp            {var}
+      
     {}
 
     void init() override {
         eventers.up    ([this]{ up();    });
         eventers.down  ([this]{ down();  });
-        eventers.enter ([this]{ var = tmp; out_callback(); });
+        eventers.enter ([this]{
+            var = tmp;
+            if (enter_callback) {
+                enter_callback();
+                return;
+            }
+            out_callback();
+        });
         eventers.out   ([this]{ out_callback(); });
         lcd.line(0) << name << next_line;
         if (to_string != null_to_string)
@@ -58,15 +68,17 @@ public:
 
     void draw() override {}
 
+    T min;
+    T max;
+
 private:
     String_buffer& lcd;
     Buttons_events eventers;
     Callback<>     out_callback;
+    Callback<>     enter_callback;
     const std::string_view name;
     T& var;
     T tmp;
-    T min;
-    T max;
 
     void down() 
     {

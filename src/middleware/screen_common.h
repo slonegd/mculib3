@@ -18,11 +18,12 @@ struct Construct_wrapper {
 
 using Eventer = std::function<void(Callback<>)>;
 
-using Up_event     = Construct_wrapper<Eventer>;
-using Down_event   = Construct_wrapper<Eventer, 1>;
-using Enter_event  = Construct_wrapper<Eventer, 2>;
-using Out_event    = Construct_wrapper<Eventer, 3>;
-using Out_callback = Construct_wrapper<Callback<>>;
+using Up_event       = Construct_wrapper<Eventer>;
+using Down_event     = Construct_wrapper<Eventer, 1>;
+using Enter_event    = Construct_wrapper<Eventer, 2>;
+using Out_event      = Construct_wrapper<Eventer, 3>;
+using Out_callback   = Construct_wrapper<Callback<>>;
+using Enter_callback = Construct_wrapper<Callback<>, 1>;
 
 struct Buttons_events {
     Eventer up;
