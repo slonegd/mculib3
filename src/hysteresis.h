@@ -1,10 +1,10 @@
 #pragma once
 
-template<class T>
+template<class T, class U>
 class Hysteresis
 {
 public:
-    Hysteresis(const T& current, const T min, const T max)
+    Hysteresis(const T& current, const U min, const U max)
         : current{current}, min{min}, max{max}
     {}
 
@@ -21,7 +21,7 @@ public:
 
 private:
     const T& current;
-    const T min;
-    const T max;
+    const U min;
+    const U max;
     bool state {false};
 };
