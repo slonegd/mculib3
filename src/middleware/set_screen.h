@@ -51,6 +51,7 @@ public:
         });
         eventers.out   ([this]{ out_callback(); });
         lcd.line(0) << name << next_line;
+        tmp = var;
         if (to_string != null_to_string)
             lcd.line(1) << to_string(tmp) << next_line;
         else
@@ -83,7 +84,7 @@ private:
     void down() 
     {
         --tmp;
-        if (tmp < min)
+        if (tmp < min or tmp == std::numeric_limits<T>::max())
             tmp = max;
         if (to_string != null_to_string) {
             lcd.line(1) << to_string(tmp) << next_line;
@@ -103,8 +104,19 @@ private:
         }
         lcd.line(1) << tmp << next_line;
     }
-
 };
 
+// additional deduction guide
+template<class T, auto to_string>
+Set_screen (
+        String_buffer&   lcd
+    , Buttons_events   eventers
+    , std::string_view name
+    , T& var
+    , Min<T> min
+    , Max<T> max
+    , Out_callback     out_callback
+    , Enter_callback   enter_callback = Enter_callback{nullptr}
+) -> Set_screen<T, to_string>;
 
 
