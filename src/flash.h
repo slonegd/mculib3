@@ -80,13 +80,12 @@ template <class Data, FLASH_::Sector ... sector>
 class Flash_updater_impl : private TickSubscriber
 {
 public:
-    Flash_updater_impl(Data&);
+    Flash_updater_impl(Data*);
     ~Flash_updater_impl() { tick_unsubscribe(); }
 private:
-    Data&          data;
-    FLASH_&        flash   {mcu::make_reference<mcu::Periph::FLASH>()};
-    uint8_t* const original {reinterpret_cast<uint8_t*>(&data)}; // TODO нужно ли?
-    uint8_t        copy[sizeof(Data)];
+    FLASH_&  flash   {mcu::make_reference<mcu::Periph::FLASH>()};
+    Data*    original;
+    uint8_t  copy[sizeof(Data)];
     static constexpr auto sectors {std::array{sector...}} ;
     SizedInt<sizeof...(sector)> current {};
     bool need_erase[sizeof...(sector)] {};
@@ -120,7 +119,7 @@ private:
 template<FLASH_::Sector ... sector>
 struct Flash_updater {
     template<class Data>
-    static auto make(Data& data) {
+    static auto make(Data* data) {
         return Flash_updater_impl<Data,sector...>{data};
     }
 };
@@ -139,8 +138,8 @@ struct Flash_updater {
 
 
 template <class Data, typename FLASH_::Sector ... sector>
-Flash_updater_impl<Data,sector...>::Flash_updater_impl(Data& data)
-    : data {data}
+Flash_updater_impl<Data,sector...>::Flash_updater_impl(Data* data)
+    : original {data}
     , memory { std::array{
         Memory (
               reinterpret_cast<Word*>(FLASH_::template address<sector>())
@@ -159,7 +158,7 @@ Flash_updater_impl<Data,sector...>::Flash_updater_impl(Data& data)
     );
     // flash.lock(); // check if need
     if (not is_read())
-        data = Data{};
+        *data = Data{};
     tick_subscribe();
 }
 
@@ -241,6 +240,9 @@ bool Flash_updater_impl<Data,sector...>::is_read()
 template <class Data, FLASH_::Sector ... sector>
 void Flash_updater_impl<Data,sector...>::notify()
 {
+    // приведение к массиву для удобство работы с копией данных
+    uint8_t* original = reinterpret_cast<uint8_t*>(this->original);
+
     // реализация автоматом
     switch (state) {
 

@@ -25,7 +25,7 @@ BOOST_AUTO_TEST_CASE (ctor)
     [[maybe_unused]] auto _ = Flash_updater<
           mock::Sector::_7
         , mock::Sector::_6
-    >::make(flash);
+    >::make(&flash);
 
     wait_ms (100);
 
@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE (change)
     [[maybe_unused]] auto _ = Flash_updater<
           mock::Sector::_7
         , mock::Sector::_6
-    >::make(flash);
+    >::make(&flash);
     wait_ms (100);
 
     flash.d1 = 0x0301;
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE (ctor_after_change)
         [[maybe_unused]] auto _ = Flash_updater<
               mock::Sector::_7
             , mock::Sector::_6
-        >::make(flash);
+        >::make(&flash);
         wait_ms (100);
         flash.d1 = 0x0301;
         wait_ms (100);
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE (ctor_after_change)
     [[maybe_unused]] auto _ = Flash_updater<
           mock::Sector::_7
         , mock::Sector::_6
-    >::make(flash);
+    >::make(&flash);
 
     wait_ms (100);
 
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE (ctor_other_sector)
     [[maybe_unused]] auto _ = Flash_updater<
           mock::Sector::_7
         , mock::Sector::_6
-    >::make(flash);
+    >::make(&flash);
 
     BOOST_CHECK_EQUAL (flash.d1, 0x0301);
     BOOST_CHECK_EQUAL (flash.d2, 2);
@@ -156,7 +156,7 @@ BOOST_AUTO_TEST_CASE (ctor_bad_sector)
     [[maybe_unused]] auto _ = Flash_updater<
           mock::Sector::_7
         , mock::Sector::_6
-    >::make(flash);
+    >::make(&flash);
 
     BOOST_CHECK_EQUAL (flash.d1, 0x0301);
     BOOST_CHECK_EQUAL (flash.d2, 2);
@@ -189,7 +189,7 @@ BOOST_AUTO_TEST_CASE (ctor_bad_other_sector)
     [[maybe_unused]] auto _ = Flash_updater<
           mock::Sector::_7
         , mock::Sector::_6
-    >::make(flash);
+    >::make(&flash);
 
     BOOST_CHECK_EQUAL (flash.d1, 0x0301);
     BOOST_CHECK_EQUAL (flash.d2, 2);
@@ -227,7 +227,7 @@ BOOST_AUTO_TEST_CASE (end_of_sector)
         [[maybe_unused]] auto _ = Flash_updater<
               mock::Sector::_7
             , mock::Sector::_6
-        >::make(flash);
+        >::make(&flash);
       for (auto i = qty; i; i--) {
          flash.d2++;
          wait_ms (30);
@@ -237,7 +237,7 @@ BOOST_AUTO_TEST_CASE (end_of_sector)
     [[maybe_unused]] auto _ = Flash_updater<
           mock::Sector::_7
         , mock::Sector::_6
-    >::make(flash);
+    >::make(&flash);
     BOOST_CHECK_EQUAL (flash.d1, 0x0301);
     BOOST_CHECK_EQUAL (flash.d2, (2 + qty) % (UINT8_MAX + 1));
     BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[0], 0xFF);
@@ -287,7 +287,7 @@ BOOST_AUTO_TEST_CASE (new_data)
         [[maybe_unused]] auto _ = Flash_updater<
               mock::Sector::_7
             , mock::Sector::_6
-        >::make(flash);
+        >::make(&flash);
         flash.d2 = 100;
         wait_ms (100);
     } // изменение программы, перепрошивка на устройстве
@@ -301,7 +301,7 @@ BOOST_AUTO_TEST_CASE (new_data)
     [[maybe_unused]] auto _ = Flash_updater<
           mock::Sector::_7
         , mock::Sector::_6
-    >::make(flash);
+    >::make(&flash);
 
     wait_ms (100);
 

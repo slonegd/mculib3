@@ -13,7 +13,7 @@ void flash() {
     [[maybe_unused]] auto _ = Flash_updater<
           mcu::FLASH::Sector::_19
         , mcu::FLASH::Sector::_20
-    >::make(flash);
+    >::make(&flash);
 
     struct OtherData {
         bool   d1 {true};
@@ -22,7 +22,7 @@ void flash() {
     [[maybe_unused]] auto __ = Flash_updater<
           mcu::FLASH::Sector::_17
         , mcu::FLASH::Sector::_18
-    >::make(other_flash);
+    >::make(&other_flash);
 
     auto ticker       = Timer{200};
     auto other_ticker = Timer{300};
