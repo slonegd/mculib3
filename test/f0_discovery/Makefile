@@ -1,6 +1,6 @@
 TARGET_F0 = main
 DEBUG = 1
-OPT = -O0
+OPT = -Os
 CPPSTD =-std=c++17
 BUILD_DIR = build
 

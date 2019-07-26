@@ -77,14 +77,15 @@ struct Memory {
 
 // для STM32F0 sector на самом деле page из refmanual
 template <class Data, FLASH_::Sector ... sector>
-class Flash : public Data, private TickSubscriber
+class Flash_updater : private TickSubscriber
 {
 public:
-    Flash();
-    ~Flash() { tick_unsubscribe(); }
+    Flash_updater(Data&);
+    ~Flash_updater() { tick_unsubscribe(); }
 private:
+    Data&          data;
     FLASH_&        flash   {mcu::make_reference<mcu::Periph::FLASH>()};
-    uint8_t* const original {reinterpret_cast<uint8_t*>(static_cast<Data*>(this))};
+    uint8_t* const original {reinterpret_cast<uint8_t*>(&data)}; // TODO нужно ли?
     uint8_t        copy[sizeof(Data)];
     static constexpr auto sectors {std::array{sector...}} ;
     SizedInt<sizeof...(sector)> current {};
@@ -124,10 +125,10 @@ private:
 
 
 
-
 template <class Data, typename FLASH_::Sector ... sector>
-Flash<Data,sector...>::Flash()
-    : memory { std::array{
+Flash_updater<Data,sector...>::Flash_updater(Data& data)
+    : data {data}
+    , memory { std::array{
         Memory (
               reinterpret_cast<Word*>(FLASH_::template address<sector>())
             , FLASH_::template size<sector>() / 2
@@ -136,23 +137,23 @@ Flash<Data,sector...>::Flash()
     , memory_offset {memory[0].begin()}
 {
     static_assert (
-      sizeof(Data) < 255,
-      "Размер сохраняемой структуры должен быть менее 255 байт"
+        sizeof(Data) < 255,
+        "Размер сохраняемой структуры должен быть менее 255 байт"
     );
     static_assert (
-      std::is_trivially_copyable_v<Data>,
-      "Можно сохранять только тривиально копируемую структуру"
+        std::is_trivially_copyable_v<Data>,
+        "Можно сохранять только тривиально копируемую структуру"
     );
     // flash.lock(); // check if need
     if (not is_read())
-      *static_cast<Data*>(this) = Data{};
+        data = Data{};
     tick_subscribe();
 }
 
 
 
 template <class Data, typename FLASH_::Sector ... sector>
-bool Flash<Data,sector...>::is_read()
+bool Flash_updater<Data,sector...>::is_read()
 {
     // обнуляем буфер перед заполнением
     std::fill (std::begin(copy), std::end(copy), 0xFF);
@@ -225,7 +226,7 @@ bool Flash<Data,sector...>::is_read()
 
 
 template <class Data, FLASH_::Sector ... sector>
-void Flash<Data,sector...>::notify()
+void Flash_updater<Data,sector...>::notify()
 {
     // реализация автоматом
     switch (state) {
@@ -306,10 +307,9 @@ void Flash<Data,sector...>::notify()
 
 
 template <class Data, FLASH_::Sector ... sector>
-bool Flash<Data,sector...>::is_need_erase() {
+bool Flash_updater<Data,sector...>::is_need_erase() {
     return std::any_of(std::begin(need_erase), std::end(need_erase), [](auto& v){return v;});
 }
-
 
 
 
