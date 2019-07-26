@@ -10,6 +10,7 @@
 // #include "example/example_adc.h"
 // #include "example/example_modbus_master.h"
 #include "example_flash.h"
+#include "example_safe_flash.h"
 // #include "literals.h"
 // #include "pwm_.h"
 // #include "encoder.h"
@@ -35,7 +36,7 @@ extern "C" void init_clock ()
 
 int main()
 {
-   mcu::example::flash();
+   mcu::example::safe_flash();
    // decltype(auto) encoder = Encoder::make<mcu::Periph::TIM1, mcu::PA8, mcu::PA9>();
    // int16_t v;
     // REF(RCC).clock_enable<mcu::Periph::TIM1>();
