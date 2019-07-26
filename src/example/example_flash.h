@@ -10,7 +10,10 @@ void flash() {
         size_t d2 {0};
         // more other fields, Data must be trivially copyable
     } flash;
-    [[maybe_unused]] auto _ = Flash_updater<Data, mcu::FLASH::Sector::_19, mcu::FLASH::Sector::_20> {flash};
+    [[maybe_unused]] auto _ = Flash_updater<
+          mcu::FLASH::Sector::_19
+        , mcu::FLASH::Sector::_20
+    >::make(flash);
 
     // struct OtherData {
     //     bool   d1 {true};

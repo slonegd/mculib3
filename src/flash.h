@@ -77,11 +77,11 @@ struct Memory {
 
 // для STM32F0 sector на самом деле page из refmanual
 template <class Data, FLASH_::Sector ... sector>
-class Flash_updater : private TickSubscriber
+class Flash_updater_impl : private TickSubscriber
 {
 public:
-    Flash_updater(Data&);
-    ~Flash_updater() { tick_unsubscribe(); }
+    Flash_updater_impl(Data&);
+    ~Flash_updater_impl() { tick_unsubscribe(); }
 private:
     Data&          data;
     FLASH_&        flash   {mcu::make_reference<mcu::Periph::FLASH>()};
@@ -112,6 +112,17 @@ private:
     bool is_read();
     void notify() override;
     bool is_need_erase();
+    
+};
+
+
+// хелпер, чтобы явно не указывать параметр шаблона Data в Flash_updater_impl
+template<FLASH_::Sector ... sector>
+struct Flash_updater {
+    template<class Data>
+    static auto make(Data& data) {
+        return Flash_updater_impl<Data,sector...>{data};
+    }
 };
 
 
@@ -125,8 +136,10 @@ private:
 
 
 
+
+
 template <class Data, typename FLASH_::Sector ... sector>
-Flash_updater<Data,sector...>::Flash_updater(Data& data)
+Flash_updater_impl<Data,sector...>::Flash_updater_impl(Data& data)
     : data {data}
     , memory { std::array{
         Memory (
@@ -153,7 +166,7 @@ Flash_updater<Data,sector...>::Flash_updater(Data& data)
 
 
 template <class Data, typename FLASH_::Sector ... sector>
-bool Flash_updater<Data,sector...>::is_read()
+bool Flash_updater_impl<Data,sector...>::is_read()
 {
     // обнуляем буфер перед заполнением
     std::fill (std::begin(copy), std::end(copy), 0xFF);
@@ -226,7 +239,7 @@ bool Flash_updater<Data,sector...>::is_read()
 
 
 template <class Data, FLASH_::Sector ... sector>
-void Flash_updater<Data,sector...>::notify()
+void Flash_updater_impl<Data,sector...>::notify()
 {
     // реализация автоматом
     switch (state) {
@@ -307,10 +320,16 @@ void Flash_updater<Data,sector...>::notify()
 
 
 template <class Data, FLASH_::Sector ... sector>
-bool Flash_updater<Data,sector...>::is_need_erase() {
+bool Flash_updater_impl<Data,sector...>::is_need_erase() {
     return std::any_of(std::begin(need_erase), std::end(need_erase), [](auto& v){return v;});
 }
 
-
+template<FLASH_::Sector ... sector>
+struct A {
+    template<class Data>
+    static Flash_updater_impl<Data,sector...> make(Data& data) {
+        return Flash_updater_impl<Data,sector...>{data};
+    }
+};
 
 

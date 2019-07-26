@@ -19,23 +19,26 @@ void do_every_ms (size_t ms, Function f)
 
 BOOST_AUTO_TEST_CASE (ctor)
 {
-   mock::erase (mock::Sector::_7);
-   mock::erase (mock::Sector::_6);
-   Data flash{};
-   [[maybe_unused]] auto _ = Flash_updater<Data, mock::Sector::_7, mock::Sector::_6> {flash};
+    mock::erase (mock::Sector::_7);
+    mock::erase (mock::Sector::_6);
+    Data flash{};
+    [[maybe_unused]] auto _ = Flash_updater<
+          mock::Sector::_7
+        , mock::Sector::_6
+    >::make(flash);
 
-   wait_ms (100);
+    wait_ms (100);
 
-   BOOST_CHECK_EQUAL (flash.d1, 1);
-   BOOST_CHECK_EQUAL (flash.d2, 2);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[0], 0);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[1], 1);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[2], 1);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[3], 0);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[4], 2);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[5], 2);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[6], 3);
-   BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[7], 0);
+    BOOST_CHECK_EQUAL (flash.d1, 1);
+    BOOST_CHECK_EQUAL (flash.d2, 2);
+    BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[0], 0);
+    BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[1], 1);
+    BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[2], 1);
+    BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[3], 0);
+    BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[4], 2);
+    BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[5], 2);
+    BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[6], 3);
+    BOOST_CHECK_EQUAL (mock::memory<mock::Sector::_6>[7], 0);
 }
 
 // BOOST_AUTO_TEST_CASE (change)
