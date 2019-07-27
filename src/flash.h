@@ -81,7 +81,10 @@ class Flash_updater_impl : private TickSubscriber
 {
 public:
     Flash_updater_impl(Data*);
-    ~Flash_updater_impl() { tick_unsubscribe(); }
+    ~Flash_updater_impl() { stop(); }
+    void start() { tick_subscribe(); }
+    void stop()  { tick_unsubscribe(); }
+    void set_data(Data* v) { original = v; }
 private:
     FLASH_&  flash   {mcu::make_reference<mcu::Periph::FLASH>()};
     Data*    original;
