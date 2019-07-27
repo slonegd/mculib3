@@ -7,7 +7,7 @@
 // #include "example/example_adc.h"
 // #include "example/example_modbus_master.h"
 #include "example_flash.h"
-// #include "example_safe_flash.h"
+#include "example_safe_flash.h"
 
 
 /// эта функция вызываеться первой в startup файле
@@ -30,6 +30,6 @@ extern "C" void init_clock ()
 
 int main()
 {
-    // mcu::example::safe_flash();
+    mcu::example::safe_flash();
     mcu::example::flash();
 }

@@ -9,8 +9,12 @@ void safe_flash() {
         bool   d1 {true};
         size_t d2 {0};
         // more other fields, Data must be trivially copyable
-    };
-    Safe_flash<Data, mcu::FLASH::Sector::_23, mcu::FLASH::Sector::_28> flash {};
+    } flash;
+
+    [[maybe_unused]] auto __ = Safe_flash_updater<
+          mcu::FLASH::Sector::_23
+        , mcu::FLASH::Sector::_28
+    >::make(&flash);
 
     auto ticker = Timer{1000};
 
