@@ -135,7 +135,7 @@ constexpr auto all_is_same = [](auto...vs) {
 template<typename T>
 bool is_equal(const T& a, const T& b)
 {
-    return boost::pfr::greater_equal<T>{}(a, b);
+    return boost::pfr::equal_to<T>{}(a, b);
 }
 
 } // namespace meta {

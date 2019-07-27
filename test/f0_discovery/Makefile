@@ -24,6 +24,7 @@ C_INCLUDES += -I$(LIBRARY_PATH)/src/periph
 C_INCLUDES += -I$(LIBRARY_PATH)/src/bits
 C_INCLUDES += -I$(LIBRARY_PATH)/src/example
 C_INCLUDES += -I$(LIBRARY_PATH)/src/middleware
+C_INCLUDES += -I$(LIBRARY_PATH)/magic_get/include
 
 
 #######################################

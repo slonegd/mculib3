@@ -86,6 +86,12 @@ public:
     void start() { tick_subscribe(); }
     void stop()  { tick_unsubscribe(); }
     void set_data(Data* v) { original = v; }
+    void read_to(Data* data) {
+        original = data;
+        // flash.lock(); // check if need
+        if (not is_read())
+            *data = Data{};
+    }
 private:
     FLASH_&  flash   {mcu::make_reference<mcu::Periph::FLASH>()};
     Data*    original;
@@ -169,8 +175,7 @@ Flash_updater_impl<Data,sector...>::Flash_updater_impl(Data* data)
 {
     original = data;
     // flash.lock(); // check if need
-    if (not is_read())
-        *data = Data{};
+    read_to (data);
     tick_subscribe();
 }
 
@@ -340,13 +345,3 @@ template <class Data, FLASH_::Sector ... sector>
 bool Flash_updater_impl<Data,sector...>::is_need_erase() {
     return std::any_of(std::begin(need_erase), std::end(need_erase), [](auto& v){return v;});
 }
-
-template<FLASH_::Sector ... sector>
-struct A {
-    template<class Data>
-    static Flash_updater_impl<Data,sector...> make(Data& data) {
-        return Flash_updater_impl<Data,sector...>{data};
-    }
-};
-
-

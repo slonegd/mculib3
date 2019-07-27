@@ -5,7 +5,7 @@
 template<typename T>
 bool is_equal(const T& a, const T& b)
 {
-    return boost::pfr::greater_equal<T>{}(a, b);
+    return boost::pfr::equal_to<T>{}(a, b);
 }
 
 int main() {
@@ -14,6 +14,6 @@ int main() {
         int b;
     };
     auto a1 = A{1,1};
-    auto a2 = A{1,2};
+    auto a2 = A{1,1};
     std::cout << is_equal(a1,a2) << "\n";
 }

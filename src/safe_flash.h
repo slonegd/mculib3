@@ -1,6 +1,7 @@
 #pragma once
 
 #include "flash.h"
+#include "meta.h"
 
 // Суть
 // создать 3 объекта с одной структурой
@@ -9,7 +10,7 @@
 // 
 // При инициализации читать структуры из всех трёх
 // за действительное считать, если хотя бы в двух совпало
-// если не совпало у всех структур, то берём наименьшее значение
+// если не совпало у всех структур, то делаем значение по умолчанию
 template <class Data, class Updater1, class Updater2, class Updater3>
 class Safe_flash_updater_impl : private TickSubscriber {
 public:
@@ -64,5 +65,32 @@ Safe_flash_updater_impl<Data,Updater1,Updater2,Updater3>::Safe_flash_updater_imp
     , updater2 {}
     , updater3 {}
 {
+    auto data2 = Data{};
+    updater2.read_to(&data2);
+    if (meta::is_equal (*data, data2)) {
+        updater2.set_data(data);
+        updater3.set_data(data);
+        return;
+    }
+
+    auto data3 = Data{};
+    updater3.read_to(&data3);
+    if (meta::is_equal (*data, data3)) {
+        updater2.set_data(data);
+        updater3.set_data(data);
+        return;
+    }
+
+    if (meta::is_equal (data2, data3)) {
+        std::memcpy(data, &data2, sizeof(Data));
+        updater2.set_data(data);
+        updater3.set_data(data);
+        return;
+    }
+
+    // если нет равных, то всё попрочено
+    *data = Data{};
+    updater2.set_data(data);
+    updater3.set_data(data);
 
 }
