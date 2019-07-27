@@ -89,6 +89,7 @@ private:
     static constexpr auto sectors {std::array{sector...}} ;
     SizedInt<sizeof...(sector)> current {};
     bool need_erase[sizeof...(sector)] {};
+    int  erase_index {0};
     std::array<Memory, sizeof...(sector)> memory;
     Memory::Iterator memory_offset{nullptr};
 
@@ -292,10 +293,9 @@ void Flash_updater_impl<Data,sector...>::notify()
                 state = return_state;
                 break;
             }
-            auto i = std::distance(std::begin(need_erase), it);
+            erase_index = std::distance(std::begin(need_erase), it);
             flash.unlock()
-                .start_erase(sectors[i]);
-            need_erase[i] = false;
+                .start_erase(sectors[erase_index]);
             state = check_erase;
         }
     break;
@@ -304,6 +304,10 @@ void Flash_updater_impl<Data,sector...>::notify()
         if ( flash.is_endOfProg() ) {
             flash.clear_flag_endOfProg()
                  .lock();
+            auto verified = std::all_of(std::begin(memory[erase_index]), std::end(memory[erase_index]), [](auto word){
+                return word.data == 0xFFFF;
+            });
+            need_erase[erase_index] = not verified;
             state = is_need_erase() ? erase : check_changes;
         }
     break;
