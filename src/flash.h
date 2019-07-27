@@ -92,6 +92,7 @@ public:
         if (not is_read())
             *data = Data{};
     }
+    bool done() { return data_offset == 0; }
 private:
     FLASH_&  flash   {mcu::make_reference<mcu::Periph::FLASH>()};
     Data*    original;

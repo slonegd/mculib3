@@ -18,11 +18,11 @@ public:
     ~Safe_flash_updater_impl() { tick_unsubscribe(); }
 
 private:
-    Data* data;
     Updater1 updater1;
     Updater2 updater2;
     Updater3 updater3;
-    void notify() override {}
+    int current;
+    void notify() override;
 };
 
 // используется только для decltype
@@ -60,37 +60,68 @@ struct Safe_flash_updater {
 
 template <class Data, class Updater1, class Updater2, class Updater3>
 Safe_flash_updater_impl<Data,Updater1,Updater2,Updater3>::Safe_flash_updater_impl(Data* data)
-    : data {data}
-    , updater1 {data}
+    : updater1 {data}
     , updater2 {}
     , updater3 {}
 {
+    auto start = [&]{
+        updater2.set_data(data);
+        updater3.set_data(data);
+        tick_subscribe();
+        updater1.start();
+        current = 1;
+    };
+
     auto data2 = Data{};
     updater2.read_to(&data2);
     if (meta::is_equal (*data, data2)) {
-        updater2.set_data(data);
-        updater3.set_data(data);
+        start();
         return;
     }
 
     auto data3 = Data{};
     updater3.read_to(&data3);
     if (meta::is_equal (*data, data3)) {
-        updater2.set_data(data);
-        updater3.set_data(data);
+        start();
         return;
     }
 
     if (meta::is_equal (data2, data3)) {
         std::memcpy(data, &data2, sizeof(Data));
-        updater2.set_data(data);
-        updater3.set_data(data);
+        start();
         return;
     }
 
-    // если нет равных, то всё попрочено
+    // если нет равных, то всё попорчено
     *data = Data{};
-    updater2.set_data(data);
-    updater3.set_data(data);
+    start();
+}
 
+
+template <class Data, class Updater1, class Updater2, class Updater3>
+void Safe_flash_updater_impl<Data,Updater1,Updater2,Updater3>::notify()
+{
+    switch (current) {
+        case 1:
+            if (updater1.done()) {
+                updater1.stop();
+                updater2.start();
+                current = 2;
+            }
+        break;
+        case 2:
+            if (updater2.done()) {
+                updater2.stop();
+                updater3.start();
+                current = 3;
+            }
+        break;
+        case 3:
+            if (updater3.done()) {
+                updater3.stop();
+                updater1.start();
+                current = 1;
+            }
+        break;
+    }
 }
