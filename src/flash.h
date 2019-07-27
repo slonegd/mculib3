@@ -81,6 +81,7 @@ class Flash_updater_impl : private TickSubscriber
 {
 public:
     Flash_updater_impl(Data*);
+    Flash_updater_impl(); // не читает данные
     ~Flash_updater_impl() { stop(); }
     void start() { tick_subscribe(); }
     void stop()  { tick_unsubscribe(); }
@@ -139,11 +140,9 @@ struct Flash_updater {
 
 
 
-
-
 template <class Data, typename FLASH_::Sector ... sector>
-Flash_updater_impl<Data,sector...>::Flash_updater_impl(Data* data)
-    : original {data}
+Flash_updater_impl<Data,sector...>::Flash_updater_impl()
+    : original {nullptr}
     , memory { std::array{
         Memory (
               reinterpret_cast<Word*>(FLASH_::template address<sector>())
@@ -160,6 +159,15 @@ Flash_updater_impl<Data,sector...>::Flash_updater_impl(Data* data)
         std::is_trivially_copyable_v<Data>,
         "Можно сохранять только тривиально копируемую структуру"
     );
+}
+
+
+
+template <class Data, typename FLASH_::Sector ... sector>
+Flash_updater_impl<Data,sector...>::Flash_updater_impl(Data* data)
+    : Flash_updater_impl{}
+{
+    original = data;
     // flash.lock(); // check if need
     if (not is_read())
         *data = Data{};

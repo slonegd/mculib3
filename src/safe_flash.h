@@ -61,8 +61,8 @@ template <class Data, class Updater1, class Updater2, class Updater3>
 Safe_flash_updater_impl<Data,Updater1,Updater2,Updater3>::Safe_flash_updater_impl(Data* data)
     : data {data}
     , updater1 {data}
-    , updater2 {data}
-    , updater3 {data}
+    , updater2 {}
+    , updater3 {}
 {
-    
+
 }
