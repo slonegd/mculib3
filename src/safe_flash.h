@@ -1,7 +1,7 @@
 #pragma once
 
 #include "flash.h"
-#include "meta.h"
+#include "reflect_ext.h"
 
 // Суть
 // создать 3 объекта с одной структурой
@@ -75,19 +75,19 @@ Safe_flash_updater_impl<Data,Updater1,Updater2,Updater3>::Safe_flash_updater_imp
 
     auto data2 = Data{};
     updater2.read_to(&data2);
-    if (meta::is_equal (*data, data2)) {
+    if (reflect::is_equal (*data, data2)) {
         start();
         return;
     }
 
     auto data3 = Data{};
     updater3.read_to(&data3);
-    if (meta::is_equal (*data, data3)) {
+    if (reflect::is_equal (*data, data3)) {
         start();
         return;
     }
 
-    if (meta::is_equal (data2, data3)) {
+    if (reflect::is_equal (data2, data3)) {
         std::memcpy(data, &data2, sizeof(Data));
         start();
         return;
