@@ -92,7 +92,11 @@ public:
         if (not is_read())
             *data = Data{};
     }
-    bool done() { return data_offset == 0; }
+    bool done() {
+        auto v = done_;
+        done_ = false;
+        return v;
+    }
 private:
     FLASH_&  flash   {mcu::make_reference<mcu::Periph::FLASH>()};
     Data*    original;
@@ -103,6 +107,7 @@ private:
     int  erase_index {0};
     std::array<Memory, sizeof...(sector)> memory;
     Memory::Iterator memory_offset{nullptr};
+    bool done_ {false};
 
     
     enum State {
@@ -242,7 +247,6 @@ bool Flash_updater_impl<Data,sector...>::is_read()
                 , [](auto& word){ return word.data != 0xFFFF; }
             );
         }
-        
     }
 
     if (std::any_of(std::begin(need_erase), std::end(need_erase), [](auto& v){return v;})) {
@@ -265,10 +269,12 @@ void Flash_updater_impl<Data,sector...>::notify()
     switch (state) {
 
     case check_changes:
-        if (original[data_offset] == copy[data_offset]) 
+        if (original[data_offset] == copy[data_offset]) {
             data_offset++;
-        else
+            done_ = data_offset == 0;
+        } else {
             state = start_write;
+        }
         break;
 
     case start_write:

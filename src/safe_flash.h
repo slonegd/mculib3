@@ -60,10 +60,11 @@ struct Safe_flash_updater {
 
 template <class Data, class Updater1, class Updater2, class Updater3>
 Safe_flash_updater_impl<Data,Updater1,Updater2,Updater3>::Safe_flash_updater_impl(Data* data)
-    : updater1 {data}
+    : updater1 {}
     , updater2 {}
     , updater3 {}
 {
+    updater1.read_to(data);
     auto start = [&]{
         updater2.set_data(data);
         updater3.set_data(data);
