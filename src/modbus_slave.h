@@ -7,6 +7,7 @@
 #include "interrupt.h"
 #include "modbus_common.h"
 #include <cstring>
+#include <array>
 
 #if defined(USE_MOCK_UART)
 using UART_ = mock::UART;
@@ -15,7 +16,7 @@ using UART_ = ::UART;
 #endif
 
 
-template <class InRegs_t, class OutRegs_t>
+template <class InRegs_t, class OutRegs_t, size_t coils_qty = 0>
 class Modbus_slave : TickSubscriber
 {
     UART_& uart;
@@ -41,11 +42,13 @@ class Modbus_slave : TickSubscriber
 
     bool check_CRC  ();
     bool check_value();
-    bool check_reg  (uint16_t qty_reg_device);
+    bool check_regs (uint16_t qty_reg_device); // for 03 16
+    bool check_reg  (uint16_t qty_reg_device); // for 05
 
     void answer_error (Modbus_error_code);
     void answer_03();
     template <class function> void answer_16 (function reaction);
+    void answer_05();
 
     void uartInterrupt()
     {
@@ -104,6 +107,7 @@ public:
         InRegs_t inRegsMax;
         uint16_t arInRegsMax[InRegQty];
     };
+    std::array<std::function<void(bool)>, coils_qty> force_single_coil_05;
 
     bool signed_[InRegQty] {};
     
@@ -127,7 +131,7 @@ public:
     {
         auto& uart_ref = UART_::make<usart, TXpin, RXpin, RTSpin>();
 
-        static Modbus_slave<InRegs_t, OutRegs_t> modbus {
+        static Modbus_slave<InRegs_t, OutRegs_t, coils_qty> modbus {
               address
             , uart_ref
             , get_interrupt<usart>()
@@ -145,7 +149,7 @@ public:
     }
 
 
-   template <class function>
+    template <class function>
     void operator() (function reaction);
     auto& buffer(){return uart.buffer;}
 
@@ -189,9 +193,9 @@ public:
 
 
 
-template <class InRegs_t, class OutRegs_t>
+template <class InRegs_t, class OutRegs_t, size_t coils_qty>
 template <class function>
-inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (function reaction)
+inline void Modbus_slave<InRegs_t, OutRegs_t, coils_qty>::operator() (function reaction)
 {
     if (uart.is_receiving()) {
         time = 0;
@@ -220,25 +224,25 @@ inline void Modbus_slave<InRegs_t, OutRegs_t>::operator() (function reaction)
     }
     uart.buffer.pop_front(); // adr
     func = uart.buffer.pop_front();
-    if (func == static_cast<uint8_t>(Modbus_function::read_03)) // operator ==
-        answer_03();
-    else if (func == static_cast<uint8_t>(Modbus_function::write_16))
-        answer_16(reaction);
-    else 
-        answer_error (Modbus_error_code::wrong_func);
+    switch (Modbus_function(func)) {
+        case Modbus_function::read_03 : answer_03();         break;
+        case Modbus_function::write_16: answer_16(reaction); break;
+        // case Modbus_function::force_coil_05: answer_05();    break;
+        default: answer_error (Modbus_error_code::wrong_func);
+    }
 }
 
 
 
 
-template <class InReg, class OutRegs_t>
-uint8_t Modbus_slave<InReg, OutRegs_t>::set_high_bit(uint8_t func)
+template <class InReg, class OutRegs_t, size_t coils_qty>
+uint8_t Modbus_slave<InReg, OutRegs_t, coils_qty>::set_high_bit(uint8_t func)
 {
     return (func | 0b10000000);
 }
 
-template <class InReg, class OutRegs_t>
-bool Modbus_slave<InReg, OutRegs_t>::check_CRC()
+template <class InReg, class OutRegs_t, size_t coils_qty>
+bool Modbus_slave<InReg, OutRegs_t, coils_qty>::check_CRC()
 {
     auto high = uart.buffer.pop_back();
      auto low  = uart.buffer.pop_back();
@@ -246,8 +250,8 @@ bool Modbus_slave<InReg, OutRegs_t>::check_CRC()
     return (high == high_) and (low == low_);
 }
 
-template <class InReg, class OutRegs_t>
-bool Modbus_slave<InReg, OutRegs_t>::check_reg(uint16_t qty_reg_device)
+template <class InReg, class OutRegs_t, size_t coils_qty>
+bool Modbus_slave<InReg, OutRegs_t, coils_qty>::check_regs(uint16_t qty_reg_device)
 {
     uart.buffer >> first_reg;
     uart.buffer >> qty_reg; 
@@ -256,8 +260,15 @@ bool Modbus_slave<InReg, OutRegs_t>::check_reg(uint16_t qty_reg_device)
     return (last_reg <= (qty_reg_device - 1));
 }
 
-template <class InReg, class OutRegs_t>
-void Modbus_slave<InReg, OutRegs_t>::answer_error(Modbus_error_code code)
+template <class InReg, class OutRegs_t, size_t coils_qty>
+bool Modbus_slave<InReg, OutRegs_t, coils_qty>::check_reg(uint16_t qty_reg_device)
+{
+    uart.buffer >> first_reg;
+    return first_reg < qty_reg_device;
+}
+
+template <class InReg, class OutRegs_t, size_t coils_qty>
+void Modbus_slave<InReg, OutRegs_t, coils_qty>::answer_error(Modbus_error_code code)
 {
     uart.buffer.clear();
     
@@ -273,15 +284,15 @@ void Modbus_slave<InReg, OutRegs_t>::answer_error(Modbus_error_code code)
     uart.transmit();
 }
 
-template <class InReg, class OutRegs_t>
-void Modbus_slave<InReg, OutRegs_t>::answer_03()
+template <class InReg, class OutRegs_t, size_t coils_qty>
+void Modbus_slave<InReg, OutRegs_t, coils_qty>::answer_03()
 {
-    if (not check_reg(OutRegQty)) {
+    if (not check_regs(OutRegQty)) {
         answer_error(Modbus_error_code::wrong_reg);
         return;
     }
     uart.buffer.clear();
-    // определить оператор вместо статик каста
+    // TODO определить оператор вместо статик каста
     uart.buffer << address << static_cast<uint8_t>(Modbus_function::read_03) << qty_byte;
     while(qty_reg--)
         uart.buffer << arOutRegs[first_reg++];
@@ -291,11 +302,11 @@ void Modbus_slave<InReg, OutRegs_t>::answer_03()
     uart.transmit();
 }
 
-template <class InReg, class OutRegs_t>
+template <class InReg, class OutRegs_t, size_t coils_qty>
 template <class function>
-void Modbus_slave<InReg, OutRegs_t>::answer_16(function reaction)
+void Modbus_slave<InReg, OutRegs_t, coils_qty>::answer_16(function reaction)
 {
-    if (not check_reg(InRegQty)) {
+    if (not check_regs(InRegQty)) {
         answer_error(Modbus_error_code::wrong_reg);
         return;
     }
@@ -304,7 +315,6 @@ void Modbus_slave<InReg, OutRegs_t>::answer_16(function reaction)
 
     if (not check_value()) {
         answer_error(Modbus_error_code::wrong_value);
-        // uart.receive();
         return;
     }
     for (uint16_t i = 0; i < qty_reg; i++) {
@@ -317,8 +327,34 @@ void Modbus_slave<InReg, OutRegs_t>::answer_16(function reaction)
     uart.transmit();
 }
 
-template <class InRegs_t, class OutRegs_t>
-bool Modbus_slave<InRegs_t, OutRegs_t>::check_value()
+template <class InReg, class OutRegs_t, size_t coils_qty>
+void Modbus_slave<InReg, OutRegs_t, coils_qty>::answer_05()
+{
+    if (not check_reg(coils_qty)) {
+        answer_error(Modbus_error_code::wrong_reg);
+        return;
+    }
+
+    uint16_t value;
+    uart.buffer >> value;
+
+    enum {off = 0, on = 0xFF00};
+
+    if (value != off or value != on) {
+        answer_error(Modbus_error_code::wrong_value);
+        return;
+    }
+
+    auto& callback = force_single_coil_05[first_reg];
+    if (callback)
+        callback(value == on);
+
+    uart.buffer.set_size(8); // данные в ответе те же
+    uart.transmit();
+}
+
+template <class InRegs_t, class OutRegs_t, size_t coils_qty>
+bool Modbus_slave<InRegs_t, OutRegs_t, coils_qty>::check_value()
 {
     for (uint16_t i = 0; i < qty_reg; i++) {
         uart.buffer >> data;

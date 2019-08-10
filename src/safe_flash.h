@@ -1,7 +1,7 @@
 #pragma once
 
 #include "flash.h"
-#include "meta.h"
+#include "reflect_ext.h"
 
 // Суть
 // создать 3 объекта с одной структурой
@@ -60,10 +60,16 @@ struct Safe_flash_updater {
 
 template <class Data, class Updater1, class Updater2, class Updater3>
 Safe_flash_updater_impl<Data,Updater1,Updater2,Updater3>::Safe_flash_updater_impl(Data* data)
-    : updater1 {data}
+    : updater1 {}
     , updater2 {}
     , updater3 {}
 {
+    updater1.read_to(data);
+    auto data2 = Data{};
+    updater2.read_to(&data2);
+    auto data3 = Data{};
+    updater3.read_to(&data3);
+
     auto start = [&]{
         updater2.set_data(data);
         updater3.set_data(data);
@@ -72,21 +78,18 @@ Safe_flash_updater_impl<Data,Updater1,Updater2,Updater3>::Safe_flash_updater_imp
         current = 1;
     };
 
-    auto data2 = Data{};
-    updater2.read_to(&data2);
-    if (meta::is_equal (*data, data2)) {
+    if (reflect::is_equal (*data, data2)) {
         start();
         return;
     }
 
-    auto data3 = Data{};
-    updater3.read_to(&data3);
-    if (meta::is_equal (*data, data3)) {
+    
+    if (reflect::is_equal (*data, data3)) {
         start();
         return;
     }
 
-    if (meta::is_equal (data2, data3)) {
+    if (reflect::is_equal (data2, data3)) {
         std::memcpy(data, &data2, sizeof(Data));
         start();
         return;
