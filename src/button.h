@@ -68,6 +68,7 @@ private:
     Callback<int> increment_callback;
     Pin& pin {Pin::make<Pin_,mcu::PinMode::Input>()};
     size_t tick_cnt {0};
+    int increment   {1};
     bool down_executed      {false};
     bool long_push_executed {false};
 
@@ -79,6 +80,7 @@ private:
             execute_if (not tied and down_executed, up_callback);
             execute_if (not tied and down_executed and not long_push_executed, click_callback);
             tick_cnt = 0;
+            increment = 1;
             down_executed      = false;
             long_push_executed = false;
             return;
@@ -89,7 +91,6 @@ private:
         if (tick_cnt >= 10_ms and not down_executed) {
             down_executed = true;
             execute_if (not tied, down_callback);
-            execute_if (not tied, increment_callback, 1); 
             return;
         }
 
@@ -98,7 +99,33 @@ private:
             execute_if (not tied, long_push_callback);
             return;
         }
-        // TODO increment_callback
+
+        if (not increment_callback)
+            return;
+        auto in_range = [](auto v, auto min, auto max) {
+            return (v > min) and (v <= max);
+        };
+        if (in_range(tick_cnt, 1_s, 2_s) and not (tick_cnt % 200)) {
+            increment_callback(1);
+            return;
+        }
+        if (in_range(tick_cnt, 2_s, 3_s) and not (tick_cnt % 100)) {
+            increment_callback(1);
+            return;
+        }
+        if (in_range(tick_cnt, 3_s, 4_s) and not (tick_cnt % 50)) {
+            increment_callback(1);
+            return;
+        }
+        if (in_range(tick_cnt, 4_s, 5_s) and not (tick_cnt % 25)) {
+            increment_callback(1);
+            return;
+        }
+        if ((tick_cnt > 5000) and not (tick_cnt % 25)) {
+            increment_callback(increment);
+            if (not (tick_cnt % 1000))
+                increment++;
+        }
     }
 };
 
@@ -157,7 +184,6 @@ private:
         if (tick_cnt >= 10_ms and not down_executed) {
             down_executed = true;
             execute (down_callback);
-            execute (increment_callback, 1); 
             return;
         }
 
