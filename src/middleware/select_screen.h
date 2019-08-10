@@ -34,10 +34,10 @@ public:
     }
 
     void deinit() override {
-        eventers.up    (null_function);
-        eventers.down  (null_function);
-        eventers.enter (null_function);
-        eventers.out   (null_function);
+        eventers.up    (nullptr);
+        eventers.down  (nullptr);
+        eventers.enter (nullptr);
+        eventers.out   (nullptr);
     }
 
     void draw() override {}

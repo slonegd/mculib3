@@ -29,5 +29,4 @@ void execute_if (bool condition, Function f, Args...args) {
         execute (f, args...);
 }
 
-void null_function() {}
 

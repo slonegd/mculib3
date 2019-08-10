@@ -39,8 +39,10 @@ public:
     {}
 
     void init() override {
-        eventers.up    ([this]{ up();    });
-        eventers.down  ([this]{ down();  });
+        eventers.up    ([this]{ up();   });
+        eventers.down  ([this]{ down(); });
+        eventers.increment_up   ([this](auto i){   up(i); });
+        eventers.increment_down ([this](auto i){ down(i); });
         eventers.enter ([this]{
             var = tmp;
             if (enter_callback) {
@@ -61,10 +63,13 @@ public:
     }
 
     void deinit() override {
-        eventers.up    (null_function);
-        eventers.down  (null_function);
-        eventers.enter (null_function);
-        eventers.out   (null_function);
+        eventers.up    (nullptr);
+        eventers.down  (nullptr);
+        eventers.enter (nullptr);
+        eventers.out   (nullptr);
+
+        eventers.increment_up  (nullptr);
+        eventers.increment_down(nullptr);
     }
 
     void draw() override {}
@@ -81,9 +86,9 @@ private:
     T& var;
     T tmp;
 
-    void down() 
+    void down (int increment = 1) 
     {
-        --tmp;
+        tmp -= increment;
         if (tmp < min or tmp == std::numeric_limits<T>::max())
             tmp = max;
         if (to_string != null_to_string) {
@@ -93,9 +98,9 @@ private:
         lcd.line(1) << tmp << next_line;
     }
 
-    void up() 
+    void up (int increment = 1)
     {
-        ++tmp;
+        tmp += increment;
         if (tmp > max)
             tmp = min;
         if (to_string != null_to_string) {
